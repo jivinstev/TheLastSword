@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:sword_soul_stone"
+      "id": "the_last_sword:sword_soul_stone"
     },
     "title": {
       "translate": "advancements.liberator.title"

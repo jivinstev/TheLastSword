@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -21,8 +22,16 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
     private static final Codec<Pair<Ingredient, Integer>> INPUT_CODEC =
             Codec.pair(Ingredient.CODEC_NONEMPTY, Codec.INT.optionalFieldOf("inputLevel", 0).codec());
 
+    // Recipes written for 1.20.1 (players' own files in config/the_last_sword) name the item "item";
+    // the ItemStack codec calls it "id". Read both, write "id".
+    private static final Codec<ItemStack> LEGACY_STACK_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("item").forGetter(ItemStack::getItemHolder),
+            Codec.INT.optionalFieldOf("count", 1).forGetter(ItemStack::getCount)
+    ).apply(instance, ItemStack::new));
+
     private static final Codec<Pair<ItemStack, Integer>> OUTPUT_CODEC =
-            Codec.pair(ItemStack.CODEC, Codec.INT.optionalFieldOf("outputLevel", 0).codec());
+            Codec.pair(Codec.withAlternative(ItemStack.CODEC, LEGACY_STACK_CODEC),
+                    Codec.INT.optionalFieldOf("outputLevel", 0).codec());
 
     public static final MapCodec<DragonCrystalSmithingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             TEMPLATE_CODEC.fieldOf("template").forGetter(r -> Pair.of(r.getTemplate(),

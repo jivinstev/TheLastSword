@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:the_last_sword"
+      "id": "the_last_sword:the_last_sword"
     },
     "title": {
       "translate": "advancements.the_last_sword_obtain.title"

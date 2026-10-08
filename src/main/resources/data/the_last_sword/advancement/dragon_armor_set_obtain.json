@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:dragon_armor_helmet"
+      "id": "the_last_sword:dragon_armor_helmet"
     },
     "title": {
       "translate": "advancements.dragon_armor_set_obtain.title"

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:extreme_life_support_device"
+      "id": "the_last_sword:extreme_life_support_device"
     },
     "title": {
       "translate": "advancements.extreme_life_support_device_obtain.title"

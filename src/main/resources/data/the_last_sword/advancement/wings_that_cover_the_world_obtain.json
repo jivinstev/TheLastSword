@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:wings_that_cover_the_world"
+      "id": "the_last_sword:wings_that_cover_the_world"
     },
     "title": {
       "translate": "advancements.wings_that_cover_the_world_obtain.title"

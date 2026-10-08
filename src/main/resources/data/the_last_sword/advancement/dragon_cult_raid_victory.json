@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:priest_staff"
+      "id": "the_last_sword:priest_staff"
     },
     "title": {
       "translate": "advancements.dragon_cult_raid_victory.title"

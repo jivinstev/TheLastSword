@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:dimension_explorer"
+      "id": "the_last_sword:dimension_explorer"
     },
     "title": {
       "translate": "advancements.dimension_explorer_obtain.title"

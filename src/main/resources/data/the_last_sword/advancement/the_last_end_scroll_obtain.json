@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/end_stone.png",
     "icon": {
-      "item": "the_last_sword:the_last_end_scroll"
+      "id": "the_last_sword:the_last_end_scroll"
     },
     "title": {
       "translate": "advancements.the_last_end_scroll_obtain.title"
