@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "port": "jivinstev/TheLastSword",
+  "modid": "the_last_sword",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.238",
+  "files": [
+    {
+      "role": "self",
+      "modid": "the_last_sword",
+      "name": "the_last_sword-1.21.1-neoforge-1.1.1-fix-fix.jar",
+      "url": "https://github.com/jivinstev/TheLastSword/releases/download/the_last_sword-1.1.1-fix-fix-mc1.21.1/the_last_sword-1.21.1-neoforge-1.1.1-fix-fix.jar",
+      "sha256": "fa57c2037d8b2e5f61270f5cae76f5a68afe97112100a289ad6506eff09d0604"
+    },
+    {
+      "role": "required",
+      "modid": "eca",
+      "name": "epic-core-api-1.1.8-fix-fix_mr.jar",
+      "url": "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.8-fix-fix-mc1.21.1/epic-core-api-1.1.8-fix-fix_mr.jar",
+      "port": "jivinstev/EpicCoreAPI",
+      "sha256": "7cbb3f7ced29bf5ad78fba3baae2fd6a5393e31294a6e629625d09777dc3000f"
+    },
+    {
+      "role": "required",
+      "modid": "geckolib",
+      "name": "geckolib-neoforge-1.21.1-4.9.3.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/388172/files/8893490/download",
+      "page": "https://www.curseforge.com/projects/388172",
+      "sha256": "20a1995e4074f387ff549e2c57ea79dd7d41ee83c6afb9dd6a6e840e592d1c47"
+    },
+    {
+      "role": "required",
+      "modid": "curios",
+      "name": "curios-neoforge-9.5.1+1.21.1.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/309927/files/6529130/download",
+      "page": "https://www.curseforge.com/projects/309927",
+      "sha256": "a45df2125c26219974aba7507ffc9afe7b83acc941a386af3faacb1cc0056fde"
+    },
+    {
+      "role": "extra",
+      "modid": "jei-238222",
+      "name": "jei-1.21.1-neoforge-19.57.0.451.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/238222/files/9068136/download",
+      "page": "https://www.curseforge.com/projects/238222",
+      "sha256": "44fcda225b26d14502bb1890512f4356db0a2577a6c63757b92948a6b951180a"
+    },
+    {
+      "role": "extra",
+      "modid": "just-enough-resources-jer-240630",
+      "name": "JustEnoughResources-NeoForge-1.21.1-1.6.0.17.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/240630/files/6506298/download",
+      "page": "https://www.curseforge.com/projects/240630",
+      "sha256": "7a47d69b5530704690d5a5f0726cd74a2d6c57df17dd4a8589c4ab5212f91460"
+    },
+    {
+      "role": "extra",
+      "modid": "jade-324717",
+      "name": "Jade-1.21.1-NeoForge-15.10.6.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/324717/files/8591319/download",
+      "page": "https://www.curseforge.com/projects/324717",
+      "sha256": "276f1f65a20d04f536989c4f311949d770b52c440c23c2b904a08860f3c93810"
+    },
+    {
+      "role": "extra",
+      "modid": "lendercataclysm-551586",
+      "name": "L_Ender's Cataclysm 1.21.1-3.33.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/551586/files/8931182/download",
+      "page": "https://www.curseforge.com/projects/551586",
+      "sha256": "371956d0c2e3b56729ee93b955e936875d210e372fe734cdb74326d89ef79875"
+    },
+    {
+      "role": "extra",
+      "modid": "lionfish-api-1001614",
+      "name": "lionfishapi-3.1.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/1001614/files/8345326/download",
+      "page": "https://www.curseforge.com/projects/1001614",
+      "sha256": "aeebf0692650afbbc78259c0d4e3d5b7edf037707e8ae5d56045066d83a19cf6"
+    },
+    {
+      "role": "extra",
+      "modid": "playeranimator-658587",
+      "name": "player-animation-lib-forge-2.0.4+1.21.1.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/658587/files/7389814/download",
+      "page": "https://www.curseforge.com/projects/658587",
+      "sha256": "dbe5de45f5cd60c0e5e47af14e6d564534a98456e973cf670cb881f6938eee92"
+    },
+    {
+      "role": "extra",
+      "modid": "irons-lib-1492763",
+      "name": "irons_lib-1.21.1-2.2.0.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/1492763/files/8973642/download",
+      "page": "https://www.curseforge.com/projects/1492763",
+      "sha256": "9e086a4d449147baad6468b11fd34924a905d9cb6818c962676aa0c4589dcc3c"
+    },
+    {
+      "role": "extra",
+      "modid": "irons-spells-n-spellbooks-855414",
+      "name": "irons_spellbooks-1.21.1-3.16.3.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/855414/files/8680204/download",
+      "page": "https://www.curseforge.com/projects/855414",
+      "sha256": "13d644474ddba4f8478b4ce68294687fd509c994b3f344a224142b102dbe6f73"
+    },
+    {
+      "role": "extra",
+      "modid": "touhou-little-maid-355044",
+      "name": "touhoulittlemaid-1.5.3-neoforge+mc1.21.1.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/355044/files/8061852/download",
+      "page": "https://www.curseforge.com/projects/355044",
+      "sha256": "f6db04195820c8508704277ea76d63723804ff236a7b780369ba59ebe5cd9c27"
+    },
+    {
+      "role": "extra",
+      "modid": "farmers-delight-398521",
+      "name": "FarmersDelight-1.21.1-1.3.4.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/398521/files/8765184/download",
+      "page": "https://www.curseforge.com/projects/398521",
+      "sha256": "139ad7696462c89c03eea463f805abffa552526c5dadaadae221dd9624cb197c"
+    },
+    {
+      "role": "extra",
+      "modid": "spark-361579",
+      "name": "spark-1.10.124-neoforge.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/361579/files/6225208/download",
+      "page": "https://www.curseforge.com/projects/361579",
+      "sha256": "647e8a81afbe414dba1df4ba15fd06c5d32d4cb544e68828405e8e074c2e16db"
+    }
+  ]
+}
