@@ -125,20 +125,20 @@ public final class LostWraithEndStrikeEffectRenderer {
     }
 
     private static void centerVertex(VertexConsumer buffer, Matrix4f matrix, int alpha) {
-        buffer.vertex(matrix, 0.0F, 0.0F, 0.0F).color(255, 255, 255, alpha).endVertex();
+        buffer.addVertex(matrix, 0.0F, 0.0F, 0.0F).setColor(255, 255, 255, alpha);
     }
 
     private static void outerVertexLeft(VertexConsumer buffer, Matrix4f matrix, float length, float radius) {
-        buffer.vertex(matrix, -HALF_SQRT_THREE * radius, length, -0.5F * radius)
-                .color(255, 0, 255, 0).endVertex();
+        buffer.addVertex(matrix, -HALF_SQRT_THREE * radius, length, -0.5F * radius)
+                .setColor(255, 0, 255, 0);
     }
 
     private static void outerVertexRight(VertexConsumer buffer, Matrix4f matrix, float length, float radius) {
-        buffer.vertex(matrix, HALF_SQRT_THREE * radius, length, -0.5F * radius)
-                .color(255, 0, 255, 0).endVertex();
+        buffer.addVertex(matrix, HALF_SQRT_THREE * radius, length, -0.5F * radius)
+                .setColor(255, 0, 255, 0);
     }
 
     private static void outerVertexBack(VertexConsumer buffer, Matrix4f matrix, float length, float radius) {
-        buffer.vertex(matrix, 0.0F, length, radius).color(255, 0, 255, 0).endVertex();
+        buffer.addVertex(matrix, 0.0F, length, radius).setColor(255, 0, 255, 0);
     }
 }

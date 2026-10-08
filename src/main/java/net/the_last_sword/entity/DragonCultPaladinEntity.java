@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -53,7 +52,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
 
     public DragonCultPaladinEntity(EntityType<? extends DragonCultPaladinEntity> type, Level world) {
         super(type, world);
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         xpReward = 100;
         setPersistenceRequired();
     }
@@ -145,8 +144,8 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
+    public boolean isFood(ItemStack stack) {
+        return false;
     }
 
     public boolean isBlockImmune() {
@@ -199,9 +198,8 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
             float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
@@ -238,8 +236,9 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     }
 
     @Override
-    protected float getStandingEyeHeight(@NotNull Pose pose, @NotNull EntityDimensions dimensions) {
-        return dimensions.height * 0.85f;
+    protected EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(dimensions.height() * 0.85f);
     }
 
     @Override

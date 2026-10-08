@@ -92,7 +92,7 @@ public class EntityMixin {
     private void theLastSword$phasingNotInWall(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
         if (self instanceof LivingEntity livingEntity) {
-            if (livingEntity.hasEffect(ModEffects.PHASING.get())) {
+            if (livingEntity.hasEffect(ModEffects.PHASING)) {
                 cir.setReturnValue(false);
             }
         }

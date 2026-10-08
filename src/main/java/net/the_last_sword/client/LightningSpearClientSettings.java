@@ -1,14 +1,14 @@
 package net.the_last_sword.client;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.LightningSpearSettings;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class LightningSpearClientSettings {
     private static LightningSpearSettings serverSettings;
 

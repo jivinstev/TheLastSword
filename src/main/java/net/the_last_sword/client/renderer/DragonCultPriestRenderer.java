@@ -32,14 +32,12 @@ public class DragonCultPriestRenderer extends GeoEntityRenderer<DragonCultPriest
     }
 
     @Override
-    public void preRender(PoseStack poseStack, DragonCultPriestEntity entity, BakedGeoModel model,
-            MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick,
-            int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void preRender(PoseStack poseStack, DragonCultPriestEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, red, green, blue, alpha);
+                packedLight, packedOverlay, colour);
     }
 
     //模型渲染完毕后叠加死亡放射光柱
@@ -64,7 +62,7 @@ public class DragonCultPriestRenderer extends GeoEntityRenderer<DragonCultPriest
     }
 
     @Override
-    public int getPackedOverlay(DragonCultPriestEntity entity, float u) {
+    public int getPackedOverlay(DragonCultPriestEntity entity, float u, float partialTick) {
         return LivingEntityRenderer.getOverlayCoords(entity, 0);
     }
 }

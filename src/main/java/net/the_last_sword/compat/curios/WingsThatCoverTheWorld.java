@@ -8,11 +8,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.renderer.WingsThatCoverTheWorldRenderer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -67,7 +65,7 @@ public class WingsThatCoverTheWorld extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         double reduction = TheLastSwordConfiguration.getCuriosWingsVoidDamageReductionSafely();
         //显示减免百分比：例如 multiplier=0.1 -> 减免 90%

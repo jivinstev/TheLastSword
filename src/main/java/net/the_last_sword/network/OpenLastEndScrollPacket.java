@@ -1,16 +1,28 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 //服务端确认卷轴记录的被毁村庄坐标与已收集纸条后打开客户端GUI
-public class OpenLastEndScrollPacket {
+public class OpenLastEndScrollPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<OpenLastEndScrollPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "open_last_end_scroll_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, OpenLastEndScrollPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> OpenLastEndScrollPacket.encode(msg, buf), OpenLastEndScrollPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<OpenLastEndScrollPacket> type() {
+        return TYPE;
+    }
 
     //已收集纸条条目（名字键+内容键）
     public record PaperNoteEntry(String nameKey, String contentKey) {
@@ -49,11 +61,8 @@ public class OpenLastEndScrollPacket {
         return new OpenLastEndScrollPacket(hasLocation, x, z, collectedNotes);
     }
 
-    public static void handle(OpenLastEndScrollPacket message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.openLastEndScroll(
-                        message.hasLocation, message.x, message.z, message.collectedNotes)));
-        context.setPacketHandled(true);
+    public static void handle(OpenLastEndScrollPacket message, IPayloadContext context) {
+        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.openLastEndScroll(
+                        message.hasLocation, message.x, message.z, message.collectedNotes); });
     }
 }

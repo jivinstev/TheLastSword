@@ -39,7 +39,7 @@ public class SwordWraithEnchantGoal extends Goal {
         }
 
         //已有虚空附魔buff时不触发
-        if (wraith.hasEffect(ModEffects.VOID_ENCHANTING.get())) {
+        if (wraith.hasEffect(ModEffects.VOID_ENCHANTING)) {
             return false;
         }
 
@@ -107,7 +107,7 @@ public class SwordWraithEnchantGoal extends Goal {
         int enchantmentAmplifier = Math.max(0, wraith.getTheLastEndLevel() - 1);
 
         MobEffectInstance voidEnchantment = new MobEffectInstance(
-            ModEffects.VOID_ENCHANTING.get(),
+            ModEffects.VOID_ENCHANTING,
             enchantDuration,
             enchantmentAmplifier,
             false,

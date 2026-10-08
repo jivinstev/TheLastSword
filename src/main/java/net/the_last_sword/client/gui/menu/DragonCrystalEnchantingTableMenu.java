@@ -10,10 +10,10 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import net.the_last_sword.init.ModMenus;
 import net.the_last_sword.init.ModTags;
 
@@ -53,11 +53,13 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         }
         if (pos != null) {
             boundBlockEntity = this.world.getBlockEntity(pos);
-            if (boundBlockEntity != null)
-                boundBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-                    this.internal = capability;
+            if (boundBlockEntity != null) {
+                IItemHandler handler = this.world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+                if (handler != null) {
+                    this.internal = handler;
                     this.bound = true;
-                });
+                }
+            }
         }
 
         // 添加2个输入槽位：slot 0 为红色燃料槽，仅接受燃料标签内物品
@@ -139,7 +141,7 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
                 }
                 Slot slot = this.slots.get(i);
                 ItemStack itemstack = slot.getItem();
-                if (slot.mayPlace(itemstack) && !itemstack.isEmpty() && ItemStack.isSameItemSameTags(pStack, itemstack)) {
+                if (slot.mayPlace(itemstack) && !itemstack.isEmpty() && ItemStack.isSameItemSameComponents(pStack, itemstack)) {
                     int j = itemstack.getCount() + pStack.getCount();
                     int maxSize = Math.min(slot.getMaxStackSize(), pStack.getMaxStackSize());
                     if (j <= maxSize) {

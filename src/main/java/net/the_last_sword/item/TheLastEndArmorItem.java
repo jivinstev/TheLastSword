@@ -1,17 +1,18 @@
 package net.the_last_sword.item;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.init.ModKeyMappings;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -20,7 +21,7 @@ import net.the_last_sword.util.nbt.ItemLevelHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
+import java.util.Locale;
 
 /**
  * 终焉护甲抽象基类
@@ -28,22 +29,7 @@ import java.util.UUID;
  */
 public abstract class TheLastEndArmorItem extends ArmorItem {
 
-    //为每个装备槽定义固定的UUID，确保属性修饰符一致性
-    private static final UUID[] ARMOR_MODIFIER_UUIDS = new UUID[]{
-        UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), // FEET
-        UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), // LEGS
-        UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), // CHEST
-        UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")  // HEAD
-    };
-
-    private static final UUID[] TOUGHNESS_MODIFIER_UUIDS = new UUID[]{
-        UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6C"), // FEET
-        UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0E"), // LEGS
-        UUID.fromString("9F3D476D-C118-4544-8365-64846904B48F"), // CHEST
-        UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB151")  // HEAD
-    };
-
-    protected TheLastEndArmorItem(ArmorMaterial material, Type type, Properties properties) {
+    protected TheLastEndArmorItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
     }
 
@@ -58,86 +44,83 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
         return ItemLevelHelper.getLevel(stack);
     }
 
-    //动态属性修饰符，根据等级计算
+    //动态属性修饰符，根据等级计算（物品没有 ATTRIBUTE_MODIFIERS 组件时使用）
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (slot == this.getEquipmentSlot()) {
-            Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        EquipmentSlot slot = this.getEquipmentSlot();
+        EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
+        String slotName = slot.getName();
+        ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
 
-            int itemLevel = getItemLevel(stack);
-            int slotIndex = slot.getIndex();
+        int itemLevel = getItemLevel(stack);
+        int slotIndex = slot.getIndex();
 
-            //计算最终护甲值（基础值 + 等级加成，根据等级区间选择配置）
-            int[] baseArmorValues = getBaseArmorValues();
-            double armorIncrease = getArmorLevelIncrease(itemLevel);
-            double finalArmor = baseArmorValues[slotIndex] + (itemLevel * armorIncrease);
+        //计算最终护甲值（基础值 + 等级加成，根据等级区间选择配置）
+        int[] baseArmorValues = getBaseArmorValues();
+        double armorIncrease = getArmorLevelIncrease(itemLevel);
+        double finalArmor = baseArmorValues[slotIndex] + (itemLevel * armorIncrease);
 
-            //计算最终韧性值（基础值 + 等级加成，根据等级区间选择配置）
-            double baseToughness = getBaseToughness();
-            double toughnessIncrease = getToughnessLevelIncrease(itemLevel);
-            double finalToughness = baseToughness + (itemLevel * toughnessIncrease);
+        //计算最终韧性值（基础值 + 等级加成，根据等级区间选择配置）
+        double baseToughness = getBaseToughness();
+        double toughnessIncrease = getToughnessLevelIncrease(itemLevel);
+        double finalToughness = baseToughness + (itemLevel * toughnessIncrease);
 
-            //添加合并后的护甲修饰符
-            modifiers.put(Attributes.ARMOR, new AttributeModifier(
-                ARMOR_MODIFIER_UUIDS[slotIndex],
-                "Armor modifier",
-                finalArmor,
-                AttributeModifier.Operation.ADDITION
-            ));
+        //添加合并后的护甲修饰符
+        modifiers.add(Attributes.ARMOR, new AttributeModifier(
+            ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_modifier_" + slotName),
+            finalArmor,
+            AttributeModifier.Operation.ADD_VALUE
+        ), group);
 
-            //添加合并后的韧性修饰符
-            modifiers.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                TOUGHNESS_MODIFIER_UUIDS[slotIndex],
-                "Armor toughness",
-                finalToughness,
-                AttributeModifier.Operation.ADDITION
-            ));
+        //添加合并后的韧性修饰符
+        modifiers.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
+            ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_toughness_" + slotName),
+            finalToughness,
+            AttributeModifier.Operation.ADD_VALUE
+        ), group);
 
-            //击退抗性
-            if (this.knockbackResistance > 0) {
-                modifiers.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
-                    UUID.nameUUIDFromBytes((getArmorName() + "_Knockback_" + slot.getName()).getBytes()),
-                    "Armor knockback resistance",
-                    this.knockbackResistance,
-                    AttributeModifier.Operation.ADDITION
-                ));
-            }
-
-            //生命值加成
-            if (itemLevel > 0) {
-                double healthIncrease = getHealthLevelIncrease(itemLevel);
-                double healthBonus = itemLevel * healthIncrease;
-                modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(
-                    UUID.nameUUIDFromBytes((getArmorName() + "_Health_" + slot.getName()).getBytes()),
-                    getArmorName() + " Health Bonus",
-                    healthBonus,
-                    AttributeModifier.Operation.ADDITION
-                ));
-            }
-
-            //肃正防御加成（动态计算，根据等级区间选择配置）
-            if (itemLevel > 0) {
-                double justifiedDefenceIncrease = getJustifiedDefenceLevelIncrease(itemLevel);
-                double justifiedDefence = itemLevel * justifiedDefenceIncrease;
-                if (justifiedDefence > 0) {
-                    modifiers.put(ModAttributes.MAX_JUSTIFIED_DEFENCE.get(), new AttributeModifier(
-                        UUID.nameUUIDFromBytes((getArmorName() + "_MaxShield_" + slot.getName()).getBytes()),
-                        getArmorName() + " Max Shield",
-                        justifiedDefence,
-                        AttributeModifier.Operation.ADDITION
-                    ));
-                }
-            }
-
-            return modifiers;
+        //击退抗性
+        float knockbackResistance = this.getMaterial().value().knockbackResistance();
+        if (knockbackResistance > 0) {
+            modifiers.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_knockback_resistance_" + slotName),
+                knockbackResistance,
+                AttributeModifier.Operation.ADD_VALUE
+            ), group);
         }
 
-        return super.getAttributeModifiers(slot, stack);
+        String idName = getArmorName().toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9._-]", "_");
+
+        //生命值加成
+        if (itemLevel > 0) {
+            double healthIncrease = getHealthLevelIncrease(itemLevel);
+            double healthBonus = itemLevel * healthIncrease;
+            modifiers.add(Attributes.MAX_HEALTH, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", idName + "_health_" + slotName),
+                healthBonus,
+                AttributeModifier.Operation.ADD_VALUE
+            ), group);
+        }
+
+        //肃正防御加成（动态计算，根据等级区间选择配置）
+        if (itemLevel > 0) {
+            double justifiedDefenceIncrease = getJustifiedDefenceLevelIncrease(itemLevel);
+            double justifiedDefence = itemLevel * justifiedDefenceIncrease;
+            if (justifiedDefence > 0) {
+                modifiers.add(ModAttributes.MAX_JUSTIFIED_DEFENCE, new AttributeModifier(
+                    ResourceLocation.fromNamespaceAndPath("the_last_sword", idName + "_max_shield_" + slotName),
+                    justifiedDefence,
+                    AttributeModifier.Operation.ADD_VALUE
+                ), group);
+            }
+        }
+
+        return modifiers.build();
     }
 
     //Tooltip显示等级和特定信息
     @Override
-    public void appendHoverText(ItemStack itemstack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemstack, net.minecraft.world.item.Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemstack, level, list, flag);
 
         //显示等级（包括0级）
@@ -145,7 +128,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
         list.add(Component.translatable("item_tooltip.the_last_sword.level").append(" " + itemLevel));
 
         //子类特定的tooltip
-        appendSpecificTooltip(itemstack, level, list, flag);
+        appendSpecificTooltip(itemstack, level.level(), list, flag);
 
         //按键提示：打开防御配置
         list.add(Component.translatable("item_tooltip.the_last_sword.open_defence_config_key")
@@ -155,7 +138,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
 
     //掉落物保护 - 不会被任何伤害摧毁
     @Override
-    public boolean canBeHurtBy(DamageSource damageSource) {
+    public boolean canBeHurtBy(ItemStack stack, DamageSource damageSource) {
         return false;
     }
 

@@ -2,6 +2,7 @@ package net.the_last_sword.client.shader;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -123,14 +124,14 @@ public class TheLastEndRenderTypes {
     public static RenderType createParticleEffect() {
         return RenderType.create(
             "the_last_end_particle_effect",
-            DefaultVertexFormat.POSITION_COLOR_TEX,
+            DefaultVertexFormat.PARTICLE,
             VertexFormat.Mode.QUADS,
             2097152,
             true,
             false,
             RenderType.CompositeState.builder()
                 //使用标准位置颜色纹理着色器
-                .setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
+                .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getParticleShader))
                 //加法混合 - 创造发光效果
                 .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
                 //禁用深度写入 - 避免遮挡其他粒子

@@ -122,7 +122,7 @@ public class DragonCultPaladinHeavyAttackGoal extends DangerousSkillGoal<DragonC
     private void triggerHeavyImpact() {
         Vec3 impactCenter = getImpactCenter();
         paladin.level().playSound(null, BlockPos.containing(impactCenter),
-            SoundEvents.GENERIC_EXPLODE, paladin.getSoundSource(), 1.0F, 1.0F);
+            SoundEvents.GENERIC_EXPLODE.value(), paladin.getSoundSource(), 1.0F, 1.0F);
         if (paladin.level() instanceof ServerLevel serverLevel) {
             GroundRuptureEffect.spawn(serverLevel, impactCenter, paladin.getRandom());
         }

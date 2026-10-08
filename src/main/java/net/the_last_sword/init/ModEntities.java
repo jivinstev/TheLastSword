@@ -1,15 +1,15 @@
 package net.the_last_sword.init;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.entity.DragonCrystalSwordProjectile;
 import net.the_last_sword.entity.DragonCultistEntity;
@@ -34,27 +34,27 @@ import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
 import net.the_last_sword.test.TestEntity;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 
 public class ModEntities {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-        DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TheLastSwordMod.MOD_ID);
+        DeferredRegister.create(Registries.ENTITY_TYPE, TheLastSwordMod.MOD_ID);
 
-    public static final RegistryObject<EntityType<QueenBlinkBlade>> QUEEN_BLINK_BLADE =
+    public static final Supplier<EntityType<QueenBlinkBlade>> QUEEN_BLINK_BLADE =
             ENTITY_TYPES.register("queen_blink_blade",
                     () -> EntityType.Builder.<QueenBlinkBlade>of(QueenBlinkBlade::new, MobCategory.MISC)
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
                             .build("queen_blink_blade"));
 
-    public static final RegistryObject<EntityType<QueenEnhancedBlade>> QUEEN_ENHANCED_BLADE =
+    public static final Supplier<EntityType<QueenEnhancedBlade>> QUEEN_ENHANCED_BLADE =
             ENTITY_TYPES.register("queen_enhanced_blade",
                     () -> EntityType.Builder.<QueenEnhancedBlade>of(QueenEnhancedBlade::new, MobCategory.MISC)
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
                             .build("queen_enhanced_blade"));
 
     //龙水晶剑弹射物
-    public static final RegistryObject<EntityType<DragonCrystalSwordProjectile>> DRAGON_CRYSTAL_SWORD_PROJECTILE =
+    public static final Supplier<EntityType<DragonCrystalSwordProjectile>> DRAGON_CRYSTAL_SWORD_PROJECTILE =
         ENTITY_TYPES.register("dragon_crystal_sword_projectile",
             () -> EntityType.Builder.<DragonCrystalSwordProjectile>of(DragonCrystalSwordProjectile::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
@@ -64,7 +64,7 @@ public class ModEntities {
         );
 
     //龙之剑弹射物
-    public static final RegistryObject<EntityType<DragonSwordProjectile>> DRAGON_SWORD_PROJECTILE =
+    public static final Supplier<EntityType<DragonSwordProjectile>> DRAGON_SWORD_PROJECTILE =
         ENTITY_TYPES.register("dragon_sword_projectile",
             () -> EntityType.Builder.<DragonSwordProjectile>of(DragonSwordProjectile::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
@@ -74,7 +74,7 @@ public class ModEntities {
         );
 
     //龙之剑闪电特效
-    public static final RegistryObject<EntityType<DragonLightingEntity>> DRAGON_LIGHTING =
+    public static final Supplier<EntityType<DragonLightingEntity>> DRAGON_LIGHTING =
         ENTITY_TYPES.register("dragon_lighting",
             () -> EntityType.Builder.<DragonLightingEntity>of(DragonLightingEntity::new, MobCategory.MISC)
                 .sized(0.25f, 0.25f)
@@ -85,7 +85,7 @@ public class ModEntities {
         );
 
     //最终之剑闪电特效
-    public static final RegistryObject<EntityType<TheLastEndLightingEntity>> THE_LAST_END_LIGHTING =
+    public static final Supplier<EntityType<TheLastEndLightingEntity>> THE_LAST_END_LIGHTING =
         ENTITY_TYPES.register("the_last_end_lighting",
             () -> EntityType.Builder.<TheLastEndLightingEntity>of(TheLastEndLightingEntity::new, MobCategory.MISC)
                 .sized(0.25f, 0.25f)
@@ -96,7 +96,7 @@ public class ModEntities {
         );
 
     //最终之剑弹射物
-    public static final RegistryObject<EntityType<TheLastEndSwordProjectile>> THE_LAST_END_SWORD_PROJECTILE =
+    public static final Supplier<EntityType<TheLastEndSwordProjectile>> THE_LAST_END_SWORD_PROJECTILE =
         ENTITY_TYPES.register("the_last_end_sword_projectile",
             () -> EntityType.Builder.<TheLastEndSwordProjectile>of(TheLastEndSwordProjectile::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
@@ -105,7 +105,7 @@ public class ModEntities {
                 .build("the_last_end_sword_projectile")
         );
 
-    public static final RegistryObject<EntityType<QueenSummonedProjectile>> QUEEN_SUMMONED_PROJECTILE =
+    public static final Supplier<EntityType<QueenSummonedProjectile>> QUEEN_SUMMONED_PROJECTILE =
         ENTITY_TYPES.register("queen_summoned_projectile",
             () -> EntityType.Builder.<QueenSummonedProjectile>of(QueenSummonedProjectile::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
@@ -115,7 +115,7 @@ public class ModEntities {
         );
 
     //隐藏武器弹射物
-    public static final RegistryObject<EntityType<TheLastSwordYouNeverForgotProjectile>> THE_LAST_SWORD_YOU_NEVER_FORGOT_PROJECTILE =
+    public static final Supplier<EntityType<TheLastSwordYouNeverForgotProjectile>> THE_LAST_SWORD_YOU_NEVER_FORGOT_PROJECTILE =
         ENTITY_TYPES.register("the_last_sword_you_never_forgot_projectile",
             () -> EntityType.Builder.<TheLastSwordYouNeverForgotProjectile>of(TheLastSwordYouNeverForgotProjectile::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
@@ -125,7 +125,7 @@ public class ModEntities {
         );
 
     //测试实体
-    public static final RegistryObject<EntityType<TestEntity>> TEST_ENTITY =
+    public static final Supplier<EntityType<TestEntity>> TEST_ENTITY =
         ENTITY_TYPES.register("test_entity",
             () -> EntityType.Builder.of(TestEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.8f)
@@ -136,7 +136,7 @@ public class ModEntities {
         );
 
     //封印尖塔守卫
-    public static final RegistryObject<EntityType<GuardianOfSealedSpireEntity>> GUARDIAN_OF_SEALED_SPIRE =
+    public static final Supplier<EntityType<GuardianOfSealedSpireEntity>> GUARDIAN_OF_SEALED_SPIRE =
         ENTITY_TYPES.register("guardian_of_sealed_spire",
             () -> EntityType.Builder.of(GuardianOfSealedSpireEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.95f)
@@ -147,7 +147,7 @@ public class ModEntities {
         );
 
     //守卫剑士
-    public static final RegistryObject<EntityType<GuardianSaberEntity>> GUARDIAN_SABER =
+    public static final Supplier<EntityType<GuardianSaberEntity>> GUARDIAN_SABER =
         ENTITY_TYPES.register("guardian_saber",
             () -> EntityType.Builder.of(GuardianSaberEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.95f)
@@ -158,7 +158,7 @@ public class ModEntities {
         );
 
     //守卫狂战士
-    public static final RegistryObject<EntityType<GuardianBerserkerEntity>> GUARDIAN_BERSERKER =
+    public static final Supplier<EntityType<GuardianBerserkerEntity>> GUARDIAN_BERSERKER =
         ENTITY_TYPES.register("guardian_berserker",
             () -> EntityType.Builder.of(GuardianBerserkerEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.95f)
@@ -169,7 +169,7 @@ public class ModEntities {
         );
 
     //守卫弓箭手
-    public static final RegistryObject<EntityType<GuardianArcherEntity>> GUARDIAN_ARCHER =
+    public static final Supplier<EntityType<GuardianArcherEntity>> GUARDIAN_ARCHER =
         ENTITY_TYPES.register("guardian_archer",
             () -> EntityType.Builder.of(GuardianArcherEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.95f)
@@ -180,7 +180,7 @@ public class ModEntities {
         );
 
     //迷失战魂
-    public static final RegistryObject<EntityType<LostWraithEntity>> LOST_WRAITH =
+    public static final Supplier<EntityType<LostWraithEntity>> LOST_WRAITH =
         ENTITY_TYPES.register("lost_wraith",
             () -> EntityType.Builder.of(LostWraithEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 3.5f)
@@ -191,7 +191,7 @@ public class ModEntities {
         );
 
     //终焉剑灵
-    public static final RegistryObject<EntityType<TheLastEndSwordWraithEntity>> THE_LAST_END_SWORD_WRAITH =
+    public static final Supplier<EntityType<TheLastEndSwordWraithEntity>> THE_LAST_END_SWORD_WRAITH =
         ENTITY_TYPES.register("the_last_end_sword_wraith",
             () -> EntityType.Builder.of(TheLastEndSwordWraithEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.95f)
@@ -202,7 +202,7 @@ public class ModEntities {
         );
 
     //女皇的逝去之影
-    public static final RegistryObject<EntityType<ThePastShadowOfTheQueenEntity>> THE_PAST_SHADOW_OF_THE_QUEEN =
+    public static final Supplier<EntityType<ThePastShadowOfTheQueenEntity>> THE_PAST_SHADOW_OF_THE_QUEEN =
         ENTITY_TYPES.register("the_past_shadow_of_the_queen",
             () -> EntityType.Builder.of(ThePastShadowOfTheQueenEntity::new, MobCategory.MONSTER)
                 .sized(0.6F, 3.5F)
@@ -213,7 +213,7 @@ public class ModEntities {
         );
 
     //拜龙教教徒
-    public static final RegistryObject<EntityType<DragonCultistEntity>> DRAGON_CULTIST =
+    public static final Supplier<EntityType<DragonCultistEntity>> DRAGON_CULTIST =
         ENTITY_TYPES.register("dragon_cultist",
             () -> EntityType.Builder.of(DragonCultistEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 1.85f)
@@ -224,7 +224,7 @@ public class ModEntities {
         );
 
     //拜龙教圣骑士
-    public static final RegistryObject<EntityType<DragonCultPaladinEntity>> DRAGON_CULT_PALADIN =
+    public static final Supplier<EntityType<DragonCultPaladinEntity>> DRAGON_CULT_PALADIN =
         ENTITY_TYPES.register("dragon_cult_paladin",
             () -> EntityType.Builder.of(DragonCultPaladinEntity::new, MobCategory.MONSTER)
                 .sized(0.7f, 2.0f)
@@ -235,7 +235,7 @@ public class ModEntities {
         );
 
     //拜龙教祭司
-    public static final RegistryObject<EntityType<DragonCultPriestEntity>> DRAGON_CULT_PRIEST =
+    public static final Supplier<EntityType<DragonCultPriestEntity>> DRAGON_CULT_PRIEST =
         ENTITY_TYPES.register("dragon_cult_priest",
             () -> EntityType.Builder.of(DragonCultPriestEntity::new, MobCategory.MONSTER)
                 .sized(0.7f, 2.0f)
@@ -245,7 +245,7 @@ public class ModEntities {
                 .build("dragon_cult_priest")
         );
 
-    public static final RegistryObject<EntityType<LightningSpearProjectile>> LIGHTNING_SPEAR_PROJECTILE =
+    public static final Supplier<EntityType<LightningSpearProjectile>> LIGHTNING_SPEAR_PROJECTILE =
         ENTITY_TYPES.register("lightning_spear_projectile",
             () -> EntityType.Builder.<LightningSpearProjectile>of(LightningSpearProjectile::new, MobCategory.MISC)
                 .sized(0.5F, 0.5F)
@@ -254,7 +254,7 @@ public class ModEntities {
                 .build("lightning_spear_projectile")
         );
 
-    public static final RegistryObject<EntityType<GroundRuptureFragmentEntity>> GROUND_RUPTURE_FRAGMENT =
+    public static final Supplier<EntityType<GroundRuptureFragmentEntity>> GROUND_RUPTURE_FRAGMENT =
         ENTITY_TYPES.register("ground_rupture_fragment",
             () -> EntityType.Builder.<GroundRuptureFragmentEntity>of(GroundRuptureFragmentEntity::new, MobCategory.MISC)
                 .sized(0.5F, 0.5F)

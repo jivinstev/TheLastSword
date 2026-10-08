@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.init.ModSounds;
@@ -31,7 +31,7 @@ public class LostWraithExtension extends EntityExtension {
 
         @Override
         public ResourceLocation soundEventId() {
-            return ModSounds.LOST_WRAITH.getId();
+            return ModSounds.LOST_WRAITH.get().getLocation();
         }
 
         @Override

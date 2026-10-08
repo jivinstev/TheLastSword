@@ -1,7 +1,6 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,20 +12,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, ICurioItem {
 
@@ -41,20 +38,13 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
         );
     }
 
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final ItemEnergyStorage energyStorage = new ItemEnergyStorage(stack, TheLastSwordConfiguration::getAncientEnergyCoreMaxEnergySafely);
-            private final LazyOptional<ItemEnergyStorage> energyCap = LazyOptional.of(() -> energyStorage);
+    //能量能力通过 RegisterCapabilitiesEvent 注册（见 NEEDS）
+    public static IEnergyStorage createEnergyStorage(ItemStack stack) {
+        return new ItemEnergyStorage(stack, TheLastSwordConfiguration::getAncientEnergyCoreMaxEnergySafely);
+    }
 
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-                if (cap == ForgeCapabilities.ENERGY) {
-                    return energyCap.cast();
-                }
-                return LazyOptional.empty();
-            }
-        };
+    private static IEnergyStorage energyOf(ItemStack stack) {
+        return stack.getCapability(Capabilities.EnergyStorage.ITEM);
     }
 
     @Override
@@ -64,7 +54,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
+        return Optional.ofNullable(energyOf(stack))
                 .map(energy -> {
                     int maxEnergy = energy.getMaxEnergyStored();
                     int currentEnergy = energy.getEnergyStored();
@@ -76,7 +66,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
+        return Optional.ofNullable(energyOf(stack))
                 .map(energy -> {
                     int maxEnergy = energy.getMaxEnergyStored();
                     int currentEnergy = energy.getEnergyStored();
@@ -145,7 +135,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
         }
 
         //获取能量核心的能量
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(coreEnergy -> {
+        Optional.ofNullable(energyOf(stack)).ifPresent(coreEnergy -> {
             if (coreEnergy.getEnergyStored() <= 0) {
                 return;
             }
@@ -198,7 +188,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
             return false;
         }
 
-        return target.getCapability(ForgeCapabilities.ENERGY).map(targetEnergy -> {
+        return Optional.ofNullable(energyOf(target)).map(targetEnergy -> {
             if (!targetEnergy.canReceive()) {
                 return false;
             }
@@ -223,7 +213,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
 
     //获取充能启用状态
     private boolean isChargingEnabled(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
+        CompoundTag tag = ItemNbt.getTag(stack);
         if (tag == null) {
             return false; //默认关闭
         }
@@ -232,13 +222,13 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
 
     //设置充能启用状态
     private void setChargingEnabled(ItemStack stack, boolean enabled) {
-        stack.getOrCreateTag().putBoolean(CHARGING_ENABLED_TAG, enabled);
+        ItemNbt.update(stack, t -> t.putBoolean(CHARGING_ENABLED_TAG, enabled));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         //显示能量信息
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
+        Optional.ofNullable(energyOf(stack)).ifPresent(energy -> {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
                     .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
         });

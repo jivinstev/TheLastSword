@@ -1,5 +1,6 @@
 package net.the_last_sword.item;
 
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.ListTag;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.network.OpenPaperNotePacket;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class PaperNote extends Item {
 
     //物品悬停提示
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
     }
 

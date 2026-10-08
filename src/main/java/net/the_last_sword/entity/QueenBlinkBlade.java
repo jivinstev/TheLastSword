@@ -3,8 +3,6 @@ package net.the_last_sword.entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import net.the_last_sword.configuration.QueenBlinkSettings;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.util.EntityUtil;
@@ -55,10 +52,10 @@ public class QueenBlinkBlade extends Projectile {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(WIDTH, 1F);
-        entityData.define(HEIGHT, 8F);
-        entityData.define(LENGTH, 3F);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        builder.define(WIDTH, 1F);
+        builder.define(HEIGHT, 8F);
+        builder.define(LENGTH, 3F);
     }
 
     public float bladeWidth() { return entityData.get(WIDTH); }
@@ -189,8 +186,4 @@ public class QueenBlinkBlade extends Projectile {
         travelled = tag.getDouble("Travelled");
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

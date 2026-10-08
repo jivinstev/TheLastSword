@@ -14,6 +14,7 @@ import net.the_last_sword.util.EntityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public final class PriestGuardEffect {
     private static final int BUFF_PARTICLE_COUNT = 12;
@@ -46,7 +47,7 @@ public final class PriestGuardEffect {
         for (LivingEntity ally : collectAllies(source,
             TheLastSwordConfiguration.getDragonCultPriestGuardRadiusSafely())) {
             for (MobEffectInstance instance : ally.getActiveEffects()) {
-                if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
+                if (instance.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                     return true;
                 }
             }
@@ -87,12 +88,12 @@ public final class PriestGuardEffect {
     private static void purify(LivingEntity entity) {
         List<MobEffect> harmful = new ArrayList<>();
         for (MobEffectInstance instance : entity.getActiveEffects()) {
-            if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
-                harmful.add(instance.getEffect());
+            if (instance.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
+                harmful.add(instance.getEffect().value());
             }
         }
         for (MobEffect effect : harmful) {
-            entity.removeEffect(effect);
+            entity.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
         }
     }
 }

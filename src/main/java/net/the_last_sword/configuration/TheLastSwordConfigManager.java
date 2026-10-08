@@ -1,6 +1,6 @@
 package net.the_last_sword.configuration;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 import net.the_last_sword.util.TheLastSwordLogger;
 
 import java.io.IOException;

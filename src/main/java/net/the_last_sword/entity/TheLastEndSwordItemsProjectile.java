@@ -1,8 +1,7 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -20,10 +19,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import net.the_last_sword.util.EntityUtil;
 
 import java.util.UUID;
+import net.the_last_sword.ModHolders;
 
 //最终之剑系列弹射物的抽象基类
 public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile implements ItemSupplier {
@@ -50,25 +49,20 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
     }
 
     @Override
-    protected void defineSynchedData() {
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
     }
 
     //读取武器上的远程附魔并应用到弹射物
     public void applyWeaponEnchantments(ItemStack weapon) {
-        int power = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, weapon);
+        int power = EnchantmentHelper.getItemEnchantmentLevel(ModHolders.enchantment(Enchantments.POWER), weapon);
         if (power > 0) {
             this.enchantBonusDamage = (float) (power * 0.5 + 0.5);
         }
-        int punch = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, weapon);
+        int punch = EnchantmentHelper.getItemEnchantmentLevel(ModHolders.enchantment(Enchantments.PUNCH), weapon);
         if (punch > 0) {
             this.enchantKnockback = punch;
         }
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, weapon) > 0) {
+        if (EnchantmentHelper.getItemEnchantmentLevel(ModHolders.enchantment(Enchantments.FLAME), weapon) > 0) {
             this.enchantFlame = true;
         }
     }
@@ -125,7 +119,7 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
 
         //5. 附魔效果：火矢
         if (enchantFlame) {
-            target.setSecondsOnFire(5);
+            target.igniteForSeconds(5);
         }
 
         //6. 生成视觉效果
@@ -171,7 +165,7 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
     }
 
     @Override
-    protected float getGravity() {
+    protected double getDefaultGravity() {
         return 0.03f;
     }
 }

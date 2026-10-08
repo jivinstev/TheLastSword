@@ -8,14 +8,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModEffects;
@@ -24,12 +25,12 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 //处理饰品的效果
-@Mod.EventBusSubscriber(modid = "the_last_sword", bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
 public class CuriosEffectHandler {
 
     //龙水晶指环伤害加成（×1.5）
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onLivingHurtDragonCrystalRing(LivingHurtEvent event) {
+    public static void onLivingHurtDragonCrystalRing(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCuriosLoaded()) {
             return;
         }
@@ -65,12 +66,12 @@ public class CuriosEffectHandler {
         );
 
         //在原有暴击倍率基础上增加
-        float newModifier = event.getDamageModifier() + bonusMultiplier;
-        event.setDamageModifier(newModifier);
+        float newModifier = event.getDamageMultiplier() + bonusMultiplier;
+        event.setDamageMultiplier(newModifier);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onLivingHurtDragonCrystalNecklace(LivingHurtEvent event) {
+    public static void onLivingHurtDragonCrystalNecklace(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCuriosLoaded()) {
             return;
         }
@@ -83,7 +84,7 @@ public class CuriosEffectHandler {
     }
 
     //处理龙水晶指环的伤害加成（+50%伤害）
-    private static void handleDragonCrystalRingDamageBonus(LivingHurtEvent event, Player attacker) {
+    private static void handleDragonCrystalRingDamageBonus(LivingIncomingDamageEvent event, Player attacker) {
         if (!hasCurioEquipped(attacker, ModItems.DRAGON_CRYSTAL_RING.get())) {
             return;
         }
@@ -94,7 +95,7 @@ public class CuriosEffectHandler {
     }
 
     //处理龙水晶项链的概率免疫伤害
-    private static void handleDragonCrystalNecklaceImmunity(LivingHurtEvent event, Player player) {
+    private static void handleDragonCrystalNecklaceImmunity(LivingIncomingDamageEvent event, Player player) {
         if (!hasCurioEquipped(player, ModItems.DRAGON_CRYSTAL_NECKLACE.get())) {
             return;
         }
@@ -113,15 +114,12 @@ public class CuriosEffectHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!CompatCheck.isCuriosLoaded()) {
             return;
         }
 
-        Player player = event.player;
+        Player player = event.getEntity();
         if (player.level().isClientSide) {
             return;
         }
@@ -142,13 +140,12 @@ public class CuriosEffectHandler {
 
         //扣电；电量不足则不施加主动buff（盔甲韧性走属性系统不受此影响）
         int energyCost = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEnergyCostSafely();
-        boolean powered = device.getCapability(ForgeCapabilities.ENERGY).map(energy -> {
-            if (energy.extractEnergy(energyCost, true) < energyCost) {
-                return false;
-            }
+        IEnergyStorage energy = device.getCapability(Capabilities.EnergyStorage.ITEM);
+        boolean powered = false;
+        if (energy != null && energy.extractEnergy(energyCost, true) >= energyCost) {
             energy.extractEnergy(energyCost, false);
-            return true;
-        }).orElse(false);
+            powered = true;
+        }
         if (!powered) {
             return;
         }
@@ -211,7 +208,7 @@ public class CuriosEffectHandler {
         foodData.setFoodLevel(emergencyFoodLevel);
 
         //虚化
-        player.addEffect(new MobEffectInstance(ModEffects.PHASING.get(), effectDuration, 0, false, true, true));
+        player.addEffect(new MobEffectInstance(ModEffects.PHASING, effectDuration, 0, false, true, true));
 
         //急迫
         player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, effectDuration, hasteAmplifier, false, true, true));

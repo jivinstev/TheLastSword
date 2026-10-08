@@ -1,14 +1,25 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 // 龙水晶附魔台能量数据同步包（服务端→客户端）
-public class EnchantingTableDataPacket {
+public class EnchantingTableDataPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<EnchantingTableDataPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "enchanting_table_data_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantingTableDataPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> EnchantingTableDataPacket.encode(msg, buf), EnchantingTableDataPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<EnchantingTableDataPacket> type() {
+        return TYPE;
+    }
 
     private final int containerId;
     private final int energy;
@@ -33,10 +44,8 @@ public class EnchantingTableDataPacket {
         return new EnchantingTableDataPacket(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
     }
 
-    public static void handle(EnchantingTableDataPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.syncEnchantingTable(
-                        msg.containerId, msg.energy, msg.maxEnergy, msg.totalPowerTime)));
-        ctx.get().setPacketHandled(true);
+    public static void handle(EnchantingTableDataPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncEnchantingTable(
+                        msg.containerId, msg.energy, msg.maxEnergy, msg.totalPowerTime); });
     }
 }

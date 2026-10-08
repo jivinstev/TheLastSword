@@ -1,10 +1,10 @@
 package net.the_last_sword.init;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.block.entity.DragonCrystalEnchantingTableBlockEntity;
 import net.the_last_sword.block.entity.DragonCrystalSmithingTableBlockEntity;
@@ -14,9 +14,9 @@ import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockEntity;
 public class ModBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-        DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TheLastSwordMod.MOD_ID);
+        DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, TheLastSwordMod.MOD_ID);
 
-    public static final RegistryObject<BlockEntityType<DragonCrystalSmithingTableBlockEntity>> DRAGON_CRYSTAL_SMITHING_TABLE =
+    public static final Supplier<BlockEntityType<DragonCrystalSmithingTableBlockEntity>> DRAGON_CRYSTAL_SMITHING_TABLE =
         BLOCK_ENTITIES.register("dragon_crystal_smithing_table",
             () -> BlockEntityType.Builder.of(
                 DragonCrystalSmithingTableBlockEntity::new,
@@ -24,7 +24,7 @@ public class ModBlockEntities {
             ).build(null)
         );
 
-    public static final RegistryObject<BlockEntityType<DragonCrystalEnchantingTableBlockEntity>> DRAGON_CRYSTAL_ENCHANTING_TABLE =
+    public static final Supplier<BlockEntityType<DragonCrystalEnchantingTableBlockEntity>> DRAGON_CRYSTAL_ENCHANTING_TABLE =
         BLOCK_ENTITIES.register("dragon_crystal_enchanting_table",
             () -> BlockEntityType.Builder.of(
                 DragonCrystalEnchantingTableBlockEntity::new,
@@ -33,7 +33,7 @@ public class ModBlockEntities {
         );
 
     //幸运方块联动（仅在 lucky 本体 mod 加载时注册）
-    public static RegistryObject<BlockEntityType<TheLastEndLuckyBlockEntity>> THE_LAST_END_LUCKY_BLOCK;
+    public static Supplier<BlockEntityType<TheLastEndLuckyBlockEntity>> THE_LAST_END_LUCKY_BLOCK;
 
     public static void register(IEventBus eventBus) {
         registerConditionalBlockEntities();

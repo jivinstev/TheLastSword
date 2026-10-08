@@ -1,8 +1,6 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,7 +12,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import net.the_last_sword.init.ModEntities;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,10 +42,10 @@ public class GroundRuptureFragmentEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(BLOCK_STATE_ID, Block.getId(Blocks.STONE.defaultBlockState()));
-        entityData.define(SCALE, 0.5F);
-        entityData.define(VISUAL_SEED, 0);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        builder.define(BLOCK_STATE_ID, Block.getId(Blocks.STONE.defaultBlockState()));
+        builder.define(SCALE, 0.5F);
+        builder.define(VISUAL_SEED, 0);
     }
 
     @Override
@@ -105,8 +102,4 @@ public class GroundRuptureFragmentEntity extends Entity {
         return false;
     }
 
-    @Override
-    public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

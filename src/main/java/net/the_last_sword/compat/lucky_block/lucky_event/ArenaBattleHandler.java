@@ -7,15 +7,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 
 import java.util.UUID;
 
 //竞技场对战追踪 - 给参战双方的 persistentData 打 UUID 互指标签, 任一方死亡时清除双方标签; 若玩家击杀对手则给予 64 附魔金苹果
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class ArenaBattleHandler {
 
     private static final String TAG_KEY = "TLSArenaOpponent";

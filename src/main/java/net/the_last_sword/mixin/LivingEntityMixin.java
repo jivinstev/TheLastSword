@@ -51,6 +51,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 @Mixin(value = LivingEntity.class, priority = 1024)
 public class LivingEntityMixin {
@@ -85,12 +86,11 @@ public class LivingEntityMixin {
 
     //注册实体数据（在每个实例的 defineSynchedData 中调用）
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    private void the_last_sword$onDefineSynchedData(CallbackInfo ci) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-        entity.getEntityData().define(PresentWorldAnchorManager.PRESENT_WORLD_ANCHOR, "");
-        entity.getEntityData().define(PresentWorldAnchorManager.HEAL_BAN_TIME, 0);
-        entity.getEntityData().define(EntityUtil.IS_PROTECTED, false);
-        entity.getEntityData().define(PhasingState.PHASING, false);
+    private void the_last_sword$onDefineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        builder.define(PresentWorldAnchorManager.PRESENT_WORLD_ANCHOR, "");
+        builder.define(PresentWorldAnchorManager.HEAL_BAN_TIME, 0);
+        builder.define(EntityUtil.IS_PROTECTED, false);
+        builder.define(PhasingState.PHASING, false);
     }
 
     // 读档后恢复派生状态，让首次追踪的客户端也能获取正确同步值。
@@ -193,7 +193,7 @@ public class LivingEntityMixin {
     //肃正防御护盾消费: 存在护盾则扣除指定代价, 返回是否成功消费
     @Unique
     private boolean the_last_sword$consumeShield(LivingEntity entity, int cost) {
-        AttributeInstance shieldAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance shieldAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (shieldAttr == null || shieldAttr.getValue() <= 0) return false;
         DefenceEventHandler.setShieldValue(entity, shieldAttr.getValue() - cost);
         return true;
@@ -223,7 +223,7 @@ public class LivingEntityMixin {
 
         ItemStack weapon = attacker.getMainHandItem();
         int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                ModEnchantments.WORLD_SEVERANCE.get(), weapon);
+                attacker.level().registryAccess().holderOrThrow(ModEnchantments.WORLD_SEVERANCE), weapon);
         if (enchantmentLevel <= 0) {
             return;
         }
@@ -238,7 +238,7 @@ public class LivingEntityMixin {
     //肃正防御护盾 > 0 时注册保护，= 0 时清除（不影响剑的保护）
     @Unique
     private void the_last_sword$handleJustifiedDefenceProtection(LivingEntity entity) {
-        AttributeInstance curAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance curAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (curAttr == null) return;
 
         if (curAttr.getValue() > 0) {
@@ -273,11 +273,11 @@ public class LivingEntityMixin {
     //护盾自动回复系统（两层分支优化）
     @Unique
     private void the_last_sword$handleShieldRegeneration(LivingEntity entity) {
-        AttributeInstance maxAttr = entity.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
+        AttributeInstance maxAttr = entity.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
         if (maxAttr == null) return;
         double max = maxAttr.getValue();
 
-        AttributeInstance curAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance curAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (curAttr == null) return;
         double cur = curAttr.getValue();
 
@@ -316,7 +316,7 @@ public class LivingEntityMixin {
         }
 
         //分支3: cur < max → 按“点/tick”属性累积恢复进度
-        AttributeInstance recoverySpeedAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED.get());
+        AttributeInstance recoverySpeedAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED);
         double recoverySpeed = recoverySpeedAttr == null ? 0.01 : recoverySpeedAttr.getValue();
         if (recoverySpeed <= 0.0) return;
 
@@ -349,7 +349,7 @@ public class LivingEntityMixin {
             ArrayList<MobEffect> effectsToRemove = new ArrayList<>();
 
             for (MobEffectInstance effectInstance : activeEffects) {
-                MobEffect effect = effectInstance.getEffect();
+                MobEffect effect = effectInstance.getEffect().value();
                 if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION
                         && effect != ModEffects.WORLD_SEVERANCE.get()) {
                     effectsToRemove.add(effect);
@@ -357,7 +357,7 @@ public class LivingEntityMixin {
             }
 
             for (MobEffect effect : effectsToRemove) {
-                entity.removeEffect(effect);
+                entity.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
             }
         }
     }

@@ -2,10 +2,9 @@ package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,30 +12,28 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.client.renderer.DragonArmorRenderer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModItems;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
-import net.minecraft.nbt.CompoundTag;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -55,50 +52,20 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     private static final int BASE_ENERGY = 1048576; // 1M FE
 
     public DragonArmorItem(Type type, Properties props) {
-        super(new ArmorMaterial() {
-            @Override
-            public int getDurabilityForType(Type t) {
-                return Integer.MAX_VALUE; // 2,147,483,647 耐久度
-            }
-
-            @Override
-            public int getDefenseForType(Type t) {
-                return new int[]{8, 12, 12, 8}[t.getSlot().getIndex()];
-            }
-
-            @Override
-            public int getEnchantmentValue() {
-                return 200;
-            }
-
-            @Override
-            public SoundEvent getEquipSound() {
-                return SoundEvents.ARMOR_EQUIP_NETHERITE;
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return Ingredient.of();
-            }
-
-            @Override
-            public String getName() {
-                return "dragon_armor";
-            }
-
-            @Override
-            public float getToughness() {
-                return 10f;
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return 5f;
-            }
-        }, type, props.fireResistant().rarity(Rarity.EPIC));
+        super(Holder.direct(new ArmorMaterial(
+                // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
+                Map.of(Type.BOOTS, 8, Type.LEGGINGS, 12, Type.CHESTPLATE, 12, Type.HELMET, 8),
+                200,
+                SoundEvents.ARMOR_EQUIP_NETHERITE,
+                () -> Ingredient.of(),
+                List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor"))),
+                10f,
+                5f)), type,
+                // 耐久度 2,147,483,647（原 getDurabilityForType）
+                props.fireResistant().rarity(Rarity.EPIC).durability(Integer.MAX_VALUE));
     }
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         //龙之套装不掉耐久
         return 0;
     }
@@ -143,21 +110,9 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     // ==================== Forge Energy系统 ====================
 
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final ItemEnergyStorage energyStorage = new ItemEnergyStorage(stack,
-                () -> DragonArmorItem.getMaxEnergy(stack));
-            private final LazyOptional<ItemEnergyStorage> energyCap = LazyOptional.of(() -> energyStorage);
-
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-                if (cap == ForgeCapabilities.ENERGY) {
-                    return energyCap.cast();
-                }
-                return LazyOptional.empty();
-            }
-        };
+    // 能量存储由 RegisterCapabilitiesEvent 注册（Capabilities.EnergyStorage.ITEM），此处提供工厂方法
+    public static ItemEnergyStorage createEnergyStorage(ItemStack stack) {
+        return new ItemEnergyStorage(stack, () -> DragonArmorItem.getMaxEnergy(stack));
     }
 
     @Override
@@ -167,46 +122,43 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-                .map(energy -> {
-                    int maxEnergy = energy.getMaxEnergyStored();
-                    int currentEnergy = energy.getEnergyStored();
-                    if (maxEnergy == 0) return 0;
-                    return Math.round(13.0F * currentEnergy / maxEnergy);
-                })
-                .orElse(0);
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null) return 0;
+        int maxEnergy = energy.getMaxEnergyStored();
+        int currentEnergy = energy.getEnergyStored();
+        if (maxEnergy == 0) return 0;
+        return Math.round(13.0F * currentEnergy / maxEnergy);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-                .map(energy -> {
-                    int maxEnergy = energy.getMaxEnergyStored();
-                    int currentEnergy = energy.getEnergyStored();
-                    if (maxEnergy == 0) return 0x8B00FF;
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null) return 0x8B00FF;
+        int maxEnergy = energy.getMaxEnergyStored();
+        int currentEnergy = energy.getEnergyStored();
+        if (maxEnergy == 0) return 0x8B00FF;
 
-                    float ratio = (float) currentEnergy / maxEnergy;
+        float ratio = (float) currentEnergy / maxEnergy;
 
-                    if (ratio < 0.25F) {
-                        return 0xFF0000; // 红色
-                    } else if (ratio < 0.5F) {
-                        return 0xFF8C00; // 橙色
-                    } else if (ratio < 0.75F) {
-                        return 0x9B30FF; // 紫色
-                    } else {
-                        return 0xBF00FF; // 亮紫色
-                    }
-                })
-                .orElse(0x8B00FF);
+        if (ratio < 0.25F) {
+            return 0xFF0000; // 红色
+        } else if (ratio < 0.5F) {
+            return 0xFF8C00; // 橙色
+        } else if (ratio < 0.75F) {
+            return 0x9B30FF; // 紫色
+        } else {
+            return 0xBF00FF; // 亮紫色
+        }
     }
 
     @Override
     protected void appendSpecificTooltip(ItemStack itemstack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
         // 显示能量信息
-        itemstack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
+        IEnergyStorage energy = itemstack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy != null) {
             list.add(Component.translatable("item_tooltip.the_last_sword.energy")
                     .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
-        });
+        }
 
         // 部件特定描述
         EquipmentSlot slot = this.getEquipmentSlot();
@@ -236,7 +188,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             }
 
             Set<Item> wornArmor = new ObjectOpenHashSet<>();
-            for (ItemStack stack : entity.getArmorSlots()) {
+            for (ItemStack stack : ((LivingEntity) entity).getArmorSlots()) {
                 if (stack.isEmpty())
                     return PlayState.STOP;
                 wornArmor.add(stack.getItem());
@@ -312,7 +264,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             }
 
             Set<Item> wornArmor = new ObjectOpenHashSet<>();
-            for (ItemStack stack : entity.getArmorSlots()) {
+            for (ItemStack stack : ((LivingEntity) entity).getArmorSlots()) {
                 if (stack.isEmpty())
                     return PlayState.STOP;
                 wornArmor.add(stack.getItem());
@@ -346,7 +298,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     // ==================== 能量系统 ====================
 
-    //计算龙套的最大能量
+    // 计算龙套的最大能量
     //公式：最大能量 = 基础值 + 等级 × 每级提升
     public static int getMaxEnergy(ItemStack stack) {
         if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) {
@@ -360,12 +312,11 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     //检查全套龙套是否都有能量>0
     public static boolean hasEnergyFullSet(Player player) {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (!(stack.getItem() instanceof DragonArmorItem)) return false;
-            boolean hasEnergy = stack.getCapability(ForgeCapabilities.ENERGY)
-                    .map(energy -> energy.getEnergyStored() > 0)
-                    .orElse(false);
+            IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+            boolean hasEnergy = energy != null && energy.getEnergyStored() > 0;
             if (!hasEnergy) return false;
         }
         return true;
@@ -391,8 +342,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         }
 
         @Override
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "the_last_sword:textures/item/dragon_armor.png";
+        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
         }
 
         @Override
@@ -407,8 +358,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         }
 
         @Override
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "the_last_sword:textures/item/dragon_armor.png";
+        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
         }
 
         @Override
@@ -423,8 +374,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         }
 
         @Override
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "the_last_sword:textures/item/dragon_armor.png";
+        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
         }
 
         @Override
@@ -439,8 +390,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         }
 
         @Override
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "the_last_sword:textures/item/dragon_armor.png";
+        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
         }
 
         @Override

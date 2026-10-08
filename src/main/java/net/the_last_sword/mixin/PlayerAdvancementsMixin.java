@@ -1,6 +1,6 @@
 package net.the_last_sword.mixin;
 
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.PlayerAdvancements;
 import net.the_last_sword.event.TheLastSwordQuestHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PlayerAdvancementsMixin {
 
     @Inject(method = "award", at = @At("HEAD"), cancellable = true)
-    private void tls$blockMainQuestAdvancement(Advancement advancement, String criterion,
+    private void tls$blockMainQuestAdvancement(AdvancementHolder advancement, String criterion,
             CallbackInfoReturnable<Boolean> cir) {
-        if (TheLastSwordQuestHandler.shouldBlockMainQuestAdvancement(advancement.getId())) {
+        if (TheLastSwordQuestHandler.shouldBlockMainQuestAdvancement(advancement.id())) {
             cir.setReturnValue(false);
         }
     }

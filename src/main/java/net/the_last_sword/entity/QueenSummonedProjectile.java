@@ -6,10 +6,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
-import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.util.EntityUtil;
 
 import java.util.UUID;
@@ -22,10 +20,6 @@ public class QueenSummonedProjectile extends TheLastEndSwordProjectile {
     public QueenSummonedProjectile(EntityType<? extends QueenSummonedProjectile> type, LivingEntity owner,
                                     Level level, UUID ownerUuid) {
         super(type, owner, level, ownerUuid);
-    }
-
-    public QueenSummonedProjectile(PlayMessages.SpawnEntity packet, Level level) {
-        this(ModEntities.QUEEN_SUMMONED_PROJECTILE.get(), level);
     }
 
     @Override

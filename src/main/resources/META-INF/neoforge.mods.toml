@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[47,)"
+loaderVersion = "[4,)"
 license="MIT"
 
 [[mods]]
@@ -14,31 +14,31 @@ logoFile="assets/the_last_sword/textures/logo.png"
 
 [[dependencies.the_last_sword]]
 modId="minecraft"
-mandatory=true
-versionRange="[1.20.1]"
+type = "required"
+versionRange="[1.21.1,1.22)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.the_last_sword]]
 modId="eca"
-mandatory=true
+type = "required"
 versionRange="[1.1.8-fix-fix,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.the_last_sword]]
 modId="geckolib"
-mandatory=true
+type = "required"
 versionRange="[4.8.2,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.the_last_sword]]
 modId="curios"
-mandatory=true
+type = "required"
 versionRange="[5.14.1,)"
 ordering="NONE"
 side="BOTH"
 
-
-
+[[mixins]]
+config = "the_last_sword.mixins.json"

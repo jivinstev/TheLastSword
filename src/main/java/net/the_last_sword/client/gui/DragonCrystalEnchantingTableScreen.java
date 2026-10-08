@@ -1,5 +1,7 @@
 package net.the_last_sword.client.gui;
 
+import net.minecraft.core.registries.Registries;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,9 +19,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
 import net.the_last_sword.compat.jec.JECCompat;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -138,8 +142,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     // 只有物品类型或实际附魔数据变化时，才需要重建右侧列表。
     private boolean hasEnchantingTargetChanged(ItemStack currentItem) {
         return currentItem.getItem() != lastSlotItem.getItem()
-                || !EnchantmentHelper.getEnchantments(currentItem)
-                .equals(EnchantmentHelper.getEnchantments(lastSlotItem));
+                || !currentItem.getEnchantments()
+                .equals(lastSlotItem.getEnchantments());
     }
 
     // 更新可用附魔列表
@@ -154,11 +158,12 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             return;
         }
 
-        Map<Enchantment, Integer> existingEnchants = EnchantmentHelper.getEnchantments(stack);
+        ItemEnchantments existingEnchants = stack.getEnchantments();
 
-        for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
-            if (ench.canEnchant(stack) || existingEnchants.containsKey(ench)) {
-                int currentLevel = existingEnchants.getOrDefault(ench, 0);
+        Registry<Enchantment> enchRegistry = this.world.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+        for (Holder<Enchantment> ench : enchRegistry.holders().toList()) {
+            if (ench.value().canEnchant(stack) || existingEnchants.keySet().contains(ench)) {
+                int currentLevel = existingEnchants.getLevel(ench);
                 enchantmentOptions.add(new EnchantmentOption(ench, currentLevel, currentLevel));
             }
         }
@@ -166,8 +171,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         enchantmentOptions.sort((a, b) -> {
             if (a.originalLevel > 0 && b.originalLevel == 0) return -1;
             if (a.originalLevel == 0 && b.originalLevel > 0) return 1;
-            return a.enchantment.getFullname(1).getString()
-                    .compareTo(b.enchantment.getFullname(1).getString());
+            return Enchantment.getFullname(a.enchantment, 1).getString()
+                    .compareTo(Enchantment.getFullname(b.enchantment, 1).getString());
         });
 
         updateFilteredList();
@@ -182,7 +187,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             if (query.isEmpty()) {
                 filteredOptions.add(opt);
             } else {
-                String name = opt.enchantment.getFullname(1).getString();
+                String name = Enchantment.getFullname(opt.enchantment, 1).getString();
                 if (JECCompat.contains(name, query)) {
                     filteredOptions.add(opt);
                 }
@@ -246,7 +251,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         Map<ResourceLocation, Integer> enchantChanges = new HashMap<>();
         for (EnchantmentOption opt : enchantmentOptions) {
             if (opt.level != opt.originalLevel) {
-                ResourceLocation id = ForgeRegistries.ENCHANTMENTS.getKey(opt.enchantment);
+                ResourceLocation id = opt.enchantment.unwrapKey().map(k -> k.location()).orElse(null);
                 if (id != null) {
                     enchantChanges.put(id, opt.level);
                 }
@@ -287,7 +292,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         levelEditBox.setVisible(true);
         levelEditBox.setValue(String.valueOf(opt.level));
         levelEditBox.setFocused(true);
-        levelEditBox.moveCursorToEnd();
+        levelEditBox.moveCursorToEnd(false);
         this.setFocused(levelEditBox);
     }
 
@@ -298,7 +303,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
 
@@ -348,7 +353,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             }
 
             // 附魔名称
-            String enchName = opt.enchantment.getFullname(1).getString().replace(" I", "");
+            String enchName = Enchantment.getFullname(opt.enchantment, 1).getString().replace(" I", "");
             if (enchName.length() > 8) {
                 enchName = enchName.substring(0, 6) + "..";
             }
@@ -454,9 +459,9 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 EnchantmentOption opt = filteredOptions.get(i + scrollOffset);
                 List<Component> tooltip = new ArrayList<>();
 
-                tooltip.add(opt.enchantment.getFullname(Math.max(1, opt.level)));
+                tooltip.add(Enchantment.getFullname(opt.enchantment, Math.max(1, opt.level)));
 
-                String descKey = opt.enchantment.getDescriptionId() + ".desc";
+                String descKey = Util.makeDescriptionId("enchantment", opt.enchantment.unwrapKey().map(k -> k.location()).orElse(null)) + ".desc";
                 if (Language.getInstance().has(descKey)) {
                     tooltip.add(Component.translatable(descKey).withStyle(style -> style.withColor(0xAAAAAA)));
                 }
@@ -631,7 +636,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double delta) {
         int listX = this.leftPos + LIST_X;
         int listY = getListY();
         int listHeight = VISIBLE_ROWS * ROW_HEIGHT;
@@ -646,7 +651,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             return true;
         }
 
-        return super.mouseScrolled(mouseX, mouseY, delta);
+        return super.mouseScrolled(mouseX, mouseY, scrollX, delta);
     }
 
     @Override
@@ -711,10 +716,10 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.endPortal());
         Matrix4f matrix = poseStack.last().pose();
 
-        vertexConsumer.vertex(matrix, x1, y2, 0).endVertex();
-        vertexConsumer.vertex(matrix, x2, y2, 0).endVertex();
-        vertexConsumer.vertex(matrix, x2, y1, 0).endVertex();
-        vertexConsumer.vertex(matrix, x1, y1, 0).endVertex();
+        vertexConsumer.addVertex(matrix, x1, y2, 0);
+        vertexConsumer.addVertex(matrix, x2, y2, 0);
+        vertexConsumer.addVertex(matrix, x2, y1, 0);
+        vertexConsumer.addVertex(matrix, x1, y1, 0);
 
         bufferSource.endBatch();
         poseStack.popPose();
@@ -722,11 +727,11 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
     // 附魔选项数据类
     private static class EnchantmentOption {
-        final Enchantment enchantment;
+        final Holder<Enchantment> enchantment;
         int level;
         final int originalLevel;
 
-        EnchantmentOption(Enchantment enchantment, int level, int originalLevel) {
+        EnchantmentOption(Holder<Enchantment> enchantment, int level, int originalLevel) {
             this.enchantment = enchantment;
             this.level = level;
             this.originalLevel = originalLevel;

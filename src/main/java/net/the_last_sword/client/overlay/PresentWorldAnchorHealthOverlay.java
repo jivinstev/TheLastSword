@@ -6,9 +6,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.health.PresentWorldAnchorManager;
@@ -25,8 +24,8 @@ public final class PresentWorldAnchorHealthOverlay {
     private PresentWorldAnchorHealthOverlay() {
     }
 
-    public static void onRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
-        if (!event.getOverlay().id().equals(VanillaGuiOverlay.PLAYER_HEALTH.id())
+    public static void onRenderGuiOverlay(RenderGuiLayerEvent.Post event) {
+        if (!event.getName().equals(VanillaGuiLayers.PLAYER_HEALTH)
                 || !TheLastSwordConfiguration.getDisplayPresentWorldAnchorDamageSafely()) {
             return;
         }
@@ -68,7 +67,7 @@ public final class PresentWorldAnchorHealthOverlay {
         }
 
         int left = guiGraphics.guiWidth() / 2 - 91;
-        int top = guiGraphics.guiHeight() - (((ForgeGui) minecraft.gui).leftHeight - consumedHeight);
+        int top = guiGraphics.guiHeight() - (minecraft.gui.leftHeight - consumedHeight);
         int heartCount = Mth.ceil(maxHealthPoints / 2.0F);
 
         RenderSystem.enableBlend();

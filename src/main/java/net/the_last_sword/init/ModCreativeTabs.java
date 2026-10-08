@@ -4,10 +4,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.compat.CompatCheck;
 
 public class ModCreativeTabs {
@@ -16,7 +17,7 @@ public class ModCreativeTabs {
         DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TheLastSwordMod.MOD_ID);
 
     //最终之剑物品栏
-    public static final RegistryObject<CreativeModeTab> THE_LAST_SWORD_TAB = CREATIVE_MODE_TABS.register("the_last_sword_tab",
+    public static final Supplier<CreativeModeTab> THE_LAST_SWORD_TAB = CREATIVE_MODE_TABS.register("the_last_sword_tab",
         () -> CreativeModeTab.builder()
             .title(Component.translatable("item_group.the_last_sword.the_last_sword_tab"))
             .icon(() -> new ItemStack(ModItems.THE_LAST_SWORD.get()))
@@ -97,11 +98,11 @@ public class ModCreativeTabs {
                     output.accept(ModItems.THE_LAST_END_LUCKY_BLOCK.get());
 
                     ItemStack luckyVariant = new ItemStack(ModItems.THE_LAST_END_LUCKY_BLOCK.get());
-                    luckyVariant.getOrCreateTag().putInt("Luck", 100);
+                    ItemNbt.update(luckyVariant, t -> t.putInt("Luck", 100));
                     output.accept(luckyVariant);
 
                     ItemStack unluckyVariant = new ItemStack(ModItems.THE_LAST_END_LUCKY_BLOCK.get());
-                    unluckyVariant.getOrCreateTag().putInt("Luck", -100);
+                    ItemNbt.update(unluckyVariant, t -> t.putInt("Luck", -100));
                     output.accept(unluckyVariant);
                 }
 

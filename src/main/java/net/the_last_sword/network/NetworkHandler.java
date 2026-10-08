@@ -1,26 +1,17 @@
 package net.the_last_sword.network;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
-import net.the_last_sword.TheLastSwordMod;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 //网络包管理器
 public class NetworkHandler {
 
     private static final String PROTOCOL_VERSION = "12";
-
-    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "main"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
 
     private static int packetId = 0;
 
@@ -29,203 +20,89 @@ public class NetworkHandler {
     }
 
     //注册所有网络包
-    public static void register() {
-        CHANNEL.messageBuilder(LightningSpearConfigPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(LightningSpearConfigPacket::encode)
-                .decoder(LightningSpearConfigPacket::decode)
-                .consumerMainThread(LightningSpearConfigPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(LightningSpearBurstPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(LightningSpearBurstPacket::encode)
-                .decoder(LightningSpearBurstPacket::decode)
-                .consumerMainThread(LightningSpearBurstPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(OpenWraithAppearanceScreenPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(OpenWraithAppearanceScreenPacket::encode)
-                .decoder(OpenWraithAppearanceScreenPacket::decode)
-                .consumerMainThread(OpenWraithAppearanceScreenPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(SetWraithAppearancePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(SetWraithAppearancePacket::encode)
-                .decoder(SetWraithAppearancePacket::decode)
-                .consumerMainThread(SetWraithAppearancePacket::handle)
-                .add();
-        CHANNEL.messageBuilder(DangerousSkillPreviewPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DangerousSkillPreviewPacket::encode)
-                .decoder(DangerousSkillPreviewPacket::decode)
-                .consumerMainThread(DangerousSkillPreviewPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(LostWraithEndStrikeEffectPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(LostWraithEndStrikeEffectPacket::encode)
-                .decoder(LostWraithEndStrikeEffectPacket::decode)
-                .consumerMainThread(LostWraithEndStrikeEffectPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(QueenExecutionCameraPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(QueenExecutionCameraPacket::encode)
-                .decoder(QueenExecutionCameraPacket::decode)
-                .consumerMainThread(QueenExecutionCameraPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(QueenTripleSlashShakePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(QueenTripleSlashShakePacket::encode)
-                .decoder(QueenTripleSlashShakePacket::decode)
-                .consumerMainThread(QueenTripleSlashShakePacket::handle)
-                .add();
-        CHANNEL.messageBuilder(NpcDialogueStatePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(NpcDialogueStatePacket::encode)
-                .decoder(NpcDialogueStatePacket::decode)
-                .consumerMainThread(NpcDialogueStatePacket::handle)
-                .add();
-        CHANNEL.messageBuilder(NpcDialogueChoicePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(NpcDialogueChoicePacket::encode)
-                .decoder(NpcDialogueChoicePacket::decode)
-                .consumerMainThread(NpcDialogueChoicePacket::handle)
-                .add();
-        CHANNEL.messageBuilder(ChangeModePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ChangeModePacket::encode)
-                .decoder(ChangeModePacket::decode)
-                .consumerMainThread(ChangeModePacket::handle)
-                .add();
+    public static void register(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
+        registrar.playToClient(LightningSpearConfigPacket.TYPE, LightningSpearConfigPacket.STREAM_CODEC, LightningSpearConfigPacket::handle);
+        registrar.playToClient(LightningSpearBurstPacket.TYPE, LightningSpearBurstPacket.STREAM_CODEC, LightningSpearBurstPacket::handle);
+        registrar.playToClient(OpenWraithAppearanceScreenPacket.TYPE, OpenWraithAppearanceScreenPacket.STREAM_CODEC, OpenWraithAppearanceScreenPacket::handle);
+        registrar.playToServer(SetWraithAppearancePacket.TYPE, SetWraithAppearancePacket.STREAM_CODEC, SetWraithAppearancePacket::handle);
+        registrar.playToClient(DangerousSkillPreviewPacket.TYPE, DangerousSkillPreviewPacket.STREAM_CODEC, DangerousSkillPreviewPacket::handle);
+        registrar.playToClient(LostWraithEndStrikeEffectPacket.TYPE, LostWraithEndStrikeEffectPacket.STREAM_CODEC, LostWraithEndStrikeEffectPacket::handle);
+        registrar.playToClient(QueenExecutionCameraPacket.TYPE, QueenExecutionCameraPacket.STREAM_CODEC, QueenExecutionCameraPacket::handle);
+        registrar.playToClient(QueenTripleSlashShakePacket.TYPE, QueenTripleSlashShakePacket.STREAM_CODEC, QueenTripleSlashShakePacket::handle);
+        registrar.playToClient(NpcDialogueStatePacket.TYPE, NpcDialogueStatePacket.STREAM_CODEC, NpcDialogueStatePacket::handle);
+        registrar.playToServer(NpcDialogueChoicePacket.TYPE, NpcDialogueChoicePacket.STREAM_CODEC, NpcDialogueChoicePacket::handle);
+        registrar.playToServer(ChangeModePacket.TYPE, ChangeModePacket.STREAM_CODEC, ChangeModePacket::handle);
 
         //挖掘预览系统网络包
-        CHANNEL.messageBuilder(PreviewBlocksPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(PreviewBlocksPacket::encode)
-                .decoder(PreviewBlocksPacket::decode)
-                .consumerMainThread(PreviewBlocksPacket::handle)
-                .add();
+        registrar.playToClient(PreviewBlocksPacket.TYPE, PreviewBlocksPacket.STREAM_CODEC, PreviewBlocksPacket::handle);
 
-        CHANNEL.messageBuilder(ClearPreviewPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(ClearPreviewPacket::encode)
-                .decoder(ClearPreviewPacket::decode)
-                .consumerMainThread(ClearPreviewPacket::handle)
-                .add();
+        registrar.playToClient(ClearPreviewPacket.TYPE, ClearPreviewPacket.STREAM_CODEC, ClearPreviewPacket::handle);
 
-        CHANNEL.messageBuilder(CancelPreviewPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(CancelPreviewPacket::encode)
-                .decoder(CancelPreviewPacket::decode)
-                .consumerMainThread(CancelPreviewPacket::handle)
-                .add();
+        registrar.playToServer(CancelPreviewPacket.TYPE, CancelPreviewPacket.STREAM_CODEC, CancelPreviewPacket::handle);
 
         //唤灵GUI系统网络包
-        CHANNEL.messageBuilder(OpenSummonGuiPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(OpenSummonGuiPacket::encode)
-                .decoder(OpenSummonGuiPacket::decode)
-                .consumerMainThread(OpenSummonGuiPacket::handle)
-                .add();
+        registrar.playToServer(OpenSummonGuiPacket.TYPE, OpenSummonGuiPacket.STREAM_CODEC, OpenSummonGuiPacket::handle);
 
-        CHANNEL.messageBuilder(SyncSummonGuiPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(SyncSummonGuiPacket::encode)
-                .decoder(SyncSummonGuiPacket::decode)
-                .consumerMainThread(SyncSummonGuiPacket::handle)
-                .add();
+        registrar.playToClient(SyncSummonGuiPacket.TYPE, SyncSummonGuiPacket.STREAM_CODEC, SyncSummonGuiPacket::handle);
 
         //防御配置同步网络包
-        CHANNEL.messageBuilder(DefenceConfigPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(DefenceConfigPacket::encode)
-                .decoder(DefenceConfigPacket::new)
-                .consumerMainThread(DefenceConfigPacket::handle)
-                .add();
+        registrar.playToServer(DefenceConfigPacket.TYPE, DefenceConfigPacket.STREAM_CODEC, DefenceConfigPacket::handle);
 
         //附魔应用网络包
-        CHANNEL.messageBuilder(EnchantmentApplyPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(EnchantmentApplyPacket::encode)
-                .decoder(EnchantmentApplyPacket::decode)
-                .consumerMainThread(EnchantmentApplyPacket::handle)
-                .add();
+        registrar.playToServer(EnchantmentApplyPacket.TYPE, EnchantmentApplyPacket.STREAM_CODEC, EnchantmentApplyPacket::handle);
 
         //附魔台能量数据同步包
-        CHANNEL.messageBuilder(EnchantingTableDataPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(EnchantingTableDataPacket::encode)
-                .decoder(EnchantingTableDataPacket::decode)
-                .consumerMainThread(EnchantingTableDataPacket::handle)
-                .add();
+        registrar.playToClient(EnchantingTableDataPacket.TYPE, EnchantingTableDataPacket.STREAM_CODEC, EnchantingTableDataPacket::handle);
 
         //感知扫描结果同步包
-        CHANNEL.messageBuilder(PerceptionScanPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(PerceptionScanPacket::encode)
-                .decoder(PerceptionScanPacket::decode)
-                .consumerMainThread(PerceptionScanPacket::handle)
-                .add();
+        registrar.playToClient(PerceptionScanPacket.TYPE, PerceptionScanPacket.STREAM_CODEC, PerceptionScanPacket::handle);
 
         //龙甲整套能量与耗电速率同步包
-        CHANNEL.messageBuilder(DragonArmorEnergyStatusPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DragonArmorEnergyStatusPacket::encode)
-                .decoder(DragonArmorEnergyStatusPacket::decode)
-                .consumerMainThread(DragonArmorEnergyStatusPacket::handle)
-                .add();
+        registrar.playToClient(DragonArmorEnergyStatusPacket.TYPE, DragonArmorEnergyStatusPacket.STREAM_CODEC, DragonArmorEnergyStatusPacket::handle);
 
         //竞技场预览包
-        CHANNEL.messageBuilder(ArenaPreviewPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(ArenaPreviewPacket::encode)
-                .decoder(ArenaPreviewPacket::decode)
-                .consumerMainThread(ArenaPreviewPacket::handle)
-                .add();
+        registrar.playToClient(ArenaPreviewPacket.TYPE, ArenaPreviewPacket.STREAM_CODEC, ArenaPreviewPacket::handle);
 
         //龙套护盾触发包
-        CHANNEL.messageBuilder(DragonShieldPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DragonShieldPacket::encode)
-                .decoder(DragonShieldPacket::decode)
-                .consumerMainThread(DragonShieldPacket::handle)
-                .add();
+        registrar.playToClient(DragonShieldPacket.TYPE, DragonShieldPacket.STREAM_CODEC, DragonShieldPacket::handle);
 
-        CHANNEL.messageBuilder(JustifiedDefenceFlashPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(JustifiedDefenceFlashPacket::encode)
-                .decoder(JustifiedDefenceFlashPacket::decode)
-                .consumerMainThread(JustifiedDefenceFlashPacket::handle)
-                .add();
+        registrar.playToClient(JustifiedDefenceFlashPacket.TYPE, JustifiedDefenceFlashPacket.STREAM_CODEC, JustifiedDefenceFlashPacket::handle);
 
         //龙水晶锻造配方同步包（服务端配置为唯一数据源）
-        CHANNEL.messageBuilder(SyncDragonCrystalRecipesPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(SyncDragonCrystalRecipesPacket::encode)
-                .decoder(SyncDragonCrystalRecipesPacket::decode)
-                .consumerMainThread(SyncDragonCrystalRecipesPacket::handle)
-                .add();
+        registrar.playToClient(SyncDragonCrystalRecipesPacket.TYPE, SyncDragonCrystalRecipesPacket.STREAM_CODEC, SyncDragonCrystalRecipesPacket::handle);
 
         //终焉卷轴打开及被毁村庄坐标同步
-        CHANNEL.messageBuilder(OpenLastEndScrollPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(OpenLastEndScrollPacket::encode)
-                .decoder(OpenLastEndScrollPacket::decode)
-                .consumerMainThread(OpenLastEndScrollPacket::handle)
-                .add();
+        registrar.playToClient(OpenLastEndScrollPacket.TYPE, OpenLastEndScrollPacket.STREAM_CODEC, OpenLastEndScrollPacket::handle);
 
         //纸条阅读GUI打开包
-        CHANNEL.messageBuilder(OpenPaperNotePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(OpenPaperNotePacket::encode)
-                .decoder(OpenPaperNotePacket::decode)
-                .consumerMainThread(OpenPaperNotePacket::handle)
-                .add();
+        registrar.playToClient(OpenPaperNotePacket.TYPE, OpenPaperNotePacket.STREAM_CODEC, OpenPaperNotePacket::handle);
 
         //纸条收集确认包
-        CHANNEL.messageBuilder(ConfirmPaperNotePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ConfirmPaperNotePacket::encode)
-                .decoder(ConfirmPaperNotePacket::decode)
-                .consumerMainThread(ConfirmPaperNotePacket::handle)
-                .add();
+        registrar.playToServer(ConfirmPaperNotePacket.TYPE, ConfirmPaperNotePacket.STREAM_CODEC, ConfirmPaperNotePacket::handle);
     }
 
     //发送到服务端
-    public static <MSG> void sendToServer(MSG message) {
-        CHANNEL.sendToServer(message);
+    public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {
+        PacketDistributor.sendToServer(message);
     }
 
     //发送到特定玩家
-    public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
-        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
+    public static <MSG extends CustomPacketPayload> void sendToPlayer(MSG message, ServerPlayer player) {
+        PacketDistributor.sendToPlayer(player, message);
     }
 
     //发送到追踪该实体的所有玩家（包括单人游戏）
-    public static <MSG> void sendToTrackingClients(MSG message, Entity entity) {
+    public static <MSG extends CustomPacketPayload> void sendToTrackingClients(MSG message, Entity entity) {
         if (entity.level() instanceof ServerLevel serverLevel) {
-            CHANNEL.send(
-                    PacketDistributor.TRACKING_ENTITY.with(() -> entity),
-                    message
-            );
+            PacketDistributor.sendToPlayersTrackingEntity(entity, message);
         }
     }
 
     //发送到追踪实体的玩家，并在实体为玩家时包含其自身客户端
-    public static <MSG> void sendToTrackingClientsAndSelf(MSG message, Entity entity) {
+    public static <MSG extends CustomPacketPayload> void sendToTrackingClientsAndSelf(MSG message, Entity entity) {
         if (entity.level() instanceof ServerLevel) {
-            CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), message);
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, message);
         }
     }
 }

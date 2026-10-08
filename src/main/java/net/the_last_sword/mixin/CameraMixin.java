@@ -19,14 +19,14 @@ public abstract class CameraMixin {
     protected abstract void setRotation(float yaw, float pitch);
 
     @Shadow
-    protected abstract void move(double forward, double up, double left);
+    protected abstract void move(float forward, float up, float left);
 
     @Inject(method = "setup", at = @At("TAIL"))
     private void theLastSword$applyExecutionCamera(BlockGetter level, Entity entity,
             boolean detached, boolean mirror, float partialTick, CallbackInfo ci) {
         if (entity == Minecraft.getInstance().player && QueenExecutionCamera.isActive()) {
             setRotation(QueenExecutionCamera.getYaw(), 0.0F);
-            move(0.0, 0.3, 0.0);
+            move(0.0F, 0.3F, 0.0F);
         }
         if (entity == Minecraft.getInstance().player && QueenTripleSlashScreenShake.isActive()) {
             Camera camera = (Camera) (Object) this;

@@ -5,9 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Instrument;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
 
 public final class ModInstruments {
@@ -20,7 +20,7 @@ public final class ModInstruments {
             DeferredRegister.create(Registries.INSTRUMENT, TheLastSwordMod.MOD_ID);
 
     //拜龙教号角，音色沿用原版袭击号角
-    public static final RegistryObject<Instrument> DRAGON_CULT_HORN =
+    public static final Supplier<Instrument> DRAGON_CULT_HORN =
             INSTRUMENTS.register("dragon_cult_horn",
                     () -> new Instrument(SoundEvents.RAID_HORN, USE_DURATION, RANGE));
 

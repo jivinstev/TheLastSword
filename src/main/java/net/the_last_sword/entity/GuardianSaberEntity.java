@@ -1,6 +1,5 @@
 package net.the_last_sword.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -19,10 +18,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.ai.GuardianSaberBlockGoal;
 import org.jetbrains.annotations.Nullable;
+import net.the_last_sword.ModHolders;
 
 // 封印尖塔守卫 - 剑士变种
 public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
@@ -65,17 +65,16 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         ItemStack sword = new ItemStack(Items.NETHERITE_SWORD);
-        sword.enchant(Enchantments.SHARPNESS, 5);
-        sword.enchant(Enchantments.SWEEPING_EDGE, 3);
-        sword.enchant(Enchantments.MOB_LOOTING, 3);
-        sword.enchant(Enchantments.KNOCKBACK, 2);
-        sword.enchant(Enchantments.UNBREAKING, 3);
-        sword.enchant(Enchantments.MENDING, 1);
+        sword.enchant(ModHolders.enchantment(Enchantments.SHARPNESS), 5);
+        sword.enchant(ModHolders.enchantment(Enchantments.SWEEPING_EDGE), 3);
+        sword.enchant(ModHolders.enchantment(Enchantments.LOOTING), 3);
+        sword.enchant(ModHolders.enchantment(Enchantments.KNOCKBACK), 2);
+        sword.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        sword.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
 
         this.setItemSlot(EquipmentSlot.MAINHAND, sword);
         this.setDropChance(EquipmentSlot.MAINHAND, 2.0F);
@@ -132,17 +131,18 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
     @Override
     protected void hurtCurrentlyUsedShield(float damage) {
         ItemStack shield = getUseItem();
-        if (!shield.canPerformAction(ToolActions.SHIELD_BLOCK) || damage < 3.0F) {
+        if (!shield.canPerformAction(ItemAbilities.SHIELD_BLOCK) || damage < 3.0F) {
             return;
         }
 
         int durabilityDamage = 1 + Mth.floor(damage);
         InteractionHand usedHand = getUsedItemHand();
-        shield.hurtAndBreak(durabilityDamage, this, broken -> broken.broadcastBreakEvent(usedHand));
+        EquipmentSlot usedSlot = usedHand == InteractionHand.MAIN_HAND
+                ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+        shield.hurtAndBreak(durabilityDamage, this, usedSlot);
 
         if (shield.isEmpty()) {
-            setItemSlot(usedHand == InteractionHand.MAIN_HAND
-                    ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+            setItemSlot(usedSlot, ItemStack.EMPTY);
             stopUsingItem();
             playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
             if (getAnimationState() == STATE_BLOCK) {

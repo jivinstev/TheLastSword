@@ -8,16 +8,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.renderer.LightningSpearRenderUtil.BurstGeometry;
 import net.the_last_sword.network.LightningSpearBurstPacket;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class LightningSpearBurstRenderer {
     private static final int LIFETIME = 10;
     private static final int MAX_EFFECTS = 64;
@@ -52,10 +52,8 @@ public final class LightningSpearBurstRenderer {
     }
 
     @SubscribeEvent
-    public static void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            update();
-        }
+    public static void onTick(ClientTickEvent.Post event) {
+        update();
     }
 
     @SubscribeEvent
@@ -71,7 +69,7 @@ public final class LightningSpearBurstRenderer {
         Vec3 camera = event.getCamera().getPosition();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         for (Burst burst : BURSTS) {
-            float age = (float) (effectLevel.getGameTime() - burst.startTick()) + event.getPartialTick();
+            float age = (float) (effectLevel.getGameTime() - burst.startTick()) + event.getPartialTick().getGameTimeDeltaPartialTick(false);
             float expansion = 0.75F + 0.25F * Mth.clamp(age, 0.0F, 1.0F);
             float alpha = 1.0F - Mth.clamp((age - 3.0F) / (LIFETIME - 3.0F), 0.0F, 1.0F);
             Vec3 offset = burst.position().subtract(camera);

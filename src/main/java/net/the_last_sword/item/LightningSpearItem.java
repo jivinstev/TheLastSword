@@ -1,21 +1,19 @@
 package net.the_last_sword.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -24,9 +22,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.LightningSpearClientSettings;
-import net.the_last_sword.client.renderer.LightningSpearItemRenderer;
+import net.the_last_sword.client.LightningSpearClientExtensions;
 import net.the_last_sword.configuration.LightningSpearSettings;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.LightningSpearProjectile;
@@ -37,31 +35,25 @@ public class LightningSpearItem extends Item {
     private static final double ATTACK_DAMAGE_MODIFIER = 19.0D;
     private static final double ATTACK_SPEED_MODIFIER = -3.0D;
 
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-
     public LightningSpearItem(Properties properties) {
-        super(properties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-        modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-                BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", ATTACK_DAMAGE_MODIFIER,
-                AttributeModifier.Operation.ADDITION));
-        modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(
-                BASE_ATTACK_SPEED_UUID, "Weapon modifier", ATTACK_SPEED_MODIFIER,
-                AttributeModifier.Operation.ADDITION));
-        defaultModifiers = modifiers.build();
+        super(properties.attributes(buildAttributeModifiers()));
+    }
+
+    private static ItemAttributeModifiers buildAttributeModifiers() {
+        return ItemAttributeModifiers.builder()
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_DAMAGE_MODIFIER,
+                        AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(
+                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_SPEED_MODIFIER,
+                        AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .build();
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         super.initializeClient(consumer);
-        consumer.accept(new IClientItemExtensions() {
-            private final BlockEntityWithoutLevelRenderer renderer = new LightningSpearItemRenderer();
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return renderer;
-            }
-        });
+        consumer.accept(new LightningSpearClientExtensions());
     }
 
     @Override
@@ -70,7 +62,7 @@ public class LightningSpearItem extends Item {
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack stack) {
+    public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
         return 72000;
     }
 
@@ -93,7 +85,7 @@ public class LightningSpearItem extends Item {
             return;
         }
 
-        int useTime = getUseDuration(stack) - timeLeft;
+        int useTime = getUseDuration(stack, livingEntity) - timeLeft;
         LightningSpearSettings settings = TheLastSwordConfiguration.getLightningSpearSettings();
         if (useTime < settings.chargeTicks()) {
             return;
@@ -105,12 +97,12 @@ public class LightningSpearItem extends Item {
             return;
         }
         player.getCooldowns().addCooldown(this, settings.cooldownTicks());
-        level.playSound(null, projectile, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+        level.playSound(null, projectile, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
         player.awardStat(Stats.ITEM_USED.get(this));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         LightningSpearSettings settings = LightningSpearClientSettings.get();
         Component slowLevel = settings.slowLevel() <= 10
@@ -129,11 +121,4 @@ public class LightningSpearItem extends Item {
                 : String.format(Locale.ROOT, "%.2f", value).replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            return defaultModifiers;
-        }
-        return super.getDefaultAttributeModifiers(slot);
-    }
 }

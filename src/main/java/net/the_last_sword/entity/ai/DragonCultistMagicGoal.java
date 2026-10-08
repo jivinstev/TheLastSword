@@ -227,7 +227,7 @@ public class DragonCultistMagicGoal extends Goal {
 
         LargeFireball fireball = new LargeFireball(
             cultist.level(), cultist,
-            direction.x, direction.y, direction.z,
+            direction,
             0
         );
         fireball.setOwner(cultist);

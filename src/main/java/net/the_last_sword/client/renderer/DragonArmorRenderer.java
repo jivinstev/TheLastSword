@@ -37,15 +37,17 @@ public class DragonArmorRenderer extends GeoArmorRenderer<DragonArmorItem> {
     public void actuallyRender(PoseStack poseStack, DragonArmorItem animatable, BakedGeoModel model,
                                RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,
                                boolean isReRender, float partialTick, int packedLight, int packedOverlay,
-                               float red, float green, float blue, float alpha) {
+                               int renderColor) {
         // 护甲会重新获取全局缓冲，需要补偿被绕过的透明度包装，且不能重复减半。
         if (!(bufferSource instanceof PhasingBufferSource)
                 && getCurrentEntity() instanceof LivingEntity entity
                 && PhasingState.isPhasing(entity)) {
-            alpha *= 0.5F;
+            int alpha = (renderColor >>> 24) & 0xFF;
+            alpha = Math.round(alpha * 0.5F);
+            renderColor = (renderColor & 0x00FFFFFF) | (alpha << 24);
         }
         super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender,
-                partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+                partialTick, packedLight, packedOverlay, renderColor);
     }
 
 }

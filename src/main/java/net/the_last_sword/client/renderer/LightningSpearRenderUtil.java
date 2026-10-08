@@ -245,8 +245,8 @@ public final class LightningSpearRenderUtil {
 
     private static void vertex(VertexConsumer consumer, Vector3f point, Vector3f side, float offset,
                                 float red, float green, float blue, float alpha) {
-        consumer.vertex(point.x + side.x * offset, point.y + side.y * offset, point.z)
-                .color(red, green, blue, alpha).endVertex();
+        consumer.addVertex((float) (point.x + side.x * offset), (float) (point.y + side.y * offset), (float) (point.z))
+                .setColor(red, green, blue, alpha);
     }
 
     private record Arc(Vector3f[] points, float[] widths) {

@@ -1,21 +1,22 @@
 package net.the_last_sword.summon;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.util.TheLastSwordLogger;
 
 import java.util.*;
 
 //旧版剑灵绑定表的一次性迁移 - 绑定关系已由 ECA 阵营接管，此处只负责导入历史存档
-@Mod.EventBusSubscriber(modid = "the_last_sword", bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
 public class WraithSummonSavedData extends SavedData {
 
     private static final String DATA_NAME = "the_last_sword_wraith_bindings";
@@ -30,8 +31,7 @@ public class WraithSummonSavedData extends SavedData {
     //获取实例
     public static WraithSummonSavedData get(ServerLevel level) {
         return level.getDataStorage().computeIfAbsent(
-                WraithSummonSavedData::load,
-                WraithSummonSavedData::new,
+                new SavedData.Factory<WraithSummonSavedData>(WraithSummonSavedData::new, (tag, registries) -> load(tag), null),
                 DATA_NAME
         );
     }
@@ -65,7 +65,7 @@ public class WraithSummonSavedData extends SavedData {
 
     //保存到NBT（原绑定数据保留，仅追加迁移标记，便于回滚）
     @Override
-    public CompoundTag save(CompoundTag root) {
+    public CompoundTag save(CompoundTag root, HolderLookup.Provider registries) {
         CompoundTag bindings = new CompoundTag();
 
         for (Map.Entry<UUID, Set<UUID>> entry : bindingsNBT.entrySet()) {

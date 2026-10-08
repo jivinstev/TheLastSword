@@ -2,7 +2,7 @@ package net.the_last_sword.entity.ai;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
 import net.the_last_sword.util.EntityUtil;
@@ -52,8 +52,8 @@ public class SwordWraithFollowOwnerGoal extends Goal {
     @Override
     public void start() {
         pathRecalculationDelay = 0;
-        oldWaterCost = wraith.getPathfindingMalus(BlockPathTypes.WATER);
-        wraith.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        oldWaterCost = wraith.getPathfindingMalus(PathType.WATER);
+        wraith.setPathfindingMalus(PathType.WATER, 0.0F);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class SwordWraithFollowOwnerGoal extends Goal {
     public void stop() {
         owner = null;
         wraith.getNavigation().stop();
-        wraith.setPathfindingMalus(BlockPathTypes.WATER, oldWaterCost);
+        wraith.setPathfindingMalus(PathType.WATER, oldWaterCost);
     }
 
     @Override

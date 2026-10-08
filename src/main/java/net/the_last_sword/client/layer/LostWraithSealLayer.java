@@ -15,7 +15,7 @@ import org.joml.Matrix4f;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
-import software.bernie.geckolib.util.RenderUtils;
+import software.bernie.geckolib.util.RenderUtil;
 
 public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> {
     private static final int LINKS = 12;
@@ -49,7 +49,7 @@ public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> 
         }
 
         poseStack.pushPose();
-        RenderUtils.translateToPivotPoint(poseStack, bone);
+        RenderUtil.translateToPivotPoint(poseStack, bone);
         // 模型两侧前臂的枢轴不对称，分别对齐护腕中心，避免链环穿入手臂。
         poseStack.translate(left ? -1.0 / 16.0 : 2.8 / 16.0, -6.0 / 16.0,
                 left ? -2.5 / 16.0 : 0.0);
@@ -77,9 +77,8 @@ public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> 
     }
 
     private static void vertex(VertexConsumer buffer, Matrix4f pose, Vec3 point, float shade, float pulse) {
-        buffer.vertex(pose, (float) point.x, (float) point.y, (float) point.z)
-                .color(0.72F * shade * pulse, 0.22F * shade * pulse, shade * pulse, 0.9F)
-                .endVertex();
+        buffer.addVertex(pose, (float) point.x, (float) point.y, (float) point.z)
+                .setColor(0.72F * shade * pulse, 0.22F * shade * pulse, shade * pulse, 0.9F);
     }
 
     private static Vec3[][] createLinks() {

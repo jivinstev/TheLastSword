@@ -4,17 +4,17 @@
  */
 package net.the_last_sword.event;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.event.village.WandererTradesEvent;
-import net.minecraftforge.common.BasicItemListing;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.village.WandererTradesEvent;
+import net.neoforged.neoforge.common.BasicItemListing;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import net.the_last_sword.init.ModItems;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
 public class VillagerTradeHandler {
 
     //流浪商人交易

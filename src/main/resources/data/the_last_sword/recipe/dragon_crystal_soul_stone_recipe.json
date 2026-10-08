@@ -8,17 +8,17 @@
   ],
   "key": {
     "a": {
-      "item": "minecraft:obsidian"
+      "item": "minecraft:lapis_lazuli"
     },
     "b": {
       "item": "the_last_sword:dragon_crystal"
     },
     "c": {
-      "item": "minecraft:soul_lantern"
+      "item": "minecraft:crying_obsidian"
     }
   },
   "result": {
-    "item": "the_last_sword:dragon_soul_lantern",
+    "id": "the_last_sword:dragon_crystal_soul_stone",
     "count": 1
   }
 }

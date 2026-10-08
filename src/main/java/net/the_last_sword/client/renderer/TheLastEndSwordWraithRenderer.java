@@ -30,12 +30,11 @@ public class TheLastEndSwordWraithRenderer extends GeoEntityRenderer<TheLastEndS
     }
 
     @Override
-    public void preRender(PoseStack poseStack, TheLastEndSwordWraithEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red,
-                          float green, float blue, float alpha) {
+    public void preRender(PoseStack poseStack, TheLastEndSwordWraithEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         float scale = 0.55f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
     @Override
@@ -50,19 +49,19 @@ public class TheLastEndSwordWraithRenderer extends GeoEntityRenderer<TheLastEndS
 
     @Override
     protected void renderNameTag(TheLastEndSwordWraithEntity entity, Component name, PoseStack poseStack,
-                                 MultiBufferSource bufferSource, int packedLight) {
-        super.renderNameTag(entity, name, poseStack, bufferSource, packedLight);
+                                 MultiBufferSource bufferSource, int packedLight, float partialTick) {
+        super.renderNameTag(entity, name, poseStack, bufferSource, packedLight, partialTick);
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.28D, 0.0D);
         Component marks = Component.translatable("entity.the_last_sword.the_last_end_sword_wraith.end_mark",
                 entity.getEndMark()).withStyle(ChatFormatting.DARK_PURPLE);
-        super.renderNameTag(entity, marks, poseStack, bufferSource, packedLight);
+        super.renderNameTag(entity, marks, poseStack, bufferSource, packedLight, partialTick);
         poseStack.popPose();
     }
 
     //受伤变红效果
     @Override
-    public int getPackedOverlay(TheLastEndSwordWraithEntity entity, float u) {
+    public int getPackedOverlay(TheLastEndSwordWraithEntity entity, float u, float partialTick) {
         return LivingEntityRenderer.getOverlayCoords(entity, 0);
     }
 }

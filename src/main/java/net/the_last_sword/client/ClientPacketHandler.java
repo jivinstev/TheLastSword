@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.the_last_sword.client.gui.PaperNoteScreen;
 import net.the_last_sword.client.gui.NpcDialogueScreen;
 import net.the_last_sword.client.gui.SwordWraithAppearanceScreen;

@@ -1,6 +1,5 @@
 package net.the_last_sword.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,6 +23,7 @@ import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.the_last_sword.ModHolders;
 
 // 封印尖塔守卫 - 狂战士变种
 public class GuardianBerserkerEntity extends GuardianOfSealedSpireEntity {
@@ -47,16 +47,15 @@ public class GuardianBerserkerEntity extends GuardianOfSealedSpireEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         ItemStack axe = new ItemStack(Items.NETHERITE_AXE);
-        axe.enchant(Enchantments.SHARPNESS, 5);
-        axe.enchant(Enchantments.BLOCK_FORTUNE, 3);
-        axe.enchant(Enchantments.BLOCK_EFFICIENCY, 5);
-        axe.enchant(Enchantments.UNBREAKING, 3);
-        axe.enchant(Enchantments.MENDING, 1);
+        axe.enchant(ModHolders.enchantment(Enchantments.SHARPNESS), 5);
+        axe.enchant(ModHolders.enchantment(Enchantments.FORTUNE), 3);
+        axe.enchant(ModHolders.enchantment(Enchantments.EFFICIENCY), 5);
+        axe.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        axe.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
 
         this.setItemSlot(EquipmentSlot.MAINHAND, axe);
         this.setDropChance(EquipmentSlot.MAINHAND, 2.0F);

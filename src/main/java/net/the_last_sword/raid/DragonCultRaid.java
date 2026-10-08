@@ -104,7 +104,7 @@ public class DragonCultRaid extends RaidDefinition {
     public void onVictory(RaidContext context) {
         for (var player : context.getNearbyPlayers()) {
             player.connection.send(new ClientboundStopSoundPacket(
-                    ModSounds.DRAGON_CULT_IS_COMING.getId(), SoundSource.MUSIC));
+                    ModSounds.DRAGON_CULT_IS_COMING.get().getLocation(), SoundSource.MUSIC));
 
             //仅本次新获得「背水一战」进度的玩家播报并获赠装置，他人袭击不再重复发放
             boolean newlyCompleted = !TheLastSwordQuestHandler.isDone(

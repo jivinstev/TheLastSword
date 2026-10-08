@@ -1,7 +1,8 @@
 package net.the_last_sword.util.nbt;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.the_last_sword.ItemNbt;
 
 import java.util.function.IntSupplier;
 
@@ -26,8 +27,8 @@ public class ItemEnergyStorage extends EnergyStorage {
         this.stack = stack;
         this.maxEnergySupplier = maxEnergySupplier;
 
-        if (stack.hasTag() && stack.getTag().contains(ENERGY_TAG)) {
-            this.energy = stack.getTag().getInt(ENERGY_TAG);
+        if (ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).contains(ENERGY_TAG)) {
+            this.energy = ItemNbt.getTag(stack).getInt(ENERGY_TAG);
         } else if (startFull) {
             this.energy = maxEnergySupplier.getAsInt();
             saveEnergyToNBT();
@@ -81,16 +82,16 @@ public class ItemEnergyStorage extends EnergyStorage {
     }
 
     private int getEnergyFromNBT() {
-        if (stack.isEmpty() || !stack.hasTag()) {
+        if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 0;
         }
-        return stack.getTag().getInt(ENERGY_TAG);
+        return ItemNbt.getTag(stack).getInt(ENERGY_TAG);
     }
 
     private void saveEnergyToNBT() {
         if (stack.isEmpty()) {
             return;
         }
-        stack.getOrCreateTag().putInt(ENERGY_TAG, this.energy);
+        ItemNbt.update(stack, t -> t.putInt(ENERGY_TAG, this.energy));
     }
 }

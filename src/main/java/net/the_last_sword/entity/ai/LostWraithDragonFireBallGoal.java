@@ -110,10 +110,7 @@ public class LostWraithDragonFireBallGoal extends Goal {
         Vec3 startPos = wraith.position().add(0, wraith.getEyeHeight(), 0);
         Vec3 direction = targetPos.subtract(startPos).normalize();
 
-        DragonFireball dragonFireball = new DragonFireball(
-            wraith.level(), wraith,
-            direction.x, direction.y, direction.z
-        );
+        DragonFireball dragonFireball = new DragonFireball(wraith.level(), wraith, direction);
         dragonFireball.setPos(startPos.x, startPos.y, startPos.z);
         wraith.level().addFreshEntity(dragonFireball);
 

@@ -1,9 +1,9 @@
 package net.the_last_sword.compat.apotheosis;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.init.ModItems;
 import net.the_last_sword.util.TheLastSwordLogger;

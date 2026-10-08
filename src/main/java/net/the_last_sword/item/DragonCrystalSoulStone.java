@@ -1,5 +1,7 @@
 package net.the_last_sword.item;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -8,9 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
+import net.the_last_sword.ItemNbt;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class DragonCrystalSoulStone extends Item {
             }
         }
         //检查NBT格式：wraith_entity_id键
-        CompoundTag nbt = stack.getTag();
+        CompoundTag nbt = ItemNbt.getTag(stack);
         return nbt != null && nbt.contains("wraith_entity_id");
     }
 
@@ -56,7 +56,7 @@ public class DragonCrystalSoulStone extends Item {
         }
 
         //检查NBT格式：wraith_entity_id键
-        CompoundTag nbt = stack.getTag();
+        CompoundTag nbt = ItemNbt.getTag(stack);
         if (nbt != null && nbt.contains("wraith_entity_id")) {
             CompoundTag entityData = new CompoundTag();
             entityData.putString("id", nbt.getString("wraith_entity_id"));
@@ -82,7 +82,7 @@ public class DragonCrystalSoulStone extends Item {
             if (!entityId.isEmpty()) {
                 try {
                     ResourceLocation rl = ResourceLocation.parse(entityId);
-                    EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(rl);
+                    EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(rl);
                     if (entityType != null) {
                         return entityType.getDescriptionId();
                     }
@@ -93,7 +93,7 @@ public class DragonCrystalSoulStone extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         //始终显示龙晶魂石的状态信息
@@ -109,7 +109,7 @@ public class DragonCrystalSoulStone extends Item {
         }
 
         //显示是否召唤和UUID信息
-        CompoundTag nbt = stack.getTag();
+        CompoundTag nbt = ItemNbt.getTag(stack);
         Component summonedText;
         Component uuidText;
 

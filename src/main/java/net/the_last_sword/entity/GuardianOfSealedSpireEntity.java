@@ -15,7 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -47,6 +46,7 @@ import net.the_last_sword.util.health.TrueHealthManager;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.the_last_sword.ModHolders;
 
 // 封印尖塔守卫
 public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
@@ -66,15 +66,15 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
 
     public GuardianOfSealedSpireEntity(EntityType<? extends GuardianOfSealedSpireEntity> type, Level world) {
         super(type, world);
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         xpReward = 10;
         setPersistenceRequired();
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(GUARDIAN_TYPE, 0);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(GUARDIAN_TYPE, 0);
     }
 
     @Override
@@ -163,11 +163,6 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     protected float getDamageLimit() {
         return (float) TheLastSwordConfiguration.getGuardianDamageLimitSafely();
     }
@@ -178,9 +173,8 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
             float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
@@ -203,50 +197,51 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
 
     private void equipNetheriteArmor() {
         ItemStack helmet = new ItemStack(Items.NETHERITE_HELMET);
-        helmet.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-        helmet.enchant(Enchantments.THORNS, 3);
-        helmet.enchant(Enchantments.UNBREAKING, 3);
-        helmet.enchant(Enchantments.MENDING, 1);
-        helmet.enchant(Enchantments.RESPIRATION, 3);
-        helmet.enchant(Enchantments.AQUA_AFFINITY, 1);
-        helmet.enchant(Enchantments.PROJECTILE_PROTECTION, 4);
+        helmet.enchant(ModHolders.enchantment(Enchantments.PROTECTION), 4);
+        helmet.enchant(ModHolders.enchantment(Enchantments.THORNS), 3);
+        helmet.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        helmet.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
+        helmet.enchant(ModHolders.enchantment(Enchantments.RESPIRATION), 3);
+        helmet.enchant(ModHolders.enchantment(Enchantments.AQUA_AFFINITY), 1);
+        helmet.enchant(ModHolders.enchantment(Enchantments.PROJECTILE_PROTECTION), 4);
         setItemSlot(EquipmentSlot.HEAD, helmet);
         setDropChance(EquipmentSlot.HEAD, 2.0F);
 
         ItemStack chestplate = new ItemStack(Items.NETHERITE_CHESTPLATE);
-        chestplate.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-        chestplate.enchant(Enchantments.THORNS, 3);
-        chestplate.enchant(Enchantments.UNBREAKING, 3);
-        chestplate.enchant(Enchantments.MENDING, 1);
-        chestplate.enchant(Enchantments.BLAST_PROTECTION, 4);
+        chestplate.enchant(ModHolders.enchantment(Enchantments.PROTECTION), 4);
+        chestplate.enchant(ModHolders.enchantment(Enchantments.THORNS), 3);
+        chestplate.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        chestplate.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
+        chestplate.enchant(ModHolders.enchantment(Enchantments.BLAST_PROTECTION), 4);
         setItemSlot(EquipmentSlot.CHEST, chestplate);
         setDropChance(EquipmentSlot.CHEST, 2.0F);
 
         ItemStack leggings = new ItemStack(Items.NETHERITE_LEGGINGS);
-        leggings.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-        leggings.enchant(Enchantments.THORNS, 3);
-        leggings.enchant(Enchantments.UNBREAKING, 3);
-        leggings.enchant(Enchantments.MENDING, 1);
-        leggings.enchant(Enchantments.FIRE_PROTECTION, 4);
-        leggings.enchant(Enchantments.SWIFT_SNEAK, 3);
+        leggings.enchant(ModHolders.enchantment(Enchantments.PROTECTION), 4);
+        leggings.enchant(ModHolders.enchantment(Enchantments.THORNS), 3);
+        leggings.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        leggings.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
+        leggings.enchant(ModHolders.enchantment(Enchantments.FIRE_PROTECTION), 4);
+        leggings.enchant(ModHolders.enchantment(Enchantments.SWIFT_SNEAK), 3);
         setItemSlot(EquipmentSlot.LEGS, leggings);
         setDropChance(EquipmentSlot.LEGS, 2.0F);
 
         ItemStack boots = new ItemStack(Items.NETHERITE_BOOTS);
-        boots.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-        boots.enchant(Enchantments.THORNS, 3);
-        boots.enchant(Enchantments.UNBREAKING, 3);
-        boots.enchant(Enchantments.MENDING, 1);
-        boots.enchant(Enchantments.DEPTH_STRIDER, 3);
-        boots.enchant(Enchantments.FALL_PROTECTION, 4);
-        boots.enchant(Enchantments.SOUL_SPEED, 3);
+        boots.enchant(ModHolders.enchantment(Enchantments.PROTECTION), 4);
+        boots.enchant(ModHolders.enchantment(Enchantments.THORNS), 3);
+        boots.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        boots.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
+        boots.enchant(ModHolders.enchantment(Enchantments.DEPTH_STRIDER), 3);
+        boots.enchant(ModHolders.enchantment(Enchantments.FEATHER_FALLING), 4);
+        boots.enchant(ModHolders.enchantment(Enchantments.SOUL_SPEED), 3);
         setItemSlot(EquipmentSlot.FEET, boots);
         setDropChance(EquipmentSlot.FEET, 2.0F);
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return dimensions.height * 0.85f;
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(dimensions.height() * 0.85f);
     }
 
     @Override
@@ -326,7 +321,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
 
         if (level() instanceof ServerLevel serverLevel) {
             newEntity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.CONVERSION, null, null);
+                MobSpawnType.CONVERSION, null);
         }
 
         if (getTarget() != null) {
@@ -338,6 +333,11 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
         level().addFreshEntity(newEntity);
 
         this.safeRemove();
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return false;
     }
 
     @Override

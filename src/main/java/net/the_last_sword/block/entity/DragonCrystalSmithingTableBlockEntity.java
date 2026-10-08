@@ -2,6 +2,7 @@ package net.the_last_sword.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -13,11 +14,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import net.the_last_sword.init.ModBlockEntities;
 import net.the_last_sword.client.gui.menu.DragonCrystalSmithingTableMenu;
 
@@ -27,7 +26,7 @@ import java.util.stream.IntStream;
 public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
-    private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
+    private final IItemHandler[] handlers = createHandlers();
 
     public DragonCrystalSmithingTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(), pos, state);
@@ -59,19 +58,19 @@ public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainer
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (!this.tryLoadLootTable(tag)) {
             this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(tag, this.items);
+            ContainerHelper.loadAllItems(tag, this.items, registries);
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items);
+            ContainerHelper.saveAllItems(tag, this.items, registries);
         }
     }
 
@@ -81,8 +80,8 @@ public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainer
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithFullMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithFullMetadata(registries);
     }
 
     @Override
@@ -100,19 +99,20 @@ public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainer
         return index == 3;
     }
 
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        if (!this.remove && side != null && cap == ForgeCapabilities.ITEM_HANDLER) {
-            return handlers[side.ordinal()].cast();
+    private IItemHandler[] createHandlers() {
+        Direction[] dirs = Direction.values();
+        IItemHandler[] result = new IItemHandler[dirs.length];
+        for (int i = 0; i < dirs.length; i++) {
+            result[i] = new SidedInvWrapper(this, dirs[i]);
         }
-        return super.getCapability(cap, side);
+        return result;
     }
 
-    @Override
-    public void setRemoved() {
-        super.setRemoved();
-        for (LazyOptional<? extends IItemHandler> handler : handlers) {
-            handler.invalidate();
+    @Nullable
+    public IItemHandler getItemHandler(@Nullable Direction side) {
+        if (this.isRemoved() || side == null) {
+            return null;
         }
+        return handlers[side.ordinal()];
     }
 }

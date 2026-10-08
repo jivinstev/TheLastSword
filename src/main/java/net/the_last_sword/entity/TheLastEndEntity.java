@@ -29,12 +29,12 @@ import net.the_last_sword.util.health.TrueHealthManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 // 终焉种基类
@@ -90,14 +90,14 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ANIMATION_STATE, STATE_UNSPAWNED);
-        this.entityData.define(HURT_RESIST_TICK, 0);
-        this.entityData.define(ABSOLUTE_DESTRUCTION_HURT_RESIST_TICK, 0);
-        this.entityData.define(LEVEL, 1);
-        this.entityData.define(DEATH_TICK, 0);
-        this.entityData.define(ALL_THINGS_END, false);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ANIMATION_STATE, STATE_UNSPAWNED);
+        builder.define(HURT_RESIST_TICK, 0);
+        builder.define(ABSOLUTE_DESTRUCTION_HURT_RESIST_TICK, 0);
+        builder.define(LEVEL, 1);
+        builder.define(DEATH_TICK, 0);
+        builder.define(ALL_THINGS_END, false);
     }
 
     // 状态访问器
@@ -343,7 +343,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             voidRescueActive = true;
             voidRescueRetryTicks = 0;
             // 必须让正在运行的 Goal 释放自己的位置锁定，再选择传送落点。
-            goalSelector.getRunningGoals().toList().forEach(WrappedGoal::stop);
+            goalSelector.getAvailableGoals().stream().filter(WrappedGoal::isRunning).toList().forEach(WrappedGoal::stop);
             getNavigation().stop();
             if (getAnimationState() > STATE_IDLE) {
                 setAnimationState(STATE_IDLE);
@@ -777,7 +777,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
      * reward configured by each end entity instead (xpReward in its constructor).
     */
     @Override
-    public int getExperienceReward() {
+    protected int getBaseExperienceReward() {
         return this.xpReward;
     }
 

@@ -3,22 +3,22 @@
   "category": "misc",
   "pattern": [
     "aba",
-    "bcb",
-    "aba"
+    "aca",
+    "aaa"
   ],
   "key": {
     "a": {
       "item": "the_last_sword:dragon_crystal"
     },
     "b": {
-      "item": "minecraft:diamond"
+      "item": "the_last_sword:dragon_crystal_upgrade_template"
     },
     "c": {
-      "item": "minecraft:smithing_table"
+      "item": "minecraft:end_crystal"
     }
   },
   "result": {
-    "item": "the_last_sword:dragon_crystal_smithing_table",
-    "count": 1
+    "id": "the_last_sword:dragon_crystal_upgrade_template",
+    "count": 2
   }
 }

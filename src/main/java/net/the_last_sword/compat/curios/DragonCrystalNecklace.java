@@ -4,7 +4,9 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,12 +15,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModAttributes;
-import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -36,24 +36,24 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+        Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //最大生命值 -10
         modifiers.put(Attributes.MAX_HEALTH,
-            new AttributeModifier(NECKLACE_UUID, "dragon_crystal_necklace_health", -10.0,
-                AttributeModifier.Operation.ADDITION));
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_health"), -10.0,
+                AttributeModifier.Operation.ADD_VALUE));
 
         //肃正防御恢复速度 +50%
-        modifiers.put(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED.get(),
-            new AttributeModifier(RECOVERY_SPEED_UUID, "dragon_crystal_necklace_recovery_speed", 0.5,
-                AttributeModifier.Operation.MULTIPLY_BASE));
+        modifiers.put(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED,
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_recovery_speed"), 0.5,
+                AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
         return modifiers;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         String immuneBase = String.format("%.0f", TheLastSwordConfiguration.getCuriosDragonCrystalNecklaceImmunityChanceBaseSafely() * 100);
         String immunePerLuck = String.format("%.0f", TheLastSwordConfiguration.getCuriosDragonCrystalNecklaceImmunityChancePerLuckSafely() * 100);

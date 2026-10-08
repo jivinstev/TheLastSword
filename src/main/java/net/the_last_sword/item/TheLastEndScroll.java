@@ -20,11 +20,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.network.OpenLastEndScrollPacket;
 import net.the_last_sword.network.OpenLastEndScrollPacket.PaperNoteEntry;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class TheLastEndScroll extends Item {
         ItemStack itemStack = player.getItemInHand(hand);
 
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-            CompoundTag tag = itemStack.getOrCreateTag();
+            CompoundTag tag = ItemNbt.getOrCreateTag(itemStack);
             if (!tag.contains(RUINED_VILLAGE_X_KEY, Tag.TAG_INT)
                     || !tag.contains(RUINED_VILLAGE_Z_KEY, Tag.TAG_INT)) {
                 BlockPos ruinedVillage = serverPlayer.serverLevel().findNearestMapStructure(
@@ -95,7 +95,7 @@ public class TheLastEndScroll extends Item {
 
     //添加物品描述
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.the_last_end_scroll")
             .withStyle(ChatFormatting.GRAY));
     }

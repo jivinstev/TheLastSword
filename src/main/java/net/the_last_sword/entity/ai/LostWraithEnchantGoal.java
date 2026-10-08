@@ -35,7 +35,7 @@ public class LostWraithEnchantGoal extends Goal {
         if (wraith.getTarget() == null) {
             return false;
         }
-        return !wraith.hasEffect(ModEffects.VOID_ENCHANTING.get());
+        return !wraith.hasEffect(ModEffects.VOID_ENCHANTING);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class LostWraithEnchantGoal extends Goal {
 
     private void applyEnchantment() {
         MobEffectInstance voidEnchant = new MobEffectInstance(
-            ModEffects.VOID_ENCHANTING.get(),
+            ModEffects.VOID_ENCHANTING,
             TheLastSwordConfiguration.getLostWraithEnchantDurationSafely(),
             TheLastSwordConfiguration.getLostWraithEnchantAmplifierSafely(),
             false, false

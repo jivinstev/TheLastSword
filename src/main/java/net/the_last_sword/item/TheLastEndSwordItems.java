@@ -1,16 +1,17 @@
 package net.the_last_sword.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
@@ -27,14 +28,14 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     public TheLastEndSwordItems(Tier tier, int attackDamageModifier, float attackSpeedModifier,
                                 Properties properties, float destroySpeed, int toolLevel) {
-        super(tier, attackDamageModifier, attackSpeedModifier, properties);
+        super(tier, properties.attributes(SwordItem.createAttributes(tier, attackDamageModifier, attackSpeedModifier)));
         this.destroySpeed = destroySpeed;
         this.toolLevel = toolLevel;
     }
 
     //检查是否是正确的工具来挖掘方块
     @Override
-    public boolean isCorrectToolForDrops(BlockState blockstate) {
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState blockstate) {
         int tier = toolLevel;
         if (tier < 3 && blockstate.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
             return false;
@@ -56,12 +57,12 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //支持所有工具的默认动作（可以当作剑、镐、斧、锄、铲使用）
     @Override
-    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction) ||
-               ToolActions.DEFAULT_HOE_ACTIONS.contains(toolAction) ||
-               ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction) ||
-               ToolActions.DEFAULT_PICKAXE_ACTIONS.contains(toolAction) ||
-               ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+    public boolean canPerformAction(ItemStack stack, ItemAbility toolAction) {
+        return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(toolAction) ||
+               ItemAbilities.DEFAULT_HOE_ACTIONS.contains(toolAction) ||
+               ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(toolAction) ||
+               ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(toolAction) ||
+               ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }
 
     //计算基础物理伤害：Tier的攻击伤害 + 4（公共方法，供tooltip和弹射物使用）
@@ -96,7 +97,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //添加工具提示信息（显示等级和额外攻击伤害）
     @Override
-    public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemstack, Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemstack, level, list, flag);
 
         // 获取等级
@@ -116,11 +117,11 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //可以在附魔台接受的附魔（接受剑、镐、弓的所有附魔）
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return enchantment.canEnchant(new ItemStack(Items.NETHERITE_SWORD).getItem().getDefaultInstance()) ||
-               enchantment.canEnchant(new ItemStack(Items.NETHERITE_PICKAXE).getItem().getDefaultInstance()) ||
-               enchantment.canEnchant(new ItemStack(Items.BOW).getItem().getDefaultInstance()) ||
-               super.canApplyAtEnchantingTable(stack, enchantment);
+    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+        return enchantment.value().isSupportedItem(new ItemStack(Items.NETHERITE_SWORD)) ||
+               enchantment.value().isSupportedItem(new ItemStack(Items.NETHERITE_PICKAXE)) ||
+               enchantment.value().isSupportedItem(new ItemStack(Items.BOW)) ||
+               super.supportsEnchantment(stack, enchantment);
     }
 
     @Override
@@ -139,7 +140,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
     }
 
     @Override
-    public boolean canBeHurtBy(DamageSource damageSource) {
+    public boolean canBeHurtBy(ItemStack stack, DamageSource damageSource) {
         return false;
     }
 }

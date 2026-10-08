@@ -8,10 +8,10 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
@@ -19,7 +19,7 @@ import net.the_last_sword.init.ModSounds;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class CombatMusicHandler {
     private static boolean isPlaying = false;
     private static SoundInstance currentMusic;
@@ -29,8 +29,7 @@ public class CombatMusicHandler {
     private static final int MUSIC_CHECK_INTERVAL = 20;
 
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
+    public static void onClientTick(ClientTickEvent.Post event) {
 
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;

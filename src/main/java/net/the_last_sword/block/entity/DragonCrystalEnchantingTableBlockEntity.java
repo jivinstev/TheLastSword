@@ -2,6 +2,7 @@ package net.the_last_sword.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,16 +16,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModBlockEntities;
@@ -32,13 +29,14 @@ import net.the_last_sword.init.ModTags;
 import net.the_last_sword.network.EnchantingTableDataPacket;
 import net.the_last_sword.network.NetworkHandler;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import io.netty.buffer.Unpooled;
@@ -47,11 +45,12 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
-    private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
+    private final SidedInvWrapper[] handlers = Arrays.stream(Direction.values())
+            .map(side -> new SidedInvWrapper(this, side))
+            .toArray(SidedInvWrapper[]::new);
 
     // 能量存储系统
     private final InternalEnergyStorage energyStorage;
-    private final LazyOptional<IEnergyStorage> energyHandler;
 
     //内部能量存储: 扩展 Forge EnergyStorage, 新增不受 maxExtract 限制的内部消耗方法
     private static class InternalEnergyStorage extends EnergyStorage {
@@ -79,7 +78,6 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
             TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(),
             TheLastSwordConfiguration.getEnchantingTableEnergyExtractRateSafely()
         );
-        this.energyHandler = LazyOptional.of(() -> energyStorage);
     }
 
     @Override
@@ -134,25 +132,25 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (!this.tryLoadLootTable(tag)) {
             this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(tag, this.items);
+            ContainerHelper.loadAllItems(tag, this.items, registries);
         }
         if (tag.contains("Energy")) {
-            energyStorage.deserializeNBT(tag.get("Energy"));
+            energyStorage.deserializeNBT(registries, tag.get("Energy"));
         }
         this.totalPowerTime = tag.getInt("TotalPowerTime");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items);
+            ContainerHelper.saveAllItems(tag, this.items, registries);
         }
-        tag.put("Energy", energyStorage.serializeNBT());
+        tag.put("Energy", energyStorage.serializeNBT(registries));
         tag.putInt("TotalPowerTime", this.totalPowerTime);
     }
 
@@ -162,8 +160,8 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithFullMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithFullMetadata(registries);
     }
 
     @Override
@@ -190,23 +188,8 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         return true;
     }
 
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-        if (!this.remove) {
-            if (facing != null && capability == ForgeCapabilities.ITEM_HANDLER)
-                return handlers[facing.ordinal()].cast();
-            if (capability == ForgeCapabilities.ENERGY)
-                return energyHandler.cast();
-        }
-        return super.getCapability(capability, facing);
-    }
-
-    @Override
-    public void setRemoved() {
-        super.setRemoved();
-        for (LazyOptional<? extends IItemHandler> handler : handlers)
-            handler.invalidate();
-        energyHandler.invalidate();
+    public SidedInvWrapper getItemHandler(Direction side) {
+        return handlers[side.ordinal()];
     }
 
     public IEnergyStorage getEnergyStorage() {
@@ -253,10 +236,8 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         // 给充电槽位物品充能（受 Item Charge Rate 配置限制）
         ItemStack chargeSlot = blockEntity.getItem(1);
         if (!chargeSlot.isEmpty() && blockEntity.energyStorage.getEnergyStored() > 0) {
-            var energyCap = chargeSlot.getCapability(ForgeCapabilities.ENERGY);
-            if (energyCap.isPresent()) {
-                var itemEnergy = energyCap.orElse(null);
-                if (itemEnergy != null) {
+            var itemEnergy = chargeSlot.getCapability(Capabilities.EnergyStorage.ITEM);
+            if (itemEnergy != null) {
                     int rate = TheLastSwordConfiguration.getEnchantingTableItemChargeRateSafely();
                     int canReceive = itemEnergy.getMaxEnergyStored() - itemEnergy.getEnergyStored();
                     int toCharge = Math.min(Math.min(blockEntity.energyStorage.getEnergyStored(), canReceive), rate);
@@ -265,16 +246,14 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
                         blockEntity.energyStorage.extractEnergy(toCharge, false);
                         changed = true;
                     }
-                }
             }
         }
 
         // 能量传输逻辑
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = pos.relative(direction);
-            BlockEntity neighborBE = level.getBlockEntity(neighborPos);
-            if (neighborBE != null) {
-                neighborBE.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(neighborEnergy -> {
+            IEnergyStorage neighborEnergy = level.getCapability(Capabilities.EnergyStorage.BLOCK, neighborPos, direction.getOpposite());
+            if (neighborEnergy != null) {
                     // 尝试从邻居接收能量
                     if (blockEntity.energyStorage.getEnergyStored() < blockEntity.energyStorage.getMaxEnergyStored()) {
                         int received = neighborEnergy.extractEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(), true);
@@ -293,7 +272,6 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
                             blockEntity.setChanged();
                         }
                     }
-                });
             }
         }
 

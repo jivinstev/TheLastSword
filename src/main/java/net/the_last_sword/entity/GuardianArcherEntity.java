@@ -1,7 +1,6 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -33,6 +32,7 @@ import net.the_last_sword.entity.ai.GuardianAssistAllyTargetGoal;
 import net.the_last_sword.entity.ai.GuardianRangedAttackGoal;
 import net.the_last_sword.util.EntityUtil;
 import org.jetbrains.annotations.Nullable;
+import net.the_last_sword.ModHolders;
 
 // 封印尖塔守卫 - 弓箭手变种
 public class GuardianArcherEntity extends GuardianOfSealedSpireEntity {
@@ -48,9 +48,9 @@ public class GuardianArcherEntity extends GuardianOfSealedSpireEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(TELEPORT_READY, true);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TELEPORT_READY, true);
     }
 
     public boolean isTeleportReady() {
@@ -149,17 +149,16 @@ public class GuardianArcherEntity extends GuardianOfSealedSpireEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         ItemStack bow = new ItemStack(Items.BOW);
-        bow.enchant(Enchantments.POWER_ARROWS, 5);
-        bow.enchant(Enchantments.PUNCH_ARROWS, 2);
-        bow.enchant(Enchantments.INFINITY_ARROWS, 1);
-        bow.enchant(Enchantments.FLAMING_ARROWS, 1);
-        bow.enchant(Enchantments.UNBREAKING, 3);
-        bow.enchant(Enchantments.MENDING, 1);
+        bow.enchant(ModHolders.enchantment(Enchantments.POWER), 5);
+        bow.enchant(ModHolders.enchantment(Enchantments.PUNCH), 2);
+        bow.enchant(ModHolders.enchantment(Enchantments.INFINITY), 1);
+        bow.enchant(ModHolders.enchantment(Enchantments.FLAME), 1);
+        bow.enchant(ModHolders.enchantment(Enchantments.UNBREAKING), 3);
+        bow.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
 
         this.setItemSlot(EquipmentSlot.MAINHAND, bow);
         this.setDropChance(EquipmentSlot.MAINHAND, 2.0F);

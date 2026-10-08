@@ -1,28 +1,19 @@
 package net.the_last_sword.enchantment;
 
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
-public class WorldSeveranceEnchantment extends Enchantment {
+/**
+ * 现世斩断附魔。1.21 起附魔为数据包注册表，定义见
+ * data/the_last_sword/enchantment/world_severance.json（稀有度极稀有、最高5级、主手、可附在任何耐久物品上）。
+ */
+public final class WorldSeveranceEnchantment {
 
-    public WorldSeveranceEnchantment() {
-        super(Rarity.VERY_RARE, EnchantmentCategory.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
-    }
+    public static final ResourceKey<Enchantment> KEY = ResourceKey.create(Registries.ENCHANTMENT,
+            ResourceLocation.fromNamespaceAndPath("the_last_sword", "world_severance"));
 
-    @Override
-    public int getMaxLevel() {
-        return 5;
-    }
-
-    @Override
-    public boolean canEnchant(ItemStack stack) {
-        return !stack.isEmpty();
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return !stack.isEmpty();
+    private WorldSeveranceEnchantment() {
     }
 }

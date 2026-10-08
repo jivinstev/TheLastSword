@@ -72,7 +72,7 @@ public class SwordWraithAppearanceScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics);
+        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.drawCenteredString(font, title, width / 2, frameTop - 20, 0xFFFFFF);
         guiGraphics.fill(frameLeft - 2, frameTop - 2, frameLeft + FRAME_WIDTH + 2,
                 frameTop + FRAME_HEIGHT + 2, 0xFF6F5A8A);
@@ -82,9 +82,10 @@ public class SwordWraithAppearanceScreen extends Screen {
         if (preview != null) {
             guiGraphics.enableScissor(frameLeft + 1, frameTop + 1,
                     frameLeft + FRAME_WIDTH - 1, frameTop + FRAME_HEIGHT - 1);
+            int bottom = frameTop + FRAME_HEIGHT - 8;
             InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,
-                    width / 2, frameTop + FRAME_HEIGHT - 8, 48,
-                    width / 2.0F - mouseX, frameTop + FRAME_HEIGHT / 2.0F - mouseY, preview);
+                    width / 2 - 50, bottom - 100, width / 2 + 50, bottom, 48,
+                    0.0625F, width / 2.0F - mouseX, frameTop + FRAME_HEIGHT / 2.0F - mouseY, preview);
             guiGraphics.disableScissor();
         }
 

@@ -1,11 +1,11 @@
 package net.the_last_sword.init;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.compat.cataclysm.CataclysmItemsRegistry;
@@ -18,15 +18,15 @@ import net.minecraft.world.item.Rarity;
 public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS =
-        DeferredRegister.create(ForgeRegistries.ITEMS, TheLastSwordMod.MOD_ID);
+        DeferredRegister.create(Registries.ITEM, TheLastSwordMod.MOD_ID);
 
     //终焉卷轴 - 知识书
-    public static final RegistryObject<Item> THE_LAST_END_SCROLL = ITEMS.register("the_last_end_scroll",
+    public static final Supplier<Item> THE_LAST_END_SCROLL = ITEMS.register("the_last_end_scroll",
         TheLastEndScroll::new
     );
 
     //法师的笔记1 - 剧情纸条
-    public static final RegistryObject<Item> MAGE_NOTE_1 = ITEMS.register("mage_note_1",
+    public static final Supplier<Item> MAGE_NOTE_1 = ITEMS.register("mage_note_1",
         () -> new PaperNote(
             "item.the_last_sword.mage_note_1",
             "item_tooltip.the_last_sword.mage_note_1",
@@ -36,7 +36,7 @@ public class ModItems {
     );
 
     //法师的笔记2 - 剧情纸条
-    public static final RegistryObject<Item> MAGE_NOTE_2 = ITEMS.register("mage_note_2",
+    public static final Supplier<Item> MAGE_NOTE_2 = ITEMS.register("mage_note_2",
         () -> new PaperNote(
             "item.the_last_sword.mage_note_2",
             "item_tooltip.the_last_sword.mage_note_2",
@@ -46,7 +46,7 @@ public class ModItems {
     );
 
     //法师的笔记3 - 剧情纸条
-    public static final RegistryObject<Item> MAGE_NOTE_3 = ITEMS.register("mage_note_3",
+    public static final Supplier<Item> MAGE_NOTE_3 = ITEMS.register("mage_note_3",
         () -> new PaperNote(
             "item.the_last_sword.mage_note_3",
             "item_tooltip.the_last_sword.mage_note_3",
@@ -56,7 +56,7 @@ public class ModItems {
     );
 
     //法师的笔记4 - 剧情纸条
-    public static final RegistryObject<Item> MAGE_NOTE_4 = ITEMS.register("mage_note_4",
+    public static final Supplier<Item> MAGE_NOTE_4 = ITEMS.register("mage_note_4",
         () -> new PaperNote(
             "item.the_last_sword.mage_note_4",
             "item_tooltip.the_last_sword.mage_note_4",
@@ -66,7 +66,7 @@ public class ModItems {
     );
 
     //拜龙教的秘信 - 剧情纸条
-    public static final RegistryObject<Item> DRAGON_CULT_SECRET_LETTER = ITEMS.register("dragon_cult_secret_letter",
+    public static final Supplier<Item> DRAGON_CULT_SECRET_LETTER = ITEMS.register("dragon_cult_secret_letter",
         () -> new PaperNote(
             "item.the_last_sword.dragon_cult_secret_letter",
             "item_tooltip.the_last_sword.dragon_cult_secret_letter",
@@ -76,7 +76,7 @@ public class ModItems {
     );
 
     //旅行者的讯息 - 剧情纸条
-    public static final RegistryObject<Item> TRAVELER_MESSAGE = ITEMS.register("traveler_message",
+    public static final Supplier<Item> TRAVELER_MESSAGE = ITEMS.register("traveler_message",
         () -> new PaperNote(
             "item.the_last_sword.traveler_message",
             "item_tooltip.the_last_sword.traveler_message",
@@ -86,7 +86,7 @@ public class ModItems {
     );
 
     //尖塔灵魂印记 - 剧情纸条
-    public static final RegistryObject<Item> WHERE_IS_IT_NOTE = ITEMS.register("where_is_it_note",
+    public static final Supplier<Item> WHERE_IS_IT_NOTE = ITEMS.register("where_is_it_note",
         () -> new PaperNote(
             "item.the_last_sword.where_is_it_note",
             "item_tooltip.the_last_sword.where_is_it_note",
@@ -96,7 +96,7 @@ public class ModItems {
     );
 
     //铁匠的痛苦 - 剧情纸条
-    public static final RegistryObject<Item> BLACKSMITHS_PAIN_NOTE = ITEMS.register("blacksmiths_pain_note",
+    public static final Supplier<Item> BLACKSMITHS_PAIN_NOTE = ITEMS.register("blacksmiths_pain_note",
         () -> new PaperNote(
             "item.the_last_sword.blacksmiths_pain_note",
             "item_tooltip.the_last_sword.blacksmiths_pain_note",
@@ -105,32 +105,32 @@ public class ModItems {
         )
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL = ITEMS.register("dragon_crystal",
+    public static final Supplier<Item> DRAGON_CRYSTAL = ITEMS.register("dragon_crystal",
         DragonCrystal::new
     );
 
     //拜龙教号角 - 在村庄内吹响可召来拜龙教袭击
-    public static final RegistryObject<Item> DRAGON_CULT_HORN = ITEMS.register("dragon_cult_horn",
+    public static final Supplier<Item> DRAGON_CULT_HORN = ITEMS.register("dragon_cult_horn",
         DragonCultHornItem::new
     );
 
-    public static final RegistryObject<Item> DISPOSABLE_ENERGY_BATTERY = ITEMS.register("disposable_energy_battery",
+    public static final Supplier<Item> DISPOSABLE_ENERGY_BATTERY = ITEMS.register("disposable_energy_battery",
         DisposableEnergyBattery::new
     );
 
-    public static final RegistryObject<Item> ANCIENT_ENERGY_CORE = ITEMS.register("ancient_energy_core",
+    public static final Supplier<Item> ANCIENT_ENERGY_CORE = ITEMS.register("ancient_energy_core",
         AncientEnergyCore::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_UPGRADE_TEMPLATE = ITEMS.register("dragon_crystal_upgrade_template",
+    public static final Supplier<Item> DRAGON_CRYSTAL_UPGRADE_TEMPLATE = ITEMS.register("dragon_crystal_upgrade_template",
         DragonCrystalUpgradeTemplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_SMITHING_TABLE = ITEMS.register("dragon_crystal_smithing_table",
+    public static final Supplier<Item> DRAGON_CRYSTAL_SMITHING_TABLE = ITEMS.register("dragon_crystal_smithing_table",
         DragonCrystalSmithingTableBlockItem::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_ENCHANTING_TABLE = ITEMS.register("dragon_crystal_enchanting_table",
+    public static final Supplier<Item> DRAGON_CRYSTAL_ENCHANTING_TABLE = ITEMS.register("dragon_crystal_enchanting_table",
         () -> new net.the_last_sword.item.display.DragonCrystalEnchantingTableDisplayItem(
             ModBlocks.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
             new Item.Properties()
@@ -140,217 +140,217 @@ public class ModItems {
     );
 
     //终焉幸运方块（幸运方块本体 mod 加载时才注册, 见 registerConditionalItems）
-    public static RegistryObject<Item> THE_LAST_END_LUCKY_BLOCK;
+    public static Supplier<Item> THE_LAST_END_LUCKY_BLOCK;
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_SWORD = ITEMS.register("dragon_crystal_sword",
+    public static final Supplier<Item> DRAGON_CRYSTAL_SWORD = ITEMS.register("dragon_crystal_sword",
         DragonCrystalSword::new
     );
 
-    public static final RegistryObject<Item> KNIGHT_GREATSWORD = ITEMS.register("knight_greatsword",
+    public static final Supplier<Item> KNIGHT_GREATSWORD = ITEMS.register("knight_greatsword",
         KnightGreatswordItem::new
     );
 
-    public static final RegistryObject<Item> PRIEST_STAFF = ITEMS.register("priest_staff",
+    public static final Supplier<Item> PRIEST_STAFF = ITEMS.register("priest_staff",
         PriestStaffItem::new
     );
 
-    public static final RegistryObject<Item> DRAGON_SWORD = ITEMS.register("dragon_sword",
+    public static final Supplier<Item> DRAGON_SWORD = ITEMS.register("dragon_sword",
         DragonSword::new
     );
 
-    public static final RegistryObject<Item> THE_LAST_SWORD = ITEMS.register("the_last_sword",
+    public static final Supplier<Item> THE_LAST_SWORD = ITEMS.register("the_last_sword",
         TheLastSword::new
     );
 
-    public static final RegistryObject<Item> LIGHTNING_SPEAR = ITEMS.register("lightning_spear",
+    public static final Supplier<Item> LIGHTNING_SPEAR = ITEMS.register("lightning_spear",
         () -> new LightningSpearItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant())
     );
 
-    public static final RegistryObject<Item> THE_LAST_SWORD_YOU_NEVER_FORGOT = ITEMS.register("the_last_sword_you_never_forgot",
+    public static final Supplier<Item> THE_LAST_SWORD_YOU_NEVER_FORGOT = ITEMS.register("the_last_sword_you_never_forgot",
         TheLastSwordYouNeverForgot::new
     );
 
-    public static final RegistryObject<Item> ULTRA_TEST_SWORD = ITEMS.register("ultra_test_sword",
+    public static final Supplier<Item> ULTRA_TEST_SWORD = ITEMS.register("ultra_test_sword",
         UltraTestSwordItem::new
     );
 
     //魂石
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_SOUL_STONE = ITEMS.register("dragon_crystal_soul_stone",
+    public static final Supplier<Item> DRAGON_CRYSTAL_SOUL_STONE = ITEMS.register("dragon_crystal_soul_stone",
         DragonCrystalSoulStone::new
     );
 
-    public static final RegistryObject<Item> SWORD_SOUL_STONE = ITEMS.register("sword_soul_stone",
+    public static final Supplier<Item> SWORD_SOUL_STONE = ITEMS.register("sword_soul_stone",
         SwordSoulStone::new
     );
 
     //龙魂灯笼
-    public static final RegistryObject<Item> DRAGON_SOUL_LANTERN = ITEMS.register("dragon_soul_lantern",
+    public static final Supplier<Item> DRAGON_SOUL_LANTERN = ITEMS.register("dragon_soul_lantern",
         () -> new DragonSoulLanternItem(ModBlocks.DRAGON_SOUL_LANTERN.get(), new Item.Properties().stacksTo(64).rarity(Rarity.RARE).fireResistant())
     );
 
     //龙水晶盔甲
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_ARMOR_HELMET = ITEMS.register("dragon_crystal_armor_helmet",
+    public static final Supplier<Item> DRAGON_CRYSTAL_ARMOR_HELMET = ITEMS.register("dragon_crystal_armor_helmet",
         DragonCrystalArmorItem.Helmet::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_ARMOR_CHESTPLATE = ITEMS.register("dragon_crystal_armor_chestplate",
+    public static final Supplier<Item> DRAGON_CRYSTAL_ARMOR_CHESTPLATE = ITEMS.register("dragon_crystal_armor_chestplate",
         DragonCrystalArmorItem.Chestplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_ARMOR_LEGGINGS = ITEMS.register("dragon_crystal_armor_leggings",
+    public static final Supplier<Item> DRAGON_CRYSTAL_ARMOR_LEGGINGS = ITEMS.register("dragon_crystal_armor_leggings",
         DragonCrystalArmorItem.Leggings::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_ARMOR_BOOTS = ITEMS.register("dragon_crystal_armor_boots",
+    public static final Supplier<Item> DRAGON_CRYSTAL_ARMOR_BOOTS = ITEMS.register("dragon_crystal_armor_boots",
         DragonCrystalArmorItem.Boots::new
     );
 
     //龙之盔甲
-    public static final RegistryObject<Item> DRAGON_ARMOR_HELMET = ITEMS.register("dragon_armor_helmet",
+    public static final Supplier<Item> DRAGON_ARMOR_HELMET = ITEMS.register("dragon_armor_helmet",
         DragonArmorItem.Helmet::new
     );
 
-    public static final RegistryObject<Item> DRAGON_ARMOR_CHESTPLATE = ITEMS.register("dragon_armor_chestplate",
+    public static final Supplier<Item> DRAGON_ARMOR_CHESTPLATE = ITEMS.register("dragon_armor_chestplate",
         DragonArmorItem.Chestplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_ARMOR_LEGGINGS = ITEMS.register("dragon_armor_leggings",
+    public static final Supplier<Item> DRAGON_ARMOR_LEGGINGS = ITEMS.register("dragon_armor_leggings",
         DragonArmorItem.Leggings::new
     );
 
-    public static final RegistryObject<Item> DRAGON_ARMOR_BOOTS = ITEMS.register("dragon_armor_boots",
+    public static final Supplier<Item> DRAGON_ARMOR_BOOTS = ITEMS.register("dragon_armor_boots",
         DragonArmorItem.Boots::new
     );
 
     //拜龙教盔甲
-    public static final RegistryObject<Item> DRAGON_CULTIST_ARMOR_HELMET = ITEMS.register("dragon_cultist_armor_helmet",
+    public static final Supplier<Item> DRAGON_CULTIST_ARMOR_HELMET = ITEMS.register("dragon_cultist_armor_helmet",
         DragonCultistArmorItem.Helmet::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULTIST_ARMOR_CHESTPLATE = ITEMS.register("dragon_cultist_armor_chestplate",
+    public static final Supplier<Item> DRAGON_CULTIST_ARMOR_CHESTPLATE = ITEMS.register("dragon_cultist_armor_chestplate",
         DragonCultistArmorItem.Chestplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULTIST_ARMOR_LEGGINGS = ITEMS.register("dragon_cultist_armor_leggings",
+    public static final Supplier<Item> DRAGON_CULTIST_ARMOR_LEGGINGS = ITEMS.register("dragon_cultist_armor_leggings",
         DragonCultistArmorItem.Leggings::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULTIST_ARMOR_BOOTS = ITEMS.register("dragon_cultist_armor_boots",
+    public static final Supplier<Item> DRAGON_CULTIST_ARMOR_BOOTS = ITEMS.register("dragon_cultist_armor_boots",
         DragonCultistArmorItem.Boots::new
     );
 
     //拜龙教圣骑士战甲
-    public static final RegistryObject<Item> DRAGON_CULT_PALADIN_ARMOR_HELMET = ITEMS.register("dragon_cult_paladin_armor_helmet",
+    public static final Supplier<Item> DRAGON_CULT_PALADIN_ARMOR_HELMET = ITEMS.register("dragon_cult_paladin_armor_helmet",
         DragonCultPaladinArmorItem.Helmet::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PALADIN_ARMOR_CHESTPLATE = ITEMS.register("dragon_cult_paladin_armor_chestplate",
+    public static final Supplier<Item> DRAGON_CULT_PALADIN_ARMOR_CHESTPLATE = ITEMS.register("dragon_cult_paladin_armor_chestplate",
         DragonCultPaladinArmorItem.Chestplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PALADIN_ARMOR_LEGGINGS = ITEMS.register("dragon_cult_paladin_armor_leggings",
+    public static final Supplier<Item> DRAGON_CULT_PALADIN_ARMOR_LEGGINGS = ITEMS.register("dragon_cult_paladin_armor_leggings",
         DragonCultPaladinArmorItem.Leggings::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PALADIN_ARMOR_BOOTS = ITEMS.register("dragon_cult_paladin_armor_boots",
+    public static final Supplier<Item> DRAGON_CULT_PALADIN_ARMOR_BOOTS = ITEMS.register("dragon_cult_paladin_armor_boots",
         DragonCultPaladinArmorItem.Boots::new
     );
 
     //拜龙教祭司法袍
-    public static final RegistryObject<Item> DRAGON_CULT_PRIEST_ARMOR_HELMET = ITEMS.register("dragon_cult_priest_armor_helmet",
+    public static final Supplier<Item> DRAGON_CULT_PRIEST_ARMOR_HELMET = ITEMS.register("dragon_cult_priest_armor_helmet",
         DragonCultPriestArmorItem.Helmet::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PRIEST_ARMOR_CHESTPLATE = ITEMS.register("dragon_cult_priest_armor_chestplate",
+    public static final Supplier<Item> DRAGON_CULT_PRIEST_ARMOR_CHESTPLATE = ITEMS.register("dragon_cult_priest_armor_chestplate",
         DragonCultPriestArmorItem.Chestplate::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PRIEST_ARMOR_LEGGINGS = ITEMS.register("dragon_cult_priest_armor_leggings",
+    public static final Supplier<Item> DRAGON_CULT_PRIEST_ARMOR_LEGGINGS = ITEMS.register("dragon_cult_priest_armor_leggings",
         DragonCultPriestArmorItem.Leggings::new
     );
 
-    public static final RegistryObject<Item> DRAGON_CULT_PRIEST_ARMOR_BOOTS = ITEMS.register("dragon_cult_priest_armor_boots",
+    public static final Supplier<Item> DRAGON_CULT_PRIEST_ARMOR_BOOTS = ITEMS.register("dragon_cult_priest_armor_boots",
         DragonCultPriestArmorItem.Boots::new
     );
 
     //测试实体刷怪蛋
-    public static final RegistryObject<Item> TEST_ENTITY_SPAWN_EGG = ITEMS.register("test_entity_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.TEST_ENTITY, -1, -1, new Item.Properties())
+    public static final Supplier<Item> TEST_ENTITY_SPAWN_EGG = ITEMS.register("test_entity_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.TEST_ENTITY, -1, -1, new Item.Properties())
     );
 
     //拜龙教教徒刷怪蛋（深紫色 + 紫色）
-    public static final RegistryObject<Item> DRAGON_CULTIST_SPAWN_EGG = ITEMS.register("dragon_cultist_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.DRAGON_CULTIST, 0x4B0082, 0x9932CC, new Item.Properties())
+    public static final Supplier<Item> DRAGON_CULTIST_SPAWN_EGG = ITEMS.register("dragon_cultist_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.DRAGON_CULTIST, 0x4B0082, 0x9932CC, new Item.Properties())
     );
 
     //拜龙教圣骑士刷怪蛋（深紫色 + 黑色）
-    public static final RegistryObject<Item> DRAGON_CULT_PALADIN_SPAWN_EGG = ITEMS.register("dragon_cult_paladin_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.DRAGON_CULT_PALADIN, 0x4B0082, 0x1A1A1A, new Item.Properties())
+    public static final Supplier<Item> DRAGON_CULT_PALADIN_SPAWN_EGG = ITEMS.register("dragon_cult_paladin_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.DRAGON_CULT_PALADIN, 0x4B0082, 0x1A1A1A, new Item.Properties())
     );
 
     //拜龙教祭司刷怪蛋（深紫色 + 金色）
-    public static final RegistryObject<Item> DRAGON_CULT_PRIEST_SPAWN_EGG = ITEMS.register("dragon_cult_priest_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.DRAGON_CULT_PRIEST, 0x4B0082, 0xD4AF37, new Item.Properties())
+    public static final Supplier<Item> DRAGON_CULT_PRIEST_SPAWN_EGG = ITEMS.register("dragon_cult_priest_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.DRAGON_CULT_PRIEST, 0x4B0082, 0xD4AF37, new Item.Properties())
     );
 
     //封印尖塔守卫刷怪蛋（深灰色 + 紫色）
-    public static final RegistryObject<Item> GUARDIAN_OF_SEALED_SPIRE_SPAWN_EGG = ITEMS.register("guardian_of_sealed_spire_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.GUARDIAN_OF_SEALED_SPIRE, 0x4B4B4B, 0x8B00FF, new Item.Properties())
+    public static final Supplier<Item> GUARDIAN_OF_SEALED_SPIRE_SPAWN_EGG = ITEMS.register("guardian_of_sealed_spire_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.GUARDIAN_OF_SEALED_SPIRE, 0x4B4B4B, 0x8B00FF, new Item.Properties())
     );
 
     //守卫剑士刷怪蛋（深灰色 + 蓝色）
-    public static final RegistryObject<Item> GUARDIAN_SABER_SPAWN_EGG = ITEMS.register("guardian_saber_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.GUARDIAN_SABER, 0x4B4B4B, 0x0080FF, new Item.Properties())
+    public static final Supplier<Item> GUARDIAN_SABER_SPAWN_EGG = ITEMS.register("guardian_saber_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.GUARDIAN_SABER, 0x4B4B4B, 0x0080FF, new Item.Properties())
     );
 
     //守卫狂战士刷怪蛋（深灰色 + 红色）
-    public static final RegistryObject<Item> GUARDIAN_BERSERKER_SPAWN_EGG = ITEMS.register("guardian_berserker_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.GUARDIAN_BERSERKER, 0x4B4B4B, 0xDC143C, new Item.Properties())
+    public static final Supplier<Item> GUARDIAN_BERSERKER_SPAWN_EGG = ITEMS.register("guardian_berserker_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.GUARDIAN_BERSERKER, 0x4B4B4B, 0xDC143C, new Item.Properties())
     );
 
     //守卫弓箭手刷怪蛋（深灰色 + 绿色）
-    public static final RegistryObject<Item> GUARDIAN_ARCHER_SPAWN_EGG = ITEMS.register("guardian_archer_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.GUARDIAN_ARCHER, 0x4B4B4B, 0x00AA00, new Item.Properties())
+    public static final Supplier<Item> GUARDIAN_ARCHER_SPAWN_EGG = ITEMS.register("guardian_archer_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.GUARDIAN_ARCHER, 0x4B4B4B, 0x00AA00, new Item.Properties())
     );
 
     //迷失战魂刷怪蛋（黑色 + 深灰色）
-    public static final RegistryObject<Item> LOST_WRAITH_SPAWN_EGG = ITEMS.register("lost_wraith_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.LOST_WRAITH, 0x000000, 0x4B4B4B, new Item.Properties())
+    public static final Supplier<Item> LOST_WRAITH_SPAWN_EGG = ITEMS.register("lost_wraith_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.LOST_WRAITH, 0x000000, 0x4B4B4B, new Item.Properties())
     );
 
     //终焉剑灵刷怪蛋（黑色 + 白色）
-    public static final RegistryObject<Item> THE_LAST_END_SWORD_WRAITH_SPAWN_EGG = ITEMS.register("the_last_end_sword_wraith_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.THE_LAST_END_SWORD_WRAITH, 0x000000, 0xFFFFFF, new Item.Properties())
+    public static final Supplier<Item> THE_LAST_END_SWORD_WRAITH_SPAWN_EGG = ITEMS.register("the_last_end_sword_wraith_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.THE_LAST_END_SWORD_WRAITH, 0x000000, 0xFFFFFF, new Item.Properties())
     );
 
     //13级终焉剑灵生成蛋（自定义物品）
-    public static final RegistryObject<Item> THE_LAST_END_SWORD_WRAITH_LEVEL_13_SPAWN_EGG = ITEMS.register("the_last_end_sword_wraith_level_13_spawn_egg",
+    public static final Supplier<Item> THE_LAST_END_SWORD_WRAITH_LEVEL_13_SPAWN_EGG = ITEMS.register("the_last_end_sword_wraith_level_13_spawn_egg",
         TheLastEndSwordWraithLevel13SpawnEgg::new
     );
 
     //女皇的逝去之影刷怪蛋（紫色 + 浅紫色）
-    public static final RegistryObject<Item> THE_PAST_SHADOW_OF_THE_QUEEN_SPAWN_EGG = ITEMS.register("the_past_shadow_of_the_queen_spawn_egg",
-        () -> new ForgeSpawnEggItem(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN, 0x800080, 0xDDA0DD, new Item.Properties())
+    public static final Supplier<Item> THE_PAST_SHADOW_OF_THE_QUEEN_SPAWN_EGG = ITEMS.register("the_past_shadow_of_the_queen_spawn_egg",
+        () -> new DeferredSpawnEggItem(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN, 0x800080, 0xDDA0DD, new Item.Properties())
     );
 
     //Curios饰品（前置mod，直接注册）
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_RING = CuriosItemsRegistry.registerDragonCrystalRing(ITEMS);
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_NECKLACE = CuriosItemsRegistry.registerDragonCrystalNecklace(ITEMS);
-    public static final RegistryObject<Item> DRAGON_CRYSTAL_CROWN = CuriosItemsRegistry.registerDragonCrystalCrown(ITEMS);
-    public static final RegistryObject<Item> WINGS_THAT_COVER_THE_WORLD = CuriosItemsRegistry.registerWingsThatCoverTheWorld(ITEMS);
-    public static final RegistryObject<Item> EXTREME_LIFE_SUPPORT_DEVICE = CuriosItemsRegistry.registerExtremeLifeSupportDevice(ITEMS);
-    public static final RegistryObject<Item> DIMENSION_EXPLORER = CuriosItemsRegistry.registerDimensionExplorer(ITEMS);
-    public static final RegistryObject<Item> THE_GIVERS_PAIN = CuriosItemsRegistry.registerTheGiversPain(ITEMS);
+    public static final Supplier<Item> DRAGON_CRYSTAL_RING = CuriosItemsRegistry.registerDragonCrystalRing(ITEMS);
+    public static final Supplier<Item> DRAGON_CRYSTAL_NECKLACE = CuriosItemsRegistry.registerDragonCrystalNecklace(ITEMS);
+    public static final Supplier<Item> DRAGON_CRYSTAL_CROWN = CuriosItemsRegistry.registerDragonCrystalCrown(ITEMS);
+    public static final Supplier<Item> WINGS_THAT_COVER_THE_WORLD = CuriosItemsRegistry.registerWingsThatCoverTheWorld(ITEMS);
+    public static final Supplier<Item> EXTREME_LIFE_SUPPORT_DEVICE = CuriosItemsRegistry.registerExtremeLifeSupportDevice(ITEMS);
+    public static final Supplier<Item> DIMENSION_EXPLORER = CuriosItemsRegistry.registerDimensionExplorer(ITEMS);
+    public static final Supplier<Item> THE_GIVERS_PAIN = CuriosItemsRegistry.registerTheGiversPain(ITEMS);
 
     //Cataclysm联动物品（条件注册）
-    public static RegistryObject<Item> ANCIENT_REMNANT_MEDAL;
-    public static RegistryObject<Item> ENDER_GUARDIAN_MEDAL;
-    public static RegistryObject<Item> IGNIS_MEDAL;
-    public static RegistryObject<Item> MALEDICTUS_MEDAL;
-    public static RegistryObject<Item> NETHERITE_MONSTROSITY_MEDAL;
-    public static RegistryObject<Item> THE_HARBINGER_MEDAL;
-    public static RegistryObject<Item> THE_LEVIATHAN_MEDAL;
-    public static RegistryObject<Item> SCYLLA_MEDAL;
+    public static Supplier<Item> ANCIENT_REMNANT_MEDAL;
+    public static Supplier<Item> ENDER_GUARDIAN_MEDAL;
+    public static Supplier<Item> IGNIS_MEDAL;
+    public static Supplier<Item> MALEDICTUS_MEDAL;
+    public static Supplier<Item> NETHERITE_MONSTROSITY_MEDAL;
+    public static Supplier<Item> THE_HARBINGER_MEDAL;
+    public static Supplier<Item> THE_LEVIATHAN_MEDAL;
+    public static Supplier<Item> SCYLLA_MEDAL;
 
     public static void register(IEventBus eventBus) {
         //注册条件物品

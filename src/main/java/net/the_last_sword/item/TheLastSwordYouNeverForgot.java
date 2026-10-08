@@ -1,5 +1,10 @@
 package net.the_last_sword.item;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+
 import net.eca.api.EcaAPI;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -14,12 +19,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
@@ -56,8 +62,8 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
             }
 
             @Override
-            public int getLevel() {
-                return 1024;
+            public TagKey<Block> getIncorrectBlocksForDrops() {
+                return BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
             }
 
             @Override
@@ -101,7 +107,7 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
      * 使用实体注册命名空间合并同一 Mod 的计时，重复命中会刷新完整的 13 秒持续时间。
      */
     private static void applyTimedAllReturn(LivingEntity target) {
-        var entityId = ForgeRegistries.ENTITY_TYPES.getKey(target.getType());
+        var entityId = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
         String scopeKey = entityId != null ? entityId.getNamespace() : target.getClass().getName();
         long token;
 
@@ -138,7 +144,7 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
 
     // 工具提示：Awesome等级（彩虹色）
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         // Level: Awesome（彩虹色）
         MutableComponent levelLine = Component.translatable("item_tooltip.the_last_sword.level")
                 .append(" ");
@@ -195,18 +201,17 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
     }
 
     // 持有武器时添加ECA无敌、飞行、防御、免疫、无冷却，放下时全部移除
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static class HiddenSwordTickHandler {
         private static final String INVUL_TAG = "TheLastSwordYouNeverForgotInvul";
         private static final String FLY_TAG = "TheLastSwordYouNeverForgotFly";
         private static final String DEFENCE_TAG = "TheLastSwordYouNeverForgotDefence";
 
         @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase != TickEvent.Phase.START) return;
-            if (event.player.level().isClientSide) return;
+        public static void onPlayerTick(PlayerTickEvent.Pre event) {
+            if (event.getEntity().level().isClientSide) return;
 
-            Player player = event.player;
+            Player player = event.getEntity();
             boolean hasSword = hasHiddenSword(player);
 
             if (hasSword) {

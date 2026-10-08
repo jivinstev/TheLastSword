@@ -19,7 +19,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.the_last_sword.event.TheLastSwordQuestHandler;
 import net.the_last_sword.init.ModInstruments;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 //拜龙教号角，吹响后在村庄内召来一场拜龙教袭击
@@ -69,7 +68,7 @@ public class DragonCultHornItem extends InstrumentItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         tooltip.add(Component.translatable(DESCRIPTION_KEY));
         tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));

@@ -42,7 +42,10 @@ public class LightningSpearProjectile extends AbstractArrow {
     }
 
     public LightningSpearProjectile(Level level, LivingEntity owner) {
-        super(ModEntities.LIGHTNING_SPEAR_PROJECTILE.get(), owner, level);
+        super(ModEntities.LIGHTNING_SPEAR_PROJECTILE.get(), level);
+        setOwner(owner);
+        setPos(owner.getX(), owner.getEyeY() - 0.1D, owner.getZ());
+        setRot(owner.getYRot(), owner.getXRot());
         setNoGravity(true);
         pickup = Pickup.DISALLOWED;
     }
@@ -136,7 +139,7 @@ public class LightningSpearProjectile extends AbstractArrow {
     }
 
     @Override
-    protected @NotNull ItemStack getPickupItem() {
+    protected @NotNull ItemStack getDefaultPickupItem() {
         return ItemStack.EMPTY;
     }
 

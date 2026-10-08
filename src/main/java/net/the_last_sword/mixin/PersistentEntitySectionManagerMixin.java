@@ -16,10 +16,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PersistentEntitySectionManagerMixin {
 
     @Mixin(PersistentEntitySectionManager.Callback.class)
-    public static class CallbackMixin {
+    public static class CallbackMixin<T extends EntityAccess> {
         @Final
         @Shadow
-        private EntityAccess entity;
+        private T entity;
 
         @Inject(method = "onRemove", at = @At("HEAD"), cancellable = true)
         private void onCallbackOnRemove(Entity.RemovalReason reason, CallbackInfo ci) {

@@ -1,5 +1,7 @@
 package net.the_last_sword.event;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -12,21 +14,19 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.DefenceConfig;
 import net.the_last_sword.configuration.DefenceConfigData;
@@ -42,7 +42,10 @@ import net.the_last_sword.network.JustifiedDefenceFlashPacket;
 import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.bus.api.ICancellableEvent;
+import java.util.Optional;
 import net.the_last_sword.init.ModEffects;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -77,20 +80,20 @@ public final class DefenceEventHandler {
     private static final UUID JUSTIFIED_DEFENCE_RECOVERY_MODULE_ID =
             UUID.fromString("018b1e95-f8e5-4d23-8385-84065377f9b2");
 
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
     public static class ModBusEvents {
         //为所有生物实体附加肃正防御属性
         @SubscribeEvent
         public static void onEntityAttributeModification(EntityAttributeModificationEvent event) {
             event.getTypes().forEach(entityType -> {
-                event.add(entityType, ModAttributes.JUSTIFIED_DEFENCE.get(), 0.0);
-                event.add(entityType, ModAttributes.MAX_JUSTIFIED_DEFENCE.get(), 0.0);
-                event.add(entityType, ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED.get(), 0.01);
+                event.add(entityType, ModAttributes.JUSTIFIED_DEFENCE, 0.0);
+                event.add(entityType, ModAttributes.MAX_JUSTIFIED_DEFENCE, 0.0);
+                event.add(entityType, ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED, 0.01);
             });
         }
     }
 
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
     public static class ForgeBusEvents {
         //护盾死亡保护 (兜底非 actuallyHurt 路径: entity.kill()/setHealth(0)/直接 die 等, 代价 -2)
         @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -106,10 +109,10 @@ public final class DefenceEventHandler {
 
         //玩家Tick事件 - 盔甲效果
         @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide()) return;
+        public static void onPlayerTick(PlayerTickEvent.Post event) {
+            if (event.getEntity().level().isClientSide()) return;
 
-            Player player = event.player;
+            Player player = event.getEntity();
             ARMOR_ENERGY_CONSUMPTION.put(player.getUUID(), 0L);
 
             //龙水晶盔甲效果
@@ -137,10 +140,10 @@ public final class DefenceEventHandler {
 
         //飞行状态恢复：在所有实体tick完毕后执行，将被外部清掉的flying拉回
         @SubscribeEvent
-        public static void onLevelTickEnd(TickEvent.LevelTickEvent event) {
-            if (event.phase != TickEvent.Phase.END || event.level.isClientSide()) return;
+        public static void onLevelTickEnd(LevelTickEvent.Post event) {
+            if (event.getLevel().isClientSide()) return;
 
-            for (Player player : event.level.players()) {
+            for (Player player : event.getLevel().players()) {
                 if (player.isCreative() || player.isSpectator()) continue;
                 CompoundTag data = player.getPersistentData();
                 //三套飞行来源的NBT标记任一存在，即代表有有效飞行授权（标记本身已含各自配置开关）
@@ -173,10 +176,10 @@ public final class DefenceEventHandler {
 
         //客户端Tick事件 - 飞行速度（飞行速度计算在客户端）
         @SubscribeEvent
-        public static void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase != TickEvent.Phase.END || !event.player.level().isClientSide()) return;
+        public static void onClientPlayerTick(PlayerTickEvent.Post event) {
+            if (!event.getEntity().level().isClientSide()) return;
 
-            Player player = event.player;
+            Player player = event.getEntity();
             ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
 
             //检查是否穿戴龙之甲胸甲
@@ -195,7 +198,7 @@ public final class DefenceEventHandler {
             }
 
             //检查能量
-            boolean hasEnergy = chestplate.getCapability(ForgeCapabilities.ENERGY)
+            boolean hasEnergy = energyOf(chestplate)
                     .map(energy -> energy.getEnergyStored() > 0)
                     .orElse(false);
 
@@ -207,11 +210,8 @@ public final class DefenceEventHandler {
 
             //飞行惯性控制：关闭时松开按键立即停止
             if (player.getAbilities().flying && !DefenceConfig.getAntiGravityModule().enableInertia
-                    && player instanceof LocalPlayer localPlayer) {
-                boolean noInput = localPlayer.input.forwardImpulse == 0
-                    && localPlayer.input.leftImpulse == 0
-                    && !localPlayer.input.jumping
-                    && !localPlayer.input.shiftKeyDown;
+                    && player.level().isClientSide) {
+                boolean noInput = net.the_last_sword.client.ClientFlightHelper.isNoMoveInput(player);
                 if (noInput) {
                     player.setDeltaMovement(Vec3.ZERO);
                 }
@@ -219,8 +219,13 @@ public final class DefenceEventHandler {
         }
     }
 
+    //物品能量存储（无能量能力时为空）
+    private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
+        return Optional.ofNullable(stack.getCapability(Capabilities.EnergyStorage.ITEM, null));
+    }
+
     //护盾保护触发：取消事件，设置满血，按 cost 扣除护盾
-    private static void triggerShieldProtection(LivingEntity entity, Event event, int cost) {
+    private static void triggerShieldProtection(LivingEntity entity, ICancellableEvent event, int cost) {
         event.setCanceled(true);
         TrueHealthManager.setHealth(entity, entity.getMaxHealth());
         double currentShield = getShieldValue(entity);
@@ -229,13 +234,13 @@ public final class DefenceEventHandler {
 
     //获取护盾值
     public static double getShieldValue(LivingEntity entity) {
-        AttributeInstance a = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance a = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         return a != null ? a.getValue() : 0;
     }
 
     //设置护盾值
     public static void setShieldValue(LivingEntity entity, double value) {
-        AttributeInstance a = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance a = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (a != null) {
             double previous = a.getValue();
             a.setBaseValue(Math.max(0, value));
@@ -326,7 +331,7 @@ public final class DefenceEventHandler {
                         Level level = player.level();
                         BlockPos pos = player.blockPosition();
                         level.playSound(null, pos,
-                            ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("block.amethyst_block.chime")),
+                            BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("block.amethyst_block.chime")),
                             SoundSource.PLAYERS, 2, 1);
                     }
                     // 重新启动下一轮定时器
@@ -357,7 +362,7 @@ public final class DefenceEventHandler {
         int enhanceCost = net.the_last_sword.configuration.TheLastSwordConfiguration.getDragonArmorBuffEnhanceCostSafely();
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 
             ItemStack stack = player.getItemBySlot(slot);
             if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
@@ -365,13 +370,13 @@ public final class DefenceEventHandler {
             //检查能量并决定是否增强
             boolean enhanced = false;
             if (enhancedBuff) {
-                boolean hasEnergy = stack.getCapability(ForgeCapabilities.ENERGY)
+                boolean hasEnergy = energyOf(stack)
                         .map(energy -> energy.getEnergyStored() > 0)
                         .orElse(false);
                 if (hasEnergy) {
                     enhanced = true;
                     //增强Buff消耗该件装备的能量
-                    stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
+                    energyOf(stack).ifPresent(energy -> {
                         recordArmorEnergyConsumption(player,
                                 energy.extractEnergy(enhanceCost, false));
                     });
@@ -427,10 +432,10 @@ public final class DefenceEventHandler {
         //检查全套是否都有电
         boolean allHaveEnergy = true;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
-            boolean hasEnergy = stack.getCapability(ForgeCapabilities.ENERGY)
+            boolean hasEnergy = energyOf(stack)
                     .map(energy -> energy.getEnergyStored() > 0)
                     .orElse(false);
             if (!hasEnergy) {
@@ -459,7 +464,7 @@ public final class DefenceEventHandler {
             boolean activate = (phasingModule.activationMode == DefenceConfigData.PhasingActivationMode.ALWAYS)
                 || player.getAbilities().flying;
             if (activate) {
-                player.addEffect(new MobEffectInstance(ModEffects.PHASING.get(), 240, 0, false, false));
+                player.addEffect(new MobEffectInstance(ModEffects.PHASING, 240, 0, false, false));
                 int phasingCost = net.the_last_sword.configuration.TheLastSwordConfiguration.getDragonArmorPhasingCostSafely();
                 drainAllArmorEnergy(player, phasingCost);
             }
@@ -567,10 +572,10 @@ public final class DefenceEventHandler {
     //全套每件扣电
     private static void drainAllArmorEnergy(Player player, int costPerPiece) {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
-            stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
+            energyOf(stack).ifPresent(energy -> {
                 recordArmorEnergyConsumption(player,
                         energy.extractEnergy(costPerPiece, false));
             });
@@ -596,11 +601,11 @@ public final class DefenceEventHandler {
         long currentEnergy = 0L;
         long maxEnergy = 0L;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (!(stack.getItem() instanceof DragonArmorItem)) continue;
 
-            int[] values = stack.getCapability(ForgeCapabilities.ENERGY)
+            int[] values = energyOf(stack)
                     .map(energy -> new int[]{energy.getEnergyStored(), energy.getMaxEnergyStored()})
                     .orElse(new int[]{0, 0});
             currentEnergy += values[0];
@@ -613,20 +618,19 @@ public final class DefenceEventHandler {
     }
 
     private static void setJustifiedDefenceRecoveryBoost(Player player, boolean active) {
-        AttributeInstance attribute = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED.get());
+        AttributeInstance attribute = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED);
         if (attribute == null) return;
 
-        AttributeModifier current = attribute.getModifier(JUSTIFIED_DEFENCE_RECOVERY_MODULE_ID);
+        AttributeModifier current = attribute.getModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
         if (active) {
             if (current == null) {
                 attribute.addTransientModifier(new AttributeModifier(
-                        JUSTIFIED_DEFENCE_RECOVERY_MODULE_ID,
-                        "Dragon armor justified defence recovery module",
+                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"),
                         1.0,
-                        AttributeModifier.Operation.MULTIPLY_BASE));
+                        AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         } else if (current != null) {
-            attribute.removeModifier(JUSTIFIED_DEFENCE_RECOVERY_MODULE_ID);
+            attribute.removeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
         }
     }
 

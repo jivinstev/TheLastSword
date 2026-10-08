@@ -2,6 +2,7 @@ package net.the_last_sword.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -16,10 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
@@ -32,11 +31,6 @@ import java.util.UUID;
  */
 public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile {
     public static final ItemStack PROJECTILE_ITEM = new ItemStack(Items.DIAMOND);
-
-    //用于网络生成实体的构造器
-    public DragonCrystalSwordProjectile(PlayMessages.SpawnEntity packet, Level world) {
-        super(ModEntities.DRAGON_CRYSTAL_SWORD_PROJECTILE.get(), world);
-    }
 
     public DragonCrystalSwordProjectile(EntityType<? extends DragonCrystalSwordProjectile> type, Level world) {
         super(type, world);
@@ -120,7 +114,7 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
         world.playSound(
             null,
             entity.getX(), entity.getY(), entity.getZ(),
-            ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.arrow.shoot")),
+            BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.arrow.shoot")),
             SoundSource.PLAYERS,
             1,
             1f / (random.nextFloat() * 0.5f + 1) + 0.5f

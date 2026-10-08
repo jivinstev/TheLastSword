@@ -21,12 +21,12 @@ public enum JustifiedDefenceProvider implements IEntityComponentProvider {
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
         if (!(accessor.getEntity() instanceof LivingEntity living)) return;
 
-        AttributeInstance currentAttr = living.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance currentAttr = living.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (currentAttr == null) return;
         double current = currentAttr.getValue();
         if (current <= 0.0) return;
 
-        AttributeInstance maxAttr = living.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
+        AttributeInstance maxAttr = living.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
         double max = maxAttr != null ? maxAttr.getValue() : current;
 
         tooltip.add(new JustifiedDefenceElement(current, max));

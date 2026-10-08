@@ -3,10 +3,10 @@ package net.the_last_sword.init;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterShadersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndShaderInstance;
@@ -14,7 +14,7 @@ import net.the_last_sword.client.shader.TheLastEndShaderInstance;
 import java.io.IOException;
 
 //着色器注册
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModShaders {
 
     //注册着色器

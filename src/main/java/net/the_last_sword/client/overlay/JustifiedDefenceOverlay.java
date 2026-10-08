@@ -5,9 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraft.client.gui.Gui;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.DefenceConfig;
 import net.the_last_sword.configuration.DefenceConfigData;
@@ -29,8 +29,8 @@ public class JustifiedDefenceOverlay {
     private static final double POINTS_PER_ICON = 2.0; // 每个图标代表2点护盾
 
     //在饥饿值渲染之前渲染护盾（由 ClientEventHandler 调用）
-    public static void onRenderGuiOverlay(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay().id().equals(VanillaGuiOverlay.FOOD_LEVEL.id())) {
+    public static void onRenderGuiOverlay(RenderGuiLayerEvent.Pre event) {
+        if (event.getName().equals(VanillaGuiLayers.FOOD_LEVEL)) {
             renderJustifiedDefence(
                 event.getGuiGraphics(),
                 event.getGuiGraphics().guiWidth(),
@@ -57,8 +57,8 @@ public class JustifiedDefenceOverlay {
         int startY = baseY + offset.y;
 
         //读取当前和最大护盾值
-        double currentShield = player.getAttributeValue(ModAttributes.JUSTIFIED_DEFENCE.get());
-        double maxShield = player.getAttributeValue(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
+        double currentShield = player.getAttributeValue(ModAttributes.JUSTIFIED_DEFENCE);
+        double maxShield = player.getAttributeValue(ModAttributes.MAX_JUSTIFIED_DEFENCE);
 
         //没有护盾则不渲染
         if (currentShield <= 0) {
@@ -129,6 +129,6 @@ public class JustifiedDefenceOverlay {
 
     //获取右侧HUD的高度偏移
     private static int getRightHeightOffset(Minecraft mc) {
-        return ((ForgeGui) mc.gui).rightHeight;
+        return ((Gui) mc.gui).rightHeight;
     }
 }

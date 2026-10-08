@@ -126,7 +126,7 @@ public class NpcDialogueScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics);
+        renderBackground(graphics, mouseX, mouseY, partialTick);
         renderNpc(graphics, mouseX, mouseY);
         renderScrollBackground(graphics);
 
@@ -181,8 +181,9 @@ public class NpcDialogueScreen extends Screen {
         int availableHeight = Math.max(70, panelTop - 18);
         int scale = Mth.clamp(availableHeight / 4, 28, 62);
         graphics.enableScissor(8, 8, Math.max(9, width / 2), panelTop + 6);
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, modelX, modelBottom, scale,
-                modelX - mouseX, modelBottom - availableHeight / 2.0F - mouseY, livingEntity);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
+                modelX + scale, modelBottom, scale, 0.0F,
+                mouseX, mouseY, livingEntity);
         graphics.disableScissor();
         graphics.drawCenteredString(font, livingEntity.getDisplayName(), modelX,
                 Math.max(8, panelTop - availableHeight - 4), 0xFFFFFF);
@@ -286,12 +287,12 @@ public class NpcDialogueScreen extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double delta) {
         if (isInside(mouseX, mouseY, panelLeft, panelTop, panelWidth, panelHeight) && maxScroll > 0) {
             scrollOffset = Mth.clamp(scrollOffset - (float) delta * SCROLL_STEP, 0.0F, maxScroll);
             return true;
         }
-        return super.mouseScrolled(mouseX, mouseY, delta);
+        return super.mouseScrolled(mouseX, mouseY, scrollX, delta);
     }
 
     private void setScrollFromMouse(double mouseY) {

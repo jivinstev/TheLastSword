@@ -1,15 +1,27 @@
 package net.the_last_sword.network;
 
-import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.client.renderer.LightningSpearBurstRenderer;
 
-public record LightningSpearBurstPacket(ResourceLocation dimension, Vec3 position, float radius, long seed) {
+public record LightningSpearBurstPacket(ResourceLocation dimension, Vec3 position, float radius, long seed) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<LightningSpearBurstPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "lightning_spear_burst_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, LightningSpearBurstPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> LightningSpearBurstPacket.encode(msg, buf), LightningSpearBurstPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<LightningSpearBurstPacket> type() {
+        return TYPE;
+    }
+
     public static void encode(LightningSpearBurstPacket packet, FriendlyByteBuf buffer) {
         buffer.writeResourceLocation(packet.dimension());
         buffer.writeDouble(packet.position().x);
@@ -25,9 +37,7 @@ public record LightningSpearBurstPacket(ResourceLocation dimension, Vec3 positio
                 buffer.readFloat(), buffer.readLong());
     }
 
-    public static void handle(LightningSpearBurstPacket packet, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> LightningSpearBurstRenderer.receive(packet)));
-        context.get().setPacketHandled(true);
+    public static void handle(LightningSpearBurstPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) LightningSpearBurstRenderer.receive(packet); });
     }
 }

@@ -2,6 +2,7 @@ package net.the_last_sword.compat.lucky_block.lucky_event.events;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -70,7 +71,7 @@ public class LuckyWellEvent extends LuckyEvent {
 
         if (player == null) return;
         ItemStack coin = new ItemStack(ModItems.DRAGON_CRYSTAL.get());
-        coin.setHoverName(Component.literal("coin").withStyle(style -> style
+        coin.set(DataComponents.CUSTOM_NAME, Component.literal("coin").withStyle(style -> style
             .withColor(ChatFormatting.DARK_PURPLE)
             .withBold(true)
             .withItalic(true)));

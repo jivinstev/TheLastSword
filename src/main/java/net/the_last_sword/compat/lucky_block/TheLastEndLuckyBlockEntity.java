@@ -1,6 +1,7 @@
 package net.the_last_sword.compat.lucky_block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -9,10 +10,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.the_last_sword.init.ModBlockEntities;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 //终焉幸运方块实体 - 承载GeckoLib循环动画 + luck值NBT持久化
@@ -62,15 +64,15 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.putInt(TAG_LUCK, luck);
         if (wellVariant) tag.putBoolean(TAG_WELL_VARIANT, true);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         this.luck = tag.contains(TAG_LUCK) ? tag.getInt(TAG_LUCK) : 0;
         this.wellVariant = tag.getBoolean(TAG_WELL_VARIANT);
     }
@@ -81,15 +83,15 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, state -> {
             state.getController().setAnimation(LOOP);
-            return software.bernie.geckolib.core.object.PlayState.CONTINUE;
+            return PlayState.CONTINUE;
         }));
     }
 

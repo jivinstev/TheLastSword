@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.DragonArmorEnergyStatus;
 import net.the_last_sword.configuration.DefenceConfig;
@@ -27,9 +27,9 @@ public class DragonArmorOverlay {
         ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_armor_overlay.png");
 
     //在所有原版 HUD 渲染之后渲染叠加层
-    public static void onRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
+    public static void onRenderGuiOverlay(RenderGuiLayerEvent.Post event) {
         //在 HOTBAR 渲染之后渲染，确保在最上层
-        if (!event.getOverlay().id().equals(VanillaGuiOverlay.HOTBAR.id())) {
+        if (!event.getName().equals(VanillaGuiLayers.HOTBAR)) {
             return;
         }
 

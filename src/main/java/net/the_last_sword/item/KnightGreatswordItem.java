@@ -1,17 +1,21 @@
 package net.the_last_sword.item;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +30,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.util.GroundRuptureEffect;
 import net.the_last_sword.util.EntityUtil;
@@ -57,8 +60,8 @@ public class KnightGreatswordItem extends SwordItem {
         }
 
         @Override
-        public int getLevel() {
-            return 2;
+        public TagKey<Block> getIncorrectBlocksForDrops() {
+            return BlockTags.INCORRECT_FOR_IRON_TOOL;
         }
 
         @Override
@@ -72,32 +75,23 @@ public class KnightGreatswordItem extends SwordItem {
         }
     };
 
-    public KnightGreatswordItem() {
-        // 玩家自带 1 点攻击伤害和 4 点攻击速度，因此这里的修正值会得到最终 12 / 1.0 的面板属性。
-        super(KNIGHT_GREATSWORD_TIER, 11, -3.0f, new Item.Properties().rarity(Rarity.COMMON));
+    private static ItemAttributeModifiers knightGreatswordAttributes() {
+        return SwordItem.createAttributes(KNIGHT_GREATSWORD_TIER, 11, -3.0f)
+            .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", "knight_greatsword_entity_reach"),
+                1.0,
+                AttributeModifier.Operation.ADD_VALUE
+            ), EquipmentSlotGroup.MAINHAND)
+            .withModifierAdded(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", "knight_greatsword_block_reach"),
+                1.0,
+                AttributeModifier.Operation.ADD_VALUE
+            ), EquipmentSlotGroup.MAINHAND);
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (slot != EquipmentSlot.MAINHAND) {
-            return super.getAttributeModifiers(slot, stack);
-        }
-
-        Multimap<Attribute, AttributeModifier> modifiers =
-            HashMultimap.create(super.getAttributeModifiers(slot, stack));
-        modifiers.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(
-            ENTITY_REACH_MODIFIER_UUID,
-            "Knight greatsword entity reach",
-            1.0,
-            AttributeModifier.Operation.ADDITION
-        ));
-        modifiers.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(
-            BLOCK_REACH_MODIFIER_UUID,
-            "Knight greatsword block reach",
-            1.0,
-            AttributeModifier.Operation.ADDITION
-        ));
-        return modifiers;
+    public KnightGreatswordItem() {
+        // 玩家自带 1 点攻击伤害和 4 点攻击速度，因此这里的修正值会得到最终 12 / 1.0 的面板属性。
+        super(KNIGHT_GREATSWORD_TIER, new Item.Properties().rarity(Rarity.COMMON).attributes(knightGreatswordAttributes()));
     }
 
     @Override
@@ -110,12 +104,12 @@ public class KnightGreatswordItem extends SwordItem {
         Level level = context.getLevel();
         if (level instanceof ServerLevel serverLevel) {
             Vec3 impactCenter = context.getClickLocation();
-            serverLevel.playSound(null, context.getClickedPos(), SoundEvents.GENERIC_EXPLODE,
+            serverLevel.playSound(null, context.getClickedPos(), SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.PLAYERS, 1.0F, 1.0F);
             GroundRuptureEffect.spawn(serverLevel, impactCenter, player.getRandom());
             damageNearbyTargets(serverLevel, player, impactCenter);
-            context.getItemInHand().hurtAndBreak(1, player,
-                owner -> owner.broadcastBreakEvent(context.getHand()));
+            EquipmentSlot slot = context.getHand() == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+            context.getItemInHand().hurtAndBreak(1, player, slot);
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
@@ -142,7 +136,7 @@ public class KnightGreatswordItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         tooltip.add(Component.translatable(

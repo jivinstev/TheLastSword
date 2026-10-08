@@ -21,9 +21,9 @@ public class QueenEnhancedBlade extends QueenBlinkBlade {
             QueenEnhancedBlade.class, EntityDataSerializers.FLOAT);
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        entityData.define(ROLL, 0F);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ROLL, 0F);
     }
 
     public float bladeRoll() {

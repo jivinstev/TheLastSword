@@ -1,6 +1,9 @@
 //本Mod中唯二可以划分到秒杀的东西，检验神器攻击是否具有反射列表清除或更强的清除，以及测试被攻击的其他实体是否具有线程复活和无法选中。
 package net.the_last_sword.test;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.gametest.framework.GameTestServer;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
@@ -26,10 +29,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import javax.annotation.Nullable;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.eca.api.EcaAPI;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModEffects;
@@ -71,7 +75,7 @@ public class TestEntity extends PathfinderMob {
     /*────────────── 构造 ─────────────*/
     public TestEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        setMaxUpStep(2f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(2.0D);
         xpReward = 100;
         setNoAi(false);
         setPersistenceRequired();
@@ -80,13 +84,28 @@ public class TestEntity extends PathfinderMob {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
     public static final class EntityRegisterHook {
+
+        // NeoForge 把 EntityJoinLevelEvent 发在 addEntity 内部，此时在事件里调用 ECA 的追踪/复活 API
+        // 会在原版登记前抢先注册实体，导致 UUID 重复而被拒绝；所以只记录，下一次服务端 tick 再处理
+        private static final java.util.List<TestEntity> PENDING = new java.util.ArrayList<>();
 
         @SubscribeEvent
         public static void TheLastSwordTestEntityOnJoin(EntityJoinLevelEvent e) {
             if (e.getLevel().isClientSide()) return;
             if (e.getEntity() instanceof TestEntity te) {
+                PENDING.add(te);
+            }
+        }
+
+        @SubscribeEvent
+        public static void TheLastSwordTestEntityAfterJoin(ServerTickEvent.Post e) {
+            if (PENDING.isEmpty()) return;
+            List<TestEntity> batch = new java.util.ArrayList<>(PENDING);
+            PENDING.clear();
+            for (TestEntity te : batch) {
+                if (te.level().isClientSide() || te.getRemovalReason() != null) continue;
                 EcaAPI.setInvulnerable(te, true);
                 EcaAPI.lockLocation(te);
                 // 守护线程不自启，先兜底再挂追踪；强加载由 TestEntityExtension 接管，此处不重复
@@ -120,10 +139,10 @@ public class TestEntity extends PathfinderMob {
 
 
     @Override public SoundEvent getHurtSound(DamageSource ds) {
-        return ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.ender_dragon.hurt"));
+        return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.hurt"));
     }
     @Override public SoundEvent getDeathSound() {
-        return ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.ender_dragon.death"));
+        return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.death"));
     }
 
     @Override public void startSeenByPlayer(ServerPlayer p) {
@@ -153,7 +172,9 @@ public class TestEntity extends PathfinderMob {
         TrueHealthManager.setHealth(this, 1024.0F);
 
         // 2. 每tick强力范围攻击：环境重置 + 永久禁生成 + ECA清除
-        if (this.level() instanceof ServerLevel serverLevel) {
+        //无玩家的维度、以及 GameTest 服务器（模拟玩家也算玩家）里不执行，否则会永久禁生成本维度所有实体类型
+        if (this.level() instanceof ServerLevel serverLevel && !serverLevel.players().isEmpty()
+                && !(serverLevel.getServer() instanceof GameTestServer)) {
             rangeAttack(serverLevel);
         }
 
@@ -186,7 +207,7 @@ public class TestEntity extends PathfinderMob {
 
 
     @Override
-    protected void dropExperience() {
+    protected void dropExperience(@Nullable Entity attacker) {
 
     }
 
@@ -232,11 +253,11 @@ public class TestEntity extends PathfinderMob {
     @Override protected boolean shouldDespawnInPeaceful() { return false; }
     @Override public void checkDespawn(){}
     @Override public boolean removeWhenFarAway(double d) { return false; }
-    @Override public double getMyRidingOffset() { return -0.35D; }
+    @Override public Vec3 getVehicleAttachmentPoint(Entity vehicle) { return new Vec3(0.0D, -0.35D, 0.0D); }
     @Override public boolean isPushable() { return false; }
     @Override protected void doPush(Entity e) {}
     @Override protected void pushEntities() {}
-    @Override public boolean canChangeDimensions() { return false; }
+    @Override public boolean canChangeDimensions(Level oldLevel, Level newLevel) { return false; }
     @Override public void knockback(double s, double x, double z) {}
     @Override public void travel(Vec3 v) {
     }

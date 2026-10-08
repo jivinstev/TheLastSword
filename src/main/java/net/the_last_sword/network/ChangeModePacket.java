@@ -1,22 +1,34 @@
 package net.the_last_sword.network;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.item.DragonSword;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.item.TheLastSword;
 import net.the_last_sword.test.UltraTestSwordItem;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 
-import java.util.function.Supplier;
-
 //模式切换网络包
-public class ChangeModePacket {
+public class ChangeModePacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<ChangeModePacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "change_mode_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ChangeModePacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> ChangeModePacket.encode(msg, buf), ChangeModePacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<ChangeModePacket> type() {
+        return TYPE;
+    }
 
     public ChangeModePacket() {
     }
@@ -31,16 +43,16 @@ public class ChangeModePacket {
     }
 
     //处理
-    public static void handle(ChangeModePacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
+    public static void handle(ChangeModePacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ((ServerPlayer) ctx.player());
             if (player == null) return;
 
             ItemStack stack = player.getMainHandItem();
             if (stack.isEmpty()) return;
 
             //检查物品是否支持模式切换（通过检查是否有Mode NBT）
-            if (!stack.hasTag() || !stack.getTag().contains("the_last_sword.mode")) {
+            if (!ItemNbt.hasTag(stack) || !ItemNbt.getTag(stack).contains("the_last_sword.mode")) {
                 return;
             }
 
@@ -72,10 +84,9 @@ public class ChangeModePacket {
             //播放音效
             ResourceLocation snd = ResourceLocation.parse("entity.ender_dragon.flap");
             player.level().playSound(null, player.blockPosition(),
-                    ForgeRegistries.SOUND_EVENTS.getValue(snd),
+                    BuiltInRegistries.SOUND_EVENT.get(snd),
                     SoundSource.PLAYERS, 1f, 1f);
         });
-        ctx.get().setPacketHandled(true);
     }
 
     //根据物品类型和模式ID获取翻译键

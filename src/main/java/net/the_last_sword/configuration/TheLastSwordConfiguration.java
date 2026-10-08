@@ -1,380 +1,380 @@
 package net.the_last_sword.configuration;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TheLastSwordConfiguration {
-    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec SPEC;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Item Configuration | 物品配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
     // Sword Generic | 剑类通用配置
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_INCREASE_VALUE;
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_INCREASE_VALUE_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Boolean> SWORD_BLOCK_CANCEL_USE;
-    public static ForgeConfigSpec.ConfigValue<Double> KNIGHT_GREATSWORD_GROUND_SLAM_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> PRIEST_STAFF_PROJECTILE_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_SHIELD_GAIN;
-    public static ForgeConfigSpec.ConfigValue<Integer> PRIEST_STAFF_GUARD_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_CHARGE_TIME;
-    public static ForgeConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_BURST_SIZE;
-    public static ForgeConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_DAMAGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_SLOW_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_SLOW_DURATION;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_INCREASE_VALUE;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_INCREASE_VALUE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Boolean> SWORD_BLOCK_CANCEL_USE;
+    public static ModConfigSpec.ConfigValue<Double> KNIGHT_GREATSWORD_GROUND_SLAM_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> PRIEST_STAFF_PROJECTILE_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_RADIUS;
+    public static ModConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_SHIELD_GAIN;
+    public static ModConfigSpec.ConfigValue<Integer> PRIEST_STAFF_GUARD_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_CHARGE_TIME;
+    public static ModConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_RANGE;
+    public static ModConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_BURST_SIZE;
+    public static ModConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_DAMAGE;
+    public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_SLOW_LEVEL;
+    public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_SLOW_DURATION;
 
     // Armor Generic | 盔甲类通用配置（等级区间）
-    public static ForgeConfigSpec.ConfigValue<Double> ARMOR_INCREASE_LOW_LEVEL;    // < 6级
-    public static ForgeConfigSpec.ConfigValue<Double> ARMOR_INCREASE_HIGH_LEVEL;   // >= 6级
-    public static ForgeConfigSpec.ConfigValue<Double> TOUGHNESS_INCREASE_LOW_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> TOUGHNESS_INCREASE_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> HEALTH_INCREASE_LOW_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> HEALTH_INCREASE_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> JUSTIFIED_DEFENCE_INCREASE_LOW_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> JUSTIFIED_DEFENCE_INCREASE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> ARMOR_INCREASE_LOW_LEVEL;    // < 6级
+    public static ModConfigSpec.ConfigValue<Double> ARMOR_INCREASE_HIGH_LEVEL;   // >= 6级
+    public static ModConfigSpec.ConfigValue<Double> TOUGHNESS_INCREASE_LOW_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> TOUGHNESS_INCREASE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> HEALTH_INCREASE_LOW_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> HEALTH_INCREASE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> JUSTIFIED_DEFENCE_INCREASE_LOW_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> JUSTIFIED_DEFENCE_INCREASE_HIGH_LEVEL;
 
     // Dragon Crystal Sword | 龙水晶剑配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> DRAGON_CRYSTAL_SWORD_CAN_MINE;
+    public static ModConfigSpec.ConfigValue<Boolean> DRAGON_CRYSTAL_SWORD_CAN_MINE;
 
     // Dragon Sword | 龙之剑配置
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_SWORD_SUMMON_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Boolean> DRAGON_SWORD_NORMAL_MODE_CAN_MINE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> DRAGON_SWORD_SUMMON_MODE_CAN_MINE;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_SWORD_SUMMON_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Boolean> DRAGON_SWORD_NORMAL_MODE_CAN_MINE;
+    public static ModConfigSpec.ConfigValue<Boolean> DRAGON_SWORD_SUMMON_MODE_CAN_MINE;
 
     // Dragon Soul Lantern | 龙魂灯配置
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_SOUL_LANTERN_SUMMON_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_SOUL_LANTERN_RANGE_PLACED;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_SOUL_LANTERN_RANGE_EQUIPPED;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_SOUL_LANTERN_SUMMON_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_SOUL_LANTERN_RANGE_PLACED;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_SOUL_LANTERN_RANGE_EQUIPPED;
 
     // The Last End Sword | 最终之剑配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ALLOW_FLYING;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_SUPER_DESTROY;
-    public static ForgeConfigSpec.ConfigValue<Integer> THE_LAST_SWORD_MINING_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ENABLE_MINING_PREVIEW;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_HIGH_PERFORMANCE_MINING;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_NORMAL_MODE_CAN_MINE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_SUMMON_MODE_CAN_MINE;
-    public static ForgeConfigSpec.ConfigValue<Double> THE_LAST_SWORD_PERCENTAGE_DAMAGE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ENABLE_STRONG_INVENTORY_PROTECTION;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ALLOW_FLYING;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_SUPER_DESTROY;
+    public static ModConfigSpec.ConfigValue<Integer> THE_LAST_SWORD_MINING_RADIUS;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ENABLE_MINING_PREVIEW;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_HIGH_PERFORMANCE_MINING;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_NORMAL_MODE_CAN_MINE;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_SUMMON_MODE_CAN_MINE;
+    public static ModConfigSpec.ConfigValue<Double> THE_LAST_SWORD_PERCENTAGE_DAMAGE;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ENABLE_STRONG_INVENTORY_PROTECTION;
 
     // Dragon Crystal Armor | 龙晶护甲配置
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CRYSTAL_ARMOR_CRYSTAL_GUARD_REFRESH_INTERVAL;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CRYSTAL_ARMOR_CRYSTAL_GUARD_REFRESH_INTERVAL;
 
     // Dragon Armor | 龙之甲配置
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENERGY_PER_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_BUFF_ENHANCE_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_SATURATION_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ICE_FIRE_IMMUNITY_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PHASING_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_JUSTIFIED_DEFENCE_RECOVERY_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENDER_CRYSTAL_CHARGE_RATE;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENDER_CRYSTAL_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PERCEPTION_GLOW_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PERCEPTION_SCAN_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENERGY_PER_LEVEL;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_BUFF_ENHANCE_COST;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_SATURATION_COST;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ICE_FIRE_IMMUNITY_COST;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PHASING_COST;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_JUSTIFIED_DEFENCE_RECOVERY_COST;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENDER_CRYSTAL_CHARGE_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_ENDER_CRYSTAL_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PERCEPTION_GLOW_DURATION;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_ARMOR_PERCEPTION_SCAN_RANGE;
 
     // The Last End Scroll Configuration | 终焉卷轴配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_SCROLL_ENABLE_PARTICLE_EFFECTS;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_SCROLL_ENABLE_PARTICLE_EFFECTS;
 
     // Disposable Energy Battery | 一次性能量电池
-    public static ForgeConfigSpec.ConfigValue<Integer> DISPOSABLE_ENERGY_BATTERY_RESTORE_AMOUNT;
+    public static ModConfigSpec.ConfigValue<Integer> DISPOSABLE_ENERGY_BATTERY_RESTORE_AMOUNT;
 
     // Ancient Energy Core | 远古能量核心
-    public static ForgeConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_MAX_ENERGY;
-    public static ForgeConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_CHARGE_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_MAX_ENERGY;
+    public static ModConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_CHARGE_RATE;
 
     // Curios - The Giver's Pain | 给予者的痛苦
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_DAMAGE_BONUS;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_SPEED_BONUS;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACKER_LOST_HEALTH_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_TARGET_LOST_HEALTH_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_GIVERS_PAIN_EFFECT_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_GIVERS_PAIN_EFFECT_AMPLIFIER;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_DAMAGE_BONUS;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_SPEED_BONUS;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACKER_LOST_HEALTH_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_TARGET_LOST_HEALTH_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_GIVERS_PAIN_EFFECT_DURATION;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_GIVERS_PAIN_EFFECT_AMPLIFIER;
 
     // Curios - Dragon Crystal Ring | 龙水晶指环
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_RING_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_RING_DAMAGE_MULTIPLIER;
 
     // Curios - Dragon Crystal Necklace | 龙水晶项链
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_CRIT_CHANCE_BASE;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_CRIT_CHANCE_PER_LUCK;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_BASE;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_PER_LUCK;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_MAX;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_CRIT_CHANCE_BASE;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_CRIT_CHANCE_PER_LUCK;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_BASE;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_PER_LUCK;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DRAGON_CRYSTAL_NECKLACE_IMMUNITY_CHANCE_MAX;
 
     // Curios - Dragon Crystal Crown | 龙水晶王冠
-    public static ForgeConfigSpec.ConfigValue<Boolean> CURIOS_DRAGON_CRYSTAL_CROWN_VOID_CONVERSION_ENABLED;
+    public static ModConfigSpec.ConfigValue<Boolean> CURIOS_DRAGON_CRYSTAL_CROWN_VOID_CONVERSION_ENABLED;
 
     // Curios - Wings That Cover The World | 覆世之翼
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_WINGS_VOID_DAMAGE_REDUCTION;
-    public static ForgeConfigSpec.ConfigValue<Boolean> CURIOS_WINGS_ICE_FIRE_IMMUNITY_ENABLED;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_WINGS_VOID_DAMAGE_REDUCTION;
+    public static ModConfigSpec.ConfigValue<Boolean> CURIOS_WINGS_ICE_FIRE_IMMUNITY_ENABLED;
 
     // Curios - Extreme Life Support Device | 极限维生装置
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_EXTREME_LIFE_SUPPORT_TIER_THRESHOLD;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_EFFECT_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_EXTREME_LIFE_SUPPORT_ARMOR_TOUGHNESS;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_ENERGY_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_MAX_ENERGY;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_EXTREME_LIFE_SUPPORT_TIER_THRESHOLD;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_EFFECT_DURATION;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_EXTREME_LIFE_SUPPORT_ARMOR_TOUGHNESS;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_ENERGY_COST;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_EXTREME_LIFE_SUPPORT_MAX_ENERGY;
 
     // Curios - Dimension Explorer | 维度探索者
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_EFFECT_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Double> CURIOS_DIMENSION_EXPLORER_EMERGENCY_HEAL_HEALTH;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_EMERGENCY_FOOD_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_JUMP_AMPLIFIER;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_HASTE_AMPLIFIER;
-    public static ForgeConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_SPEED_AMPLIFIER;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_EFFECT_DURATION;
+    public static ModConfigSpec.ConfigValue<Double> CURIOS_DIMENSION_EXPLORER_EMERGENCY_HEAL_HEALTH;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_EMERGENCY_FOOD_LEVEL;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_JUMP_AMPLIFIER;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_HASTE_AMPLIFIER;
+    public static ModConfigSpec.ConfigValue<Integer> CURIOS_DIMENSION_EXPLORER_SPEED_AMPLIFIER;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Entity Configuration | 实体配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
     // The Last End Entity | 终焉种族配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_DANGEROUS_SKILL_ALARM;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_DANGEROUS_SKILL_RANGE_PREVIEW;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_ALL_THINGS_END;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_VOID_RESCUE;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_DANGEROUS_SKILL_ALARM;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_DANGEROUS_SKILL_RANGE_PREVIEW;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_ALL_THINGS_END;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_ENTITY_ENABLE_VOID_RESCUE;
 
     // The-Last-End Sword Wraith | 终焉剑灵配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_SWORD_WRAITH_ENABLE_BATTLE_MUSIC;
-    public static ForgeConfigSpec.ConfigValue<Boolean> THE_LAST_END_SWORD_WRAITH_ENABLE_SUMMON_TALK;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_SWORD_WRAITH_ENABLE_BATTLE_MUSIC;
+    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_END_SWORD_WRAITH_ENABLE_SUMMON_TALK;
 
     // Lost Wraith | 迷失战魂配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> LOST_WRAITH_ENABLE_CUSTOM_BOSS_BAR;
-    public static ForgeConfigSpec.ConfigValue<Double> LOST_WRAITH_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_HURT_RESIST_TIME;
+    public static ModConfigSpec.ConfigValue<Boolean> LOST_WRAITH_ENABLE_CUSTOM_BOSS_BAR;
+    public static ModConfigSpec.ConfigValue<Double> LOST_WRAITH_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_HURT_RESIST_TIME;
 
     // The Past Shadow Of The Queen | 女皇的逝去之影配置
-    public static ForgeConfigSpec.ConfigValue<Double> THE_PAST_SHADOW_OF_THE_QUEEN_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> THE_PAST_SHADOW_OF_THE_QUEEN_LIGHTNING_SPEAR_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> QUEEN_BLINK_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> QUEEN_TRIPLE_SLASH_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Boolean> QUEEN_TRIPLE_SLASH_ENABLE_SCREEN_SHAKE;
-    public static ForgeConfigSpec.ConfigValue<Integer> QUEEN_SUMMON_PROJECTILES_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_SUMMON_PROJECTILES_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_SUMMON_PROJECTILES_AOE_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Integer> QUEEN_ENCHANT_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> QUEEN_EXECUTION_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_EXECUTION_FIRST_DAMAGE_RATIO;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_EXECUTION_SECOND_DAMAGE_RATIO;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_BLINK_DAMAGE;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_BLINK_SPEED;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_BLINK_WIDTH;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_BLINK_HEIGHT;
-    public static ForgeConfigSpec.ConfigValue<Double> QUEEN_BLINK_LENGTH;
+    public static ModConfigSpec.ConfigValue<Double> THE_PAST_SHADOW_OF_THE_QUEEN_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> THE_PAST_SHADOW_OF_THE_QUEEN_LIGHTNING_SPEAR_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> QUEEN_BLINK_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> QUEEN_TRIPLE_SLASH_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Boolean> QUEEN_TRIPLE_SLASH_ENABLE_SCREEN_SHAKE;
+    public static ModConfigSpec.ConfigValue<Integer> QUEEN_SUMMON_PROJECTILES_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_SUMMON_PROJECTILES_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_SUMMON_PROJECTILES_AOE_RADIUS;
+    public static ModConfigSpec.ConfigValue<Integer> QUEEN_ENCHANT_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> QUEEN_EXECUTION_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_EXECUTION_FIRST_DAMAGE_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_EXECUTION_SECOND_DAMAGE_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_BLINK_DAMAGE;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_BLINK_SPEED;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_BLINK_WIDTH;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_BLINK_HEIGHT;
+    public static ModConfigSpec.ConfigValue<Double> QUEEN_BLINK_LENGTH;
 
     // Lost Wraith Skills | 迷失战魂技能
     // Enchant | 虚空附魔
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_ENCHANT_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_ENCHANT_AMPLIFIER;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_ENCHANT_DURATION;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_ENCHANT_AMPLIFIER;
     // Dragon Fireball | 龙息弹
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_DRAGON_FIREBALL_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_DRAGON_FIREBALL_COOLDOWN;
     // Summon Lightning | 召唤闪电
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_LIGHTNING_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> LOST_WRAITH_LIGHTNING_AOE_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Double> LOST_WRAITH_LIGHTNING_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_LIGHTNING_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> LOST_WRAITH_LIGHTNING_AOE_RADIUS;
+    public static ModConfigSpec.ConfigValue<Double> LOST_WRAITH_LIGHTNING_DAMAGE_MULTIPLIER;
     // Punch | 拳击
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_PUNCH_TELEPORT_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_PUNCH_TELEPORT_COOLDOWN;
     // End Strike | 终焉一击
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_END_STRIKE_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> LOST_WRAITH_END_STRIKE_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Integer> LOST_WRAITH_END_STRIKE_SHIELD_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_END_STRIKE_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> LOST_WRAITH_END_STRIKE_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Integer> LOST_WRAITH_END_STRIKE_SHIELD_COOLDOWN;
 
     // Guardian Of Sealed Spire | 封印尖塔守卫配置
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_HURT_RESIST_TIME;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_HURT_RESIST_TIME;
 
     // Guardian Skills | 守卫共享技能
     // Melee Attack | 近战攻击
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_MELEE_ATTACK_RANGE;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_MELEE_ATTACK_RANGE;
     // Pickup Weapon | 拾取武器
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_PICKUP_DISTANCE;
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_PICKUP_SCAN_INTERVAL;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_PICKUP_DISTANCE;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_PICKUP_SCAN_INTERVAL;
     // Assist Ally | 协同
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_ASSIST_ALLY_MAX_SEARCH_DISTANCE;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_ASSIST_ALLY_MAX_SEARCH_DISTANCE;
 
     // Guardian Saber | 剑士守卫
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_BLOCK_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_BLOCK_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_SHIELD_DISABLE_TIME;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_BLOCK_DURATION;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_BLOCK_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_SABER_SHIELD_DISABLE_TIME;
 
     // Guardian Archer | 弓箭守卫
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_ARCHER_TELEPORT_TRIGGER_DISTANCE;
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_ARCHER_TELEPORT_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_ARCHER_TELEPORT_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_ARCHER_TELEPORT_TRIGGER_DISTANCE;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_ARCHER_TELEPORT_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> GUARDIAN_ARCHER_TELEPORT_COOLDOWN;
 
     // Guardian Berserker | 狂战士守卫
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_BERSERKER_LIFESTEAL_RATIO;
-    public static ForgeConfigSpec.ConfigValue<Double> GUARDIAN_BERSERKER_TOTEM_REVIVE_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_BERSERKER_LIFESTEAL_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> GUARDIAN_BERSERKER_TOTEM_REVIVE_RATIO;
 
     // Dragon Cultist | 拜龙教教徒
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULTIST_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULTIST_HURT_RESIST_TIME;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULTIST_MELEE_ATTACK_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULTIST_MAGIC_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULTIST_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULTIST_HURT_RESIST_TIME;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULTIST_MELEE_ATTACK_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULTIST_MAGIC_COOLDOWN;
 
     // Dragon Cult Paladin | 拜龙教圣骑士
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HURT_RESIST_TIME;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HURT_RESIST_TIME;
     // Attack | 普通攻击
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_ATTACK_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_ATTACK_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_ATTACK_RANGE;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_ATTACK_DAMAGE_MULTIPLIER;
     // Heavy Attack | 重击
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HEAVY_ATTACK_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_HEAVY_ATTACK_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HEAVY_ATTACK_SHIELD_DISABLE_TIME;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HEAVY_ATTACK_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PALADIN_HEAVY_ATTACK_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_HEAVY_ATTACK_SHIELD_DISABLE_TIME;
     // Block | 格挡
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_BLOCK_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PALADIN_BLOCK_COOLDOWN;
 
     // Dragon Cult Priest | 拜龙教祭司
-    public static ForgeConfigSpec.ConfigValue<Boolean> DRAGON_CULT_PRIEST_NAMED_ENABLE;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_DAMAGE_LIMIT;
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_HURT_RESIST_TIME;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_DEATH_EXPLOSION_POWER;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_HOVER_HEIGHT;
+    public static ModConfigSpec.ConfigValue<Boolean> DRAGON_CULT_PRIEST_NAMED_ENABLE;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_DAMAGE_LIMIT;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_HURT_RESIST_TIME;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_DEATH_EXPLOSION_POWER;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_HOVER_HEIGHT;
     // Breath | 龙息
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_BREATH_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_BREATH_SIZE;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_BREATH_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_BREATH_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_BREATH_SIZE;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_BREATH_DAMAGE_MULTIPLIER;
     // Lightning | 落雷
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_LIGHTNING_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_LIGHTNING_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_LIGHTNING_AOE_RADIUS;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_LIGHTNING_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_LIGHTNING_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_LIGHTNING_AOE_RADIUS;
     // Guard | 庇佑
-    public static ForgeConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_GUARD_COOLDOWN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_SHIELD_GAIN;
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_LOW_HP_RATIO;
+    public static ModConfigSpec.ConfigValue<Integer> DRAGON_CULT_PRIEST_GUARD_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_RADIUS;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_SHIELD_GAIN;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_GUARD_LOW_HP_RATIO;
     // Keep Distance | 距离控制
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_RETREAT_SPEED;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CULT_PRIEST_RETREAT_SPEED;
 
     // Projectile | 弹射物配置
     // Dragon Sword Projectile | 龙之剑弹射物
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
     // Dragon Crystal Sword Projectile | 龙水晶剑弹射物
-    public static ForgeConfigSpec.ConfigValue<Double> DRAGON_CRYSTAL_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> DRAGON_CRYSTAL_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
     // The Last End Sword Projectile | 最终之剑弹射物
-    public static ForgeConfigSpec.ConfigValue<Double> THE_LAST_END_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> THE_LAST_END_SWORD_PROJECTILE_AOE_RADIUS;
+    public static ModConfigSpec.ConfigValue<Double> THE_LAST_END_SWORD_PROJECTILE_EXTRA_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> THE_LAST_END_SWORD_PROJECTILE_AOE_RADIUS;
 
     // The-Last-End Sword Wraith Skills | 终焉剑灵技能配置
     // Swift Thrust | 迅捷突刺
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_SWIFT_DASH_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_SWIFT_DASH_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_SWIFT_DASH_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_SWIFT_DASH_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_SWIFT_DASH_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_SWIFT_DASH_COOLDOWN;
 
     // Double Slash | 双连斩
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_DOUBLE_STRIKE_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_DOUBLE_STRIKE_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_DOUBLE_STRIKE_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_DOUBLE_STRIKE_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_DOUBLE_STRIKE_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_DOUBLE_STRIKE_COOLDOWN;
 
     // Cross Slash | 十字切
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_CROSS_SLASH_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_CROSS_SLASH_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_CROSS_SLASH_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_CROSS_SLASH_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_CROSS_SLASH_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_CROSS_SLASH_COOLDOWN;
 
     // Block | 格挡
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_BLOCK_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_BLOCK_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_BLOCK_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_BLOCK_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_BLOCK_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_BLOCK_COOLDOWN;
 
     // Moonlit Strike | 月华一击
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_MOON_LIGHT_STRIKE_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_MOON_LIGHT_STRIKE_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_MOON_LIGHT_STRIKE_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_MOON_LIGHT_STRIKE_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_MOON_LIGHT_STRIKE_RANGE;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_MOON_LIGHT_STRIKE_COOLDOWN;
 
     // Enchant | 虚空附魔
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_ENCHANT_DURATION;
-    public static ForgeConfigSpec.ConfigValue<Integer> SKILL_ENCHANT_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_ENCHANT_DURATION;
+    public static ModConfigSpec.ConfigValue<Integer> SKILL_ENCHANT_COOLDOWN;
 
     // End of All Things | 万物终焉
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_RANGE;
-    public static ForgeConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_EXECUTION_HEALTH_THRESHOLD;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_RANGE;
+    public static ModConfigSpec.ConfigValue<Double> SKILL_END_OF_ALL_THINGS_EXECUTION_HEALTH_THRESHOLD;
 
     // Sword Wraith Generic | 通用剑灵配置
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_WRAITH_HEALTH_PER_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_WRAITH_ATTACK_PER_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_WRAITH_HEALTH_PER_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> SWORD_WRAITH_ATTACK_PER_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Boolean> SWORD_WRAITH_AS_THE_LAST_END_ENTITY;
-    public static ForgeConfigSpec.ConfigValue<Boolean> SWORD_WRAITH_ABSOLUTE_DESTRUCTION_DAMAGE;
-    public static ForgeConfigSpec.ConfigValue<String> SWORD_WRAITH_CAPTURE_BLACKLIST;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_WRAITH_HEALTH_PER_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_WRAITH_ATTACK_PER_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_WRAITH_HEALTH_PER_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> SWORD_WRAITH_ATTACK_PER_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Boolean> SWORD_WRAITH_AS_THE_LAST_END_ENTITY;
+    public static ModConfigSpec.ConfigValue<Boolean> SWORD_WRAITH_ABSOLUTE_DESTRUCTION_DAMAGE;
+    public static ModConfigSpec.ConfigValue<String> SWORD_WRAITH_CAPTURE_BLACKLIST;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Block Configuration | 方块配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
     // Dragon Crystal Enchanting Table | 龙水晶附魔台
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_CAPACITY;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_RECEIVE_RATE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_EXTRACT_RATE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_CRYSTAL_POWER_TIME;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_PER_TICK;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ITEM_CHARGE_RATE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENCHANT_ENERGY_COST;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_REMOVE_XP_RETURN;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_CAPACITY;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_RECEIVE_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_EXTRACT_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_CRYSTAL_POWER_TIME;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENERGY_PER_TICK;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ITEM_CHARGE_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_ENCHANT_ENERGY_COST;
+    public static ModConfigSpec.ConfigValue<Integer> ENCHANTING_TABLE_REMOVE_XP_RETURN;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Attack Configuration | 攻击系统配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
     // Absolute Destruction Damage | 绝对毁灭伤害配置
-    public static ForgeConfigSpec.ConfigValue<Double> ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR_DAMAGE_MULTIPLIER;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_DISPLAY_PRESENT_WORLD_ANCHOR_DAMAGE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ABSOLUTE_DESTRUCTION_HEAL_NEGATION_TIME;
-    public static ForgeConfigSpec.ConfigValue<Integer> ABSOLUTE_DESTRUCTION_REVIVE_BAN_TIME;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_DIE_MESSAGE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_PARTICLE_EFFECTS;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_ENABLE_THE_LAST_END_SETDEAD;
+    public static ModConfigSpec.ConfigValue<Double> ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR_DAMAGE_MULTIPLIER;
+    public static ModConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_DISPLAY_PRESENT_WORLD_ANCHOR_DAMAGE;
+    public static ModConfigSpec.ConfigValue<Integer> ABSOLUTE_DESTRUCTION_HEAL_NEGATION_TIME;
+    public static ModConfigSpec.ConfigValue<Integer> ABSOLUTE_DESTRUCTION_REVIVE_BAN_TIME;
+    public static ModConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_DIE_MESSAGE;
+    public static ModConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_PARTICLE_EFFECTS;
+    public static ModConfigSpec.ConfigValue<Boolean> ABSOLUTE_DESTRUCTION_ENABLE_THE_LAST_END_SETDEAD;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Defence Configuration | 防御系统配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
-    public static ForgeConfigSpec.ConfigValue<Double> DEFENCE_CUSTOM_HEALTH_DAMAGE_REDUCTION;
-    public static ForgeConfigSpec.ConfigValue<Double> DEFENCE_MAX_DAMAGE_PER_HIT;
+    public static ModConfigSpec.ConfigValue<Double> DEFENCE_CUSTOM_HEALTH_DAMAGE_REDUCTION;
+    public static ModConfigSpec.ConfigValue<Double> DEFENCE_MAX_DAMAGE_PER_HIT;
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Others Configuration | 其他配置
     // ═══════════════════════════════════════════════════════════════════════════════════
 
     // Buff Configuration | Buff配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> BUFF_VOID_ENCHANTMENT_PARTICLE_EFFECTS;
-    public static ForgeConfigSpec.ConfigValue<Double> BUFF_VOID_ENCHANTMENT_DAMAGE_PERCENTAGE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> BUFF_PHASING_BREAK_BLOCKS_ON_END;
+    public static ModConfigSpec.ConfigValue<Boolean> BUFF_VOID_ENCHANTMENT_PARTICLE_EFFECTS;
+    public static ModConfigSpec.ConfigValue<Double> BUFF_VOID_ENCHANTMENT_DAMAGE_PERCENTAGE;
+    public static ModConfigSpec.ConfigValue<Boolean> BUFF_PHASING_BREAK_BLOCKS_ON_END;
 
     // Ender Dragon Egg | 末影龙蛋配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_DROP;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_MULTIPLE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENDER_DRAGON_EGG_RADIUS;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENDER_DRAGON_EGG_AMOUNT;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_GIVE_TO_ABSENT_PLAYERS;
+    public static ModConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_DROP;
+    public static ModConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_MULTIPLE;
+    public static ModConfigSpec.ConfigValue<Integer> ENDER_DRAGON_EGG_RADIUS;
+    public static ModConfigSpec.ConfigValue<Integer> ENDER_DRAGON_EGG_AMOUNT;
+    public static ModConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EGG_GIVE_TO_ABSENT_PLAYERS;
 
     // Stronger Ender Dragon | 更强的末影龙配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_NAMED_ENABLE;
-    public static ForgeConfigSpec.ConfigValue<Integer> ENDER_DRAGON_MAX_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_HEALTH_INCREASE_VALUE;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_HEALTH_INCREASE_VALUE_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_ARMOR_INCREASE_VALUE;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_ARMOR_INCREASE_VALUE_HIGH_LEVEL;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_ATTACK_INCREASE_VALUE;
-    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_ATTACK_INCREASE_VALUE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_NAMED_ENABLE;
+    public static ModConfigSpec.ConfigValue<Integer> ENDER_DRAGON_MAX_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_HEALTH_INCREASE_VALUE;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_HEALTH_INCREASE_VALUE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_ARMOR_INCREASE_VALUE;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_ARMOR_INCREASE_VALUE_HIGH_LEVEL;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_ATTACK_INCREASE_VALUE;
+    public static ModConfigSpec.ConfigValue<Double> ENDER_DRAGON_ATTACK_INCREASE_VALUE_HIGH_LEVEL;
 
     // Compat Mods | 联动Mod配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> COMPAT_ENABLE_SWORD_WRAITH_BOSS_TALK;
+    public static ModConfigSpec.ConfigValue<Boolean> COMPAT_ENABLE_SWORD_WRAITH_BOSS_TALK;
 
     // Lucky Block | 幸运方块事件权重（键为事件 id）
-    public static final Map<String, ForgeConfigSpec.ConfigValue<Integer>> LUCKY_EVENT_WEIGHTS = new HashMap<>();
+    public static final Map<String, ModConfigSpec.ConfigValue<Integer>> LUCKY_EVENT_WEIGHTS = new HashMap<>();
 
     // Quest | 任务系统配置
-    public static ForgeConfigSpec.ConfigValue<Boolean> QUEST_SYSTEM_ENABLED;
+    public static ModConfigSpec.ConfigValue<Boolean> QUEST_SYSTEM_ENABLED;
 
     static {
         // ═══════════════════════════════════════════════════════════════════════════════
@@ -2115,7 +2115,7 @@ public class TheLastSwordConfiguration {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     //通用的安全配置获取方法（避免配置未加载时的空指针异常）
-    private static <T> T safeGet(ForgeConfigSpec.ConfigValue<T> configValue, T defaultValue) {
+    private static <T> T safeGet(ModConfigSpec.ConfigValue<T> configValue, T defaultValue) {
         try {
             return configValue != null ? configValue.get() : defaultValue;
         } catch (IllegalStateException | NullPointerException e) {

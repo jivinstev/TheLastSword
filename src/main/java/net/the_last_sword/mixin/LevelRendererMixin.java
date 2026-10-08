@@ -22,7 +22,7 @@ public class LevelRendererMixin {
     private boolean modifyIsSpectator(boolean isSpectator, Camera camera, Frustum frustum, boolean capturedFrustum, boolean originalIsSpectator) {
         //如果玩家有虚化效果，视为旁观者模式进行渲染
         if (camera.getEntity() instanceof Player player) {
-            if (player.hasEffect(ModEffects.PHASING.get())) {
+            if (player.hasEffect(ModEffects.PHASING)) {
                 return true;
             }
         }

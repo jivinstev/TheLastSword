@@ -169,12 +169,12 @@ public class ArmorPieceConfigScreen extends Screen {
 
     //添加复选框
     private void addCheckbox(String translationKey, boolean initialValue, int y, BooleanConsumer setter) {
-        Checkbox checkbox = new Checkbox(
-            this.width / 2 - 100, y,
-            200, 20,
-            Component.translatable(translationKey),
-            initialValue
-        );
+        Checkbox checkbox = Checkbox.builder(Component.translatable(translationKey), this.font)
+            .pos(this.width / 2 - 100, y)
+            .maxWidth(200)
+            .selected(initialValue)
+            .onValueChange((cb, value) -> setter.accept(value))
+            .build();
         this.addRenderableWidget(checkbox);
         configEntries.add(new ConfigEntry(checkbox, setter));
     }
@@ -188,7 +188,7 @@ public class ArmorPieceConfigScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, partialTick);
         graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
         super.render(graphics, mouseX, mouseY, partialTick);
     }

@@ -1,14 +1,27 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.client.ClientPacketHandler;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
 
-public class NpcDialogueStatePacket {
+public class NpcDialogueStatePacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<NpcDialogueStatePacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "npc_dialogue_state_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, NpcDialogueStatePacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> NpcDialogueStatePacket.encode(msg, buf), NpcDialogueStatePacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<NpcDialogueStatePacket> type() {
+        return TYPE;
+    }
+
     private static final int MAX_ID_LENGTH = 128;
     private static final int MAX_READ_OPTION_COUNT = 256;
     private final int entityId;
@@ -66,12 +79,9 @@ public class NpcDialogueStatePacket {
         return open(entityId, dialogueId, nodeId, readOptionIds);
     }
 
-    public static void handle(NpcDialogueStatePacket message,
-                              Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public static void handle(NpcDialogueStatePacket message, IPayloadContext context) {
         context.enqueueWork(() -> ClientPacketHandler.updateNpcDialogue(
                 message.entityId, message.dialogueId, message.nodeId,
                 message.readOptionIds, message.close));
-        context.setPacketHandled(true);
     }
 }

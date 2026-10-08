@@ -272,8 +272,8 @@ public final class PresentWorldAnchorManager {
 
         int currentTime = getHealBanTime(entity);
         if (currentTime <= 0) {
-            if (entity.hasEffect(ModEffects.WORLD_SEVERANCE.get())) {
-                entity.removeEffect(ModEffects.WORLD_SEVERANCE.get());
+            if (entity.hasEffect(ModEffects.WORLD_SEVERANCE)) {
+                entity.removeEffect(ModEffects.WORLD_SEVERANCE);
             }
             return;
         }
@@ -286,7 +286,7 @@ public final class PresentWorldAnchorManager {
         setHealBanTime(entity, remainingTime);
         if (remainingTime == 0) {
             EcaAPI.unbanHealing(entity);
-            entity.removeEffect(ModEffects.WORLD_SEVERANCE.get());
+            entity.removeEffect(ModEffects.WORLD_SEVERANCE);
         } else {
             syncSeveranceEffect(entity, remainingTime);
         }
@@ -299,7 +299,7 @@ public final class PresentWorldAnchorManager {
         setHealBanTime(entity, 0);
         entity.getPersistentData().remove(NBT_HEAL_BAN_TIME);
         EcaAPI.unbanHealing(entity);
-        entity.removeEffect(ModEffects.WORLD_SEVERANCE.get());
+        entity.removeEffect(ModEffects.WORLD_SEVERANCE);
     }
 
     private static void applyHealBan(LivingEntity entity, float presentWorldAnchor) {
@@ -315,9 +315,9 @@ public final class PresentWorldAnchorManager {
     private static void syncSeveranceEffect(LivingEntity entity, int seconds) {
         // 秒计时按实体 tick 对齐，显示效果不能自行延长真实禁疗。
         int duration = (int) Math.min(Integer.MAX_VALUE, (long) seconds * 20 - entity.tickCount % 20);
-        MobEffectInstance current = entity.getEffect(ModEffects.WORLD_SEVERANCE.get());
+        MobEffectInstance current = entity.getEffect(ModEffects.WORLD_SEVERANCE);
         if (current == null || Math.abs((long) current.getDuration() - duration) > 2) {
-            entity.forceAddEffect(new MobEffectInstance(ModEffects.WORLD_SEVERANCE.get(),
+            entity.forceAddEffect(new MobEffectInstance(ModEffects.WORLD_SEVERANCE,
                     duration, 0, false, false, true), null);
         }
     }

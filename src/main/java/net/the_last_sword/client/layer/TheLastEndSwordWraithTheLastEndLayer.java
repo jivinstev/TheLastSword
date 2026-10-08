@@ -55,8 +55,6 @@ public class TheLastEndSwordWraithTheLastEndLayer extends GeoRenderLayer<TheLast
             vertexConsumer,
             partialTick,
             packedLight,
-            OverlayTexture.NO_OVERLAY,
-            1.0f, 1.0f, 1.0f, 1.0f
-        );
+            OverlayTexture.NO_OVERLAY, -1);
     }
 }

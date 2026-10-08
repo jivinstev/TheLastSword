@@ -9,9 +9,14 @@
           "name": "the_last_sword:dragon_cult_priest_armor_helmet",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.4,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.4,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.4,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }
@@ -25,9 +30,14 @@
           "name": "the_last_sword:dragon_cult_priest_armor_chestplate",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.4,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.4,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.4,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }
@@ -41,9 +51,14 @@
           "name": "the_last_sword:dragon_cult_priest_armor_leggings",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.4,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.4,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.4,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }
@@ -57,9 +72,14 @@
           "name": "the_last_sword:dragon_cult_priest_armor_boots",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.4,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.4,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.4,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }
@@ -91,9 +111,14 @@
           "name": "the_last_sword:dragon_cult_horn",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.5,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.5,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.5,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }
@@ -107,9 +132,14 @@
           "name": "the_last_sword:dragon_crystal",
           "conditions": [
             {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.1,
-              "looting_multiplier": 0.01
+              "condition": "minecraft:random_chance_with_enchanted_bonus",
+              "unenchanted_chance": 0.1,
+              "enchanted_chance": {
+                "type": "minecraft:linear",
+                "base": 0.1,
+                "per_level_above_first": 0.01
+              },
+              "enchantment": "minecraft:looting"
             }
           ],
           "functions": [
@@ -123,12 +153,13 @@
               "add": false
             },
             {
-              "function": "minecraft:looting_enchant",
+              "function": "minecraft:enchanted_count_increase",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 0,
                 "max": 1
-              }
+              },
+              "enchantment": "minecraft:looting"
             }
           ]
         }

@@ -17,16 +17,21 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.init.ModKeyMappings;
 import net.the_last_sword.util.EntityUtil;
@@ -37,7 +42,7 @@ import net.the_last_sword.util.nbt.ItemModeHelper;
 import java.util.List;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = "the_last_sword")
+@EventBusSubscriber(modid = "the_last_sword")
 public class UltraTestSwordItem extends TieredItem {
 
     private static final int MAX_MODES = 2; // 0=强力范围攻击模式, 1=斗兽模式
@@ -47,7 +52,7 @@ public class UltraTestSwordItem extends TieredItem {
             @Override public int getUses() { return 0; }
             @Override public float getSpeed() { return 1024f; }
             @Override public float getAttackDamageBonus() { return 1022f; }
-            @Override public int getLevel() { return 4; }
+            @Override public TagKey<Block> getIncorrectBlocksForDrops() { return BlockTags.INCORRECT_FOR_NETHERITE_TOOL; }
             @Override public int getEnchantmentValue() { return 1024; }
             @Override public Ingredient getRepairIngredient() { return Ingredient.of(); }
         }, new Item.Properties().fireResistant());
@@ -130,16 +135,16 @@ public class UltraTestSwordItem extends TieredItem {
 
     //读取封锁开关状态，供物品扩展渲染判断
     public static boolean isLockdownEnabled(ItemStack stack) {
-        return !stack.isEmpty() && stack.hasTag() && stack.getTag().getBoolean(LOCKDOWN_TAG);
+        return !stack.isEmpty() && ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBoolean(LOCKDOWN_TAG);
     }
 
     private static void setLockdownEnabled(ItemStack stack, boolean enabled) {
-        stack.getOrCreateTag().putBoolean(LOCKDOWN_TAG, enabled);
+        ItemNbt.update(stack, t -> t.putBoolean(LOCKDOWN_TAG, enabled));
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.creative"));
@@ -232,10 +237,9 @@ public class UltraTestSwordItem extends TieredItem {
 
     //玩家刻：防御管理
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
-        if (event.player.level().isClientSide) return;
-        if (!(event.player instanceof ServerPlayer sp)) return;
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
+        if (event.getEntity().level().isClientSide) return;
+        if (!(event.getEntity() instanceof ServerPlayer sp)) return;
 
         //权限检查：仅OP创造/旁观模式玩家
         boolean isCreativeOrSpec = sp.isCreative() || sp.isSpectator();

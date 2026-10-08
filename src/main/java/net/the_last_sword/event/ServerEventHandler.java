@@ -1,6 +1,7 @@
 package net.the_last_sword.event;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -29,18 +30,18 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.summon.WraithSummonManager;
 import net.the_last_sword.item.TheLastEndArmorItem;
@@ -61,7 +62,7 @@ import java.util.*;
 import java.util.Optional;
 
 //服务器事件处理器
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class ServerEventHandler {
 
     //========== 龙魂灯灵魂收集系统 ==========
@@ -118,11 +119,9 @@ public class ServerEventHandler {
 
     //服务器Tick - 清理过期预览
     @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            playerPreviews.entrySet().removeIf(entry -> entry.getValue().isExpired());
-            arenaPreviewMap.entrySet().removeIf(entry -> entry.getValue().isExpired());
-        }
+    public static void onServerTick(ServerTickEvent.Post event) {
+        playerPreviews.entrySet().removeIf(entry -> entry.getValue().isExpired());
+        arenaPreviewMap.entrySet().removeIf(entry -> entry.getValue().isExpired());
     }
 
     //服务器启动时加载配方
@@ -298,7 +297,7 @@ public class ServerEventHandler {
         if (collectedDrops.isEmpty()) return;
 
         //合并堆叠后打包进黑色潜影盒
-        List<ItemStack> shulkers = packIntoBlackShulkers(mergeStacks(collectedDrops));
+        List<ItemStack> shulkers = packIntoBlackShulkers(mergeStacks(collectedDrops), level.registryAccess());
         BlockPos dropPos = preview.centerPos;
         for (ItemStack shulker : shulkers) {
             Block.popResource(level, dropPos, shulker);
@@ -314,7 +313,7 @@ public class ServerEventHandler {
             int remaining = drop.getCount();
             for (ItemStack existing : bucket) {
                 if (remaining <= 0) break;
-                if (!ItemStack.isSameItemSameTags(existing, drop)) continue;
+                if (!ItemStack.isSameItemSameComponents(existing, drop)) continue;
                 int canAdd = existing.getMaxStackSize() - existing.getCount();
                 if (canAdd <= 0) continue;
                 int take = Math.min(canAdd, remaining);
@@ -337,7 +336,7 @@ public class ServerEventHandler {
     }
 
     //打包到黑色潜影盒（每盒27格）
-    private static List<ItemStack> packIntoBlackShulkers(List<ItemStack> merged) {
+    private static List<ItemStack> packIntoBlackShulkers(List<ItemStack> merged, HolderLookup.Provider registries) {
         List<ItemStack> shulkers = new ArrayList<>();
         ListTag items = new ListTag();
         int slot = 0;
@@ -349,8 +348,7 @@ public class ServerEventHandler {
             }
             CompoundTag itemTag = new CompoundTag();
             itemTag.putByte("Slot", (byte) slot);
-            stack.save(itemTag);
-            items.add(itemTag);
+            items.add(stack.save(registries, itemTag));
             slot++;
         }
         if (slot > 0) {
@@ -364,7 +362,7 @@ public class ServerEventHandler {
         ItemStack shulker = new ItemStack(Blocks.BLACK_SHULKER_BOX);
         CompoundTag blockEntityTag = new CompoundTag();
         blockEntityTag.put("Items", items);
-        shulker.getOrCreateTag().put("BlockEntityTag", blockEntityTag);
+        ItemNbt.update(shulker, t -> t.put("BlockEntityTag", blockEntityTag));
         return shulker;
     }
 

@@ -1,5 +1,7 @@
 package net.the_last_sword.compat.lucky_block.lucky_event.events;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
@@ -21,8 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.registries.ForgeRegistries;
+
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.compat.lucky_block.lucky_event.ArenaBattleHandler;
@@ -108,7 +109,7 @@ public class ArenaEvent extends LuckyEvent {
             Mob opponent = pickRandomMob(world);
             if (opponent == null) return;
             opponent.moveTo(enemySpawn.getX() + 0.5, enemySpawn.getY(), enemySpawn.getZ() + 0.5, 0.0F, 0.0F);
-            ForgeEventFactory.onFinalizeSpawn(opponent, world, world.getCurrentDifficultyAt(enemySpawn), MobSpawnType.EVENT, null, null);
+            opponent.finalizeSpawn(world, world.getCurrentDifficultyAt(enemySpawn), MobSpawnType.EVENT, null);
             world.addFreshEntity(opponent);
             opponent.setTarget(player);
             opponent.addEffect(new MobEffectInstance(MobEffects.GLOWING, 999999, 0, false, false));
@@ -143,7 +144,7 @@ public class ArenaEvent extends LuckyEvent {
     //从所有 category != MISC 的 EntityType 中随机抽一个可创建的 Mob; 最多重试 20 次
     private static Mob pickRandomMob(ServerLevel world) {
         RandomSource random = world.getRandom();
-        List<EntityType<?>> pool = ForgeRegistries.ENTITY_TYPES.getValues().stream()
+        List<EntityType<?>> pool = BuiltInRegistries.ENTITY_TYPE.stream()
             .filter(t -> t.getCategory() != MobCategory.MISC)
             .filter(t -> t != ModEntities.TEST_ENTITY.get())
             .toList();

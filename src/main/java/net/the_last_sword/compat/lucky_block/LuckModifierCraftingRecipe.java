@@ -1,9 +1,8 @@
 package net.the_last_sword.compat.lucky_block;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,6 +11,7 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.init.ModItems;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.init.ModRecipes;
 
 import java.util.Map;
@@ -44,8 +44,8 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
         .put(Items.PUFFERFISH, -20)
         .build();
 
-    public LuckModifierCraftingRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public LuckModifierCraftingRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     //模组专属材料需运行时引用(DeferredRegister 延迟加载), 不放 static map
@@ -65,11 +65,11 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level level) {
+    public boolean matches(CraftingInput input, Level level) {
         int luckyBlockCount = 0;
         boolean hasModifier = false;
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack s = inv.getItem(i);
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack s = input.getItem(i);
             if (s.isEmpty()) continue;
             if (isLuckyBlock(s)) {
                 if (++luckyBlockCount > 1) return false;
@@ -83,11 +83,11 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess access) {
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
         ItemStack luckyStack = ItemStack.EMPTY;
         int sum = 0;
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack s = inv.getItem(i);
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack s = input.getItem(i);
             if (s.isEmpty()) continue;
             if (isLuckyBlock(s)) {
                 luckyStack = s;
@@ -98,9 +98,9 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
         if (luckyStack.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack result = luckyStack.copyWithCount(1);
-        int oldLuck = result.hasTag() && result.getTag().contains(TAG_LUCK) ? result.getTag().getInt(TAG_LUCK) : 0;
+        int oldLuck = ItemNbt.hasTag(result) && ItemNbt.getTag(result).contains(TAG_LUCK) ? ItemNbt.getTag(result).getInt(TAG_LUCK) : 0;
         int newLuck = Math.max(LUCK_MIN, Math.min(LUCK_MAX, oldLuck + sum));
-        result.getOrCreateTag().putInt(TAG_LUCK, newLuck);
+        ItemNbt.update(result, t -> t.putInt(TAG_LUCK, newLuck));
         return result;
     }
 

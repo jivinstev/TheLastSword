@@ -76,9 +76,9 @@ public final class QueenBlinkRenderUtil {
 
     private static void riftVertex(PoseStack pose, VertexConsumer buffer, float x, float y,
                                    float u, float v, float alpha) {
-        buffer.vertex(pose.last().pose(), x, y, 0).color(1F, 1F, 1F, alpha).uv(u, v)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT)
-                .normal(pose.last().normal(), 0, 0, 1).endVertex();
+        buffer.addVertex(pose.last().pose(), x, y, 0).setColor(1F, 1F, 1F, alpha).setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT)
+                .setNormal(pose.last(), 0, 0, 1);
     }
 
     public static void blade(PoseStack pose, MultiBufferSource buffers, float width, float height, float length) {
@@ -137,9 +137,9 @@ public final class QueenBlinkRenderUtil {
                              float x0, float y0, float z0, float x1, float y1, float z1,
                              float x2, float y2, float z2, float x3, float y3, float z3,
                              float r, float g, float b, float a) {
-        consumer.vertex(matrix, x0, y0, z0).color(r, g, b, a).endVertex();
-        consumer.vertex(matrix, x1, y1, z1).color(r, g, b, a).endVertex();
-        consumer.vertex(matrix, x2, y2, z2).color(r, g, b, a).endVertex();
-        consumer.vertex(matrix, x3, y3, z3).color(r, g, b, a).endVertex();
+        consumer.addVertex(matrix, x0, y0, z0).setColor(r, g, b, a);
+        consumer.addVertex(matrix, x1, y1, z1).setColor(r, g, b, a);
+        consumer.addVertex(matrix, x2, y2, z2).setColor(r, g, b, a);
+        consumer.addVertex(matrix, x3, y3, z3).setColor(r, g, b, a);
     }
 }

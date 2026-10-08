@@ -1,24 +1,38 @@
 package net.the_last_sword.network;
 
+import net.minecraft.core.registries.Registries;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.block.entity.DragonCrystalEnchantingTableBlockEntity;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 // 附魔应用网络包（支持增加和减少附魔）
-public class EnchantmentApplyPacket {
+public class EnchantmentApplyPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<EnchantmentApplyPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "enchantment_apply_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantmentApplyPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> EnchantmentApplyPacket.encode(msg, buf), EnchantmentApplyPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<EnchantmentApplyPacket> type() {
+        return TYPE;
+    }
 
 
     private final BlockPos pos;
@@ -51,9 +65,9 @@ public class EnchantmentApplyPacket {
         }
     }
 
-    public static void handle(EnchantmentApplyPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
+    public static void handle(EnchantmentApplyPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ((ServerPlayer) ctx.player());
             if (player == null) return;
 
             BlockEntity be = player.level().getBlockEntity(msg.pos);
@@ -64,7 +78,12 @@ public class EnchantmentApplyPacket {
             ItemStack stack = enchantingTable.getItem(1);
             if (stack.isEmpty()) return;
 
-            Map<Enchantment, Integer> existingEnchants = EnchantmentHelper.getEnchantments(stack);
+            ItemEnchantments currentEnchants = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+            Map<Enchantment, Integer> existingEnchants = new HashMap<>();
+            for (Holder<Enchantment> holder : currentEnchants.keySet()) {
+                existingEnchants.put(holder.value(), currentEnchants.getLevel(holder));
+            }
+            var enchRegistry = player.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
 
             // 分别计算增加消耗和减少返还
             long totalEnergyCost = 0;
@@ -72,7 +91,7 @@ public class EnchantmentApplyPacket {
             Map<Enchantment, Integer> targetLevels = new HashMap<>();
 
             for (var entry : msg.enchantments.entrySet()) {
-                Enchantment ench = ForgeRegistries.ENCHANTMENTS.getValue(entry.getKey());
+                Enchantment ench = enchRegistry.get(entry.getKey());
                 if (ench == null) continue;
 
                 int currentLevel = existingEnchants.getOrDefault(ench, 0);
@@ -109,7 +128,13 @@ public class EnchantmentApplyPacket {
                     existingEnchants.put(entry.getKey(), entry.getValue());
                 }
             }
-            EnchantmentHelper.setEnchantments(existingEnchants, stack);
+            ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+            for (var entry : existingEnchants.entrySet()) {
+                if (entry.getValue() > 0) {
+                    mutable.set(enchRegistry.wrapAsHolder(entry.getKey()), entry.getValue());
+                }
+            }
+            stack.set(DataComponents.ENCHANTMENTS, mutable.toImmutable());
 
             // 返还经验
             if (totalXpReturn > 0) {
@@ -118,6 +143,5 @@ public class EnchantmentApplyPacket {
 
             enchantingTable.setChanged();
         });
-        ctx.get().setPacketHandled(true);
     }
 }

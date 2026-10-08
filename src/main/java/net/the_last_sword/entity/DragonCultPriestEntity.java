@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -24,7 +25,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -66,6 +66,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import net.minecraft.core.Holder;
 
 public class DragonCultPriestEntity extends TheLastEndEntity {
 
@@ -104,7 +105,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     public DragonCultPriestEntity(EntityType<? extends DragonCultPriestEntity> type, Level world) {
         super(type, world);
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         xpReward = 200;
         setPersistenceRequired();
         //悬浮单位：飞行移动 + 无重力，高度由 tickHover 维持
@@ -119,6 +120,12 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         navigation.setCanFloat(false);
         navigation.setCanPassDoors(true);
         return navigation;
+    }
+
+    //祭司不吃任何食物，不参与繁殖
+    @Override
+    public boolean isFood(@NotNull ItemStack stack) {
+        return false;
     }
 
     //飞行实体不受摔落伤害
@@ -248,11 +255,6 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     protected float getDamageLimit() {
         return (float) TheLastSwordConfiguration.getDragonCultPriestDamageLimitSafely();
     }
@@ -287,14 +289,13 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     @Override
     public boolean canBeAffected(@NotNull MobEffectInstance effect) {
         return !(getNamedVariant() == NamedPriestVariant.HEVNORAAK
-                && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL)
+                && effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL)
                 && super.canBeAffected(effect);
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
             CompoundTag data = getPersistentData();
@@ -340,8 +341,9 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     }
 
     @Override
-    protected float getStandingEyeHeight(@NotNull Pose pose, @NotNull EntityDimensions dimensions) {
-        return dimensions.height * 0.85f;
+    protected EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(dimensions.height() * 0.85f);
     }
 
     @Override
@@ -430,18 +432,18 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         NamedPriestVariant variant = NamedPriestVariant.byId(requestedId);
         if (variant == NamedPriestVariant.MIRAAK) {
             addNamedModifier(Attributes.MAX_HEALTH, NAMED_HEALTH_MODIFIER_ID, "named_priest_health", 1.0,
-                    AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
             addNamedModifier(Attributes.ATTACK_DAMAGE, NAMED_ATTACK_MODIFIER_ID, "named_priest_attack", 1.0,
-                    AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
             addNamedModifier(Attributes.ARMOR, NAMED_ARMOR_MODIFIER_ID, "named_priest_armor", 1.0,
-                    AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
             AttributeInstance toughness = getAttribute(Attributes.ARMOR_TOUGHNESS);
             if (toughness != null) {
                 double amount = toughness.getBaseValue() == 0.0 ? TOUGHNESS_REFERENCE : 1.0;
                 AttributeModifier.Operation operation = toughness.getBaseValue() == 0.0
-                        ? AttributeModifier.Operation.ADDITION : AttributeModifier.Operation.MULTIPLY_TOTAL;
+                        ? AttributeModifier.Operation.ADD_VALUE : AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL;
                 toughness.addPermanentModifier(new AttributeModifier(
-                        NAMED_TOUGHNESS_MODIFIER_ID, "named_priest_toughness", amount, operation));
+                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_priest_toughness"), amount, operation));
             }
         }
 
@@ -459,26 +461,30 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         }
     }
 
-    private void addNamedModifier(Attribute attribute, UUID id, String name, double amount,
+    private void addNamedModifier(Holder<Attribute> attribute, UUID id, String name, double amount,
                                   AttributeModifier.Operation operation) {
         AttributeInstance instance = getAttribute(attribute);
         if (instance != null) {
-            instance.addPermanentModifier(new AttributeModifier(id, name, amount, operation));
+            instance.addPermanentModifier(new AttributeModifier(modifierId(id), amount, operation));
         }
     }
 
-    private void removeNamedModifier(Attribute attribute, UUID id) {
+    private void removeNamedModifier(Holder<Attribute> attribute, UUID id) {
         AttributeInstance instance = getAttribute(attribute);
         if (instance != null) {
-            instance.removeModifier(id);
+            instance.removeModifier(modifierId(id));
         }
+    }
+
+    private static ResourceLocation modifierId(UUID id) {
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", id.toString());
     }
 
     private void tickNamedAbility() {
         NamedPriestVariant variant = getNamedVariant();
         if (variant == NamedPriestVariant.HEVNORAAK && tickCount % 20 == 0) {
             for (MobEffectInstance effect : new ArrayList<>(getActiveEffects())) {
-                if (effect.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
+                if (effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                     removeEffect(effect.getEffect());
                 }
             }
@@ -527,7 +533,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         boolean tamed = false;
         if (target instanceof TamableAnimal tamable) {
             tamable.setOwnerUUID(getUUID());
-            tamable.setTame(true);
+            tamable.setTame(true, true);
             tamed = true;
         } else if (target instanceof AbstractHorse horse) {
             horse.setOwnerUUID(getUUID());
@@ -566,7 +572,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         double z = getZ() + (getRandom().nextDouble() - 0.5) * 4.0;
         summon.moveTo(x, getY(), z, getRandom().nextFloat() * 360.0F, 0.0F);
         summon.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(summon.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null, null);
+                MobSpawnType.MOB_SUMMONED, null);
         if (getTarget() != null) {
             summon.setTarget(getTarget());
         }

@@ -3,23 +3,23 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 龙水晶盔甲
@@ -28,48 +28,17 @@ import java.util.List;
 public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public DragonCrystalArmorItem(Type type, Properties props) {
-        super(new ArmorMaterial() {
-            @Override
-            public int getDurabilityForType(Type t) {
-                //顺序对应 EquipmentSlot 索引 [靴子, 护腿, 胸甲, 头盔]，取下界合金各部位基数的 2 倍
-                return new int[]{481*2, 555*2, 592*2, 407*2}[t.getSlot().getIndex()];
-            }
-
-            @Override
-            public int getDefenseForType(Type t) {
-                return new int[]{4, 6, 6, 4}[t.getSlot().getIndex()];
-            }
-
-            @Override
-            public int getEnchantmentValue() {
-                return 22;
-            }
-
-            @Override
-            public SoundEvent getEquipSound() {
-                return SoundEvents.ARMOR_EQUIP_NETHERITE;
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return Ingredient.of(new ItemStack(ModItems.DRAGON_CRYSTAL.get()));
-            }
-
-            @Override
-            public String getName() {
-                return "dragon_crystal_armor";
-            }
-
-            @Override
-            public float getToughness() {
-                return 5f;
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return 1f;
-            }
-        }, type, props.fireResistant().rarity(Rarity.RARE));
+        //顺序对应 EquipmentSlot 索引 [靴子, 护腿, 胸甲, 头盔]，取下界合金各部位基数的 2 倍
+        super(Holder.direct(new ArmorMaterial(
+            Map.of(Type.HELMET, 4, Type.CHESTPLATE, 6, Type.LEGGINGS, 6, Type.BOOTS, 4),
+            22,
+            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            () -> Ingredient.of(new ItemStack(ModItems.DRAGON_CRYSTAL.get())),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("the_last_sword:dragon_crystal_armor"))),
+            5f,
+            1f
+        )), type, props.fireResistant().rarity(Rarity.RARE)
+            .durability(new int[]{481*2, 555*2, 592*2, 407*2}[type.getSlot().getIndex()]));
     }
 
     // ==================== 实现抽象方法 ====================
@@ -126,8 +95,8 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
         }
 
         @Override
-        public String getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, String tp) {
-            return "the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png";
+        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
         }
 
         @Override
@@ -147,8 +116,8 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
         }
 
         @Override
-        public String getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, String tp) {
-            return "the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png";
+        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
         }
 
         @Override
@@ -168,8 +137,8 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
         }
 
         @Override
-        public String getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, String tp) {
-            return "the_last_sword:textures/models/armor/dragon_crystal_armor_layer_2.png";
+        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_2.png");
         }
 
         @Override
@@ -189,8 +158,8 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
         }
 
         @Override
-        public String getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, String tp) {
-            return "the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png";
+        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
+            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
         }
 
         @Override

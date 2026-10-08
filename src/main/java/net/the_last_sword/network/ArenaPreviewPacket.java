@@ -2,14 +2,26 @@ package net.the_last_sword.network;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 //服务器发送给客户端的竞技场预览方框包
-public class ArenaPreviewPacket {
+public class ArenaPreviewPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<ArenaPreviewPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "arena_preview_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ArenaPreviewPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> msg.encode(buf), ArenaPreviewPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<ArenaPreviewPacket> type() {
+        return TYPE;
+    }
+
     private final BlockPos minPos;
     private final BlockPos maxPos;
 
@@ -30,9 +42,7 @@ public class ArenaPreviewPacket {
     }
 
     //处理
-    public static void handle(ArenaPreviewPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.setArenaPreview(msg.minPos, msg.maxPos)));
-        ctx.get().setPacketHandled(true);
+    public static void handle(ArenaPreviewPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.setArenaPreview(msg.minPos, msg.maxPos); });
     }
 }

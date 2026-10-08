@@ -5,6 +5,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -27,15 +29,15 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.entity.DragonLightingEntity;
@@ -52,8 +54,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.core.Holder;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EnderDragonEvent {
     public static final String NAMED_VARIANT_ID_KEY = "TheLastSwordDragonNameId";
 
@@ -118,7 +121,7 @@ public class EnderDragonEvent {
         }
 
         @Override
-        public CompoundTag save(CompoundTag tag) {
+        public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
             tag.putInt(CHALLENGE_COUNT_KEY, this.challengeCount);
             ListTag uuidList = new ListTag();
             for (UUID uuid : this.attackerUUIDs) {
@@ -162,14 +165,15 @@ public class EnderDragonEvent {
     private static ChallengeData getChallengeData(ServerLevel level) {
         if (level.dimension() == Level.END) {
             DimensionDataStorage storage = level.getDataStorage();
-            return storage.computeIfAbsent(ChallengeData::load, ChallengeData::new, "dragon_challenges");
+            return storage.computeIfAbsent(new SavedData.Factory<>(ChallengeData::new,
+                    (tag, provider) -> ChallengeData.load(tag), null), "dragon_challenges");
         }
         return null;
     }
 
     // 玩家攻击末影龙时记录UUID
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onEntityAttacked(LivingAttackEvent event) {
+    public static void onEntityAttacked(LivingIncomingDamageEvent event) {
         if (event.getEntity().level().isClientSide()) return;
 
         if (event.getEntity() instanceof EnderDragon attackedDragon) {
@@ -187,7 +191,7 @@ public class EnderDragonEvent {
         if (event.getSource().getEntity() instanceof EnderDragon attackingDragon
                 && event.getSource().is(DamageTypes.MOB_ATTACK)
                 && getNamedVariant(attackingDragon) == NamedDragonVariant.BAYLE) {
-            target.setSecondsOnFire(60);
+            target.igniteForSeconds(60);
         }
 
         if (event.getEntity() instanceof EnderDragon dragon
@@ -285,9 +289,10 @@ public class EnderDragonEvent {
 
     // 每 tick 只比较两个整数，使 /data merge 修改公开 NBT 后可以立即切换命名变体。
     @SubscribeEvent
-    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
-        if (event.getEntity().level().isClientSide()) return;
-        if (!(event.getEntity() instanceof EnderDragon dragon)) return;
+    public static void onLivingTick(EntityTickEvent.Pre event) {
+        if (!(event.getEntity() instanceof net.minecraft.world.entity.LivingEntity living)) return;
+        if (living.level().isClientSide()) return;
+        if (!(living instanceof EnderDragon dragon)) return;
 
         CompoundTag data = dragon.getPersistentData();
         int requestedId = data.getInt(NAMED_VARIANT_ID_KEY);
@@ -351,7 +356,7 @@ public class EnderDragonEvent {
         removeAttributeModifier(dragon, Attributes.ARMOR, NAMED_ARMOR_MODIFIER_ID);
         removeAttributeModifier(dragon, Attributes.ARMOR_TOUGHNESS, NAMED_ARMOR_TOUGHNESS_MODIFIER_ID);
         removeAttributeModifier(dragon, Attributes.FLYING_SPEED, NAMED_FLYING_SPEED_MODIFIER_ID);
-        removeAttributeModifier(dragon, ModAttributes.MAX_JUSTIFIED_DEFENCE.get(), NAMED_MAX_SHIELD_MODIFIER_ID);
+        removeAttributeModifier(dragon, ModAttributes.MAX_JUSTIFIED_DEFENCE, NAMED_MAX_SHIELD_MODIFIER_ID);
         removeAttributeModifier(dragon, Attributes.ATTACK_DAMAGE, ALDUIN_KILL_ATTACK_MODIFIER_ID);
     }
 
@@ -379,7 +384,7 @@ public class EnderDragonEvent {
         long gameTime = dragon.level().getGameTime();
 
         if (oldVariant == NamedDragonVariant.PLACIDUSAX && newVariant != NamedDragonVariant.PLACIDUSAX) {
-            dragon.removeEffect(ModEffects.PHASING.get());
+            dragon.removeEffect(ModEffects.PHASING);
         }
         if (newVariant == NamedDragonVariant.AKATOSH) {
             data.putLong(NEXT_AKATOSH_HEAL_CHECK_KEY, gameTime + AKATOSH_HEAL_CHECK_INTERVAL);
@@ -483,8 +488,7 @@ public class EnderDragonEvent {
             Vec3 spawn = new Vec3(targetX, Math.max(dragon.getY() + 12.0, targetY + 24.0), targetZ);
             Vec3 direction = new Vec3(targetX, targetY, targetZ).subtract(spawn).normalize();
 
-            LargeFireball fireball = new LargeFireball(
-                    serverLevel, dragon, direction.x, direction.y, direction.z, 1);
+            LargeFireball fireball = new LargeFireball(serverLevel, dragon, direction, 1);
             fireball.setOwner(dragon);
             fireball.setPos(spawn.x, spawn.y, spawn.z);
             serverLevel.addFreshEntity(fireball);
@@ -527,7 +531,7 @@ public class EnderDragonEvent {
         long gameTime = dragon.level().getGameTime();
         CompoundTag data = dragon.getPersistentData();
         dragon.addEffect(new MobEffectInstance(
-                ModEffects.PHASING.get(), PLACIDUSAX_PHASE_DURATION, 0, false, true, true));
+                ModEffects.PHASING, PLACIDUSAX_PHASE_DURATION, 0, false, true, true));
         data.putLong(PLACIDUSAX_LIGHTNING_END_KEY, gameTime + PLACIDUSAX_PHASE_DURATION);
         data.putLong(PLACIDUSAX_NEXT_LIGHTNING_KEY, gameTime);
     }
@@ -576,12 +580,12 @@ public class EnderDragonEvent {
     private static void applyAlduinKillBonus(EnderDragon dragon) {
         AttributeInstance attack = dragon.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attack == null) return;
-        attack.removeModifier(ALDUIN_KILL_ATTACK_MODIFIER_ID);
+        attack.removeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"));
         int kills = dragon.getPersistentData().getInt(ALDUIN_KILL_COUNT_KEY);
         if (kills > 0) {
             attack.addPermanentModifier(new AttributeModifier(
-                    ALDUIN_KILL_ATTACK_MODIFIER_ID, "alduin_kill_attack", kills,
-                    AttributeModifier.Operation.MULTIPLY_BASE));
+                    ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"), kills,
+                    AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 
@@ -629,22 +633,22 @@ public class EnderDragonEvent {
     }
 
     private static void migrateLegacyNamedShield(EnderDragon dragon) {
-        AttributeInstance maxShield = dragon.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
-        if (maxShield == null || maxShield.getModifier(NAMED_MAX_SHIELD_MODIFIER_ID) == null) {
+        AttributeInstance maxShield = dragon.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
+        if (maxShield == null || maxShield.getModifier(modifierLocation(NAMED_MAX_SHIELD_MODIFIER_ID)) == null) {
             return;
         }
 
-        maxShield.removeModifier(NAMED_MAX_SHIELD_MODIFIER_ID);
-        AttributeInstance currentShield = dragon.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        maxShield.removeModifier(modifierLocation(NAMED_MAX_SHIELD_MODIFIER_ID));
+        AttributeInstance currentShield = dragon.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (currentShield != null && currentShield.getValue() > 0.0) {
             dragon.getPersistentData().putBoolean(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE, true);
         }
     }
 
-    private static void addNamedAttributeModifier(EnderDragon dragon, Attribute attribute, double value,
+    private static void addNamedAttributeModifier(EnderDragon dragon, Holder<Attribute> attribute, double value,
                                                    UUID id, String name) {
         addAttributeModifier(dragon, attribute, value, id, name,
-                AttributeModifier.Operation.MULTIPLY_TOTAL);
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     private static void addNamedArmorToughnessModifier(EnderDragon dragon, double bonus) {
@@ -656,34 +660,38 @@ public class EnderDragonEvent {
             double fallbackAmount = NAMED_DRAGON_TOUGHNESS_REFERENCE * bonus;
             if (fallbackAmount > 0.0) {
                 toughness.addPermanentModifier(new AttributeModifier(
-                        NAMED_ARMOR_TOUGHNESS_MODIFIER_ID, "named_dragon_armor_toughness",
-                        fallbackAmount, AttributeModifier.Operation.ADDITION));
+                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
+                        fallbackAmount, AttributeModifier.Operation.ADD_VALUE));
             }
         } else {
             toughness.addPermanentModifier(new AttributeModifier(
-                    NAMED_ARMOR_TOUGHNESS_MODIFIER_ID, "named_dragon_armor_toughness",
-                    bonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                    ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
+                    bonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
     }
 
-    private static void addAttributeModifier(EnderDragon dragon, Attribute attribute, double value,
+    private static void addAttributeModifier(EnderDragon dragon, Holder<Attribute> attribute, double value,
                                              UUID id, String name, AttributeModifier.Operation operation) {
         if (value == 0.0) return;
         AttributeInstance attr = dragon.getAttribute(attribute);
         if (attr != null) {
-            attr.addPermanentModifier(new AttributeModifier(id, name, value, operation));
+            attr.addPermanentModifier(new AttributeModifier(modifierLocation(id), value, operation));
         }
     }
 
-    private static void removeAttributeModifier(EnderDragon dragon, Attribute attribute, UUID id) {
+    private static void removeAttributeModifier(EnderDragon dragon, Holder<Attribute> attribute, UUID id) {
         AttributeInstance attr = dragon.getAttribute(attribute);
         if (attr != null) {
-            attr.removeModifier(id);
+            attr.removeModifier(modifierLocation(id));
         }
     }
 
     private static UUID modifierId(String name) {
         return UUID.nameUUIDFromBytes(("the_last_sword:" + name).getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static ResourceLocation modifierLocation(UUID id) {
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", id.toString());
     }
 
     // 根据等级强化末影龙属性
@@ -711,12 +719,12 @@ public class EnderDragonEvent {
     }
 
     // 添加属性修饰符
-    private static void addAttributeModifier(EnderDragon dragon, Attribute attribute, double value, String name) {
+    private static void addAttributeModifier(EnderDragon dragon, Holder<Attribute> attribute, double value, String name) {
         AttributeInstance attr = dragon.getAttribute(attribute);
         if (attr != null) {
-            UUID modifierId = UUID.nameUUIDFromBytes(name.getBytes());
             attr.addPermanentModifier(new AttributeModifier(
-                    modifierId, name, value, AttributeModifier.Operation.ADDITION));
+                    ResourceLocation.fromNamespaceAndPath("the_last_sword", name),
+                    value, AttributeModifier.Operation.ADD_VALUE));
         }
     }
 }

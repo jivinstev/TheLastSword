@@ -1,14 +1,25 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 //服务器发送给客户端的清除挖掘预览包
-public class ClearPreviewPacket {
+public class ClearPreviewPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<ClearPreviewPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "clear_preview_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ClearPreviewPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> msg.encode(buf), ClearPreviewPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<ClearPreviewPacket> type() {
+        return TYPE;
+    }
 
     public ClearPreviewPacket() {}
 
@@ -21,9 +32,7 @@ public class ClearPreviewPacket {
     public void encode(FriendlyByteBuf buf) {}
 
     //处理
-    public static void handle(ClearPreviewPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.clearPreviews()));
-        ctx.get().setPacketHandled(true);
+    public static void handle(ClearPreviewPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.clearPreviews(); });
     }
 }

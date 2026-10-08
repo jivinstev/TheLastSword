@@ -4,9 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModItems;
 import net.the_last_sword.network.NetworkHandler;
@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public final class NpcDialogueManager {
     private static final double MAX_INTERACTION_DISTANCE_SQR = 64.0;
     private static final String READ_DATA_KEY = "the_last_sword_npc_dialogue_read";

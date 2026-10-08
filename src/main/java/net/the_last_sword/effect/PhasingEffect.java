@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -18,22 +17,25 @@ public class PhasingEffect extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xC0C0C0); // 浅灰色
     }
 
+    //虚化效果每tick维持ECA无敌（1.21.1 的属性钩子不再携带实体，改由applyEffectTick提供实体）
     @Override
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-        super.addAttributeModifiers(entity, attributeMap, amplifier);
+    public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
+        return true;
+    }
 
+    @Override
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         //虚化效果设置ECA无敌
         if (!entity.level().isClientSide) {
             EcaAPI.setInvulnerable(entity, true);
         }
+        return super.applyEffectTick(entity, amplifier);
     }
 
-    @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-        super.removeAttributeModifiers(entity, attributeMap, amplifier);
-
+    //虚化效果真正结束时的清理（1.21.1 无直接的移除钩子，由效果过期事件调用）
+    public static void onPhasingEnd(LivingEntity entity) {
         //只在buff真正结束时执行清理（检查实体是否还有虚化效果）
-        if (!entity.hasEffect(ModEffects.PHASING.get())) {
+        if (!entity.hasEffect(ModEffects.PHASING)) {
             //移除ECA无敌
             if (!entity.level().isClientSide) {
                 EcaAPI.setInvulnerable(entity, false);
@@ -53,7 +55,7 @@ public class PhasingEffect extends MobEffect {
     }
 
     //破坏实体碰撞箱范围内会导致窒息的固体方块
-    private void breakBlocksInEntityBoundingBox(LivingEntity entity) {
+    private static void breakBlocksInEntityBoundingBox(LivingEntity entity) {
         Level level = entity.level();
         if (level.isClientSide) return;
 

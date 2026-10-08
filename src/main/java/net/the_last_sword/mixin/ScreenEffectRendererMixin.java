@@ -24,7 +24,7 @@ public class ScreenEffectRendererMixin {
         }
 
         //如果玩家有虚化效果，完全取消屏幕效果渲染（方块覆盖、水下、火焰等）
-        if (minecraft.player.hasEffect(ModEffects.PHASING.get())) {
+        if (minecraft.player.hasEffect(ModEffects.PHASING)) {
             ci.cancel();
         }
     }

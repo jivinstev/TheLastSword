@@ -1,30 +1,29 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.Holder;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.the_last_sword.client.renderer.DragonCultistArmorRenderer;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 //拜龙教盔甲，护甲取原版锁链甲档次，另加每件1点韧性
@@ -40,78 +39,41 @@ public abstract class DragonCultistArmorItem extends ArmorItem implements GeoIte
     //护甲值按 [靴子, 护腿, 胸甲, 头盔] 排列
     private static final int[] DEFENSE_PER_TYPE = {1, 4, 5, 2};
 
-    private static final ArmorMaterial MATERIAL = new ArmorMaterial() {
-        @Override
-        public int getDurabilityForType(Type type) {
-            return DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER;
-        }
+    private static final Map<ArmorItem.Type, Integer> DEFENSE = Map.of(
+            ArmorItem.Type.BOOTS, DEFENSE_PER_TYPE[0],
+            ArmorItem.Type.LEGGINGS, DEFENSE_PER_TYPE[1],
+            ArmorItem.Type.CHESTPLATE, DEFENSE_PER_TYPE[2],
+            ArmorItem.Type.HELMET, DEFENSE_PER_TYPE[3]);
 
-        @Override
-        public int getDefenseForType(Type type) {
-            return DEFENSE_PER_TYPE[type.getSlot().getIndex()];
-        }
+    private static final ArmorMaterial MATERIAL = new ArmorMaterial(
+            DEFENSE,
+            15,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            () -> Ingredient.of(Items.LEATHER),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("the_last_sword:dragon_cultist_armor"))),
+            1.0F,
+            0.0F);
 
-        @Override
-        public int getEnchantmentValue() {
-            return 15;
-        }
-
-        @Override
-        public SoundEvent getEquipSound() {
-            return SoundEvents.ARMOR_EQUIP_LEATHER;
-        }
-
-        @Override
-        public Ingredient getRepairIngredient() {
-            return Ingredient.of(Items.LEATHER);
-        }
-
-        @Override
-        public String getName() {
-            return "dragon_cultist_armor";
-        }
-
-        @Override
-        public float getToughness() {
-            return 1.0F;
-        }
-
-        @Override
-        public float getKnockbackResistance() {
-            return 0.0F;
-        }
-    };
+    private static final Holder<ArmorMaterial> MATERIAL_HOLDER = Holder.direct(MATERIAL);
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     protected DragonCultistArmorItem(Type type) {
-        super(MATERIAL, type, new Properties());
+        super(MATERIAL_HOLDER, type, new Properties().durability(DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER));
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private GeoArmorRenderer<?> renderer;
-
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack,
-                                                          EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                if (this.renderer == null) {
-                    this.renderer = new DragonCultistArmorRenderer();
-                }
-                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-                return this.renderer;
-            }
-        });
+        consumer.accept(DragonCultArmorClientExtensions.cultist());
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return TEXTURE;
+    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+        return ResourceLocation.parse(TEXTURE);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         tooltip.add(Component.translatable(DESCRIPTION_KEY));
         tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));

@@ -8,17 +8,17 @@
   ],
   "key": {
     "a": {
-      "item": "minecraft:coal_block"
+      "item": "the_last_sword:dragon_crystal"
     },
     "b": {
-      "item": "minecraft:obsidian"
+      "item": "minecraft:diamond"
     },
     "c": {
-      "item": "minecraft:skeleton_skull"
+      "item": "minecraft:smithing_table"
     }
   },
   "result": {
-    "item": "minecraft:wither_skeleton_skull",
+    "id": "the_last_sword:dragon_crystal_smithing_table",
     "count": 1
   }
 }

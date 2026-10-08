@@ -1,16 +1,28 @@
 package net.the_last_sword.network;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 //同步唤灵GUI魂石数据网络包（服务端→客户端）
-public class SyncSummonGuiPacket {
+public class SyncSummonGuiPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<SyncSummonGuiPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "sync_summon_gui_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SyncSummonGuiPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> SyncSummonGuiPacket.encode(msg, buf), SyncSummonGuiPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<SyncSummonGuiPacket> type() {
+        return TYPE;
+    }
+
     private final ItemStack soulStone;
 
     public SyncSummonGuiPacket(ItemStack soulStone) {
@@ -18,26 +30,23 @@ public class SyncSummonGuiPacket {
     }
 
     //编码
-    public static void encode(SyncSummonGuiPacket msg, FriendlyByteBuf buf) {
-        CompoundTag tag = new CompoundTag();
-        msg.soulStone.save(tag);
+    public static void encode(SyncSummonGuiPacket msg, RegistryFriendlyByteBuf buf) {
+        Tag tag = msg.soulStone.save(buf.registryAccess());
         buf.writeNbt(tag);
     }
 
     //解码
-    public static SyncSummonGuiPacket decode(FriendlyByteBuf buf) {
+    public static SyncSummonGuiPacket decode(RegistryFriendlyByteBuf buf) {
         CompoundTag tag = buf.readNbt();
         ItemStack soulStone = ItemStack.EMPTY;
         if (tag != null) {
-            soulStone = ItemStack.of(tag);
+            soulStone = ItemStack.parseOptional(buf.registryAccess(), tag);
         }
         return new SyncSummonGuiPacket(soulStone);
     }
 
     //处理
-    public static void handle(SyncSummonGuiPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.syncSummonGui(msg.soulStone)));
-        ctx.get().setPacketHandled(true);
+    public static void handle(SyncSummonGuiPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncSummonGui(msg.soulStone); });
     }
 }

@@ -10,7 +10,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEvent;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEventCategory;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEventContext;
@@ -80,7 +79,7 @@ public class VoidBountyEvent extends LuckyEvent {
     private static void spawnGuardian(ServerLevel world, Mob entity, BlockPos pos) {
         if (entity == null) return;
         entity.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
-        ForgeEventFactory.onFinalizeSpawn(entity, world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
+        entity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null);
         world.addFreshEntity(entity);
     }
 }

@@ -18,15 +18,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.gui.DefenceConfigScreen;
 import net.the_last_sword.client.QueenExecutionCamera;
@@ -63,7 +63,7 @@ import java.util.List;
 import java.util.Set;
 
 //客户端事件处理器
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandler {
 
     //万物终焉渲染相关
@@ -164,7 +164,7 @@ public class ClientEventHandler {
         return true;
     }
 
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ModBusEvents {
         //客户端初始化
         @SubscribeEvent
@@ -248,41 +248,39 @@ public class ClientEventHandler {
 
     //HUD 渲染事件（Pre）
     @SubscribeEvent
-    public static void onRenderGuiOverlay(RenderGuiOverlayEvent.Pre event) {
+    public static void onRenderGuiOverlay(RenderGuiLayerEvent.Pre event) {
         JustifiedDefenceOverlay.onRenderGuiOverlay(event);
     }
 
     //HUD 渲染事件（Post）- 龙之盔甲叠加层
     @SubscribeEvent
-    public static void onRenderGuiOverlayPost(RenderGuiOverlayEvent.Post event) {
+    public static void onRenderGuiOverlayPost(RenderGuiLayerEvent.Post event) {
         PresentWorldAnchorHealthOverlay.onRenderGuiOverlay(event);
         DragonArmorOverlay.onRenderGuiOverlay(event);
     }
 
     //客户端Tick事件 - 处理按键
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            QueenExecutionCamera.tick();
-            QueenTripleSlashScreenShake.tick();
-            JustifiedDefenceFlash.tick();
-            DangerousSkillPreviewRenderer.tick();
-            LostWraithEndStrikeEffectRenderer.tick();
-            Minecraft mc = Minecraft.getInstance();
-            updateLanternCache(mc);
+    public static void onClientTick(ClientTickEvent.Post event) {
+        QueenExecutionCamera.tick();
+        QueenTripleSlashScreenShake.tick();
+        JustifiedDefenceFlash.tick();
+        DangerousSkillPreviewRenderer.tick();
+        LostWraithEndStrikeEffectRenderer.tick();
+        Minecraft mc = Minecraft.getInstance();
+        updateLanternCache(mc);
 
-            //检查防御配置按键
-            while (ModKeyMappings.OPEN_DEFENCE_CONFIG.consumeClick()) {
-                if (mc.screen == null) {
-                    mc.setScreen(new DefenceConfigScreen());
-                }
+        //检查防御配置按键
+        while (ModKeyMappings.OPEN_DEFENCE_CONFIG.consumeClick()) {
+            if (mc.screen == null) {
+                mc.setScreen(new DefenceConfigScreen());
             }
+        }
 
-            //检查打开唤灵GUI按键
-            while (ModKeyMappings.OPEN_SUMMON_GUI.consumeClick()) {
-                if (mc.screen == null && mc.player != null) {
-                    NetworkHandler.sendToServer(new OpenSummonGuiPacket());
-                }
+        //检查打开唤灵GUI按键
+        while (ModKeyMappings.OPEN_SUMMON_GUI.consumeClick()) {
+            if (mc.screen == null && mc.player != null) {
+                NetworkHandler.sendToServer(new OpenSummonGuiPacket());
             }
         }
     }
@@ -317,15 +315,15 @@ public class ClientEventHandler {
             }
         }
 
-        DangerousSkillPreviewRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick());
-        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick());
+        DangerousSkillPreviewRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(true));
+        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(true));
 
         //渲染龙魂灯笼范围
         renderDragonSoulLanternRanges(event.getPoseStack(), event.getCamera(), mc.level);
 
         //渲染龙套护盾（复用全局缓冲避免每帧new导致OOM）
         MultiBufferSource.BufferSource buf = mc.renderBuffers.bufferSource();
-        DragonShieldRenderer.render(event.getPoseStack(), buf, event.getPartialTick());
+        DragonShieldRenderer.render(event.getPoseStack(), buf, event.getPartialTick().getGameTimeDeltaPartialTick(true));
         buf.endBatch();
     }
 
@@ -361,9 +359,8 @@ public class ClientEventHandler {
     //渲染球体网格
     private static void renderSphereMesh(PoseStack poseStack, float radius) {
         //初始化缓冲区（仅首次）
-        if (sphereBufferBuilder == null) {
-            sphereBufferBuilder = new BufferBuilder(2097152); // 2MB预分配，避免扩容
-            sphereBufferSource = MultiBufferSource.immediate(sphereBufferBuilder);
+        if (sphereBufferSource == null) {
+            sphereBufferSource = MultiBufferSource.immediate(new ByteBufferBuilder(2097152)); // 2MB预分配，避免扩容
         }
 
         VertexConsumer buffer = sphereBufferSource.getBuffer(SPHERE_RENDER_TYPE);
@@ -394,10 +391,10 @@ public class ClientEventHandler {
                 float v2f = (lat + 1) / (float) segments;
 
                 //添加四边形（顺时针顺序）
-                buffer.vertex(matrix, (float) v1.x, (float) v1.y, (float) v1.z).uv(u1, v1f).endVertex();
-                buffer.vertex(matrix, (float) v2.x, (float) v2.y, (float) v2.z).uv(u2, v1f).endVertex();
-                buffer.vertex(matrix, (float) v3.x, (float) v3.y, (float) v3.z).uv(u2, v2f).endVertex();
-                buffer.vertex(matrix, (float) v4.x, (float) v4.y, (float) v4.z).uv(u1, v2f).endVertex();
+                buffer.addVertex(matrix, (float) v1.x, (float) v1.y, (float) v1.z).setUv(u1, v1f);
+                buffer.addVertex(matrix, (float) v2.x, (float) v2.y, (float) v2.z).setUv(u2, v1f);
+                buffer.addVertex(matrix, (float) v3.x, (float) v3.y, (float) v3.z).setUv(u2, v2f);
+                buffer.addVertex(matrix, (float) v4.x, (float) v4.y, (float) v4.z).setUv(u1, v2f);
             }
         }
 
@@ -476,8 +473,8 @@ public class ClientEventHandler {
     private static void addLine(VertexConsumer buffer, Matrix4f matrix,
                                 float x1, float y1, float z1, float x2, float y2, float z2,
                                 float red, float green, float blue, float alpha) {
-        buffer.vertex(matrix, x1, y1, z1).color(red, green, blue, alpha).normal(1, 0, 0).endVertex();
-        buffer.vertex(matrix, x2, y2, z2).color(red, green, blue, alpha).normal(1, 0, 0).endVertex();
+        buffer.addVertex(matrix, x1, y1, z1).setColor(red, green, blue, alpha).setNormal(1, 0, 0);
+        buffer.addVertex(matrix, x2, y2, z2).setColor(red, green, blue, alpha).setNormal(1, 0, 0);
     }
 
     //========== 竞技场预览渲染方法 ==========

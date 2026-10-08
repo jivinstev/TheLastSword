@@ -1,38 +1,37 @@
 package net.the_last_sword.item;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.model.HumanoidModel;
+
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.the_last_sword.client.renderer.DragonCultPriestArmorRenderer;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import net.the_last_sword.init.ModAttributes;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.PlayState;
+
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nullable;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -62,102 +61,68 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
         UUID.fromString("e3356bb2-90c7-45ad-a081-2cf7fe4c88fc")
     };
 
-    private static final ArmorMaterial MATERIAL = new ArmorMaterial() {
-        @Override
-        public int getDurabilityForType(Type type) {
-            return DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER;
-        }
+    private static final Holder<ArmorMaterial> MATERIAL = createMaterial();
 
-        @Override
-        public int getDefenseForType(Type type) {
-            return DEFENSE_PER_TYPE[type.getSlot().getIndex()];
+    private static Holder<ArmorMaterial> createMaterial() {
+        Map<Type, Integer> defense = new EnumMap<>(Type.class);
+        for (Type t : Type.values()) {
+            if (t == Type.BODY) {
+                defense.put(t, 0);
+            } else {
+                defense.put(t, DEFENSE_PER_TYPE[t.getSlot().getIndex()]);
+            }
         }
-
-        @Override
-        public int getEnchantmentValue() {
-            return 10;
-        }
-
-        @Override
-        public SoundEvent getEquipSound() {
-            return SoundEvents.ARMOR_EQUIP_DIAMOND;
-        }
-
-        @Override
-        public Ingredient getRepairIngredient() {
-            return Ingredient.of(Items.DIAMOND);
-        }
-
-        @Override
-        public String getName() {
-            return "dragon_cult_priest_armor";
-        }
-
-        @Override
-        public float getToughness() {
-            return 2.0F;
-        }
-
-        @Override
-        public float getKnockbackResistance() {
-            return 0.0F;
-        }
-    };
+        return Holder.direct(new ArmorMaterial(
+            defense,
+            10,
+            SoundEvents.ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.of(Items.DIAMOND),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor"))),
+            2.0F,
+            0.0F
+        ));
+    }
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     protected DragonCultPriestArmorItem(Type type) {
-        super(MATERIAL, type, new Properties());
+        super(MATERIAL, type, new Properties().durability(
+            DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER));
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers =
-            HashMultimap.create(super.getAttributeModifiers(slot, stack));
-        if (slot != this.getEquipmentSlot()) {
-            return modifiers;
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        for (ItemAttributeModifiers.Entry entry : super.getDefaultAttributeModifiers().modifiers()) {
+            builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
-
-        int slotIndex = slot.getIndex();
-        modifiers.put(ModAttributes.MAX_JUSTIFIED_DEFENCE.get(), new AttributeModifier(
-            MAX_JUSTIFIED_DEFENCE_MODIFIER_UUIDS[slotIndex],
-            "Dragon cult priest armor max justified defence",
+        EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.getEquipmentSlot());
+        String suffix = this.getType().getName();
+        builder.add(ModAttributes.MAX_JUSTIFIED_DEFENCE, new AttributeModifier(
+            ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_max_justified_defence_" + suffix),
             1.0,
-            AttributeModifier.Operation.ADDITION
-        ));
-        modifiers.put(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED.get(), new AttributeModifier(
-            RECOVERY_SPEED_MODIFIER_UUIDS[slotIndex],
-            "Dragon cult priest armor recovery speed",
+            AttributeModifier.Operation.ADD_VALUE
+        ), group);
+        builder.add(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED, new AttributeModifier(
+            ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_recovery_speed_" + suffix),
             0.25,
-            AttributeModifier.Operation.MULTIPLY_BASE
-        ));
-        return modifiers;
+            AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+        ), group);
+        return builder.build();
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private GeoArmorRenderer<?> renderer;
-
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack,
-                                                          EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                if (this.renderer == null) {
-                    this.renderer = new DragonCultPriestArmorRenderer();
-                }
-                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-                return this.renderer;
-            }
-        });
+        consumer.accept(DragonCultArmorClientExtensions.priest());
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return TEXTURE;
+    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+        return ResourceLocation.parse(TEXTURE);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         tooltip.add(Component.translatable(DESCRIPTION_KEY));
         tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));

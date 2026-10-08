@@ -13,15 +13,19 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
@@ -34,12 +38,11 @@ import net.the_last_sword.util.health.TrueHealthManager;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 import net.the_last_sword.event.ServerEventHandler;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.List;
 
 //最终之剑 - 3种模式: 0=常规(弹射物+范围攻击), 1=挖掘, 2=召唤
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public class TheLastSword extends TheLastEndSwordItems implements ISummonableItem {
 
     private static final int MAX_MODES = 3; // 0=常规模式, 1=挖掘模式, 2=召唤模式
@@ -63,8 +66,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
             }
 
             @Override
-            public int getLevel() {
-                return 1024; //极高的挖掘等级
+            public TagKey<Block> getIncorrectBlocksForDrops() {
+                return BlockTags.INCORRECT_FOR_NETHERITE_TOOL; //极高的挖掘等级
             }
 
             @Override
@@ -181,7 +184,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         Vec3 lookVec = player.getViewVector(1.0F);
         Vec3 playerPos = player.position();
 
-        double attackRange = player.getAttributeValue(ForgeMod.ENTITY_REACH.get());
+        double attackRange = player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
 
         Vec3 endPos = playerPos.add(lookVec.scale(attackRange));
         AABB attackBox = new AABB(
@@ -225,7 +228,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
 
     //增加工具提示：显示当前模式及其说明（支持Shift展开详细描述）
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         //4. 模式行：Mode: <当前模式名称>
@@ -369,15 +372,14 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         };
     }
 
-    @Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static class TheLastSwordTickHandler {
 
         @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase != TickEvent.Phase.START) return;
-            if (event.player.level().isClientSide) return;
+        public static void onPlayerTick(PlayerTickEvent.Pre event) {
+            if (event.getEntity().level().isClientSide) return;
 
-            Player player = event.player;
+            Player player = event.getEntity();
             boolean hasSword = hasTheLastSwordInInventory(player);
 
             //飞行逻辑

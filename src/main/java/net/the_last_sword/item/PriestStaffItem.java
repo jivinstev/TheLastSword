@@ -1,13 +1,12 @@
 package net.the_last_sword.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.DragonSwordProjectile;
@@ -23,32 +23,33 @@ import net.the_last_sword.entity.util.PriestGuardEffect;
 import java.util.List;
 
 public class PriestStaffItem extends Item {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final ItemAttributeModifiers defaultModifiers;
 
     public PriestStaffItem() {
         super(new Item.Properties().durability(200).rarity(Rarity.UNCOMMON));
 
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-        modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-            BASE_ATTACK_DAMAGE_UUID,
-            "Priest staff attack damage",
-            2.0,
-            AttributeModifier.Operation.ADDITION
-        ));
-        modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(
-            BASE_ATTACK_SPEED_UUID,
-            "Priest staff attack speed",
-            -2.4,
-            AttributeModifier.Operation.ADDITION
-        ));
-        this.defaultModifiers = modifiers.build();
+        this.defaultModifiers = ItemAttributeModifiers.builder()
+            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_damage"),
+                2.0,
+                AttributeModifier.Operation.ADD_VALUE
+            ), EquipmentSlotGroup.MAINHAND)
+            .add(Attributes.ATTACK_SPEED, new AttributeModifier(
+                ResourceLocation.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_speed"),
+                -2.4,
+                AttributeModifier.Operation.ADD_VALUE
+            ), EquipmentSlotGroup.MAINHAND)
+            .build();
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND
-            ? defaultModifiers
-            : super.getDefaultAttributeModifiers(slot);
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+        return defaultModifiers;
+    }
+
+    @Override
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        return defaultModifiers;
     }
 
     @Override
@@ -84,7 +85,7 @@ public class PriestStaffItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         tooltip.add(Component.translatable(
@@ -108,6 +109,7 @@ public class PriestStaffItem extends Item {
     }
 
     private static void consumeDurability(ItemStack stack, Player player, InteractionHand hand, int amount) {
-        stack.hurtAndBreak(amount, player, entity -> entity.broadcastBreakEvent(hand));
+        stack.hurtAndBreak(amount, player,
+            hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
     }
 }

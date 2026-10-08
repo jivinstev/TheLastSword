@@ -41,12 +41,11 @@ public class ThePastShadowOfTheQueenRenderer extends GeoEntityRenderer<ThePastSh
     }
 
     @Override
-    public void preRender(PoseStack poseStack, ThePastShadowOfTheQueenEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red,
-                          float green, float blue, float alpha) {
+    public void preRender(PoseStack poseStack, ThePastShadowOfTheQueenEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         float scale = 57.5F / 44.5F;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
     @Override
@@ -56,7 +55,7 @@ public class ThePastShadowOfTheQueenRenderer extends GeoEntityRenderer<ThePastSh
 
     //受伤变红效果
     @Override
-    public int getPackedOverlay(ThePastShadowOfTheQueenEntity entity, float u) {
+    public int getPackedOverlay(ThePastShadowOfTheQueenEntity entity, float u, float partialTick) {
         return LivingEntityRenderer.getOverlayCoords(entity, 0);
     }
 }

@@ -3,20 +3,30 @@ package net.the_last_sword.network;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.client.gui.menu.SummonWraithGuiMenu;
 
-import java.util.function.Supplier;
-
 //打开唤灵GUI网络包（客户端→服务端）
-public class OpenSummonGuiPacket {
+public class OpenSummonGuiPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<OpenSummonGuiPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "open_summon_gui_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, OpenSummonGuiPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> OpenSummonGuiPacket.encode(msg, buf), OpenSummonGuiPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<OpenSummonGuiPacket> type() {
+        return TYPE;
+    }
 
     public OpenSummonGuiPacket() {
     }
@@ -32,9 +42,9 @@ public class OpenSummonGuiPacket {
     }
 
     //处理
-    public static void handle(OpenSummonGuiPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
+    public static void handle(OpenSummonGuiPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ((ServerPlayer) ctx.player());
             if (player == null) {
                 return;
             }
@@ -46,7 +56,7 @@ public class OpenSummonGuiPacket {
 
             //打开GUI
             BlockPos pos = player.blockPosition();
-            NetworkHooks.openScreen(player, new MenuProvider() {
+            player.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
                     return Component.translatable("gui.the_last_sword.summon_wraith_gui");
@@ -60,6 +70,5 @@ public class OpenSummonGuiPacket {
                 }
             }, pos);
         });
-        ctx.get().setPacketHandled(true);
     }
 }

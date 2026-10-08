@@ -1,5 +1,6 @@
 package net.the_last_sword.entity;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -8,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.item.TheLastSwordYouNeverForgot;
@@ -23,10 +22,6 @@ public class TheLastSwordYouNeverForgotProjectile extends TheLastEndSwordProject
 
     public TheLastSwordYouNeverForgotProjectile(EntityType<? extends TheLastEndSwordProjectile> type, LivingEntity entity, Level world) {
         super(type, entity, world, entity.getUUID());
-    }
-
-    public TheLastSwordYouNeverForgotProjectile(PlayMessages.SpawnEntity packet, Level world) {
-        this(ModEntities.THE_LAST_SWORD_YOU_NEVER_FORGOT_PROJECTILE.get(), world);
     }
 
     // 不造成物理伤害
@@ -54,7 +49,7 @@ public class TheLastSwordYouNeverForgotProjectile extends TheLastEndSwordProject
         projectile.setSnapshotDamage(0, extraDamage);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + 0.75f);
         return projectile;

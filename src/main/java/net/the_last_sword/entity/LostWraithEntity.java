@@ -23,7 +23,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -81,16 +80,21 @@ public class LostWraithEntity extends TheLastEndEntity {
 
     public LostWraithEntity(EntityType<? extends LostWraithEntity> type, Level world) {
         super(type, world);
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         xpReward = 200;
         setPersistenceRequired();
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(TALK_INDEX, 1);
-        this.entityData.define(PUNCH_TELEPORT_READY, true);
+    public boolean isFood(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TALK_INDEX, 1);
+        builder.define(PUNCH_TELEPORT_READY, true);
     }
 
     @Override
@@ -187,11 +191,6 @@ public class LostWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     protected float getDamageLimit() {
         return (float) TheLastSwordConfiguration.getLostWraithDamageLimitSafely();
     }
@@ -216,9 +215,8 @@ public class LostWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
             setTheLastEndLevel(1);
@@ -234,8 +232,9 @@ public class LostWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    protected float getStandingEyeHeight(@NotNull Pose pose, @NotNull EntityDimensions dimensions) {
-        return 3.0f;
+    protected EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(3.0f);
     }
 
     @Override

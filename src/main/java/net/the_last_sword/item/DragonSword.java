@@ -1,9 +1,11 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import net.the_last_sword.util.TooltipKeys;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -11,8 +13,10 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.DragonSwordProjectile;
 import net.the_last_sword.summon.WraithSummonManager;
@@ -48,8 +52,8 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
                 }
 
                 @Override
-                public int getLevel() {
-                    return 5;
+                public TagKey<Block> getIncorrectBlocksForDrops() {
+                    return BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
                 }
 
                 @Override
@@ -144,7 +148,7 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, level, list, flag);
 
         //显示当前模式
@@ -155,7 +159,7 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
                 .append(Component.translatable("item_tooltip.the_last_sword." + modeKey)));
 
         //未按Shift时，提示玩家按下Shift查看详情
-        if (!Screen.hasShiftDown()) {
+        if (!TooltipKeys.hasShiftDown()) {
             list.add(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             //按住Shift时，显示操作描述

@@ -9,6 +9,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.block.entity.DragonCrystalSmithingTableBlockEntity;
 import net.the_last_sword.init.ModBlocks;
@@ -212,8 +214,20 @@ public class DragonCrystalSmithingTableMenu extends AbstractContainerMenu {
 
         //如果config中没有找到，则从数据包配方查找
         if (recipe.isEmpty()) {
+            RecipeInput input = new RecipeInput() {
+                @Override
+                public ItemStack getItem(int index) {
+                    return recipeContainer.getItem(index);
+                }
+
+                @Override
+                public int size() {
+                    return recipeContainer.getContainerSize();
+                }
+            };
             recipe = this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.DRAGON_CRYSTAL_SMITHING_TYPE.get(), recipeContainer, this.level);
+                .getRecipeFor(ModRecipes.DRAGON_CRYSTAL_SMITHING_TYPE.get(), input, this.level)
+                .map(RecipeHolder::value);
         }
 
         if (recipe.isPresent()) {

@@ -10,6 +10,6 @@
     "item": "the_last_sword:dragon_crystal"
   },
   "result": {
-    "item": "the_last_sword:dragon_crystal_armor_leggings"
+    "id": "the_last_sword:dragon_crystal_armor_leggings"
   }
 }

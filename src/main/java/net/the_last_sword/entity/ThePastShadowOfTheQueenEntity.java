@@ -23,7 +23,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -103,8 +102,13 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     public ThePastShadowOfTheQueenEntity(EntityType<? extends ThePastShadowOfTheQueenEntity> type, Level level) {
         super(type, level);
         xpReward = 1024;
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         setPersistenceRequired();
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return false;
     }
 
     public void trySendSkillTalk(String skillId) {
@@ -172,12 +176,12 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        entityData.define(LIGHTNING_SPEAR_VISIBLE, false);
-        entityData.define(BLINK_TICK, -1);
-        entityData.define(SUMMON_TICK, -1);
-        entityData.define(SUMMON_YAW, 0F);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LIGHTNING_SPEAR_VISIBLE, false);
+        builder.define(BLINK_TICK, -1);
+        builder.define(SUMMON_TICK, -1);
+        builder.define(SUMMON_YAW, 0F);
     }
 
     public int getSummonTick() {
@@ -275,8 +279,8 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        return isBlinkPhased() ? EntityDimensions.fixed(0.0F, 0.0F) : super.getDimensions(pose);
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        return isBlinkPhased() ? EntityDimensions.fixed(0.0F, 0.0F) : super.getDefaultDimensions(pose);
     }
 
     @Override
@@ -430,11 +434,6 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
         if (!isReady() || isNpc()) {
             return false;
@@ -453,9 +452,8 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingData, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingData) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingData);
 
         if (!level().isClientSide) {
             setTheLastEndLevel(6);
@@ -566,9 +564,9 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         tag.putBoolean(NPC_STATE_TAG, isNpc());
     }
 
-    @Override
-    protected float getStandingEyeHeight(@NotNull Pose pose, @NotNull EntityDimensions dimensions) {
-        return 3.0F;
+    // 与已有的 getDefaultDimensions(Pose) 重复；保留眼高逻辑作为辅助方法，供已有重写调用
+    protected EntityDimensions withQueenEyeHeight(@NotNull EntityDimensions dimensions) {
+        return dimensions.withEyeHeight(3.0F);
     }
 
     @Override

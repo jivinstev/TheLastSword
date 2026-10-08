@@ -1,33 +1,33 @@
 package net.the_last_sword.init;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.effect.PhasingEffect;
 import net.the_last_sword.effect.VoidEnchantingEffect;
 import net.the_last_sword.effect.WorldSeveranceEffect;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class ModEffects {
 
     public static final DeferredRegister<MobEffect> EFFECTS =
-        DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, TheLastSwordMod.MOD_ID);
+        DeferredRegister.create(Registries.MOB_EFFECT, TheLastSwordMod.MOD_ID);
 
     //虚空附魔效果
-    public static final RegistryObject<MobEffect> VOID_ENCHANTING = EFFECTS.register(
+    public static final DeferredHolder<MobEffect, MobEffect> VOID_ENCHANTING = EFFECTS.register(
         "void_enchanting",
         VoidEnchantingEffect::new
     );
 
     //虚化效果
-    public static final RegistryObject<MobEffect> PHASING = EFFECTS.register(
+    public static final DeferredHolder<MobEffect, MobEffect> PHASING = EFFECTS.register(
         "phasing",
         PhasingEffect::new
     );
 
-    public static final RegistryObject<MobEffect> WORLD_SEVERANCE = EFFECTS.register(
+    public static final DeferredHolder<MobEffect, MobEffect> WORLD_SEVERANCE = EFFECTS.register(
         "world_severance", WorldSeveranceEffect::new
     );
 

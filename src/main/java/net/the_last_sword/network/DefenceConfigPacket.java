@@ -3,8 +3,12 @@ package net.the_last_sword.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.configuration.DefenceConfig;
 import net.the_last_sword.configuration.DefenceConfigData;
 import net.the_last_sword.util.TheLastSwordLogger;
@@ -12,10 +16,18 @@ import net.the_last_sword.util.TheLastSwordLogger;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 //同步防御配置到服务端的网络包
-public class DefenceConfigPacket {
+public class DefenceConfigPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<DefenceConfigPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "defence_config_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, DefenceConfigPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> msg.encode(buf), DefenceConfigPacket::new);
+
+    @Override
+    public CustomPacketPayload.Type<DefenceConfigPacket> type() {
+        return TYPE;
+    }
 
     private static final Gson GSON = new GsonBuilder().create();
 
@@ -36,9 +48,9 @@ public class DefenceConfigPacket {
         buf.writeUtf(configJson, 32767);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
+    public void handle(IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ((ServerPlayer) ctx.player());
             if (player != null) {
                 try {
                     DefenceConfigData configData = GSON.fromJson(configJson, DefenceConfigData.class);
@@ -52,7 +64,6 @@ public class DefenceConfigPacket {
                 }
             }
         });
-        ctx.get().setPacketHandled(true);
     }
 
     //服务端获取玩家的配置

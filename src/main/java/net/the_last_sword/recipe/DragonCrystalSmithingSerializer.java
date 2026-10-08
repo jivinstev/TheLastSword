@@ -1,63 +1,74 @@
 package net.the_last_sword.recipe;
 
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import java.util.Optional;
 
 public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonCrystalSmithingRecipe> {
 
+    // The "template" and "input" objects carry an optional "inputLevel" next to the
+    // ingredient fields; Codec.pair decodes both halves from the same JSON object.
+    private static final Codec<Pair<Ingredient, Optional<Integer>>> TEMPLATE_CODEC =
+            Codec.pair(Ingredient.CODEC_NONEMPTY, Codec.INT.optionalFieldOf("inputLevel").codec());
+
+    private static final Codec<Pair<Ingredient, Integer>> INPUT_CODEC =
+            Codec.pair(Ingredient.CODEC_NONEMPTY, Codec.INT.optionalFieldOf("inputLevel", 0).codec());
+
+    private static final Codec<Pair<ItemStack, Integer>> OUTPUT_CODEC =
+            Codec.pair(ItemStack.CODEC, Codec.INT.optionalFieldOf("outputLevel", 0).codec());
+
+    public static final MapCodec<DragonCrystalSmithingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            TEMPLATE_CODEC.fieldOf("template").forGetter(r -> Pair.of(r.getTemplate(),
+                    r.hasTemplateInputLevel() ? Optional.of(r.getTemplateInputLevel()) : Optional.<Integer>empty())),
+            INPUT_CODEC.fieldOf("input").forGetter(r -> Pair.of(r.getInput(), r.getInputLevel())),
+            Ingredient.CODEC_NONEMPTY.fieldOf("addition").forGetter(DragonCrystalSmithingRecipe::getAddition),
+            OUTPUT_CODEC.fieldOf("output").forGetter(r -> Pair.of(r.getResultItem(null), r.getOutputLevel()))
+    ).apply(instance, (template, input, addition, output) -> new DragonCrystalSmithingRecipe(null,
+            template.getFirst(), template.getSecond().orElse(null),
+            input.getFirst(), input.getSecond(),
+            addition,
+            output.getFirst(), output.getSecond())));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, DragonCrystalSmithingRecipe> STREAM_CODEC = StreamCodec.of(
+            (buffer, recipe) -> {
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getTemplate());
+                buffer.writeBoolean(recipe.hasTemplateInputLevel());
+                if (recipe.hasTemplateInputLevel()) {
+                    buffer.writeInt(recipe.getTemplateInputLevel());
+                }
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getInput());
+                buffer.writeInt(recipe.getInputLevel());
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getAddition());
+                ItemStack.STREAM_CODEC.encode(buffer, recipe.getResultItem(null));
+                buffer.writeInt(recipe.getOutputLevel());
+            },
+            buffer -> {
+                Ingredient template = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+                Integer templateInputLevel = buffer.readBoolean() ? buffer.readInt() : null;
+                Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+                int inputLevel = buffer.readInt();
+                Ingredient addition = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+                ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
+                int outputLevel = buffer.readInt();
+
+                return new DragonCrystalSmithingRecipe(null, template, templateInputLevel,
+                        input, inputLevel, addition, output, outputLevel);
+            });
+
     @Override
-    public DragonCrystalSmithingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-        JsonObject templateJson = GsonHelper.getAsJsonObject(json, "template");
-        Ingredient template = Ingredient.fromJson(templateJson);
-        Integer templateInputLevel = templateJson.has("inputLevel")
-                ? GsonHelper.getAsInt(templateJson, "inputLevel")
-                : null;
-
-        JsonObject inputJson = GsonHelper.getAsJsonObject(json, "input");
-        Ingredient input = Ingredient.fromJson(inputJson);
-        int inputLevel = GsonHelper.getAsInt(inputJson, "inputLevel", 0);
-
-        Ingredient addition = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "addition"));
-
-        JsonObject outputJson = GsonHelper.getAsJsonObject(json, "output");
-        ItemStack output = ShapedRecipe.itemStackFromJson(outputJson);
-        int outputLevel = GsonHelper.getAsInt(outputJson, "outputLevel", 0);
-
-        return new DragonCrystalSmithingRecipe(recipeId, template, templateInputLevel,
-                input, inputLevel, addition, output, outputLevel);
+    public MapCodec<DragonCrystalSmithingRecipe> codec() {
+        return CODEC;
     }
 
     @Override
-    public DragonCrystalSmithingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        Ingredient template = Ingredient.fromNetwork(buffer);
-        Integer templateInputLevel = buffer.readBoolean() ? buffer.readInt() : null;
-        Ingredient input = Ingredient.fromNetwork(buffer);
-        int inputLevel = buffer.readInt();
-        Ingredient addition = Ingredient.fromNetwork(buffer);
-        ItemStack output = buffer.readItem();
-        int outputLevel = buffer.readInt();
-
-        return new DragonCrystalSmithingRecipe(recipeId, template, templateInputLevel,
-                input, inputLevel, addition, output, outputLevel);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buffer, DragonCrystalSmithingRecipe recipe) {
-        recipe.getTemplate().toNetwork(buffer);
-        buffer.writeBoolean(recipe.hasTemplateInputLevel());
-        if (recipe.hasTemplateInputLevel()) {
-            buffer.writeInt(recipe.getTemplateInputLevel());
-        }
-        recipe.getInput().toNetwork(buffer);
-        buffer.writeInt(recipe.getInputLevel());
-        recipe.getAddition().toNetwork(buffer);
-        buffer.writeItem(recipe.getResultItem(null));
-        buffer.writeInt(recipe.getOutputLevel());
+    public StreamCodec<RegistryFriendlyByteBuf, DragonCrystalSmithingRecipe> streamCodec() {
+        return STREAM_CODEC;
     }
 }

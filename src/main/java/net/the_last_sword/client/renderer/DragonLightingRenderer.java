@@ -9,8 +9,8 @@ import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -104,13 +104,13 @@ public class DragonLightingRenderer extends LightningBoltRenderer {
         g *= pulse;
         b *= pulse;
 
-        consumer.vertex(matrix, x1 + (flag1 ? width2 : -width2), (float) (y * 16), z1 + (flag2 ? width2 : -width2))
-                .color(r, g, b, alpha).endVertex();
-        consumer.vertex(matrix, x2 + (flag1 ? width1 : -width1), (float) ((y + 1) * 16), z2 + (flag2 ? width1 : -width1))
-                .color(r, g, b, alpha).endVertex();
-        consumer.vertex(matrix, x2 + (flag3 ? width1 : -width1), (float) ((y + 1) * 16), z2 + (flag4 ? width1 : -width1))
-                .color(r, g, b, alpha).endVertex();
-        consumer.vertex(matrix, x1 + (flag3 ? width2 : -width2), (float) (y * 16), z1 + (flag4 ? width2 : -width2))
-                .color(r, g, b, alpha).endVertex();
+        consumer.addVertex(matrix, x1 + (flag1 ? width2 : -width2), (float) (y * 16), z1 + (flag2 ? width2 : -width2))
+                .setColor(r, g, b, alpha);
+        consumer.addVertex(matrix, x2 + (flag1 ? width1 : -width1), (float) ((y + 1) * 16), z2 + (flag2 ? width1 : -width1))
+                .setColor(r, g, b, alpha);
+        consumer.addVertex(matrix, x2 + (flag3 ? width1 : -width1), (float) ((y + 1) * 16), z2 + (flag4 ? width1 : -width1))
+                .setColor(r, g, b, alpha);
+        consumer.addVertex(matrix, x1 + (flag3 ? width2 : -width2), (float) (y * 16), z1 + (flag4 ? width2 : -width2))
+                .setColor(r, g, b, alpha);
     }
 }

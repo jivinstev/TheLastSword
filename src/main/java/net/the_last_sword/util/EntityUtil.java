@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.the_last_sword.ModHolders;
 
 public class EntityUtil {
 
@@ -124,14 +126,14 @@ public class EntityUtil {
         if (!activeEffects.isEmpty()) {
             ArrayList<MobEffect> effectsToRemove = new ArrayList<>();
             for (MobEffectInstance effectInstance : activeEffects) {
-                MobEffect effect = effectInstance.getEffect();
+                MobEffect effect = effectInstance.getEffect().value();
                 if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION
                         && effect != ModEffects.WORLD_SEVERANCE.get()) {
                     effectsToRemove.add(effect);
                 }
             }
             for (MobEffect effect : effectsToRemove) {
-                entity.removeEffect(effect);
+                entity.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
             }
         }
     }
@@ -168,11 +170,11 @@ public class EntityUtil {
         WraithSummonManager.stopWraithResurrection(entity);
         //清除防御系统，防止 die/tickDeath 被保护拦截
         TrueHealthManager.clear(entity);
-        var shieldAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        var shieldAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (shieldAttr != null) {
             shieldAttr.setBaseValue(0.0);
         }
-        var maxShieldAttr = entity.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
+        var maxShieldAttr = entity.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
         if (maxShieldAttr != null) {
             maxShieldAttr.setBaseValue(0.0);
         }
@@ -200,7 +202,7 @@ public class EntityUtil {
             return;
         }
 
-        AttributeInstance current = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance current = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (current == null) {
             return;
         }
@@ -558,10 +560,10 @@ public class EntityUtil {
         ItemStack arrowStack = new ItemStack(Items.ARROW);
 
         //创建箭矢实体（power=1.0 表示满蓄力）
-        AbstractArrow arrow = ProjectileUtil.getMobArrow(shooter, arrowStack, 1.0f);
+        AbstractArrow arrow = ProjectileUtil.getMobArrow(shooter, arrowStack, 1.0f, null);
 
         //应用弓的特殊效果（火矢等）
-        arrow = ((BowItem)bow.getItem()).customArrow(arrow);
+        arrow = ((BowItem)bow.getItem()).customArrow(arrow, arrowStack, bow);
 
         //显式设置箭矢的发射者，防止误伤友军（必须在customArrow之后）
         arrow.setOwner(shooter);
@@ -588,20 +590,21 @@ public class EntityUtil {
     //应用弓的附魔到箭矢
     private static void applyBowEnchantments(ItemStack bow, AbstractArrow arrow) {
         //力量附魔：增加箭矢伤害
-        int powerLevel = bow.getEnchantmentLevel(Enchantments.POWER_ARROWS);
+        int powerLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.POWER));
         if (powerLevel > 0) {
             arrow.setBaseDamage(arrow.getBaseDamage() + (double)powerLevel * 0.5 + 0.5);
         }
 
         //冲击附魔：增加击退
-        int punchLevel = bow.getEnchantmentLevel(Enchantments.PUNCH_ARROWS);
+        int punchLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.PUNCH));
         if (punchLevel > 0) {
-            arrow.setKnockback(punchLevel);
+            // 1.21 的箭矢不再有 setKnockback，记录冲击等级供命中处理读取
+            arrow.getPersistentData().putInt("the_last_sword_punch", punchLevel);
         }
 
         //火矢附魔：点燃箭矢
-        if (bow.getEnchantmentLevel(Enchantments.FLAMING_ARROWS) > 0) {
-            arrow.setSecondsOnFire(100);
+        if (bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.FLAME)) > 0) {
+            arrow.igniteForSeconds(100);
         }
     }
 

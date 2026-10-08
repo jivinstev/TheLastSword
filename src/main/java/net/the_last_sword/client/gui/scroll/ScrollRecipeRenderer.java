@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
@@ -43,7 +44,8 @@ public final class ScrollRecipeRenderer {
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
-            Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId);
+            Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId)
+                    .map(RecipeHolder::value);
             if (recipe.isPresent()
                     && (recipe.get() instanceof SmithingTransformRecipe
                     || recipe.get() instanceof DragonCrystalSmithingRecipe)) {
@@ -68,7 +70,8 @@ public final class ScrollRecipeRenderer {
             return renderMissing(recipeId, graphics, font, areaX, areaY);
         }
 
-        Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId);
+        Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId)
+                .map(RecipeHolder::value);
         if (recipe.isEmpty()) {
             return renderMissing(recipeId, graphics, font, areaX, areaY);
         }

@@ -2,6 +2,7 @@ package net.the_last_sword.recipe;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.Level;
@@ -183,7 +184,7 @@ public class ConfigRecipeManager {
             ResourceLocation id = officialRecipe != null
                     ? officialRecipe.getId()
                     : createRecipeId(officialKey);
-            recipes.put(officialKey, SERIALIZER.fromJson(id, json));
+            recipes.put(officialKey, parseRecipe(id, json));
             TheLastSwordLogger.info("Overrode built-in dragon crystal smithing recipe: {}", officialKey);
             return;
         }
@@ -191,7 +192,7 @@ public class ConfigRecipeManager {
         String relativePath = removeJsonExtension(baseDirectory.relativize(recipePath).toString()
                 .replace('\\', '/'));
         ResourceLocation id = createRecipeId(relativePath);
-        recipes.put(customKey, SERIALIZER.fromJson(id, json));
+        recipes.put(customKey, parseRecipe(id, json));
         TheLastSwordLogger.debug("Loaded custom recipe: {} (file: {})", id, relativePath);
     }
 
@@ -263,7 +264,13 @@ public class ConfigRecipeManager {
 
     private static DragonCrystalSmithingRecipe readRecipe(Path recipePath, ResourceLocation id)
             throws IOException {
-        return SERIALIZER.fromJson(id, readJson(recipePath));
+        return parseRecipe(id, readJson(recipePath));
+    }
+
+    private static DragonCrystalSmithingRecipe parseRecipe(ResourceLocation id, JsonObject json) {
+        return SERIALIZER.codec().codec().parse(JsonOps.INSTANCE, json)
+                .getOrThrow(message -> new IllegalArgumentException(
+                        "Invalid dragon crystal smithing recipe " + id + ": " + message));
     }
 
     private static JsonObject readJson(Path recipePath) throws IOException {

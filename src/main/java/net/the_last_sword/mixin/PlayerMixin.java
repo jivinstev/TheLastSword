@@ -61,7 +61,7 @@ public class PlayerMixin {
             tag.putBoolean("tlsIsProtected", pd.getBoolean("tlsIsProtected"));
         }
         // 持久化肃正防御值
-        AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+        AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
         if (shield != null && shield.getValue() > 0) {
             tag.putDouble("tlsJustifiedDefence", shield.getValue());
         }
@@ -83,12 +83,12 @@ public class PlayerMixin {
         }
         // 恢复肃正防御值
         if (tag.contains("tlsJustifiedDefence")) {
-            AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE.get());
+            AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
             if (shield != null) {
                 shield.setBaseValue(tag.getDouble("tlsJustifiedDefence"));
             }
         }
-        AttributeInstance maxShield = player.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE.get());
+        AttributeInstance maxShield = player.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
         if (maxShield != null) {
             maxShield.setBaseValue(0.0);
         }

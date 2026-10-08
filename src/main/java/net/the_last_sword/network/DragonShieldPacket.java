@@ -1,17 +1,28 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public class DragonShieldPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<DragonShieldPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_shield_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, DragonShieldPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> DragonShieldPacket.encode(msg, buf), DragonShieldPacket::decode);
 
-public class DragonShieldPacket {
+    @Override
+    public CustomPacketPayload.Type<DragonShieldPacket> type() {
+        return TYPE;
+    }
 
     private final boolean hasDirection;
     private final float directionX;
@@ -62,10 +73,8 @@ public class DragonShieldPacket {
         return new DragonShieldPacket(true, buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
 
-    public static void handle(DragonShieldPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.triggerDragonShield(
-                        msg.hasDirection, msg.directionX, msg.directionY, msg.directionZ)));
-        ctx.get().setPacketHandled(true);
+    public static void handle(DragonShieldPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.triggerDragonShield(
+                        msg.hasDirection, msg.directionX, msg.directionY, msg.directionZ); });
     }
 }

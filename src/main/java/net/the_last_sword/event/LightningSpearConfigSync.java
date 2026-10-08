@@ -2,19 +2,19 @@ package net.the_last_sword.event;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.LightningSpearSettings;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.network.LightningSpearConfigPacket;
 import net.the_last_sword.network.NetworkHandler;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class LightningSpearConfigSync {
     private static LightningSpearSettings lastSettings;
     private static int ticks;
@@ -31,8 +31,8 @@ public final class LightningSpearConfigSync {
     }
 
     @SubscribeEvent
-    public static void onTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || ++ticks < 20) {
+    public static void onTick(ServerTickEvent.Post event) {
+        if (++ticks < 20) {
             return;
         }
         ticks = 0;

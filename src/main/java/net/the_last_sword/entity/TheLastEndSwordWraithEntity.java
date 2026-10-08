@@ -1,5 +1,7 @@
 package net.the_last_sword.entity;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -11,12 +13,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -35,7 +37,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.eca.api.EcaAPI;
 import net.eca.network.EntityExtensionOverridePacket.SkyboxData;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.entity.ai.*;
@@ -44,7 +45,7 @@ import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,15 +109,20 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     public TheLastEndSwordWraithEntity(EntityType<? extends TheLastEndSwordWraithEntity> type, Level world) {
         super(type, world);
         xpReward = 50;
-        setMaxUpStep(0.6f);
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
         setPersistenceRequired();
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(TEXTURE, "the_last_end_sword_wraith");
-        this.entityData.define(END_MARK_COUNT, 0);
+    public boolean isFood(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TEXTURE, "the_last_end_sword_wraith");
+        builder.define(END_MARK_COUNT, 0);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -201,7 +207,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
             return;
         }
 
-        ResourceLocation targetId = ForgeRegistries.ENTITY_TYPES.getKey(currentTarget.getType());
+        ResourceLocation targetId = BuiltInRegistries.ENTITY_TYPE.getKey(currentTarget.getType());
         if (targetId == null || !"cataclysm".equals(targetId.getNamespace())) {
             return;
         }
@@ -310,11 +316,6 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     public boolean canBeAffected(@NotNull MobEffectInstance effect) {
         return effect.getEffect() == ModEffects.VOID_ENCHANTING.get();
     }
@@ -340,9 +341,8 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
-            MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
-        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
             if (getTheLastEndLevel() <= 0) {
@@ -362,8 +362,9 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    protected float getStandingEyeHeight(@NotNull Pose pose, @NotNull EntityDimensions dimensions) {
-        return dimensions.height * 0.85f;
+    protected EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(dimensions.height() * 0.85f);
     }
 
     @Override
@@ -508,7 +509,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
         private static void clearPositiveEffects(LivingEntity target) {
             var activeEffects = new ArrayList<>(target.getActiveEffects());
             for (MobEffectInstance effect : activeEffects) {
-                if (effect.getEffect().isBeneficial()) {
+                if (effect.getEffect().value().isBeneficial()) {
                     target.removeEffect(effect.getEffect());
                 }
             }

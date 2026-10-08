@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.entity.TheLastEndSwordProjectile;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -157,24 +157,24 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
             float r2NextOffY = Mth.sin(time + nextProgress * 6.0f + (float) Math.PI) * TRAIL_WIDTH * (1.0f - nextProgress * 0.5f);
 
             //红色螺旋四边形
-            trailConsumer.vertex(matrix, (float) pos.x + r1OffX, (float) pos.y + r1OffY, (float) pos.z)
-                    .color(redR, redG, redB, alpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) nextPos.x + r1NextOffX, (float) nextPos.y + r1NextOffY, (float) nextPos.z)
-                    .color(nextRedR, nextRedG, nextRedB, nextAlpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) nextPos.x - r1NextOffX, (float) nextPos.y - r1NextOffY, (float) nextPos.z)
-                    .color(nextRedR, nextRedG, nextRedB, nextAlpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) pos.x - r1OffX, (float) pos.y - r1OffY, (float) pos.z)
-                    .color(redR, redG, redB, alpha).uv2(FULL_BRIGHT).endVertex();
+            trailConsumer.addVertex(matrix, (float) pos.x + r1OffX, (float) pos.y + r1OffY, (float) pos.z)
+                    .setColor(redR, redG, redB, alpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) nextPos.x + r1NextOffX, (float) nextPos.y + r1NextOffY, (float) nextPos.z)
+                    .setColor(nextRedR, nextRedG, nextRedB, nextAlpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) nextPos.x - r1NextOffX, (float) nextPos.y - r1NextOffY, (float) nextPos.z)
+                    .setColor(nextRedR, nextRedG, nextRedB, nextAlpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) pos.x - r1OffX, (float) pos.y - r1OffY, (float) pos.z)
+                    .setColor(redR, redG, redB, alpha).setLight(FULL_BRIGHT);
 
             //蓝色螺旋四边形
-            trailConsumer.vertex(matrix, (float) pos.x + r2OffX, (float) pos.y + r2OffY, (float) pos.z)
-                    .color(blueR, blueG, blueB, alpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) nextPos.x + r2NextOffX, (float) nextPos.y + r2NextOffY, (float) nextPos.z)
-                    .color(nextBlueR, nextBlueG, nextBlueB, nextAlpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) nextPos.x - r2NextOffX, (float) nextPos.y - r2NextOffY, (float) nextPos.z)
-                    .color(nextBlueR, nextBlueG, nextBlueB, nextAlpha).uv2(FULL_BRIGHT).endVertex();
-            trailConsumer.vertex(matrix, (float) pos.x - r2OffX, (float) pos.y - r2OffY, (float) pos.z)
-                    .color(blueR, blueG, blueB, alpha).uv2(FULL_BRIGHT).endVertex();
+            trailConsumer.addVertex(matrix, (float) pos.x + r2OffX, (float) pos.y + r2OffY, (float) pos.z)
+                    .setColor(blueR, blueG, blueB, alpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) nextPos.x + r2NextOffX, (float) nextPos.y + r2NextOffY, (float) nextPos.z)
+                    .setColor(nextBlueR, nextBlueG, nextBlueB, nextAlpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) nextPos.x - r2NextOffX, (float) nextPos.y - r2NextOffY, (float) nextPos.z)
+                    .setColor(nextBlueR, nextBlueG, nextBlueB, nextAlpha).setLight(FULL_BRIGHT);
+            trailConsumer.addVertex(matrix, (float) pos.x - r2OffX, (float) pos.y - r2OffY, (float) pos.z)
+                    .setColor(blueR, blueG, blueB, alpha).setLight(FULL_BRIGHT);
         }
     }
 

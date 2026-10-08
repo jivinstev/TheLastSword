@@ -19,19 +19,20 @@ public class VoidEnchantingEffect extends MobEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return true;
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
-        super.applyEffectTick(entity, amplifier);
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+        boolean result = super.applyEffectTick(entity, amplifier);
 
         if (!entity.level().isClientSide
             && entity.level() instanceof ServerLevel serverLevel
             && TheLastSwordConfiguration.getVoidEnchantmentParticleEffectsSafely()) {
             spawnEnchantParticles(entity, serverLevel);
         }
+        return result;
     }
 
     @Override

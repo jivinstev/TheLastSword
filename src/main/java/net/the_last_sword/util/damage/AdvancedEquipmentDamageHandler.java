@@ -1,5 +1,6 @@
 package net.the_last_sword.util.damage;
 
+
 import net.eca.api.EcaAPI;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,12 +12,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.compat.curios.CuriosEffectHandler;
@@ -34,9 +35,10 @@ import net.the_last_sword.util.EntityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 //高级装备必须共用固定顺序，避免绝毁与普通伤害出现不同结果
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public final class AdvancedEquipmentDamageHandler {
 
     private static final String THE_LAST_SWORD_DEFENCE = "TheLastSwordDefence";
@@ -48,7 +50,7 @@ public final class AdvancedEquipmentDamageHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-    public static void onLivingHurt(LivingHurtEvent event) {
+    public static void onLivingHurt(LivingIncomingDamageEvent event) {
         EventBypass bypass = EVENT_BYPASS.get();
         if (bypass != null && bypass.matches(event)) {
             EVENT_BYPASS.remove();
@@ -74,7 +76,11 @@ public final class AdvancedEquipmentDamageHandler {
         float eventDamage;
         EVENT_BYPASS.set(new EventBypass(target, source));
         try {
-            eventDamage = ForgeHooks.onLivingHurt(target, source, result.amount());
+            LivingIncomingDamageEvent incoming = new LivingIncomingDamageEvent(
+                    target,
+                    new DamageContainer(source, result.amount()));
+            NeoForge.EVENT_BUS.post(incoming);
+            eventDamage = incoming.isCanceled() ? 0.0F : incoming.getAmount();
         } finally {
             EVENT_BYPASS.remove();
         }
@@ -190,14 +196,14 @@ public final class AdvancedEquipmentDamageHandler {
 
     private static void applyRandomSharedNegativeEffect(Player attacker, LivingEntity target) {
         List<MobEffect> availableEffects = new ArrayList<>();
-        for (MobEffect effect : ForgeRegistries.MOB_EFFECTS.getValues()) {
-            ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(effect);
+        for (MobEffect effect : BuiltInRegistries.MOB_EFFECT) {
+            ResourceLocation effectId = BuiltInRegistries.MOB_EFFECT.getKey(effect);
             if (effectId == null
                     || !"minecraft".equals(effectId.getNamespace())
                     || effect.getCategory() != MobEffectCategory.HARMFUL
                     || effect.isInstantenous()
-                    || attacker.hasEffect(effect)
-                    || target.hasEffect(effect)) {
+                    || attacker.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect))
+                    || target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect))) {
                 continue;
             }
             availableEffects.add(effect);
@@ -208,7 +214,7 @@ public final class AdvancedEquipmentDamageHandler {
 
         MobEffect selectedEffect = availableEffects.get(attacker.getRandom().nextInt(availableEffects.size()));
         MobEffectInstance instance = new MobEffectInstance(
-                selectedEffect,
+                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(selectedEffect),
                 TheLastSwordConfiguration.getCuriosGiversPainEffectDurationSafely(),
                 TheLastSwordConfiguration.getCuriosGiversPainEffectAmplifierSafely(),
                 false,
@@ -262,7 +268,7 @@ public final class AdvancedEquipmentDamageHandler {
 
     private record EventBypass(LivingEntity target, DamageSource source) {
 
-        private boolean matches(LivingHurtEvent event) {
+        private boolean matches(LivingIncomingDamageEvent event) {
             return event.getEntity() == target && event.getSource() == source;
         }
     }

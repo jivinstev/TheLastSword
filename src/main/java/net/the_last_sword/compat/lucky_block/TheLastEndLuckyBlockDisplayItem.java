@@ -1,23 +1,22 @@
 package net.the_last_sword.compat.lucky_block;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.the_last_sword.ItemNbt;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,7 +38,7 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
 
     //从 ItemStack NBT 读取 luck 值, 不存在则为 0
     private static int readLuck(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
+        CompoundTag tag = ItemNbt.getTag(stack);
         if (tag == null) return 0;
         //方块物品 NBT 存在两层结构: 直接 Luck (合成后) 或 BlockEntityTag.Luck (破坏掉落)
         if (tag.contains("BlockEntityTag")) {
@@ -51,7 +50,7 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
 
     //复刻 LuckyBlock 原版 tooltip 格式: "幸运值: +20"(灰前缀 + 绿/红/金数字)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         int luck = readLuck(stack);
         Component luckNum;
@@ -89,14 +88,7 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         super.initializeClient(consumer);
-        consumer.accept(new IClientItemExtensions() {
-            private final BlockEntityWithoutLevelRenderer renderer = new TheLastEndLuckyBlockDisplayItemRenderer();
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return renderer;
-            }
-        });
+        consumer.accept(TheLastEndLuckyBlockDisplayItemClient.createExtensions());
     }
 
     @Override

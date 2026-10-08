@@ -473,7 +473,7 @@ public class TheLastEndScrollScreen extends Screen {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         //渲染暗色背景
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         //计算GUI位置
         int guiLeft = (this.width - GUI_WIDTH) / 2;

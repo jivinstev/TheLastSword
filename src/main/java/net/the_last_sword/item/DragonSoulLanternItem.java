@@ -1,7 +1,7 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import net.the_last_sword.util.TooltipKeys;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -77,7 +77,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
         //显示等级
@@ -90,7 +90,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
             .withStyle(ChatFormatting.GRAY));
 
         //未按Shift时提示
-        if (!Screen.hasShiftDown()) {
+        if (!TooltipKeys.hasShiftDown()) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             //按住Shift显示详细描述

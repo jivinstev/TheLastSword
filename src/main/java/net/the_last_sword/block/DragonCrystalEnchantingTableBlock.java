@@ -3,7 +3,6 @@ package net.the_last_sword.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -22,13 +21,20 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
+import com.mojang.serialization.MapCodec;
 import net.the_last_sword.block.entity.DragonCrystalEnchantingTableBlockEntity;
 import net.the_last_sword.init.ModBlockEntities;
 
 import javax.annotation.Nullable;
 
 public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
+
+    public static final MapCodec<DragonCrystalEnchantingTableBlock> CODEC = simpleCodec(props -> new DragonCrystalEnchantingTableBlock());
+
+    @Override
+    protected MapCodec<DragonCrystalEnchantingTableBlock> codec() {
+        return CODEC;
+    }
 
     // 根据 GeckoLib 模型定义碰撞箱
     // 台座部分：16x12x16（完整方块宽度，高度0-12）
@@ -76,11 +82,11 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof DragonCrystalEnchantingTableBlockEntity be) {
-                NetworkHooks.openScreen(serverPlayer, be, pos);
+                serverPlayer.openMenu(be);
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide);

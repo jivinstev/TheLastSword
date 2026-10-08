@@ -1,5 +1,6 @@
 package net.the_last_sword.compat.lucky_block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -19,14 +20,23 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEvent;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEventContext;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEventRegistry;
 import net.the_last_sword.compat.lucky_block.lucky_event.events.LuckyWellTriggerEvent;
 
 import javax.annotation.Nullable;
+import net.the_last_sword.ModHolders;
 
 //终焉幸运方块 - 行为参考原版LuckyBlock：红石/破坏/放置后被充能时触发幸运事件
 public class TheLastEndLuckyBlock extends BaseEntityBlock {
+
+    public static final MapCodec<TheLastEndLuckyBlock> CODEC = simpleCodec(props -> new TheLastEndLuckyBlock());
+
+    @Override
+    protected MapCodec<TheLastEndLuckyBlock> codec() {
+        return CODEC;
+    }
 
     public TheLastEndLuckyBlock() {
         super(BlockBehaviour.Properties.of()
@@ -76,7 +86,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
         super.setPlacedBy(world, pos, state, placer, stack);
 
         if (world.getBlockEntity(pos) instanceof TheLastEndLuckyBlockEntity be) {
-            CompoundTag tag = stack.getTag();
+            CompoundTag tag = ItemNbt.getTag(stack);
             if (tag != null) {
                 be.readFromItemTag(tag);
                 be.setChanged();
@@ -95,15 +105,15 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
         int luck = (be instanceof TheLastEndLuckyBlockEntity tle) ? tle.getLuck() : 0;
         boolean wellVariant = (be instanceof TheLastEndLuckyBlockEntity tle) && tle.isWellVariant();
         boolean silkTouch = !removedByRedstone && !tool.isEmpty()
-            && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0;
+            && EnchantmentHelper.getItemEnchantmentLevel(ModHolders.enchantment(Enchantments.SILK_TOUCH), tool) > 0;
 
         world.removeBlock(pos, false);
         world.removeBlockEntity(pos);
 
         if (silkTouch) {
             ItemStack drop = new ItemStack(block);
-            if (luck != 0) drop.getOrCreateTag().putInt("Luck", luck);
-            if (wellVariant) drop.getOrCreateTag().putBoolean("WellVariant", true);
+            if (luck != 0) ItemNbt.update(drop, t -> t.putInt("Luck", luck));
+            if (wellVariant) ItemNbt.update(drop, t -> t.putBoolean("WellVariant", true));
             Block.popResource(world, pos, drop);
             return;
         }

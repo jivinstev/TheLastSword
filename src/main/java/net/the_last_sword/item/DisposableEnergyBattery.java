@@ -1,8 +1,6 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -12,16 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 //一次性能量电池：使用后消耗自身，立即为背包内所有FE未满的物品恢复能量
@@ -40,27 +34,26 @@ public class DisposableEnergyBattery extends Item {
         return TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely();
     }
 
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final ItemEnergyStorage energyStorage = new ItemEnergyStorage(stack, DisposableEnergyBattery::getMaxEnergy, true);
-            private final LazyOptional<ItemEnergyStorage> energyCap = LazyOptional.of(() -> energyStorage);
+    private static IEnergyStorage energyOf(ItemStack stack) {
+        return stack.getCapability(Capabilities.EnergyStorage.ITEM);
+    }
 
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-                if (cap == ForgeCapabilities.ENERGY) {
-                    return energyCap.cast();
-                }
-                return LazyOptional.empty();
-            }
-        };
+    private static boolean receiveInto(ItemStack target, int amount) {
+        IEnergyStorage energy = energyOf(target);
+        if (energy == null || !energy.canReceive()) {
+            return false;
+        }
+        return energy.receiveEnergy(amount, false) > 0;
     }
 
     //默认满电
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> energy.receiveEnergy(getMaxEnergy(), false));
+        IEnergyStorage energy = energyOf(stack);
+        if (energy != null) {
+            energy.receiveEnergy(getMaxEnergy(), false);
+        }
         return stack;
     }
 
@@ -80,12 +73,7 @@ public class DisposableEnergyBattery extends Item {
             if (target == stack || target.isEmpty()) {
                 continue;
             }
-            boolean charged = target.getCapability(ForgeCapabilities.ENERGY).map(energy -> {
-                if (!energy.canReceive()) {
-                    return false;
-                }
-                return energy.receiveEnergy(restoreAmount, false) > 0;
-            }).orElse(false);
+            boolean charged = receiveInto(target, restoreAmount);
             if (charged) {
                 anyCharged = true;
             }
@@ -99,10 +87,7 @@ public class DisposableEnergyBattery extends Item {
                 for (int i = 0; i < stacks.getSlots(); i++) {
                     ItemStack curioStack = stacks.getStackInSlot(i);
                     if (curioStack.isEmpty()) continue;
-                    boolean charged = curioStack.getCapability(ForgeCapabilities.ENERGY).map(energy -> {
-                        if (!energy.canReceive()) return false;
-                        return energy.receiveEnergy(restoreAmount, false) > 0;
-                    }).orElse(false);
+                    boolean charged = receiveInto(curioStack, restoreAmount);
                     if (charged) curioCharged = true;
                 }
             }
@@ -124,40 +109,38 @@ public class DisposableEnergyBattery extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-            .map(energy -> {
-                int maxEnergy = energy.getMaxEnergyStored();
-                if (maxEnergy == 0) return 0;
-                return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
-            })
-            .orElse(0);
+        IEnergyStorage energy = energyOf(stack);
+        if (energy == null) return 0;
+        int maxEnergy = energy.getMaxEnergyStored();
+        if (maxEnergy == 0) return 0;
+        return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-            .map(energy -> {
-                int maxEnergy = energy.getMaxEnergyStored();
-                if (maxEnergy == 0) return 0x9B30FF;
-                float ratio = (float) energy.getEnergyStored() / maxEnergy;
-                if (ratio < 0.25F) {
-                    return 0xFF0000;
-                } else if (ratio < 0.5F) {
-                    return 0xFF8C00;
-                } else if (ratio < 0.75F) {
-                    return 0x9B30FF;
-                } else {
-                    return 0xBF00FF;
-                }
-            })
-            .orElse(0x9B30FF);
+        IEnergyStorage energy = energyOf(stack);
+        if (energy == null) return 0x9B30FF;
+        int maxEnergy = energy.getMaxEnergyStored();
+        if (maxEnergy == 0) return 0x9B30FF;
+        float ratio = (float) energy.getEnergyStored() / maxEnergy;
+        if (ratio < 0.25F) {
+            return 0xFF0000;
+        } else if (ratio < 0.5F) {
+            return 0xFF8C00;
+        } else if (ratio < 0.75F) {
+            return 0x9B30FF;
+        } else {
+            return 0xBF00FF;
+        }
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy ->
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+        IEnergyStorage energy = energyOf(stack);
+        if (energy != null) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
-                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE")));
+                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
+        }
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.disposable_energy_battery",
             TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely()));
         tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.disposable_energy_battery")

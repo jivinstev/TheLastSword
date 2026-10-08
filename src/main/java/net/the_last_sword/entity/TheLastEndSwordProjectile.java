@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -21,10 +22,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.init.ModEntities;
@@ -73,10 +72,6 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         super(type, entity, world, shooterUUID);
     }
 
-    public TheLastEndSwordProjectile(PlayMessages.SpawnEntity packet, Level world) {
-        this(ModEntities.THE_LAST_END_SWORD_PROJECTILE.get(), world);
-    }
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public ItemStack getItem() {
@@ -85,7 +80,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
 
     //无重力
     @Override
-    protected float getGravity() {
+    protected double getDefaultGravity() {
         return 0f;
     }
 
@@ -248,7 +243,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
         return projectile;
@@ -264,7 +259,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         shooter.level().addFreshEntity(projectile);
         shooter.level().playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (RandomSource.create().nextFloat() * 0.5f + 1));
         return projectile;

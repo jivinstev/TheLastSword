@@ -87,8 +87,8 @@ public final class DangerousSkillPreviewRenderer {
             VertexConsumer fill = buffers.getBuffer(FILL);
             for (Vec3 corner : corners) {
                 // 略微抬高底面，避免与平地表面深度冲突。
-                fill.vertex(matrix, (float) corner.x, 0.025F, (float) corner.z)
-                        .color(1.0F, 0.1F, 0.1F, alpha * 0.2F).endVertex();
+                fill.addVertex(matrix, (float) corner.x, 0.025F, (float) corner.z)
+                        .setColor(1.0F, 0.1F, 0.1F, alpha * 0.2F);
             }
             buffers.endBatch(FILL);
             VertexConsumer lines = buffers.getBuffer(RenderType.lines());
@@ -108,11 +108,11 @@ public final class DangerousSkillPreviewRenderer {
     private static void line(VertexConsumer buffer, PoseStack.Pose pose, Vec3 start, Vec3 end, float alpha) {
         Matrix4f matrix = pose.pose();
         Vec3 normal = end.subtract(start).normalize();
-        buffer.vertex(matrix, (float) start.x, (float) start.y, (float) start.z)
-                .color(1.0F, 0.1F, 0.1F, alpha)
-                .normal(pose.normal(), (float) normal.x, (float) normal.y, (float) normal.z).endVertex();
-        buffer.vertex(matrix, (float) end.x, (float) end.y, (float) end.z)
-                .color(1.0F, 0.1F, 0.1F, alpha)
-                .normal(pose.normal(), (float) normal.x, (float) normal.y, (float) normal.z).endVertex();
+        buffer.addVertex(matrix, (float) start.x, (float) start.y, (float) start.z)
+                .setColor(1.0F, 0.1F, 0.1F, alpha)
+                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
+        buffer.addVertex(matrix, (float) end.x, (float) end.y, (float) end.z)
+                .setColor(1.0F, 0.1F, 0.1F, alpha)
+                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
     }
 }

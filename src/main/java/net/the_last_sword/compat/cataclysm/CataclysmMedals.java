@@ -17,10 +17,10 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 //Cataclysm各Boss奖章实现
 public class CataclysmMedals {
@@ -45,8 +45,8 @@ public class CataclysmMedals {
         protected void applyPassiveEffects(Player player, ItemStack stack) {
             //免疫沙漠诅咒效果
             MobEffect curseOfDesertEffect = getCurseOfDesertEffect();
-            if (curseOfDesertEffect != null && player.hasEffect(curseOfDesertEffect)) {
-                player.removeEffect(curseOfDesertEffect);
+            if (curseOfDesertEffect != null && player.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(curseOfDesertEffect))) {
+                player.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(curseOfDesertEffect));
             }
 
             //免疫缓慢效果
@@ -126,12 +126,12 @@ public class CataclysmMedals {
             if (owner.isCrouching() && !isOnCooldown(owner, stack)) {
                 MobEffect curseOfDesertEffect = getCurseOfDesertEffect();
                 if (curseOfDesertEffect != null) {
-                    attacker.addEffect(new MobEffectInstance(curseOfDesertEffect, 200, 0));
+                    attacker.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(curseOfDesertEffect), 200, 0));
                 }
 
                 MobEffect stunEffect = getStunEffect();
                 if (stunEffect != null) {
-                    attacker.addEffect(new MobEffectInstance(stunEffect, 200, 0));
+                    attacker.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect), 200, 0));
                 }
 
                 setCooldown(owner, stack, 200);
@@ -140,7 +140,7 @@ public class CataclysmMedals {
 
         private MobEffect getCurseOfDesertEffect() {
             try {
-                return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
+                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
             } catch (Exception ignored) {
                 return null;
             }
@@ -148,14 +148,14 @@ public class CataclysmMedals {
 
         private MobEffect getStunEffect() {
             try {
-                return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
             } catch (Exception ignored) {
                 return null;
             }
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.ancient_remnant_medal"));
         }
@@ -178,7 +178,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.ender_guardian_medal"));
         }
@@ -201,7 +201,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.ignis_medal"));
         }
@@ -224,7 +224,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.maledictus_medal"));
         }
@@ -274,7 +274,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.netherite_monstrosity_medal"));
         }
@@ -321,7 +321,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.harbinger_medal"));
         }
@@ -369,7 +369,7 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.the_leviathan_medal"));
         }
@@ -424,13 +424,13 @@ public class CataclysmMedals {
             //给予/叠加敌人潮湿效果
             MobEffect moistureEffect = getMoistureEffect();
             if (moistureEffect != null) {
-                MobEffectInstance currentEffect = target.getEffect(moistureEffect);
+                MobEffectInstance currentEffect = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect));
                 int newAmplifier = currentEffect != null ? Math.min(currentEffect.getAmplifier() + 1, 4) : 0;
-                target.addEffect(new MobEffectInstance(moistureEffect, 60, newAmplifier));
+                target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect), 60, newAmplifier));
             }
 
             //检查天气和潮湿效果触发落雷
-            if (moistureEffect != null && target.hasEffect(moistureEffect)) {
+            if (moistureEffect != null && target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect))) {
                 boolean isRaining = world.isRaining();
                 boolean isThundering = world.isThundering();
 
@@ -438,7 +438,7 @@ public class CataclysmMedals {
                     double triggerChance = isThundering ? 0.5 : 0.25;
 
                     if (world.random.nextDouble() < triggerChance) {
-                        int moistureLevel = target.getEffect(moistureEffect).getAmplifier() + 1;
+                        int moistureLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect)).getAmplifier() + 1;
                         float lightningDamage = moistureLevel * 5.0f;
 
                         LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world);
@@ -457,14 +457,14 @@ public class CataclysmMedals {
 
         private MobEffect getMoistureEffect() {
             try {
-                return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "wetness"));
+                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "wetness"));
             } catch (Exception ignored) {
                 return null;
             }
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(stack, world, tooltip, flag);
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.scylla_medal"));
         }

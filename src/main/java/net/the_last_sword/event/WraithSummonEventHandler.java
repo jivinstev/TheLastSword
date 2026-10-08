@@ -4,19 +4,19 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.summon.WraithSummonManager;
 
 //剑灵召唤系统事件处理器
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class WraithSummonEventHandler {
 
     private static final String SOUL_STONE_KEY = "the_last_sword_soul_stone";
@@ -87,11 +87,12 @@ public class WraithSummonEventHandler {
 
     //实体Tick处理剑灵AI
     @SubscribeEvent
-    public static void onLivingEntityTick(LivingEvent.LivingTickEvent event) {
-        if (event.getEntity().level().isClientSide()) {
+    public static void onLivingEntityTick(EntityTickEvent.Pre event) {
+        if (!(event.getEntity() instanceof net.minecraft.world.entity.LivingEntity living)) return;
+        if (living.level().isClientSide()) {
             return;
         }
-        WraithSummonManager.handleLivingEntityTick(event.getEntity());
+        WraithSummonManager.handleLivingEntityTick(living);
     }
 
 }

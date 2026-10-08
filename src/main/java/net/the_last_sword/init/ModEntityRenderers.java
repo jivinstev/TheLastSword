@@ -2,11 +2,11 @@ package net.the_last_sword.init;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.model.WingsThatCoverTheWorldModel;
 import net.the_last_sword.client.renderer.DragonCultistRenderer;
@@ -16,7 +16,7 @@ import net.the_last_sword.client.renderer.*;
 import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockRenderer;
 
 //实体渲染器注册
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModEntityRenderers {
     //注册实体渲染器
     @SubscribeEvent

@@ -2,7 +2,7 @@ package net.the_last_sword.event;
 
 import net.eca.api.EcaAPI;
 import net.eca.util.raid.RaidInstance;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -25,16 +25,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.AdvancementEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModItems;
@@ -42,9 +42,11 @@ import net.the_last_sword.raid.DragonCultRaid;
 
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.core.Holder;
+import net.the_last_sword.ModHolders;
 
 //最终之剑任务事件处理器
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class TheLastSwordQuestHandler {
 
     //播报前缀复用mod译名（创造标签页）翻译键
@@ -126,8 +128,8 @@ public class TheLastSwordQuestHandler {
 
     //服务端玩家Tick，节流检测各任务
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
         if (player.tickCount % CHECK_INTERVAL != 0 || !isQuestSystemEnabled()) {
@@ -147,7 +149,7 @@ public class TheLastSwordQuestHandler {
         if (!isQuestSystemEnabled()) {
             return;
         }
-        ResourceLocation advancementId = event.getAdvancement().getId();
+        ResourceLocation advancementId = event.getAdvancement().id();
         if (WELCOME.equals(advancementId)) {
             MinecraftServer server = player.server;
             UUID playerId = player.getUUID();
@@ -206,7 +208,7 @@ public class TheLastSwordQuestHandler {
             return false;
         }
         villager.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
-        ForgeEventFactory.onFinalizeSpawn(villager, level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
+        villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null);
 
         villager.setVillagerData(villager.getVillagerData().setProfession(VillagerProfession.WEAPONSMITH).setLevel(5));
         villager.setCustomName(Component.translatable("entity.the_last_sword.troubled_blacksmith"));
@@ -225,12 +227,12 @@ public class TheLastSwordQuestHandler {
         //专属交易：终焉卷轴与变卖的家当
         MerchantOffers offers = villager.getOffers();
         offers.clear();
-        offers.add(new MerchantOffer(new ItemStack(Items.EMERALD), new ItemStack(ModItems.THE_LAST_END_SCROLL.get()), SCROLL_TRADE_USES, 100, 0.0F));
-        offers.add(gearOffer(2, Items.IRON_SWORD, Enchantments.MOB_LOOTING));
-        offers.add(gearOffer(5, Items.IRON_HELMET, Enchantments.PROJECTILE_PROTECTION));
-        offers.add(gearOffer(8, Items.IRON_CHESTPLATE, Enchantments.ALL_DAMAGE_PROTECTION));
-        offers.add(gearOffer(7, Items.IRON_LEGGINGS, Enchantments.BLAST_PROTECTION));
-        offers.add(gearOffer(4, Items.IRON_BOOTS, Enchantments.FALL_PROTECTION));
+        offers.add(new MerchantOffer(new ItemCost(Items.EMERALD), new ItemStack(ModItems.THE_LAST_END_SCROLL.get()), SCROLL_TRADE_USES, 100, 0.0F));
+        offers.add(gearOffer(2, Items.IRON_SWORD, ModHolders.enchantment(Enchantments.LOOTING)));
+        offers.add(gearOffer(5, Items.IRON_HELMET, ModHolders.enchantment(Enchantments.PROJECTILE_PROTECTION)));
+        offers.add(gearOffer(8, Items.IRON_CHESTPLATE, ModHolders.enchantment(Enchantments.PROTECTION)));
+        offers.add(gearOffer(7, Items.IRON_LEGGINGS, ModHolders.enchantment(Enchantments.BLAST_PROTECTION)));
+        offers.add(gearOffer(4, Items.IRON_BOOTS, ModHolders.enchantment(Enchantments.FEATHER_FALLING)));
 
         if (!level.addFreshEntity(villager)) {
             return false;
@@ -281,11 +283,11 @@ public class TheLastSwordQuestHandler {
     }
 
     //家当交易：绿宝石换经验修补+指定1级附魔的铁装备
-    private static MerchantOffer gearOffer(int emeralds, Item item, Enchantment enchantment) {
+    private static MerchantOffer gearOffer(int emeralds, Item item, Holder<Enchantment> enchantment) {
         ItemStack stack = new ItemStack(item);
-        stack.enchant(Enchantments.MENDING, 1);
+        stack.enchant(ModHolders.enchantment(Enchantments.MENDING), 1);
         stack.enchant(enchantment, 1);
-        return new MerchantOffer(new ItemStack(Items.EMERALD, emeralds), stack, 1, GEAR_TRADE_XP, 0.0F);
+        return new MerchantOffer(new ItemCost(Items.EMERALD, emeralds), stack, 1, GEAR_TRADE_XP, 0.0F);
     }
 
     //========== 拜龙教袭击 ==========
@@ -346,13 +348,13 @@ public class TheLastSwordQuestHandler {
 
     //判断进度是否已完成
     public static boolean isDone(ServerPlayer player, ResourceLocation id) {
-        Advancement advancement = player.server.getAdvancements().getAdvancement(id);
+        AdvancementHolder advancement = player.server.getAdvancements().get(id);
         return advancement != null && player.getAdvancements().getOrStartProgress(advancement).isDone();
     }
 
     //授予进度（补齐全部条件）
     public static void grant(ServerPlayer player, ResourceLocation id) {
-        Advancement advancement = player.server.getAdvancements().getAdvancement(id);
+        AdvancementHolder advancement = player.server.getAdvancements().get(id);
         if (advancement == null) {
             return;
         }

@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.DefenceConfig;
 import net.the_last_sword.configuration.DefenceConfigData;
 import net.the_last_sword.item.DragonArmorItem;
@@ -385,10 +385,10 @@ public class DragonShieldRenderer {
 
     private static void quad(VertexConsumer vc, Matrix4f matrix, Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4,
                              int r, int g, int b, int a) {
-        vc.vertex(matrix, p1.x, p1.y, p1.z).color(r, g, b, a).endVertex();
-        vc.vertex(matrix, p2.x, p2.y, p2.z).color(r, g, b, a).endVertex();
-        vc.vertex(matrix, p3.x, p3.y, p3.z).color(r, g, b, a).endVertex();
-        vc.vertex(matrix, p4.x, p4.y, p4.z).color(r, g, b, a).endVertex();
+        vc.addVertex(matrix, p1.x, p1.y, p1.z).setColor(r, g, b, a);
+        vc.addVertex(matrix, p2.x, p2.y, p2.z).setColor(r, g, b, a);
+        vc.addVertex(matrix, p3.x, p3.y, p3.z).setColor(r, g, b, a);
+        vc.addVertex(matrix, p4.x, p4.y, p4.z).setColor(r, g, b, a);
     }
 
     private record Impact(Vector3f normal, long startTick) {

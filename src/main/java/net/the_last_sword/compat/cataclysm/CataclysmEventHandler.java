@@ -15,25 +15,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.init.ModItems;
 import top.theillusivec4.curios.api.CuriosApi;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 //处理灾变奖牌的特殊效果
-@Mod.EventBusSubscriber(modid = "the_last_sword", bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
 public class CataclysmEventHandler {
 
     private static final String MEDAL_DROPPED_TAG = "the_last_sword_cataclysm_medal_dropped";
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void onLivingHurtHarbinger(LivingHurtEvent event) {
+    public static void onLivingHurtHarbinger(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCataclysmLoaded()) {
             return;
         }
@@ -46,7 +46,7 @@ public class CataclysmEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onLivingHurtAncientRemnant(LivingHurtEvent event) {
+    public static void onLivingHurtAncientRemnant(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCataclysmLoaded()) {
             return;
         }
@@ -64,7 +64,7 @@ public class CataclysmEventHandler {
             return;
         }
 
-        if (event.getDamageModifier() <= 1.0f) {
+        if (event.getDamageMultiplier() <= 1.0f) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class CataclysmEventHandler {
 
     //伤害加成（乘法）：焰魔×1.5、灵骸×负面效果数
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onLivingHurtCataclysmDamageBonus(LivingHurtEvent event) {
+    public static void onLivingHurtCataclysmDamageBonus(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCataclysmLoaded()) {
             return;
         }
@@ -88,7 +88,7 @@ public class CataclysmEventHandler {
 
     //状态效果附加：焰魔战意、巨兽点燃缓慢、利维坦深渊烧灼、灵骸虚弱、斯库拉潮湿+落雷
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onLivingHurtCataclysmEffects(LivingHurtEvent event) {
+    public static void onLivingHurtCataclysmEffects(LivingIncomingDamageEvent event) {
         if (!CompatCheck.isCataclysmLoaded()) {
             return;
         }
@@ -106,7 +106,7 @@ public class CataclysmEventHandler {
     }
 
     //处理先驱者奖章的弹射物免疫效果
-    private static void handleHarbingerMedalProjectileImmunity(LivingHurtEvent event, Player player) {
+    private static void handleHarbingerMedalProjectileImmunity(LivingIncomingDamageEvent event, Player player) {
         float currentHealth = player.getHealth();
         float maxHealth = player.getMaxHealth();
         if (currentHealth > (maxHealth * 0.5f)) {
@@ -169,12 +169,12 @@ public class CataclysmEventHandler {
         }
 
         int currentLevel = 0;
-        if (target.hasEffect(blazingBrandEffect)) {
-            currentLevel = target.getEffect(blazingBrandEffect).getAmplifier();
+        if (target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(blazingBrandEffect))) {
+            currentLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(blazingBrandEffect)).getAmplifier();
         }
 
         int newLevel = Math.min(currentLevel + 1, 4);
-        target.addEffect(new MobEffectInstance(blazingBrandEffect, 60, newLevel));
+        target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(blazingBrandEffect), 60, newLevel));
 
         float healAmount = 2.0f * (newLevel + 1);
         attacker.heal(healAmount);
@@ -183,7 +183,7 @@ public class CataclysmEventHandler {
     //获取炽热烙印效果
     private static MobEffect getBlazingBrandEffect() {
         try {
-            return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "blazing_brand"));
+            return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "blazing_brand"));
         } catch (Exception ignored) {
             return null;
         }
@@ -192,8 +192,8 @@ public class CataclysmEventHandler {
     //检查目标是否已经处于眩晕状态
     private static boolean isAlreadyStunned(LivingEntity target) {
         try {
-            MobEffect stunEffect = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
-            return stunEffect != null && target.hasEffect(stunEffect);
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            return stunEffect != null && target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect));
         } catch (Exception ignored) {
             return false;
         }
@@ -225,9 +225,9 @@ public class CataclysmEventHandler {
     //应用灾变的眩晕效果
     private static void applyCataclysmStunEffect(LivingEntity target, int durationTicks) {
         try {
-            MobEffect stunEffect = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
             if (stunEffect != null) {
-                target.addEffect(new MobEffectInstance(stunEffect, durationTicks, 0));
+                target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect), durationTicks, 0));
             }
         } catch (Exception ignored) {
         }
@@ -240,7 +240,7 @@ public class CataclysmEventHandler {
         }
 
         if (!target.isOnFire()) {
-            target.setSecondsOnFire(3);
+            target.igniteForSeconds(3);
         }
 
         if (!target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) ||
@@ -264,20 +264,20 @@ public class CataclysmEventHandler {
         int effectLevel = isUnderwater ? 4 : 2;
         int duration = isUnderwater ? 200 : 100;
 
-        target.addEffect(new MobEffectInstance(abyssalBurnEffect, duration, effectLevel));
+        target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(abyssalBurnEffect), duration, effectLevel));
     }
 
     //获取深渊烧灼效果
     private static MobEffect getAbyssalBurnEffect() {
         try {
-            return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
+            return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
         } catch (Exception ignored) {
             return null;
         }
     }
 
     //处理远古遗魂奖章的反击效果
-    private static void handleAncientRemnantMedalCounterAttack(LivingHurtEvent event, Player player) {
+    private static void handleAncientRemnantMedalCounterAttack(LivingIncomingDamageEvent event, Player player) {
         if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
             return;
         }
@@ -309,14 +309,14 @@ public class CataclysmEventHandler {
     }
 
     //处理咒翼灵骸奖章的伤害加成
-    private static void handleMaledictusMedalDamageBonus(LivingHurtEvent event, Player attacker) {
+    private static void handleMaledictusMedalDamageBonus(LivingIncomingDamageEvent event, Player attacker) {
         if (!hasMedalInAnySlot(attacker, CataclysmMedals.MaledictusMedal.class)) {
             return;
         }
 
         int debuffCount = 0;
         for (MobEffectInstance effect : attacker.getActiveEffects()) {
-            if (effect.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
+            if (effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                 debuffCount++;
             }
         }
@@ -328,7 +328,7 @@ public class CataclysmEventHandler {
     }
 
     //处理焰魔奖章的伤害加成效果
-    private static void handleIgnisMedalDamageBonus(LivingHurtEvent event, Player attacker) {
+    private static void handleIgnisMedalDamageBonus(LivingIncomingDamageEvent event, Player attacker) {
         if (!hasMedalInAnySlot(attacker, CataclysmMedals.IgnisMedal.class)) {
             return;
         }

@@ -8,9 +8,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import net.the_last_sword.init.ModMenus;
 import net.the_last_sword.summon.WraithSummonManager;
 import net.the_last_sword.item.DragonCrystalSoulStone;
@@ -123,7 +123,7 @@ public class SummonWraithGuiMenu extends AbstractContainerMenu implements Suppli
                 }
                 Slot slot = this.slots.get(i);
                 ItemStack itemstack = slot.getItem();
-                if (slot.mayPlace(itemstack) && !itemstack.isEmpty() && ItemStack.isSameItemSameTags(p_38904_, itemstack)) {
+                if (slot.mayPlace(itemstack) && !itemstack.isEmpty() && ItemStack.isSameItemSameComponents(p_38904_, itemstack)) {
                     int j = itemstack.getCount() + p_38904_.getCount();
                     int maxSize = Math.min(slot.getMaxStackSize(), p_38904_.getMaxStackSize());
                     if (j <= maxSize) {

@@ -47,7 +47,7 @@ public class TestEntityTheLastEndLayer extends RenderLayer<TestEntity, HumanoidM
                 vertexConsumer,
                 15728880,  // 最大亮度
                 LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-                1.0f, 1.0f, 1.0f, 0.8f  // RGBA (80%透明度)
+                0xCCFFFFFF  // ARGB (80%透明度)
             );
             return;
         }
@@ -65,7 +65,7 @@ public class TestEntityTheLastEndLayer extends RenderLayer<TestEntity, HumanoidM
             vertexConsumer,
             packedLight,  // 使用原始光照
             LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-            1.0f, 1.0f, 1.0f, 1.0f  // RGBA (完全不透明)
+            0xFFFFFFFF  // ARGB (完全不透明)
         );
     }
 }

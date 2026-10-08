@@ -1,9 +1,8 @@
 {
   "required": true,
   "package": "net.the_last_sword.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "refmap": "mixins.the_last_sword.refmap.json",
   "client": [
     "EntityRenderDispatcherMixin",
     "CameraMixin",
@@ -29,7 +28,9 @@
     "ServerPlayerMixin",
     "PersistentEntitySectionManagerMixin",
     "PersistentEntitySectionManagerMixin$CallbackMixin",
-    "ServerGamePacketListenerImplMixin"
+    "ServerCommonPacketListenerImplMixin",
+    "ServerGamePacketListenerImplMixin",
+    "ServerCommonPacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -29,7 +29,7 @@ public abstract class EnderDragonMixin {
         return (float) (acceleration * Math.max(0.0, flyingSpeed / baseSpeed));
     }
 
-    @ModifyConstant(method = "knockBack(Ljava/util/List;)V", constant = @Constant(floatValue = 5.0F))
+    @ModifyConstant(method = "knockBack(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V", constant = @Constant(floatValue = 5.0F))
     private float theLastSword$scaleWingDamage(float originalDamage) {
         return EnderDragonEvent.scaleDragonContactDamage((EnderDragon) (Object) this, originalDamage);
     }

@@ -58,7 +58,7 @@ public class BlockBehaviourMixin {
             return;
         }
 
-        if (!livingEntity.hasEffect(ModEffects.PHASING.get())) {
+        if (!livingEntity.hasEffect(ModEffects.PHASING)) {
             return;
         }
 

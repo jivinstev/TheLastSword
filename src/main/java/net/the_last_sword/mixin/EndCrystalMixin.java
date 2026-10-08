@@ -5,7 +5,8 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.item.DragonArmorItem;
 import org.spongepowered.asm.mixin.Mixin;
@@ -71,7 +72,7 @@ public class EndCrystalMixin {
     private boolean hasDragonArmor(Player player) {
         //只检查装备栏
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (!stack.isEmpty() && stack.getItem() instanceof DragonArmorItem) {
                 return true;
@@ -85,23 +86,13 @@ public class EndCrystalMixin {
         //检查装备栏
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty()) {
-                boolean needsCharge = stack.getCapability(ForgeCapabilities.ENERGY)
-                        .map(energy -> energy.getEnergyStored() < energy.getMaxEnergyStored())
-                        .orElse(false);
-                if (needsCharge) return true;
-            }
+            if (!stack.isEmpty() && needsCharge(stack)) return true;
         }
 
         //检查背包
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
-            if (!stack.isEmpty()) {
-                boolean needsCharge = stack.getCapability(ForgeCapabilities.ENERGY)
-                        .map(energy -> energy.getEnergyStored() < energy.getMaxEnergyStored())
-                        .orElse(false);
-                if (needsCharge) return true;
-            }
+            if (!stack.isEmpty() && needsCharge(stack)) return true;
         }
 
         //检查饰品栏
@@ -110,16 +101,17 @@ public class EndCrystalMixin {
                 var stacks = entry.getValue().getStacks();
                 for (int i = 0; i < stacks.getSlots(); i++) {
                     ItemStack stack = stacks.getStackInSlot(i);
-                    if (!stack.isEmpty()) {
-                        boolean needsCharge = stack.getCapability(ForgeCapabilities.ENERGY)
-                                .map(energy -> energy.getEnergyStored() < energy.getMaxEnergyStored())
-                                .orElse(false);
-                        if (needsCharge) return true;
-                    }
+                    if (!stack.isEmpty() && needsCharge(stack)) return true;
                 }
             }
             return false;
         }).orElse(false);
+    }
+
+    //物品是否带FE能量且未满
+    private boolean needsCharge(ItemStack stack) {
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        return energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored();
     }
 
     //给玩家所有带FE capability且能量未满的物品充能
@@ -130,11 +122,7 @@ public class EndCrystalMixin {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
             if (!stack.isEmpty()) {
-                stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
-                    if (energy.getEnergyStored() < energy.getMaxEnergyStored()) {
-                        energy.receiveEnergy(chargeRate, false);
-                    }
-                });
+                chargeStack(stack, chargeRate);
             }
         }
 
@@ -142,11 +130,7 @@ public class EndCrystalMixin {
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (!stack.isEmpty()) {
-                stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
-                    if (energy.getEnergyStored() < energy.getMaxEnergyStored()) {
-                        energy.receiveEnergy(chargeRate, false);
-                    }
-                });
+                chargeStack(stack, chargeRate);
             }
         }
 
@@ -157,14 +141,18 @@ public class EndCrystalMixin {
                 for (int i = 0; i < stacks.getSlots(); i++) {
                     ItemStack stack = stacks.getStackInSlot(i);
                     if (!stack.isEmpty()) {
-                        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy -> {
-                            if (energy.getEnergyStored() < energy.getMaxEnergyStored()) {
-                                energy.receiveEnergy(chargeRate, false);
-                            }
-                        });
+                        chargeStack(stack, chargeRate);
                     }
                 }
             }
         });
+    }
+
+    //给单个物品充能（若带FE能量且未满）
+    private void chargeStack(ItemStack stack, int chargeRate) {
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored()) {
+            energy.receiveEnergy(chargeRate, false);
+        }
     }
 }

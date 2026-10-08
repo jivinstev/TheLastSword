@@ -1,16 +1,28 @@
 package net.the_last_sword.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 // 感知扫描结果同步包（服务端→客户端）
-public class PerceptionScanPacket {
+public class PerceptionScanPacket implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<PerceptionScanPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "perception_scan_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, PerceptionScanPacket> STREAM_CODEC =
+            StreamCodec.of((buf, msg) -> PerceptionScanPacket.encode(msg, buf), PerceptionScanPacket::decode);
+
+    @Override
+    public CustomPacketPayload.Type<PerceptionScanPacket> type() {
+        return TYPE;
+    }
 
     public enum ScanType {
         HOSTILE(0xFF0000),
@@ -53,10 +65,8 @@ public class PerceptionScanPacket {
         return new PerceptionScanPacket(map, duration);
     }
 
-    public static void handle(PerceptionScanPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> net.the_last_sword.client.ClientPacketHandler.updatePerceptionScan(
-                        msg.scannedEntities, msg.glowDurationSeconds)));
-        ctx.get().setPacketHandled(true);
+    public static void handle(PerceptionScanPacket msg, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.updatePerceptionScan(
+                        msg.scannedEntities, msg.glowDurationSeconds); });
     }
 }

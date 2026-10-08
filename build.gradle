@@ -1,80 +1,68 @@
 plugins {
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
-    id 'org.spongepowered.mixin'    version '0.7.+'
+    id 'net.neoforged.moddev' version '2.0.146'
 }
 
 version = "${project.minecraft_version}-forge-${project.mod_version}"
 group   = project.maven_group
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
+    mavenLocal()
     maven {
-        url = "https://maven.minecraftforge.net/"
+        url = "https://maven.neoforged.net/releases"
     }
     maven { url = "https://api.modrinth.com/maven"; content { includeGroup "maven.modrinth" } }
     maven { url = "https://cursemaven.com"; content { includeGroup "curse.maven" } }
     maven { name = "Progwml6"; url = "https://dvs1.progwml6.com/files/maven/" }
     maven { name = "BlameJared"; url = "https://maven.blamejared.com/" }
     maven { name = "ModMaven"; url = "https://modmaven.dev" }
-    maven { name = "SpongePowered"; url = "https://repo.spongepowered.org/repository/maven-public/" }
 }
 
 
-minecraft {
-    mappings channel: 'official', version: '1.20.1'
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    copyIdeResources  = true
+neoForge {
+    version = project.neo_version
+    accessTransformers.from('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods { the_last_sword { source sourceSets.main } }
+            client()
+            gameDirectory = project.file('run')
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
         }
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods { the_last_sword { source sourceSets.main } }
+            server()
+            gameDirectory = project.file('run')
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
         }
     }
+    mods { the_last_sword { sourceSet sourceSets.main } }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation 'org.reflections:reflections:0.9.12'
-    implementation 'org.ow2.asm:asm:9.2'
-    implementation 'org.ow2.asm:asm-commons:9.2'
-
-    implementation fg.deobf("maven.modrinth:epic-core-api:1.1.8-fix-fix")
+    implementation("net.eca:eca:1.1.8-fix-fix") { transitive = false }
     //implementation files("lib/epic-core-api-1.1.8-fix-fix_dev.jar")
-    implementation fg.deobf("curse.maven:geckolib-388172:7025129")
-    implementation fg.deobf("curse.maven:curios-309927:6418456")
+    implementation "curse.maven:geckolib-388172:8893490"
+    implementation "curse.maven:curios-309927:6529130"
 
-    implementation fg.deobf("curse.maven:jei-238222:7391695")
-    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
-    //implementation fg.deobf("curse.maven:just-enough-characters-250702:7411324")
-    implementation fg.deobf("curse.maven:jade-324717:5876199")
-    implementation fg.deobf("curse.maven:lendercataclysm-551586:8095632")
-    implementation fg.deobf("curse.maven:lionfish-api-1001614:8095554")
-    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
-    implementation fg.deobf("curse.maven:irons-lib-1492763:8364892")
-    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:8680180")
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:6979039")
-    implementation fg.deobf("curse.maven:farmers-delight-398521:6917255")
-    implementation fg.deobf("curse.maven:spark-361579:4738952")
-}
-
-mixin {
-    add sourceSets.main, "mixins.the_last_sword.refmap.json"
-    config "the_last_sword.mixins.json"
+    implementation "curse.maven:jei-238222:9068136"
+    implementation "curse.maven:just-enough-resources-jer-240630:6506298"
+    //implementation "curse.maven:just-enough-characters-250702:7411324"
+    implementation "curse.maven:jade-324717:8591319"
+    implementation "curse.maven:lendercataclysm-551586:8931182"
+    implementation "curse.maven:lionfish-api-1001614:8345326"
+    implementation "curse.maven:playeranimator-658587:7389814"
+    implementation "curse.maven:irons-lib-1492763:8973642"
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:8680204"
+    implementation "curse.maven:touhou-little-maid-355044:8061852"
+    implementation "curse.maven:farmers-delight-398521:8765184"
+    implementation "curse.maven:spark-361579:6225208"
 }
 
 processResources {
     inputs.property 'mod_version', project.mod_version
-    filesMatching('META-INF/mods.toml') { expand 'mod_version': project.mod_version }
+    filesMatching('META-INF/neoforge.mods.toml') { expand 'mod_version': project.mod_version }
 }
 
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }

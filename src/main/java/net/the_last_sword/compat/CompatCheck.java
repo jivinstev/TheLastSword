@@ -1,6 +1,6 @@
 package net.the_last_sword.compat;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 //模组兼容性检测工具类
 public class CompatCheck {

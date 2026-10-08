@@ -4,9 +4,9 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,16 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import net.the_last_sword.util.nbt.ItemEnergyStorage;
-import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -40,23 +35,7 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
-    //Forge Energy 能力
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final ItemEnergyStorage energyStorage = new ItemEnergyStorage(stack,
-                TheLastSwordConfiguration::getCuriosExtremeLifeSupportMaxEnergySafely);
-            private final LazyOptional<ItemEnergyStorage> energyCap = LazyOptional.of(() -> energyStorage);
-
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-                if (cap == ForgeCapabilities.ENERGY) {
-                    return energyCap.cast();
-                }
-                return LazyOptional.empty();
-            }
-        };
-    }
+    //Forge Energy 能力 -> 已迁移至 RegisterCapabilitiesEvent (Capabilities.EnergyStorage.ITEM)
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
@@ -65,55 +44,57 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-            .map(energy -> {
-                int maxEnergy = energy.getMaxEnergyStored();
-                if (maxEnergy == 0) return 0;
-                return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
-            })
-            .orElse(0);
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null) {
+            return 0;
+        }
+        int maxEnergy = energy.getMaxEnergyStored();
+        if (maxEnergy == 0) return 0;
+        return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY)
-            .map(energy -> {
-                int maxEnergy = energy.getMaxEnergyStored();
-                if (maxEnergy == 0) return 0x8B00FF;
-                float ratio = (float) energy.getEnergyStored() / maxEnergy;
-                if (ratio < 0.25F) {
-                    return 0xFF0000;
-                } else if (ratio < 0.5F) {
-                    return 0xFF8C00;
-                } else if (ratio < 0.75F) {
-                    return 0x9B30FF;
-                } else {
-                    return 0xBF00FF;
-                }
-            })
-            .orElse(0x8B00FF);
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null) {
+            return 0x8B00FF;
+        }
+        int maxEnergy = energy.getMaxEnergyStored();
+        if (maxEnergy == 0) return 0x8B00FF;
+        float ratio = (float) energy.getEnergyStored() / maxEnergy;
+        if (ratio < 0.25F) {
+            return 0xFF0000;
+        } else if (ratio < 0.5F) {
+            return 0xFF8C00;
+        } else if (ratio < 0.75F) {
+            return 0x9B30FF;
+        } else {
+            return 0xBF00FF;
+        }
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+        Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //盔甲韧性+100
         modifiers.put(Attributes.ARMOR_TOUGHNESS,
-            new AttributeModifier(ARMOR_TOUGHNESS_UUID, "extreme_life_support_armor_toughness",
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "extreme_life_support_armor_toughness"),
                 TheLastSwordConfiguration.getCuriosExtremeLifeSupportArmorToughnessSafely(),
-                AttributeModifier.Operation.ADDITION));
+                AttributeModifier.Operation.ADD_VALUE));
 
         return modifiers;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         //能量信息
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy ->
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy != null) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
-                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE")));
+                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
+        }
         int energyCost = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEnergyCostSafely();
         String thresholdPercent = String.format("%.0f",
             TheLastSwordConfiguration.getCuriosExtremeLifeSupportTierThresholdSafely() * 100);

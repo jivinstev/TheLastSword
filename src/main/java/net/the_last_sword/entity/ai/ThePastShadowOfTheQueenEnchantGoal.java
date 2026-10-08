@@ -35,7 +35,7 @@ public class ThePastShadowOfTheQueenEnchantGoal extends Goal {
         return queen.canAct() && queen.getAnimationState() == ThePastShadowOfTheQueenEntity.STATE_IDLE
                 && queen.level().getGameTime() >= cooldownEnd
                 && target != null && target.isAlive() && EntityUtil.canAttack(queen, target)
-                && !queen.hasEffect(ModEffects.VOID_ENCHANTING.get());
+                && !queen.hasEffect(ModEffects.VOID_ENCHANTING);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ThePastShadowOfTheQueenEnchantGoal extends Goal {
     private void applyVoidEnchantment() {
         int amplifier = Math.max(0, queen.getTheLastEndLevel() - 1);
         queen.addEffect(new MobEffectInstance(
-                ModEffects.VOID_ENCHANTING.get(),
+                ModEffects.VOID_ENCHANTING,
                 600,
                 amplifier,
                 false,

@@ -1,7 +1,7 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import net.the_last_sword.util.TooltipKeys;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,12 +12,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
 import net.the_last_sword.entity.TheLastEndEntity;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
 import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.network.OpenWraithAppearanceScreenPacket;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -51,7 +51,7 @@ public class SwordSoulStone extends DragonCrystalSoulStone {
     }
 
     public static TheLastEndSwordWraithAppearance getAppearance(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
+        CompoundTag tag = ItemNbt.getTag(stack);
         if (tag == null) {
             return TheLastEndSwordWraithAppearance.DEFAULT;
         }
@@ -65,7 +65,7 @@ public class SwordSoulStone extends DragonCrystalSoulStone {
     }
 
     public static void setAppearance(ItemStack stack, TheLastEndSwordWraithAppearance appearance) {
-        CompoundTag tag = stack.getOrCreateTag();
+        CompoundTag tag = ItemNbt.getOrCreateTag(stack);
         tag.putString(APPEARANCE_KEY, appearance.getId());
         if (tag.contains("entity_nbt")) {
             tag.getCompound("entity_nbt").putString("TEXTURE", appearance.getId());
@@ -73,14 +73,14 @@ public class SwordSoulStone extends DragonCrystalSoulStone {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
-        if (Screen.hasControlDown()) {
+        if (TooltipKeys.hasControlDown()) {
             addPassiveSkills(tooltip, true);
             return;
         }
-        if (Screen.hasShiftDown()) {
+        if (TooltipKeys.hasShiftDown()) {
             addActiveSkills(tooltip, true);
             return;
         }

@@ -3,7 +3,9 @@ package net.the_last_sword.compat.curios;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -11,9 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -31,26 +31,26 @@ public class TheGiversPain extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+        Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //攻击力+100%
         modifiers.put(Attributes.ATTACK_DAMAGE,
-            new AttributeModifier(ATTACK_DAMAGE_UUID, "the_givers_pain_attack_damage",
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "the_givers_pain_attack_damage"),
                 TheLastSwordConfiguration.getCuriosGiversPainAttackDamageBonusSafely(),
-                AttributeModifier.Operation.MULTIPLY_TOTAL));
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
         //攻击速度+100%
         modifiers.put(Attributes.ATTACK_SPEED,
-            new AttributeModifier(ATTACK_SPEED_UUID, "the_givers_pain_attack_speed",
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "the_givers_pain_attack_speed"),
                 TheLastSwordConfiguration.getCuriosGiversPainAttackSpeedBonusSafely(),
-                AttributeModifier.Operation.MULTIPLY_TOTAL));
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
         return modifiers;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         String effectSeconds = String.format("%.1f",
             TheLastSwordConfiguration.getCuriosGiversPainEffectDurationSafely() / 20.0);

@@ -1,6 +1,7 @@
 package net.the_last_sword.util.nbt;
 
 import net.minecraft.world.item.ItemStack;
+import net.the_last_sword.ItemNbt;
 
 /**
  * 物品等级辅助类
@@ -15,28 +16,28 @@ public class ItemLevelHelper {
         if (stack.isEmpty()) {
             return;
         }
-        stack.getOrCreateTag().putInt(LEVEL_TAG, level);
+        ItemNbt.update(stack, t -> t.putInt(LEVEL_TAG, level));
     }
 
     //获取物品等级，如果没有等级数据则返回0
     public static int getLevel(ItemStack stack) {
-        if (stack.isEmpty() || !stack.hasTag()) {
+        if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 0;
         }
-        return stack.getTag().getInt(LEVEL_TAG);
+        return ItemNbt.getTag(stack).getInt(LEVEL_TAG);
     }
 
     //检查物品是否有等级数据
     public static boolean hasLevel(ItemStack stack) {
-        return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains(LEVEL_TAG);
+        return !stack.isEmpty() && ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).contains(LEVEL_TAG);
     }
 
     //移除物品的等级数据
     public static void removeLevel(ItemStack stack) {
-        if (stack.isEmpty() || !stack.hasTag()) {
+        if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return;
         }
-        stack.getTag().remove(LEVEL_TAG);
+        ItemNbt.update(stack, t -> t.remove(LEVEL_TAG));
     }
 
     //确保等级已初始化，如果没有则设置为默认值

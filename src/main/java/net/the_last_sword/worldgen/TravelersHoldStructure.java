@@ -1,6 +1,6 @@
 package net.the_last_sword.worldgen;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -12,17 +12,21 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.the_last_sword.TheLastSwordMod;
 
 import java.util.Optional;
 
 /** 在下界洞穴的真实地表上生成旅行者据点，避免普通高度图命中基岩天花板。 */
 public class TravelersHoldStructure extends Structure {
-    public static final Codec<TravelersHoldStructure> CODEC = simpleCodec(TravelersHoldStructure::new);
+    public static final MapCodec<TravelersHoldStructure> CODEC = simpleCodec(TravelersHoldStructure::new);
 
     private static final ResourceKey<StructureTemplatePool> START_POOL = ResourceKey.create(
             Registries.TEMPLATE_POOL,
@@ -56,12 +60,15 @@ public class TravelersHoldStructure extends Structure {
         return JigsawPlacement.addPieces(
                 context,
                 startPool,
-                Optional.empty(),
+                Optional.<ResourceLocation>empty(),
                 1,
                 startPos,
                 false,
-                Optional.empty(),
-                MAX_DISTANCE_FROM_CENTER);
+                Optional.<Heightmap.Types>empty(),
+                MAX_DISTANCE_FROM_CENTER,
+                PoolAliasLookup.EMPTY,
+                DimensionPadding.ZERO,
+                LiquidSettings.APPLY_WATERLOGGING);
     }
 
     private static int findCavernFloor(NoiseColumn column, int x, int z) {

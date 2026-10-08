@@ -72,21 +72,21 @@ public class DeathRayLayer {
 
     //光柱根部，白色按进度淡出
     private static void center(VertexConsumer buffer, Matrix4f pose, int alpha) {
-        buffer.vertex(pose, 0.0f, 0.0f, 0.0f).color(255, 255, 255, alpha).endVertex();
+        buffer.addVertex(pose, 0.0f, 0.0f, 0.0f).setColor(255, 255, 255, alpha);
     }
 
     private static void cornerA(VertexConsumer buffer, Matrix4f pose, float length, float width,
                                 int red, int green, int blue) {
-        buffer.vertex(pose, -HALF_SQRT_3 * width, length, -0.5f * width).color(red, green, blue, 0).endVertex();
+        buffer.addVertex(pose, -HALF_SQRT_3 * width, length, -0.5f * width).setColor(red, green, blue, 0);
     }
 
     private static void cornerB(VertexConsumer buffer, Matrix4f pose, float length, float width,
                                 int red, int green, int blue) {
-        buffer.vertex(pose, HALF_SQRT_3 * width, length, -0.5f * width).color(red, green, blue, 0).endVertex();
+        buffer.addVertex(pose, HALF_SQRT_3 * width, length, -0.5f * width).setColor(red, green, blue, 0);
     }
 
     private static void cornerC(VertexConsumer buffer, Matrix4f pose, float length, float width,
                                 int red, int green, int blue) {
-        buffer.vertex(pose, 0.0f, length, 1.0f * width).color(red, green, blue, 0).endVertex();
+        buffer.addVertex(pose, 0.0f, length, 1.0f * width).setColor(red, green, blue, 0);
     }
 }

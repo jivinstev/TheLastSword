@@ -7,11 +7,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModEffects;
@@ -21,7 +21,7 @@ import net.the_last_sword.util.health.TrueHealthManager;
 import net.the_last_sword.util.TheLastSwordLogger;
 
 //Effect 事件处理器 - 处理所有 MobEffect 相关的事件逻辑
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class EffectEventHandler {
 
     //伤害类型被替换后，虚空附伤也不能在同一调用链中重复触发。
@@ -29,11 +29,11 @@ public class EffectEventHandler {
 
     //虚化效果 - 伤害免疫
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onPhasingHurt(LivingHurtEvent event) {
+    public static void onPhasingHurt(LivingIncomingDamageEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity.level().isClientSide) return;
 
-        if (entity.hasEffect(ModEffects.PHASING.get())) {
+        if (entity.hasEffect(ModEffects.PHASING)) {
             event.setCanceled(true);
         }
     }
@@ -44,7 +44,7 @@ public class EffectEventHandler {
         LivingEntity entity = event.getEntity();
         if (entity.level().isClientSide) return;
 
-        if (entity.hasEffect(ModEffects.PHASING.get())) {
+        if (entity.hasEffect(ModEffects.PHASING)) {
             event.setCanceled(true);
             TrueHealthManager.setHealth(entity, entity.getMaxHealth());
         }
@@ -52,7 +52,7 @@ public class EffectEventHandler {
 
     //虚空附魔 - 额外虚空伤害
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onVoidEnchantingHurt(LivingHurtEvent event) {
+    public static void onVoidEnchantingHurt(LivingIncomingDamageEvent event) {
         if (Boolean.TRUE.equals(APPLYING_VOID_DAMAGE.get())) {
             return;
         }
@@ -63,7 +63,7 @@ public class EffectEventHandler {
             return;
         }
 
-        if (!attacker.hasEffect(ModEffects.VOID_ENCHANTING.get())) {
+        if (!attacker.hasEffect(ModEffects.VOID_ENCHANTING)) {
             return;
         }
 
@@ -77,7 +77,7 @@ public class EffectEventHandler {
             return;
         }
 
-        int amplifier = attacker.getEffect(ModEffects.VOID_ENCHANTING.get()).getAmplifier();
+        int amplifier = attacker.getEffect(ModEffects.VOID_ENCHANTING).getAmplifier();
         double attackDamage = attacker.getAttributeValue(Attributes.ATTACK_DAMAGE);
         float voidDamageMultiplier = (float) ((amplifier + 1) * TheLastSwordConfiguration.getVoidEnchantmentDamagePercentageSafely());
         float voidDamage = (float) (attackDamage * voidDamageMultiplier);

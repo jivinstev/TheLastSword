@@ -1,5 +1,6 @@
 package net.the_last_sword.summon;
 
+
 import net.eca.util.faction.Faction;
 import net.eca.util.faction.FactionManager;
 import net.eca.util.faction.FactionMember;

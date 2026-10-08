@@ -1,18 +1,31 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Unit;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
+@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.MOD)
 public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implements IDragonSmithingTemplate {
+
+    //稀有度与防火通过默认数据组件提供
+    @SubscribeEvent
+    public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
+        event.modifyMatching(item -> item instanceof DragonCrystalUpgradeTemplate, builder -> {
+            builder.set(DataComponents.RARITY, Rarity.UNCOMMON);
+            builder.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
+        });
+    }
 
     private static final Component DRAGON_CRYSTAL_UPGRADE =
         Component.translatable("item.the_last_sword.dragon_crystal_upgrade_template").withStyle(ChatFormatting.GRAY);
@@ -61,18 +74,9 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_upgrade_template").withStyle(ChatFormatting.GRAY));
     }
 
-    @Override
-    public Rarity getRarity(ItemStack stack) {
-        return Rarity.UNCOMMON;
-    }
-
-    @Override
-    public boolean isFireResistant() {
-        return true;
-    }
 }

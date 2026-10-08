@@ -1,11 +1,13 @@
 package net.the_last_sword.recipe;
 
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -14,7 +16,7 @@ import net.the_last_sword.init.ModRecipes;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 import net.the_last_sword.util.TheLastSwordLogger;
 
-public class DragonCrystalSmithingRecipe implements Recipe<Container> {
+public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
 
     private final ResourceLocation id;
     private final Ingredient template;
@@ -38,9 +40,32 @@ public class DragonCrystalSmithingRecipe implements Recipe<Container> {
         this.outputLevel = outputLevel;
     }
 
-    @Override
+    //1.21 配方改用 RecipeInput；保留 Container 入口供菜单/配置管理器调用
+    private static RecipeInput toInput(Container container) {
+        return new RecipeInput() {
+            @Override
+            public ItemStack getItem(int index) {
+                return container.getItem(index);
+            }
+
+            @Override
+            public int size() {
+                return container.getContainerSize();
+            }
+        };
+    }
+
     public boolean matches(Container container, Level level) {
-        if (container.getContainerSize() < 3) {
+        return matches(toInput(container), level);
+    }
+
+    public ItemStack assemble(Container container, HolderLookup.Provider registries) {
+        return assemble(toInput(container), registries);
+    }
+
+    @Override
+    public boolean matches(RecipeInput container, Level level) {
+        if (container.size() < 3) {
             return false;
         }
 
@@ -74,21 +99,21 @@ public class DragonCrystalSmithingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+    public ItemStack assemble(RecipeInput container, HolderLookup.Provider registries) {
         ItemStack outputStack = output.copy();
         ItemStack inputStack = container.getItem(1);
 
         //复制附魔
-        EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inputStack), outputStack);
+        EnchantmentHelper.setEnchantments(outputStack, EnchantmentHelper.getEnchantmentsForCrafting(inputStack));
 
         //复制纹饰（Trim）
-        if (inputStack.hasTag() && inputStack.getTag().contains("Trim")) {
-            outputStack.getOrCreateTag().put("Trim", inputStack.getTag().get("Trim").copy());
+        if (inputStack.has(DataComponents.TRIM)) {
+            outputStack.set(DataComponents.TRIM, inputStack.get(DataComponents.TRIM));
         }
 
         //复制自定义名称
-        if (inputStack.hasCustomHoverName()) {
-            outputStack.setHoverName(inputStack.getHoverName());
+        if (inputStack.has(DataComponents.CUSTOM_NAME)) {
+            outputStack.set(DataComponents.CUSTOM_NAME, inputStack.get(DataComponents.CUSTOM_NAME));
         }
 
         //设置输出物品的等级（所有属性都会根据等级动态计算）
@@ -103,11 +128,10 @@ public class DragonCrystalSmithingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return output.copy();
     }
 
-    @Override
     public ResourceLocation getId() {
         return id;
     }

@@ -3,17 +3,17 @@ package net.the_last_sword;
 import net.eca.api.EcaAPI;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.PathPackResources;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ModConfig;
 import net.the_last_sword.configuration.TheLastSwordConfigManager;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModAttributes;
@@ -54,9 +54,7 @@ public class TheLastSwordMod {
         }
     }
 
-    public TheLastSwordMod(FMLJavaModLoadingContext context) {
-
-        IEventBus modEventBus = context.getModEventBus();
+    public TheLastSwordMod(IEventBus modEventBus, ModContainer container) {
         ModAttributes.register(modEventBus);
         ModEffects.register(modEventBus);
         ModEnchantments.register(modEventBus);
@@ -79,9 +77,9 @@ public class TheLastSwordMod {
         modEventBus.register(new ApotheosisCompat());
 
         //注册网络包
-        NetworkHandler.register();
+        modEventBus.addListener(NetworkHandler::register);
 
-        context.registerConfig(
+        container.registerConfig(
                 ModConfig.Type.COMMON,
                 TheLastSwordConfiguration.SPEC,
                 "TheLastSword-common.toml"
@@ -109,22 +107,14 @@ public class TheLastSwordMod {
     //注册内置资源包
     private void addPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            var resourcePath = ModList.get().getModFileById(MOD_ID).getFile()
-                    .findResource("resourcepacks", "The Last Sword Classical Texture Pack");
-            event.addRepositorySource(consumer -> {
-                var pack = Pack.readMetaAndCreate(
-                        MOD_ID + ":classical_texture",
-                        Component.literal("The Last Sword Classical Texture Pack"),
-                        false,
-                        path -> new PathPackResources(path, resourcePath, false),
-                        PackType.CLIENT_RESOURCES,
-                        Pack.Position.TOP,
-                        PackSource.BUILT_IN
-                );
-                if (pack != null) {
-                    consumer.accept(pack);
-                }
-            });
+            event.addPackFinders(
+                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "classical_texture"),
+                    PackType.CLIENT_RESOURCES,
+                    Component.literal("The Last Sword Classical Texture Pack"),
+                    PackSource.BUILT_IN,
+                    false,
+                    Pack.Position.TOP
+            );
         }
     }
 
@@ -136,22 +126,20 @@ public class TheLastSwordMod {
     }
 
     //服务器任务调度处理器
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME)
     public static class ServerTaskHandler {
         @SubscribeEvent
-        public static void onServerTick(TickEvent.ServerTickEvent event) {
-            if (event.phase == TickEvent.Phase.END) {
-                synchronized (queueLock) {
-                    currentServerTick++;
+        public static void onServerTick(ServerTickEvent.Post event) {
+            synchronized (queueLock) {
+                currentServerTick++;
 
-                    //执行所有到期任务
-                    while (!workQueue.isEmpty() && workQueue.peek().executionTick() <= currentServerTick) {
-                        ScheduledTask task = workQueue.poll();
-                        try {
-                            task.action().run();
-                        } catch (Exception e) {
-                            TheLastSwordLogger.error("Error executing scheduled task", e);
-                        }
+                //执行所有到期任务
+                while (!workQueue.isEmpty() && workQueue.peek().executionTick() <= currentServerTick) {
+                    ScheduledTask task = workQueue.poll();
+                    try {
+                        task.action().run();
+                    } catch (Exception e) {
+                        TheLastSwordLogger.error("Error executing scheduled task", e);
                     }
                 }
             }
