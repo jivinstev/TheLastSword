@@ -1,7 +1,6 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

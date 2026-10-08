@@ -1,7 +1,6 @@
 package net.the_last_sword.event;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

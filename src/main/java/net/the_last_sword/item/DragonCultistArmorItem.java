@@ -2,7 +2,6 @@ package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +18,6 @@ import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
-
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;

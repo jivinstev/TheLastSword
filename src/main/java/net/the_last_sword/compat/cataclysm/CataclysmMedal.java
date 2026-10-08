@@ -13,7 +13,6 @@ import top.theillusivec4.curios.api.SlotAttribute;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-
 //Cataclysm联动奖章基类 - 可作为饰品穿戴，穿戴后增加1个curio槽位
 public abstract class CataclysmMedal extends DragonCrystalSoulStone implements ICurioItem {
 

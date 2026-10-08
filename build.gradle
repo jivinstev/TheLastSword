@@ -3,7 +3,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.146'
 }
 
-version = "${project.minecraft_version}-forge-${project.mod_version}"
+version = "${project.minecraft_version}-neoforge-${project.mod_version}"
 group   = project.maven_group
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 

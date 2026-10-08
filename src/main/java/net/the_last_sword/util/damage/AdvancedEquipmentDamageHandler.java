@@ -1,6 +1,5 @@
 package net.the_last_sword.util.damage;
 
-
 import net.eca.api.EcaAPI;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

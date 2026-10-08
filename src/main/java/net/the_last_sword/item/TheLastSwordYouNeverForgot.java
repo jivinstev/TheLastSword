@@ -4,7 +4,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-
 import net.eca.api.EcaAPI;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

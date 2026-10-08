@@ -1,7 +1,6 @@
 package net.the_last_sword.client.gui;
 
 import net.minecraft.core.registries.Registries;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

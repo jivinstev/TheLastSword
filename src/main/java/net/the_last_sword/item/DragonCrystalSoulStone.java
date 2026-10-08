@@ -1,7 +1,6 @@
 package net.the_last_sword.item;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

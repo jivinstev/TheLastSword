@@ -1,7 +1,6 @@
 package net.the_last_sword.compat.lucky_block.lucky_event.events;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.compat.lucky_block.lucky_event.ArenaBattleHandler;

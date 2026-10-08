@@ -1,7 +1,6 @@
 package net.the_last_sword.network;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;

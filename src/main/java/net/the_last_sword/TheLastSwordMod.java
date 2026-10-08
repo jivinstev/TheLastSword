@@ -3,7 +3,10 @@ package net.the_last_sword;
 import net.eca.api.EcaAPI;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.ModList;
+import net.minecraft.server.packs.PathPackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
@@ -35,6 +38,7 @@ import net.the_last_sword.event.ClientEventHandler;
 import net.the_last_sword.event.EnderDragonEvent;
 import net.the_last_sword.compat.apotheosis.ApotheosisCompat;
 
+import java.util.Optional;
 import java.util.PriorityQueue;
 
 @Mod(TheLastSwordMod.MOD_ID)
@@ -107,14 +111,21 @@ public class TheLastSwordMod {
     //注册内置资源包
     private void addPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            event.addPackFinders(
-                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "classical_texture"),
-                    PackType.CLIENT_RESOURCES,
-                    Component.literal("The Last Sword Classical Texture Pack"),
-                    PackSource.BUILT_IN,
-                    false,
-                    Pack.Position.TOP
-            );
+            var resourcePath = ModList.get().getModFileById(MOD_ID).getFile()
+                    .findResource("resourcepacks", "The Last Sword Classical Texture Pack");
+            event.addRepositorySource(consumer -> {
+                var pack = Pack.readMetaAndCreate(
+                        new PackLocationInfo(MOD_ID + ":classical_texture",
+                                Component.literal("The Last Sword Classical Texture Pack"),
+                                PackSource.BUILT_IN, Optional.empty()),
+                        new PathPackResources.PathResourcesSupplier(resourcePath),
+                        PackType.CLIENT_RESOURCES,
+                        new PackSelectionConfig(false, Pack.Position.TOP, false)
+                );
+                if (pack != null) {
+                    consumer.accept(pack);
+                }
+            });
         }
     }
 

@@ -1,7 +1,6 @@
 package net.the_last_sword.summon;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-
 import net.eca.api.EcaAPI;
 import net.eca.network.ClientRemovePacket;
 import net.minecraft.ChatFormatting;
