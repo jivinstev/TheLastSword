@@ -12,7 +12,7 @@
     "item": "the_last_sword:wings_that_cover_the_world"
   },
   "output": {
-    "item": "the_last_sword:dragon_armor_chestplate",
+    "id": "the_last_sword:dragon_armor_chestplate",
     "outputLevel": 6
   }
 }

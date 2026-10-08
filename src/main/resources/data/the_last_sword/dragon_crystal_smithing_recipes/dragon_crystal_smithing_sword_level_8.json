@@ -12,7 +12,7 @@
     "item": "minecraft:dragon_egg"
   },
   "output": {
-    "item": "the_last_sword:dragon_sword",
+    "id": "the_last_sword:dragon_sword",
     "outputLevel": 8
   }
 }

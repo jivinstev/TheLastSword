@@ -12,7 +12,7 @@
     "item": "the_last_sword:the_givers_pain"
   },
   "output": {
-    "item": "the_last_sword:the_last_sword",
+    "id": "the_last_sword:the_last_sword",
     "outputLevel": 13
   }
 }

@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/end_stone.png",
     "icon": {
-      "item": "minecraft:anvil"
+      "id": "minecraft:anvil"
     },
     "title": {
       "translate": "advancements.troubled_blacksmith.title"

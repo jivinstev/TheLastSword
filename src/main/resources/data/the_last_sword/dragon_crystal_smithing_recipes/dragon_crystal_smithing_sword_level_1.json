@@ -12,7 +12,7 @@
     "item": "the_last_sword:dragon_crystal"
   },
   "output": {
-    "item": "the_last_sword:dragon_crystal_sword",
+    "id": "the_last_sword:dragon_crystal_sword",
     "outputLevel": 1
   }
 }

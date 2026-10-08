@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:dragon_crystal_soul_stone"
+      "id": "the_last_sword:dragon_crystal_soul_stone"
     },
     "title": {
       "translate": "advancements.dragon_crystal_soul_stone_obtain.title"

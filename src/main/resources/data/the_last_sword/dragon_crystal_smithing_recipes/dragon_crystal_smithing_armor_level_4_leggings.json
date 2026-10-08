@@ -12,7 +12,7 @@
     "item": "the_last_sword:dragon_crystal"
   },
   "output": {
-    "item": "the_last_sword:dragon_crystal_armor_leggings",
+    "id": "the_last_sword:dragon_crystal_armor_leggings",
     "outputLevel": 4
   }
 }

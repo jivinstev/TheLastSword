@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "the_last_sword:the_givers_pain"
+      "id": "the_last_sword:the_givers_pain"
     },
     "title": {
       "translate": "advancements.proof_of_sovereignty.title"

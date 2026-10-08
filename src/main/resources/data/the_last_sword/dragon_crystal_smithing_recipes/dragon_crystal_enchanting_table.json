@@ -12,7 +12,7 @@
     "item": "the_last_sword:ancient_energy_core"
   },
   "output": {
-    "item": "the_last_sword:dragon_crystal_enchanting_table",
+    "id": "the_last_sword:dragon_crystal_enchanting_table",
     "outputLevel": 0
   }
 }
