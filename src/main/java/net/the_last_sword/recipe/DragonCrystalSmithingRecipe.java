@@ -132,6 +132,12 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
         return output.copy();
     }
 
+    /** The same recipe under {@code id}: the codecs carry no id (a recipe's id is its file name or the sync key). */
+    public DragonCrystalSmithingRecipe withId(ResourceLocation id) {
+        return new DragonCrystalSmithingRecipe(id, template, templateInputLevel, input, inputLevel, addition, output,
+                outputLevel);
+    }
+
     public ResourceLocation getId() {
         return id;
     }

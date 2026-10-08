@@ -268,9 +268,12 @@ public class ConfigRecipeManager {
     }
 
     private static DragonCrystalSmithingRecipe parseRecipe(ResourceLocation id, JsonObject json) {
+        // The codec has no id field (a recipe's id is its file name), so it builds the recipe with a null id;
+        // the id is what the client sync packet sends, so attach it here.
         return SERIALIZER.codec().codec().parse(JsonOps.INSTANCE, json)
                 .getOrThrow(message -> new IllegalArgumentException(
-                        "Invalid dragon crystal smithing recipe " + id + ": " + message));
+                        "Invalid dragon crystal smithing recipe " + id + ": " + message))
+                .withId(id);
     }
 
     private static JsonObject readJson(Path recipePath) throws IOException {

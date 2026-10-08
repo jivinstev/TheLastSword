@@ -51,7 +51,7 @@ public class SyncDragonCrystalRecipesPacket implements CustomPacketPayload {
         List<DragonCrystalSmithingRecipe> recipes = new ArrayList<>(recipeCount);
         for (int i = 0; i < recipeCount; i++) {
             ResourceLocation recipeId = buffer.readResourceLocation();
-            recipes.add(SERIALIZER.streamCodec().decode(buffer));
+            recipes.add(SERIALIZER.streamCodec().decode(buffer).withId(recipeId));
         }
         return new SyncDragonCrystalRecipesPacket(recipes);
     }
