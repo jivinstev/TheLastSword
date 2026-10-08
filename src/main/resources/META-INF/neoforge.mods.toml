@@ -15,7 +15,7 @@ logoFile="assets/the_last_sword/textures/logo.png"
 [[dependencies.the_last_sword]]
 modId="minecraft"
 type = "required"
-versionRange="[1.21.1,1.22)"
+versionRange="[1.21.1,1.21.2)"
 ordering="NONE"
 side="BOTH"
 
