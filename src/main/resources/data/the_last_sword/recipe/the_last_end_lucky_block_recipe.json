@@ -1,35 +1,28 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OCO",
+    "CLC",
+    "OCO"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "C": {
+      "item": "minecraft:dragon_egg"
+    },
+    "L": {
+      "item": "lucky:lucky_block"
+    }
+  },
+  "result": {
+    "id": "the_last_sword:the_last_end_lucky_block"
+  },
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "lucky"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "pattern": [
-          "OCO",
-          "CLC",
-          "OCO"
-        ],
-        "key": {
-          "O": {
-            "item": "minecraft:obsidian"
-          },
-          "C": {
-            "item": "minecraft:dragon_egg"
-          },
-          "L": {
-            "item": "lucky:lucky_block"
-          }
-        },
-        "result": {
-          "item": "the_last_sword:the_last_end_lucky_block"
-        }
-      }
+      "type": "neoforge:mod_loaded",
+      "modid": "lucky"
     }
   ]
 }
