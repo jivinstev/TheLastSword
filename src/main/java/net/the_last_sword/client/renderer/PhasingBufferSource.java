@@ -24,7 +24,7 @@ public final class PhasingBufferSource implements MultiBufferSource {
         if (type.format() != DefaultVertexFormat.NEW_ENTITY) {
             return delegate.getBuffer(type);
         }
-        return new PhasingVertexConsumer(delegate.getBuffer(translucentType(type)));
+        return new PhasingVertexConsumer(delegate, translucentType(type));
     }
 
     private static RenderType translucentType(RenderType type) {
@@ -53,9 +53,26 @@ public final class PhasingBufferSource implements MultiBufferSource {
         return type;
     }
 
-    private record PhasingVertexConsumer(VertexConsumer delegate) implements VertexConsumer {
+    /**
+     * The translucent types come from the shared buffer: asking it for another type closes the previous type's
+     * builder. A renderer (GeckoLib) keeps this consumer while a layer asks for its own type, so on 1.21 -- where a
+     * closed builder throws "Not building!" instead of quietly taking the vertex into the next batch, as on 1.20 --
+     * the next vertex crashes the client. Fetch the buffer again at the start of every vertex: the same type is
+     * the same builder (cheap); after another type it is a fresh one, and the whole vertex goes to the right batch.
+     */
+    private static final class PhasingVertexConsumer implements VertexConsumer {
+        private final MultiBufferSource source;
+        private final RenderType type;
+        private VertexConsumer delegate;
+
+        PhasingVertexConsumer(MultiBufferSource source, RenderType type) {
+            this.source = source;
+            this.type = type;
+        }
+
         @Override
         public VertexConsumer addVertex(float x, float y, float z) {
+            delegate = source.getBuffer(type);
             delegate.addVertex(x, y, z);
             return this;
         }
