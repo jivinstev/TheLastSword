@@ -9,16 +9,16 @@
       "role": "self",
       "modid": "the_last_sword",
       "name": "the_last_sword-1.21.1-neoforge-1.1.1-fix-fix.jar",
-      "url": "https://github.com/jivinstev/TheLastSword/releases/download/the_last_sword-1.1.1-fix-fix-mc1.21.1-r4/the_last_sword-1.21.1-neoforge-1.1.1-fix-fix.jar",
-      "sha256": "73eb2fe944410d71da13af27b01f4c9fb07c72cbe81b12806ff5428a51326ee4"
+      "url": "https://github.com/jivinstev/TheLastSword/releases/download/the_last_sword-1.1.1-fix-fix-mc1.21.1-r5/the_last_sword-1.21.1-neoforge-1.1.1-fix-fix.jar",
+      "sha256": "a53a386d2e91083ddbe1e3200f249b6d730fd79ff246a90b8b74276414e6e090"
     },
     {
       "role": "required",
       "modid": "eca",
       "name": "epic-core-api-1.1.8-fix-fix_mr.jar",
-      "url": "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.8-fix-fix-mc1.21.1/epic-core-api-1.1.8-fix-fix_mr.jar",
+      "url": "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.8-fix-fix-mc1.21.1-r3/epic-core-api-1.1.8-fix-fix_mr.jar",
       "port": "jivinstev/EpicCoreAPI",
-      "sha256": "7cbb3f7ced29bf5ad78fba3baae2fd6a5393e31294a6e629625d09777dc3000f"
+      "sha256": "9e9abcfd2da83feb1be8fc5b6c029c37832c5b547903fe7357778f6368c33589"
     },
     {
       "role": "required",
