@@ -99,10 +99,9 @@ public class UltraTestSwordItem extends TieredItem {
 
                     //2. 翻转开关，决定全局all return + 禁生成的开启或还原
                     boolean lockdown = !isLockdownEnabled(stack);
-                    if (lockdown) {
-                        //ECA未开激进逻辑时开启失败，不写入状态，物品渲染自然不会亮
-                        lockdown = EcaAPI.setGlobalAllReturn(true);
-                    } else {
+                    if (!lockdown) {
+                        // Global AllReturn is no longer turned on here (see jivinstev/EpicCoreAPI#2); turning the
+                        // lockdown off still clears it, so a world from an older build recovers the same way.
                         EcaAPI.setGlobalAllReturn(false);
                         EcaAPI.unbanAllSpawns(serverLevel);
                     }
