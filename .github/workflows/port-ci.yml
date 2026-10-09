@@ -58,11 +58,11 @@ jobs:
           java-version: "21"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.8-fix-fix from the eca-1.1.8-fix-fix-mc1.21.1-r3 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.8-fix-fix from the eca-1.1.8-fix-fix-mc1.21.1-r4 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix/eca-1.1.8-fix-fix.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.8-fix-fix-mc1.21.1-r3/epic-core-api-1.1.8-fix-fix_mr.jar"
-          echo "9e9abcfd2da83feb1be8fc5b6c029c37832c5b547903fe7357778f6368c33589  $HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix/eca-1.1.8-fix-fix.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix/eca-1.1.8-fix-fix.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.8-fix-fix-mc1.21.1-r4/epic-core-api-1.1.8-fix-fix_mr.jar"
+          echo "0708591ee4eecd070e7eb00b64c6b6ec9aa7e17655a5ed713a617df3388edf46  $HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix/eca-1.1.8-fix-fix.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.8-fix-fix</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.8-fix-fix/eca-1.1.8-fix-fix.pom"
       - name: Build and gates
         run: |
