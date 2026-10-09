@@ -114,8 +114,6 @@ public class TestEntity extends PathfinderMob {
                 if (!EcaAPI.isResurrectionTracked(te)) {
                     EcaAPI.addResurrectionTarget(te);
                 }
-                // 全局all return 只在生成时设一次，后续开关交给究极测试剑
-                EcaAPI.setGlobalAllReturn(true);
             }
         }
     }
