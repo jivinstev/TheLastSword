@@ -18,8 +18,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.faction.DragonCultFaction;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.init.ModItems;
@@ -37,7 +37,7 @@ public class DragonCultRaid extends RaidDefinition {
     private static final RaidMusicExtension COMBAT_MUSIC = new RaidMusicExtension() {
         @Override
         public ResourceLocation soundEventId() {
-            return ModSounds.DRAGON_CULT_IS_COMING.getId();
+            return ModSounds.DRAGON_CULT_IS_COMING.get().getLocation();
         }
 
         @Override
