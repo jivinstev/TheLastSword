@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "permission": "https://github.com/CJiangqiu/EpicCoreAPI/issues/9",
+  "auto": true,
+  "modid": "the_last_sword",
+  "title": "The Last Sword You Never Forgot - Community Port",
+  "summary": "Unofficial NeoForge port of The Last Sword You Never Forgot by CJiangqiu to newer Minecraft, maintained by the community with the author's permission.",
+  "body_file": ".github/port-publish/description.md",
+  "icon": "src/main/resources/assets/the_last_sword/textures/logo.png",
+  "license": "MIT",
+  "categories": [
+    "adventure",
+    "equipment",
+    "mobs"
+  ],
+  "additional_categories": [
+    "magic",
+    "technology"
+  ],
+  "ledger_issues": [
+    "jivinstev/TheLastSword#1",
+    "jivinstev/EpicCoreAPI#2"
+  ],
+  "dependencies": [
+    {
+      "port": "jivinstev/EpicCoreAPI",
+      "type": "required"
+    },
+    {
+      "modrinth": "geckolib",
+      "curseforge": "geckolib",
+      "type": "required"
+    },
+    {
+      "modrinth": "curios",
+      "curseforge": "curios",
+      "type": "required"
+    }
+  ],
+  "modrinth": {
+    "slug": "the-last-sword-you-never-forgot-neoforge",
+    "asset": ""
+  },
+  "curseforge": {
+    "project_id": null,
+    "slug": "the-last-sword-you-never-forgot-neoforge",
+    "asset": ""
+  }
+}
