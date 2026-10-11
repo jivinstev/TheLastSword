@@ -37,7 +37,7 @@ public class DragonCultRaid extends RaidDefinition {
     private static final RaidMusicExtension COMBAT_MUSIC = new RaidMusicExtension() {
         @Override
         public ResourceLocation soundEventId() {
-            return ModSounds.DRAGON_CULT_IS_COMING.getId();
+            return ModSounds.DRAGON_CULT_IS_COMING.get().getLocation();
         }
 
         @Override
