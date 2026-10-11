@@ -22,7 +22,7 @@ side="BOTH"
 [[dependencies.the_last_sword]]
 modId="eca"
 type = "required"
-versionRange="[1.1.8-fix-fix,)"
+versionRange="[1.1.9,)"
 ordering="NONE"
 side="BOTH"
 
