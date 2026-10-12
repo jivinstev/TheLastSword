@@ -10,12 +10,10 @@ Published with the original author's permission (https://github.com/CJiangqiu/Ep
 - Source: https://github.com/CJiangqiu/TheLastSword
 - On Modrinth: https://modrinth.com/mod/the-last-sword-you-never-forgot (Forge, 1.20.1)
 
-## What this port changes
+## How it differs from the original
 
 - Runs on **NeoForge 1.21.1**.
-- Carries fixes for defects found while porting and playing it. Each is tracked, with its evidence and which release fixes it, in an issue:
-  - [Pre-existing: dragon-crystal-trimmed dragon crystal armour shows a broken icon](https://github.com/jivinstev/TheLastSword/issues/1)
-  - [Pre-existing: summoning The Last Sword's TEST ENTITY switches off every other content mod (global AllReturn) and disconnects the player](https://github.com/jivinstev/EpicCoreAPI/issues/2)
+- The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global "AllReturn" in this version. That's an experimental feature that didn't play well with some other mods on 1.21.1.
 
 ## Requirements
 
