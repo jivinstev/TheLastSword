@@ -49,5 +49,26 @@
     "project_id": 1743242,
     "slug": "the-last-sword-you-never-forgot-community-port-1",
     "asset": ""
-  }
+  },
+  "environment": "client_and_server",
+  "disclosures": [
+    {
+      "type": "derivative_work",
+      "sources": [
+        {
+          "label": "The Last Sword You Never Forgot by CJiangqiu",
+          "link": "https://modrinth.com/mod/the-last-sword-you-never-forgot",
+          "note": "An unofficial port of the original to NeoForge 1.21.1, with the original's content."
+        }
+      ]
+    },
+    {
+      "type": "ai_content",
+      "uses": [
+        "code",
+        "text"
+      ],
+      "note": "The changes that port the original to NeoForge 1.21.1, and this page's text, were made with an AI coding assistant and checked by automated gates and a person playing it. The mod's content, art and design are the original author's."
+    }
+  ]
 }
