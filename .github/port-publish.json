@@ -3,7 +3,7 @@
   "permission": "https://github.com/CJiangqiu/EpicCoreAPI/issues/9",
   "auto": true,
   "modid": "the_last_sword",
-  "title": "The Last Sword You Never Forgot - Community Port",
+  "title": "The Last Sword You Never Forgot - Community Port (1.21.1+)",
   "summary": "Unofficial NeoForge port of The Last Sword You Never Forgot by CJiangqiu to newer Minecraft, maintained by the community with the author's permission.",
   "body_file": ".github/port-publish/description.md",
   "icon": "src/main/resources/assets/the_last_sword/textures/logo.png",
