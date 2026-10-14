@@ -1,0 +1,520 @@
+package net.the_last_sword.entity;
+
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
+import net.eca.api.EcaAPI;
+import net.eca.network.EntityExtensionOverridePacket.SkyboxData;
+import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
+import net.the_last_sword.entity.ai.*;
+import net.the_last_sword.init.ModEffects;
+import net.the_last_sword.util.EntityUtil;
+import net.the_last_sword.util.health.TrueHealthManager;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+// 终焉剑灵实体
+public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
+
+    // 技能状态常量
+    public static final int STATE_SWIFT_DASH = 3;
+    public static final int STATE_ENCHANT = 4;
+    public static final int STATE_DOUBLE_STRIKE = 5;
+    public static final int STATE_CROSS_SLASH = 6;
+    public static final int STATE_BLOCK = 7;
+    public static final int STATE_MOON_LIGHT_STRIKE = 8;
+    public static final int STATE_END_OF_ALL_THINGS = 9;
+
+    public static final Map<UUID, Boolean> FORCE_CROSS_SLASH = new ConcurrentHashMap<>();
+
+    public static final EntityDataAccessor<String> TEXTURE =
+            SynchedEntityData.defineId(TheLastEndSwordWraithEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Integer> END_MARK_COUNT =
+            SynchedEntityData.defineId(TheLastEndSwordWraithEntity.class, EntityDataSerializers.INT);
+
+    public final List<LivingEntity> targetList = new ArrayList<>();
+
+    private int spawnTick = 0;
+    private boolean appearancePreview;
+
+    public static final int END_MARK_THRESHOLD = 13;
+
+    //增加自身终焉标记
+    public void addEndMark() {
+        this.entityData.set(END_MARK_COUNT, getEndMark() + 1);
+    }
+
+    //获取自身终焉标记
+    public int getEndMark() {
+        return this.entityData.get(END_MARK_COUNT);
+    }
+
+    //消耗自身终焉标记
+    public void reduceEndMark() {
+        int currentMark = getEndMark();
+        if (currentMark > 0) {
+            this.entityData.set(END_MARK_COUNT, currentMark - 1);
+        }
+    }
+
+    //重置终焉标记
+    public void resetEndMark() {
+        this.entityData.set(END_MARK_COUNT, 0);
+    }
+
+    public float getDamageWithEndMark(LivingEntity target, float baseDamage) {
+        return baseDamage + target.getMaxHealth() * getEndMark() / 100.0f;
+    }
+
+    public TheLastEndSwordWraithEntity(EntityType<? extends TheLastEndSwordWraithEntity> type, Level world) {
+        super(type, world);
+        xpReward = 50;
+        this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6D);
+        setPersistenceRequired();
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TEXTURE, "the_last_end_sword_wraith");
+        builder.define(END_MARK_COUNT, 0);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.3)
+                .add(Attributes.MAX_HEALTH, 200)
+                .add(Attributes.ARMOR, 20)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
+                .add(Attributes.ATTACK_DAMAGE, 20)
+                .add(Attributes.FOLLOW_RANGE, 64);
+    }
+
+    @Override
+    public void setTheLastEndLevel(int level) {
+        int oldLevel = getTheLastEndLevel();
+        super.setTheLastEndLevel(level);
+        int newLevel = getTheLastEndLevel();
+
+        if (newLevel != oldLevel && !level().isClientSide()) {
+            updateAttributesByLevel(newLevel);
+        }
+    }
+
+    private void updateAttributesByLevel(int level) {
+        double healthPerLevel = (level <= 5)
+                ? TheLastSwordConfiguration.getSwordWraithHealthPerLevelSafely()
+                : TheLastSwordConfiguration.getSwordWraithHealthPerHighLevelSafely();
+        double newMaxHealth = 200.0 + (level * healthPerLevel);
+
+        double attackPerLevel = (level <= 5)
+                ? TheLastSwordConfiguration.getSwordWraithAttackPerLevelSafely()
+                : TheLastSwordConfiguration.getSwordWraithAttackPerHighLevelSafely();
+        double newAttack = 20.0 + (level * attackPerLevel);
+
+        var healthAttr = this.getAttribute(Attributes.MAX_HEALTH);
+        if (healthAttr != null) {
+            healthAttr.setBaseValue(newMaxHealth);
+        }
+
+        var attackAttr = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackAttr != null) {
+            attackAttr.setBaseValue(newAttack);
+        }
+
+        TrueHealthManager.setMaxHealth(this, (float) newMaxHealth);
+        TrueHealthManager.setHealth(this, (float) newMaxHealth);
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+
+        this.goalSelector.addGoal(1, new SwordWraithEnchantGoal(this));
+        this.goalSelector.addGoal(2, new SwordWraithDoubleStrikeGoal(this));
+        this.goalSelector.addGoal(2, new SwordWraithSwiftDashGoal(this));
+        this.goalSelector.addGoal(2, new SwordWraithBlockGoal(this));
+        this.goalSelector.addGoal(3, new SwordWraithCrossSlashGoal(this));
+        this.goalSelector.addGoal(3, new SwordWraithMoonLightStrikeGoal(this));
+        this.goalSelector.addGoal(4, new SwordWraithEndOfAllThingsGoal(this));
+
+        this.goalSelector.addGoal(5, new SwordWraithChaseTargetGoal(this));
+        this.goalSelector.addGoal(6, new SwordWraithFollowOwnerGoal(this));
+
+        this.goalSelector.addGoal(7, new FloatGoal(this));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new SwordWraithOwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new SwordWraithOwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Monster.class, true));
+    }
+
+    @Override
+    public void setTarget(@Nullable LivingEntity target) {
+        LivingEntity previousTarget = getTarget();
+        super.setTarget(target);
+
+        LivingEntity currentTarget = getTarget();
+        if (level().isClientSide() || currentTarget == null || currentTarget == previousTarget
+                || !TheLastSwordConfiguration.getSwordWraithBossTalkSafely()) {
+            return;
+        }
+
+        Identifier targetId = BuiltInRegistries.ENTITY_TYPE.getKey(currentTarget.getType());
+        if (targetId == null || !"cataclysm".equals(targetId.getNamespace())) {
+            return;
+        }
+
+        String dialogueId = switch (targetId.getPath()) {
+            case "ancient_remnant", "ender_guardian", "ignis", "maledictus",
+                    "netherite_monstrosity", "scylla", "the_harbinger", "the_leviathan" -> targetId.getPath();
+            default -> null;
+        };
+        if (dialogueId == null) {
+            return;
+        }
+
+        Component message = Component.literal("[")
+                .append(Component.translatable("entity.the_last_sword.the_last_end_sword_wraith"))
+                .append(Component.literal("] "))
+                .withStyle(ChatFormatting.DARK_PURPLE)
+                .append(Component.translatable("dialogue.the_last_sword.the_last_end_sword_wraith.combat."
+                                + dialogueId)
+                        .withStyle(ChatFormatting.WHITE));
+        for (Player player : level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(32.0))) {
+            player.displayClientMessage(message, false);
+        }
+    }
+
+    @Override
+    public String getIdleAnimationName() {
+        return "idle";
+    }
+
+    @Override
+    public String getWalkAnimationName() {
+        return "walk";
+    }
+
+    @Override
+    public String getDeathAnimationName() {
+        return "death";
+    }
+
+    @Override
+    public String getSpawnAnimationName() {
+        return "spawn";
+    }
+
+    @Override
+    public String getSkillAnimationName(int attackState) {
+        return switch (attackState) {
+            case STATE_SWIFT_DASH -> "swift_dash";
+            case STATE_ENCHANT -> "enchant";
+            case STATE_DOUBLE_STRIKE -> "double_strike";
+            case STATE_CROSS_SLASH -> "cross_slash";
+            case STATE_BLOCK -> "block";
+            case STATE_MOON_LIGHT_STRIKE -> "moon_light_strike";
+            case STATE_END_OF_ALL_THINGS -> "end_of_all_things";
+            default -> "";
+        };
+    }
+
+    public void setTexture(String texture) {
+        this.entityData.set(TEXTURE, TheLastEndSwordWraithAppearance.fromId(texture).getId());
+    }
+
+    public String getTexture() {
+        return this.entityData.get(TEXTURE);
+    }
+
+    public void setAppearance(TheLastEndSwordWraithAppearance appearance) {
+        this.entityData.set(TEXTURE, appearance.getId());
+    }
+
+    public TheLastEndSwordWraithAppearance getAppearance() {
+        return TheLastEndSwordWraithAppearance.fromId(this.entityData.get(TEXTURE));
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+        super.onSyncedDataUpdated(dataAccessor);
+        if (TEXTURE.equals(dataAccessor) && level().isClientSide()) {
+            var controller = getAnimatableInstanceCache()
+                    .getManagerForId(getId())
+                    .getAnimationControllers()
+                    .get("main");
+            if (controller != null) {
+                controller.forceRestart();
+            }
+        }
+    }
+
+    public void setAppearancePreview(boolean appearancePreview) {
+        this.appearancePreview = appearancePreview;
+    }
+
+    public boolean isAppearancePreview() {
+        return appearancePreview;
+    }
+
+    @Override
+    public SoundEvent getHurtSound(@NotNull DamageSource ds) {
+        return SoundEvents.ENDER_DRAGON_HURT;
+    }
+
+    @Override
+    public SoundEvent getDeathSound() {
+        return SoundEvents.ENDER_DRAGON_DEATH;
+    }
+
+    @Override
+    public boolean canBeAffected(@NotNull MobEffectInstance effect) {
+        return effect.getEffect() == ModEffects.VOID_ENCHANTING.get();
+    }
+
+    @Override
+    public void heal(float healAmount) {
+    }
+
+    @Override
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource damageSource, float damageAmount) {
+        if (getAnimationState() == STATE_BLOCK) {
+            return false;
+        }
+        return super.hurtServer(serverLevel, damageSource, damageAmount);
+    }
+
+    @Override
+    public void actuallyHurt(@NotNull ServerLevel serverLevel, @NotNull DamageSource damageSource, float damageAmount) {
+        if (getAnimationState() == STATE_BLOCK) {
+            return;
+        }
+        super.actuallyHurt(serverLevel, damageSource, damageAmount);
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
+        SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
+
+        if (!level().isClientSide()) {
+            if (getTheLastEndLevel() <= 0) {
+                setTheLastEndLevel(1);
+            }
+
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
+            if (!EntityUtil.hasProtection(this)) {
+                TrueHealthManager.register(this, maxHealth);
+            }
+
+            setAnimationState(STATE_SPAWNING);
+            spawnTick = 0;
+        }
+
+        return result;
+    }
+
+    @Override
+    protected EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(dimensions.height() * 0.85f);
+    }
+
+    @Override
+    public int getSpawnAnimationDuration() {
+        return 110;
+    }
+
+    @Override
+    protected void onSpawningTick() {
+        spawnTick++;
+        if (spawnTick >= getSpawnAnimationDuration()) {
+            setAnimationState(STATE_IDLE);
+            spawnTick = 0;
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        AllThingsEndActiveEffect.handleTick(this);
+
+        this.refreshDimensions();
+    }
+
+    @Override
+    public int getDeathAnimationDuration() {
+        return 100;
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull ValueInput compound) {
+        super.readAdditionalSaveData(compound);
+        compound.getString("TEXTURE").ifPresent(this::setTexture);
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull ValueOutput compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putString("TEXTURE", this.getTexture());
+    }
+
+    //万物终焉持续效果
+    public static class AllThingsEndActiveEffect {
+        private static final Map<UUID, ActiveEffectData> ACTIVE_EFFECTS = new ConcurrentHashMap<>();
+        private static final int DURATION = 260;  //13秒
+
+        private static final Identifier THE_LAST_END_PRESET = Identifier.fromNamespaceAndPath("eca", "the_last_end");
+
+        public static void start(TheLastEndSwordWraithEntity wraith, Vec3 center) {
+            ACTIVE_EFFECTS.put(wraith.getUUID(), new ActiveEffectData(0, center));
+            if (wraith.level() instanceof ServerLevel serverLevel) {
+                SkyboxData skyboxData = new SkyboxData(
+                        false, null,
+                        true, THE_LAST_END_PRESET,
+                        0.6f, 100.0f, 16.0f,
+                        1.0f, 1.0f, 1.0f
+                );
+                EcaAPI.setGlobalSkybox(serverLevel, skyboxData);
+            }
+        }
+
+        public static void handleTick(TheLastEndSwordWraithEntity wraith) {
+            UUID id = wraith.getUUID();
+            ActiveEffectData effectData = ACTIVE_EFFECTS.get(id);
+
+            if (effectData == null) {
+                //存档恢复后状态残留，强制结束
+                if (wraith.isAllThingsEnd()) {
+                    end(wraith);
+                }
+                return;
+            }
+
+            int newTick = effectData.tick() + 1;
+
+            //每秒结算一次范围伤害
+            if (newTick % 20 == 0) {
+                executeAllThingsEndEffect(wraith, effectData.center());
+            }
+
+            if (newTick >= DURATION) {
+                end(wraith);
+            } else {
+                ACTIVE_EFFECTS.put(id, new ActiveEffectData(newTick, effectData.center()));
+            }
+        }
+
+        public static void end(TheLastEndSwordWraithEntity wraith) {
+            ActiveEffectData effectData = ACTIVE_EFFECTS.remove(wraith.getUUID());
+            Vec3 center = effectData != null ? effectData.center() : wraith.getBoundingBox().getCenter();
+            wraith.setAllThingsEnd(false);
+
+            //技能结束后再结算终焉审判，避免持续阶段提前斩杀
+            if (!wraith.level().isClientSide()) {
+                double effectRange = TheLastSwordConfiguration.getSkillEndOfAllThingsRangeSafely();
+                double executionHealthThreshold = TheLastSwordConfiguration
+                        .getSkillEndOfAllThingsExecutionHealthThresholdSafely();
+                List<LivingEntity> targets = EntityUtil.getTargetsIntersectingSphere(wraith, center, effectRange);
+                for (LivingEntity target : targets) {
+                    float health = EntityUtil.hasProtection(target)
+                            ? TrueHealthManager.getHealth(target)
+                            : target.getHealth();
+                    float maxHealth = target.getMaxHealth();
+                    if (health > maxHealth * executionHealthThreshold && EntityUtil.canAttack(wraith, target)) {
+                        EcaAPI.hurt(target, AbsoluteDestructionDamageSource.absoluteDestruction(wraith), Float.MAX_VALUE);
+                    }
+                }
+            }
+
+            //重置标记
+            wraith.resetEndMark();
+
+            if (wraith.level() instanceof ServerLevel serverLevel) {
+                EcaAPI.clearGlobalSkybox(serverLevel);
+            }
+        }
+
+        private static void executeAllThingsEndEffect(TheLastEndSwordWraithEntity wraith, Vec3 center) {
+            if (wraith.level().isClientSide()) {
+                return;
+            }
+
+            double effectRange = TheLastSwordConfiguration.getSkillEndOfAllThingsRangeSafely();
+            List<LivingEntity> targets = EntityUtil.getTargetsIntersectingSphere(wraith, center, effectRange);
+            float baseDamage = (float) (wraith.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                    * TheLastSwordConfiguration.getSkillEndOfAllThingsDamageMultiplierSafely());
+
+            for (LivingEntity target : targets) {
+                if (EntityUtil.canAttack(wraith, target)) {
+                    float damage = wraith.getDamageWithEndMark(target, baseDamage);
+                    if (EcaAPI.hurt(target, AbsoluteDestructionDamageSource.absoluteDestruction(wraith), damage)) {
+                        clearPositiveEffects(target);
+                        wraith.reduceEndMark();
+                    }
+                }
+            }
+        }
+
+        private static void clearPositiveEffects(LivingEntity target) {
+            var activeEffects = new ArrayList<>(target.getActiveEffects());
+            for (MobEffectInstance effect : activeEffects) {
+                if (effect.getEffect().value().isBeneficial()) {
+                    target.removeEffect(effect.getEffect());
+                }
+            }
+        }
+
+        private record ActiveEffectData(int tick, Vec3 center) {
+        }
+
+    }
+}

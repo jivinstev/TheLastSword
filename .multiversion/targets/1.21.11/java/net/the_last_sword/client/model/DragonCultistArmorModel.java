@@ -1,0 +1,24 @@
+package net.the_last_sword.client.model;
+
+import net.minecraft.resources.Identifier;
+import net.the_last_sword.item.DragonCultistArmorItem;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
+
+public class DragonCultistArmorModel extends GeoModel<DragonCultistArmorItem> {
+
+    @Override
+    public Identifier getAnimationResource(DragonCultistArmorItem object) {
+        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/dragon_cultist_armor.animation.json");
+    }
+
+    @Override
+    public Identifier getModelResource(GeoRenderState renderState) {
+        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/dragon_cultist_armor.geo.json");
+    }
+
+    @Override
+    public Identifier getTextureResource(GeoRenderState renderState) {
+        return Identifier.fromNamespaceAndPath("the_last_sword", "textures/item/dragon_cultist_armor.png");
+    }
+}
