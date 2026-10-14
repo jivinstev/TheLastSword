@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate B -- headless server loads the mod, GameTests: FAIL -- Caused by: org.spongepowered.a.
+Stopped at **gates**: 1 gate(s) red: Gate B -- headless server loads the mod, GameTests: FAIL -- java.lang.NullPointerException.
 
 ## Failing gates
 
-- Gate B -- headless server loads the mod, GameTests: FAIL -- Caused by: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: Critical injection failure: @ModifyConstant annotatio
+- Gate B -- headless server loads the mod, GameTests: FAIL -- java.lang.NullPointerException: Trying to access unbound value: ResourceKey[minecraft:block / the_last_sword:dragon_crystal_smithing_table]
 
 ## To resume
 
