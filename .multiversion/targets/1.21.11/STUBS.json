@@ -5,6 +5,41 @@
   "reviewed": "(inherited from 1.21.5) Ported: GeckoLib 5 replaced getStackForBone/getTransformTypeForStack with getRelevantBones (RenderData per bone) and a renderStackForBone that takes the display context; both methods are now called from those overrides, reading the hand stacks captured in addRenderData, so the shield's NONE context still applies."
  },
  {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/DragonCultPaladinModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPaladinRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/DragonCultPriestModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPriestRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/DragonCultistModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultistRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now GuardianOfSealedSpireRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/LostWraithModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now LostWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now TheLastEndSwordWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now ThePastShadowOfTheQueenRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java",
   "why": "drops @Override from bodyParts, headParts, setupAnim and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
   "reviewed": "(inherited from 1.21.4) AgeableListModel is gone in 1.21.2: the model now extends EntityModel(root) and renders root, whose only child is the wings (exactly the old bodyParts; headParts was empty), and setupAnim was empty in the authors' code and is still called directly by WingsThatCoverTheWorldRenderer."
@@ -12,17 +47,17 @@
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook, and this override only called super with the same arguments (since 1.21.1), so nothing is lost."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook; this override only set scaleWidth/scaleHeight to a constant before super, and nothing else writes them, so the constructor now sets the same constant once and every frame scales by it as before."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook; this override only set scaleWidth/scaleHeight to a constant before super, and nothing else writes them, so the constructor now sets the same constant once and every frame scales by it as before."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java",
@@ -37,7 +72,7 @@
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/LostWraithRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook; this override only set scaleWidth/scaleHeight to a constant before super, and nothing else writes them, so the constructor now sets the same constant once and every frame scales by it as before."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java",
@@ -52,12 +87,12 @@
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook; this override only set scaleWidth/scaleHeight to a constant before super, and nothing else writes them, so the constructor now sets the same constant once and every frame scales by it as before."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java",
   "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "GeckoLib 5.4.5 replaced preRender(R, PoseStack, ...) with a RenderPassInfo hook; this override only set scaleWidth/scaleHeight to a constant before super, and nothing else writes them, so the constructor now sets the same constant once and every frame scales by it as before."
  },
  {
   "file": ".multiversion/targets/1.21.11/java/net/the_last_sword/compat/lucky_block/lucky_event/events/ArenaEvent.java",
