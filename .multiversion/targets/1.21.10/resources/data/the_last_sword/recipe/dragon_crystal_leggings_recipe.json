@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "the_last_sword:dragon_crystal_upgrade_template",
+  "base": "minecraft:netherite_leggings",
+  "addition": "the_last_sword:dragon_crystal",
+  "result": {
+    "id": "the_last_sword:dragon_crystal_armor_leggings"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": "minecraft:obsidian",
+    "b": "the_last_sword:dragon_crystal",
+    "c": "minecraft:soul_lantern"
+  },
+  "result": {
+    "id": "the_last_sword:dragon_soul_lantern",
+    "count": 1
+  }
+}

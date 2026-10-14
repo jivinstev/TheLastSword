@@ -1,0 +1,66 @@
+package net.the_last_sword.init;
+
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.client.model.WingsThatCoverTheWorldModel;
+import net.the_last_sword.client.renderer.DragonCultistRenderer;
+import net.the_last_sword.client.renderer.DragonCultPaladinRenderer;
+import net.the_last_sword.client.renderer.DragonCultPriestRenderer;
+import net.the_last_sword.client.renderer.*;
+import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockRenderer;
+
+//实体渲染器注册
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+public class ModEntityRenderers {
+    //注册实体渲染器
+    @SubscribeEvent
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.DRAGON_CRYSTAL_SWORD_PROJECTILE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.DRAGON_SWORD_PROJECTILE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.DRAGON_LIGHTING.get(), DragonLightingRenderer::new);
+        event.registerEntityRenderer(ModEntities.THE_LAST_END_LIGHTING.get(), TheLastEndLightingRenderer::new);
+        event.registerEntityRenderer(ModEntities.THE_LAST_END_SWORD_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.QUEEN_SUMMONED_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.THE_LAST_SWORD_YOU_NEVER_FORGOT_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR_PROJECTILE.get(), LightningSpearProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.QUEEN_BLINK_BLADE.get(), QueenBlinkBladeRenderer::new);
+        event.registerEntityRenderer(ModEntities.QUEEN_ENHANCED_BLADE.get(), context -> new QueenBlinkBladeRenderer(context, true));
+        event.registerEntityRenderer(ModEntities.TEST_ENTITY.get(), TestEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUARDIAN_OF_SEALED_SPIRE.get(), GuardianOfSealedSpireRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUARDIAN_SABER.get(), GuardianOfSealedSpireRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUARDIAN_BERSERKER.get(), GuardianOfSealedSpireRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUARDIAN_ARCHER.get(), GuardianOfSealedSpireRenderer::new);
+        event.registerEntityRenderer(ModEntities.LOST_WRAITH.get(), LostWraithRenderer::new);
+        event.registerEntityRenderer(ModEntities.THE_LAST_END_SWORD_WRAITH.get(), TheLastEndSwordWraithRenderer::new);
+        event.registerEntityRenderer(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN.get(), ThePastShadowOfTheQueenRenderer::new);
+        event.registerEntityRenderer(ModEntities.DRAGON_CULTIST.get(), DragonCultistRenderer::new);
+        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PALADIN.get(), DragonCultPaladinRenderer::new);
+        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PRIEST.get(), DragonCultPriestRenderer::new);
+        event.registerEntityRenderer(ModEntities.GROUND_RUPTURE_FRAGMENT.get(), GroundRuptureFragmentRenderer::new);
+    }
+
+    //注册 Model Layer 定义
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(WingsThatCoverTheWorldModel.LAYER_LOCATION, WingsThatCoverTheWorldModel::createBodyLayer);
+    }
+
+    //注册方块实体渲染器
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
+                context -> new DragonCrystalEnchantingTableRenderer());
+            if (ModBlockEntities.THE_LAST_END_LUCKY_BLOCK != null) {
+                BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
+                    context -> new TheLastEndLuckyBlockRenderer());
+            }
+        });
+    }
+}
