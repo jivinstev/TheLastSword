@@ -1,0 +1,615 @@
+package net.the_last_sword.util;
+
+import net.eca.api.EcaAPI;
+import net.eca.util.faction.FactionUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.entity.TheLastEndEntity;
+import net.the_last_sword.init.ModAttributes;
+import net.the_last_sword.init.ModEffects;
+import net.the_last_sword.item.DragonArmorItem;
+import net.the_last_sword.item.TheLastSword;
+import net.the_last_sword.item.TheLastSwordYouNeverForgot;
+import net.the_last_sword.summon.WraithSummonManager;
+import net.the_last_sword.util.health.TrueHealthManager;
+import net.the_last_sword.util.health.PresentWorldAnchorManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.the_last_sword.ModHolders;
+
+public class EntityUtil {
+
+    private static final String NBT_IS_PROTECTED = "tlsIsProtected";
+
+    //临时护盾标记：不设上限、不参与回复，打光即失效
+    public static final String NBT_TEMP_JUSTIFIED_DEFENCE = "tlsTempJustifiedDefence";
+
+    // ==================== TLS 实体数据定义（由 LivingEntityMixin 的 <clinit> 注入初始化） ====================
+
+    //防御保护状态
+    public static EntityDataAccessor<Boolean> IS_PROTECTED;
+
+    // ==================== 防御保护 API ====================
+
+    //检查实体是否受到保护
+    public static boolean hasProtection(LivingEntity entity) {
+        if (entity == null) return false;
+        if (IS_PROTECTED != null) {
+            try {
+                return entity.getEntityData().get(IS_PROTECTED);
+            } catch (Exception ignored) {
+            }
+        }
+        return entity.getPersistentData().getBoolean(NBT_IS_PROTECTED).orElse(false);
+    }
+
+    //检查玩家背包中是否拥有最终之剑、隐藏最终之剑或龙之套装
+    public static boolean hasInventoryProtection(Player player) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+            if (!stack.isEmpty() && isProtectionItem(stack)) {
+                return true;
+            }
+        }
+        for (EquipmentSlot armorSlot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+            ItemStack armorStack = player.getItemBySlot(armorSlot);
+            if (!armorStack.isEmpty() && isProtectionItem(armorStack)) {
+                return true;
+            }
+        }
+        ItemStack offhandStack = player.getItemBySlot(EquipmentSlot.OFFHAND);
+        if (!offhandStack.isEmpty() && isProtectionItem(offhandStack)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isProtectionItem(ItemStack stack) {
+        Object item = stack.getItem();
+        return item instanceof TheLastSword
+                || item instanceof DragonArmorItem
+                || item instanceof TheLastSwordYouNeverForgot;
+    }
+
+    //设置实体的保护状态
+    public static void setProtection(LivingEntity entity, boolean value) {
+        if (entity == null) return;
+        if (IS_PROTECTED != null) {
+            try {
+                entity.getEntityData().set(IS_PROTECTED, value);
+                return;
+            } catch (Exception ignored) {
+            }
+        }
+        entity.getPersistentData().putBoolean(NBT_IS_PROTECTED, value);
+    }
+
+    //强化免疫：清除火焰、冰冻和非增益效果（不清除生命吸收）
+    public static void applyImmunity(LivingEntity entity) {
+        if (entity == null) return;
+
+        if (entity.isOnFire()) {
+            entity.clearFire();
+        }
+
+        if (entity.isFullyFrozen() || entity.getTicksFrozen() > 0) {
+            entity.setTicksFrozen(0);
+        }
+
+        Collection<MobEffectInstance> activeEffects = entity.getActiveEffects();
+        if (!activeEffects.isEmpty()) {
+            ArrayList<MobEffect> effectsToRemove = new ArrayList<>();
+            for (MobEffectInstance effectInstance : activeEffects) {
+                MobEffect effect = effectInstance.getEffect().value();
+                if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION
+                        && effect != ModEffects.WORLD_SEVERANCE.get()) {
+                    effectsToRemove.add(effect);
+                }
+            }
+            for (MobEffect effect : effectsToRemove) {
+                entity.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
+            }
+        }
+    }
+
+    // ==================== 生命值模块 ====================
+
+    // ==================== 死亡模块 ====================
+
+    //设置实体死亡状态
+    public static void theLastEndSetDead(LivingEntity entity, DamageSource damageSource) {
+        if (entity == null || damageSource == null) return;
+
+        //终焉种需要留在世界中完成死亡动画与掉落结算
+        if (!(entity instanceof Player) && !(entity instanceof TheLastEndEntity)
+                && entity.level() instanceof ServerLevel serverLevel) {
+            int banTime = TheLastSwordConfiguration.getReviveBanTimeSafely();
+            if (banTime > 0) {
+                EcaAPI.banSpawn(serverLevel, entity.getType(), banTime);
+            }
+        }
+
+        //粒子效果
+        if (!entity.level().isClientSide && TheLastSwordConfiguration.getDeathParticleEffectSafely()) {
+            ParticleUtil.spawnDeathParticles(entity);
+        }
+
+        //死亡消息
+        if (TheLastSwordConfiguration.getDieMessageSafely()) {
+            sendDeathMessage(entity, damageSource);
+        }
+        if (entity instanceof TheLastEndEntity) {
+            TrueHealthManager.setHealth(entity, 0.0F);
+        }
+        WraithSummonManager.stopWraithResurrection(entity);
+        //清除防御系统，防止 die/tickDeath 被保护拦截
+        TrueHealthManager.clear(entity);
+        var shieldAttr = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
+        if (shieldAttr != null) {
+            shieldAttr.setBaseValue(0.0);
+        }
+        var maxShieldAttr = entity.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
+        if (maxShieldAttr != null) {
+            maxShieldAttr.setBaseValue(0.0);
+        }
+        entity.getPersistentData().remove(NBT_TEMP_JUSTIFIED_DEFENCE);
+
+        if (entity instanceof ServerPlayer player) {
+            PresentWorldAnchorManager.resetPlayerPresentWorldAnchorBeforeKill(player);
+        }
+        if (entity instanceof TheLastEndEntity theLastEnd) {
+            theLastEnd.triggerDeath(damageSource);
+            return;
+        }
+        EcaAPI.kill(entity, damageSource);
+    }
+
+    public static void theLastEndRevive(LivingEntity entity) {
+        EcaAPI.revive(entity);
+    }
+
+    // ==================== 临时护盾模块 ====================
+
+    //叠加临时护盾：只加当前值，不动上限，打光后自动失效
+    public static void grantTempShield(LivingEntity entity, double amount) {
+        if (entity == null || amount <= 0) {
+            return;
+        }
+
+        AttributeInstance current = entity.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
+        if (current == null) {
+            return;
+        }
+
+        current.setBaseValue(current.getValue() + amount);
+        entity.getPersistentData().putBoolean(NBT_TEMP_JUSTIFIED_DEFENCE, true);
+    }
+
+    //发送死亡消息
+    private static void sendDeathMessage(LivingEntity entity, DamageSource damageSource) {
+        try {
+            if (!entity.level().isClientSide && entity.level().getServer() != null) {
+                Level level = entity.level();
+                Component deathMessage;
+
+                ItemStack weapon = ItemStack.EMPTY;
+                if (damageSource.getEntity() instanceof LivingEntity attacker) {
+                    weapon = attacker.getMainHandItem();
+                }
+
+                if (!weapon.isEmpty()) {
+                    deathMessage = Component.translatable(
+                            "death.attack.absolute_destruction.item",
+                            entity.getDisplayName(),
+                            damageSource.getEntity() != null ? damageSource.getEntity().getDisplayName() : Component.literal("Unknown"),
+                            weapon.getDisplayName()
+                    );
+                } else if (damageSource.getDirectEntity() instanceof Player) {
+                    deathMessage = Component.translatable(
+                            "death.attack.absolute_destruction.player",
+                            entity.getDisplayName(),
+                            damageSource.getDirectEntity().getDisplayName()
+                    );
+                } else if (damageSource.getEntity() != null) {
+                    deathMessage = Component.translatable(
+                            "death.attack.absolute_destruction.player",
+                            entity.getDisplayName(),
+                            damageSource.getEntity().getDisplayName()
+                    );
+                } else {
+                    deathMessage = Component.translatable(
+                            "death.attack.absolute_destruction",
+                            entity.getDisplayName()
+                    );
+                }
+
+                if (level.getServer().getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES)) {
+                    PlayerList playerList = level.getServer().getPlayerList();
+                    playerList.broadcastSystemMessage(deathMessage, false);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    // ==================== 传送模块 ====================
+
+    public static boolean theLastEndTeleport(Entity entity, double x, double y, double z) {
+        return theLastEndTeleport(entity, x, y, z, false);
+    }
+
+    public static boolean theLastEndTeleport(
+            Entity entity, double x, double y, double z, boolean useVanillaMovement) {
+        if (entity == null
+                || !Double.isFinite(x)
+                || !Double.isFinite(y)
+                || !Double.isFinite(z)) {
+            return false;
+        }
+
+        // 两条路径必须互斥，否则手工传送包仍会干扰原版移动追踪基准。
+        if (useVanillaMovement) {
+            entity.snapTo(x, y, z, entity.getYRot(), entity.getXRot());
+            return Math.abs(entity.getX() - x) < 1.0E-6
+                    && Math.abs(entity.getY() - y) < 1.0E-6
+                    && Math.abs(entity.getZ() - z) < 1.0E-6;
+        }
+
+        return EcaAPI.teleport(entity, x, y, z);
+    }
+
+    //仅在找到可站立的实际落点且底层传送成功时返回该落点
+    public static Vec3 theLastEndSafeTeleport(
+            Entity entity, Vec3 desiredPosition, int verticalSearchRange) {
+        Vec3 safePosition = findSafeTeleportPosition(entity, desiredPosition, verticalSearchRange);
+        if (safePosition == null
+                || !theLastEndTeleport(entity, safePosition.x, safePosition.y, safePosition.z)) {
+            return null;
+        }
+        return safePosition;
+    }
+
+    //在目标XZ附近上下搜索安全落脚高度：身体空间无方块碰撞，脚下存在碰撞支撑
+    public static Vec3 findSafeTeleportPosition(Entity entity, Vec3 desiredPosition, int verticalSearchRange) {
+        if (entity == null || desiredPosition == null || verticalSearchRange < 0) {
+            return null;
+        }
+
+        Vec3 safePosition = checkSafeTeleportPosition(entity, desiredPosition);
+        if (safePosition != null) {
+            return safePosition;
+        }
+
+        for (int offset = 1; offset <= verticalSearchRange; offset++) {
+            safePosition = checkSafeTeleportPosition(entity, desiredPosition.add(0.0, offset, 0.0));
+            if (safePosition != null) {
+                return safePosition;
+            }
+
+            safePosition = checkSafeTeleportPosition(entity, desiredPosition.add(0.0, -offset, 0.0));
+            if (safePosition != null) {
+                return safePosition;
+            }
+        }
+        return null;
+    }
+
+    private static Vec3 checkSafeTeleportPosition(Entity entity, Vec3 position) {
+        Level level = entity.level();
+        if (position.y < level.getMinY()
+                || position.y + entity.getBbHeight() > level.getMaxY()
+                || !level.hasChunkAt(BlockPos.containing(position))) {
+            return null;
+        }
+
+        AABB targetBox = entity.getBoundingBox().move(
+            position.x - entity.getX(),
+            position.y - entity.getY(),
+            position.z - entity.getZ()
+        );
+        if (level.getBlockCollisions(entity, targetBox).iterator().hasNext()) {
+            return null;
+        }
+
+        AABB supportBox = targetBox.move(0.0, -0.0625, 0.0);
+        if (!level.getBlockCollisions(entity, supportBox).iterator().hasNext()) {
+            return null;
+        }
+        return position;
+    }
+
+    // ==================== 实体清除模块 ====================
+
+    public static void theLastEndRemove(Entity entity, Entity.RemovalReason reason) {
+        //强制清除前先退出线程复活追踪，否则守护线程会把实体拉回来
+        EcaAPI.removeResurrectionTarget(entity);
+        EcaAPI.remove(entity, reason);
+    }
+
+    public static void cleanupBossBar(Entity entity) {
+        EcaAPI.cleanupBossBar(entity);
+    }
+
+    // ==================== 实体目标与队伍模块====================
+    //综合判断是否可以攻击目标（阵营、原版队伍、宠物主从、无敌保护统一由 ECA 判定）
+    public static boolean canAttack(Entity attacker, Entity target) {
+        if (target instanceof TheLastEndEntity theLastEnd && theLastEnd.isNpc()) {
+            return false;
+        }
+        return FactionUtil.canAttack(attacker, target);
+    }
+    //查找实体的主人
+    public static LivingEntity findOwner(Entity entity) {
+        if (entity instanceof TamableAnimal tamable && tamable.isTame()) {
+            return tamable.getOwner();
+        }
+
+        if (entity instanceof LivingEntity living && WraithSummonManager.isWraith(living)) {
+            return WraithSummonManager.getOwner(living, entity.level());
+        }
+
+        return null;
+    }
+
+
+
+    //获取前方半圆范围内的有效攻击目标
+    public static List<LivingEntity> getTargetsInHemisphere(LivingEntity attacker, double radius) {
+        List<LivingEntity> validTargets = new ArrayList<>();
+
+        AABB searchBox = new AABB(
+                attacker.getX() - radius,
+                attacker.getY() - radius,
+                attacker.getZ() - radius,
+                attacker.getX() + radius,
+                attacker.getY() + radius,
+                attacker.getZ() + radius
+        );
+
+        List<Entity> nearbyEntities = attacker.level().getEntities(attacker, searchBox);
+        Vec3 lookVec = attacker.getLookAngle();
+
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof LivingEntity livingEntity) {
+                Vec3 toTarget = new Vec3(
+                        livingEntity.getX() - attacker.getX(),
+                        0,
+                        livingEntity.getZ() - attacker.getZ()
+                ).normalize();
+
+                double dotProduct = lookVec.x * toTarget.x + lookVec.z * toTarget.z;
+
+                if (dotProduct > 0 && canAttack(attacker, livingEntity)) {
+                    validTargets.add(livingEntity);
+                }
+            }
+        }
+
+        return validTargets;
+    }
+
+    // 获取实体朝向前方的长方体区域内，可被攻击且碰撞箱与区域相交的目标。
+    public static List<LivingEntity> getTargetsInFrontBox(
+            LivingEntity attacker, double width, double length, double height) {
+        return getTargetsInFrontBox(
+                attacker, attacker.position(), attacker.getLookAngle(), width, length, height);
+    }
+
+    // 使用锁定的起点与方向检测长方体，避免蓄力期间实体变换改变技能判定。
+    public static List<LivingEntity> getTargetsInFrontBox(
+            LivingEntity attacker, Vec3 origin, Vec3 direction,
+            double width, double length, double height) {
+        List<LivingEntity> validTargets = new ArrayList<>();
+        if (width <= 0.0 || length <= 0.0 || height <= 0.0) {
+            return validTargets;
+        }
+
+        Vec3 forward = direction.multiply(1.0, 0.0, 1.0);
+        if (forward.lengthSqr() < 1.0E-6) {
+            return validTargets;
+        }
+        forward = forward.normalize();
+        Vec3 right = new Vec3(-forward.z, 0.0, forward.x);
+
+        double halfWidth = width * 0.5;
+        double searchRadius = Math.sqrt(length * length + halfWidth * halfWidth);
+        double minY = origin.y;
+        double maxY = minY + height;
+        AABB searchBox = new AABB(
+                origin.x - searchRadius, minY, origin.z - searchRadius,
+                origin.x + searchRadius, maxY, origin.z + searchRadius
+        );
+
+        List<LivingEntity> nearbyEntities = attacker.level().getEntitiesOfClass(
+                LivingEntity.class,
+                searchBox,
+                target -> target != attacker && canAttack(attacker, target)
+        );
+
+        for (LivingEntity target : nearbyEntities) {
+            AABB targetBox = target.getBoundingBox();
+            double centerX = (targetBox.minX + targetBox.maxX) * 0.5 - origin.x;
+            double centerZ = (targetBox.minZ + targetBox.maxZ) * 0.5 - origin.z;
+            double halfX = targetBox.getXsize() * 0.5;
+            double halfZ = targetBox.getZsize() * 0.5;
+
+            double forwardCenter = centerX * forward.x + centerZ * forward.z;
+            double forwardExtent = Math.abs(forward.x) * halfX + Math.abs(forward.z) * halfZ;
+            if (forwardCenter + forwardExtent < 0.0
+                    || forwardCenter - forwardExtent > length) {
+                continue;
+            }
+
+            double sideCenter = centerX * right.x + centerZ * right.z;
+            double sideExtent = Math.abs(right.x) * halfX + Math.abs(right.z) * halfZ;
+            if (Math.abs(sideCenter) > halfWidth + sideExtent) {
+                continue;
+            }
+
+            if (targetBox.maxY >= minY && targetBox.minY <= maxY) {
+                validTargets.add(target);
+            }
+        }
+
+        return validTargets;
+    }
+
+    //让实体面向目标
+    public static void faceTarget(LivingEntity entity, LivingEntity target) {
+        if (entity == null || target == null || !target.isAlive()) return;
+
+        double deltaX = target.getX() - entity.getX();
+        double deltaZ = target.getZ() - entity.getZ();
+        double deltaY = target.getY() + target.getBbHeight() * 0.5 - (entity.getY() + entity.getBbHeight() * 0.5);
+
+        double horizontalDistance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        float yaw = (float) (Math.atan2(-deltaX, deltaZ) * 180.0 / Math.PI);
+        float pitch = (float) (Math.atan2(-deltaY, horizontalDistance) * 180.0 / Math.PI);
+
+        entity.setYRot(yaw);
+        entity.setXRot(pitch);
+        entity.yHeadRot = yaw;
+        entity.yBodyRot = yaw;
+    }
+
+    //获取球体范围内的有效攻击目标
+    public static List<LivingEntity> getTargetsInSphere(LivingEntity attacker, double radius) {
+        List<LivingEntity> validTargets = new ArrayList<>();
+
+        AABB searchBox = new AABB(
+                attacker.getX() - radius,
+                attacker.getY() - radius,
+                attacker.getZ() - radius,
+                attacker.getX() + radius,
+                attacker.getY() + radius,
+                attacker.getZ() + radius
+        );
+
+        List<Entity> nearbyEntities = attacker.level().getEntities(attacker, searchBox);
+        double radiusSquared = radius * radius;
+
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof LivingEntity livingEntity) {
+                double dx = livingEntity.getX() - attacker.getX();
+                double dy = livingEntity.getY() - attacker.getY();
+                double dz = livingEntity.getZ() - attacker.getZ();
+                double distanceSquared = dx * dx + dy * dy + dz * dz;
+
+                if (distanceSquared <= radiusSquared && canAttack(attacker, livingEntity)) {
+                    validTargets.add(livingEntity);
+                }
+            }
+        }
+
+        return validTargets;
+    }
+
+    //按碰撞箱与球体的实际相交关系筛选目标，避免大型实体或高度差造成漏判
+    public static List<LivingEntity> getTargetsIntersectingSphere(
+            LivingEntity attacker, Vec3 center, double radius) {
+        if (radius < 0.0) {
+            return new ArrayList<>();
+        }
+
+        AABB searchBox = new AABB(
+                center.x - radius, center.y - radius, center.z - radius,
+                center.x + radius, center.y + radius, center.z + radius
+        );
+        double radiusSquared = radius * radius;
+        return attacker.level().getEntitiesOfClass(
+                LivingEntity.class,
+                searchBox,
+                target -> target != attacker
+                        && target.getBoundingBox().distanceToSqr(center) <= radiusSquared
+                        && canAttack(attacker, target)
+        );
+    }
+
+    //发射附魔弓箭
+    public static void shootArrow(LivingEntity shooter, LivingEntity target, ItemStack bow) {
+        if (shooter == null || target == null || bow.isEmpty()) return;
+        if (!(bow.getItem() instanceof BowItem)) return;
+
+        //创建箭矢物品（如果弓有无限附魔，可以用空箭矢）
+        ItemStack arrowStack = new ItemStack(Items.ARROW);
+
+        //创建箭矢实体（power=1.0 表示满蓄力）
+        AbstractArrow arrow = ProjectileUtil.getMobArrow(shooter, arrowStack, 1.0f, null);
+
+        //应用弓的特殊效果（火矢等）
+        arrow = ((BowItem)bow.getItem()).customArrow(arrow, arrowStack, bow);
+
+        //显式设置箭矢的发射者，防止误伤友军（必须在customArrow之后）
+        arrow.setOwner(shooter);
+
+        //读取弓的附魔并应用到箭矢
+        applyBowEnchantments(bow, arrow);
+
+        //计算目标位置和弹道
+        double dx = target.getX() - shooter.getX();
+        double dy = target.getY(0.3333333333333333) - arrow.getY();
+        double dz = target.getZ() - shooter.getZ();
+        double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+
+        //发射箭矢（速度1.6，精度14）
+        arrow.shoot(dx, dy + horizontalDistance * 0.2, dz, 1.6f, 14.0f);
+
+        //播放射击音效
+        shooter.playSound(SoundEvents.SKELETON_SHOOT, 1.0f, 1.0f / (shooter.getRandom().nextFloat() * 0.4f + 0.8f));
+
+        //将箭矢添加到世界
+        shooter.level().addFreshEntity(arrow);
+    }
+
+    //应用弓的附魔到箭矢
+    private static void applyBowEnchantments(ItemStack bow, AbstractArrow arrow) {
+        //力量附魔：增加箭矢伤害
+        int powerLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.POWER));
+        if (powerLevel > 0) {
+            arrow.setBaseDamage(2.0 + (double)powerLevel * 0.5 + 0.5);
+        }
+
+        //冲击附魔：增加击退
+        int punchLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.PUNCH));
+        if (punchLevel > 0) {
+            // 1.21 的箭矢不再有 setKnockback，记录冲击等级供命中处理读取
+            arrow.getPersistentData().putInt("the_last_sword_punch", punchLevel);
+        }
+
+        //火矢附魔：点燃箭矢
+        if (bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.FLAME)) > 0) {
+            arrow.igniteForSeconds(100);
+        }
+    }
+
+}
