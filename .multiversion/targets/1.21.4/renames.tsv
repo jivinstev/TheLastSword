@@ -24,4 +24,3 @@ re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderCo
 # X1: proposed by a file-loop worker, kept because the error count fell
 member:getFlipDegrees	getDeathMaxRotation
 # R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)
-re:(\.register\(\s*"([a-z0-9_./-]+)"\s*,\s*)([A-Za-z_][\w.$]*)::new\b	\1() -> net.the_last_sword.mv.RegIds.enter("\2") ? null : new \3()

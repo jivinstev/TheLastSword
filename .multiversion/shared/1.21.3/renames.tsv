@@ -64,9 +64,14 @@ re:EntityType\.loadEntityRecursive\(([^,]+), (\w+), 	EntityType.loadEntityRecurs
 re:import net\.neoforged\.neoforge\.common\.util\.DummySavedData;\n	
 # ---- registry ids in Properties (CATALOG R25; 1.21.2): a registration supplier names what it builds, and every
 # Properties a Block or Item is built from takes that name (net.the_last_sword.mv.RegIds). Prefix-only on the supplier, so no row
-# has to find a closing parenthesis; a method reference (`REG.register("x", X::new)`) is not reached -- Gate B names it.
+# has to find a closing parenthesis. A registration by constructor reference (`REG.register("name", Y::new)`, Y a Supplier-shaped no-arg
+# constructor) becomes the same entering supplier; without it Y builds its Properties with no name recorded
+re:(\.register\(\s*"([a-z0-9_./-]+)"\s*,\s*)([A-Za-z_][\w.$]*)::new\b	\1() -> net.the_last_sword.mv.RegIds.enter("\2") ? null : new \3()
 re:(\.register\(\s*"([a-z0-9_./-]+)"\s*,\s*\(\)\s*->\s*)(new\s)	\1net.the_last_sword.mv.RegIds.enter("\2") ? null : \3
 re:\bnew ((?:Item\.)?Properties\(\))	net.the_last_sword.mv.RegIds.stamp(new \1)
+# the same, written fully qualified (the bare rows above cannot see past the package prefix)
+re:\bnew (net\.minecraft\.world\.item\.Item\.Properties\(\))	net.the_last_sword.mv.RegIds.stamp(new \1)
+re:(?<![\w.])(net\.minecraft\.world\.level\.block\.(?:state\.BlockBehaviour|Block)\.Properties\.of(?:(?:Full|Legacy)Copy)?\((?:[^()]|\([^()]*\))*\))	net.the_last_sword.mv.RegIds.stamp(\1)
 re:(?<![\w.])((?:BlockBehaviour\.|Block\.)?Properties\.of\(\))	net.the_last_sword.mv.RegIds.stamp(\1)
 re:(?<![\w.])((?:BlockBehaviour\.|Block\.)?Properties\.of(?:Full|Legacy)Copy\((?:[^()]|\([^()]*\))*\))	net.the_last_sword.mv.RegIds.stamp(\1)
 # ---- mixin targets (invisible to javac; audit-mixin-targets.py checks them against the target's sources)
