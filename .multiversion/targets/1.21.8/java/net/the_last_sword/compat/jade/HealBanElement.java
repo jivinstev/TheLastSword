@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec2;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
 import snownee.jade.api.ui.IDisplayHelper;
@@ -22,11 +21,10 @@ public class HealBanElement extends Element {
     public HealBanElement(int remainingSeconds) {
         //前缀两空格用于对齐原有生命值行的视觉间距
         this.text = String.format("  %ds", remainingSeconds);
-    }
-
-    public Vec2 getSize() {
+        //Jade 19 (1.21.8): getSize() is gone; an element states its size in the width/height fields it lays out by
         Font font = Minecraft.getInstance().font;
-        return new Vec2(ICON_SIZE + font.width(text), LINE_HEIGHT);
+        this.width = ICON_SIZE + font.width(text);
+        this.height = LINE_HEIGHT;
     }
 
     @Override

@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec2;
 import net.the_last_sword.TheLastSwordMod;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
@@ -32,11 +31,10 @@ public class JustifiedDefenceElement extends Element {
     public JustifiedDefenceElement(double current, double max) {
         //前缀两空格对齐 HealthElement 的视觉间距
         this.text = String.format("  %s/%s", FORMAT.format(current), FORMAT.format(max));
-    }
-
-    public Vec2 getSize() {
+        //Jade 19 (1.21.8): getSize() is gone; an element states its size in the width/height fields it lays out by
         Font font = Minecraft.getInstance().font;
-        return new Vec2(ICON_SIZE + font.width(text), LINE_HEIGHT);
+        this.width = ICON_SIZE + font.width(text);
+        this.height = LINE_HEIGHT;
     }
 
     @Override

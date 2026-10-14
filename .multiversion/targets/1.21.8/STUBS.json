@@ -7,12 +7,12 @@
  {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/compat/jade/HealBanElement.java",
   "why": "drops @Override from getSize and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null
+  "reviewed": "Ported: Jade 19.1 (1.21.8) removed Element.getSize(); an element now declares its size in the protected width/height fields Jade's layout reads, so the constructor sets width = icon (9) + text width and height = 10, the same Vec2 getSize returned, and render draws the same icon and text."
  },
  {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/compat/jade/JustifiedDefenceElement.java",
   "why": "drops @Override from getSize and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null
+  "reviewed": "Ported: Jade 19.1 (1.21.8) removed Element.getSize(); an element now declares its size in the protected width/height fields Jade's layout reads, so the constructor sets width = icon (9) + text width and height = 10, the same Vec2 getSize returned, and render draws the same icon and text."
  },
  {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/entity/QueenBlinkBlade.java",
@@ -28,6 +28,16 @@
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java",
   "why": "removes 3 registration/listener/send call(s); deletes overriding method(s) getBoundingBoxForCulling, hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
   "reviewed": "(inherited from 1.21.5) As in 1.21.4: hurt is hurtServer with the same isReady()/isNpc() guard; the culling box is ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling (super's box inflated 3,6,3 while summoning); the 3 sends are displayClientMessage(msg,false) = ServerPlayer.sendSystemMessage(msg,false)."
+ },
+ {
+  "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/mixin/PlayerMixin.java",
+  "why": "removes 2 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": "Both handlers still apply with the same effect: since 1.21.5 setItemSlot and drop(ItemStack, boolean, boolean) are declared on LivingEntity (CATALOG M30), so tls$blockSetItemSlot and tls$blockDrop live in the LivingEntityMixin overlay (inherited from 1.21.5 and carried here) behind an instanceof Player check, with the same hasExternalCaller(5) depth."
+ },
+ {
+  "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java",
+  "why": "empties 1 method body",
+  "reviewed": "The emptied body is the @Shadow stub of ScreenEffectRenderer.renderItemActivationAnimation (Mixin binds it to vanilla's); the handler keeps cancelling the block/water/fire overlays for a phasing player and calls that shadow so the totem animation, which 1.21.6 moved into renderScreenEffect, still draws."
  },
  {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/summon/WraithSummonManager.java",
