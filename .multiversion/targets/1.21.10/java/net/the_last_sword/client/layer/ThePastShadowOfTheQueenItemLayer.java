@@ -16,6 +16,7 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;
 
@@ -48,16 +49,20 @@ public class ThePastShadowOfTheQueenItemLayer<R extends EntityRenderState & GeoR
                 (bone, state) -> Either.left(state.getOrDefaultGeckolibData(RIGHT_HAND_STACK, ItemStack.EMPTY))));
     }
 
+    //GeckoLib 5.3: renderStackForBone is submitItemStackRender, with the render colour as a third int
     @Override
-    protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack,
-                                      ItemDisplayContext displayContext, R renderState,
-                                      SubmitNodeCollector renderTasks, CameraRenderState cameraState,
-                                      int packedLight, int packedOverlay) {
+    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStack stack,
+                                         ItemDisplayContext displayContext, R renderState,
+                                         SubmitNodeCollector renderTasks, CameraRenderState cameraState,
+                                         int packedLight, int packedOverlay, int renderColor) {
+        //GeckoLib 5.3 no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
+        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         // 手部骨骼的枢轴在肘部，沿前臂下移到掌心后再应用物品变换。
         poseStack.translate(0.0D, -7.0D / 16.0D, 0.0D);
         poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
-        super.renderStackForBone(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
-                packedLight, packedOverlay);
+        super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
+                packedLight, packedOverlay, renderColor);
     }
 
 }

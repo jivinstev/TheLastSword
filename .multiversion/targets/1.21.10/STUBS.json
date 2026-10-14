@@ -2,7 +2,7 @@
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
   "why": "deletes overriding method(s) renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: the 4.x getStackForBone/getTransformTypeForStack are GeckoLib 5's getRelevantBones (right_hand main hand, left_hand off hand, third-person contexts, stacks captured in addRenderData), and renderStackForBone is GeckoLib 5.3's submitItemStackRender override, which re-applies the bone pivot transform 5.3 no longer applies and then the same -90 degree X rotation and (1, 0, -3.75)/16 offset."
  },
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
@@ -12,7 +12,7 @@
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
   "why": "deletes overriding method(s) render: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: render(state, pose, MultiBufferSource, light) is submit(state, pose, SubmitNodeCollector, camera) since 1.21.9; the override calls super and queues the death rays (progress and half height captured in extractRenderState) as custom geometry on RenderType.lightning(), the only type DeathRayLayer draws with, from the same pose."
  },
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
@@ -32,7 +32,7 @@
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java",
   "why": "deletes overriding method(s) createBaseRenderState, render: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: render is a submit override that, after the model, queues the summon and blink rifts as custom geometry on QueenBlinkRenderUtil's rift type (the only type rift/summonRift draw with) with the same ages and yaws, now captured in extractRenderState; createBaseRenderState only built a QueenRenderState carrying the entity and partial tick, which these tickets replace."
  },
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/entity/QueenBlinkBlade.java",
@@ -67,7 +67,7 @@
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/test/TestEntity.java",
   "why": "deletes overriding method(s) shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it; deletes overriding method(s) canChangeDimensions, moveTo, shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "As in 1.21.5, canChangeDimensions is canTeleport and moveTo is snapTo, overridden with the same bodies; shouldDespawnInPeaceful is gone in 1.21.10 and its replacement (EntityType.isAllowedInPeaceful) is read only by Mob.checkDespawn, which this entity overrides as a no-op, so it still never despawns in peaceful."
  },
  {
   "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/test/UltraTestSwordItem.java",

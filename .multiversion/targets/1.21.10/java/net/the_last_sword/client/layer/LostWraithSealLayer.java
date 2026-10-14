@@ -61,7 +61,13 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     //GeckoLib 5: renderForBone became per-bone tasks registered here and run after the model is drawn, with the
     //PoseStack the bone had when it was rendered (the same pose renderForBone received)
     @Override
-    public void addPerBoneRender(R renderState, BakedGeoModel model, BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
+    public void addPerBoneRender(R renderState, BakedGeoModel model, boolean didRenderModel,
+                                 BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
+        //GeckoLib 5.3: the seal follows the model -- no per-bone task when the model itself was not drawn (as
+        //BlockAndItemGeoLayer does), the same as 5.1/5.2, where tasks were only captured for rendered bones
+        if (!didRenderModel) {
+            return;
+        }
         // 激活动画开始即解除封印，不等待战斗就绪状态。
         if (!Boolean.TRUE.equals(renderState.getGeckolibData(UNSPAWNED))) {
             return;

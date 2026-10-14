@@ -1,15 +1,3 @@
 # 1.21.10: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
-# X1: proposed by a file-loop worker, kept because the error count fell
-level().isClientSide	level().isClientSide()
-# X21: proposed by a file-loop worker, kept because the error count fell
-.isClientSide)	.isClientSide())
-# X22: proposed by a file-loop worker, kept because the error count fell
-level.isClientSide	level.isClientSide()
-# X25: proposed by a file-loop worker, kept because the error count fell
-FMLEnvironment.dist	FMLEnvironment.getDist()
 # X74: proposed by a file-loop worker, kept because the error count fell
 stack.getCapability(Capabilities.Energy.ITEM)	Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack))
-# X77: proposed by a file-loop worker, kept because the error count fell
-Screen.hasShiftDown	Minecraft.getInstance().hasShiftDown
-# X79: proposed by a file-loop worker, kept because the error count fell
-addRenderLayer	withRenderLayer

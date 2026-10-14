@@ -2,7 +2,6 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.RenderType;
@@ -60,16 +59,22 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
     }
 
     //模型渲染完毕后叠加死亡放射光柱
-    //原 render 钩子在 1.21.10 已不存在，改为独立方法，需由新的绘制钩子调用
-    public void renderDeathRays(R renderState, PoseStack poseStack,
-            MultiBufferSource bufferSource) {
+    //1.21.9+: render(state, pose, MultiBufferSource, light) is submit(state, pose, SubmitNodeCollector, camera); the rays
+    //are queued as custom geometry on the lightning render type DeathRayLayer draws with, from the same pose
+    @Override
+    public void submit(R renderState, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState cameraState) {
+        super.submit(renderState, poseStack, collector, cameraState);
 
         float progress = renderState.getOrDefaultGeckolibData(DEATH_PROGRESS, 0.0f);
         if (progress <= 0.0f) {
             return;
         }
-        DeathRayLayer.render(poseStack, bufferSource, progress, renderState.getOrDefaultGeckolibData(HALF_HEIGHT, 0.0f),
-                RAY_RED, RAY_GREEN, RAY_BLUE);
+        float halfHeight = renderState.getOrDefaultGeckolibData(HALF_HEIGHT, 0.0f);
+        collector.submitCustomGeometry(poseStack, RenderType.lightning(), (pose, vertices) -> {
+            PoseStack rays = new PoseStack();
+            rays.last().set(pose);
+            DeathRayLayer.render(rays, renderType -> vertices, progress, halfHeight, RAY_RED, RAY_GREEN, RAY_BLUE);
+        });
     }
 
     @Override
