@@ -20,7 +20,7 @@ import net.the_last_sword.block.entity.DragonCrystalSmithingTableBlockEntity;
 public class DragonCrystalSmithingTableBlock extends Block implements EntityBlock {
 
     public DragonCrystalSmithingTableBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
             .sound(SoundType.ANVIL)
             .strength(5.0f, 1200.0f)
             .lightLevel(state -> 1)

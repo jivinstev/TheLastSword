@@ -91,7 +91,7 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
     private final ArmorType armorType;
 
     protected DragonCultPriestArmorItem(ArmorType type) {
-        super(MATERIAL, type, new Properties());
+        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         this.armorType = type;
     }
 
@@ -116,8 +116,10 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
         return builder.build();
     }
 
-    public IClientItemExtensions createClientExtensions() {
-        return DragonCultArmorClientExtensions.priest();
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
+    @Override
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(DragonCultArmorClientExtensions.priest());
     }
 
     @Override

@@ -92,7 +92,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Helmet extends DragonCrystalArmorItem {
         public Helmet() {
-            super(ArmorType.HELMET, new Properties());
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -108,7 +108,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Chestplate extends DragonCrystalArmorItem {
         public Chestplate() {
-            super(ArmorType.CHESTPLATE, new Properties());
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -124,7 +124,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Leggings extends DragonCrystalArmorItem {
         public Leggings() {
-            super(ArmorType.LEGGINGS, new Properties());
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -140,7 +140,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Boots extends DragonCrystalArmorItem {
         public Boots() {
-            super(ArmorType.BOOTS, new Properties());
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override

@@ -23,5 +23,5 @@ net.minecraft.client.renderer.entity.EntityRenderState	net.minecraft.client.rend
 re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderColor) {
 # X1: proposed by a file-loop worker, kept because the error count fell
 member:getFlipDegrees	getDeathMaxRotation
-# mixin target: EnderDragon.hurt(List) became hurt(ServerLevel, List) in 1.21.2 (also proposed for shared/1.21.3)
-re:"hurt\(Ljava/util/List;\)V"	"hurt(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V"
+# R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)
+re:(\.register\(\s*"([a-z0-9_./-]+)"\s*,\s*)([A-Za-z_][\w.$]*)::new\b	\1() -> net.the_last_sword.mv.RegIds.enter("\2") ? null : new \3()

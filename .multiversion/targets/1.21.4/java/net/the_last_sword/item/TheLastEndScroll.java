@@ -39,7 +39,7 @@ public class TheLastEndScroll extends Item {
     );
 
     public TheLastEndScroll() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(1)
             .fireResistant()
             .rarity(Rarity.EPIC)

@@ -26,7 +26,7 @@ public class PriestStaffItem extends Item {
     private final ItemAttributeModifiers defaultModifiers;
 
     public PriestStaffItem() {
-        super(new Item.Properties().durability(200).rarity(Rarity.UNCOMMON));
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).durability(200).rarity(Rarity.UNCOMMON));
 
         this.defaultModifiers = ItemAttributeModifiers.builder()
             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(

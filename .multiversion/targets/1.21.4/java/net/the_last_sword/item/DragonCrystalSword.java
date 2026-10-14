@@ -63,7 +63,7 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
             },
             3,
             -2.4f,
-            new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON),
+            net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.UNCOMMON),
             64f,
             4
         );

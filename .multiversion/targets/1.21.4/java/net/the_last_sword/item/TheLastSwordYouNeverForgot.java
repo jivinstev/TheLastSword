@@ -75,7 +75,7 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
             public Ingredient getRepairIngredient() {
                 return Ingredient.of(new net.minecraft.world.level.ItemLike[0]);
             }
-        }, 0, -2.4f, new Item.Properties().fireResistant().rarity(Rarity.EPIC), 1024f, 1024);
+        }, 0, -2.4f, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.EPIC), 1024f, 1024);
     }
 
     @Override

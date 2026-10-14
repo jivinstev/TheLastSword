@@ -31,7 +31,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     private static final String CHARGING_ENABLED_TAG = "the_last_sword.charging_enabled";
 
     public AncientEnergyCore() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(1) //能量物品不能堆叠
             .fireResistant()
             .rarity(Rarity.RARE)

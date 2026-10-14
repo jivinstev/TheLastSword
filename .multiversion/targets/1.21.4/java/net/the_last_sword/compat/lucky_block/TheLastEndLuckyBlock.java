@@ -40,7 +40,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
     }
 
     public TheLastEndLuckyBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
             .mapColor(MapColor.COLOR_PURPLE)
             .sound(SoundType.STONE)
             .strength(0.2F, 6_000_000.0F)
@@ -52,6 +52,12 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TheLastEndLuckyBlockEntity(pos, state);
+    }
+
+    //1.21.2 removed ENTITYBLOCK_ANIMATED: INVISIBLE is the shape whose block entity renderer alone draws the block
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
     }
 
     @Override

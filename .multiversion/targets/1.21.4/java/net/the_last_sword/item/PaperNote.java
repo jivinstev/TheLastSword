@@ -33,7 +33,7 @@ public class PaperNote extends Item {
     private final String guiContentKey;
 
     public PaperNote(String nameKey, String tooltipKey, String contentKey, String guiContentKey) {
-        super(new Item.Properties().stacksTo(1).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).fireResistant());
         this.nameKey = nameKey;
         this.tooltipKey = tooltipKey;
         this.contentKey = contentKey;

@@ -62,13 +62,25 @@ re:new RenderStateShard\.ShaderStateShard\(	new net.the_last_sword.mv.ShaderShar
 re:\b(\w+)\.create\((\w*[lL]evel)\)	\1.create(\2, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED)
 re:EntityType\.loadEntityRecursive\(([^,]+), (\w+), 	EntityType.loadEntityRecursive(\1, \2, net.minecraft.world.entity.EntitySpawnReason.LOAD, 
 re:import net\.neoforged\.neoforge\.common\.util\.DummySavedData;\n	
+# ---- registry ids in Properties (CATALOG R25; 1.21.2): a registration supplier names what it builds, and every
+# Properties a Block or Item is built from takes that name (net.the_last_sword.mv.RegIds). Prefix-only on the supplier, so no row
+# has to find a closing parenthesis; a method reference (`REG.register("x", X::new)`) is not reached -- Gate B names it.
+re:(\.register\(\s*"([a-z0-9_./-]+)"\s*,\s*\(\)\s*->\s*)(new\s)	\1net.the_last_sword.mv.RegIds.enter("\2") ? null : \3
+re:\bnew ((?:Item\.)?Properties\(\))	net.the_last_sword.mv.RegIds.stamp(new \1)
+re:(?<![\w.])((?:BlockBehaviour\.|Block\.)?Properties\.of\(\))	net.the_last_sword.mv.RegIds.stamp(\1)
+re:(?<![\w.])((?:BlockBehaviour\.|Block\.)?Properties\.of(?:Full|Legacy)Copy\((?:[^()]|\([^()]*\))*\))	net.the_last_sword.mv.RegIds.stamp(\1)
 # ---- mixin targets (invisible to javac; audit-mixin-targets.py checks them against the target's sources)
 re:@Inject\(method = "hurt",([^\n]*)\n(\s*)private void ([\w$]+)\(DamageSource (\w+),	@Inject(method = "hurtServer",\1\n\2private void \3(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource \4,
 re:@Inject\(method = "actuallyHurt",([^\n]*)\n(\s*)private void ([\w$]+)\(DamageSource (\w+),	@Inject(method = "actuallyHurt",\1\n\2private void \3(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource \4,
 re:"changeDimension\(Lnet/minecraft/world/level/portal/DimensionTransition;\)Lnet/minecraft/world/entity/Entity;"	"teleport(Lnet/minecraft/world/level/portal/TeleportTransition;)Lnet/minecraft/world/entity/Entity;"
+# EnderDragon.hurt(List<Entity>) (the head/body contact damage) became hurt(ServerLevel, List<Entity>) in 1.21.2
+re:"hurt\(Ljava/util/List;\)V"	"hurt(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V"
 re:LevelRenderer;renderLevel\(Lnet/minecraft/client/DeltaTracker;	LevelRenderer;renderLevel(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;Lnet/minecraft/client/DeltaTracker;
 re:@Inject\(method = "render",(\s*at = @At\(value = "INVOKE",\s*target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose\(\)V")	@Inject(method = "renderItemModelRaw",\1
 re:(int \w+, int \w+, BakedModel \w+,)(\s*)CallbackInfo ci\)	\1 boolean mv$flat, float mv$depth,\2CallbackInfo ci)
+# SmithingTransformRecipe/SmithingTrimRecipe hold Optional<Ingredient> template/base/addition since 1.21.2: an
+# @Accessor returning Ingredient no longer matches the field (callers then fail to compile and get .orElse(null))
+re:(@Accessor\("(?:template|base|addition)"\)\s*)Ingredient\b	\1java.util.Optional<Ingredient>
 # GeckoLib 4.7.3 (1.21.3) / 4.8.5 (1.21.4): GeoRenderLayer preRender/render gained a trailing int colour
 re:(VertexConsumer \w+, float \w+,\s*int \w+, int \w+)\) \{	\1, int renderColor) {
 #!strict

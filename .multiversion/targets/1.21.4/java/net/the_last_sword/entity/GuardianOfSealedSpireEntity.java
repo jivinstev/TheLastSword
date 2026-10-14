@@ -340,9 +340,12 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
         return false;
     }
 
-    // 同类守卫之间不互相伤害。1.21.4 中 Entity.hurt 为 final 且返回 void，无法覆写，
-    // 原逻辑保留在此方法中，由伤害事件调用。
-    public boolean shouldIgnoreDamage(@NotNull DamageSource source) {
-        return source.getEntity() instanceof GuardianOfSealedSpireEntity;
+    // 同类守卫之间不互相伤害。1.21.2: server-side damage goes through hurtServer (1.21.1's hurt override)
+    @Override
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
+        if (source.getEntity() instanceof GuardianOfSealedSpireEntity) {
+            return false;
+        }
+        return super.hurtServer(serverLevel, source, amount);
     }
 }

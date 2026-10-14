@@ -91,7 +91,7 @@ public class KnightGreatswordItem extends SwordItem {
 
     public KnightGreatswordItem() {
         // 玩家自带 1 点攻击伤害和 4 点攻击速度，因此这里的修正值会得到最终 12 / 1.0 的面板属性。
-        super(KNIGHT_GREATSWORD_TIER, new Item.Properties().rarity(Rarity.COMMON), knightGreatswordAttributes());
+        super(KNIGHT_GREATSWORD_TIER, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).rarity(Rarity.COMMON), knightGreatswordAttributes());
     }
 
     @Override

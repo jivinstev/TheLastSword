@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
 
     public TheLastEndSwordWraithLevel13SpawnEgg() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(16)
                 .rarity(Rarity.EPIC)
                 .fireResistant()

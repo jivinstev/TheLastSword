@@ -81,25 +81,10 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         //龙之套装不掉耐久
         return 0;
     }
-    //客户端扩展由 RegisterClientExtensionsEvent 注册（initializeClient 已移除）
-    public IClientItemExtensions createClientExtensions() {
-        return (new IClientItemExtensions() {
-            private GeoArmorRenderer<?> renderer;
-
-            @Override
-            public Model getHumanoidArmorModel(ItemStack itemStack, EquipmentClientInfo.LayerType layerType,
-                                               Model original) {
-                if (this.renderer == null)
-                    this.renderer = new DragonArmorRenderer();
-                Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
-                EquipmentSlot equipmentSlot = equippable != null ? equippable.slot() : EquipmentSlot.CHEST;
-                Minecraft minecraft = Minecraft.getInstance();
-                this.renderer.prepForRender(minecraft.player, itemStack, equipmentSlot,
-                        original instanceof HumanoidModel<?> humanoid ? humanoid : null,
-                        minecraft.renderBuffers().bufferSource(), 0.0F, 0.0F, 0.0F);
-                return this.renderer;
-            }
-        });
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
+    @Override
+    public void createGeoRenderer(Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(net.the_last_sword.client.DragonCultArmorClientExtensions.create(DragonArmorRenderer::new));
     }
 
     // ==================== 实现TheLastEndArmorItem抽象方法 ====================
@@ -355,7 +340,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Helmet extends DragonArmorItem {
         public Helmet() {
-            super(ArmorType.HELMET, new Properties());
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -366,7 +351,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Chestplate extends DragonArmorItem {
         public Chestplate() {
-            super(ArmorType.CHESTPLATE, new Properties());
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -377,7 +362,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Leggings extends DragonArmorItem {
         public Leggings() {
-            super(ArmorType.LEGGINGS, new Properties());
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
@@ -388,7 +373,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Boots extends DragonArmorItem {
         public Boots() {
-            super(ArmorType.BOOTS, new Properties());
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override

@@ -4,7 +4,10 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.datafixers.util.Either;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -16,11 +19,25 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
 
     // The "template" and "input" objects carry an optional "inputLevel" next to the
     // ingredient fields; Codec.pair decodes both halves from the same JSON object.
+    // 1.21.2 dropped the {"item": X} / {"tag": X} ingredient object (an ingredient is now "X", "#X" or a list), but
+    // these objects carry "inputLevel" beside the ingredient, so they cannot become bare strings -- and the built-in
+    // files and players' config copies are all written in the 1.21.1 object form. Read that form (and NeoForge's
+    // typed ingredient objects), write the object form back.
+    private static final MapCodec<Ingredient> OBJECT_INGREDIENT = Codec.mapEither(
+            BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("item"),
+            TagKey.codec(Registries.ITEM).fieldOf("tag")
+    ).xmap(
+            either -> either.map(item -> Ingredient.of(item.value()),
+                    tag -> Ingredient.of(BuiltInRegistries.ITEM.getOrThrow(tag))),
+            ingredient -> Either.left(ingredient.items().findFirst().orElseThrow()));
+
+    private static final Codec<Ingredient> INGREDIENT = Codec.withAlternative(OBJECT_INGREDIENT.codec(), Ingredient.CODEC);
+
     private static final Codec<Pair<Ingredient, Optional<Integer>>> TEMPLATE_CODEC =
-            Codec.pair(Ingredient.CODEC, Codec.INT.optionalFieldOf("inputLevel").codec());
+            Codec.pair(INGREDIENT, Codec.INT.optionalFieldOf("inputLevel").codec());
 
     private static final Codec<Pair<Ingredient, Integer>> INPUT_CODEC =
-            Codec.pair(Ingredient.CODEC, Codec.INT.optionalFieldOf("inputLevel", 0).codec());
+            Codec.pair(INGREDIENT, Codec.INT.optionalFieldOf("inputLevel", 0).codec());
 
     // Recipes written for 1.20.1 (players' own files in config/the_last_sword) name the item "item";
     // the ItemStack codec calls it "id". Read both, write "id".
@@ -37,7 +54,7 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
             TEMPLATE_CODEC.fieldOf("template").forGetter(r -> Pair.of(r.getTemplate(),
                     r.hasTemplateInputLevel() ? Optional.of(r.getTemplateInputLevel()) : Optional.<Integer>empty())),
             INPUT_CODEC.fieldOf("input").forGetter(r -> Pair.of(r.getInput(), r.getInputLevel())),
-            Ingredient.CODEC.fieldOf("addition").forGetter(DragonCrystalSmithingRecipe::getAddition),
+            INGREDIENT.fieldOf("addition").forGetter(DragonCrystalSmithingRecipe::getAddition),
             OUTPUT_CODEC.fieldOf("output").forGetter(r -> Pair.of(r.getResultItem(null), r.getOutputLevel()))
     ).apply(instance, (template, input, addition, output) -> new DragonCrystalSmithingRecipe(null,
             template.getFirst(), template.getSecond().orElse(null),

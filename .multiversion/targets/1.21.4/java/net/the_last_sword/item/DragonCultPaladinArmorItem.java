@@ -63,11 +63,13 @@ public abstract class DragonCultPaladinArmorItem extends ArmorItem implements Ge
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     protected DragonCultPaladinArmorItem(ArmorType type) {
-        super(MATERIAL, type, new Properties());
+        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
     }
 
-    public IClientItemExtensions createClientExtensions() {
-        return DragonCultArmorClientExtensions.paladin();
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
+    @Override
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(DragonCultArmorClientExtensions.paladin());
     }
 
     @Override

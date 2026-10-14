@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "the_last_sword:dragon_crystal_armor"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "the_last_sword:dragon_crystal_armor"
+      }
+    ]
+  }
+}

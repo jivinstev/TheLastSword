@@ -22,7 +22,7 @@ import java.util.List;
 public class DisposableEnergyBattery extends Item {
 
     public DisposableEnergyBattery() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(64)
             .fireResistant()
             .rarity(Rarity.UNCOMMON)

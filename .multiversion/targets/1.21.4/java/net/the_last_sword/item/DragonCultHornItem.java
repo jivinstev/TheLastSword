@@ -30,7 +30,7 @@ public class DragonCultHornItem extends InstrumentItem {
     private static final String RAID_ACTIVE_KEY = "message.the_last_sword.dragon_cult_horn_raid_active";
 
     public DragonCultHornItem() {
-        super(ModInstruments.DRAGON_CULT_HORNS, new Item.Properties()
+        super(ModInstruments.DRAGON_CULT_HORNS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(1)
                 .rarity(Rarity.UNCOMMON)
         );

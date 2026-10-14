@@ -53,7 +53,7 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
             DRAGON_CRYSTAL_UPGRADE_BASE_SLOT_DESCRIPTION,
             createDragonCrystalUpgradeIconList(),
             createDragonCrystalUpgradeMaterialList(),
-            new net.minecraft.world.item.Item.Properties()
+            net.the_last_sword.mv.RegIds.stamp(new net.minecraft.world.item.Item.Properties())
         );
     }
 

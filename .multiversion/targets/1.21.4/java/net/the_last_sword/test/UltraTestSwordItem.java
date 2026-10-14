@@ -49,7 +49,7 @@ public class UltraTestSwordItem extends Item {
 
     public UltraTestSwordItem() {
         // 1.21.1 TieredItem: durability from tier uses (0), enchantability from tier (1024); empty repair ingredient = not repairable
-        super(new Item.Properties().fireResistant().durability(0).enchantable(1024));
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().durability(0).enchantable(1024));
     }
 
     //近战攻击：左键绝毁，Shift+左键终焉死亡
