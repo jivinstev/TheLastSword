@@ -3,7 +3,11 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -48,9 +52,21 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
 
     public TheLastEndSwordProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
-        ModelPart root = context.bakeLayer(ModelLayers.END_CRYSTAL);
+        //1.21.2 rebuilt vanilla's END_CRYSTAL layer as nested outer_glass > inner_glass > cube (no root "glass"/"cube",
+        //and rendering outer_glass draws its children too), so this renderer bakes 1.21.1's flat crystal layer itself
+        ModelPart root = createLegacyCrystalLayer().bakeRoot();
         this.glass = root.getChild("glass");
         this.cube = root.getChild("cube");
+    }
+
+    //1.21.1's EndCrystalRenderer.createBodyLayer: glass and cube are separate root parts, both 8x8x8 at the origin
+    private static LayerDefinition createLegacyCrystalLayer() {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+        root.addOrReplaceChild("glass", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+        root.addOrReplaceChild("cube", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+        root.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 16).addBox(-6.0F, 0.0F, -6.0F, 12.0F, 4.0F, 12.0F), PartPose.ZERO);
+        return LayerDefinition.create(mesh, 64, 32);
     }
 
     @Override

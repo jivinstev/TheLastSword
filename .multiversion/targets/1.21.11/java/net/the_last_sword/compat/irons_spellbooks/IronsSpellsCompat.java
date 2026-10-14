@@ -36,23 +36,40 @@ public final class IronsSpellsCompat {
         return BuiltInRegistries.ATTRIBUTE.get(ResourceKey.create(Registries.ATTRIBUTE, id)).orElse(null);
     }
 
+    @javax.annotation.Nullable
+    private static EquipmentSlot slotOf(net.minecraft.world.item.ItemStack stack) {
+        net.minecraft.world.item.equipment.Equippable equippable = stack.get(net.minecraft.core.component.DataComponents.EQUIPPABLE);
+        return equippable != null ? equippable.slot() : null;
+    }
+
+    private static boolean isSlottedArmor(net.minecraft.world.item.ItemStack stack) {
+        return stack.getItem() instanceof DragonCultPriestArmorItem || stack.getItem() instanceof DragonCrystalArmorItem
+                || stack.getItem() instanceof DragonArmorItem;
+    }
+
     private IronsSpellsCompat() {
     }
 
     @SubscribeEvent
     public static void onItemAttributeModifiers(ItemAttributeModifierEvent event) {
+        //1.21.1's ArmorItem.getEquipmentSlot() was the armour type's slot; IItemExtension.getEquipmentSlot(stack) is a
+        //null-by-default override hook (null = "let vanilla decide"), so the slot comes from the EQUIPPABLE component
+        //the armour piece carries since 1.21.2; a stack without one (never an armour piece here) adds nothing
+        if (isSlottedArmor(event.getItemStack()) && slotOf(event.getItemStack()) == null) {
+            return;
+        }
         if (event.getItemStack().getItem() instanceof DragonCultPriestArmorItem armor) {
-            addArmorModifiers(event, EquipmentSlotGroup.bySlot(armor.getEquipmentSlot(event.getItemStack())));
+            addArmorModifiers(event, EquipmentSlotGroup.bySlot(slotOf(event.getItemStack())));
             return;
         }
 
         if (event.getItemStack().getItem() instanceof DragonCrystalArmorItem armor) {
-            addScaledArmorModifiers(event, armor.getEquipmentSlot(event.getItemStack()), EquipmentSlotGroup.bySlot(armor.getEquipmentSlot(event.getItemStack())), "dragon_crystal_armor", 0.25);
+            addScaledArmorModifiers(event, slotOf(event.getItemStack()), EquipmentSlotGroup.bySlot(slotOf(event.getItemStack())), "dragon_crystal_armor", 0.25);
             return;
         }
 
         if (event.getItemStack().getItem() instanceof DragonArmorItem armor) {
-            addScaledArmorModifiers(event, armor.getEquipmentSlot(event.getItemStack()), EquipmentSlotGroup.bySlot(armor.getEquipmentSlot(event.getItemStack())), "dragon_armor", 0.5);
+            addScaledArmorModifiers(event, slotOf(event.getItemStack()), EquipmentSlotGroup.bySlot(slotOf(event.getItemStack())), "dragon_armor", 0.5);
             return;
         }
 
