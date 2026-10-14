@@ -1,11 +1,7 @@
 package net.the_last_sword.client.model;
 
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.the_last_sword.entity.LostWraithEntity;
-import software.bernie.geckolib.animatable.processing.AnimationState;
-import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.cache.model.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 
@@ -25,14 +21,6 @@ public class LostWraithModel extends GeoModel<LostWraithEntity> {
         return Identifier.fromNamespaceAndPath("the_last_sword", "textures/entities/lost_wraith.png");
     }
 
-    //GeckoLib 5: the head angles come from the render state (DataTickets.ENTITY_PITCH / ENTITY_YAW) instead of EntityModelData
-    @Override
-    @SuppressWarnings("rawtypes")
-    public void setCustomAnimations(AnimationState animationState) {
-        GeoBone head = getAnimationProcessor().getBone("head");
-        if (head != null) {
-            head.setRotX((Float) animationState.getData(DataTickets.ENTITY_PITCH) * Mth.DEG_TO_RAD);
-            head.setRotY((Float) animationState.getData(DataTickets.ENTITY_YAW) * Mth.DEG_TO_RAD);
-        }
-    }
+    //GeckoLib 5.4: setCustomAnimations is gone from GeoModel; the head look (pitch/yaw from the render state) is
+    //LostWraithRenderer.adjustModelBonesForRender, applied to the frame's bone snapshots
 }

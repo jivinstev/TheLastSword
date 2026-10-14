@@ -39,7 +39,6 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.state.AnimationTest;
-import software.bernie.geckolib.animation.state.ControllerState;
 import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
@@ -275,21 +274,30 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         return PlayState.STOP;
     }
 
+    //GeckoLib 5.4: AnimationController has no State enum; 5.3's STOPPED was "stopped by the predicate, never started, or a
+    //non-looping animation that finished" -- PlayState.STOP (also the reset state) or hasAnimationFinished()
+    private static boolean isStopped(AnimationController<?> controller) {
+        return controller.getPlayState() == PlayState.STOP || controller.hasAnimationFinished();
+    }
+
     String prevAnim = "empty";
 
     private PlayState procedurePredicate(AnimationTest<DragonArmorItem> event) {
+        //read once, before anything below resets the controller: 5.3's forceAnimationReset() only flagged a reload and
+        //left the state as it was, while 5.4's reset() sets PlayState.STOP, which would read as "stopped" at once
+        boolean stopped = isStopped(event.controller());
         if (!this.animationprocedure.equals("empty") &&
-                event.controller().getAnimationState() == ControllerState.STOPPED ||
+                stopped ||
                 (!this.animationprocedure.equals(prevAnim) && !this.animationprocedure.equals("empty"))) {
 
             if (!this.animationprocedure.equals(prevAnim))
-                event.controller().forceRestart();
+                event.controller().reset();
 
             event.setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
 
-            if (event.controller().getAnimationState() == ControllerState.STOPPED) {
+            if (stopped) {
                 this.animationprocedure = "empty";
-                event.controller().forceRestart();
+                event.controller().reset();
             }
 
             Entity entity = entityOf(event);

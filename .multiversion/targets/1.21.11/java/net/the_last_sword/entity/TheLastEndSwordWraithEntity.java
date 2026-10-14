@@ -292,7 +292,8 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                     .getAnimationControllers()
                     .get("main");
             if (controller != null) {
-                controller.forceAnimationReset();
+                //GeckoLib 5.4: forceAnimationReset() is reset(): the predicate starts its animation again on the next frame
+                controller.reset();
             }
         }
     }

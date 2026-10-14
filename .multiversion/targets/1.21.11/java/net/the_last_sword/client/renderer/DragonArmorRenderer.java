@@ -32,17 +32,8 @@ public class DragonArmorRenderer<R extends HumanoidRenderState & GeoRenderState>
         return net.minecraft.client.renderer.rendertype.RenderTypes.entityTranslucent(getTextureLocation(renderState));
     }
 
-    @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector,
-                          CameraRenderState cameraState, int packedLight, int packedOverlay, int renderColor) {
-        // 护甲不经过相位透明度包装，这里补偿半透明度。
-        if (renderState.getGeckolibData(DragonArmorItem.WEARER) instanceof LivingEntity entity
-                && PhasingState.isPhasing(entity)) {
-            int alpha = (renderColor >>> 24) & 0xFF;
-            alpha = Math.round(alpha * 0.5F);
-            renderColor = (renderColor & 0x00FFFFFF) | (alpha << 24);
-        }
-        super.preRender(renderState, poseStack, model, collector, cameraState, packedLight, packedOverlay, renderColor);
-    }
+    //1.21.9+: the armour is submitted through the wearer's collector, which EntityRenderDispatcherMixin wraps for a phasing
+    //wearer (PhasingSubmitNodeCollector halves its alpha there), so the old compensation for armour that bypassed the
+    //phasing buffer is gone with GeckoLib 5.4's preRender(R, PoseStack, ...) -- halving here too would quarter it
 
 }

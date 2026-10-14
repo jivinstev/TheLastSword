@@ -24,6 +24,7 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.base.PerBoneRender;
+import software.bernie.geckolib.renderer.base.RenderPassInfo;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import software.bernie.geckolib.util.RenderUtil;
 
@@ -61,32 +62,31 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
 
     //GeckoLib 5: renderForBone became per-bone tasks registered here and run after the model is drawn, with the
     //PoseStack the bone had when it was rendered (the same pose renderForBone received)
+    //GeckoLib 5.4: the hook takes the RenderPassInfo; willRender() is 5.3's didRenderModel, and a task runs inside
+    //renderPosed, so the bone's frameSnapshot is the visibility GeoBone.isHidden() used to carry
     @Override
-    public void addPerBoneRender(R renderState, BakedGeoModel model, boolean didRenderModel,
-                                 BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
-        //GeckoLib 5.3: the seal follows the model -- no per-bone task when the model itself was not drawn (as
-        //BlockAndItemGeoLayer does), the same as 5.1/5.2, where tasks were only captured for rendered bones
-        if (!didRenderModel) {
+    public void addPerBoneRender(RenderPassInfo<R> renderPassInfo, BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
+        if (!renderPassInfo.willRender()) {
             return;
         }
         // 激活动画开始即解除封印，不等待战斗就绪状态。
-        if (!Boolean.TRUE.equals(renderState.getGeckolibData(UNSPAWNED))) {
+        if (!Boolean.TRUE.equals(renderPassInfo.renderState().getGeckolibData(UNSPAWNED))) {
             return;
         }
         for (String name : new String[]{"left_hand", "right_hand"}) {
-            model.getBone(name).ifPresent(bone -> consumer.accept(bone,
-                    (state, poseStack, b, renderTasks, cameraState, packedLight, packedOverlay, renderColor) ->
-                            renderSeal(state, poseStack, b, "left_hand".equals(name), renderTasks)));
+            renderPassInfo.model().getBone(name).ifPresent(bone -> consumer.accept(bone,
+                    (info, b, renderTasks) -> renderSeal(info.renderState(), info.poseStack(), b,
+                            "left_hand".equals(name), renderTasks)));
         }
     }
 
     private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, boolean left, SubmitNodeCollector renderTasks) {
-        if (bone.isHidden()) {
+        if (bone.frameSnapshot != null && bone.frameSnapshot.isHidden()) {
             return;
         }
 
         poseStack.pushPose();
-        RenderUtil.translateToPivotPoint(poseStack, bone);
+        bone.translateToPivotPoint(poseStack);
         // 模型两侧前臂的枢轴不对称，分别对齐护腕中心，避免链环穿入手臂。
         poseStack.translate(left ? -1.0 / 16.0 : 2.8 / 16.0, -6.0 / 16.0,
                 left ? -2.5 / 16.0 : 0.0);

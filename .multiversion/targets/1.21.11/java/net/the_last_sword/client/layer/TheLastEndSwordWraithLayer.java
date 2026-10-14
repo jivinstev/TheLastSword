@@ -13,6 +13,7 @@ import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
 import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
+import software.bernie.geckolib.renderer.base.RenderPassInfo;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class TheLastEndSwordWraithLayer<R extends EntityRenderState & GeoRenderState> extends GeoRenderLayer<TheLastEndSwordWraithEntity, Void, R> {
@@ -22,16 +23,19 @@ public class TheLastEndSwordWraithLayer<R extends EntityRenderState & GeoRenderS
         super(entityRenderer);
     }
 
+    //GeckoLib 5.4: the layer hook takes the pass's RenderPassInfo; buildRenderTask is gone (GeoModelPass)
     @Override
-    public void submitRenderTask(R renderState, PoseStack poseStack, BakedGeoModel bakedModel, SubmitNodeCollector renderTasks,
-                                 CameraRenderState cameraState, int packedLight, int packedOverlay, int renderColor,
-                                 boolean didRenderModel) {
+    public void submitRenderTask(RenderPassInfo<R> renderPassInfo, SubmitNodeCollector renderTasks) {
+        if (!renderPassInfo.willRender()) {
+            return;
+        }
+        R renderState = renderPassInfo.renderState();
         //外观在提取阶段记录（渲染状态不再持有实体）
         if (renderState.getGeckolibData(TheLastEndSwordWraithModel.APPEARANCE) != TheLastEndSwordWraithAppearance.DEFAULT) {
             return;
         }
         RenderType glowRenderType = net.minecraft.client.renderer.rendertype.RenderTypes.eyes(LAYER);
-        this.renderer.buildRenderTask(renderState, poseStack, bakedModel, this.renderer.getGeoModel(), renderTasks.order(1),
-                cameraState, glowRenderType, packedLight, OverlayTexture.NO_OVERLAY, -1, null);
+        GeoModelPass.submit(renderPassInfo, renderTasks.order(1), glowRenderType, renderPassInfo.packedLight(),
+                OverlayTexture.NO_OVERLAY, -1);
     }
 }
