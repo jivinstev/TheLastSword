@@ -292,7 +292,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                     .getAnimationControllers()
                     .get("main");
             if (controller != null) {
-                controller.forceRestart();
+                controller.forceAnimationReset();
             }
         }
     }

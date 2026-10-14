@@ -76,15 +76,14 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
         for (String name : new String[]{"left_hand", "right_hand"}) {
             model.getBone(name).ifPresent(bone -> consumer.accept(bone,
                     (state, poseStack, b, renderTasks, cameraState, packedLight, packedOverlay, renderColor) ->
-                            renderSeal(state, poseStack, b, renderTasks)));
+                            renderSeal(state, poseStack, b, "left_hand".equals(name), renderTasks)));
         }
     }
 
-    private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, SubmitNodeCollector renderTasks) {
+    private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, boolean left, SubmitNodeCollector renderTasks) {
         if (bone.isHidden()) {
             return;
         }
-        boolean left = "left_hand".equals(bone.getName());
 
         poseStack.pushPose();
         RenderUtil.translateToPivotPoint(poseStack, bone);

@@ -3,7 +3,7 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
-import software.bernie.geckolib.animatable.processing.AnimationState;
+
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.cache.model.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
@@ -28,11 +28,11 @@ public class ThePastShadowOfTheQueenModel extends GeoModel<ThePastShadowOfTheQue
     //GeckoLib 5: the head angles come from the render state (DataTickets.ENTITY_PITCH / ENTITY_YAW) instead of EntityModelData
     @Override
     @SuppressWarnings("rawtypes")
-    public void setCustomAnimations(AnimationState animationState) {
+    public void setCustomAnimations(GeoRenderState renderState) {
         GeoBone head = getAnimationProcessor().getBone("head");
         if (head != null) {
-            head.setRotX((Float) animationState.getData(DataTickets.ENTITY_PITCH) * Mth.DEG_TO_RAD);
-            head.setRotY((Float) animationState.getData(DataTickets.ENTITY_YAW) * Mth.DEG_TO_RAD);
+            head.setRotX((Float) renderState.getGeckolibData(DataTickets.ENTITY_PITCH) * Mth.DEG_TO_RAD);
+            head.setRotY((Float) renderState.getGeckolibData(DataTickets.ENTITY_YAW) * Mth.DEG_TO_RAD);
         }
     }
 }

@@ -3,7 +3,6 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
-import software.bernie.geckolib.animatable.processing.AnimationState;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.cache.model.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
