@@ -1,4 +1,6 @@
 // OVERLAY-ONLY: shared fork-layer helper from mc-mod-version-upgrade templates/fork-layer/shared (not the authors' code).
+// MV-REQUIRES: RegisterShadersEvent
+// MV-REQUIRES: ShaderInstance
 package net.the_last_sword.mv;
 
 import com.mojang.logging.LogUtils;
