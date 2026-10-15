@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.NullPointerException: Cann.
+Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.IllegalArgumentException: .
 
 ## Failing gates
 
-- Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.NullPointerException: Cannot assign field "entityType" because "p_361028_" is null
+- Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.IllegalArgumentException: Attempted to retrieve data from GeoRenderState that does not exist. Check your code!
 
 ## To resume
 

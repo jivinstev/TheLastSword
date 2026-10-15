@@ -83,12 +83,4 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
         return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
     }
 
-    //NeoForge 21.8's InventoryScreen.renderEntityInInventory (an entity preview in a GUI) asks createRenderState() for a
-    //fresh state, which GeckoLib 5.1/5.2 answer with null (they build theirs in createBaseRenderState(entity)): the
-    //preview then dies in extractRenderState. Answer the class createBaseRenderState gives this living entity.
-    @Override
-    @SuppressWarnings("unchecked")
-    public R createRenderState() {
-        return (R) new net.minecraft.client.renderer.entity.state.LivingEntityRenderState();
-    }
 }
