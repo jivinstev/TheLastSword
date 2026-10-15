@@ -1,0 +1,5 @@
+# 26.2: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
+# X18: proposed by a file-loop worker, kept because the error count fell
+hasImpulse	needsSync
+# X21: proposed by a file-loop worker, kept because the error count fell
+member:hideGui	gui.hud.isHidden()
