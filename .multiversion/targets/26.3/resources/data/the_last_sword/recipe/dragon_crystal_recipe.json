@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:dragon_egg"
+  ],
+  "result": {
+    "id": "the_last_sword:dragon_crystal",
+    "count": 8
+  }
+}

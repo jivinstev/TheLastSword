@@ -1,0 +1,324 @@
+package net.the_last_sword.block.entity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.the_last_sword.mv.EnergyStorage;
+import net.the_last_sword.mv.IEnergyStorage;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+
+import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
+import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import net.the_last_sword.init.ModBlockEntities;
+import net.the_last_sword.init.ModTags;
+import net.the_last_sword.network.EnchantingTableDataPacket;
+import net.the_last_sword.network.NetworkHandler;
+import com.geckolib.animatable.GeoBlockEntity;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.util.GeckoLibUtil;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+import io.netty.buffer.Unpooled;
+
+public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContainerBlockEntity implements GeoBlockEntity, WorldlyContainer {
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+    private final WorldlyContainerWrapper[] handlers = Arrays.stream(Direction.values())
+            .map(side -> new WorldlyContainerWrapper(this, side))
+            .toArray(WorldlyContainerWrapper[]::new);
+
+    // 能量存储系统
+    private final InternalEnergyStorage energyStorage;
+
+    //内部能量存储: 扩展 Forge EnergyStorage, 新增不受 maxExtract 限制的内部消耗方法
+    private static class InternalEnergyStorage extends EnergyStorage {
+        public InternalEnergyStorage(int capacity, int maxReceive, int maxExtract) {
+            super(capacity, maxReceive, maxExtract);
+        }
+
+        //读档时恢复能量值 (夹紧到容量范围内)
+        public void setEnergyStoredInternal(int value) {
+            this.energy = Math.max(0, Math.min(value, getMaxEnergyStored()));
+        }
+
+        //内部消耗: 绕过 maxExtract 限制, 用于附魔等一次性能量消耗
+        public int consumeInternal(int amount) {
+            int consumed = Math.min(this.energy, Math.max(0, amount));
+            this.energy -= consumed;
+            return consumed;
+        }
+    }
+
+    private int totalPowerTime = 0;
+
+    // 水晶旋转动画
+    private static final RawAnimation CRYSTAL_ROTATION = RawAnimation.begin().thenLoop("0");
+
+    public DragonCrystalEnchantingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(), pos, state);
+        this.energyStorage = new InternalEnergyStorage(
+            TheLastSwordConfiguration.getEnchantingTableEnergyCapacitySafely(),
+            TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(),
+            TheLastSwordConfiguration.getEnchantingTableEnergyExtractRateSafely()
+        );
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>("controller", 0, state -> {
+            state.setAnimation(CRYSTAL_ROTATION);
+            return PlayState.CONTINUE;
+        }));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("container.the_last_sword.dragon_crystal_enchanting_table");
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+        return new DragonCrystalEnchantingTableMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));
+    }
+
+    @Override
+    public int getContainerSize() {
+        return items.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        for (ItemStack itemstack : this.items)
+            if (!itemstack.isEmpty())
+                return false;
+        return true;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("container.the_last_sword.dragon_crystal_enchanting_table");
+    }
+
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return items;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> items) {
+        this.items = items;
+    }
+
+    @Override
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
+        if (!this.tryLoadLootTable(tag)) {
+            this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(tag, this.items);
+        }
+        int storedEnergy = tag.getIntOr("Energy", -1);
+        if (storedEnergy >= 0) {
+            energyStorage.setEnergyStoredInternal(storedEnergy);
+        }
+        this.totalPowerTime = tag.getIntOr("TotalPowerTime", 0);
+    }
+
+    @Override
+    protected void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, this.items);
+        }
+        tag.putInt("Energy", energyStorage.getEnergyStored());
+        tag.putInt("TotalPowerTime", this.totalPowerTime);
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithFullMetadata(registries);
+    }
+
+    @Override
+    public boolean canPlaceItem(int index, ItemStack stack) {
+        // 红色燃料槽（index 0）仅接受燃料标签内物品，含自动化插入
+        if (index == 0) {
+            return stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
+        }
+        return true;
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        return IntStream.range(0, this.getContainerSize()).toArray();
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
+        return this.canPlaceItem(index, stack);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+        return true;
+    }
+
+    public WorldlyContainerWrapper getItemHandler(Direction side) {
+        return handlers[side.ordinal()];
+    }
+
+    public IEnergyStorage getEnergyStorage() {
+        return energyStorage;
+    }
+
+    public int getTotalPowerTime() {
+        return totalPowerTime;
+    }
+
+    // 附魔等内部一次性消耗: 绕过 maxExtract 限速直接扣除
+    public int extractEnergy(int amount) {
+        int extracted = energyStorage.consumeInternal(amount);
+        if (extracted > 0) {
+            setChanged();
+        }
+        return extracted;
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, DragonCrystalEnchantingTableBlockEntity blockEntity) {
+        if (level.isClientSide())
+            return;
+
+        boolean changed = false;
+
+        boolean isFull = blockEntity.energyStorage.getEnergyStored() >= blockEntity.energyStorage.getMaxEnergyStored();
+
+        // 检测并消耗燃料（满电时不消耗）
+        ItemStack fuelSlot = blockEntity.getItem(0);
+        if (!isFull && !fuelSlot.isEmpty() && fuelSlot.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL)) {
+            fuelSlot.shrink(1);
+            blockEntity.totalPowerTime += TheLastSwordConfiguration.getEnchantingTableCrystalPowerTimeSafely();
+            changed = true;
+        }
+
+        // 发电逻辑（满电时暂停，不浪费发电时间）
+        if (blockEntity.totalPowerTime > 0 && !isFull) {
+            blockEntity.totalPowerTime--;
+            changed = true;
+
+            blockEntity.energyStorage.receiveEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyPerTickSafely(), false);
+        }
+
+        // 给充电槽位物品充能（受 Item Charge Rate 配置限制）
+        ItemStack chargeSlot = blockEntity.getItem(1);
+        if (!chargeSlot.isEmpty() && blockEntity.energyStorage.getEnergyStored() > 0) {
+            var itemHandler = ItemAccess.forStack(chargeSlot).getCapability(Capabilities.Energy.ITEM);
+            EnergyHandler itemEnergy = itemHandler;
+            if (itemEnergy != null) {
+                    int rate = TheLastSwordConfiguration.getEnchantingTableItemChargeRateSafely();
+                    int canReceive = itemEnergy.getCapacityAsInt() - itemEnergy.getAmountAsInt();
+                    int toCharge = Math.min(Math.min(blockEntity.energyStorage.getEnergyStored(), canReceive), rate);
+                    if (toCharge > 0) {
+                        try (Transaction tx = Transaction.openRoot()) {
+                            itemEnergy.insert(toCharge, tx);
+                            tx.commit();
+                        }
+                        blockEntity.energyStorage.extractEnergy(toCharge, false);
+                        changed = true;
+                    }
+            }
+        }
+
+        // 能量传输逻辑
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = pos.relative(direction);
+            var neighborHandler = level.getCapability(Capabilities.Energy.BLOCK, neighborPos, direction.getOpposite());
+            EnergyHandler neighborEnergy = neighborHandler;
+            if (neighborEnergy != null) {
+                    // 尝试从邻居接收能量
+                    if (blockEntity.energyStorage.getEnergyStored() < blockEntity.energyStorage.getMaxEnergyStored()) {
+                        int received;
+                        try (Transaction simulate = Transaction.openRoot()) {
+                            received = neighborEnergy.extract(TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(), simulate);
+                        }
+                        if (received > 0) {
+                            int actualReceived = blockEntity.energyStorage.receiveEnergy(received, false);
+                            try (Transaction tx = Transaction.openRoot()) {
+                                neighborEnergy.extract(actualReceived, tx);
+                                tx.commit();
+                            }
+                            blockEntity.setChanged();
+                        }
+                    }
+                    // 尝试向邻居传输能量
+                    if (blockEntity.energyStorage.getEnergyStored() > 0) {
+                        int sent = blockEntity.energyStorage.extractEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyExtractRateSafely(), true);
+                        if (sent > 0) {
+                            int actualSent;
+                            try (Transaction tx = Transaction.openRoot()) {
+                                actualSent = neighborEnergy.insert(sent, tx);
+                                tx.commit();
+                            }
+                            blockEntity.energyStorage.extractEnergy(actualSent, false);
+                            blockEntity.setChanged();
+                        }
+                    }
+            }
+        }
+
+        if (changed) {
+            blockEntity.setChanged();
+        }
+
+        // 同步能量数据给打开GUI的玩家
+        for (var player : level.players()) {
+            if (player instanceof ServerPlayer sp
+                    && sp.containerMenu instanceof DragonCrystalEnchantingTableMenu menu
+                    && menu.x == pos.getX() && menu.y == pos.getY() && menu.z == pos.getZ()) {
+                NetworkHandler.sendToPlayer(new EnchantingTableDataPacket(
+                        menu.containerId,
+                        blockEntity.energyStorage.getEnergyStored(),
+                        blockEntity.energyStorage.getMaxEnergyStored(),
+                        blockEntity.totalPowerTime
+                ), sp);
+            }
+        }
+    }
+}

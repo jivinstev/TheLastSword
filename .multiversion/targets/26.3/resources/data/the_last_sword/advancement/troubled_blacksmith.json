@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:anvil"
+    },
+    "title": {
+      "translate": "advancements.troubled_blacksmith.title"
+    },
+    "description": {
+      "translate": "advancements.troubled_blacksmith.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "troubled_blacksmith_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "the_last_sword:the_last_sword_welcome"
+}
