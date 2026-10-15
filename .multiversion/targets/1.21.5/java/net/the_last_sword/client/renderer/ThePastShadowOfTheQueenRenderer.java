@@ -73,7 +73,7 @@ public class ThePastShadowOfTheQueenRenderer<R extends ThePastShadowOfTheQueenRe
         return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
     }
 
-    //GeckoLib 5.1 builds its state in createBaseRenderState (createRenderState() is never asked)
+    //GeckoLib 5.1 builds its state in createBaseRenderState (its own path; a GUI preview asks createRenderState, below)
     @Override
     @SuppressWarnings("unchecked")
     protected R createBaseRenderState(ThePastShadowOfTheQueenEntity entity) {
@@ -85,6 +85,15 @@ public class ThePastShadowOfTheQueenRenderer<R extends ThePastShadowOfTheQueenRe
         queen.entity = entity;
         queen.partialTick = partialTick;
         super.extractRenderState(entity, queen, partialTick);
+    }
+
+    //NeoForge 21.8's InventoryScreen.renderEntityInInventory (an entity preview in a GUI) asks createRenderState() for a
+    //fresh state, which GeckoLib 5.1/5.2 answer with null (they build theirs in createBaseRenderState(entity)): the
+    //preview then dies in extractRenderState. Answer the class createBaseRenderState gives this living entity.
+    @Override
+    @SuppressWarnings("unchecked")
+    public R createRenderState() {
+        return (R) new QueenRenderState();
     }
 
     public static class QueenRenderState extends LivingEntityRenderState {

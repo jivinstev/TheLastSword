@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Un.
+Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.NullPointerException: Cann.
 
 ## Failing gates
 
-- Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Unable to find model file: the_last_sword:geo/dragon_cult_priest
+- Gate C -- real client, `gauntlet`: FAIL -- Caused by: java.lang.NullPointerException: Cannot assign field "entityType" because "p_361028_" is null
 
 ## To resume
 
