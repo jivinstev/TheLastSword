@@ -1,0 +1,7 @@
+{
+  "wants": {"id": "minecraft:emerald", "count": 8},
+  "gives": {"id": "the_last_sword:disposable_energy_battery", "count": 1},
+  "max_uses": 64,
+  "xp": 2,
+  "reputation_discount": 0.05
+}

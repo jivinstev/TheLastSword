@@ -65,8 +65,8 @@ public class ArmorConfigScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
 
         //在按钮左侧渲染头盔图标
         int buttonWidth = 200;
@@ -75,16 +75,16 @@ public class ArmorConfigScreen extends Screen {
         int iconOffset = 2;  //图标与按钮的间距
 
         //龙水晶头盔图标
-        graphics.renderItem(dragonCrystalHelmetStack,
+        graphics.item(dragonCrystalHelmetStack,
             centerX - buttonWidth / 2 - 16 - iconOffset,
             startY + 2);
 
         //龙之甲头盔图标
-        graphics.renderItem(dragonHelmetStack,
+        graphics.item(dragonHelmetStack,
             centerX - buttonWidth / 2 - 16 - iconOffset,
             startY + 32);
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
     @Override

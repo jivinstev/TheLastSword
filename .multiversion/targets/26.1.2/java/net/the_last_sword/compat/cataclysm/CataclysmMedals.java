@@ -18,7 +18,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.WritableLevelData;
+import net.minecraft.world.level.storage.ServerLevelData;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -460,12 +460,7 @@ public class CataclysmMedals {
         }
 
         private static void setWeather(ServerLevel level, int clearTime, int rainTime, boolean raining, boolean thundering) {
-            WritableLevelData data = (WritableLevelData) level.getLevelData();
-            data.setClearWeatherTime(clearTime);
-            data.setRainTime(rainTime);
-            data.setThunderTime(rainTime);
-            data.setRaining(raining);
-            data.setThundering(thundering);
+            level.getServer().setWeatherParameters(clearTime, rainTime, raining, thundering);
         }
 
         private MobEffect getMoistureEffect() {

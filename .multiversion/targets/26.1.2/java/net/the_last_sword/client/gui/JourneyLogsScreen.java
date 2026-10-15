@@ -104,7 +104,7 @@ public class JourneyLogsScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 
         int guiLeft = (this.width - GUI_WIDTH) / 2;
         int guiTop = (this.height - GUI_HEIGHT) / 2;
@@ -114,11 +114,11 @@ public class JourneyLogsScreen extends Screen {
         graphics.blit(RenderPipelines.GUI_TEXTURED, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
         //标题
-        graphics.drawString(this.font, Component.translatable("gui.the_last_sword.the_last_end_scroll.chapter_7"),
+        graphics.text(this.font, Component.translatable("gui.the_last_sword.the_last_end_scroll.chapter_7"),
             guiLeft + LIST_X, guiTop + 22, 0x3F2A1D, false);
 
         if (notes.isEmpty()) {
-            graphics.drawCenteredString(this.font, Component.translatable("gui.the_last_sword.journey_logs.empty"),
+            graphics.centeredText(this.font, Component.translatable("gui.the_last_sword.journey_logs.empty"),
                 guiLeft + GUI_WIDTH / 2, guiTop + 95, 0x3F2A1D);
         } else {
             renderNoteList(graphics, guiLeft, guiTop);
@@ -126,7 +126,7 @@ public class JourneyLogsScreen extends Screen {
             renderScrollBar(graphics, guiLeft, guiTop);
         }
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
     //渲染左侧纸条名字列表
@@ -138,7 +138,7 @@ public class JourneyLogsScreen extends Screen {
                 graphics.fill(guiLeft + LIST_X - 6, y - 1, guiLeft + LIST_X + LIST_WIDTH, y + ITEM_HEIGHT - 1, 0x663F2A1D);
             }
             String name = Component.translatable(notes.get(i).nameKey()).getString();
-            graphics.drawString(this.font, Component.literal(this.font.plainSubstrByWidth(name, LIST_WIDTH)),
+            graphics.text(this.font, Component.literal(this.font.plainSubstrByWidth(name, LIST_WIDTH)),
                 guiLeft + LIST_X, y + 5, 0x3F2A1D, false);
         }
     }
@@ -172,7 +172,7 @@ public class JourneyLogsScreen extends Screen {
         int endLine = Math.min(contentLines.size(), startLine + LINES_PER_PAGE);
         int lineCount = 0;
         for (int i = startLine; i < endLine; i++) {
-            graphics.drawString(this.font, Component.literal(contentLines.get(i)),
+            graphics.text(this.font, Component.literal(contentLines.get(i)),
                 guiLeft + CONTENT_X, guiTop + CONTENT_Y + lineCount * LINE_HEIGHT, 0x3F2A1D, false);
             lineCount++;
         }
@@ -180,7 +180,7 @@ public class JourneyLogsScreen extends Screen {
         //页码
         String pageNumber = (contentPage + 1) + " / " + contentTotalPages;
         int pageNumberX = guiLeft + CONTENT_X + (CONTENT_WIDTH - this.font.width(pageNumber)) / 2;
-        graphics.drawString(this.font, pageNumber, pageNumberX,
+        graphics.text(this.font, pageNumber, pageNumberX,
             guiTop + CONTENT_Y + CONTENT_HEIGHT + 14, 0x3F2A1D, false);
     }
 

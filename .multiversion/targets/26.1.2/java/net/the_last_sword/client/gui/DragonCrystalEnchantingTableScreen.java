@@ -303,9 +303,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
 
         renderEnchantmentList(guiGraphics, mouseX, mouseY);
         renderCostInfo(guiGraphics);
@@ -367,7 +366,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             } else {
                 nameColor = 0xFFFFFF;
             }
-            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
+            guiGraphics.text(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
 
             // 滑块
             int sliderX = listX + LIST_WIDTH - SLIDER_WIDTH - LEVEL_INPUT_WIDTH - 8;
@@ -383,7 +382,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 String levelText = String.valueOf(opt.level);
                 int textWidth = this.font.width(levelText);
                 int textColor = opt.level != opt.originalLevel ? 0x55FF55 : 0xCCCCCC;
-                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
+                guiGraphics.text(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
             }
         }
 
@@ -438,13 +437,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (energyCost > 0) {
             String costStr = formatCost(energyCost) + " FE";
             int color = energyCost <= this.menu.getEnergy() ? 0x00FF00 : 0xFF0000;
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
             textY += 10;
         }
 
         // 经验返还
         if (xpReturn > 0) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
         }
     }
 
@@ -496,7 +495,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    protected void renderBg(GuiGraphicsExtractor guiGraphics, float partialTicks, int gx, int gy) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int gx, int gy, float partialTicks) {
+        super.extractBackground(guiGraphics, gx, gy, partialTicks);
         // shader colour and blend state come from the GUI render pipeline in 1.21.6+
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
@@ -706,7 +706,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    protected void renderLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
     }
 
     private void renderEndPortalEffect(GuiGraphicsExtractor guiGraphics, int x1, int y1, int x2, int y2) {

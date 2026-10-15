@@ -112,7 +112,7 @@ public final class ScrollRecipeRenderer {
                     areaWidth, mouseX, mouseY);
         }
 
-        graphics.drawString(font,
+        graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_unsupported", recipeId),
                 areaX, areaY + 24, 0x8B3030, false);
         return ItemStack.EMPTY;
@@ -276,7 +276,7 @@ public final class ScrollRecipeRenderer {
 
     private static ItemStack renderMissing(Identifier recipeId, GuiGraphicsExtractor graphics,
                                            Font font, int areaX, int areaY) {
-        graphics.drawString(font,
+        graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_missing", recipeId),
                 areaX, areaY + 24, 0x8B3030, false);
         return ItemStack.EMPTY;

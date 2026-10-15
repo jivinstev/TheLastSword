@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
@@ -50,7 +50,7 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     private static boolean phased(RenderType type) {
-        return type.format() == DefaultVertexFormat.NEW_ENTITY;
+        return type.format() == DefaultVertexFormat.ENTITY;
     }
 
     private static int halfAlpha(int argb) {
@@ -115,8 +115,9 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     @Override
-    public void submitBlock(PoseStack poseStack, BlockState state, int light, int overlay, int outline) {
-        this.delegate.submitBlock(poseStack, state, light, overlay, outline);
+    public void submitBreakingBlockModel(PoseStack poseStack, net.minecraft.client.renderer.block.dispatch.BlockStateModel model,
+                                         long seed, int progress) {
+        this.delegate.submitBreakingBlockModel(poseStack, model, seed, progress);
     }
 
     @Override
@@ -125,15 +126,15 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     @Override
-    public void submitBlockModel(PoseStack poseStack, RenderType type, BlockStateModel model, float red, float green,
-                                 float blue, int light, int overlay, int outline) {
-        this.delegate.submitBlockModel(poseStack, type, model, red, green, blue, light, overlay, outline);
+    public void submitBlockModel(PoseStack poseStack, RenderType type, List<BlockStateModelPart> parts, int[] tints,
+                                 int light, int overlay, int outline) {
+        this.delegate.submitBlockModel(poseStack, type, parts, tints, light, overlay, outline);
     }
 
     @Override
     public void submitItem(PoseStack poseStack, ItemDisplayContext context, int light, int overlay, int outline,
-                           int[] tints, List<BakedQuad> quads, RenderType type, ItemStackRenderState.FoilType foil) {
-        this.delegate.submitItem(poseStack, context, light, overlay, outline, tints, quads, type, foil);
+                           int[] tints, List<BakedQuad> quads, ItemStackRenderState.FoilType foil) {
+        this.delegate.submitItem(poseStack, context, light, overlay, outline, tints, quads, foil);
     }
 
     @Override

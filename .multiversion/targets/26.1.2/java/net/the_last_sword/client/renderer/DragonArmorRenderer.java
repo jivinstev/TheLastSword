@@ -10,9 +10,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.the_last_sword.client.model.DragonArmorModel;
 import net.the_last_sword.item.DragonArmorItem;
 import net.the_last_sword.util.PhasingState;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.renderer.GeoArmorRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 public class DragonArmorRenderer<R extends HumanoidRenderState & GeoRenderState> extends GeoArmorRenderer<DragonArmorItem, R> {
 

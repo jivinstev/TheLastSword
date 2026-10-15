@@ -1,8 +1,8 @@
 package net.the_last_sword.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DataTickets;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,10 +16,10 @@ import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.layer.DeathRayLayer;
 import net.the_last_sword.client.model.DragonCultPriestModel;
 import net.the_last_sword.entity.DragonCultPriestEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 //GeckoLib 5.1: R is a type variable bounded by EntityRenderState & GeoRenderState (see LostWraithRenderer)
 public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<DragonCultPriestEntity, R> {

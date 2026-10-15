@@ -10,12 +10,12 @@ import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
-import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.GeoRenderer;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.layer.GeoRenderLayer;
 
 //终焉剑灵的万物终焉状态着色器渲染层
 //GeckoLib 5: render() receives the render state, not the entity, so the state it needs is captured in addRenderData

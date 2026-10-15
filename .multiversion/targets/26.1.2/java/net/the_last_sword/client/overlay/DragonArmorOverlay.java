@@ -84,7 +84,7 @@ public class DragonArmorOverlay {
                     DragonArmorEnergyStatus.getEnergyPercentage());
             Component text = Component.translatable(
                     "gui.the_last_sword.perception_hud.current_energy", percentage);
-            gui.drawString(mc.font,
+            gui.text(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
                     y, 0xFFFFFF, true);
@@ -95,7 +95,7 @@ public class DragonArmorOverlay {
             Component text = Component.translatable(
                     "gui.the_last_sword.perception_hud.total_consumption",
                     DragonArmorEnergyStatus.getConsumptionPerTick());
-            gui.drawString(mc.font,
+            gui.text(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
                     y, 0xFFFFFF, true);

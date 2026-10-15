@@ -64,8 +64,8 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 8, 0xFFFFFF);
-        graphics.drawCenteredString(
+        graphics.centeredText(this.font, this.title, this.width / 2, 8, 0xFFFFFF);
+        graphics.centeredText(
             this.font,
             Component.translatable("gui.the_last_sword.energy_display_position.hint"),
             this.width / 2,
@@ -73,7 +73,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
             0xAAAAAA
         );
         renderEnergyDisplayPreview(graphics);
-        graphics.drawString(
+        graphics.text(
             this.font,
             Component.literal("Offset: X=" + offsetX + ", Y=" + offsetY),
             10,
@@ -94,7 +94,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
                 dragging ? 0x80FFFF00 : 0x80FFFFFF);
         for (int i = 0; i < lines.size(); i++) {
             Component line = lines.get(i);
-            graphics.drawString(this.font, line,
+            graphics.text(this.font, line,
                     this.width / 2 - this.font.width(line) / 2 + offsetX,
                     y + i * (this.font.lineHeight + 2), 0xFFFFFF, true);
         }

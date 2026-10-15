@@ -1,6 +1,7 @@
 package net.the_last_sword.client.shader;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -27,9 +28,10 @@ public class TheLastEndRenderTypes {
                                            boolean cull, boolean writeDepth) {
         return PIPELINES.computeIfAbsent(name, n -> RenderPipeline.builder(base)
             .withLocation("pipeline/" + n)
-            .withColorTargetState(new ColorTargetState(Optional.of(blend)))
+            .withColorTargetState(new ColorTargetState(blend))
             .withCull(cull)
-            .withDepthWrite(writeDepth)
+            .withDepthStencilState(new com.mojang.blaze3d.pipeline.DepthStencilState(
+                com.mojang.blaze3d.platform.CompareOp.LESS_THAN_OR_EQUAL, writeDepth))
             .build());
     }
 

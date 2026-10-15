@@ -1,8 +1,8 @@
 package net.the_last_sword.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DataTickets;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -15,9 +15,9 @@ import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.layer.LostWraithSealLayer;
 import net.the_last_sword.client.model.LostWraithModel;
 import net.the_last_sword.entity.LostWraithEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 //GeckoLib 5.1: R must be an EntityRenderState that is also a GeoRenderState. GeckoLib's mixin makes every
 //EntityRenderState one at runtime, but 5.1 ships no interface injection for javac, so the bound stays a type

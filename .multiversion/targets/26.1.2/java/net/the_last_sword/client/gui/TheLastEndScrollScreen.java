@@ -472,7 +472,7 @@ public class TheLastEndScrollScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         //渲染暗色背景
 
         //计算GUI位置
@@ -506,10 +506,10 @@ public class TheLastEndScrollScreen extends Screen {
         String pageNumber = (currentPage + 1) + " / " + totalPages;
         int pageNumberX = guiLeft + (GUI_WIDTH / 2) - (this.font.width(pageNumber) / 2);
         int pageNumberY = guiTop + GUI_HEIGHT - 25;
-        graphics.drawString(this.font, pageNumber, pageNumberX, pageNumberY, 0x3F2A1D, false);
+        graphics.text(this.font, pageNumber, pageNumberX, pageNumberY, 0x3F2A1D, false);
 
         //渲染按钮等其他组件
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
         if (!hoveredRecipeStack.isEmpty()) {
             graphics.setTooltipForNextFrame(this.font, hoveredRecipeStack, mouseX, mouseY);
@@ -564,16 +564,16 @@ public class TheLastEndScrollScreen extends Screen {
         //如果是章节起始页（偏移为0），渲染标题和图标
         if (pageOffsetInChapter == 0) {
             if (!currentChapter.icon.isEmpty()) {
-                graphics.renderItem(currentChapter.icon, textX, textY);
+                graphics.item(currentChapter.icon, textX, textY);
                 //标题从物品图标右侧开始
                 Component title = Component.translatable(currentChapter.titleKey);
-                graphics.drawString(this.font, title, textX + 20, textY + 4, 0x3F2A1D, false);
+                graphics.text(this.font, title, textX + 20, textY + 4, 0x3F2A1D, false);
                 //正文从下一行开始
                 textY += 25;
             } else {
                 //只有标题没有图标
                 Component title = Component.translatable(currentChapter.titleKey);
-                graphics.drawString(this.font, title, textX, textY, 0x3F2A1D, false);
+                graphics.text(this.font, title, textX, textY, 0x3F2A1D, false);
                 textY += 15;
             }
         }
@@ -597,7 +597,7 @@ public class TheLastEndScrollScreen extends Screen {
         int lineCount = 0;
         for (int i = startLineIndex; i < currentChapter.allLines.size() && lineCount < linesToShow; i++) {
             String line = currentChapter.allLines.get(i);
-            graphics.drawString(this.font, Component.literal(line), textX, textY + (lineCount * LINE_HEIGHT), 0x3F2A1D, false);
+            graphics.text(this.font, Component.literal(line), textX, textY + (lineCount * LINE_HEIGHT), 0x3F2A1D, false);
             lineCount++;
         }
 
@@ -614,7 +614,7 @@ public class TheLastEndScrollScreen extends Screen {
             Component hintText = Component.translatable("gui.the_last_sword.scroll_book.chapter6.compat_hint");
             //在文本下方留一些间距后渲染
             int hintY = textY + (lineCount * LINE_HEIGHT) + 10;
-            graphics.drawString(this.font, hintText, textX, hintY, 0x3F2A1D, false);
+            graphics.text(this.font, hintText, textX, hintY, 0x3F2A1D, false);
         }
     }
 

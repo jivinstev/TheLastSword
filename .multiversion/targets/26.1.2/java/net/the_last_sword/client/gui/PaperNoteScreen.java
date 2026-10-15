@@ -116,7 +116,7 @@ public class PaperNoteScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 
         int guiLeft = (this.width - GUI_WIDTH) / 2;
         int guiTop = (this.height - GUI_HEIGHT) / 2;
@@ -125,7 +125,7 @@ public class PaperNoteScreen extends Screen {
         graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, PAPER_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, 512, 512);
 
         //标题
-        graphics.drawString(this.font, Component.translatable(nameKey),
+        graphics.text(this.font, Component.translatable(nameKey),
             guiLeft + CONTENT_START_X, guiTop + TITLE_Y, 0x3F2A1D, false);
 
         //正文（当前页行范围）
@@ -133,7 +133,7 @@ public class PaperNoteScreen extends Screen {
         int endLine = Math.min(allLines.size(), startLine + LINES_PER_PAGE);
         int lineCount = 0;
         for (int i = startLine; i < endLine; i++) {
-            graphics.drawString(this.font, Component.literal(allLines.get(i)),
+            graphics.text(this.font, Component.literal(allLines.get(i)),
                 guiLeft + CONTENT_START_X, guiTop + CONTENT_START_Y + lineCount * LINE_HEIGHT,
                 0x3F2A1D, false);
             lineCount++;
@@ -142,9 +142,9 @@ public class PaperNoteScreen extends Screen {
         //页码
         String pageNumber = (currentPage + 1) + " / " + totalPages;
         int pageNumberX = guiLeft + (GUI_WIDTH - this.font.width(pageNumber)) / 2;
-        graphics.drawString(this.font, pageNumber, pageNumberX, guiTop + GUI_HEIGHT - 25, 0x3F2A1D, false);
+        graphics.text(this.font, pageNumber, pageNumberX, guiTop + GUI_HEIGHT - 25, 0x3F2A1D, false);
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
     //上一页

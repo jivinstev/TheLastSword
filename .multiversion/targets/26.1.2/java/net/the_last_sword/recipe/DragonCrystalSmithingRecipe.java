@@ -76,6 +76,11 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
+    public boolean showNotification() {
+        return true;
+    }
+
+    @Override
     public boolean matches(RecipeInput container, Level level) {
         if (container.size() < 3) {
             return false;

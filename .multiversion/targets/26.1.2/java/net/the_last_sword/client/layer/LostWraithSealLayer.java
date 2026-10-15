@@ -20,15 +20,15 @@ import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.entity.LostWraithEntity;
 import net.the_last_sword.entity.TheLastEndEntity;
 import org.joml.Matrix4f;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.cache.model.GeoBone;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
-import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.base.PerBoneRender;
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
-import software.bernie.geckolib.util.RenderUtil;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.cache.model.GeoBone;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.GeoRenderer;
+import com.geckolib.renderer.base.PerBoneRender;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.layer.GeoRenderLayer;
+import com.geckolib.util.RenderUtil;
 
 import java.util.function.BiConsumer;
 

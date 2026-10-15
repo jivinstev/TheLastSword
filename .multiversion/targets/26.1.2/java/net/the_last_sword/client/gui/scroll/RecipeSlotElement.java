@@ -25,8 +25,8 @@ public final class RecipeSlotElement {
         graphics.fill(x, y, x + SIZE, y + SIZE, BORDER_COLOR);
         graphics.fill(x + 1, y + 1, x + SIZE - 1, y + SIZE - 1, BACKGROUND_COLOR);
         if (!stack.isEmpty()) {
-            graphics.renderItem(stack, x + 1, y + 1);
-            graphics.renderItemDecorations(font, stack, x + 1, y + 1);
+            graphics.item(stack, x + 1, y + 1);
+            graphics.itemDecorations(font, stack, x + 1, y + 1);
         }
     }
 

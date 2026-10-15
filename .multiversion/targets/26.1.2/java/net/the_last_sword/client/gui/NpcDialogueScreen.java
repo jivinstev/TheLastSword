@@ -126,13 +126,13 @@ public class NpcDialogueScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         renderNpc(graphics, mouseX, mouseY);
         renderScrollBackground(graphics);
 
         NpcDialogueNode node = getCurrentNode();
         if (node == null) {
-            graphics.drawCenteredString(font, Component.translatable("gui.the_last_sword.npc_dialogue.invalid"),
+            graphics.centeredText(font, Component.translatable("gui.the_last_sword.npc_dialogue.invalid"),
                     width / 2, panelTop + panelHeight / 2, TEXT_COLOR);
             return;
         }
@@ -140,7 +140,7 @@ public class NpcDialogueScreen extends Screen {
         graphics.enableScissor(contentLeft, contentTop, contentLeft + contentWidth, contentTop + viewportHeight);
         int drawY = contentTop - Mth.floor(scrollOffset);
         for (FormattedCharSequence line : font.split(Component.translatable(node.textKey()), contentWidth)) {
-            graphics.drawString(font, line, contentLeft, drawY, TEXT_COLOR, false);
+            graphics.text(font, line, contentLeft, drawY, TEXT_COLOR, false);
             drawY += LINE_HEIGHT;
         }
 
@@ -159,7 +159,7 @@ public class NpcDialogueScreen extends Screen {
                     ? (hovered ? READ_OPTION_HOVER_COLOR : READ_OPTION_COLOR)
                     : (hovered ? OPTION_HOVER_COLOR : OPTION_COLOR);
             for (FormattedCharSequence line : option.lines()) {
-                graphics.drawString(font, line, contentLeft + 8, lineY, optionColor, false);
+                graphics.text(font, line, contentLeft + 8, lineY, optionColor, false);
                 lineY += LINE_HEIGHT;
             }
         }
@@ -181,11 +181,11 @@ public class NpcDialogueScreen extends Screen {
         int availableHeight = Math.max(70, panelTop - 18);
         int scale = Mth.clamp(availableHeight / 4, 28, 62);
         graphics.enableScissor(8, 8, Math.max(9, width / 2), panelTop + 6);
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
+        InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
                 modelX + scale, modelBottom, scale, 0.0F,
                 mouseX, mouseY, livingEntity);
         graphics.disableScissor();
-        graphics.drawCenteredString(font, livingEntity.getDisplayName(), modelX,
+        graphics.centeredText(font, livingEntity.getDisplayName(), modelX,
                 Math.max(8, panelTop - availableHeight - 4), 0xFFFFFF);
     }
 

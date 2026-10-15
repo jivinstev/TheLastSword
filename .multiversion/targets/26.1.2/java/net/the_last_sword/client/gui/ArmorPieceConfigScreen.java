@@ -188,7 +188,7 @@ public class ArmorPieceConfigScreen extends Screen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 

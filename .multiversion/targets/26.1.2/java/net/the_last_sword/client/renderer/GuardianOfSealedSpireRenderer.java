@@ -1,8 +1,8 @@
 package net.the_last_sword.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DataTickets;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,14 +12,14 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.cache.model.BakedGeoModel;
 import net.the_last_sword.client.JustifiedDefenceFlash;
 import net.the_last_sword.client.layer.GuardianItemLayer;
 import net.the_last_sword.client.model.GuardianOfSealedSpireModel;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 //GeckoLib 5.1: R is a type variable bounded by EntityRenderState & GeoRenderState (see LostWraithRenderer)
 public class GuardianOfSealedSpireRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<GuardianOfSealedSpireEntity, R> {

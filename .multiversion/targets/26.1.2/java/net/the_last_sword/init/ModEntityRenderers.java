@@ -56,10 +56,10 @@ public class ModEntityRenderers {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             BlockEntityRenderers.register(ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
-                context -> new DragonCrystalEnchantingTableRenderer());
+                context -> new DragonCrystalEnchantingTableRenderer<>(context));
             if (ModBlockEntities.THE_LAST_END_LUCKY_BLOCK != null) {
                 BlockEntityRenderers.register(ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
-                    context -> new TheLastEndLuckyBlockRenderer());
+                    context -> new TheLastEndLuckyBlockRenderer<>(context));
             }
         });
     }

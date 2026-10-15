@@ -1,0 +1,7 @@
+{
+  "wants": {"id": "minecraft:emerald", "count": 64},
+  "gives": {"id": "the_last_sword:ancient_energy_core", "count": 1},
+  "max_uses": 1,
+  "xp": 50,
+  "reputation_discount": 0.05
+}
