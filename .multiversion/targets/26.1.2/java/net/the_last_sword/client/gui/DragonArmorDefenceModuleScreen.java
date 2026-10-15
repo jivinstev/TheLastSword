@@ -1,0 +1,76 @@
+package net.the_last_sword.client.gui;
+
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
+public class DragonArmorDefenceModuleScreen extends Screen {
+    private final Screen parent;
+
+    public DragonArmorDefenceModuleScreen(Screen parent) {
+        super(Component.translatable("gui.the_last_sword.dragon_armor_module.defence"));
+        this.parent = parent;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        int buttonWidth = 200;
+        int buttonHeight = 20;
+        int centerX = this.width / 2;
+        int startY = this.height / 2 - 35;
+        int spacing = 25;
+
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.the_last_sword.dragon_armor_module.phasing"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                        this, DragonArmorModuleDetailScreen.ModuleType.PHASING));
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY, buttonWidth, buttonHeight).build());
+
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.the_last_sword.dragon_armor_module.justified_defence_recovery"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                        this, DragonArmorModuleDetailScreen.ModuleType.JUSTIFIED_DEFENCE_RECOVERY));
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY + spacing, buttonWidth, buttonHeight).build());
+
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.the_last_sword.dragon_armor_module.dragon_shield"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                        this, DragonArmorModuleDetailScreen.ModuleType.DRAGON_SHIELD));
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY + spacing * 2, buttonWidth, buttonHeight).build());
+
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.back"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.setScreen(parent);
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY + spacing * 3 + 10, buttonWidth, buttonHeight).build());
+    }
+
+    @Override
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        super.render(graphics, mouseX, mouseY, partialTick);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+}

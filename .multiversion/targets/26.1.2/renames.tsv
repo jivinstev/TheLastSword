@@ -1,0 +1,5 @@
+# 26.1.2: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
+# X13: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.client.gui.GuiGraphics	net.minecraft.client.gui.GuiGraphicsExtractor
+# X79: proposed by a file-loop worker, kept because the error count fell
+drawCenteredString	centeredText
