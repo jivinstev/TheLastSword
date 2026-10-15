@@ -137,7 +137,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/mixin/GameRendererMixin.java",
   "why": "removes 1 mixin injection handler(s): check each still applies somewhere, with the same effect",
-  "reviewed": null
+  "reviewed": "Moved, not lost: bobHurt and bobView keep their handlers here (1.21.4 GameRenderer still has private bobHurt/bobView(PoseStack, float), called from renderItemInHand and renderLevel). The removed handler cancelled 1.21.1's GameRenderer.renderConfusionOverlay(GuiGraphics, float); 1.21.4 moved that method unchanged to Gui.renderConfusionOverlay(GuiGraphics, float) (called from Gui.renderCameraOverlays under CONFUSION), and GuiConfusionOverlayMixin, added via mixin_add in target.properties (client list of the_last_sword.mixins.json), injects at its HEAD with the same hasDefenseSword cancel."
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java",
