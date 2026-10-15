@@ -9,12 +9,12 @@ public class GuardianOfSealedSpireModel extends GeoModel<GuardianOfSealedSpireEn
 
     @Override
     public Identifier getAnimationResource(GuardianOfSealedSpireEntity entity) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/guardian_of_sealed_spire.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "guardian_of_sealed_spire");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/guardian_of_sealed_spire.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "guardian_of_sealed_spire");
     }
 
     @Override

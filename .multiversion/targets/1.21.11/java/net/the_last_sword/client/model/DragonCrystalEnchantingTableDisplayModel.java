@@ -9,12 +9,12 @@ public class DragonCrystalEnchantingTableDisplayModel extends GeoModel<DragonCry
 
     @Override
     public Identifier getAnimationResource(DragonCrystalEnchantingTableDisplayItem animatable) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/dragon_crystal_enchanting_table.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_enchanting_table");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/dragon_crystal_enchanting_table.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_enchanting_table");
     }
 
     @Override

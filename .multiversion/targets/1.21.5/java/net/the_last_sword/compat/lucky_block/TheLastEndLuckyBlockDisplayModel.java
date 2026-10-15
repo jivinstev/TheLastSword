@@ -8,12 +8,12 @@ public class TheLastEndLuckyBlockDisplayModel extends GeoModel<TheLastEndLuckyBl
 
     @Override
     public ResourceLocation getAnimationResource(TheLastEndLuckyBlockDisplayItem animatable) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "animations/the_last_end_lucky_block.animation.json");
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "the_last_end_lucky_block");
     }
 
     @Override
     public ResourceLocation getModelResource(GeoRenderState renderState) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/the_last_end_lucky_block.geo.json");
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "the_last_end_lucky_block");
     }
 
     @Override

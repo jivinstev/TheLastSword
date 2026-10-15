@@ -9,12 +9,12 @@ public class DragonCultPriestArmorModel extends GeoModel<DragonCultPriestArmorIt
 
     @Override
     public Identifier getAnimationResource(DragonCultPriestArmorItem object) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/dragon_cult_priest_armor.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/dragon_cult_priest_armor.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor");
     }
 
     @Override

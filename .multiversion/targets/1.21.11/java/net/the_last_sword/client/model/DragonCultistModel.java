@@ -9,12 +9,12 @@ public class DragonCultistModel extends GeoModel<DragonCultistEntity> {
 
     @Override
     public Identifier getAnimationResource(DragonCultistEntity entity) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/dragon_cultist.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cultist");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/dragon_cultist.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cultist");
     }
 
     @Override

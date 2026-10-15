@@ -8,12 +8,12 @@ import software.bernie.geckolib.renderer.base.GeoRenderState;
 public class LostWraithModel extends GeoModel<LostWraithEntity> {
     @Override
     public Identifier getAnimationResource(LostWraithEntity entity) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/lost_wraith.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "lost_wraith");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/lost_wraith.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "lost_wraith");
     }
 
     @Override

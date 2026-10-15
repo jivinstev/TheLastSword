@@ -127,7 +127,6 @@ public class NpcDialogueScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
         renderNpc(graphics, mouseX, mouseY);
         renderScrollBackground(graphics);
 

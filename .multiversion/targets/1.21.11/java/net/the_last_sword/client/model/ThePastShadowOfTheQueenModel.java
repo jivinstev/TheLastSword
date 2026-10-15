@@ -9,12 +9,12 @@ import software.bernie.geckolib.renderer.base.GeoRenderState;
 public class ThePastShadowOfTheQueenModel extends GeoModel<ThePastShadowOfTheQueenEntity> {
     @Override
     public Identifier getAnimationResource(ThePastShadowOfTheQueenEntity entity) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "animations/the_past_shadow_of_the_queen.animation.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "the_past_shadow_of_the_queen");
     }
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
-        return Identifier.fromNamespaceAndPath("the_last_sword", "geo/the_past_shadow_of_the_queen.geo.json");
+        return Identifier.fromNamespaceAndPath("the_last_sword", "the_past_shadow_of_the_queen");
     }
 
     @Override
