@@ -87,7 +87,7 @@
  {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/mixin/PlayerMixin.java",
   "why": "removes 2 mixin injection handler(s): check each still applies somewhere, with the same effect",
-  "reviewed": "Both handlers still apply with the same effect: in 1.21.5 setItemSlot and drop(ItemStack, boolean, boolean) moved from Player to LivingEntity (CATALOG M30), so tls$blockSetItemSlot and tls$blockDrop are in this target's LivingEntityMixin overlay behind an instanceof Player check, with the same hasExternalCaller(5) depth."
+  "reviewed": "Both handlers still apply with the same effect (checked against the 1.21.5 sources): Player no longer declares setItemSlot or drop(ItemStack, boolean, boolean) -- both are LivingEntity's now (CATALOG M30) -- so tls$blockSetItemSlot and tls$blockDrop are injected at HEAD of LivingEntity.setItemSlot / LivingEntity.drop(ItemStack,ZZ) in this target's LivingEntityMixin overlay, behind (Object) this instanceof Player with the same config switch, hasInventoryProtection and hasExternalCaller(5) checks; the call depth is unchanged (ServerPlayer.drop still overrides and calls super, as over Player in 1.21.1; no player class overrides setItemSlot)."
  },
  {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/summon/WraithSummonManager.java",
