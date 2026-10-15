@@ -135,6 +135,11 @@
   "reviewed": "Ported: initializeClient is now GeoItem.createGeoRenderer with DragonCrystalEnchantingTableClientExtensions.provider(), drawn by the geckolib:geckolib special model in items/dragon_crystal_enchanting_table.json."
  },
  {
+  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/mixin/GameRendererMixin.java",
+  "why": "removes 1 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": null
+ },
+ {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java",
   "why": "drops @Override from canCraftInDimensions, getResultItem and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
   "reviewed": "canCraftInDimensions and getResultItem are no longer on Recipe since 1.21.2: canCraftInDimensions (always true) has nothing to override, and getResultItem stays as a plain method that the serializer, JEI category and scroll renderer still call."
