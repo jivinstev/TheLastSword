@@ -2,7 +2,7 @@
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/block/DragonSoulLanternBlock.java",
   "why": "deletes overriding method(s) getLightBlock: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: 26.1 renamed getLightBlock(BlockState) to getLightDampening(BlockState); the override returns 0 as before (shared 26.1.2 row + CATALOG M64). The 1.21.4 overlay's hasPostProcess((s,l,p)->true), which the loop had dropped, is postProcess((s,l,p)->p) (26.1's PostProcess returns the position to mark)."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
@@ -12,17 +12,17 @@
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
   "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- constructor takes the renderer's EntityRendererProvider.Context; getStackForBone/getTransformTypeForStack are getRelevantBones(entity, ...) returning RenderData.item(right_hand/left_hand, THIRD_PERSON_RIGHT/LEFT_HAND, main/off-hand stack resolved with the entity), published in addRenderData (mv.GeoItemLayers); renderStackForBone is the @Override submitItemStackRender(PoseStack, GeoBone, ItemStackRenderState, ItemDisplayContext, R, SubmitNodeCollector, int) with the same bone-pivot transform, -90 X rotation and offsets, then super."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
   "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; drops @Override from getStackForBone, getTransformTypeForStack and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- context constructor; getRelevantBones(entity, ...) resolves each hand bone's stack with the per-stack display context (shield NONE, else third-person right/left), published in addRenderData beside the archer flag; getStackForBone/getTransformTypeForStack now take the bone name (5.5 has no such hooks, the item is resolved at extraction); the @Override submitItemStackRender(PoseStack, GeoBone, ItemStackRenderState, ItemDisplayContext, R, SubmitNodeCollector, int) keeps the pivot transform, shield pose and archer/forward offsets, then super."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/client/layer/ThePastShadowOfTheQueenItemLayer.java",
   "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- context constructor; getStackForBone is getRelevantBones(entity, ...) (main hand while dying, else the lightning spear when visible) as RenderData.item(right_hand, THIRD_PERSON_RIGHT_HAND, ...) published in addRenderData; getTransformTypeForStack is that context; renderStackForBone is the @Override submitItemStackRender(..., ItemStackRenderState, ...) with the same pivot transform, palm offset and -90 X rotation, then super."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/client/model/DragonCultPaladinModel.java",
@@ -82,7 +82,7 @@
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlock.java",
   "why": "deletes overriding method(s) getLightBlock: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": null
+  "reviewed": "Ported: getLightBlock(BlockState) is getLightDampening(BlockState) in 26.1; the override returns 0 as before (without it this full cube would dampen light by 1, not 0 as the loop's comment claimed)."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/entity/GuardianSaberEntity.java",
@@ -97,7 +97,7 @@
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/event/EnderDragonEvent.java",
   "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null
+  "reviewed": "The SavedData shape of CATALOG V29, as WraithSummonSavedData (reviewed from 1.21.5): 1.21.5+ SavedData has no save(CompoundTag, Provider) to override; get() goes through the shared mv.SavedDatas.computeIfAbsent, whose CompoundTag codec calls this public save reflectively and carries the 1.21.x data/dragon_challenges.dat across, so the method still runs on every save."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/item/DragonArmorItem.java",
@@ -125,6 +125,11 @@
   "reviewed": "(inherited from 1.21.5) All three returned true, the 1.21.1 defaults; in 1.21.5 enchantability is the ENCHANTABLE component and repair the REPAIRABLE component (set from the tier by compat/gear/SwordItem), and IItemExtension has no isBookEnchantable -- a book on an anvil is checked by supportsEnchantment, as it was after isBookEnchantable's true."
  },
  {
+  "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/mixin/GameRendererMixin.java",
+  "why": "removes 1 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": "The removed handler is the authors' GameRenderer.renderConfusionOverlay cancel: since 1.21.4 vanilla draws nausea in Gui (26.1: Gui.extractConfusionOverlay(GuiGraphicsExtractor, float)), and the same HEAD-cancel for the defence sword is GuiConfusionOverlayMixin, added to the client mixins by the inherited mixin_add (1.21.4) and retargeted for 26.1.2; bobHurt/bobView keep their handlers on 26.1's (CameraRenderState, PoseStack)."
+ },
+ {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java",
   "why": "drops @Override from canCraftInDimensions, getResultItem and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
   "reviewed": "(inherited from 1.21.4) canCraftInDimensions and getResultItem are no longer on Recipe since 1.21.2: canCraftInDimensions (always true) has nothing to override, and getResultItem stays as a plain method that the serializer, JEI category and scroll renderer still call."
@@ -132,7 +137,7 @@
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/recipe/DragonCrystalSmithingSerializer.java",
   "why": "drops @Override from codec, streamCodec and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null
+  "reviewed": "26.1 made RecipeSerializer a final record (codec, streamCodec), so nothing can implement it and there is nothing to override (CATALOG M64): ModRecipes registers new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC) built from this class's same codecs, which getSerializer returns; codec()/streamCodec() stay as plain accessors for ConfigRecipeManager and SyncDragonCrystalRecipesPacket, which hold an instance."
  },
  {
   "file": ".multiversion/targets/26.1.2/java/net/the_last_sword/summon/WraithSummonSavedData.java",

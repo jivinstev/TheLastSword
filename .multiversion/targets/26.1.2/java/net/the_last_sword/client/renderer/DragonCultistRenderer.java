@@ -28,7 +28,7 @@ public class DragonCultistRenderer<R extends EntityRenderState & GeoRenderState>
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        this.withRenderLayer(renderer -> new DragonCultistItemLayer<>(renderer));
+        this.withRenderLayer(renderer -> new DragonCultistItemLayer<>(renderManager, renderer));
     }
 
     @Override

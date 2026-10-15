@@ -77,11 +77,10 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
-    // getLightBlock is no longer overridable; with noOcclusion() the light opacity is 0
-    // when the block propagates skylight down, which keeps the old "0" result.
+    //26.1: getLightBlock(BlockState) is getLightDampening(BlockState)
     @Override
-    protected boolean propagatesSkylightDown(BlockState state) {
-        return true;
+    public int getLightDampening(BlockState state) {
+        return 0;
     }
 
     @Override

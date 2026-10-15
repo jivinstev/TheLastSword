@@ -34,7 +34,7 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
 
     public ThePastShadowOfTheQueenRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ThePastShadowOfTheQueenModel());
-        withRenderLayer(renderer -> new ThePastShadowOfTheQueenItemLayer<>(this));
+        withRenderLayer(renderer -> new ThePastShadowOfTheQueenItemLayer<>(renderManager, this));
         this.shadowRadius = 0.5f;
         //GeckoLib 5.4 replaced preRender with a RenderPassInfo hook; the scale is constant, so set it once here
         float scale = 57.5F / 44.5F;

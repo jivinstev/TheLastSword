@@ -60,7 +60,11 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
-    //getLightBlock override was removed from BlockBehaviour; noOcclusion() already gives light dampening 0
+    //26.1: getLightBlock(BlockState) is getLightDampening(BlockState); without it a full cube dampens light by 1
+    @Override
+    public int getLightDampening(BlockState state) {
+        return 0;
+    }
 
     //红石信号触发破坏
     @Override

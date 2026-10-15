@@ -32,7 +32,7 @@ public class GuardianOfSealedSpireRenderer<R extends EntityRenderState & GeoRend
         this.scaleHeight = scale;
         this.scaleWidth = scale;
         this.withScale(1.0f);
-        this.withRenderLayer(renderer -> new GuardianItemLayer<>(renderer));
+        this.withRenderLayer(renderer -> new GuardianItemLayer<>(renderManager, renderer));
     }
 
     @Override
