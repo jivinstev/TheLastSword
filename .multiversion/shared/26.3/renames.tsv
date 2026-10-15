@@ -25,7 +25,4 @@ re:Lnet/minecraft/util/AbortableIterationConsumer\$Continuation;	Lnet/minecraft/
 # EmptyEnergyStorage have no helper: port them to ItemAccessEnergyHandler / EmptyEnergyHandler.
 net.neoforged.neoforge.energy.IEnergyStorage	net.the_last_sword.mv.IEnergyStorage
 net.neoforged.neoforge.energy.EnergyStorage	net.the_last_sword.mv.EnergyStorage
-# ---- Curios 17 (26.3) deleted CuriosRendererRegistry; its register/getRenderer were delegates to ICurioRenderer's
-# statics, which remain (CATALOG §V105). The helper is installed only in a fork whose build names curios.
-top.theillusivec4.curios.api.client.CuriosRendererRegistry	net.the_last_sword.mv.CuriosRendererRegistry
 #!strict
