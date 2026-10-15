@@ -1,0 +1,64 @@
+package net.the_last_sword.client.gui;
+
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
+public class DefenceConfigScreen extends Screen {
+
+    public DefenceConfigScreen() {
+        super(Component.translatable("gui.the_last_sword.defence_config.title"));
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        int buttonWidth = 200;
+        int buttonHeight = 20;
+        int centerX = this.width / 2;
+        int startY = this.height / 2 - 30;
+
+        //按钮1：装备配置
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.the_last_sword.defence_config.equipment_settings"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.gui.setScreen(new ArmorConfigScreen(this));
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY, buttonWidth, buttonHeight).build());
+
+        //按钮2：肃正防御
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.the_last_sword.defence_config.justified_defence"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.gui.setScreen(new JustifiedDefenceConfigScreen(this));
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY + 30, buttonWidth, buttonHeight).build());
+
+        //关闭按钮
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("gui.done"),
+            button -> {
+                if (this.minecraft != null) {
+                    this.minecraft.gui.setScreen(null);
+                }
+            }
+        ).bounds(centerX - buttonWidth / 2, startY + 60, buttonWidth, buttonHeight).build());
+    }
+
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFFFF);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+}

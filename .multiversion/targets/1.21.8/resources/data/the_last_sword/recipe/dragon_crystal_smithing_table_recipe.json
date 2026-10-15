@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": "the_last_sword:dragon_crystal",
+    "b": "minecraft:diamond",
+    "c": "minecraft:smithing_table"
+  },
+  "result": {
+    "id": "the_last_sword:dragon_crystal_smithing_table",
+    "count": 1
+  }
+}

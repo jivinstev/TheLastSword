@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "the_last_sword:item/dragon_crystal_enchanting_table",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

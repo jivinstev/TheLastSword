@@ -1,0 +1,106 @@
+package net.the_last_sword.client.gui;
+
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
+import net.the_last_sword.entity.TheLastEndEntity;
+import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
+import net.the_last_sword.init.ModEntities;
+import net.the_last_sword.network.NetworkHandler;
+import net.the_last_sword.network.SetWraithAppearancePacket;
+
+public class SwordWraithAppearanceScreen extends Screen {
+    private static final int FRAME_WIDTH = 120;
+    private static final int FRAME_HEIGHT = 140;
+    private final InteractionHand hand;
+    private TheLastEndSwordWraithAppearance appearance;
+    private TheLastEndSwordWraithEntity preview;
+    private int frameLeft;
+    private int frameTop;
+
+    public SwordWraithAppearanceScreen(InteractionHand hand, TheLastEndSwordWraithAppearance appearance) {
+        super(Component.translatable("gui.the_last_sword.sword_wraith_appearance.title"));
+        this.hand = hand;
+        this.appearance = appearance;
+    }
+
+    @Override
+    protected void init() {
+        frameLeft = (width - FRAME_WIDTH) / 2;
+        frameTop = Math.max(30, (height - FRAME_HEIGHT) / 2 - 12);
+
+        addRenderableWidget(Button.builder(Component.literal("<"), button -> select(appearance.previous()))
+                .bounds(frameLeft - 30, frameTop + FRAME_HEIGHT / 2 - 10, 20, 20)
+                .build());
+        addRenderableWidget(Button.builder(Component.literal(">"), button -> select(appearance.next()))
+                .bounds(frameLeft + FRAME_WIDTH + 10, frameTop + FRAME_HEIGHT / 2 - 10, 20, 20)
+                .build());
+
+        rebuildPreview();
+    }
+
+    private void select(TheLastEndSwordWraithAppearance selected) {
+        appearance = selected;
+        rebuildPreview();
+        NetworkHandler.sendToServer(new SetWraithAppearancePacket(hand, selected));
+    }
+
+    private void rebuildPreview() {
+        if (minecraft == null || minecraft.level == null) {
+            preview = null;
+            return;
+        }
+        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, EntitySpawnReason.LOAD);
+        if (preview != null) {
+            // 26.2: a client-side entity has no id until an add packet sets one, and Entity.getId() now throws for it;
+            // this preview is never added to the level, and inventory rendering asks for its id (glow checks). 1.21.1
+            // gave it a fresh counter id; a negative one (servers count up from 1) can name no real entity either.
+            preview.setId(-1);
+            preview.setAppearance(appearance);
+            preview.setAppearancePreview(true);
+            preview.setAnimationState(TheLastEndEntity.STATE_IDLE);
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (preview != null) {
+            preview.tickCount++;
+        }
+    }
+
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        //1.21.6: Screen.renderWithTooltip draws the background before render; a second renderBackground blurs twice and throws
+        guiGraphics.centeredText(font, title, width / 2, frameTop - 20, 0xFFFFFFFF);
+        guiGraphics.fill(frameLeft - 2, frameTop - 2, frameLeft + FRAME_WIDTH + 2,
+                frameTop + FRAME_HEIGHT + 2, 0xFF6F5A8A);
+        guiGraphics.fill(frameLeft, frameTop, frameLeft + FRAME_WIDTH,
+                frameTop + FRAME_HEIGHT, 0xCC120F1A);
+
+        if (preview != null) {
+            guiGraphics.enableScissor(frameLeft + 1, frameTop + 1,
+                    frameLeft + FRAME_WIDTH - 1, frameTop + FRAME_HEIGHT - 1);
+            int bottom = frameTop + FRAME_HEIGHT - 8;
+            InventoryScreen.extractEntityInInventoryFollowsMouse(guiGraphics,
+                    width / 2 - 50, bottom - 100, width / 2 + 50, bottom, 48,
+                    0.0625F, width / 2.0F - mouseX, frameTop + FRAME_HEIGHT / 2.0F - mouseY, preview);
+            guiGraphics.disableScissor();
+        }
+
+        guiGraphics.centeredText(font, Component.translatable(appearance.getNameKey()),
+                width / 2, frameTop + FRAME_HEIGHT + 10, 0xFFFFFFFF);
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+}

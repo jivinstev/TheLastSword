@@ -1,0 +1,107 @@
+[
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/block/DragonCrystalEnchantingTableBlock.java",
+  "why": "deletes overriding method(s) onRemove: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported (CATALOG V48): 1.21.5 removed Block.onRemove; its drop half is vanilla's BlockEntity.preRemoveSideEffects, which drops any Container (this RandomizableContainerBlockEntity) only when the block changes, and its comparator update is now an affectNeighborsAfterRemoval override calling Containers.updateNeighboursAfterDestroy."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
+  "why": "drops @Override from getStackForBone, getTransformTypeForStack and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: GeckoLib 5 replaced getStackForBone/getTransformTypeForStack with getRelevantBones (RenderData per bone) and a renderStackForBone that takes the display context; both methods are now called from those overrides, reading the hand stacks captured in addRenderData, so the shield's NONE context still applies."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java",
+  "why": "deletes overriding method(s) preRender: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: the preRender override (scale 1.0 for width and height) is back with GeckoLib 5's render-state signature."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/compat/curios/WingsThatCoverTheWorld.java",
+  "why": "deletes overriding method(s) initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported as in 1.21.4: initializeClient is gone and Curios finds a curio renderer only through CuriosRendererRegistry; client/WingsThatCoverTheWorldClient registers WingsThatCoverTheWorldRenderer for the item at client setup."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/compat/lucky_block/LuckModifierCraftingRecipe.java",
+  "why": "drops @Override from canCraftInDimensions and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "As in 1.21.4: canCraftInDimensions was removed from Recipe in 1.21.2 and nothing replaces it; its condition (grid at least 2x2) holds for every vanilla crafting grid, so the plain method changes nothing."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/compat/lucky_block/lucky_event/events/ArenaEvent.java",
+  "why": "removes 3 registration/listener/send call(s)",
+  "reviewed": "As in 1.21.4, no call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2, so the three messages go through a private sendMessage that calls ServerPlayer.sendSystemMessage (lucky events run on the server)."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/entity/GuardianSaberEntity.java",
+  "why": "drops @Override from hurtCurrentlyUsedShield and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: 1.21.5 removed LivingEntity.hurtCurrentlyUsedShield; the same durability logic is now a private method called from an applyItemBlocking override with the blocked damage, and vanilla's BlocksAttacks.hurtBlockingItem still damages only a player's shield, so it is not applied twice."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/entity/QueenBlinkBlade.java",
+  "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "As in 1.21.4: Entity.getBoundingBoxForCulling moved to the renderer in 1.21.2 (CATALOG M19); QueenBlinkBladeRenderer.getBoundingBoxForCulling(entity) returns this method's blade box, which stays a plain method."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java",
+  "why": "removes 1 registration/listener/send call(s)",
+  "reviewed": "As in 1.21.4, no call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java",
+  "why": "removes 3 registration/listener/send call(s); deletes overriding method(s) getBoundingBoxForCulling, hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: hurt is hurtServer with the same isReady()/isNpc() guard; the culling box is ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling (super's box inflated 3,6,3 while summoning); the 3 sends are displayClientMessage(msg,false) = ServerPlayer.sendSystemMessage(msg,false)."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/DragonArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, getHumanoidArmorModel, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: initializeClient/getHumanoidArmorModel are GeoItem.createGeoRenderer with a GeoRenderProvider returning DragonArmorRenderer, which GeckoLib 5's HumanoidArmorLayer hook renders (the renderer records the wearer's id for the animation predicates, which GeckoLib 5's ENTITY ticket no longer carries); getArmorTexture returned textures/item/dragon_armor.png, the geo model's own texture that GeckoLib draws with."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/DragonCrystalArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: getArmorTexture is IClientItemExtensions.getArmorTexture, registered by client/DragonCrystalArmorClientExtensions for the four pieces (layer_2 for HUMANOID_LEGGINGS, layer_1 otherwise), and equipment/dragon_crystal_armor.json supplies the humanoid and humanoid_leggings layers."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.paladin() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/DragonCultPriestArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.priest() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/DragonCultistArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.cultist() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/LightningSpearItem.java",
+  "why": "deletes overriding method(s) initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: initializeClient no longer exists; the custom renderer it installed is the special model renderer registered in LightningSpearItemRenderer.Registration and named by items/lightning_spear.json."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/item/TheLastEndSwordItems.java",
+  "why": "deletes overriding method(s) isBookEnchantable, isEnchantable, isRepairable: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "All three returned true, the 1.21.1 defaults; in 1.21.5 enchantability is the ENCHANTABLE component and repair the REPAIRABLE component (set from the tier by compat/gear/SwordItem), and IItemExtension has no isBookEnchantable -- a book on an anvil is checked by supportsEnchantment, as it was after isBookEnchantable's true."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/mixin/PlayerMixin.java",
+  "why": "removes 2 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": "Both handlers still apply with the same effect (checked against the 1.21.5 sources): Player no longer declares setItemSlot or drop(ItemStack, boolean, boolean) -- both are LivingEntity's now (CATALOG M30) -- so tls$blockSetItemSlot and tls$blockDrop are injected at HEAD of LivingEntity.setItemSlot / LivingEntity.drop(ItemStack,ZZ) in this target's LivingEntityMixin overlay, behind (Object) this instanceof Player with the same config switch, hasInventoryProtection and hasExternalCaller(5) checks; the call depth is unchanged (ServerPlayer.drop still overrides and calls super, as over Player in 1.21.1; no player class overrides setItemSlot)."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/summon/WraithSummonManager.java",
+  "why": "removes 14 registration/listener/send call(s)",
+  "reviewed": "As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/summon/WraithSummonSavedData.java",
+  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
+ },
+ {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/test/UltraTestSwordItem.java",
+  "why": "deletes overriding method(s) getAttackDamageBonus, getEnchantmentValue, getIncorrectBlocksForDrops, getRepairIngredient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.4: TieredItem/Tier are gone; a bare TieredItem only used the tier for durability (0), enchantability (1024) and repair (empty), which the overlay sets as durability(0).enchantable(1024) with no REPAIRABLE component; speed, damage bonus and incorrect-blocks were only read by Sword/DiggerItem and nothing in the mod reads this item's tier."
+ }
+]

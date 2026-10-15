@@ -1,0 +1,187 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 3
+      },
+      "bonus_rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 40,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_ingot",
+          "weight": 30,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 4,
+              "max": 8
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 40,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 4,
+              "max": 8
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:enchanted_golden_apple",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:totem_of_undying",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:nether_star",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:dragon_egg",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:dragon_head",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:elytra",
+          "weight": 15,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:ancient_energy_core",
+          "weight": 5,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:dragon_crystal_necklace",
+          "weight": 5,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:dragon_crystal_ring",
+          "weight": 5,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:dragon_crystal_crown",
+          "weight": 1,
+          "modifier": {
+            "type": "set_count",
+            "count": 1
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:disposable_energy_battery",
+          "weight": 5,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
+            }
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:dragon_crystal",
+          "weight": 10,
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "random_sequence": "the_last_sword:chests/sealed_spire_loot"
+}

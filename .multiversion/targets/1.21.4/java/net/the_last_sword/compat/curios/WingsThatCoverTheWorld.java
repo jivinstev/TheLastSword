@@ -1,0 +1,82 @@
+package net.the_last_sword.compat.curios;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.the_last_sword.client.renderer.WingsThatCoverTheWorldRenderer;
+import net.the_last_sword.configuration.TheLastSwordConfiguration;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.client.ICurioRenderer;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+//覆世之翼 - back槽位
+public class WingsThatCoverTheWorld extends Item implements ICurioItem {
+
+    public WingsThatCoverTheWorld() {
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+    }
+
+    @Override
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        LivingEntity entity = slotContext.entity();
+
+        //冰火不侵：清零冰冻积累并清除着火
+        if (TheLastSwordConfiguration.getCuriosWingsIceFireImmunityEnabledSafely()) {
+            entity.setTicksFrozen(0);
+            entity.clearFire();
+        }
+
+        if (entity instanceof Player player) {
+            //非创造/旁观模式下给予飞行能力，仅在尚未赋予时设置，避免每tick重推abilities包导致飞行卡顿
+            if (!player.isCreative() && !player.isSpectator()) {
+                if (!player.getAbilities().mayfly) {
+                    player.getAbilities().mayfly = true;
+                    player.getPersistentData().putBoolean("WingsFly", true);
+                    player.onUpdateAbilities();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        LivingEntity entity = slotContext.entity();
+        if (entity instanceof Player player) {
+            //卸下时仅移除自己赋予的飞行能力（通过NBT标记区分来源，避免清除其他装备赋予的飞行）
+            if (!player.isCreative() && !player.isSpectator()) {
+                if (player.getPersistentData().getBoolean("WingsFly")) {
+                    player.getAbilities().mayfly = false;
+                    player.getAbilities().flying = false;
+                    player.getPersistentData().remove("WingsFly");
+                    player.getPersistentData().remove("PlayerFlightIntent");
+                    player.onUpdateAbilities();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
+        double reduction = TheLastSwordConfiguration.getCuriosWingsVoidDamageReductionSafely();
+        //显示减免百分比：例如 multiplier=0.1 -> 减免 90%
+        String reductionPercent = String.format("-%.0f", (1.0 - reduction) * 100);
+        tooltip.add(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world", reductionPercent));
+        if (TheLastSwordConfiguration.getCuriosWingsIceFireImmunityEnabledSafely()) {
+            tooltip.add(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world.ice_fire_immunity"));
+        }
+        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.wings_that_cover_the_world")
+            .withStyle(ChatFormatting.GRAY));
+    }
+
+    //1.21.4: the curio renderer is registered through CuriosRendererRegistry (client/WingsThatCoverTheWorldClient)
+}

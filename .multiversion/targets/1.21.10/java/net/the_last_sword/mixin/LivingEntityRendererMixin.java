@@ -1,0 +1,52 @@
+package net.the_last_sword.mixin;
+
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.entity.LivingEntity;
+import net.the_last_sword.client.JustifiedDefenceFlash;
+import net.the_last_sword.mv.EntityOf;
+import net.the_last_sword.test.UltraTestSwordItem;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+// 1.21.4: getOverlayCoords and render take the render state; the entity is read off it (EntityOf, CATALOG M19).
+@Mixin(LivingEntityRenderer.class)
+public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> {
+
+    //统一覆盖色入口同时供原版与自定义生物渲染器复用
+    @Inject(method = "getOverlayCoords", at = @At("HEAD"), cancellable = true)
+    private static void theLastSword$applyJustifiedDefenceFlash(LivingEntityRenderState state,
+            float whiteOverlayProgress, CallbackInfoReturnable<Integer> cir) {
+        if (!(EntityOf.get(state) instanceof LivingEntity entity)) {
+            return;
+        }
+        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
+        if (flash > whiteOverlayProgress) {
+            cir.setReturnValue(OverlayTexture.pack(OverlayTexture.u(flash),
+                    OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0)));
+        }
+    }
+
+    @Inject(
+        method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    //1.21.9: render(...) is submit(state, pose, SubmitNodeCollector, CameraRenderState); cancelling it still submits nothing
+    private void theLastSword$captureEntity(S state, PoseStack poseStack,
+                                             SubmitNodeCollector collector, CameraRenderState cameraState, CallbackInfo ci) {
+        //防御模式的究极测试剑持有者完全不可见
+        if (EntityOf.get(state) instanceof LivingEntity entity && UltraTestSwordItem.hasDefenseSword(entity)) {
+            ci.cancel();
+        }
+    }
+
+}

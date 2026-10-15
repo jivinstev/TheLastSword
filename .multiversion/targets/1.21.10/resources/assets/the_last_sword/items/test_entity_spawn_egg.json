@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "the_last_sword:item/test_entity_spawn_egg"
+  }
+}

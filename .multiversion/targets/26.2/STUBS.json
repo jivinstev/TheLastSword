@@ -1,0 +1,27 @@
+[
+ {
+  "file": ".multiversion/targets/26.2/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
+  "why": "empties 2 method bodies",
+  "reviewed": "(inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."
+ },
+ {
+  "file": ".multiversion/targets/26.2/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override and the 1.21.1 one was only the abstract requirement: this renderer draws the blade geometry through QueenBlinkRenderUtil and never read the texture."
+ },
+ {
+  "file": ".multiversion/targets/26.2/java/net/the_last_sword/entity/GuardianSaberEntity.java",
+  "why": "drops @Override from hurtCurrentlyUsedShield and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 removed LivingEntity.hurtCurrentlyUsedShield; the same durability logic is now a private method called from an applyItemBlocking override with the blocked damage, and vanilla's BlocksAttacks.hurtBlockingItem still damages only a player's shield, so it is not applied twice."
+ },
+ {
+  "file": ".multiversion/targets/26.2/java/net/the_last_sword/event/EnderDragonEvent.java",
+  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 26.1.2) The SavedData shape of CATALOG V29, as WraithSummonSavedData (reviewed from 1.21.5): 1.21.5+ SavedData has no save(CompoundTag, Provider) to override; get() goes through the shared mv.SavedDatas.computeIfAbsent, whose CompoundTag codec calls this public save reflectively and carries the 1.21.x data/dragon_challenges.dat across, so the method still runs on every save."
+ },
+ {
+  "file": ".multiversion/targets/26.2/java/net/the_last_sword/test/TestEntity.java",
+  "why": "deletes overriding method(s) canChangeDimensions, moveTo, shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.10) As in 1.21.5, canChangeDimensions is canTeleport and moveTo is snapTo, overridden with the same bodies; shouldDespawnInPeaceful is gone in 1.21.10 and its replacement (EntityType.isAllowedInPeaceful) is read only by Mob.checkDespawn, which this entity overrides as a no-op, so it still never despawns in peaceful."
+ }
+]

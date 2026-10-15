@@ -1,0 +1,148 @@
+package net.the_last_sword.client;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.the_last_sword.client.gui.PaperNoteScreen;
+import net.the_last_sword.client.gui.NpcDialogueScreen;
+import net.the_last_sword.client.gui.SwordWraithAppearanceScreen;
+import net.the_last_sword.client.gui.TheLastEndScrollScreen;
+import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
+import net.the_last_sword.client.gui.menu.SummonWraithGuiMenu;
+import net.the_last_sword.client.recipe.ClientDragonCrystalRecipeCache;
+import net.the_last_sword.client.renderer.DragonShieldRenderer;
+import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
+import net.the_last_sword.event.ClientEventHandler;
+import net.the_last_sword.network.OpenLastEndScrollPacket.PaperNoteEntry;
+import net.the_last_sword.network.PerceptionScanPacket.ScanType;
+import net.the_last_sword.recipe.DragonCrystalSmithingRecipe;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * Client-only effects of S2C packets. Network packet classes must stay safe to
+ * load on a dedicated server and therefore delegate all Minecraft client access
+ * to this class.
+ */
+public final class ClientPacketHandler {
+
+    private ClientPacketHandler() {
+    }
+
+    public static void setMiningPreview(Set<BlockPos> blocks) {
+        if (Minecraft.getInstance().level != null) {
+            ClientEventHandler.setMiningPreviewBlocks(blocks);
+        }
+    }
+
+    public static void clearPreviews() {
+        if (Minecraft.getInstance().level != null) {
+            ClientEventHandler.clearMiningPreview();
+            ClientEventHandler.clearArenaPreview();
+        }
+    }
+
+    public static void syncSummonGui(ItemStack soulStone) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.player == null) {
+            return;
+        }
+
+        AbstractContainerMenu menu = minecraft.player.containerMenu;
+        if (menu instanceof SummonWraithGuiMenu summonMenu
+                && summonMenu.get().containsKey(0)
+                && summonMenu.get().get(0).container instanceof ItemStackHandler handler) {
+            handler.setStackInSlot(0, soulStone);
+        }
+    }
+
+    public static void syncEnchantingTable(int containerId, int energy, int maxEnergy, int totalPowerTime) {
+        var player = Minecraft.getInstance().player;
+        if (player != null && player.containerMenu instanceof DragonCrystalEnchantingTableMenu menu
+                && menu.containerId == containerId) {
+            menu.setClientEnergy(energy);
+            menu.setClientMaxEnergy(maxEnergy);
+            menu.setClientTotalPowerTime(totalPowerTime);
+        }
+    }
+
+    public static void updatePerceptionScan(Map<Integer, ScanType> scannedEntities, int glowDurationSeconds) {
+        PerceptionScanData.update(scannedEntities, glowDurationSeconds);
+    }
+
+    public static void updateDragonArmorEnergyStatus(long currentEnergy, long maxEnergy, long consumptionPerTick) {
+        DragonArmorEnergyStatus.update(currentEnergy, maxEnergy, consumptionPerTick);
+    }
+
+    public static void setArenaPreview(BlockPos minPos, BlockPos maxPos) {
+        if (Minecraft.getInstance().level != null) {
+            ClientEventHandler.setArenaPreview(minPos, maxPos);
+        }
+    }
+
+    public static void triggerDragonShield(boolean hasDirection, float x, float y, float z) {
+        if (hasDirection) {
+            DragonShieldRenderer.trigger(x, y, z);
+        }
+    }
+
+    public static void triggerJustifiedDefenceFlash(int entityId, UUID entityUuid) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null) {
+            return;
+        }
+        Entity entity = minecraft.level.getEntity(entityId);
+        if (entity instanceof LivingEntity livingEntity && entityUuid.equals(entity.getUUID())) {
+            JustifiedDefenceFlash.trigger(livingEntity);
+        }
+    }
+
+    public static void replaceDragonCrystalRecipes(List<DragonCrystalSmithingRecipe> recipes) {
+        ClientDragonCrystalRecipeCache.replaceAll(recipes);
+    }
+
+    public static void openLastEndScroll(boolean hasLocation, int x, int z, List<PaperNoteEntry> collectedNotes) {
+        Minecraft.getInstance().gui.setScreen(new TheLastEndScrollScreen(hasLocation, x, z, collectedNotes));
+    }
+
+    public static void openPaperNote(String noteId, String nameKey, String guiContentKey, boolean collected) {
+        Minecraft.getInstance().gui.setScreen(new PaperNoteScreen(noteId, nameKey, guiContentKey, collected));
+    }
+
+    public static void openWraithAppearanceScreen(InteractionHand hand, TheLastEndSwordWraithAppearance appearance) {
+        Minecraft.getInstance().gui.setScreen(new SwordWraithAppearanceScreen(hand, appearance));
+    }
+
+    public static void setQueenExecutionCamera(boolean active, float yaw) {
+        QueenExecutionCamera.setActive(active, yaw);
+    }
+
+    public static void triggerQueenTripleSlashScreenShake() {
+        QueenTripleSlashScreenShake.start();
+    }
+
+    public static void updateNpcDialogue(int entityId, String dialogueId, String nodeId,
+                                         Set<String> readOptionIds, boolean close) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (close) {
+            if (minecraft.gui.screen() instanceof NpcDialogueScreen) {
+                minecraft.gui.setScreen(null);
+            }
+            return;
+        }
+        if (minecraft.gui.screen() instanceof NpcDialogueScreen screen
+                && screen.matches(entityId, dialogueId)) {
+            screen.setNode(nodeId, readOptionIds);
+            return;
+        }
+        minecraft.gui.setScreen(new NpcDialogueScreen(entityId, dialogueId, nodeId, readOptionIds));
+    }
+}

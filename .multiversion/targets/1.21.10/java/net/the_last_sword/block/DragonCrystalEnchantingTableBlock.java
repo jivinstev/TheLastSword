@@ -1,0 +1,111 @@
+package net.the_last_sword.block;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import com.mojang.serialization.MapCodec;
+import net.the_last_sword.block.entity.DragonCrystalEnchantingTableBlockEntity;
+import net.the_last_sword.init.ModBlockEntities;
+
+import javax.annotation.Nullable;
+
+public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
+
+    public static final MapCodec<DragonCrystalEnchantingTableBlock> CODEC = simpleCodec(props -> new DragonCrystalEnchantingTableBlock());
+
+    @Override
+    protected MapCodec<DragonCrystalEnchantingTableBlock> codec() {
+        return CODEC;
+    }
+
+    // 根据 GeckoLib 模型定义碰撞箱
+    // 台座部分：16x12x16（完整方块宽度，高度0-12）
+    private static final VoxelShape BASE = Block.box(0, 0, 0, 16, 12, 16);
+    // 水晶部分：中心区域，高度12-23
+    private static final VoxelShape CRYSTAL = Block.box(4, 12, 4, 12, 23, 12);
+    // 组合碰撞箱
+    private static final VoxelShape SHAPE = Shapes.or(BASE, CRYSTAL);
+
+    public DragonCrystalEnchantingTableBlock() {
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
+            .sound(SoundType.STONE)
+            .strength(50.0f, 100.0f) // 硬度50（黑曜石级别），爆炸抗性100
+            .lightLevel(state -> 4) // 亮度4
+            .requiresCorrectToolForDrops() // 需要正确工具才能掉落
+            .noOcclusion()
+        );
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new DragonCrystalEnchantingTableBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
+            DragonCrystalEnchantingTableBlockEntity::tick);
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
+    }
+
+    //1.21.2: getLightBlock lost its BlockGetter/BlockPos parameters
+    @Override
+    public int getLightBlock(BlockState state) {
+        return 0;
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof DragonCrystalEnchantingTableBlockEntity be) {
+                serverPlayer.openMenu(be);
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    // 1.21.5: Block.onRemove is gone. Its two jobs moved: the block entity drops its contents itself
+    // (BlockEntity.preRemoveSideEffects drops any Container, which this RandomizableContainerBlockEntity is,
+    // and runs only when the block changes), and the comparator update is affectNeighborsAfterRemoval, as for
+    // vanilla's container blocks.
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
+    }
+
+    @Override
+    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        return blockEntity instanceof MenuProvider menuProvider ? menuProvider : null;
+    }
+}

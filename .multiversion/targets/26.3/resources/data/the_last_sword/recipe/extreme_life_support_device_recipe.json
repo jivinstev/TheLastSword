@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "III",
+    "RNE",
+    "III"
+  ],
+  "key": {
+    "I": "minecraft:iron_block",
+    "R": "minecraft:redstone_block",
+    "N": "minecraft:iron_block",
+    "E": "minecraft:emerald_block"
+  },
+  "result": {
+    "id": "the_last_sword:extreme_life_support_device",
+    "count": 1
+  }
+}

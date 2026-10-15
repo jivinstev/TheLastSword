@@ -1,0 +1,26 @@
+# 1.21.4: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
+# X1: proposed by a file-loop worker, kept because the error count fell
+InteractionResultHolder.success(stack)	InteractionResult.SUCCESS
+# X3: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.world.item.UseAnim	net.minecraft.world.item.ItemUseAnimation
+# X8: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.world.InteractionResultHolder	net.minecraft.world.InteractionResult
+# X13: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.client.model.AgeableListModel	net.minecraft.client.model.EntityModel
+# X14: proposed by a file-loop worker, kept because the error count fell
+UseAnim	ItemUseAnimation
+# X17: proposed by a file-loop worker, kept because the error count fell
+RecipeSerializer<?> getSerializer()	RecipeSerializer<? extends CustomRecipe> getSerializer()
+# X66: proposed by a file-loop worker, kept because the error count fell
+RenderShape.ENTITYBLOCK_ANIMATED	RenderShape.INVISIBLE
+# X83: proposed by a file-loop worker, kept because the error count fell
+member:getHolderOrThrow	getOrThrow
+# X84: proposed by a file-loop worker, kept because the error count fell
+entityTranslucentCull	entityTranslucent
+# X92: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.client.renderer.entity.EntityRenderState	net.minecraft.client.renderer.entity.state.EntityRenderState
+# X99: proposed by a file-loop worker, kept because the error count fell
+re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderColor) {
+# X1: proposed by a file-loop worker, kept because the error count fell
+member:getFlipDegrees	getDeathMaxRotation
+# R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)

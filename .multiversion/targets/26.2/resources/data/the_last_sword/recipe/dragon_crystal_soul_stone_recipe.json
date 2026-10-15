@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": "minecraft:lapis_lazuli",
+    "b": "the_last_sword:dragon_crystal",
+    "c": "minecraft:crying_obsidian"
+  },
+  "result": {
+    "id": "the_last_sword:dragon_crystal_soul_stone",
+    "count": 1
+  }
+}

@@ -1,0 +1,77 @@
+[
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
+  "why": "deletes overriding method(s) renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: the 4.x getStackForBone/getTransformTypeForStack are GeckoLib 5's getRelevantBones (right_hand main hand, left_hand off hand, third-person contexts, stacks captured in addRenderData), and renderStackForBone is GeckoLib 5.3's submitItemStackRender override, which re-applies the bone pivot transform 5.3 no longer applies and then the same -90 degree X rotation and (1, 0, -3.75)/16 offset."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
+  "why": "drops @Override from getStackForBone, getTransformTypeForStack and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) Ported: GeckoLib 5 replaced getStackForBone/getTransformTypeForStack with getRelevantBones (RenderData per bone) and a renderStackForBone that takes the display context; both methods are now called from those overrides, reading the hand stacks captured in addRenderData, so the shield's NONE context still applies."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
+  "why": "deletes overriding method(s) render: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: render(state, pose, MultiBufferSource, light) is submit(state, pose, SubmitNodeCollector, camera) since 1.21.9; the override calls super and queues the death rays (progress and half height captured in extractRenderState) as custom geometry on RenderType.lightning(), the only type DeathRayLayer draws with, from the same pose."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
+  "why": "empties 2 method bodies",
+  "reviewed": "(inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override and the 1.21.1 one was only the abstract requirement: this renderer draws the blade geometry through QueenBlinkRenderUtil and never read the texture."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override; the 1.21.1 one was only the abstract requirement, and renderCrystal binds END_CRYSTAL_LOCATION itself."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java",
+  "why": "deletes overriding method(s) createBaseRenderState, render: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: render is a submit override that, after the model, queues the summon and blink rifts as custom geometry on QueenBlinkRenderUtil's rift type (the only type rift/summonRift draw with) with the same ages and yaws, now captured in extractRenderState; createBaseRenderState only built a QueenRenderState carrying the entity and partial tick, which these tickets replace."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/entity/QueenBlinkBlade.java",
+  "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: Entity.getBoundingBoxForCulling moved to the renderer in 1.21.2 (CATALOG M19); QueenBlinkBladeRenderer.getBoundingBoxForCulling(entity) returns this method's blade box, which stays a plain method."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java",
+  "why": "removes 1 registration/listener/send call(s)",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java",
+  "why": "removes 3 registration/listener/send call(s); deletes overriding method(s) getBoundingBoxForCulling, hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: hurt is hurtServer with the same isReady()/isNpc() guard; the culling box is ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling (super's box inflated 3,6,3 while summoning); the 3 sends are displayClientMessage(msg,false) = ServerPlayer.sendSystemMessage(msg,false)."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/item/DragonArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, getHumanoidArmorModel, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) Ported: initializeClient/getHumanoidArmorModel are GeoItem.createGeoRenderer with a GeoRenderProvider returning DragonArmorRenderer, which GeckoLib 5's HumanoidArmorLayer hook renders (the renderer records the wearer's id for the animation predicates, which GeckoLib 5's ENTITY ticket no longer carries); getArmorTexture returned textures/item/dragon_armor.png, the geo model's own texture that GeckoLib draws with."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/item/LightningSpearItem.java",
+  "why": "deletes overriding method(s) initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: initializeClient no longer exists; the custom renderer it installed is the special model renderer registered in LightningSpearItemRenderer.Registration and named by items/lightning_spear.json."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/summon/WraithSummonManager.java",
+  "why": "removes 14 registration/listener/send call(s)",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/test/TestEntity.java",
+  "why": "deletes overriding method(s) shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it; deletes overriding method(s) canChangeDimensions, moveTo, shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "As in 1.21.5, canChangeDimensions is canTeleport and moveTo is snapTo, overridden with the same bodies; shouldDespawnInPeaceful is gone in 1.21.10 and its replacement (EntityType.isAllowedInPeaceful) is read only by Mob.checkDespawn, which this entity overrides as a no-op, so it still never despawns in peaceful."
+ },
+ {
+  "file": ".multiversion/targets/1.21.10/java/net/the_last_sword/test/UltraTestSwordItem.java",
+  "why": "deletes overriding method(s) getAttackDamageBonus, getEnchantmentValue, getIncorrectBlocksForDrops, getRepairIngredient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: TieredItem/Tier are gone; a bare TieredItem only used the tier for durability (0), enchantability (1024) and repair (empty), which the overlay sets as durability(0).enchantable(1024) with no REPAIRABLE component; speed, damage bonus and incorrect-blocks were only read by Sword/DiggerItem and nothing in the mod reads this item's tier."
+ }
+]

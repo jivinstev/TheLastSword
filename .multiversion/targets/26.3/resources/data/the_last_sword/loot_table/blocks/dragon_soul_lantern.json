@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "the_last_sword:blocks/dragon_soul_lantern",
+  "pools": [
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "the_last_sword:dragon_soul_lantern"
+        }
+      ]
+    }
+  ]
+}
