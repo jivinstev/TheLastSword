@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `spawn`: FAIL -- java.util.concurrent.CancellationException.
+Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Un.
 
 ## Failing gates
 
-- Gate C -- real client, `spawn`: FAIL -- java.util.concurrent.CancellationException
+- Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Unable to find animation file 'the_last_sword:the_past_shadow_of_the_queen.animation'
 
 ## To resume
 

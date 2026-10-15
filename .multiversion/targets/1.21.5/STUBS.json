@@ -85,6 +85,11 @@
   "reviewed": "All three returned true, the 1.21.1 defaults; in 1.21.5 enchantability is the ENCHANTABLE component and repair the REPAIRABLE component (set from the tier by compat/gear/SwordItem), and IItemExtension has no isBookEnchantable -- a book on an anvil is checked by supportsEnchantment, as it was after isBookEnchantable's true."
  },
  {
+  "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/mixin/PlayerMixin.java",
+  "why": "removes 2 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": null
+ },
+ {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/summon/WraithSummonManager.java",
   "why": "removes 14 registration/listener/send call(s)",
   "reviewed": "As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."

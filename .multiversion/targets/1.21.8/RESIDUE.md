@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `spawn`: FAIL -- com.mojang.authlib.exceptions.MinecraftClientExcep.
+Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Un.
 
 ## Failing gates
 
-- Gate C -- real client, `spawn`: FAIL -- com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://api.minecraftservices.com/publickeys due to api.minecraftservices.com
+- Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Unable to find model file: the_last_sword:geo/dragon_cult_priest
 
 ## To resume
 

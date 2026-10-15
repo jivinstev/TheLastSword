@@ -1,10 +1,10 @@
 # Residue: gates
 
-Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `spawn`: FAIL -- java.lang.IllegalStateException: Missing sampler M.
+Stopped at **gates**: 1 gate(s) red: Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Un.
 
 ## Failing gates
 
-- Gate C -- real client, `spawn`: FAIL -- java.lang.IllegalStateException: Missing sampler MaskSampler
+- Gate C -- real client, `battle`: FAIL -- Caused by: java.lang.IllegalArgumentException: Unable to find model file: the_last_sword:geo/dragon_cult_priest
 
 ## To resume
 

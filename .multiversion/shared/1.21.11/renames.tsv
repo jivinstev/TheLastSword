@@ -54,4 +54,8 @@ re:Lnet/minecraft/resources/ResourceLocation;	Lnet/minecraft/resources/Identifie
 # is per file, CATALOG M55). ⚠ reset() now sets PlayState.STOP: a STOPPED check AFTER a reset in the same predicate
 # reads true at once, where forceAnimationReset() left the state alone -- read the state first.
 re:\.forceAnimationReset\(\)	.reset()
+# The State enum is gone: a STOPPED comparison (4.x getControllerState() or 5.x getAnimationState()) becomes
+# net.the_last_sword.mv.GeoControllers.isStopped(controller) -- read it before any reset() in the same predicate.
+re:([\w$]+(?:\(\))?(?:\.[\w$]+(?:\(\))?)*)\.(?:getControllerState|getAnimationState)\(\)\s*!=\s*(?:[\w.]*\.)?(?:State|ControllerState)\.STOPPED	!net.the_last_sword.mv.GeoControllers.isStopped(\1)
+re:([\w$]+(?:\(\))?(?:\.[\w$]+(?:\(\))?)*)\.(?:getControllerState|getAnimationState)\(\)\s*==\s*(?:[\w.]*\.)?(?:State|ControllerState)\.STOPPED	net.the_last_sword.mv.GeoControllers.isStopped(\1)
 #!strict
