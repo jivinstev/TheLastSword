@@ -395,9 +395,8 @@
    "file": "net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "changed",
-   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
-   "now": "RenderType.entityTranslucent",
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
    "accounted": true
   },
   {
@@ -1737,8 +1736,7 @@
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
    "status": "same",
-   "detail": "through the rename tables",
-   "now": "RenderType.entityTranslucent"
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",
@@ -1774,8 +1772,7 @@
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
    "status": "same",
-   "detail": "through the rename tables",
-   "now": "RenderType.entityTranslucent"
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/lucky_event/ArenaBattleHandler.java#event:@SubscribeEvent LivingDeathEvent",
@@ -2740,10 +2737,10 @@
    "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
    "kind": "injection",
    "key": "@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "status": "changed",
-   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
    "now": "@Inject method=render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "accounted": true
+   "was": "changed"
   },
   {
    "id": "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
@@ -2751,10 +2748,10 @@
    "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
    "kind": "injection",
    "key": "@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
-   "status": "changed",
-   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
    "now": "@ModifyArg method=render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
-   "accounted": true
+   "was": "changed"
   },
   {
    "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=discard @At(value=\"HEAD\")",
@@ -2861,9 +2858,9 @@
    "file": "net/the_last_sword/mixin/EntityRenderDispatcherMixin.java",
    "kind": "injection",
    "key": "@ModifyVariable method=render @At(value=\"HEAD\")",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
   },
   {
    "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=bobHurt @At(value=\"HEAD\")",
@@ -3125,10 +3122,10 @@
    "file": "net/the_last_sword/mixin/LivingEntityRendererMixin.java",
    "kind": "injection",
    "key": "@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "status": "changed",
-   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
    "now": "@Inject method=render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "accounted": true
+   "was": "changed"
   },
   {
    "id": "main:net/the_last_sword/mixin/LocalPlayerMixin.java#injection:@Inject method=aiStep @At(value=\"FIELD\",target=\"Lnet/minecraft/world/entity/player/Abilities;flying:Z\",opcode=Opcodes.PUTFIELD,shift=At.Shift.AFTER)",
@@ -3716,12 +3713,18 @@
    "detail": "the target's resources have it"
   }
  ],
- "unaccounted": [],
+ "unaccounted": [
+  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
+  "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")"
+ ],
  "counts": {
   "same": 367,
   "moved": 8,
-  "changed": 6,
-  "dropped": 29
+  "changed": 2,
+  "dropped": 29,
+  "unaccounted": 4
  },
  "notes": []
 }

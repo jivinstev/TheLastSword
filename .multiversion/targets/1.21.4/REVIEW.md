@@ -130,3 +130,16 @@ C9 the eleven hurt-result sites the previous review listed (rename-row files and
 | stub | .multiversion/targets/1.21.4/java/net/the_last_sword/summon/WraithSummonManager.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: all 14 sends are displayClientMessage(msg,false). |
 | stub | .multiversion/targets/1.21.4/java/net/the_last_sword/test/TestEntity.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: stale signal; the overlay is the authors' 1.1.2 body with 1.21.4 signatures. |
 | stub | .multiversion/targets/1.21.4/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: durability(0).enchantable(1024), no repair. |
+| renames | .multiversion/targets/1.21.4/renames.tsv @baf285addea0 | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/META-INF/accesstransformer.cfg @d84e0d42cd9e | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/assets/the_last_sword/equipment @3a8041afe55c | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/assets/the_last_sword/items @898dfe071c13 | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/assets/the_last_sword/models @d8264b4c48f7 | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/data/the_last_sword/instrument @748a81a43150 | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/data/the_last_sword/recipe @cb8439c95bd5 | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/data/the_last_sword/tags @0d72a2d17efe | ? | ? |
+| resources | .multiversion/targets/1.21.4/resources/the_last_sword.mixins.json @e62c610fabf5 | ? | ? |
+| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ? | ? |
+| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="INVOKE",target="Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I") | ? | ? |
+| item | main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value="HEAD") | ? | ? |
+| item | main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ? | ? |
