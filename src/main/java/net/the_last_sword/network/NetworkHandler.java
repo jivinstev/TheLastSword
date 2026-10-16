@@ -4,6 +4,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.the_last_sword.compat.projecte.TransmutationStaffTerminationPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -11,7 +12,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 //网络包管理器
 public class NetworkHandler {
 
-    private static final String PROTOCOL_VERSION = "12";
+    private static final String PROTOCOL_VERSION = "16";
 
     private static int packetId = 0;
 
@@ -22,6 +23,8 @@ public class NetworkHandler {
     //注册所有网络包
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
+        registrar.playToClient(BlinkRiftPacket.TYPE, BlinkRiftPacket.STREAM_CODEC, BlinkRiftPacket::handle);
+        registrar.playToClient(TransmutationStaffTerminationPacket.TYPE, TransmutationStaffTerminationPacket.STREAM_CODEC, TransmutationStaffTerminationPacket::handle);
         registrar.playToClient(LightningSpearConfigPacket.TYPE, LightningSpearConfigPacket.STREAM_CODEC, LightningSpearConfigPacket::handle);
         registrar.playToClient(LightningSpearBurstPacket.TYPE, LightningSpearBurstPacket.STREAM_CODEC, LightningSpearBurstPacket::handle);
         registrar.playToClient(OpenWraithAppearanceScreenPacket.TYPE, OpenWraithAppearanceScreenPacket.STREAM_CODEC, OpenWraithAppearanceScreenPacket::handle);

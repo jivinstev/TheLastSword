@@ -3,6 +3,7 @@ package net.the_last_sword.configuration;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TheLastSwordConfiguration {
@@ -22,6 +23,17 @@ public class TheLastSwordConfiguration {
     public static ModConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_RADIUS;
     public static ModConfigSpec.ConfigValue<Double> PRIEST_STAFF_GUARD_SHIELD_GAIN;
     public static ModConfigSpec.ConfigValue<Integer> PRIEST_STAFF_GUARD_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_DAMAGE_PER_CHARGE;
+    public static ModConfigSpec.ConfigValue<Long> TRANSMUTATION_STAFF_BASE_EMC_COST;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_SPELL_POWER_PER_CHARGE;
+    public static ModConfigSpec.ConfigValue<Long> TRANSMUTATION_STAFF_ENTITY_EMC_COST;
+    public static ModConfigSpec.ConfigValue<Integer> TRANSMUTATION_STAFF_TERMINATION_CHARGE_TICKS;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_TERMINATION_RADIUS;
+    public static ModConfigSpec.ConfigValue<Integer> TRANSMUTATION_STAFF_TERMINATION_COOLDOWN;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_TERMINATION_EMC_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_TERMINATION_EMC_DAMAGE_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_TERMINATION_MANA_RATIO;
+    public static ModConfigSpec.ConfigValue<Double> TRANSMUTATION_STAFF_TERMINATION_MANA_DAMAGE_RATIO;
     public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_COOLDOWN;
     public static ModConfigSpec.ConfigValue<Integer> LIGHTNING_SPEAR_CHARGE_TIME;
     public static ModConfigSpec.ConfigValue<Double> LIGHTNING_SPEAR_RANGE;
@@ -62,7 +74,6 @@ public class TheLastSwordConfiguration {
     public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_NORMAL_MODE_CAN_MINE;
     public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_SUMMON_MODE_CAN_MINE;
     public static ModConfigSpec.ConfigValue<Double> THE_LAST_SWORD_PERCENTAGE_DAMAGE;
-    public static ModConfigSpec.ConfigValue<Boolean> THE_LAST_SWORD_ENABLE_STRONG_INVENTORY_PROTECTION;
 
     // Dragon Crystal Armor | 龙晶护甲配置
     public static ModConfigSpec.ConfigValue<Integer> DRAGON_CRYSTAL_ARMOR_CRYSTAL_GUARD_REFRESH_INTERVAL;
@@ -88,6 +99,10 @@ public class TheLastSwordConfiguration {
     // Ancient Energy Core | 远古能量核心
     public static ModConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_MAX_ENERGY;
     public static ModConfigSpec.ConfigValue<Integer> ANCIENT_ENERGY_CORE_CHARGE_RATE;
+
+    public static ModConfigSpec.ConfigValue<Integer> ZERO_POINT_ENGINE_MAX_ENERGY;
+    public static ModConfigSpec.ConfigValue<Integer> ZERO_POINT_ENGINE_GENERATION_RATE;
+    public static ModConfigSpec.ConfigValue<Integer> ZERO_POINT_ENGINE_CHARGE_RATE;
 
     // Curios - The Giver's Pain | 给予者的痛苦
     public static ModConfigSpec.ConfigValue<Double> CURIOS_GIVERS_PAIN_ATTACK_DAMAGE_BONUS;
@@ -340,6 +355,16 @@ public class TheLastSwordConfiguration {
 
     public static ModConfigSpec.ConfigValue<Double> DEFENCE_CUSTOM_HEALTH_DAMAGE_REDUCTION;
     public static ModConfigSpec.ConfigValue<Double> DEFENCE_MAX_DAMAGE_PER_HIT;
+    public static ModConfigSpec.ConfigValue<Boolean> DEFENCE_ENABLE_STRONG_INVENTORY_PROTECTION;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> DEFENCE_INVENTORY_PROTECTION_PACKAGE_WHITELIST;
+    private static final List<String> DEFAULT_INVENTORY_PROTECTION_PACKAGE_WHITELIST = List.of(
+        "moze_intel.projecte",
+        "net.p3pp3rf1y.sophisticatedbackpacks",
+        "net.p3pp3rf1y.sophisticatedcore",
+        "com.tiviacz.travelersbackpack",
+        "org.anti_ad.mc.ipnext",
+        "dev.terminalmc.clientsort"
+    );
 
     // ═══════════════════════════════════════════════════════════════════════════════════
     // Others Configuration | 其他配置
@@ -578,12 +603,6 @@ public class TheLastSwordConfiguration {
                 "在额外伤害基础上追加的目标最大生命值百分比（0.0 = 禁用，1.0 = 100%）"
             )
             .defineInRange("Percentage Damage", 0.13, 0.0, 1.0);
-        THE_LAST_SWORD_ENABLE_STRONG_INVENTORY_PROTECTION = BUILDER
-            .comment(
-                "Enable strong inventory protection. When enabled, blocks external mods from writing/removing items in the inventory and replacing equipment slots, preventing forced disarm/replace. Disabled by default for compatibility with backpack-style mods (avoids item loss). Death-drop / /clear / respawn-restore protections are always active.",
-                "启用强力背包保护。开启后将阻断外部 mod 对玩家背包/装备槽的写入与取出，防止强制缴械或替换装备。默认关闭以兼容背包类 mod，避免物品丢失。死亡掉落保护、/clear 保护、重生恢复始终生效。"
-            )
-            .define("Enable Strong Inventory Protection", false);
         BUILDER.pop();
 
         BUILDER.pop(); // End Sword
@@ -966,6 +985,18 @@ public class TheLastSwordConfiguration {
             .defineInRange("Charge Rate", 4096, 0, Integer.MAX_VALUE);
         BUILDER.pop();
 
+        BUILDER.push("Zero Point Engine");
+        ZERO_POINT_ENGINE_MAX_ENERGY = BUILDER
+            .comment("Maximum stored energy (FE)", "最大储能容量（FE）")
+            .defineInRange("Max Energy", 16777216, 0, Integer.MAX_VALUE);
+        ZERO_POINT_ENGINE_GENERATION_RATE = BUILDER
+            .comment("Energy generated per tick while carried or equipped (FE/tick)", "携带或装备时每 tick 自发电量（FE/tick）")
+            .defineInRange("Generation Rate", 1024, 0, Integer.MAX_VALUE);
+        ZERO_POINT_ENGINE_CHARGE_RATE = BUILDER
+            .comment("Energy transferred per tick to one item (FE/tick)", "每 tick 仅向一件物品充能的速率上限（FE/tick）")
+            .defineInRange("Charge Rate", 8192, 0, Integer.MAX_VALUE);
+        BUILDER.pop();
+
         BUILDER.pop(); // End Item
 
         // ═══════════════════════════════════════════════════════════════════════════════
@@ -1009,7 +1040,7 @@ public class TheLastSwordConfiguration {
                 "Maximum energy transferred per tick to the item in the charge slot (FE/t)",
                 "每 tick 向充电槽位物品充能的最大速率（FE/t）"
             )
-            .define("Item Charge Rate", 5120);
+            .define("Item Charge Rate", 8192);
         ENCHANTING_TABLE_ENCHANT_ENERGY_COST = BUILDER
             .comment(
                 "Energy cost per enchantment level (FE)",
@@ -1899,6 +1930,21 @@ public class TheLastSwordConfiguration {
         // ═══════════════════════════════════════════════════════════════════════════════
         BUILDER.push("Defence");
 
+        DEFENCE_ENABLE_STRONG_INVENTORY_PROTECTION = BUILDER
+            .comment(
+                "Enable strong inventory protection. When enabled, blocks external mods from writing/removing items in the inventory and replacing equipment slots, preventing forced disarm/replace. Disabled by default for compatibility with backpack-style mods (avoids item loss). Death-drop / /clear / respawn-restore protections are always active.",
+                "启用强力背包保护。开启后将阻断外部 mod 对玩家背包/装备槽的写入与取出，防止强制缴械或替换装备。默认关闭以兼容背包类 mod，避免物品丢失。死亡掉落保护、/clear 保护、重生恢复始终生效。"
+            )
+            .define("Enable Strong Inventory Protection", false);
+        DEFENCE_INVENTORY_PROTECTION_PACKAGE_WHITELIST = BUILDER
+            .comment(
+                "Java packages trusted by strong inventory protection, including their subpackages. Applies to inventory writes/removals and equipment replacement. An empty list disables custom exemptions; independent death-drop and clear protections are unchanged.",
+                "强力背包保护信任的 Java 包名，包含其子包。用于背包写入、移除和装备替换判定；空列表表示不额外放行任何包，不影响独立的死亡掉落与清空保护。"
+            )
+            .defineListAllowEmpty("Inventory Protection Package Whitelist", DEFAULT_INVENTORY_PROTECTION_PACKAGE_WHITELIST,
+                value -> value instanceof String prefix
+                    && prefix.matches("[A-Za-z_$][\\w$]*(\\.[A-Za-z_$][\\w$]*)+\\.?"));
+
         DEFENCE_CUSTOM_HEALTH_DAMAGE_REDUCTION = BUILDER
             .comment(
                 "Maximum percentage of health that can be lost per hit for defence system",
@@ -2037,6 +2083,46 @@ public class TheLastSwordConfiguration {
 
         // Compat Mods Configuration | 联动Mod配置
         BUILDER.push("Compat Mods");
+        BUILDER.push("ProjectE");
+        BUILDER.push("Universal Transmutation Staff");
+        TRANSMUTATION_STAFF_DAMAGE_PER_CHARGE = BUILDER
+            .comment("Projectile damage equals this value times charge level plus one; area damage applies every tick",
+                "弹射伤害为此值乘以充能档位加一，范围伤害每刻生效")
+            .defineInRange("Damage Per Charge", 200.0, 0.0, 1000000.0);
+        TRANSMUTATION_STAFF_BASE_EMC_COST = BUILDER
+            .comment("Base EMC cost doubles per charge level; spellcasting at charge zero is free",
+                "基础EMC消耗，每提高一档翻倍；零档法术施法免费")
+            .defineInRange("Base EMC Cost", 128L, 0L, Long.MAX_VALUE / 16);
+        TRANSMUTATION_STAFF_SPELL_POWER_PER_CHARGE = BUILDER
+            .comment("Spell power bonus per charge level; zero charge has no bonus", "每档额外法术强度比例，零档无加成")
+            .defineInRange("Spell Power Per Charge", 0.25, 0.0, 1000.0);
+        TRANSMUTATION_STAFF_ENTITY_EMC_COST = BUILDER
+            .comment("EMC cost per entity transmutation", "每次生物嬗变的EMC消耗")
+            .defineInRange("Entity EMC Cost", 384L, 0L, Long.MAX_VALUE);
+        TRANSMUTATION_STAFF_TERMINATION_CHARGE_TICKS = BUILDER
+            .comment("Required charge time in ticks (20 ticks per second)", "终结蓄力时间（刻，20刻为1秒）")
+            .defineInRange("Termination Charge Ticks", 60, 1, 72000);
+        TRANSMUTATION_STAFF_TERMINATION_RADIUS = BUILDER
+            .comment("Termination radius in blocks", "终结球体半径（格）")
+            .defineInRange("Termination Radius", 16.0, 0.0, 128.0);
+        TRANSMUTATION_STAFF_TERMINATION_COOLDOWN = BUILDER
+            .comment("Cooldown after termination in ticks", "终结释放后的冷却（刻）")
+            .defineInRange("Termination Cooldown", 260, 0, 72000);
+        TRANSMUTATION_STAFF_TERMINATION_EMC_RATIO = BUILDER
+            .comment("Fraction of table EMC consumed; rounded down; zero disables EMC consumption", "终结消耗转化桌余额的比例，向下取整，零为不消耗EMC")
+            .defineInRange("Termination EMC Ratio", 0.5, 0.0, 1.0);
+        TRANSMUTATION_STAFF_TERMINATION_EMC_DAMAGE_RATIO = BUILDER
+            .comment("Damage per EMC consumed by termination", "终结每消耗一点EMC转化的伤害")
+            .defineInRange("Termination EMC Damage Ratio", 0.1, 0.0, 1000000.0);
+        TRANSMUTATION_STAFF_TERMINATION_MANA_RATIO = BUILDER
+            .comment("Fraction of current mana consumed by termination", "终结消耗当前法力的比例")
+            .defineInRange("Termination Mana Ratio", 1.0, 0.0, 1.0);
+        TRANSMUTATION_STAFF_TERMINATION_MANA_DAMAGE_RATIO = BUILDER
+            .comment("Extra damage per mana actually consumed", "终结每实际消耗一点法力增加的伤害")
+            .defineInRange("Termination Mana Damage Ratio", 1.0, 0.0, 1000000.0);
+        BUILDER.pop();
+        BUILDER.pop();
+
         BUILDER.push("Cataclysm");
         COMPAT_ENABLE_SWORD_WRAITH_BOSS_TALK = BUILDER
             .comment(
@@ -2169,6 +2255,50 @@ public class TheLastSwordConfiguration {
         return safeGet(PRIEST_STAFF_GUARD_COOLDOWN, 100);
     }
 
+    public static double getTransmutationStaffSpellPowerPerChargeSafely() {
+        return safeGet(TRANSMUTATION_STAFF_SPELL_POWER_PER_CHARGE, 0.25);
+    }
+
+    public static long getTransmutationStaffEntityEmcCostSafely() {
+        return safeGet(TRANSMUTATION_STAFF_ENTITY_EMC_COST, 384L);
+    }
+
+    public static int getTransmutationStaffTerminationChargeTicksSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_CHARGE_TICKS, 60);
+    }
+
+    public static double getTransmutationStaffTerminationRadiusSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_RADIUS, 16.0);
+    }
+
+    public static int getTransmutationStaffTerminationCooldownSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_COOLDOWN, 260);
+    }
+
+    public static double getTransmutationStaffTerminationEmcRatioSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_EMC_RATIO, 0.5);
+    }
+
+    public static double getTransmutationStaffTerminationEmcDamageRatioSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_EMC_DAMAGE_RATIO, 0.1);
+    }
+
+    public static double getTransmutationStaffTerminationManaRatioSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_MANA_RATIO, 1.0);
+    }
+
+    public static double getTransmutationStaffTerminationManaDamageRatioSafely() {
+        return safeGet(TRANSMUTATION_STAFF_TERMINATION_MANA_DAMAGE_RATIO, 1.0);
+    }
+
+    public static double getTransmutationStaffDamagePerChargeSafely() {
+        return safeGet(TRANSMUTATION_STAFF_DAMAGE_PER_CHARGE, 200.0);
+    }
+
+    public static long getTransmutationStaffBaseEmcCostSafely() {
+        return safeGet(TRANSMUTATION_STAFF_BASE_EMC_COST, 128L);
+    }
+
     //盔甲类通用配置（等级区间）
     public static double getArmorIncreaseLowLevelSafely() {
         return safeGet(ARMOR_INCREASE_LOW_LEVEL, 0.5);
@@ -2267,7 +2397,11 @@ public class TheLastSwordConfiguration {
     }
 
     public static boolean getEnableStrongInventoryProtectionSafely() {
-        return safeGet(THE_LAST_SWORD_ENABLE_STRONG_INVENTORY_PROTECTION, false);
+        return safeGet(DEFENCE_ENABLE_STRONG_INVENTORY_PROTECTION, false);
+    }
+
+    public static List<? extends String> getInventoryProtectionPackageWhitelistSafely() {
+        return safeGet(DEFENCE_INVENTORY_PROTECTION_PACKAGE_WHITELIST, DEFAULT_INVENTORY_PROTECTION_PACKAGE_WHITELIST);
     }
 
     //龙晶护甲配置
@@ -2333,6 +2467,18 @@ public class TheLastSwordConfiguration {
 
     public static int getAncientEnergyCoreChargeRateSafely() {
         return safeGet(ANCIENT_ENERGY_CORE_CHARGE_RATE, 4096);
+    }
+
+    public static int getZeroPointEngineMaxEnergySafely() {
+        return safeGet(ZERO_POINT_ENGINE_MAX_ENERGY, 16777216);
+    }
+
+    public static int getZeroPointEngineGenerationRateSafely() {
+        return safeGet(ZERO_POINT_ENGINE_GENERATION_RATE, 1024);
+    }
+
+    public static int getZeroPointEngineChargeRateSafely() {
+        return safeGet(ZERO_POINT_ENGINE_CHARGE_RATE, 8192);
     }
 
     //防御系统配置
@@ -2844,7 +2990,7 @@ public class TheLastSwordConfiguration {
     }
 
     public static int getEnchantingTableItemChargeRateSafely() {
-        return safeGet(ENCHANTING_TABLE_ITEM_CHARGE_RATE, 5120);
+        return safeGet(ENCHANTING_TABLE_ITEM_CHARGE_RATE, 8192);
     }
 
     public static int getEnchantingTableEnchantEnergyCostSafely() {
