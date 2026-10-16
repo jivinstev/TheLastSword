@@ -8,12 +8,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -72,7 +72,10 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
     //近战攻击：造成物理伤害+魔法伤害
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        //调用基类方法，检查友方误伤并造成物理伤害（1.21.5 基类返回 void，检查由基类内部完成）
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
+        //调用基类方法，检查友方误伤并造成物理伤害
         super.hurtEnemy(stack, target, attacker);
 
         //造成额外的魔法伤害

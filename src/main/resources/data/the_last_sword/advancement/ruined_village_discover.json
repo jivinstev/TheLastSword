@@ -20,7 +20,7 @@
       "conditions": {
         "player": {
           "location": {
-            "structure": "the_last_sword:ruined_village"
+            "structures": "the_last_sword:ruined_village"
           }
         }
       }

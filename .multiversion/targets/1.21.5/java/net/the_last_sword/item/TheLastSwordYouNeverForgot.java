@@ -92,6 +92,9 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
     // 左键：基础物理伤害 + 自定义attack
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         super.hurtEnemy(stack, target, attacker);
 
         if (!attacker.level().isClientSide) {
@@ -204,7 +207,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
     public static class HiddenSwordTickHandler {
         private static final String INVUL_TAG = "TheLastSwordYouNeverForgotInvul";
         private static final String FLY_TAG = "TheLastSwordYouNeverForgotFly";
-        private static final String DEFENCE_TAG = "TheLastSwordYouNeverForgotDefence";
 
         @SubscribeEvent
         public static void onPlayerTick(PlayerTickEvent.Pre event) {
@@ -228,10 +230,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                         player.onUpdateAbilities();
                     }
                 }
-
-                //设置保护标记（触发 Mixin 防踢、防清除和防实体移除）
-                EntityUtil.setProtection(player, true);
-                player.getPersistentData().putBoolean(DEFENCE_TAG, true);
 
                 // 免疫
                 EntityUtil.applyImmunity(player);
@@ -262,11 +260,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                     player.onUpdateAbilities();
                 }
 
-                // 移除保护标记
-                if (player.getPersistentData().getBoolean(DEFENCE_TAG).orElse(false)) {
-                    EntityUtil.setProtection(player, false);
-                    player.getPersistentData().remove(DEFENCE_TAG);
-                }
             }
         }
 

@@ -20,7 +20,7 @@
       "conditions": {
         "player": {
           "location": {
-            "structure": "the_last_sword:travelers_hold"
+            "structures": "the_last_sword:travelers_hold"
           }
         }
       }

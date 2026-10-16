@@ -6,12 +6,15 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
+import net.minecraft.world.item.ArmorItem;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.compat.cataclysm.CataclysmItemsRegistry;
 import net.the_last_sword.compat.curios.CuriosItemsRegistry;
+import net.the_last_sword.compat.projecte.TransmutationStaffFactory;
 import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockDisplayItem;
 import net.the_last_sword.item.*;
+import net.the_last_sword.compat.projecte.PrimalSourceArmorSupport;
 import net.the_last_sword.test.UltraTestSwordItem;
 import net.minecraft.world.item.Rarity;
 
@@ -120,6 +123,10 @@ public class ModItems {
 
     public static final Supplier<Item> ANCIENT_ENERGY_CORE = ITEMS.register("ancient_energy_core",
         AncientEnergyCore::new
+    );
+
+    public static final Supplier<Item> ZERO_POINT_ENGINE = ITEMS.register("zero_point_engine",
+        ZeroPointEngine::new
     );
 
     public static final Supplier<Item> DRAGON_CRYSTAL_UPGRADE_TEMPLATE = ITEMS.register("dragon_crystal_upgrade_template",
@@ -273,6 +280,12 @@ public class ModItems {
         DragonCultPriestArmorItem.Boots::new
     );
 
+    public static Supplier<Item> CROWN_OF_COUNTLESS_STARS;
+    public static Supplier<Item> STAFF_OF_UNIVERSAL_TRANSMUTATION;
+    public static Supplier<Item> ROBE_OF_THE_PRIMAL_SOURCE;
+    public static Supplier<Item> LEGGINGS_OF_EARTHS_BLESSING;
+    public static Supplier<Item> BOOTS_OF_THE_DEEP_ABYSS;
+
     //测试实体刷怪蛋
     public static final Supplier<Item> TEST_ENTITY_SPAWN_EGG = ITEMS.register("test_entity_spawn_egg",
         () -> new DeferredSpawnEggItem(ModEntities.TEST_ENTITY, -1, -1, new Item.Properties())
@@ -361,6 +374,18 @@ public class ModItems {
 
     //注册联动物品（直接调用，Java懒加载保证不会在未加载时执行）
     private static void registerConditionalItems() {
+        if (CompatCheck.isTransmutationLoaded()) {
+            STAFF_OF_UNIVERSAL_TRANSMUTATION = ITEMS.register("staff_of_universal_transmutation",
+                TransmutationStaffFactory::create);
+            CROWN_OF_COUNTLESS_STARS = ITEMS.register("crown_of_countless_stars",
+                () -> PrimalSourceArmorSupport.create(ArmorItem.Type.HELMET));
+            ROBE_OF_THE_PRIMAL_SOURCE = ITEMS.register("robe_of_the_primal_source",
+                () -> PrimalSourceArmorSupport.create(ArmorItem.Type.CHESTPLATE));
+            LEGGINGS_OF_EARTHS_BLESSING = ITEMS.register("leggings_of_earths_blessing",
+                () -> PrimalSourceArmorSupport.create(ArmorItem.Type.LEGGINGS));
+            BOOTS_OF_THE_DEEP_ABYSS = ITEMS.register("boots_of_the_deep_abyss",
+                () -> PrimalSourceArmorSupport.create(ArmorItem.Type.BOOTS));
+        }
         //灾变奖章
         if (CompatCheck.isCataclysmLoaded()) {
             ANCIENT_REMNANT_MEDAL = CataclysmItemsRegistry.registerAncientRemnantMedal(ITEMS);

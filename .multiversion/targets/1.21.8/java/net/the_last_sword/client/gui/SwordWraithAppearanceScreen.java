@@ -5,7 +5,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
 import net.the_last_sword.entity.TheLastEndEntity;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
@@ -54,7 +53,7 @@ public class SwordWraithAppearanceScreen extends Screen {
             preview = null;
             return;
         }
-        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, EntitySpawnReason.LOAD);
+        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, net.minecraft.world.entity.EntitySpawnReason.LOAD);
         if (preview != null) {
             preview.setAppearance(appearance);
             preview.setAppearancePreview(true);

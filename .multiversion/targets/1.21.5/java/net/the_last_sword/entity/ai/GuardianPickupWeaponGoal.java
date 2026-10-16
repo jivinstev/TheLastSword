@@ -120,7 +120,9 @@ public class GuardianPickupWeaponGoal extends Goal {
         if (stack.isEmpty()) {
             return false;
         }
-        return stack.is(ItemTags.SWORDS)
+        //1.21.5: no vanilla SwordItem class (vanilla swords are plain Items in #minecraft:swords); this mod's swords extend
+        //compat/gear/SwordItem and only knight_greatsword is in the tag, so test both, as 1.21.1's instanceof SwordItem covered both
+        return stack.is(ItemTags.SWORDS) || stack.getItem() instanceof net.the_last_sword.compat.gear.SwordItem
             || stack.getItem() instanceof BowItem
             || stack.getItem() instanceof AxeItem;
     }

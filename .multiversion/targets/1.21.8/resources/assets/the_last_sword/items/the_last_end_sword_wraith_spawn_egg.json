@@ -1,6 +1,16 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "the_last_sword:item/the_last_end_sword_wraith_spawn_egg"
+    "model": "the_last_sword:item/the_last_end_sword_wraith_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 0
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 16777215
+      }
+    ]
   }
 }

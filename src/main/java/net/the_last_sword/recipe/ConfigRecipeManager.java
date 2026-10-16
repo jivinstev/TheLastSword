@@ -6,6 +6,8 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.Level;
+import com.mojang.serialization.JsonOps;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfigManager;
 import net.the_last_sword.util.TheLastSwordLogger;
@@ -174,6 +176,11 @@ public class ConfigRecipeManager {
             return;
         }
 
+        if (!ICondition.conditionsMatched(JsonOps.INSTANCE, json)) {
+            recipes.remove(officialKey != null ? officialKey : customKey);
+            return;
+        }
+
         if (officialKey != null && !modernFormat) {
             TheLastSwordLogger.info("Ignored outdated built-in recipe copy in config: {}", recipePath);
             return;
@@ -254,6 +261,10 @@ public class ConfigRecipeManager {
             for (Path recipePath : jsonFiles) {
                 String relativePath = directory.relativize(recipePath).toString().replace('\\', '/');
                 try {
+                    // 条件必须先于物品解析检查，未启用的联动材料可能尚未注册。
+                    if (!ICondition.conditionsMatched(JsonOps.INSTANCE, readJson(recipePath))) {
+                        continue;
+                    }
                     consumer.accept(recipePath, relativePath);
                 } catch (Exception exception) {
                     TheLastSwordLogger.error("Failed to load built-in recipe: {}", relativePath, exception);
