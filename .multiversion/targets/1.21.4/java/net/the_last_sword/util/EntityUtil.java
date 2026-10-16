@@ -323,8 +323,9 @@ public class EntityUtil {
 
     private static Vec3 checkSafeTeleportPosition(Entity entity, Vec3 position) {
         Level level = entity.level();
+        //1.21.4: getMaxY() is the top block; 1.21.1's getMaxBuildHeight() was the height one above it
         if (position.y < level.getMinY()
-                || position.y + entity.getBbHeight() > level.getMaxY()
+                || position.y + entity.getBbHeight() > level.getMaxY() + 1
                 || !level.hasChunkAt(BlockPos.containing(position))) {
             return null;
         }

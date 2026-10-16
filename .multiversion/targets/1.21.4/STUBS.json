@@ -1,10 +1,5 @@
 [
  {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/block/DragonCrystalEnchantingTableBlock.java",
-  "why": "deletes overriding method(s) getLightBlock: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "Ported: 1.21.2's getLightBlock(BlockState) lost its BlockGetter/BlockPos; the overlay overrides it again returning 0 (and getRenderShape INVISIBLE is 1.21.1's ENTITYBLOCK_ANIMATED, which 1.21.2 removed)."
- },
- {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
   "why": "deletes overriding method(s) getCustomRenderer: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it; empties 1 method body",
   "reviewed": "Ported: getCustomRenderer is gone from 1.21.4 IClientItemExtensions; the class is now a client-only factory whose provider() returns a GeckoLib GeoRenderProvider serving the same DragonCrystalEnchantingTableDisplayItemRenderer (the emptied body is its private constructor), handed to the display item's createGeoRenderer and drawn by the geckolib:geckolib special model in items/dragon_crystal_enchanting_table.json."
@@ -46,16 +41,6 @@
   "reviewed": "Ported: initializeClient is gone in NeoForge 21.4 and Curios 1.21.4 finds a curio renderer only through CuriosRendererRegistry; client/WingsThatCoverTheWorldClient registers WingsThatCoverTheWorldRenderer for the item at client setup."
  },
  {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/LuckModifierCraftingRecipe.java",
-  "why": "drops @Override from canCraftInDimensions and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "canCraftInDimensions was removed from Recipe in 1.21.2 and nothing replaces it; its condition (grid at least 2x2) holds for every vanilla crafting grid, so dropping the override changes nothing."
- },
- {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlock.java",
-  "why": "deletes overriding method(s) getRenderShape: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "Ported: 1.21.2 removed RenderShape.ENTITYBLOCK_ANIMATED; the overlay overrides getRenderShape with INVISIBLE (the block entity renderer alone draws it), and getLightBlock(BlockState) keeps returning 0."
- },
- {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemClient.java",
   "why": "empties 1 method body; empties 1 method body; deletes overriding method(s) getCustomRenderer: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
   "reviewed": "Ported: getCustomRenderer is gone in 1.21.4; the renderer is served by getRenderer() through TheLastEndLuckyBlockDisplayItem.createGeoRenderer (GeckoLib GeoRenderProvider) and drawn by the geckolib:geckolib special model in items/the_last_end_lucky_block.json; the now-empty createExtensions is no longer called."
@@ -64,16 +49,6 @@
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/lucky_event/events/ArenaEvent.java",
   "why": "removes 3 registration/listener/send call(s)",
   "reviewed": "No call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2, so the three messages go through a private sendMessage that calls ServerPlayer.sendSystemMessage (lucky events run on the server)."
- },
- {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/lucky_event/events/LuckyWellEvent.java",
-  "why": "removes 1 registration/listener/send call(s)",
-  "reviewed": "No call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; player.displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server, the same chat message."
- },
- {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/compat/lucky_block/lucky_event/events/TrapEvent.java",
-  "why": "removes 1 registration/listener/send call(s)",
-  "reviewed": "No call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; player.displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server, the same chat message."
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/EndCrystalRift.java",
@@ -85,11 +60,6 @@
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/GuardianOfSealedSpireEntity.java",
   "why": "deletes overriding method(s) hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
   "reviewed": "Ported: 1.21.1's hurt override (guardians ignore damage from guardians) is now a hurtServer(ServerLevel, DamageSource, float) override with the same check."
- },
- {
-  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/QueenBlinkBlade.java",
-  "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "Ported: Entity.getBoundingBoxForCulling moved to the renderer in 1.21.2 (CATALOG M19); QueenBlinkBladeRenderer now overrides getBoundingBoxForCulling(entity) and returns this method's blade box, which stays a plain method."
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java",
