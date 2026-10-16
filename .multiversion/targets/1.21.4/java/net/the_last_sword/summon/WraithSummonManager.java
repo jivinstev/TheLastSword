@@ -543,7 +543,7 @@ public class WraithSummonManager {
         theLastEnd.setAnimationState(TheLastEndEntity.STATE_IDLE);
 
         float maxHealth = (float) wraith.getAttributeValue(Attributes.MAX_HEALTH);
-        // 最大生命由 MAX_HEALTH 属性决定，TrueHealthManager 不再单独设置上限
+
         TrueHealthManager.setHealth(theLastEnd, maxHealth);
     }
 
@@ -686,10 +686,7 @@ public class WraithSummonManager {
                 double newMaxHealth = healthAttr.getBaseValue() + healthBonus;
                 healthAttr.setBaseValue(newMaxHealth);
 
-                //最大生命由 MAX_HEALTH 属性决定，无需单独同步上限
-                TrueHealthManager.setHealth(entity, (float) newMaxHealth);
-
-                entity.setHealth((float) newMaxHealth);
+                TrueHealthManager.setHealth(entity, entity.getMaxHealth());
             }
         }
 
@@ -710,10 +707,7 @@ public class WraithSummonManager {
                 double newMaxHealth = Math.max(1.0, healthAttr.getBaseValue() - healthBonus);
                 healthAttr.setBaseValue(newMaxHealth);
 
-                //最大生命由 MAX_HEALTH 属性决定，无需单独同步上限
-                TrueHealthManager.setHealth(entity, (float) newMaxHealth);
-
-                entity.setHealth((float) newMaxHealth);
+                TrueHealthManager.setHealth(entity, entity.getMaxHealth());
             }
         }
 

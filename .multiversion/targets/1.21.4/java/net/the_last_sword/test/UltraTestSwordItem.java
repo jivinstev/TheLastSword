@@ -35,11 +35,11 @@ import net.the_last_sword.ItemNbt;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.init.ModKeyMappings;
 import net.the_last_sword.util.EntityUtil;
-import net.the_last_sword.util.health.TrueHealthManager;
 import net.the_last_sword.event.ServerEventHandler;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @EventBusSubscriber(modid = "the_last_sword")
@@ -111,6 +111,16 @@ public class UltraTestSwordItem extends Item {
                     TestUtil.clear(targets);
                 } else {
                     List<Entity> targets = TestUtil.selectTargets(serverPlayer);
+                    Set<EntityType<?>> targetTypes = new HashSet<>();
+                    for (Entity target : targets) {
+                        targetTypes.add(target.getType());
+                    }
+                    // 先封锁再清除，且不缩短已有的更长禁生成时间。
+                    for (EntityType<?> type : targetTypes) {
+                        if (EcaAPI.getSpawnBanTime(serverLevel, type) < 5) {
+                            EcaAPI.banSpawn(serverLevel, type, 5);
+                        }
+                    }
                     for (Entity target : targets) {
                         EntityUtil.theLastEndRemove(target, Entity.RemovalReason.KILLED);
                     }
@@ -238,17 +248,6 @@ public class UltraTestSwordItem extends Item {
         boolean isCreativeOrSpec = sp.isCreative() || sp.isSpectator();
         boolean isOp = sp.hasPermissions(2);
         if (!(isCreativeOrSpec && isOp)) return;
-
-        //TLS防御逻辑：持有究极测试剑时始终注册
-        if (hasUltraTestSword(sp)) {
-            TrueHealthManager.register(sp);
-            sp.getPersistentData().putBoolean("UltraTestSwordTLSDefence", true);
-        } else {
-            if (sp.getPersistentData().getBoolean("UltraTestSwordTLSDefence")) {
-                TrueHealthManager.clear(sp);
-                sp.getPersistentData().remove("UltraTestSwordTLSDefence");
-            }
-        }
 
         //ECA无敌+位置锁定：仅防御模式
         if (hasDefenseSword(sp)) {

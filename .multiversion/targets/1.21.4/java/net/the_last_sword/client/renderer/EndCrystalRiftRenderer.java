@@ -5,14 +5,20 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.the_last_sword.TheLastSwordMod;
+import net.minecraft.world.phys.AABB;
 import net.the_last_sword.entity.EndCrystalRift;
 
+// 1.21.2+: EntityRenderer has no getTextureLocation to override (1.21.1's was only the abstract requirement);
+// QueenBlinkRenderUtil.summonRift binds textures/entities/queen_rift.png itself. The culling box moved from the
+// entity to the renderer, so getBoundingBoxForCulling below returns the entity's inflated box as 1.21.1 did.
 public class EndCrystalRiftRenderer extends EntityRenderer<EndCrystalRift, EndCrystalRiftRenderer.RiftRenderState> {
     public static class RiftRenderState extends EntityRenderState {
-        public EndCrystalRift entity;
-        public float partialTick;
+        public float animationAge;
+        public float yRot;
+    }
+
+    public EndCrystalRiftRenderer(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -23,26 +29,18 @@ public class EndCrystalRiftRenderer extends EntityRenderer<EndCrystalRift, EndCr
     @Override
     public void extractRenderState(EndCrystalRift entity, RiftRenderState state, float partialTick) {
         super.extractRenderState(entity, state, partialTick);
-        state.entity = entity;
-        state.partialTick = partialTick;
-    }
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
-        TheLastSwordMod.MOD_ID, "textures/entities/queen_rift.png");
-
-    public EndCrystalRiftRenderer(EntityRendererProvider.Context context) {
-        super(context);
+        state.animationAge = entity.getAnimationAge(partialTick);
+        state.yRot = entity.getYRot();
     }
 
     @Override
-    public void render(RiftRenderState state, PoseStack pose,
-                       MultiBufferSource buffers, int light) {
-        EndCrystalRift entity = state.entity;
-        QueenBlinkRenderUtil.summonRift(pose, buffers, entity.getAnimationAge(state.partialTick), entity.getYRot());
-        super.render(state, pose, buffers, light);
+    protected AABB getBoundingBoxForCulling(EndCrystalRift entity) {
+        return entity.getBoundingBoxForCulling();
     }
 
-    // 1.21.2+: no longer an EntityRenderer override
-    public ResourceLocation getTextureLocation(RiftRenderState state) {
-        return TEXTURE;
+    @Override
+    public void render(RiftRenderState state, PoseStack pose, MultiBufferSource buffers, int light) {
+        QueenBlinkRenderUtil.summonRift(pose, buffers, state.animationAge, state.yRot);
+        super.render(state, pose, buffers, light);
     }
 }

@@ -112,11 +112,12 @@ public class EndCrystalRift extends Entity {
     }
 
     @Override
+    @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return false;
     }
 
-    // 1.21.2+: no longer an Entity override
+    // 1.21.2+: no longer an Entity override; EndCrystalRiftRenderer.getBoundingBoxForCulling calls it
     public AABB getBoundingBoxForCulling() {
         return getBoundingBox().inflate(6);
     }
