@@ -24,3 +24,10 @@ re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderCo
 # X1: proposed by a file-loop worker, kept because the error count fell
 member:getFlipDegrees	getDeathMaxRotation
 # R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)
+# ProjectE and Iron's Spells 'n Spellbooks have no build for any layer target (DEPS.md): their compat classes are
+# not compiled (drops.txt); these rows cut the authors' references to them, each behind its CompatCheck guard.
+re:import net\.the_last_sword\.compat\.irons_spellbooks\.(SpellIntegration|EndSpellScrollItemExtension);	// Iron's Spells 'n Spellbooks: no build for this Minecraft, \1 is not compiled (drops.txt)
+re:import net\.the_last_sword\.compat\.projecte\.(ProjectECapabilities|TransmutationStaffTerminationPacket);	// ProjectE: no build for this Minecraft, \1 is not compiled (drops.txt)
+re:if \(CompatCheck\.isSpellcastingLoaded\(\)\) \{\s*(SpellIntegration\.\w+\(\w+\);|ItemExtensionManager\.register\(new EndSpellScrollItemExtension\(\)\);)\s*\}	{ /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
+re:if \(CompatCheck\.isTransmutationLoaded\(\)\) \{\s*ProjectECapabilities\.register\(event\);\s*\}	{ /* ProjectE: no build for this Minecraft (drops.txt) */ }
+re:registrar\.playToClient\(TransmutationStaffTerminationPacket\.TYPE, [^;]*;	// ProjectE: no build for this Minecraft, its termination packet is not registered (drops.txt)

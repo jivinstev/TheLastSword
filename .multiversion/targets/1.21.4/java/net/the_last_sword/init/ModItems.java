@@ -122,6 +122,10 @@ public class ModItems {
         () -> net.the_last_sword.mv.RegIds.enter("ancient_energy_core") ? null : new AncientEnergyCore()
     );
 
+    public static final Supplier<Item> ZERO_POINT_ENGINE = ITEMS.register("zero_point_engine",
+        () -> net.the_last_sword.mv.RegIds.enter("zero_point_engine") ? null : new ZeroPointEngine()
+    );
+
     public static final Supplier<Item> DRAGON_CRYSTAL_UPGRADE_TEMPLATE = ITEMS.register("dragon_crystal_upgrade_template",
         () -> net.the_last_sword.mv.RegIds.enter("dragon_crystal_upgrade_template") ? null : new DragonCrystalUpgradeTemplate()
     );
@@ -272,6 +276,14 @@ public class ModItems {
     public static final Supplier<Item> DRAGON_CULT_PRIEST_ARMOR_BOOTS = ITEMS.register("dragon_cult_priest_armor_boots",
         () -> net.the_last_sword.mv.RegIds.enter("dragon_cult_priest_armor_boots") ? null : new DragonCultPriestArmorItem.Boots()
     );
+
+    // ProjectE's items: ProjectE has no build for this Minecraft (DEPS.md), so they are never registered here
+    // and stay null, exactly as on 1.21.1 without ProjectE installed.
+    public static Supplier<Item> CROWN_OF_COUNTLESS_STARS;
+    public static Supplier<Item> STAFF_OF_UNIVERSAL_TRANSMUTATION;
+    public static Supplier<Item> ROBE_OF_THE_PRIMAL_SOURCE;
+    public static Supplier<Item> LEGGINGS_OF_EARTHS_BLESSING;
+    public static Supplier<Item> BOOTS_OF_THE_DEEP_ABYSS;
 
     //测试实体刷怪蛋
     public static final Supplier<Item> TEST_ENTITY_SPAWN_EGG = ITEMS.register("test_entity_spawn_egg",

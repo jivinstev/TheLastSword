@@ -1,0 +1,38 @@
+{
+  "required": true,
+  "package": "net.the_last_sword.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "EntityRenderDispatcherMixin",
+    "CameraMixin",
+    "MinecraftMixin",
+    "GameRendererMixin",
+    "LevelRendererMixin",
+    "LivingEntityRendererMixin",
+    "LocalPlayerMixin",
+    "EnderDragonRendererMixin",
+    "ScreenEffectRendererMixin",
+    "SmithingTransformRecipeAccessor"
+  ],
+  "mixins": [
+    "BlockBehaviourMixin",
+    "ConnectionMixin",
+    "EndCrystalMixin",
+    "EnderDragonMixin",
+    "EntityMixin",
+    "InventoryMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "PlayerAdvancementsMixin",
+    "ServerPlayerMixin",
+    "PersistentEntitySectionManagerMixin",
+    "PersistentEntitySectionManagerMixin$CallbackMixin",
+    "ServerCommonPacketListenerImplMixin",
+    "ServerGamePacketListenerImplMixin",
+    "ServerCommonPacketListenerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
