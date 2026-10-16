@@ -22,7 +22,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java",
   "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null,
+  "reviewed": "Ported: 1.21.2's EntityRenderer has no getTextureLocation (the 1.21.1 one was only the abstract requirement) and QueenBlinkRenderUtil.summonRift binds textures/entities/queen_rift.png itself, so the method is deleted; the renderer now overrides 1.21.4's getBoundingBoxForCulling(EndCrystalRift) with the rift's inflated box. The current overlay no longer raises this signal.",
   "hooks": []
  },
  {
@@ -78,7 +78,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/EndCrystalRift.java",
   "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": null,
+  "reviewed": "Ported: Entity.getBoundingBoxForCulling moved to the renderer in 1.21.2 (CATALOG M19); EndCrystalRiftRenderer.getBoundingBoxForCulling(entity) overrides it and returns this method's box (inflate 6), which stays a plain method, as QueenBlinkBlade does.",
   "hooks": []
  },
  {
@@ -109,7 +109,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/init/ModItems.java",
   "why": "removes 5 registration/listener/send call(s)",
-  "reviewed": null,
+  "reviewed": "Intended: the five removed registrations are ProjectE's items (staff of universal transmutation and the four Primal Source pieces), registered on 1.21.1 only under CompatCheck.isTransmutationLoaded(). ProjectE has no build for 1.21.4 (DEPS.md: dropped) and compat/projecte is in drops.txt, so the fields stay null exactly as on 1.21.1 without ProjectE; every reader null-checks them (d1af811, 405e92f).",
   "hooks": []
  },
  {
@@ -170,7 +170,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/test/TestEntity.java",
   "why": "empties 1 method body",
-  "reviewed": null,
+  "reviewed": "Stale: raised against the pre-1.1.2 overlay. The overlay now carries the authors' 1.1.2 TestEntity (spawn position, healthManagementReady) and differs from it only by the 1.21.4 signatures (customServerAiStep/kill/dropExperience take a ServerLevel, canTeleport); its empty bodies (checkDespawn, doPush, pushEntities, knockback, init) are the authors' own, and the current overlay no longer raises this signal.",
   "hooks": [
    "@SubscribeEvent EntityJoinLevelEvent",
    "@SubscribeEvent ServerTickEvent.Post"
