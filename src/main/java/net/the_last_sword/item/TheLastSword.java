@@ -376,10 +376,20 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
     public static class TheLastSwordTickHandler {
 
         @SubscribeEvent
+        public static void onPlayerTickPost(PlayerTickEvent.Post event) {
+            if (event.getEntity().level().isClientSide) return;
+            // 开始时清除旧上限锁，结束时收敛装备更新后的血量。（1.21.1：开始/结束为 Pre/Post 两个事件）
+            TrueHealthManager.syncProtection(event.getEntity());
+        }
+
+        @SubscribeEvent
         public static void onPlayerTick(PlayerTickEvent.Pre event) {
             if (event.getEntity().level().isClientSide) return;
 
             Player player = event.getEntity();
+            // 开始时清除旧上限锁，结束时收敛装备更新后的血量。
+            TrueHealthManager.syncProtection(player);
+
             boolean hasSword = hasTheLastSwordInInventory(player);
 
             //飞行逻辑
@@ -402,17 +412,12 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 }
             }
 
-            //防御逻辑
-            if (hasSword && !player.dead && player.getHealth() > 0.0F) {
-                TrueHealthManager.register(player, player.getMaxHealth());
+            // 伤害阈值独立于真实血量系统的统一注册。
+            if (hasSword) {
                 player.getPersistentData().putBoolean("TheLastSwordDefence", true);
             } else {
-                if (player.getPersistentData().getBoolean("TheLastSwordDefence")) {
-                    TrueHealthManager.clear(player);
-                    player.getPersistentData().remove("TheLastSwordDefence");
-                }
+                player.getPersistentData().remove("TheLastSwordDefence");
             }
-
             //免疫逻辑：清除火焰、冰冻和负面效果
             if (hasSword) {
                 EntityUtil.applyImmunity(player);

@@ -20,7 +20,7 @@
       "conditions": {
         "player": {
           "location": {
-            "structure": "the_last_sword:sealed_spire"
+            "structures": "the_last_sword:sealed_spire"
           }
         }
       }
