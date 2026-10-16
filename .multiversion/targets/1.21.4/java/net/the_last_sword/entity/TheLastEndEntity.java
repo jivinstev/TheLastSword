@@ -273,8 +273,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         // 首次tick初始化防御系统
         if (!level().isClientSide && tickCount == 1) {
             if (!EntityUtil.hasProtection(this)) {
-                float maxHealth = (float) this.getAttributeValue(Attributes.MAX_HEALTH);
-                TrueHealthManager.register(this, maxHealth);
+                TrueHealthManager.register(this);
             }
         }
 
@@ -497,7 +496,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         if (!Float.isFinite(restoredHealth) || restoredHealth <= 0.0F) {
             restoredHealth = restoredMaxHealth;
         }
-        TrueHealthManager.setMaxHealth(this, restoredMaxHealth);
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(restoredMaxHealth);
         TrueHealthManager.setHealth(this, Math.min(restoredHealth, restoredMaxHealth));
         EntityUtil.setProtection(this, true);
         deathDamageSource = null;
@@ -515,7 +514,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             restoredMaxHealth = getMaxHealth();
         }
         EcaAPI.revive(this);
-        TrueHealthManager.setMaxHealth(this, restoredMaxHealth);
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(restoredMaxHealth);
         TrueHealthManager.setHealth(this, restoredMaxHealth);
         EntityUtil.setProtection(this, true);
         deathDamageSource = null;
@@ -736,9 +735,8 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         }
 
         if (!level().isClientSide) {
-            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this, maxHealth);
+                TrueHealthManager.register(this);
             }
         }
     }

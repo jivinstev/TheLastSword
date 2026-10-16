@@ -241,7 +241,7 @@ public class UltraTestSwordItem extends Item {
 
         //TLS防御逻辑：持有究极测试剑时始终注册
         if (hasUltraTestSword(sp)) {
-            TrueHealthManager.register(sp, sp.getMaxHealth());
+            TrueHealthManager.register(sp);
             sp.getPersistentData().putBoolean("UltraTestSwordTLSDefence", true);
         } else {
             if (sp.getPersistentData().getBoolean("UltraTestSwordTLSDefence")) {

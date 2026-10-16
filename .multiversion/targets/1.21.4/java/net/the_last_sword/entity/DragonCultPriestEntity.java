@@ -311,7 +311,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
             float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this, maxHealth);
+                TrueHealthManager.register(this);
             }
 
             setTheLastEndLevel(1);
@@ -458,7 +458,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
         if (TrueHealthManager.getMaxHealth(this) > 0.0F) {
             float newMax = (float) getAttributeValue(Attributes.MAX_HEALTH);
-            TrueHealthManager.setMaxHealth(this, newMax);
+            // MAX_HEALTH attribute already holds newMax (set above); no separate max-health push exists on LivingEntity
             TrueHealthManager.setHealth(this, newMax * healthRatio);
         }
     }

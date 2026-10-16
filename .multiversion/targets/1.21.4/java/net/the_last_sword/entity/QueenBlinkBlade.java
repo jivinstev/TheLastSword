@@ -38,7 +38,7 @@ public class QueenBlinkBlade extends Projectile {
     }
 
     protected QueenBlinkBlade(EntityType<? extends QueenBlinkBlade> type, Level level,
-                              ThePastShadowOfTheQueenEntity queen, QueenBlinkSettings settings) {
+                              LivingEntity queen, QueenBlinkSettings settings) {
         this(type, level);
         setOwner(queen);
         entityData.set(WIDTH, (float) settings.width());
@@ -62,7 +62,7 @@ public class QueenBlinkBlade extends Projectile {
     public float bladeHeight() { return entityData.get(HEIGHT); }
     public float bladeLength() { return entityData.get(LENGTH); }
 
-    private Vec3 forward() {
+    protected Vec3 forward() {
         double yaw = Math.toRadians(getYRot());
         return new Vec3(-Math.sin(yaw), 0, Math.cos(yaw));
     }

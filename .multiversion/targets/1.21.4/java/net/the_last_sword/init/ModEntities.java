@@ -55,6 +55,13 @@ public class ModEntities {
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
                             .build(key("queen_enhanced_blade")));
 
+    public static final Supplier<EntityType<net.the_last_sword.entity.EndCrystalRift>> END_CRYSTAL_RIFT =
+        ENTITY_TYPES.register("end_crystal_rift",
+            () -> EntityType.Builder.<net.the_last_sword.entity.EndCrystalRift>of(
+                    net.the_last_sword.entity.EndCrystalRift::new, MobCategory.MISC)
+                .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(20)
+                .noSave().noSummon().fireImmune().build(key("end_crystal_rift")));
+
     //龙水晶剑弹射物
     public static final Supplier<EntityType<DragonCrystalSwordProjectile>> DRAGON_CRYSTAL_SWORD_PROJECTILE =
         ENTITY_TYPES.register("dragon_crystal_sword_projectile",

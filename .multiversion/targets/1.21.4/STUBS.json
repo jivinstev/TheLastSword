@@ -20,6 +20,12 @@
   "reviewed": "AgeableListModel is gone in 1.21.2: the model now extends EntityModel(root) and renders root, whose only child is the wings (exactly the old bodyParts; headParts was empty), and setupAnim was empty in the authors' code and is still called directly by WingsThatCoverTheWorldRenderer."
  },
  {
+  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": null,
+  "hooks": []
+ },
+ {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
   "why": "empties 1 method body; empties 2 method bodies",
   "reviewed": "The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."
@@ -70,6 +76,12 @@
   "reviewed": "No call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; player.displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server, the same chat message."
  },
  {
+  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/EndCrystalRift.java",
+  "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": null,
+  "hooks": []
+ },
+ {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/entity/GuardianOfSealedSpireEntity.java",
   "why": "deletes overriding method(s) hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
   "reviewed": "Ported: 1.21.1's hurt override (guardians ignore damage from guardians) is now a hurtServer(ServerLevel, DamageSource, float) override with the same check."
@@ -93,6 +105,12 @@
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/init/ModInstruments.java",
   "why": "removes 2 registration/listener/send call(s)",
   "reviewed": "Ported: 1.21.2 made minecraft:instrument a datapack registry, so the DeferredRegister entry and its bus registration (both removed) left the value unbound and the server failed to load registries; the same instrument is now the overlay data file data/<modid>/instrument/dragon_cult_horn.json (raid horn, 7.0 s = 140 ticks, range 256, same translation key), which the authors' instrument tag already names."
+ },
+ {
+  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/init/ModItems.java",
+  "why": "removes 5 registration/listener/send call(s)",
+  "reviewed": null,
+  "hooks": []
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/item/DragonArmorItem.java",
@@ -148,6 +166,15 @@
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/summon/WraithSummonManager.java",
   "why": "removes 14 registration/listener/send call(s)",
   "reviewed": "No call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer, as in 1.21.1."
+ },
+ {
+  "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/test/TestEntity.java",
+  "why": "empties 1 method body",
+  "reviewed": null,
+  "hooks": [
+   "@SubscribeEvent EntityJoinLevelEvent",
+   "@SubscribeEvent ServerTickEvent.Post"
+  ]
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/test/UltraTestSwordItem.java",
