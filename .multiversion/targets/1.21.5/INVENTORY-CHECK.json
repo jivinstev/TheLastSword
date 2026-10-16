@@ -43,9 +43,9 @@
    "file": "net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
    "kind": "render-class",
    "key": "class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/LightningSpearClientExtensions.java#render-class:class LightningSpearClientExtensions : IClientItemExtensions",
@@ -341,9 +341,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -351,9 +351,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -361,9 +361,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE",
@@ -371,9 +371,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_DEPTH_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL",
@@ -381,9 +381,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-class:class TestEntityTheLastEndLayer : RenderLayer",
@@ -400,9 +400,9 @@
    "file": "net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-class:class TheLastEndSwordWraithLayer : GeoRenderLayer",
@@ -554,10 +554,10 @@
    "file": "net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java",
    "kind": "render-class",
    "key": "class WingsThatCoverTheWorldModel : AgeableListModel",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-class",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-class; an ok row of REVIEW.md names it",
    "now": "class WingsThatCoverTheWorldModel : EntityModel",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor",
@@ -655,9 +655,9 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.ShaderStateShard",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader",
@@ -665,9 +665,9 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "GameRenderer.getPositionColorShader",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -675,9 +675,9 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL",
@@ -685,9 +685,9 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -695,9 +695,9 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-class:class DragonArmorRenderer : GeoArmorRenderer",
@@ -849,9 +849,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState",
@@ -859,9 +859,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
@@ -869,9 +869,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -879,9 +879,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -889,9 +889,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -899,9 +899,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL",
@@ -909,9 +909,9 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java#render-class:class EndCrystalRiftRenderer : EntityRenderer",
@@ -973,10 +973,10 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
    "kind": "render-class",
    "key": "class LightningSpearItemRenderer : BlockEntityWithoutLevelRenderer",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-class",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-class; an ok row of REVIEW.md names it",
    "now": "class LightningSpearItemRenderer : NoDataSpecialModelRenderer",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearProjectileRenderer.java#render-class:class LightningSpearProjectileRenderer : EntityRenderer",
@@ -993,9 +993,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState",
@@ -1003,9 +1003,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
@@ -1013,9 +1013,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
@@ -1023,9 +1023,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LIGHTNING_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -1033,9 +1033,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -1043,9 +1043,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL",
@@ -1053,9 +1053,9 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning",
@@ -1207,9 +1207,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState",
@@ -1217,9 +1217,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
@@ -1227,9 +1227,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
@@ -1237,9 +1237,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LIGHTNING_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -1247,9 +1247,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -1257,9 +1257,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -1267,9 +1267,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL",
@@ -1277,9 +1277,9 @@
    "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/TestEntityRenderer.java#render-class:class TestEntityRenderer : HumanoidMobRenderer",
@@ -1489,9 +1489,9 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.BLOCK_SHEET_MIPPED",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -1499,9 +1499,9 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader",
@@ -1509,10 +1509,10 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "GameRenderer.getParticleShader",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
    "now": "RenderPipeline.builder",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY",
@@ -1520,9 +1520,9 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.ADDITIVE_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET",
@@ -1530,9 +1530,9 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.BLOCK_SHEET",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
@@ -1540,10 +1540,10 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
    "now": "RenderPipelines.ENTITY_TRANSLUCENT",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING",
@@ -1551,9 +1551,9 @@
    "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
    "kind": "render-use",
    "key": "RenderStateShard.VIEW_OFFSET_Z_LAYERING",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndShaderInstance.java#render-use:ShaderInstance",
@@ -1785,9 +1785,8 @@
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
    "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
-   "now": "RenderType.entityTranslucent",
-   "was": "changed"
+   "detail": "not in the target's file",
+   "was": "missing"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",
@@ -1823,9 +1822,8 @@
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
    "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
-   "now": "RenderType.entityTranslucent",
-   "was": "changed"
+   "detail": "not in the target's file",
+   "was": "missing"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/lucky_event/ArenaBattleHandler.java#event:@SubscribeEvent LivingDeathEvent",
@@ -2076,9 +2074,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState",
@@ -2086,9 +2084,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard",
@@ -2096,9 +2094,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderStateShard.ShaderStateShard",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -2106,9 +2104,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL",
@@ -2116,9 +2114,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -2126,9 +2124,9 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent EntityAttributeModificationEvent",
@@ -2532,9 +2530,9 @@
    "file": "net/the_last_sword/init/ModInstruments.java",
    "kind": "registry",
    "key": "registry INSTRUMENT",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/init/ModItems.java#registry:registry ITEM",
@@ -2795,10 +2793,10 @@
    "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
    "kind": "injection",
    "key": "@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different injection",
+   "status": "changed",
+   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
    "now": "@Inject method=render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
@@ -2806,10 +2804,10 @@
    "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
    "kind": "injection",
    "key": "@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different injection",
+   "status": "changed",
+   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
    "now": "@ModifyArg method=render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=discard @At(value=\"HEAD\")",
@@ -2916,9 +2914,9 @@
    "file": "net/the_last_sword/mixin/EntityRenderDispatcherMixin.java",
    "kind": "injection",
    "key": "@ModifyVariable method=render @At(value=\"HEAD\")",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=bobHurt @At(value=\"HEAD\")",
@@ -2953,9 +2951,9 @@
    "file": "net/the_last_sword/mixin/GameRendererMixin.java",
    "kind": "injection",
    "key": "@Inject method=renderConfusionOverlay @At(value=\"HEAD\")",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=clearContent @At(value=\"HEAD\")",
@@ -3181,10 +3179,10 @@
    "file": "net/the_last_sword/mixin/LivingEntityRendererMixin.java",
    "kind": "injection",
    "key": "@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different injection",
+   "status": "changed",
+   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
    "now": "@Inject method=render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/mixin/LocalPlayerMixin.java#injection:@Inject method=aiStep @At(value=\"FIELD\",target=\"Lnet/minecraft/world/entity/player/Abilities;flying:Z\",opcode=Opcodes.PUTFIELD,shift=At.Shift.AFTER)",
@@ -3775,53 +3773,10 @@
   }
  ],
  "unaccounted": [
-  "main:net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java#render-class:class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions",
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE",
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull",
-  "main:net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java#render-class:class WingsThatCoverTheWorldModel : AgeableListModel",
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.ShaderStateShard",
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader",
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.create",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/client/renderer/LightningSpearItemRenderer.java#render-class:class LightningSpearItemRenderer : BlockEntityWithoutLevelRenderer",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.create",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.create",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL",
   "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ShaderStateShard",
   "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
   "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
   "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
-  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING",
   "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.create",
   "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState",
   "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard",
@@ -3830,26 +3785,14 @@
   "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL",
   "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE",
   "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull",
-  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.create",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE",
-  "main:net/the_last_sword/init/ModInstruments.java#registry:registry INSTRUMENT",
-  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
-  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
-  "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value=\"HEAD\")",
-  "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=renderConfusionOverlay @At(value=\"HEAD\")",
-  "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")"
+  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull"
  ],
  "counts": {
   "same": 310,
-  "unaccounted": 68,
-  "dropped": 29,
-  "changed": 1,
-  "moved": 2
+  "moved": 50,
+  "changed": 8,
+  "unaccounted": 13,
+  "dropped": 29
  },
  "notes": []
 }
