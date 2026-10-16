@@ -13,8 +13,10 @@ RecipeSerializer<?> getSerializer()	RecipeSerializer<? extends CustomRecipe> get
 RenderShape.ENTITYBLOCK_ANIMATED	RenderShape.INVISIBLE
 # X83: proposed by a file-loop worker, kept because the error count fell
 member:getHolderOrThrow	getOrThrow
-# X84: proposed by a file-loop worker, kept because the error count fell
-member:entityTranslucentCull	entityTranslucent
+# [shared] RenderType.entityTranslucentCull is gone (1.21.2) and entityTranslucent does NOT cull back faces; NeoForge's
+# getItemLayeredTranslucent is the same state (entity-translucent shader, culling on, translucent, lightmap, overlay,
+# sorted) on 1.21.4 and every later 1.21.x (NeoForgeRenderPipelines.ENTITY_TRANSLUCENT_CULL from 1.21.5)
+re:\bRenderType\.entityTranslucentCull\(	net.neoforged.neoforge.client.NeoForgeRenderTypes.getItemLayeredTranslucent(
 # X99: proposed by a file-loop worker, kept because the error count fell
 re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderColor) {
 # R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)
