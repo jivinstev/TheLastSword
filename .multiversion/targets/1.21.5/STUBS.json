@@ -52,7 +52,7 @@
  {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/init/ModEntityRenderers.java",
   "why": "removes 1 registration/listener/send call(s)",
-  "reviewed": null,
+  "reviewed": "No loss: the 1.21.5 overlay was retired by the 1.1.2 re-merge (15bf466) because it no longer differed from the authors' file; the 1.21.5 tree builds the authors' ModEntityRenderers through the rows, byte-identical to src (build/mc1.21.5/mv/java diffed against src/main/java), with all three listeners (RegisterLayerDefinitions, RegisterRenderers, FMLClientSetupEvent) and every registration, END_CRYSTAL_RIFT included. The flag came from an earlier run's worker edit that no longer exists.",
   "hooks": [
    "@SubscribeEvent EntityRenderersEvent.RegisterLayerDefinitions",
    "@SubscribeEvent EntityRenderersEvent.RegisterRenderers",
@@ -62,7 +62,7 @@
  {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/init/ModShaders.java",
   "why": "empties 1 method body",
-  "reviewed": null,
+  "reviewed": "No body is emptied: onRegisterShaders still registers both shaders (the_last_end -> TheLastEndEffect.setShader, zero_point_engine -> ZeroPointEngineShader.setShader). The authors' ZeroPointEngineShader extends ECA's EcaShaderInstance, which on 1.21.5 is ECA's layer ShaderInstance (net.eca.mv), not this fork's, so it cannot be handed to this fork's RegisterShadersEvent; ZeroPointEngineProgram (this fork's ShaderInstance) loads the same program with the same three uniforms and does the authors' apply(): LocalUvMin/LocalUvScale from ECA's current local UV bounds (read from EcaShaderInstance's four static fields, which ECA's applyLocalUvBoundsUniforms copies -- it takes ECA's own Uniform type) and GlowPhase from the same 6 s monotonic cycle. Stand-in: the reflective read of ECA's private fields; a failed lookup logs once and leaves the uniforms at their json defaults (0,0 / 1,1), the authors' helper also swallows failures.",
   "hooks": [
    "@SubscribeEvent RegisterShadersEvent"
   ]
@@ -105,7 +105,7 @@
  {
   "file": ".multiversion/targets/1.21.5/java/net/the_last_sword/mixin/LivingEntityMixin.java",
   "why": "empties 1 method body",
-  "reviewed": null,
+  "reviewed": "No body is emptied and no handler is lost: every @Inject handler of the authors' LivingEntityMixin is present (compared by handler name), plus tls$blockSetItemSlot and tls$blockDrop moved here from PlayerMixin because Player no longer declares setItemSlot / drop(ItemStack,boolean,boolean) on 1.21.5 (limited to players by an instanceof check; setItemSlot takes the authors' 1.1.2 InventoryProtectionPolicy.hasBlockedExternalCaller()). The flag came from an earlier run's worker edit (a removed TrueHealthManager.setMaxHealth line), reverted in favour of the authors' 1.1.2 code, which drops that call itself.",
   "hooks": [
    "@Inject method=<clinit> @At(value=\"TAIL\")",
    "@Inject method=actuallyHurt @At(value=\"HEAD\")",
