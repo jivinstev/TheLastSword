@@ -74,7 +74,7 @@ public class EntityUtil {
         return entity.getPersistentData().getBoolean(NBT_IS_PROTECTED).orElse(false);
     }
 
-    //检查玩家背包中是否拥有最终之剑、隐藏最终之剑或龙之套装
+    // 检查携带或穿戴的高级装备，统一启用背包保护。
     public static boolean hasInventoryProtection(Player player) {
         for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (!stack.isEmpty() && isProtectionItem(stack)) {
@@ -98,6 +98,7 @@ public class EntityUtil {
         Object item = stack.getItem();
         return item instanceof TheLastSword
                 || item instanceof DragonArmorItem
+                || PrimalSourceEquipment.isArmor(stack)
                 || item instanceof TheLastSwordYouNeverForgot;
     }
 
@@ -200,7 +201,7 @@ public class EntityUtil {
 
     // ==================== 临时护盾模块 ====================
 
-    //叠加临时护盾：只加当前值，不动上限，打光后自动失效
+    // 只增加当前值：优先补充常规护盾，超过上限的部分不参与自然恢复。
     public static void grantTempShield(LivingEntity entity, double amount) {
         if (entity == null || amount <= 0) {
             return;

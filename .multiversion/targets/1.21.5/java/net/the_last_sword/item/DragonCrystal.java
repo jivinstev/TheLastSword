@@ -17,6 +17,9 @@ public class DragonCrystal extends Item {
             .stacksTo(64)
             .fireResistant()
             .rarity(Rarity.UNCOMMON)
+            //1.21.5: TrimMaterial no longer names its ingredient; the item carries provides_trim_material instead
+            .trimMaterial(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.TRIM_MATERIAL,
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal")))
         );
     }
 

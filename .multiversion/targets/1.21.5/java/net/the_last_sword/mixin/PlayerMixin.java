@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModAttributes;
 import net.the_last_sword.util.EntityUtil;
+import net.the_last_sword.util.InventoryProtectionPolicy;
 import net.the_last_sword.util.health.PresentWorldAnchorManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

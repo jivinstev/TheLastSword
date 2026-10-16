@@ -14,6 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.item.DragonSword;
 import net.the_last_sword.ItemNbt;
 import net.the_last_sword.item.TheLastSword;
+import net.the_last_sword.compat.projecte.TransmutationStaffBehavior;
 import net.the_last_sword.test.UltraTestSwordItem;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 
@@ -49,6 +50,13 @@ public class ChangeModePacket implements CustomPacketPayload {
 
             ItemStack stack = player.getMainHandItem();
             if (stack.isEmpty()) return;
+
+            if (TransmutationStaffBehavior.isStaff(stack)) {
+                if (player.containerMenu != player.inventoryMenu) return;
+                TransmutationStaffBehavior.initialize(stack);
+                // 切换用途前通过原有释放流程中断吟唱。
+                if (player.isUsingItem()) player.releaseUsingItem();
+            }
 
             //检查物品是否支持模式切换（通过检查是否有Mode NBT）
             if (!ItemNbt.hasTag(stack) || !ItemNbt.getTag(stack).contains("the_last_sword.mode")) {
@@ -90,6 +98,9 @@ public class ChangeModePacket implements CustomPacketPayload {
 
     //根据物品类型和模式ID获取翻译键
     private static String getModeTranslationKey(ItemStack stack, int mode) {
+        if (TransmutationStaffBehavior.isStaff(stack)) {
+            return TransmutationStaffBehavior.modeKey(mode);
+        }
         //检查是否是最终之剑
         if ((Object) stack.getItem() instanceof TheLastSword) {
             return switch (mode) {

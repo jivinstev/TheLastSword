@@ -68,7 +68,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             134217727,
             // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
             Map.of(ArmorType.BOOTS, 8, ArmorType.LEGGINGS, 12, ArmorType.CHESTPLATE, 12, ArmorType.HELMET, 8),
-            200,
+            32,
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             10f,
             5f,

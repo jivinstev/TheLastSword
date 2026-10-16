@@ -9,6 +9,7 @@ assets/the_last_sword/geckolib/animations/dragon_cultist_armor.animation.json
 assets/the_last_sword/geckolib/animations/guardian_of_sealed_spire.animation.json
 assets/the_last_sword/geckolib/animations/lost_wraith.animation.json
 assets/the_last_sword/geckolib/animations/primal_source_armor.animation.json
+assets/the_last_sword/geckolib/animations/staff_of_universal_transmutation.animation.json
 assets/the_last_sword/geckolib/animations/the_last_end_lucky_block.animation.json
 assets/the_last_sword/geckolib/animations/the_last_end_sword_wraith.animation.json
 assets/the_last_sword/geckolib/animations/the_past_shadow_of_the_queen.animation.json
@@ -24,6 +25,7 @@ assets/the_last_sword/geckolib/models/dragon_cultist_armor.geo.json
 assets/the_last_sword/geckolib/models/guardian_of_sealed_spire.geo.json
 assets/the_last_sword/geckolib/models/lost_wraith.geo.json
 assets/the_last_sword/geckolib/models/primal_source_armor.geo.json
+assets/the_last_sword/geckolib/models/staff_of_universal_transmutation.geo.json
 assets/the_last_sword/geckolib/models/the_last_end_lucky_block.geo.json
 assets/the_last_sword/geckolib/models/the_last_end_sword_wraith.geo.json
 assets/the_last_sword/geckolib/models/the_past_shadow_of_the_queen.geo.json
