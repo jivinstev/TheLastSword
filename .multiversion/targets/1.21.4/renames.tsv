@@ -94,3 +94,7 @@ re:\.create\(world\)	.create(world, net.minecraft.world.entity.EntitySpawnReason
 re:\bInteractionResultHolder\.success\(itemstack\)	InteractionResult.SUCCESS
 # Tier is gone (1.21.2): a file that builds an anonymous Tier through the item.* wildcard takes the layer's compat.gear.Tier
 re:(import net\.minecraft\.world\.item\.\*;\n)(?=[\s\S]*\bnew Tier\(\))	\1import net.the_last_sword.compat.gear.Tier;\n
+# EntityType.create(Level) through a holder's get() (the shared row matches a bare receiver only)
+re:(\.get\(\))\.create\((\w*[lL]evel)\)	\1.create(\2, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED)
+# AbstractArrow.inGround is private since 1.21.2
+re:\bif \(inGround\)	if (isInGround())
