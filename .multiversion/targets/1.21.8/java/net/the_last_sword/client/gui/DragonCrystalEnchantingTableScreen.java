@@ -99,7 +99,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.search"));
         searchBox.setMaxLength(50);
         searchBox.setBordered(true);
-        searchBox.setTextColor(0xFFFFFF);
+        searchBox.setTextColor(0xFFFFFFFF); // 1.21.6: EditBox draws its text with drawString, which skips alpha 0
         searchBox.setResponder(text -> {
             scrollOffset = 0;
             updateFilteredList();
@@ -110,7 +110,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         levelEditBox = new EditBox(this.font, 0, 0, LEVEL_INPUT_WIDTH, LEVEL_INPUT_HEIGHT, Component.empty());
         levelEditBox.setMaxLength(3);
         levelEditBox.setBordered(false);
-        levelEditBox.setTextColor(0xFFFFFF);
+        levelEditBox.setTextColor(0xFFFFFFFF);
         levelEditBox.setVisible(false);
         levelEditBox.setFilter(s -> s.isEmpty() || s.matches("\\d{0,3}"));
         this.addRenderableWidget(levelEditBox);
@@ -365,7 +365,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             } else {
                 nameColor = 0xFFFFFF;
             }
-            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
+            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, net.minecraft.util.ARGB.opaque(nameColor), false);
 
             // 滑块
             int sliderX = listX + LIST_WIDTH - SLIDER_WIDTH - LEVEL_INPUT_WIDTH - 8;
@@ -381,7 +381,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 String levelText = String.valueOf(opt.level);
                 int textWidth = this.font.width(levelText);
                 int textColor = opt.level != opt.originalLevel ? 0x55FF55 : 0xCCCCCC;
-                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
+                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, net.minecraft.util.ARGB.opaque(textColor), false);
             }
         }
 
@@ -436,13 +436,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (energyCost > 0) {
             String costStr = formatCost(energyCost) + " FE";
             int color = energyCost <= this.menu.getEnergy() ? 0x00FF00 : 0xFF0000;
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
+            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, net.minecraft.util.ARGB.opaque(color), false);
             textY += 10;
         }
 
         // 经验返还
         if (xpReturn > 0) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
+            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0xFF80FF80, false);
         }
     }
 
@@ -705,9 +705,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     private void renderEndPortalEffect(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2) {
         // 1.21.6: the GUI is recorded during render and drawn later by GuiRenderer, so drawing RenderType.endPortal()
         // here at once (1.21.1's immediate bufferSource draw) would land under this screen's background blit, which
-        // is drawn afterwards. The quad is submitted as a picture-in-picture element instead: EndPortalPipRenderer
-        // draws it into a texture of the rectangle when the frame is prepared, and the texture is blitted at this
-        // call's place in the GUI order (above the energy bar, below the slots), with this call's pose and scissor.
+        // is drawn afterwards. The quad is submitted as a picture-in-picture element instead, drawn when the frame is
+        // prepared and blitted at this call's place in the GUI order (above the energy bar, below the slots).
+        // rendertype_end_portal.vsh takes its texture coordinates from gl_Position (projection_from_position), so on
+        // 1.21.1 the starfield was anchored to the WINDOW at window scale and the bar only revealed it. To keep that,
+        // the element covers the whole GUI (0,0 to guiWidth,guiHeight, identity pose: its texture is the window's
+        // size, and only changes with it), the quad is drawn at its GUI position under a full-GUI ortho, and only the
+        // bar's rectangle is shown: bounds and scissor are the bar rect, intersected with the caller's scissor.
         if (x2 <= x1 || y2 <= y1) {
             return;
         }
@@ -715,12 +719,19 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         net.minecraft.client.gui.navigation.ScreenRectangle scissor = guiGraphics.peekScissorStack();
         net.minecraft.client.gui.navigation.ScreenRectangle area =
                 new net.minecraft.client.gui.navigation.ScreenRectangle(x1, y1, x2 - x1, y2 - y1).transformMaxBounds(pose);
-        guiGraphics.submitPictureInPictureRenderState(new EndPortalPip(x1, y1, x2, y2, pose, scissor,
-                scissor != null ? scissor.intersection(area) : area));
+        net.minecraft.client.gui.navigation.ScreenRectangle shown = scissor != null ? scissor.intersection(area) : area;
+        if (shown == null || shown.width() <= 0 || shown.height() <= 0) {
+            return;
+        }
+        guiGraphics.submitPictureInPictureRenderState(new EndPortalPip(0, 0, guiGraphics.guiWidth(), guiGraphics.guiHeight(),
+                x1, y1, x2, y2, pose, shown, shown));
     }
 
-    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+). */
-    public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
+    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+) that covers the whole
+     *  GUI (x0..y1, identity pose) and shows only the bar (scissorArea = bounds = the bar rect within the caller's
+     *  scissor); barX0..barY1 under barPose is the quad 1.21.1 drew. */
+    public record EndPortalPip(int x0, int y0, int x1, int y1, int barX0, int barY0, int barX1, int barY1,
+                               org.joml.Matrix3x2f barPose,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
             implements net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState {
@@ -731,7 +742,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture: an orthographic projection over the
-     *  rectangle in GUI units (z -10000..10000, as the 1.21.1 GUI) and the model-view moved by (-x0, -y0). */
+     *  whole GUI in GUI units (z -10000..10000, as the 1.21.1 GUI), the quad at its GUI position (the caller's pose
+     *  applied to its corners, as 1.21.1's PoseStack did), so gl_Position -- and the starfield -- spans the window. */
     public static final class EndPortalPipRenderer
             extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
         private final net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer projection =
@@ -748,25 +760,28 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
         @Override
         protected void renderToTexture(EndPortalPip state, PoseStack unused) {
-            int width = state.x1() - state.x0();
-            int height = state.y1() - state.y0();
             RenderSystem.setProjectionMatrix(
-                    projection.getBuffer(new Matrix4f().setOrtho(0.0F, width, height, 0.0F, -10000.0F, 10000.0F)),
+                    projection.getBuffer(new Matrix4f().setOrtho(state.x0(), state.x1(), state.y1(), state.y0(), -10000.0F, 10000.0F)),
                     com.mojang.blaze3d.ProjectionType.ORTHOGRAPHIC);
             org.joml.Matrix4fStack modelView = RenderSystem.getModelViewStack();
             modelView.pushMatrix();
             try {
-                modelView.identity().translate(-state.x0(), -state.y0(), 0.0F);
+                modelView.identity();
                 VertexConsumer vertexConsumer = this.bufferSource.getBuffer(RenderType.endPortal());
                 Matrix4f matrix = new Matrix4f();
-                vertexConsumer.addVertex(matrix, state.x0(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y0(), 0);
-                vertexConsumer.addVertex(matrix, state.x0(), state.y0(), 0);
+                corner(vertexConsumer, matrix, state, state.barX0(), state.barY1());
+                corner(vertexConsumer, matrix, state, state.barX1(), state.barY1());
+                corner(vertexConsumer, matrix, state, state.barX1(), state.barY0());
+                corner(vertexConsumer, matrix, state, state.barX0(), state.barY0());
                 this.bufferSource.endBatch();
             } finally {
                 modelView.popMatrix();
             }
+        }
+
+        private static void corner(VertexConsumer vertexConsumer, Matrix4f matrix, EndPortalPip state, int x, int y) {
+            org.joml.Vector2f p = state.barPose().transformPosition(x, y, new org.joml.Vector2f());
+            vertexConsumer.addVertex(matrix, p.x(), p.y(), 0);
         }
 
         @Override

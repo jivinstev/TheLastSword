@@ -185,7 +185,7 @@ public class NpcDialogueScreen extends Screen {
                 mouseX, mouseY, livingEntity);
         graphics.disableScissor();
         graphics.drawCenteredString(font, livingEntity.getDisplayName(), modelX,
-                Math.max(8, panelTop - availableHeight - 4), 0xFFFFFF);
+                Math.max(8, panelTop - availableHeight - 4), 0xFFFFFFFF);
     }
 
     private void renderScrollBackground(GuiGraphics graphics) {

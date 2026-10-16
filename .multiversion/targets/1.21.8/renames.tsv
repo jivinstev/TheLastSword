@@ -10,3 +10,8 @@ re:public static void (\w+)\(RenderLevelStageEvent event\) \{\s*if \(event\.getS
 # 1.21.6: Entity.readAdditionalSaveData / addAdditionalSaveData take a ValueInput / ValueOutput (an entity that saves nothing)
 re:protected void readAdditionalSaveData\(CompoundTag (\w+)\) \{\}	protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput \1) {}
 re:protected void addAdditionalSaveData\(CompoundTag (\w+)\) \{\}	protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput \1) {}
+# 1.21.6: GuiGraphics.drawString (and drawCenteredString/drawWordWrap/drawStringWithBackdrop, which call it) submits
+# nothing when the colour's alpha byte is 0, and Font.adjustColor (which drew a 24-bit colour opaque) is gone: a literal
+# 0xRRGGBB colour argument (the last int argument, before an optional shadow flag) becomes 0xFFRRGGBB. An 8-digit literal
+# already carries its alpha and is not matched; a computed colour is wrapped in ARGB.opaque in the overlay that draws it.
+re:(\.(?:drawString|drawCenteredString|drawWordWrap|drawStringWithBackdrop)\s*\((?:[^();]|\((?:[^();]|\((?:[^();]|\([^();]*\))*\))*\))*,\s*)0x([0-9A-Fa-f]{6})(?=\s*(?:,\s*(?:true|false)\s*)?\))	\g<1>0xFF\g<2>

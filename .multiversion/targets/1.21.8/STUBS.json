@@ -2,7 +2,7 @@
  {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
   "why": "empties 1 method body",
-  "reviewed": "The emptied body is the private constructor of the new EndPortalPipRegistration holder class (an event-subscriber holder, never instantiated); no authors' method is emptied. renderEndPortalEffect keeps its quad: 1.21.6 records the GUI and draws it later, so the end-portal quad is submitted as a picture-in-picture element (EndPortalPip, drawn by EndPortalPipRenderer with RenderType.endPortal() into the element's texture and blitted at the call's place in the GUI order) instead of an immediate bufferSource draw that would land under the screen's background.",
+  "reviewed": "The emptied body is the private constructor of the new EndPortalPipRegistration holder class (an event-subscriber holder, never instantiated); no authors' method is emptied. renderEndPortalEffect keeps its quad: 1.21.6 records the GUI and draws it later, so the end-portal quad is submitted as a picture-in-picture element (EndPortalPip, drawn by EndPortalPipRenderer with RenderType.endPortal() into the element's texture and blitted at the call's place in the GUI order) instead of an immediate bufferSource draw that would land under the screen's background. The element covers the whole GUI (0,0 to guiWidth,guiHeight, identity pose; its texture is guiWidth*guiScale x guiHeight*guiScale, about the window, and changes only with it) and the quad is drawn at its GUI position under a full-GUI ortho, so the starfield is window-anchored at window scale as on 1.21.1 (rendertype_end_portal.vsh's projection_from_position(gl_Position)); bounds and scissor are the bar rect intersected with the caller's scissor, so only the bar shows it.",
   "hooks": []
  },
  {
@@ -49,10 +49,5 @@
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/summon/WraithSummonManager.java",
   "why": "removes 14 registration/listener/send call(s)",
   "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
- },
- {
-  "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/summon/WraithSummonSavedData.java",
-  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
  }
 ]

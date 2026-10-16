@@ -36,7 +36,10 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     private static final int SEGMENTS = 12;
     private static final int SIDES = 4;
     private static final Vec3[][] LINK_VERTICES = createLinks();
-    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder()
+    //1.21.8: core/position_color reads the DynamicTransforms (ModelViewMat, ColorModulator) and Projection (ProjMat)
+    //blocks; a pipeline binds only the blocks it declares, so it is built on the snippet that declares both
+    //(as vanilla's DEBUG_FILLED_SNIPPET is)
+    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)
             .withLocation("pipeline/lost_wraith_seal")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
