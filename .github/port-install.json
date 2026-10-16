@@ -102,6 +102,14 @@
     },
     {
       "role": "extra",
+      "modid": "projecte-226410",
+      "name": "ProjectE-1.21.1-PE1.1.0.jar",
+      "url": "https://www.curseforge.com/api/v1/mods/226410/files/6611984/download",
+      "page": "https://www.curseforge.com/projects/226410",
+      "sha256": "fec9389d8b70fcf87331a0bcc41b78ada79c1e6326ef02a7bb6db9a1d5a4c48b"
+    },
+    {
+      "role": "extra",
       "modid": "touhou-little-maid-355044",
       "name": "touhoulittlemaid-1.5.3-neoforge+mc1.21.1.jar",
       "url": "https://www.curseforge.com/api/v1/mods/355044/files/8061852/download",

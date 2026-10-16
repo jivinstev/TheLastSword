@@ -9,7 +9,7 @@ import net.the_last_sword.ItemNbt;
  * 迁移到1.21+时: 只需修改此类使用DataComponents
  */
 public class ItemLevelHelper {
-    private static final String LEVEL_TAG = "the_last_sword.level";
+    public static final String LEVEL_TAG = "the_last_sword.level";
 
     //设置物品等级
     public static void setLevel(ItemStack stack, int level) {

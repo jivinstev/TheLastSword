@@ -55,7 +55,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         super(Holder.direct(new ArmorMaterial(
                 // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
                 Map.of(Type.BOOTS, 8, Type.LEGGINGS, 12, Type.CHESTPLATE, 12, Type.HELMET, 8),
-                200,
+                32,
                 SoundEvents.ARMOR_EQUIP_NETHERITE,
                 () -> Ingredient.of(),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor"))),

@@ -204,7 +204,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
     public static class HiddenSwordTickHandler {
         private static final String INVUL_TAG = "TheLastSwordYouNeverForgotInvul";
         private static final String FLY_TAG = "TheLastSwordYouNeverForgotFly";
-        private static final String DEFENCE_TAG = "TheLastSwordYouNeverForgotDefence";
 
         @SubscribeEvent
         public static void onPlayerTick(PlayerTickEvent.Pre event) {
@@ -228,10 +227,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                         player.onUpdateAbilities();
                     }
                 }
-
-                //设置保护标记（触发 Mixin 防踢、防清除和防实体移除）
-                EntityUtil.setProtection(player, true);
-                player.getPersistentData().putBoolean(DEFENCE_TAG, true);
 
                 // 免疫
                 EntityUtil.applyImmunity(player);
@@ -262,11 +257,6 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                     player.onUpdateAbilities();
                 }
 
-                // 移除保护标记
-                if (player.getPersistentData().getBoolean(DEFENCE_TAG)) {
-                    EntityUtil.setProtection(player, false);
-                    player.getPersistentData().remove(DEFENCE_TAG);
-                }
             }
         }
 

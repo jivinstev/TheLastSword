@@ -1,0 +1,136 @@
+{
+  "values": {
+    "before": [
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_horn",
+        "emc_value": 32992
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:disposable_energy_battery",
+        "emc_value": 102400
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:ancient_energy_core",
+        "emc_value": 4194304
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:zero_point_engine",
+        "emc_value": 16777216
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:knight_greatsword",
+        "emc_value": 4612
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:priest_staff",
+        "emc_value": 32776
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:lightning_spear",
+        "emc_value": 262144
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cultist_armor_helmet",
+        "emc_value": 1280
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cultist_armor_chestplate",
+        "emc_value": 2048
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cultist_armor_leggings",
+        "emc_value": 1792
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cultist_armor_boots",
+        "emc_value": 1024
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_paladin_armor_helmet",
+        "emc_value": 40960
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_paladin_armor_chestplate",
+        "emc_value": 65536
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_paladin_armor_leggings",
+        "emc_value": 57344
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_paladin_armor_boots",
+        "emc_value": 32768
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_priest_armor_helmet",
+        "emc_value": 105801
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_priest_armor_chestplate",
+        "emc_value": 130377
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_priest_armor_leggings",
+        "emc_value": 122185
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_cult_priest_armor_boots",
+        "emc_value": 97609
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_crystal_ring",
+        "emc_value": 131072
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_crystal_necklace",
+        "emc_value": 262144
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dragon_crystal_crown",
+        "emc_value": 1310720
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:wings_that_cover_the_world",
+        "emc_value": 1310720
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:dimension_explorer",
+        "emc_value": 1310720
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:the_givers_pain",
+        "emc_value": 2621440
+      },
+      {
+        "type": "projecte:item",
+        "id": "the_last_sword:sword_soul_stone",
+        "emc_value": 135296
+      }
+    ]
+  }
+}
