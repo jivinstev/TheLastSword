@@ -49,6 +49,8 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
     }
 
     //动态属性修饰符，根据等级计算（物品没有 ATTRIBUTE_MODIFIERS 组件时使用）
+    //1.21.4: ArmorItem always carries an ATTRIBUTE_MODIFIERS component, so NeoForge never falls back to this method;
+    //event/ArmorAttributeModifierHandler applies it instead
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         EquipmentSlot slot = this.getEquipmentSlot(stack);

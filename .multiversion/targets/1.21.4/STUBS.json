@@ -120,7 +120,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/item/DragonCrystalArmorItem.java",
   "why": "deletes overriding method(s) getArmorTexture: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "Ported: getArmorTexture is now IClientItemExtensions.getArmorTexture, registered by client/DragonCrystalArmorClientExtensions for the four pieces (layer_2 for HUMANOID_LEGGINGS, layer_1 otherwise, as before), and the material's equipment asset equipment/dragon_crystal_armor.json supplies the humanoid and humanoid_leggings layers."
+  "reviewed": "Ported: getArmorTexture is now IClientItemExtensions.getArmorTexture, registered by client/DragonCrystalArmorClientExtensions for the four pieces (layer_2 for HUMANOID_LEGGINGS, layer_1 otherwise, as before), and the material's equipment asset equipment/dragon_crystal_armor.json supplies the humanoid and humanoid_leggings layers. The 1.21.1 material repaired with the_last_sword:dragon_crystal; 1.21.4's ArmorMaterial takes a repair TAG, and the overlay's the_last_sword:repairs_dragon_crystal_armor is now defined (resources data/the_last_sword/tags/item/repairs_dragon_crystal_armor.json -> dragon_crystal; repairs_dragon_armor.json is the empty tag for the Dragon armour, which 1.21.1 made unrepairable with Ingredient.of()). The level-based armour stats this class supplies through TheLastEndArmorItem.getDefaultAttributeModifiers(stack) reach the stack through event/ArmorAttributeModifierHandler (1.21.4's ArmorItem always carries an ATTRIBUTE_MODIFIERS component, so NeoForge never calls the override)."
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java",
@@ -130,7 +130,7 @@
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/item/DragonCultPriestArmorItem.java",
   "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "Ported: initializeClient is now GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.priest() (a GeoRenderProvider returning the same GeoArmorRenderer); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+  "reviewed": "Ported: initializeClient is now GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.priest() (a GeoRenderProvider returning the same GeoArmorRenderer); getArmorTexture returned the geo model's own texture, which GeckoLib draws with. Its +1 max Justified Defence and +25% recovery per piece are built on the material's own ATTRIBUTE_MODIFIERS component (super returns EMPTY on 1.21.4) and applied through event/ArmorAttributeModifierHandler, since NeoForge never falls back to getDefaultAttributeModifiers(stack) for a stack that carries that component."
  },
  {
   "file": ".multiversion/targets/1.21.4/java/net/the_last_sword/item/DragonCultistArmorItem.java",

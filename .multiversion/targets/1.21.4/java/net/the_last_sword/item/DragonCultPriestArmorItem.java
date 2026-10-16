@@ -96,9 +96,11 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
     }
 
     @Override
+    //1.21.4: the armour material's ATTRIBUTE_MODIFIERS component is the base (super returns EMPTY); this method only
+    //runs through event/ArmorAttributeModifierHandler, because a stack with that component never falls back to it
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        for (ItemAttributeModifiers.Entry entry : super.getDefaultAttributeModifiers(stack).modifiers()) {
+        for (ItemAttributeModifiers.Entry entry : this.components().getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY).modifiers()) {
             builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.armorType.getSlot());
