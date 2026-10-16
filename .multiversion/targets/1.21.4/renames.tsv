@@ -1,10 +1,6 @@
 # 1.21.4: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
-# X1: proposed by a file-loop worker, kept because the error count fell
-InteractionResultHolder.success(stack)	InteractionResult.SUCCESS
 # X3: proposed by a file-loop worker, kept because the error count fell
 net.minecraft.world.item.UseAnim	net.minecraft.world.item.ItemUseAnimation
-# X8: proposed by a file-loop worker, kept because the error count fell
-net.minecraft.world.InteractionResultHolder	net.minecraft.world.InteractionResult
 # X14: proposed by a file-loop worker, kept because the error count fell
 UseAnim	ItemUseAnimation
 # X17: proposed by a file-loop worker, kept because the error count fell
@@ -13,13 +9,8 @@ RecipeSerializer<?> getSerializer()	RecipeSerializer<? extends CustomRecipe> get
 RenderShape.ENTITYBLOCK_ANIMATED	RenderShape.INVISIBLE
 # X83: proposed by a file-loop worker, kept because the error count fell
 member:getHolderOrThrow	getOrThrow
-# [shared] RenderType.entityTranslucentCull is gone (1.21.2) and entityTranslucent does NOT cull back faces; NeoForge's
-# getItemLayeredTranslucent is the same state (entity-translucent shader, culling on, translucent, lightmap, overlay,
-# sorted) on 1.21.4 and every later 1.21.x (NeoForgeRenderPipelines.ENTITY_TRANSLUCENT_CULL from 1.21.5)
-re:\bRenderType\.entityTranslucentCull\(	net.neoforged.neoforge.client.NeoForgeRenderTypes.getItemLayeredTranslucent(
 # X99: proposed by a file-loop worker, kept because the error count fell
 re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderColor) {
-# R25 (RegIds): a registration by constructor reference builds its Properties with no name recorded; make it a supplier that enters the name (also proposed for shared/1.21.3)
 # ProjectE and Iron's Spells 'n Spellbooks have no build for any layer target (DEPS.md): their compat classes are
 # not compiled (drops.txt); these rows cut the authors' references to them, each behind its CompatCheck guard.
 re:import net\.the_last_sword\.compat\.irons_spellbooks\.(SpellIntegration|EndSpellScrollItemExtension);	// Iron's Spells 'n Spellbooks: no build for this Minecraft, \1 is not compiled (drops.txt)
@@ -27,65 +18,30 @@ re:import net\.the_last_sword\.compat\.projecte\.(ProjectECapabilities|Transmuta
 re:if \(CompatCheck\.isSpellcastingLoaded\(\)\) \{\s*(SpellIntegration\.\w+\(\w+\);|ItemExtensionManager\.register\(new EndSpellScrollItemExtension\(\)\);)\s*\}	{ /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
 re:if \(CompatCheck\.isTransmutationLoaded\(\)\) \{\s*ProjectECapabilities\.register\(event\);\s*\}	{ /* ProjectE: no build for this Minecraft (drops.txt) */ }
 re:registrar\.playToClient\(TransmutationStaffTerminationPacket\.TYPE, [^;]*;	// ProjectE: no build for this Minecraft, its termination packet is not registered (drops.txt)
-# ---- review cut (2026-10-16): rows that let a rename-only overlay go. Rows marked [shared] are also proposed for the
-# migrator's shared/1.21.3 table (API changed in 1.21.2); they stay here until the fork's shared copy carries them.
-# [shared] a boolean use of Entity.hurt (void since 1.21.2) is hurtServer's result; a "did health drop?" stand-in is wrong
-re:([(&|!=?]\s*|\breturn\s+|->\s*)((?!super\.)(?![A-Z])[\w$]+(?:\(\))?(?:\.[\w$]+(?:\(\))?)*)\.hurt\(	\1\2.hurtServer((net.minecraft.server.level.ServerLevel) \2.level(), 
-# [shared] an Entity.hurt override (final since 1.21.2) is a hurtServer override
-re:public boolean hurt\(((?:@\w+ )?)DamageSource (\w+), float (\w+)\)	public boolean hurtServer(net.minecraft.server.level.ServerLevel level, \1DamageSource \2, float \3)
-re:\bsuper\.hurt\((\w+), (\w+)\)	super.hurtServer(level, \1, \2)
-# [shared] GeckoLib 4.7+ (1.21.3/1.21.4): GeoModel resource getters take the renderer;
-# GeoRenderLayer.getDefaultBakedModel takes the renderer
-re:\b(ResourceLocation (?:getModelResource|getTextureResource)\()((?!GeoRenderState\b)[\w.$]+(?:<[^<>()]*>)?) (\w+)\)	\1\2 \3, software.bernie.geckolib.renderer.GeoRenderer<\2> renderer)
-re:\bgetDefaultBakedModel\((\w+)\)	getDefaultBakedModel(\1, getRenderer())
+# ---- review cut (2026-10-16): rows that let a rename-only overlay go. The generic 1.21.2 rows it added (Entity.hurt,
+# GeckoLib getters, InteractionResultHolder, cooldowns, light queries, applyEffectTick/doHurtTarget, blit, shaders,
+# Ingredient.of, BlockEntityType.Builder, neighborChanged, entityTranslucentCull) now come from the shared tables.
 # SoundEvent is a record since 1.21.2: getLocation() -> location() (this mod's own sounds; not a bare row)
 re:(ModSounds\.\w+\.get\(\))\.getLocation\(\)	\1.location()
 re:\bmusicEvent\.getLocation\(\)	musicEvent.location()
-# [shared] InteractionResultHolder is gone (1.21.2): an item's use returns an InteractionResult; a success carrying the
-# held stack is the same result (a different stack is heldItemTransformedTo)
-re:\bInteractionResultHolder<ItemStack>	InteractionResult
-re:\bInteractionResultHolder\.pass\((?:[^()]|\([^()]*\))*\)	InteractionResult.PASS
-re:\bInteractionResultHolder\.fail\((?:[^()]|\([^()]*\))*\)	InteractionResult.FAIL
+# InteractionResultHolder.sidedSuccess(stack, client) with the held stack: the plain SUCCESS (the shared row keeps the stack)
 re:\bInteractionResultHolder\.sidedSuccess\((?:[^()]|\([^()]*\))*\)	InteractionResult.SUCCESS
-re:\bInteractionResult\.sidedSuccess\((?:[^()]|\([^()]*\))*\)	InteractionResult.SUCCESS
 # Player.sendSystemMessage is ServerPlayer-only from 1.21.2 to 1.21.11 (26.x has it on Player again, and no
 # displayClientMessage): send it through the ServerPlayer, which every target has. These calls run on the server.
 re:\b((?:ctx\.)?player(?:\(\))?)\.sendSystemMessage\(((?:[^()]|\((?:[^()]|\([^()]*\))*\))*)\);	{ if (\1 instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(\2); }
-# [shared] ItemCooldowns is keyed by stack since 1.21.2
-re:(getCooldowns\(\)\.(?:isOnCooldown|addCooldown|getCooldownPercent|removeCooldown)\(\s*)((?:[\w$]+(?:\(\))?\.)*[\w$]+(?:\(\))?)\.getItem\(\)	\1\2
+# ItemCooldowns is keyed by stack since 1.21.2: a cooldown on a registered item's group (Class.ITEM.get())
 re:(getCooldowns\(\)\.(?:isOnCooldown|addCooldown|getCooldownPercent|removeCooldown)\(\s*)([A-Z]\w*\.[A-Z_]+\.get\(\))	\1new net.minecraft.world.item.ItemStack(\2)
 # Entity.noCulling is gone (1.21.2); both lightning entities draw through LightningBoltRenderer, which is never culled
 re:[ \t]*this\.noCulling = true;[ \t]*\n	
-# [shared] Recipe.canCraftInDimensions and Entity.getBoundingBoxForCulling are no longer overridable (1.21.2): keep the method
-re:@Override(\s*public boolean canCraftInDimensions\()	\1
-re:@Override(\s*public AABB getBoundingBoxForCulling\(\)\s*\{)	\1
-# [shared] BlockBehaviour light/skylight queries lost their BlockGetter and BlockPos (1.21.2)
-re:(public (?:boolean propagatesSkylightDown|int getLightBlock)\(BlockState \w+), BlockGetter \w+, BlockPos \w+\)	\1)
-# [shared] MobEffect.applyEffectTick and Mob.doHurtTarget take the ServerLevel (1.21.2)
-re:(public boolean applyEffectTick\()(LivingEntity \w+, int \w+\))	\1net.minecraft.server.level.ServerLevel level, \2
-re:\bsuper\.applyEffectTick\((\w+), (\w+)\)	super.applyEffectTick(level, \1, \2)
-re:(public boolean doHurtTarget\()(Entity \w+\))	\1net.minecraft.server.level.ServerLevel serverLevel, \2
-re:\bsuper\.doHurtTarget\((\w+)\)	super.doHurtTarget(serverLevel, \1)
+# Mob.doHurtTarget takes the ServerLevel (1.21.2): a statement call goes through the server level
 re:(?<![\w$.])((?!super\b)[a-z][\w$]*)\.doHurtTarget\((\w+)\);	if (\1.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {\n            \1.doHurtTarget(serverLevel, \2);\n        }
-# [shared] GuiGraphics.blit takes the render type first (1.21.2), also when the texture is built in place
-re:(\w+)\.blit\((ResourceLocation\.(?:parse|fromNamespaceAndPath|withDefaultNamespace)\()	\1.blit(net.minecraft.client.renderer.RenderType::guiTextured, \2
-# [shared] a ShaderStateShard over a vanilla core shader names the CoreShaders key (1.21.2); before the shared helper row
-# (written fully qualified so the shared helper row `new RenderStateShard.ShaderStateShard(` does not take it again)
-re:new RenderStateShard\.ShaderStateShard\(GameRenderer::getPositionColorShader\)	new net.minecraft.client.renderer.RenderStateShard.ShaderStateShard(net.minecraft.client.renderer.CoreShaders.POSITION_COLOR)
 # this mod's call shapes
 re:\.create\(minecraft\.level\)	.create(minecraft.level, net.minecraft.world.entity.EntitySpawnReason.LOAD)
 re:(true, false,\s*)DragonCultDisguise\.NOT_DISGUISED_PLAYER\)	\1(mv$target, mv$level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(mv$target))
 re:\bthis\.level\.getRecipeManager\(\)	((net.minecraft.server.level.ServerLevel) this.level).getServer().getRecipeManager()
 re:(recipe\.get(?:Template|Input|Addition|Base)\(\))\.getItems\(\)	\1.items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new)
 re:super\(type, entity, world\);	super(type, world);\n        this.setPos(entity.getX(), entity.getEyeY() - 0.1, entity.getZ());\n        this.setOwner(entity);
-# [shared] Ingredient.of(ItemStack...) is gone (1.21.2); an ingredient of one stack's item is Ingredient.of(item)
-re:\bIngredient\.of\(new ItemStack\(((?:[^()]|\([^()]*\))*)\)\)	Ingredient.of(\1)
-# [shared] Minecraft/Level.getProfiler() are gone (1.21.2): the profiler is per thread
 re:\b[\w$]+(?:\(\))?\.getProfiler\(\)	net.minecraft.util.profiling.Profiler.get()
-# [shared] BlockEntityType.Builder is gone (1.21.2): the type takes its factory and valid blocks
-re:BlockEntityType\.Builder\.of\(\s*([\w$.]+::new),\s*((?:[^()]|\([^()]*\))+?)\s*\)\s*\.build\(null\)	new BlockEntityType<>(\1, java.util.Set.of(\2))
-# [shared] Block.neighborChanged takes the redstone Orientation instead of the neighbour's position (1.21.2)
-re:(void neighborChanged\(BlockState \w+, Level \w+, BlockPos \w+, Block \w+), BlockPos (\w+), boolean (\w+)\)	\1, @org.jetbrains.annotations.Nullable net.minecraft.world.level.redstone.Orientation \2, boolean \3)
 # JEI 19 (1.21.4): the subtype interpreter type; no subtype is null
 mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter	mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter
 re:\bIIngredientSubtypeInterpreter\.NONE\b	null
@@ -96,7 +52,5 @@ re:\.create\(world\)	.create(world, net.minecraft.world.entity.EntitySpawnReason
 re:\bInteractionResultHolder\.success\(itemstack\)	InteractionResult.SUCCESS
 # Tier is gone (1.21.2): a file that builds an anonymous Tier through the item.* wildcard takes the layer's compat.gear.Tier
 re:(import net\.minecraft\.world\.item\.\*;\n)(?=[\s\S]*\bnew Tier\(\))	\1import net.the_last_sword.compat.gear.Tier;\n
-# EntityType.create(Level) through a holder's get() (the shared row matches a bare receiver only)
-re:(\.get\(\))\.create\((\w*[lL]evel)\)	\1.create(\2, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED)
 # AbstractArrow.inGround is private since 1.21.2
 re:\bif \(inGround\)	if (isInGround())
