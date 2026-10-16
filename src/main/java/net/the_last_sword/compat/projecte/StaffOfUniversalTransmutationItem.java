@@ -1,17 +1,14 @@
 package net.the_last_sword.compat.projecte;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,13 +19,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.the_last_sword.compat.projecte.client.TransmutationStaffClientExtension;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
@@ -39,19 +35,23 @@ public class StaffOfUniversalTransmutationItem extends Item implements GeoItem {
     public static final double ATTACK_SPEED_MODIFIER = -2.4;
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final ItemAttributeModifiers defaultModifiers;
 
     public StaffOfUniversalTransmutationItem() {
         super(createProperties());
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-        modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-            BASE_ATTACK_DAMAGE_UUID, "Universal transmutation staff attack damage",
-            ATTACK_DAMAGE_BONUS, AttributeModifier.Operation.ADDITION));
-        // 玩家基础攻速为 4，减去 2.4 后达到每秒 1.6 次攻击。
-        modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(
-            BASE_ATTACK_SPEED_UUID, "Universal transmutation staff attack speed",
-            ATTACK_SPEED_MODIFIER, AttributeModifier.Operation.ADDITION));
-        defaultModifiers = modifiers.build();
+        defaultModifiers = createModifiers();
+    }
+
+    public static ItemAttributeModifiers createModifiers() {
+        return ItemAttributeModifiers.builder()
+            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                BASE_ATTACK_DAMAGE_ID, ATTACK_DAMAGE_BONUS, AttributeModifier.Operation.ADD_VALUE),
+                EquipmentSlotGroup.MAINHAND)
+            // 玩家基础攻速为 4，减去 2.4 后达到每秒 1.6 次攻击。
+            .add(Attributes.ATTACK_SPEED, new AttributeModifier(
+                BASE_ATTACK_SPEED_ID, ATTACK_SPEED_MODIFIER, AttributeModifier.Operation.ADD_VALUE),
+                EquipmentSlotGroup.MAINHAND)
+            .build();
     }
 
     public static Properties createProperties() {
@@ -59,18 +59,18 @@ public class StaffOfUniversalTransmutationItem extends Item implements GeoItem {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND ? defaultModifiers : super.getDefaultAttributeModifiers(slot);
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+        return defaultModifiers;
+    }
+
+    @Override
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        return defaultModifiers;
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new TransmutationStaffClientExtension(IClientItemExtensions.DEFAULT));
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-        return TransmutationStaffActions.createChargeProvider();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class StaffOfUniversalTransmutationItem extends Item implements GeoItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return TransmutationStaffBehavior.isTermination(stack) ? TransmutationStaffBehavior.getTerminationUseTicks() : 0;
     }
 
@@ -130,7 +130,7 @@ public class StaffOfUniversalTransmutationItem extends Item implements GeoItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         TransmutationStaffBehavior.appendTooltip(stack, tooltip, false);
     }

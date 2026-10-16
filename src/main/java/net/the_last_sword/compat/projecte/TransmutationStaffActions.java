@@ -1,6 +1,5 @@
 package net.the_last_sword.compat.projecte;
 
-import moze_intel.projecte.api.capabilities.PECapabilities;
 import moze_intel.projecte.api.capabilities.item.IItemCharge;
 import moze_intel.projecte.gameObjs.items.ItemPE;
 import moze_intel.projecte.gameObjs.registries.PEItems;
@@ -8,9 +7,9 @@ import moze_intel.projecte.gameObjs.registries.PESoundEvents;
 import moze_intel.projecte.utils.EMCHelper;
 import moze_intel.projecte.utils.EntityRandomizerHelper;
 import moze_intel.projecte.utils.PlayerHelper;
-import moze_intel.projecte.utils.WorldTransmutations;
+import moze_intel.projecte.api.world_transmutation.IWorldTransmutationFunction;
+import moze_intel.projecte.world_transmutation.WorldTransmutationManager;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -29,10 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import net.the_last_sword.entity.TheLastEndSwordProjectile;
 import net.the_last_sword.init.ModEntities;
 
@@ -40,9 +36,8 @@ public final class TransmutationStaffActions {
     private TransmutationStaffActions() {
     }
 
-    public static ICapabilityProvider createChargeProvider() {
-        return new ChargeProvider();
-    }
+    // 1.21.1：充能能力经 RegisterCapabilitiesEvent 注册到法杖（见 ProjectECapabilities）
+    public static final IItemCharge CHARGE = new Charge();
 
     public static InteractionResultHolder<ItemStack> openTable(Level level, Player player, InteractionHand hand) {
         return PEItems.TRANSMUTATION_TABLET.get().use(level, player, hand);
@@ -75,8 +70,10 @@ public final class TransmutationStaffActions {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-        BlockState result = WorldTransmutations.getWorldTransmutation(level.getBlockState(context.getClickedPos()), false);
-        if (result != null && PlayerHelper.checkedReplaceBlock((ServerPlayer) player, context.getClickedPos(), result)) {
+        BlockState state = level.getBlockState(context.getClickedPos());
+        IWorldTransmutationFunction transmutation = WorldTransmutationManager.INSTANCE.getWorldTransmutation(state, false);
+        BlockState result = transmutation == null ? null : transmutation.result(state, false);
+        if (result != null && PlayerHelper.checkedReplaceBlock((ServerPlayer) player, level, context.getClickedPos(), result)) {
             ((ServerLevel) level).sendParticles(ParticleTypes.LARGE_SMOKE,
                 context.getClickedPos().getX() + 0.5, context.getClickedPos().getY() + 1,
                 context.getClickedPos().getZ() + 0.5, 2, 0, 0, 0, 0);
@@ -110,11 +107,11 @@ public final class TransmutationStaffActions {
         SpawnGroupData spawnData = replacement instanceof Rabbit rabbit && rabbit.getVariant() == Rabbit.Variant.EVIL
             ? new Rabbit.RabbitGroupData(Rabbit.Variant.EVIL) : null;
         ServerLevel serverLevel = (ServerLevel) level;
-        ForgeEventFactory.onFinalizeSpawn(replacement, serverLevel,
-            serverLevel.getCurrentDifficultyAt(replacement.blockPosition()), MobSpawnType.CONVERSION, spawnData, null);
+        EventHooks.finalizeMobSpawn(replacement, serverLevel,
+            serverLevel.getCurrentDifficultyAt(replacement.blockPosition()), MobSpawnType.CONVERSION, spawnData);
         serverLevel.tryAddFreshEntityWithPassengers(replacement);
         // 出生被取消时保留原生物，避免只删除而没有成功替换。
-        if (replacement.isAddedToWorld()) {
+        if (replacement.isAddedToLevel()) {
             replacement.spawnAnim();
             original.discard();
             level.playSound(null, player.blockPosition(), PESoundEvents.TRANSMUTE.get(), SoundSource.PLAYERS, 1, 1);
@@ -137,14 +134,7 @@ public final class TransmutationStaffActions {
             "item_tooltip.the_last_sword.transmutation_staff.insufficient_emc", cost), true);
     }
 
-    private static final class ChargeProvider implements ICapabilityProvider, IItemCharge {
-        private final LazyOptional<IItemCharge> charge = LazyOptional.of(() -> this);
-
-        @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction side) {
-            return capability == PECapabilities.CHARGE_ITEM_CAPABILITY ? charge.cast() : LazyOptional.empty();
-        }
-
+    private static final class Charge implements IItemCharge {
         @Override
         public int getNumCharges(ItemStack stack) {
             return TransmutationStaffBehavior.MAX_CHARGE;

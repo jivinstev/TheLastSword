@@ -1,7 +1,6 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -14,22 +13,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.the_last_sword.ItemNbt;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class ZeroPointEngine extends Item implements ICurioItem {
@@ -39,17 +36,13 @@ public class ZeroPointEngine extends Item implements ICurioItem {
         super(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC));
     }
 
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() ->
-                    new ItemEnergyStorage(stack, TheLastSwordConfiguration::getZeroPointEngineMaxEnergySafely));
+    // 能量能力通过 RegisterCapabilitiesEvent 注册（Capabilities.EnergyStorage.ITEM，见 ModCapabilities）
+    public static IEnergyStorage createEnergyStorage(ItemStack stack) {
+        return new ItemEnergyStorage(stack, TheLastSwordConfiguration::getZeroPointEngineMaxEnergySafely);
+    }
 
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-                return cap == ForgeCapabilities.ENERGY ? energy.cast() : LazyOptional.empty();
-            }
-        };
+    private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
+        return Optional.ofNullable(stack.getCapability(Capabilities.EnergyStorage.ITEM));
     }
 
     @Override
@@ -64,8 +57,8 @@ public class ZeroPointEngine extends Item implements ICurioItem {
         if (oldStack == newStack) return false;
 
         // 持续发电会同步新的物品数据，能量变化不应反复触发收起和抬手。
-        CompoundTag oldTag = oldStack.hasTag() ? oldStack.getTag().copy() : new CompoundTag();
-        CompoundTag newTag = newStack.hasTag() ? newStack.getTag().copy() : new CompoundTag();
+        CompoundTag oldTag = ItemNbt.getOrCreateTag(oldStack);
+        CompoundTag newTag = ItemNbt.getOrCreateTag(newStack);
         oldTag.remove("the_last_sword.energy");
         newTag.remove("the_last_sword.energy");
         return !oldTag.equals(newTag);
@@ -73,7 +66,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY).map(energy -> {
+        return energyOf(stack).map(energy -> {
             int capacity = energy.getMaxEnergyStored();
             return capacity <= 0 ? 0 : Math.min(13, Math.round(13.0F * energy.getEnergyStored() / capacity));
         }).orElse(0);
@@ -85,7 +78,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private boolean isChargingEnabled(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().getBoolean(CHARGING_ENABLED_TAG);
+        return ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBoolean(CHARGING_ENABLED_TAG);
     }
 
     private Component chargingStatus(ItemStack stack) {
@@ -98,7 +91,8 @@ public class ZeroPointEngine extends Item implements ICurioItem {
         ItemStack stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown()) return InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
-            stack.getOrCreateTag().putBoolean(CHARGING_ENABLED_TAG, !isChargingEnabled(stack));
+            boolean enable = !isChargingEnabled(stack);
+            ItemNbt.update(stack, tag -> tag.putBoolean(CHARGING_ENABLED_TAG, enable));
             player.displayClientMessage(chargingStatus(stack), true);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
@@ -117,7 +111,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
 
     private void tickEnergy(ItemStack stack, Entity entity) {
         if (entity.level().isClientSide || !(entity instanceof Player player)) return;
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(source -> {
+        energyOf(stack).ifPresent(source -> {
             source.receiveEnergy(TheLastSwordConfiguration.getZeroPointEngineGenerationRateSafely(), false);
             if (!isChargingEnabled(stack) || source.getEnergyStored() <= 0) return;
             int rate = TheLastSwordConfiguration.getZeroPointEngineChargeRateSafely();
@@ -150,7 +144,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private int chargeItem(IEnergyStorage source, ItemStack target, int limit) {
-        return target.getCapability(ForgeCapabilities.ENERGY).map(receiver -> {
+        return energyOf(target).map(receiver -> {
             if (receiver == source || !receiver.canReceive()) return 0;
             int available = source.extractEnergy(limit, true);
             if (available <= 0) return 0;
@@ -161,8 +155,8 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(energy ->
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+        energyOf(stack).ifPresent(energy ->
                 tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
                         .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE")));
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.zero_point_engine",

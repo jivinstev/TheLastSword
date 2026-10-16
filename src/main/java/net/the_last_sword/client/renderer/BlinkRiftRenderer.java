@@ -10,17 +10,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.network.BlinkRiftPacket;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class BlinkRiftRenderer {
     private static final List<Rift> RIFTS = new ArrayList<>();
     private static final Map<UUID, Rift> ACTORS = new HashMap<>();
@@ -68,8 +68,8 @@ public final class BlinkRiftRenderer {
     }
 
     @SubscribeEvent
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) update();
+    public static void tick(ClientTickEvent.Post event) {
+        update();
     }
 
     @SubscribeEvent
@@ -92,7 +92,7 @@ public final class BlinkRiftRenderer {
         Vec3 camera = event.getCamera().getPosition();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         for (Rift rift : RIFTS) {
-            float age = effectLevel.getGameTime() - rift.start() + event.getPartialTick();
+            float age = effectLevel.getGameTime() - rift.start() + event.getPartialTick().getGameTimeDeltaPartialTick(false);
             Vec3 offset = rift.packet().position().subtract(camera);
             pose.pushPose();
             pose.translate(offset.x, offset.y, offset.z);

@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Pseudo
-@Mixin(targets = "moze_intel.projecte.emc.nbt.NBTManager", remap = false)
+// 1.21.1：ProjectE 的 NBTManager 改为 DataComponentManager（同名 getEmcValue）。
+@Mixin(targets = "moze_intel.projecte.emc.components.DataComponentManager", remap = false)
 public abstract class SmithingLevelEmcMixin {
     // 只有高阶形态有价值时，也要允许带附魔或名称的物品进入后续修正流程。
     @Redirect(method = "getEmcValue", at = @At(value = "INVOKE",

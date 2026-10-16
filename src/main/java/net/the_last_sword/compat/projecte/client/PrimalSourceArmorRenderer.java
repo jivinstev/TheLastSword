@@ -19,7 +19,7 @@ public class PrimalSourceArmorRenderer<T extends Item & PrimalSourceArmorItem> e
     public void renderRecursively(PoseStack poseStack, T item, GeoBone bone,
                                   RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,
                                   boolean isReRender, float partialTick, int packedLight, int packedOverlay,
-                                  float red, float green, float blue, float alpha) {
+                                  int colour) {
         // 部位外层还承载动画，必须连同整棵子树一起过滤，避免单件装备显示整套装饰。
         EquipmentSlot requiredSlot = switch (bone.getName()) {
             case "crown_of_countless_stars" -> EquipmentSlot.HEAD;
@@ -32,6 +32,6 @@ public class PrimalSourceArmorRenderer<T extends Item & PrimalSourceArmorItem> e
             return;
         }
         super.renderRecursively(poseStack, item, bone, renderType, bufferSource, buffer, isReRender,
-                partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+                partialTick, packedLight, packedOverlay, colour);
     }
 }

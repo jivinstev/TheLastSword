@@ -1,5 +1,7 @@
 package net.the_last_sword.compat.irons_spellbooks;
 
+import net.minecraft.resources.ResourceLocation;
+
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,11 +16,11 @@ import net.the_last_sword.compat.projecte.TransmutationStaffBehavior;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.WeakHashMap;
 
 public final class TransmutationStaffCasting {
-    private static final UUID POWER_MODIFIER = UUID.fromString("c53ed61a-c6ae-40ef-9f42-dd9e9817512b");
+    private static final ResourceLocation POWER_MODIFIER =
+        ResourceLocation.fromNamespaceAndPath("the_last_sword", "transmutation_charge_spell_power");
     private static final Map<MagicData, Integer> CAST_CHARGES = new WeakHashMap<>();
 
     private TransmutationStaffCasting() {
@@ -44,7 +46,7 @@ public final class TransmutationStaffCasting {
 
     public static void withPower(LivingEntity caster, MagicData data, Runnable action) {
         int charge = CAST_CHARGES.getOrDefault(data, 0);
-        AttributeInstance attribute = caster.getAttribute(AttributeRegistry.SPELL_POWER.get());
+        AttributeInstance attribute = caster.getAttribute(AttributeRegistry.SPELL_POWER);
         if (charge == 0 || attribute == null) {
             action.run();
             return;
@@ -54,7 +56,7 @@ public final class TransmutationStaffCasting {
             attribute.removeModifier(POWER_MODIFIER);
         }
         attribute.addTransientModifier(new AttributeModifier(POWER_MODIFIER,
-            "Transmutation charge spell power", charge * TheLastSwordConfiguration.getTransmutationStaffSpellPowerPerChargeSafely(), AttributeModifier.Operation.MULTIPLY_BASE));
+            charge * TheLastSwordConfiguration.getTransmutationStaffSpellPowerPerChargeSafely(), AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         try {
             action.run();
         } finally {

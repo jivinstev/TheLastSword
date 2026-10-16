@@ -44,7 +44,7 @@ public final class TransmutationStaffTermination {
             if (player.getCooldowns().isOnCooldown(stack.getItem())) {
                 return InteractionResultHolder.fail(stack);
             }
-            IKnowledgeProvider knowledge = player.getCapability(PECapabilities.KNOWLEDGE_CAPABILITY).orElse(null);
+            IKnowledgeProvider knowledge = player.getCapability(PECapabilities.KNOWLEDGE_CAPABILITY);
             if (knowledge == null || knowledge.getEmc().compareTo(minimumBalance()) < 0) {
                 reportEmptyBalance(player);
                 return InteractionResultHolder.fail(stack);
@@ -60,7 +60,7 @@ public final class TransmutationStaffTermination {
             || !TransmutationStaffBehavior.isTermination(stack) || player.getCooldowns().isOnCooldown(stack.getItem())) {
             return;
         }
-        IKnowledgeProvider knowledge = player.getCapability(PECapabilities.KNOWLEDGE_CAPABILITY).orElse(null);
+        IKnowledgeProvider knowledge = player.getCapability(PECapabilities.KNOWLEDGE_CAPABILITY);
         if (knowledge == null || knowledge.getEmc().compareTo(minimumBalance()) < 0) {
             reportEmptyBalance(player);
             return;

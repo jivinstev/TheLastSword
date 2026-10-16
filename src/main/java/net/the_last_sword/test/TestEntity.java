@@ -270,7 +270,7 @@ public class TestEntity extends PathfinderMob {
     }
     @Override public void moveTo(double x, double y, double z, float yaw, float pitch) {
         // 生成流程先定位再入场，位置保护不能拦截初始坐标。
-        if (!isAddedToWorld()) {
+        if (!isAddedToLevel()) {
             super.moveTo(x, y, z, yaw, pitch);
         }
     }

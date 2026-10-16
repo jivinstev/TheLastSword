@@ -12,7 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
 
@@ -94,7 +94,7 @@ public final class PriestGuardEffect {
         if (!(entity instanceof ServerPlayer player)) return;
         ItemCooldowns cooldowns = player.getCooldowns();
         // 冷却按物品类型记录，遍历注册表也能覆盖饰品与已移出背包的物品。
-        for (Item item : ForgeRegistries.ITEMS.getValues()) {
+        for (Item item : BuiltInRegistries.ITEM) {
             if (cooldowns.isOnCooldown(item)) {
                 cooldowns.removeCooldown(item);
             }

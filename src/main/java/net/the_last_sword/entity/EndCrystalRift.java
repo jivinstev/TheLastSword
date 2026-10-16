@@ -1,8 +1,6 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,7 +13,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.QueenSummonRiftPlacement;
@@ -51,9 +48,9 @@ public class EndCrystalRift extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(OPENED_AT, 0L);
-        entityData.define(CLOSED_AT, -1L);
+    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+        builder.define(OPENED_AT, 0L);
+        builder.define(CLOSED_AT, -1L);
     }
 
     public float getAnimationAge(float partialTick) {
@@ -125,8 +122,4 @@ public class EndCrystalRift extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {}
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

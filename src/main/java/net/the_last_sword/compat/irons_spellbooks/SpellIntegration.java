@@ -15,9 +15,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.the_last_sword.TheLastSwordMod;
 
 public final class SpellIntegration {
@@ -35,9 +36,9 @@ public final class SpellIntegration {
             TagKey.create(Registries.ITEM,
                 ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_end_focus")),
             Component.translatable("school.the_last_sword.the_last_end").withStyle(ChatFormatting.DARK_PURPLE),
-            () -> null,
-            () -> null,
-            () -> SoundEvents.ENCHANTMENT_TABLE_USE,
+            null,
+            null,
+            BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.ENCHANTMENT_TABLE_USE),
             DamageTypes.FELL_OUT_OF_WORLD));
         SPELLS.register("void_enchanting", VoidEnchantingSpell::new);
         SPELLS.register("phasing", PhasingSpell::new);
@@ -47,7 +48,7 @@ public final class SpellIntegration {
         SPELLS.register("judgment_thunder", JudgmentThunderSpell::new);
         SPELLS.register("triple_slash", TripleSlashSpell::new);
         SPELLS.register("the_last_end_crystal", TheLastEndCrystalSpell::new);
-        MinecraftForge.EVENT_BUS.addListener(DoubleStrikeSpell::onCooldownAdded);
+        NeoForge.EVENT_BUS.addListener(DoubleStrikeSpell::onCooldownAdded);
         SCHOOLS.register(eventBus);
         SPELLS.register(eventBus);
     }

@@ -2,9 +2,9 @@ package net.the_last_sword.compat.projecte;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
 
 public interface PrimalSourceArmorItem extends GeoItem {
     RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");

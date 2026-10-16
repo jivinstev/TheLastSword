@@ -2,9 +2,9 @@ package net.the_last_sword.compat.irons_spellbooks;
 
 import io.redspace.ironsspellbooks.item.weapons.StaffItem;
 import io.redspace.ironsspellbooks.item.weapons.StaffTier;
-import io.redspace.ironsspellbooks.render.StaffArmPose;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraft.nbt.CompoundTag;
+import io.redspace.ironsspellbooks.api.item.weapons.ExtendedSwordItem;
+import io.redspace.ironsspellbooks.render.ClientStaffItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,17 +17,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.the_last_sword.compat.projecte.TransmutationStaffActions;
 import net.minecraft.world.item.UseAnim;
 import net.the_last_sword.compat.projecte.TransmutationStaffBehavior;
 import net.the_last_sword.compat.projecte.client.TransmutationStaffClientExtension;
 import net.the_last_sword.compat.projecte.StaffOfUniversalTransmutationItem;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
@@ -39,19 +37,15 @@ public class CastingTransmutationStaffItem extends StaffItem implements GeoItem 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public CastingTransmutationStaffItem() {
-        super(StaffOfUniversalTransmutationItem.createProperties(),
+        super(StaffOfUniversalTransmutationItem.createProperties().attributes(ExtendedSwordItem.createAttributes(
             new StaffTier((float) StaffOfUniversalTransmutationItem.ATTACK_DAMAGE_BONUS,
-                (float) StaffOfUniversalTransmutationItem.ATTACK_SPEED_MODIFIER));
+                (float) StaffOfUniversalTransmutationItem.ATTACK_SPEED_MODIFIER))));
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        StaffArmPose.initializeClientHelper(pose -> consumer.accept(new TransmutationStaffClientExtension(pose)));
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-        return TransmutationStaffActions.createChargeProvider();
+        // 1.21.1：铁魔法以 ClientStaffItemExtensions 提供法杖持握姿势（原 StaffArmPose.initializeClientHelper）。
+        consumer.accept(new TransmutationStaffClientExtension(new ClientStaffItemExtensions()));
     }
 
     @Override
@@ -96,17 +90,17 @@ public class CastingTransmutationStaffItem extends StaffItem implements GeoItem 
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         TransmutationStaffBehavior.appendTooltip(stack, tooltip, true);
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         if (TransmutationStaffBehavior.isTermination(stack)) {
             return TransmutationStaffBehavior.getTerminationUseTicks();
         }
-        return TransmutationStaffBehavior.isTransmutation(stack) ? 0 : super.getUseDuration(stack);
+        return TransmutationStaffBehavior.isTransmutation(stack) ? 0 : super.getUseDuration(stack, entity);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class ModEntities {
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
                             .build("queen_enhanced_blade"));
 
-    public static final RegistryObject<EntityType<EndCrystalRift>> END_CRYSTAL_RIFT =
+    public static final Supplier<EntityType<EndCrystalRift>> END_CRYSTAL_RIFT =
         ENTITY_TYPES.register("end_crystal_rift",
             () -> EntityType.Builder.<EndCrystalRift>of(EndCrystalRift::new, MobCategory.MISC)
                 .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(20)

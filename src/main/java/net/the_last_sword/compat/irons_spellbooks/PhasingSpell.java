@@ -56,7 +56,7 @@ public class PhasingSpell extends AbstractSpell {
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource castSource,
                        MagicData magicData) {
-        caster.addEffect(new MobEffectInstance(ModEffects.PHASING.get(), getDurationTicks(spellLevel), 0));
+        caster.addEffect(new MobEffectInstance(ModEffects.PHASING, getDurationTicks(spellLevel), 0));
         super.onCast(level, spellLevel, caster, castSource, magicData);
     }
 

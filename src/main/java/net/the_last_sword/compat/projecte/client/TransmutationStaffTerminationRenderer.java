@@ -16,11 +16,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.projecte.TransmutationStaffBehavior;
 import net.the_last_sword.compat.projecte.TransmutationStaffField;
@@ -28,7 +28,7 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.compat.projecte.TransmutationStaffTerminationPacket;
 import org.joml.Matrix4f;
 
-@Mod.EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class TransmutationStaffTerminationRenderer {
     private static final int FADE_TICKS = TransmutationStaffField.FADE_TICKS;
     private static final List<Release> RELEASES = new ArrayList<>();
@@ -63,10 +63,8 @@ public final class TransmutationStaffTerminationRenderer {
     }
 
     @SubscribeEvent
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            update();
-        }
+    public static void tick(ClientTickEvent.Post event) {
+        update();
     }
 
     @SubscribeEvent
@@ -79,7 +77,7 @@ public final class TransmutationStaffTerminationRenderer {
             return;
         }
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
-        float partialTick = event.getPartialTick();
+        float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
         for (Player player : effectLevel.players()) {
             ItemStack stack = player.getUseItem();
             if (!player.isAlive() || !player.isUsingItem() || !TransmutationStaffBehavior.isStaff(stack)
@@ -113,22 +111,22 @@ public final class TransmutationStaffTerminationRenderer {
         poses.translate(offset.x, offset.y, offset.z);
         poses.pushPose();
         poses.translate(0, 0.04, 0);
-        poses.mulPose(Axis.YP.rotationDegrees((effectLevel.getGameTime() % 360) + event.getPartialTick()));
+        poses.mulPose(Axis.YP.rotationDegrees((effectLevel.getGameTime() % 360) + event.getPartialTick().getGameTimeDeltaPartialTick(false)));
         Matrix4f circleMatrix = poses.last().pose();
         VertexConsumer circle = buffers.getBuffer(FieldRenderTypes.CIRCLE);
         int alpha = (int) (220 * opacity);
-        circle.vertex(circleMatrix, -radius, 0, -radius).color(155, 12, 40, alpha).uv(0, 0).endVertex();
-        circle.vertex(circleMatrix, -radius, 0, radius).color(155, 12, 40, alpha).uv(0, 1).endVertex();
-        circle.vertex(circleMatrix, radius, 0, radius).color(155, 12, 40, alpha).uv(1, 1).endVertex();
-        circle.vertex(circleMatrix, radius, 0, -radius).color(155, 12, 40, alpha).uv(1, 0).endVertex();
+        circle.addVertex(circleMatrix, -radius, 0, -radius).setColor(155, 12, 40, alpha).setUv(0, 0);
+        circle.addVertex(circleMatrix, -radius, 0, radius).setColor(155, 12, 40, alpha).setUv(0, 1);
+        circle.addVertex(circleMatrix, radius, 0, radius).setColor(155, 12, 40, alpha).setUv(1, 1);
+        circle.addVertex(circleMatrix, radius, 0, -radius).setColor(155, 12, 40, alpha).setUv(1, 0);
         poses.popPose();
         poses.scale(radius, radius, radius);
         Matrix4f sphereMatrix = poses.last().pose();
         VertexConsumer sphere = buffers.getBuffer(FieldRenderTypes.SPHERE);
         int sphereAlpha = (int) ((30 + 25 * progress) * opacity);
         for (Vec3 vertex : SPHERE) {
-            sphere.vertex(sphereMatrix, (float) vertex.x, (float) vertex.y, (float) vertex.z)
-                .color(135, 35, 225, sphereAlpha).endVertex();
+            sphere.addVertex(sphereMatrix, (float) vertex.x, (float) vertex.y, (float) vertex.z)
+                .setColor(135, 35, 225, sphereAlpha);
         }
         renderSurfaceGlyphs(sphereMatrix, buffers.getBuffer(FieldRenderTypes.CIRCLE), progress, opacity);
         poses.popPose();
@@ -163,8 +161,8 @@ public final class TransmutationStaffTerminationRenderer {
         // 将贴图网格投影到球面，避免大法阵的边缘穿入球体。
         Vec3 point = glyph.normal().add(glyph.horizontal().scale((u * 2 - 1) * size))
             .add(glyph.vertical().scale((v * 2 - 1) * size)).normalize().scale(1.005);
-        buffer.vertex(matrix, (float) point.x, (float) point.y, (float) point.z)
-            .color(155, 12, 40, alpha).uv(u, v).endVertex();
+        buffer.addVertex(matrix, (float) point.x, (float) point.y, (float) point.z)
+            .setColor(155, 12, 40, alpha).setUv(u, v);
     }
 
     private static List<SurfaceGlyph> createSurfaceGlyphs() {
@@ -213,9 +211,9 @@ public final class TransmutationStaffTerminationRenderer {
     }
 
     private static final class FieldRenderTypes extends RenderType {
-        private static final RenderType CIRCLE = create("termination_circle", DefaultVertexFormat.POSITION_COLOR_TEX,
+        private static final RenderType CIRCLE = create("termination_circle", DefaultVertexFormat.POSITION_TEX_COLOR,
             VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
-                .setShaderState(POSITION_COLOR_TEX_SHADER)
+                .setShaderState(new ShaderStateShard(net.minecraft.client.renderer.GameRenderer::getPositionTexColorShader))
                 .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(
                     "projecte", "textures/models/yuecircle.png"), false, false))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL)

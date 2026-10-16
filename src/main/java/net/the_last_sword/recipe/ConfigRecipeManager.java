@@ -6,8 +6,8 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
+import com.mojang.serialization.JsonOps;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfigManager;
 import net.the_last_sword.util.TheLastSwordLogger;
@@ -176,7 +176,7 @@ public class ConfigRecipeManager {
             return;
         }
 
-        if (!CraftingHelper.processConditions(json, "conditions", ICondition.IContext.TAGS_INVALID)) {
+        if (!ICondition.conditionsMatched(JsonOps.INSTANCE, json)) {
             recipes.remove(officialKey != null ? officialKey : customKey);
             return;
         }
@@ -262,7 +262,7 @@ public class ConfigRecipeManager {
                 String relativePath = directory.relativize(recipePath).toString().replace('\\', '/');
                 try {
                     // 条件必须先于物品解析检查，未启用的联动材料可能尚未注册。
-                    if (!CraftingHelper.processConditions(readJson(recipePath), "conditions", ICondition.IContext.TAGS_INVALID)) {
+                    if (!ICondition.conditionsMatched(JsonOps.INSTANCE, readJson(recipePath))) {
                         continue;
                     }
                     consumer.accept(recipePath, relativePath);

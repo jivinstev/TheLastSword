@@ -1,13 +1,14 @@
 package net.the_last_sword.compat.projecte;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import moze_intel.projecte.api.mapper.EMCMapper;
 import moze_intel.projecte.api.mapper.IEMCMapper;
 import moze_intel.projecte.api.mapper.collector.IMappingCollector;
 import moze_intel.projecte.api.nss.NSSFake;
 import moze_intel.projecte.api.nss.NSSItem;
 import moze_intel.projecte.api.nss.NormalizedSimpleStack;
+import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
@@ -37,7 +38,12 @@ public class DragonCrystalSmithingEmcMapper implements IEMCMapper<NormalizedSimp
     }
 
     @Override
-    public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper, CommentedFileConfig config,
+    public String getTranslationKey() {
+        return "mapping.the_last_sword.dragon_crystal_smithing";
+    }
+
+    @Override
+    public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper,
                             ReloadableServerResources resources, RegistryAccess registries,
                             ResourceManager resourceManager) {
         // EMC重算可能早于配方同步事件，必须先应用当前配置的覆盖和禁用。
@@ -110,7 +116,7 @@ public class DragonCrystalSmithingEmcMapper implements IEMCMapper<NormalizedSimp
         // 使用中间节点避免三个槽位的候选材料产生笛卡尔积。
         NormalizedSimpleStack group = NSSFake.create("the_last_sword/smithing/" + key);
         for (NormalizedSimpleStack alternative : alternatives) {
-            mapper.addConversion(1, group, Map.of(alternative, 1));
+            mapper.addConversion(1, group, Object2IntMaps.singleton(alternative, 1));
         }
         return group;
     }
@@ -133,8 +139,9 @@ public class DragonCrystalSmithingEmcMapper implements IEMCMapper<NormalizedSimp
             ItemLevelHelper.setLevel(stack, level);
         }
         // 新建耐久物品自动写入零损伤，不能让它成为等级价格键的一部分。
-        if (stack.isDamageableItem() && stack.getDamageValue() == 0 && stack.hasTag()) {
-            stack.getTag().remove("Damage");
+        // 1.21.1：损伤为数据组件；写回原型值 0 即从组件补丁中移除。
+        if (stack.isDamageableItem() && stack.getDamageValue() == 0) {
+            stack.set(DataComponents.DAMAGE, 0);
         }
     }
 }

@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.RegistryObject;
+import java.util.function.Supplier;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.init.ModItems;
 
@@ -29,7 +29,10 @@ public final class PrimalSourceEquipment {
                 || matches(stack, ModItems.BOOTS_OF_THE_DEEP_ABYSS));
     }
 
-    private static boolean matches(ItemStack stack, RegistryObject<Item> item) {
-        return !stack.isEmpty() && item != null && item.isPresent() && stack.is(item.get());
+    private static boolean matches(ItemStack stack, Supplier<Item> item) {
+        // 1.21.1：注册项为 DeferredHolder，未绑定时等同于 1.20.1 的 !isPresent()。
+        return !stack.isEmpty() && item != null
+            && (!(item instanceof net.neoforged.neoforge.registries.DeferredHolder<?, ?> holder) || holder.isBound())
+            && stack.is(item.get());
     }
 }

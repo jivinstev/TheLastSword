@@ -59,7 +59,7 @@ public class VoidEnchantingSpell extends AbstractSpell {
     public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource castSource,
                        MagicData magicData) {
         // 效果等级直接对应法术等级，避免法术强度再次放大附魔等级。
-        caster.addEffect(new MobEffectInstance(ModEffects.VOID_ENCHANTING.get(), DURATION_TICKS,
+        caster.addEffect(new MobEffectInstance(ModEffects.VOID_ENCHANTING, DURATION_TICKS,
             spellLevel - 1));
         super.onCast(level, spellLevel, caster, castSource, magicData);
     }

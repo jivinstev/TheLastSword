@@ -2,7 +2,7 @@ package net.the_last_sword.compat.irons_spellbooks;
 
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
-import io.redspace.ironsspellbooks.setup.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.minecraft.server.level.ServerPlayer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 

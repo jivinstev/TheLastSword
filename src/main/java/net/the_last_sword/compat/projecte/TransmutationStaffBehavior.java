@@ -1,5 +1,6 @@
 package net.the_last_sword.compat.projecte;
 
+import moze_intel.projecte.api.PEDataComponents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -23,7 +24,6 @@ import java.util.Locale;
 public final class TransmutationStaffBehavior {
     public static final int MAX_CHARGE = 4;
     public static final int MODE_COUNT = 3;
-    private static final String CHARGE_TAG = "Charge";
 
     private TransmutationStaffBehavior() {
     }
@@ -69,7 +69,8 @@ public final class TransmutationStaffBehavior {
     }
 
     public static int getCharge(ItemStack stack) {
-        return stack.hasTag() ? Mth.clamp(stack.getTag().getInt(CHARGE_TAG), 0, MAX_CHARGE) : 0;
+        // 1.21.1：ProjectE 的充能存于 PEDataComponents.CHARGE（1.20.1 为 NBT "Charge"）。
+        return Mth.clamp(stack.getOrDefault(PEDataComponents.CHARGE, 0), 0, MAX_CHARGE);
     }
 
     public static float getProjectileDamage(ItemStack stack) {
