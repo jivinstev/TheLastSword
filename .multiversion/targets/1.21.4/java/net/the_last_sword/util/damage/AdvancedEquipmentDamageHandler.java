@@ -237,9 +237,7 @@ public final class AdvancedEquipmentDamageHandler {
         boolean applied;
         try {
             CONVERTING_DAMAGE.set(true);
-            float healthBefore = player.getHealth();
-            player.hurt(player.damageSources().fellOutOfWorld(), amount);
-            applied = player.getHealth() != healthBefore;
+            applied = player.hurtServer((net.minecraft.server.level.ServerLevel) player.level(), player.damageSources().fellOutOfWorld(), amount);
         } finally {
             CONVERTING_DAMAGE.set(false);
         }

@@ -1,6 +1,7 @@
 package net.the_last_sword.entity.ai;
 
 import net.eca.api.EcaAPI;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -120,9 +121,7 @@ public class SwordWraithBlockGoal extends Goal {
                 knockbackDir.x * KNOCKBACK_STRENGTH, 0.1, knockbackDir.z * KNOCKBACK_STRENGTH
             ));
 
-            float healthBefore = target.getHealth();
-            target.hurt(wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage));
-            if (target.getHealth() < healthBefore) {
+            if (target.hurtServer((ServerLevel) wraith.level(), wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage))) {
                 wraith.addEndMark();
             }
         }

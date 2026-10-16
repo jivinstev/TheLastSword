@@ -112,9 +112,7 @@ public class EffectEventHandler {
         APPLYING_VOID_DAMAGE.set(true);
         try {
             victim.invulnerableTime = 0;
-            float healthBefore = victim.getHealth();
-            victim.hurt(voidDamageSource, damage);
-            boolean damaged = victim.getHealth() < healthBefore;
+            boolean damaged = victim.hurtServer(serverLevel, voidDamageSource, damage);
             if (damaged) {
                 spawnVoidEnchantingEffects(victim, serverLevel);
             }

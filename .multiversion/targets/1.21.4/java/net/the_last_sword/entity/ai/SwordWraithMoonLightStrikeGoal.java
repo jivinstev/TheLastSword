@@ -1,5 +1,6 @@
 package net.the_last_sword.entity.ai;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -172,10 +173,8 @@ public class SwordWraithMoonLightStrikeGoal extends Goal {
 
         List<LivingEntity> targets = EntityUtil.getTargetsInSphere(wraith, strikeRange);
         for (LivingEntity target : targets) {
-            float healthBefore = target.getHealth();
-            target.hurt(wraith.damageSources().mobAttack(wraith),
+            boolean damaged = target.hurtServer((ServerLevel) wraith.level(), wraith.damageSources().mobAttack(wraith),
                     wraith.getDamageWithEndMark(target, damage));
-            boolean damaged = target.getHealth() < healthBefore;
             target.setDeltaMovement(target.getDeltaMovement().add(0, LAUNCH_STRENGTH, 0));
             target.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1.0F, 1.0F);
             if (damaged) {

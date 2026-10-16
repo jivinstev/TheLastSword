@@ -167,9 +167,7 @@ public class DragonCultPriestBreathGoal extends Goal {
 
         for (LivingEntity target : priest.level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(priest, entity))) {
-            float healthBefore = target.getHealth();
-            target.hurt(damageSource, damage);
-            if (target.getHealth() < healthBefore) {
+            if (target.hurtServer((ServerLevel) priest.level(), damageSource, damage)) {
                 priest.onSuccessfulAttack(target);
             }
         }

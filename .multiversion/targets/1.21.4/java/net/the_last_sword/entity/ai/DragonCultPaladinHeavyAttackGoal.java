@@ -3,7 +3,6 @@ package net.the_last_sword.entity.ai;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -112,11 +111,7 @@ public class DragonCultPaladinHeavyAttackGoal extends DangerousSkillGoal<DragonC
             //先破盾再结算，否则伤害会被格挡吃掉
             disableBlocking(target);
 
-            DamageSource source = paladin.damageSources().mobAttack(paladin);
-            boolean canHurt = !(paladin.level() instanceof ServerLevel serverLevel
-                && target.isInvulnerableTo(serverLevel, source));
-            target.hurt(source, damage);
-            if (canHurt) {
+            if (target.hurtServer((ServerLevel) paladin.level(), paladin.damageSources().mobAttack(paladin), damage)) {
                 target.knockback(KNOCKBACK_STRENGTH,
                     getDangerousSkillOrigin().x - target.getX(),
                     getDangerousSkillOrigin().z - target.getZ());

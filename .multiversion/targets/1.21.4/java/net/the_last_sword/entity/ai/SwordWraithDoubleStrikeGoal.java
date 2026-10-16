@@ -1,6 +1,7 @@
 package net.the_last_sword.entity.ai;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -114,9 +115,7 @@ public class SwordWraithDoubleStrikeGoal extends Goal {
         List<LivingEntity> targets = EntityUtil.getTargetsInHemisphere(wraith, attackRange);
         float damage = (float) wraith.getAttributeValue(Attributes.ATTACK_DAMAGE) * damageMultiplier;
         for (LivingEntity target : targets) {
-            float healthBefore = target.getHealth();
-            target.hurt(wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage));
-            if (target.getHealth() < healthBefore) {
+            if (target.hurtServer((ServerLevel) wraith.level(), wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage))) {
                 wraith.addEndMark();
             }
         }
@@ -139,9 +138,7 @@ public class SwordWraithDoubleStrikeGoal extends Goal {
                     .getOrThrow(DamageTypes.MAGIC),
                 wraith, wraith
             );
-            float healthBefore = target.getHealth();
-            target.hurt(magicDamage, wraith.getDamageWithEndMark(target, damage));
-            if (target.getHealth() < healthBefore) {
+            if (target.hurtServer((ServerLevel) wraith.level(), magicDamage, wraith.getDamageWithEndMark(target, damage))) {
                 wraith.addEndMark();
             }
         }
