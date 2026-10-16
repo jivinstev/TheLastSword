@@ -1,5 +1,11 @@
 [
  {
+  "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
+  "why": "empties 1 method body",
+  "reviewed": "The emptied body is the private constructor of the new EndPortalPipRegistration holder class (an event-subscriber holder, never instantiated); no authors' method is emptied. renderEndPortalEffect keeps its quad: 1.21.6 records the GUI and draws it later, so the end-portal quad is submitted as a picture-in-picture element (EndPortalPip, drawn by EndPortalPipRenderer with RenderType.endPortal() into the element's texture and blitted at the call's place in the GUI order) instead of an immediate bufferSource draw that would land under the screen's background.",
+  "hooks": []
+ },
+ {
   "file": ".multiversion/targets/1.21.8/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
   "why": "empties 2 method bodies",
   "reviewed": "(inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."

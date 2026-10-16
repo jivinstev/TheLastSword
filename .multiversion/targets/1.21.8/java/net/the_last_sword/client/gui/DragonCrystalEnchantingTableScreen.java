@@ -703,25 +703,92 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     private void renderEndPortalEffect(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2) {
-        // GUI pose is now a 2D Matrix3x2f stack; lift its translation/scale into a Matrix4f
-        var guiPose = guiGraphics.pose();
+        // 1.21.6: the GUI is recorded during render and drawn later by GuiRenderer, so drawing RenderType.endPortal()
+        // here at once (1.21.1's immediate bufferSource draw) would land under this screen's background blit, which
+        // is drawn afterwards. The quad is submitted as a picture-in-picture element instead: EndPortalPipRenderer
+        // draws it into a texture of the rectangle when the frame is prepared, and the texture is blitted at this
+        // call's place in the GUI order (above the energy bar, below the slots), with this call's pose and scissor.
+        if (x2 <= x1 || y2 <= y1) {
+            return;
+        }
+        org.joml.Matrix3x2f pose = new org.joml.Matrix3x2f(guiGraphics.pose());
+        net.minecraft.client.gui.navigation.ScreenRectangle scissor = guiGraphics.peekScissorStack();
+        net.minecraft.client.gui.navigation.ScreenRectangle area =
+                new net.minecraft.client.gui.navigation.ScreenRectangle(x1, y1, x2 - x1, y2 - y1).transformMaxBounds(pose);
+        guiGraphics.submitPictureInPictureRenderState(new EndPortalPip(x1, y1, x2, y2, pose, scissor,
+                scissor != null ? scissor.intersection(area) : area));
+    }
 
-        MultiBufferSource.BufferSource bufferSource = net.minecraft.client.Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.endPortal());
-        Matrix4f matrix = new Matrix4f();
-        matrix.m00(guiPose.m00);
-        matrix.m01(guiPose.m01);
-        matrix.m10(guiPose.m10);
-        matrix.m11(guiPose.m11);
-        matrix.m30(guiPose.m20);
-        matrix.m31(guiPose.m21);
+    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+). */
+    public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
+                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
+                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
+            implements net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState {
+        @Override
+        public float scale() {
+            return 1.0F;
+        }
+    }
 
-        vertexConsumer.addVertex(matrix, x1, y2, 0);
-        vertexConsumer.addVertex(matrix, x2, y2, 0);
-        vertexConsumer.addVertex(matrix, x2, y1, 0);
-        vertexConsumer.addVertex(matrix, x1, y1, 0);
+    /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture: an orthographic projection over the
+     *  rectangle in GUI units (z -10000..10000, as the 1.21.1 GUI) and the model-view moved by (-x0, -y0). */
+    public static final class EndPortalPipRenderer
+            extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
+        private final net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer projection =
+                new net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer("the_last_sword_end_portal_pip");
 
-        bufferSource.endBatch();
+        public EndPortalPipRenderer(MultiBufferSource.BufferSource bufferSource) {
+            super(bufferSource);
+        }
+
+        @Override
+        public Class<EndPortalPip> getRenderStateClass() {
+            return EndPortalPip.class;
+        }
+
+        @Override
+        protected void renderToTexture(EndPortalPip state, PoseStack unused) {
+            int width = state.x1() - state.x0();
+            int height = state.y1() - state.y0();
+            RenderSystem.setProjectionMatrix(
+                    projection.getBuffer(new Matrix4f().setOrtho(0.0F, width, height, 0.0F, -10000.0F, 10000.0F)),
+                    com.mojang.blaze3d.ProjectionType.ORTHOGRAPHIC);
+            org.joml.Matrix4fStack modelView = RenderSystem.getModelViewStack();
+            modelView.pushMatrix();
+            try {
+                modelView.identity().translate(-state.x0(), -state.y0(), 0.0F);
+                VertexConsumer vertexConsumer = this.bufferSource.getBuffer(RenderType.endPortal());
+                Matrix4f matrix = new Matrix4f();
+                vertexConsumer.addVertex(matrix, state.x0(), state.y1(), 0);
+                vertexConsumer.addVertex(matrix, state.x1(), state.y1(), 0);
+                vertexConsumer.addVertex(matrix, state.x1(), state.y0(), 0);
+                vertexConsumer.addVertex(matrix, state.x0(), state.y0(), 0);
+                this.bufferSource.endBatch();
+            } finally {
+                modelView.popMatrix();
+            }
+        }
+
+        @Override
+        protected String getTextureLabel() {
+            return "the_last_sword_end_portal_pip";
+        }
+
+        @Override
+        public void close() {
+            super.close();
+            projection.close();
+        }
+    }
+
+    @net.neoforged.fml.common.EventBusSubscriber(modid = "the_last_sword", value = net.neoforged.api.distmarker.Dist.CLIENT)
+    public static final class EndPortalPipRegistration {
+        @net.neoforged.bus.api.SubscribeEvent
+        public static void register(net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent event) {
+            event.register(EndPortalPip.class, EndPortalPipRenderer::new);
+        }
+
+        private EndPortalPipRegistration() {}
     }
 
     // 附魔选项数据类
