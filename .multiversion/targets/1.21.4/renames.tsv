@@ -54,3 +54,6 @@ re:\bInteractionResultHolder\.success\(itemstack\)	InteractionResult.SUCCESS
 re:(import net\.minecraft\.world\.item\.\*;\n)(?=[\s\S]*\bnew Tier\(\))	\1import net.the_last_sword.compat.gear.Tier;\n
 # AbstractArrow.inGround is private since 1.21.2
 re:\bif \(inGround\)	if (isInGround())
+# ServerPlayerMixin.restoreFrom: Player.level().getGameRules() is gone (1.21.2, GameRules live on the ServerLevel); the
+# mixin target is a ServerPlayer, so read them from its serverLevel()
+re:!\(\(Player\) \(Object\) this\)\.level\(\)\.getGameRules\(\)	!((ServerPlayer) (Object) this).serverLevel().getGameRules()
