@@ -220,8 +220,8 @@ public class UltraTestSwordItem extends Item {
     public static boolean hasUltraTestSword(Player player) {
         if (player == null || player.getInventory() == null) return false;
 
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof UltraTestSwordItem) {
                 return true;
             }
@@ -234,8 +234,8 @@ public class UltraTestSwordItem extends Item {
         if (!(entity instanceof Player player)) return false;
         if (player.getInventory() == null) return false;
 
-        for (int j = 0; j < player.getInventory().getContainerSize(); j++) {
-            ItemStack st = player.getInventory().getItem(j);
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack st : player.getInventory().getNonEquipmentItems()) {
             if (st.getItem() instanceof UltraTestSwordItem) {
                 ItemModeHelper.initializeMode(st, 0, MAX_MODES);
                 if (ItemModeHelper.getMode(st) == 1) return true;

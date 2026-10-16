@@ -102,6 +102,9 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
     //近战单体攻击：模式0造成绝毁伤害，模式1和2造成虚空伤害
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
         super.hurtEnemy(stack, target, attacker);
 
@@ -429,8 +432,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
             //无冷却逻辑：持有最终之剑时，清除所有物品的冷却时间
             if (hasSword) {
                 //清除主物品栏所有物品的冷却
-                for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-                ItemStack stack = player.getInventory().getItem(i);
+                //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                     if (!stack.isEmpty()) {
                         player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
@@ -446,8 +449,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         //检查玩家背包中是否有最终之剑
         private static boolean hasTheLastSwordInInventory(Player player) {
             if (player == null) return false;
-            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-                ItemStack s = player.getInventory().getItem(i);
+            //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+            for (ItemStack s : player.getInventory().getNonEquipmentItems()) {
                 if (s.getItem() instanceof TheLastSword) {
                     return true;
                 }

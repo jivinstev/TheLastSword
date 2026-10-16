@@ -92,6 +92,9 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
     // 左键：基础物理伤害 + 自定义attack
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         super.hurtEnemy(stack, target, attacker);
 
         if (!attacker.level().isClientSide) {

@@ -276,9 +276,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             amount *= 0.7F;
         }
 
-        float healthBefore = getHealth();
-        super.hurtServer(level, source, amount);
-        boolean hurt = getHealth() < healthBefore;
+        boolean hurt = super.hurtServer(level, source, amount);
         if (hurt && variant == NamedPriestVariant.KROSIS && getRandom().nextFloat() < 0.30F) {
             addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60));
         }
@@ -513,9 +511,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
                 * TheLastSwordConfiguration.getDragonCultPriestBreathDamageMultiplierSafely());
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(this, entity))) {
-            float healthBefore = target.getHealth();
-            target.hurt(source, damage);
-            if (target.getHealth() < healthBefore) {
+            if (target.hurtServer(serverLevel, source, damage)) {
                 onSuccessfulAttack(target);
             }
         }
