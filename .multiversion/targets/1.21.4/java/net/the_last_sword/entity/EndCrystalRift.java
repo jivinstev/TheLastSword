@@ -112,7 +112,6 @@ public class EndCrystalRift extends Entity {
     }
 
     @Override
-    @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return false;
     }
