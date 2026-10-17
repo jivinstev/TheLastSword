@@ -48,7 +48,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
                 DefenceConfig.save();
                 NetworkHandler.sendToServer(new DefenceConfigPacket(DefenceConfig.getData()));
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - 105, bottomY, 100, 20).build());
@@ -177,7 +177,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
 
     @Override
     public void onClose() {
-        Minecraft.getInstance().setScreen(parent);
+        Minecraft.getInstance().gui.setScreen(parent);
     }
 
     @Override

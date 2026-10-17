@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import java.util.Random;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
@@ -27,7 +27,7 @@ public final class LightningSpearRenderUtil {
     private static final Vector3f SCALE_VECTOR = new Vector3f();
     private static final RenderType ARC_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "the_last_sword_lightning_spear",
-            DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 65536, false, false,
+            DefaultVertexFormat.POSITION_COLOR, com.mojang.blaze3d.PrimitiveTopology.QUADS, 65536, false, false,
             net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
                     .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY)
@@ -59,21 +59,22 @@ public final class LightningSpearRenderUtil {
     private LightningSpearRenderUtil() {
     }
 
-    public static void render(PoseStack poseStack, MultiBufferSource bufferSource, float age) {
-        VertexConsumer consumer = bufferSource.getBuffer(ARC_RENDER_TYPE);
-        Matrix4f matrix = poseStack.last().pose();
-        float scale = matrix.transformDirection(SCALE_VECTOR.set(1.0F, 0.0F, 0.0F)).length();
-        for (int strand = 0; strand < STRAND_COUNT; strand++) {
-            float time = age / STRAND_DURATIONS[strand] + STRAND_PHASES[strand];
-            int generation = Mth.floor(time);
-            float phase = time - generation;
-            float fade = Mth.clamp(phase / 0.7F, 0.0F, 1.0F);
-            float incoming = fade * fade * (3.0F - 2.0F * fade);
-            renderStrand(matrix, consumer, generation, strand, incoming, scale);
-            if (incoming < 1.0F) {
-                renderStrand(matrix, consumer, generation - 1, strand, 1.0F - incoming, scale);
+    public static void render(PoseStack poseStack, net.minecraft.client.renderer.SubmitNodeCollector collector, float age) {
+        collector.submitCustomGeometry(poseStack, ARC_RENDER_TYPE, (last, consumer) -> {
+            Matrix4f matrix = last.pose();
+            float scale = matrix.transformDirection(SCALE_VECTOR.set(1.0F, 0.0F, 0.0F)).length();
+            for (int strand = 0; strand < STRAND_COUNT; strand++) {
+                float time = age / STRAND_DURATIONS[strand] + STRAND_PHASES[strand];
+                int generation = Mth.floor(time);
+                float phase = time - generation;
+                float fade = Mth.clamp(phase / 0.7F, 0.0F, 1.0F);
+                float incoming = fade * fade * (3.0F - 2.0F * fade);
+                renderStrand(matrix, consumer, generation, strand, incoming, scale);
+                if (incoming < 1.0F) {
+                    renderStrand(matrix, consumer, generation - 1, strand, 1.0F - incoming, scale);
+                }
             }
-        }
+        });
     }
 
     private static void renderStrand(Matrix4f matrix, VertexConsumer consumer, int generation, int strand,

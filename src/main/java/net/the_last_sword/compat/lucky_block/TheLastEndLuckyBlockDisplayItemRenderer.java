@@ -1,6 +1,6 @@
 package net.the_last_sword.compat.lucky_block;
 
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 

@@ -7,7 +7,7 @@ import org.joml.Vector3fc;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
@@ -34,7 +34,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
                        int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
         poseStack.translate(0.5D, 0.5D, 0.5D);
-        LightningSpearRenderUtil.render(poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), animationAge());
+        LightningSpearRenderUtil.render(poseStack, collector, animationAge());
         poseStack.popPose();
     }
 

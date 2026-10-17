@@ -145,7 +145,7 @@ public class LostWraithPunchGoal extends Goal {
                     SoundEvents.SHIELD_BLOCK, target.getSoundSource(),
                     1.0F, 0.8F + target.level().getRandom().nextFloat() * 0.4F);
                 Vec3 knockbackDir = target.position().subtract(wraith.position()).normalize();
-                target.knockback(0.5F, knockbackDir.x, knockbackDir.z);
+                target.knockback(0.5D, knockbackDir.x, knockbackDir.z, damageSource, damage);
             } else {
                 target.hurt(damageSource, damage);
             }

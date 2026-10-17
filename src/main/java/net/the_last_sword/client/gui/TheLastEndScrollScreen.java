@@ -452,7 +452,7 @@ public class TheLastEndScrollScreen extends Screen {
         Button journeyLogsButton = Button.builder(
             Component.translatable("gui.the_last_sword.the_last_end_scroll.chapter_7"),
             button -> {
-                Minecraft.getInstance().setScreen(new JourneyLogsScreen(collectedNotes, TheLastEndScrollScreen.this));
+                Minecraft.getInstance().gui.setScreen(new JourneyLogsScreen(collectedNotes, TheLastEndScrollScreen.this));
                 if (TheLastSwordConfiguration.getTheLastEndScrollEnableParticleEffectsSafely()) {
                     spawnClickParticles(button);
                 }

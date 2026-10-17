@@ -22,7 +22,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
     private final Uniform glowPhase;
 
     public static final RenderType ITEM = net.the_last_sword.mv.LegacyRenderType.create(
-            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
+            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, com.mojang.blaze3d.PrimitiveTopology.QUADS,
             256, false, false, net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
                     .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)

@@ -445,7 +445,8 @@ public class CataclysmMedals {
                         int moistureLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect)).getAmplifier() + 1;
                         float lightningDamage = moistureLevel * 5.0f;
 
-                        LightningBolt lightning = world instanceof ServerLevel serverWorld ? EntityType.LIGHTNING_BOLT.create(serverWorld, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED) : null;
+                        Entity lightningEntity = world instanceof ServerLevel serverWorld ? BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.fromNamespaceAndPath("minecraft", "lightning_bolt")).create(serverWorld, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED) : null;
+                        LightningBolt lightning = lightningEntity instanceof LightningBolt bolt ? bolt : null;
                         if (lightning != null) {
                             lightning.snapTo(target.getX(), target.getY(), target.getZ());
                             lightning.setVisualOnly(false);

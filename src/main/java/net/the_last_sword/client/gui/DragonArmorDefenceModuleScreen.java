@@ -27,7 +27,7 @@ public class DragonArmorDefenceModuleScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.phasing"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.PHASING));
                 }
             }
@@ -37,7 +37,7 @@ public class DragonArmorDefenceModuleScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.justified_defence_recovery"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.JUSTIFIED_DEFENCE_RECOVERY));
                 }
             }
@@ -47,7 +47,7 @@ public class DragonArmorDefenceModuleScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.dragon_shield"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.DRAGON_SHIELD));
                 }
             }
@@ -57,7 +57,7 @@ public class DragonArmorDefenceModuleScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + spacing * 3 + 10, buttonWidth, buttonHeight).build());

@@ -29,7 +29,7 @@ public class DragonArmorModuleConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.life_support"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.LIFE_SUPPORT));
                 }
             }
@@ -40,7 +40,7 @@ public class DragonArmorModuleConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.defence"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorDefenceModuleScreen(this));
+                    this.minecraft.gui.setScreen(new DragonArmorDefenceModuleScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + spacing, buttonWidth, buttonHeight).build());
@@ -50,7 +50,7 @@ public class DragonArmorModuleConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.anti_gravity"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.ANTI_GRAVITY));
                 }
             }
@@ -61,7 +61,7 @@ public class DragonArmorModuleConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_module.perception"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleDetailScreen(
+                    this.minecraft.gui.setScreen(new DragonArmorModuleDetailScreen(
                         this, DragonArmorModuleDetailScreen.ModuleType.PERCEPTION));
                 }
             }
@@ -72,7 +72,7 @@ public class DragonArmorModuleConfigScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + spacing * 4 + 10, buttonWidth, buttonHeight).build());

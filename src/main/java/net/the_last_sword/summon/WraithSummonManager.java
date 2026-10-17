@@ -437,7 +437,10 @@ public class WraithSummonManager {
         CompoundTag entityNBT = nbt.getCompoundOrEmpty("entity_nbt");
 
         //1. 从NBT加载实体
-        Entity entity = EntityType.loadEntityRecursive(entityNBT, level, net.minecraft.world.entity.EntitySpawnReason.LOAD, (e) -> e);
+        Entity entity = EntityType.loadEntityRecursive(
+                net.minecraft.world.level.storage.TagValueInput.create(
+                        net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess(), entityNBT),
+                level, net.minecraft.world.entity.EntitySpawnReason.LOAD, e -> e);
         if (!(entity instanceof LivingEntity)) {
             player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED));
             return false;

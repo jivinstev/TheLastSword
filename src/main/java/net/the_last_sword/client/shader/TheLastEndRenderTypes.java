@@ -53,15 +53,14 @@ public class TheLastEndRenderTypes {
         if (!writeDepth) {
             sb.setWriteMaskState(LegacyRenderType.COLOR_WRITE);
         }
-        return LegacyRenderType.create(name, format, VertexFormat.Mode.QUADS, 2097152, true, false,
+        return LegacyRenderType.create(name, format, com.mojang.blaze3d.PrimitiveTopology.QUADS, 2097152, true, false,
             sb.createCompositeState(true));
     }
 
     private static RenderType make(String name, RenderPipeline pipeline, Identifier texture,
                                    boolean lightmap, boolean overlay, boolean outline) {
         RenderSetup.RenderSetupBuilder sb = RenderSetup.builder(pipeline)
-            .withTexture("Sampler0", texture)
-            .bufferSize(1536);
+            .withTexture("Sampler0", texture);
         if (lightmap) {
             sb.useLightmap();
         }

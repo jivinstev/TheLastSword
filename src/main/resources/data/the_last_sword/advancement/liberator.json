@@ -19,7 +19,7 @@
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": {
-          "type": "the_last_sword:lost_wraith"
+          "entity_type": "the_last_sword:lost_wraith"
         }
       }
     }

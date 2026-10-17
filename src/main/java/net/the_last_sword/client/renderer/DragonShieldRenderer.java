@@ -3,12 +3,13 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.PrimitiveTopology;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -42,7 +43,7 @@ public class DragonShieldRenderer {
     private static final RenderType SHIELD_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "the_last_sword_dragon_shield",
             DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
+            PrimitiveTopology.QUADS,
             2097152,
             true,
             false,
@@ -86,7 +87,8 @@ public class DragonShieldRenderer {
         double y = Mth.lerp(partialTicks, player.yo, player.getY()) + player.getBbHeight() / 2;
         double z = Mth.lerp(partialTicks, player.zo, player.getZ());
 
-        Vec3 cam = mc.gameRenderer.getMainCamera().position();
+        Entity camEntity = mc.getCameraEntity() != null ? mc.getCameraEntity() : player;
+        Vec3 cam = camEntity.getEyePosition(partialTicks);
         poseStack.pushPose();
         poseStack.translate(x - cam.x, y - cam.y, z - cam.z);
 

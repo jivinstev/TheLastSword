@@ -115,8 +115,8 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
     //沿用原版玩家逻辑：支持斧及其他声明可破盾的物品
     //1.21.5: blockUsingShield/canDisableShield are gone; the weapon component's disable_blocking_for_seconds says whether the attacker breaks guard
     @Override
-    protected void blockUsingItem(ServerLevel level, LivingEntity attacker) {
-        super.blockUsingItem(level, attacker);
+    protected void blockUsingItem(ServerLevel level, LivingEntity attacker, DamageSource source, float damage) {
+        super.blockUsingItem(level, attacker, source, damage);
         if (attacker.getSecondsToDisableBlocking() > 0.0F) {
             shieldDisabledUntil = level().getGameTime()
                     + TheLastSwordConfiguration.getGuardianSaberShieldDisableTimeSafely();

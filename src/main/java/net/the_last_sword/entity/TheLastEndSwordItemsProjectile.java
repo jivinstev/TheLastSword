@@ -147,7 +147,9 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
         if (this.level() instanceof ServerLevel serverLevel) {
-            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+            @SuppressWarnings("unchecked")
+            EntityType<? extends LightningBolt> lightningType = (EntityType<? extends LightningBolt>) (EntityType<?>) net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("lightning_bolt"));
+            LightningBolt lightning = lightningType.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (lightning != null) {
                 BlockPos pos = blockHitResult.getBlockPos();
                 lightning.snapTo(Vec3.atBottomCenterOf(pos));

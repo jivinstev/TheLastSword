@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -14,6 +13,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.the_last_sword.client.renderer.LightningSpearRenderUtil.BurstGeometry;
 import net.the_last_sword.network.LightningSpearBurstPacket;
 
@@ -63,8 +63,8 @@ public final class LightningSpearBurstRenderer {
             return;
         }
         PoseStack poses = event.getPoseStack();
-        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().position();
-        MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        Vec3 camera = Minecraft.getInstance().gameRenderer.mainCamera().position();
+        MultiBufferSource.BufferSource buffers = MultiBufferSource.main();
         for (Burst burst : BURSTS) {
             float age = (float) (effectLevel.getGameTime() - burst.startTick()) + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
             float expansion = 0.75F + 0.25F * Mth.clamp(age, 0.0F, 1.0F);

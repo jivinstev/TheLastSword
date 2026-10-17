@@ -44,7 +44,7 @@ public class LightningSpearProjectileRenderer extends EntityRenderer<LightningSp
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(state.yawDegrees));
         poseStack.mulPose(Axis.ZP.rotationDegrees(state.pitchDegrees));
-        LightningSpearRenderUtil.render(poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), state.age);
+        LightningSpearRenderUtil.render(poseStack, collector, state.age);
         poseStack.popPose();
         super.submit(state, poseStack, collector, camera);
     }

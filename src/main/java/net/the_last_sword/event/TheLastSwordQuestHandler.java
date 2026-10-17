@@ -199,7 +199,12 @@ public class TheLastSwordQuestHandler {
     //刷出苦恼的铁匠村民并向玩家播报位置
     private static boolean spawnTroubledBlacksmith(ServerLevel level, ServerPlayer player,
             StructureStart village) {
-        Villager villager = EntityType.VILLAGER.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+        EntityType<?> villagerType = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                .getValue(Identifier.fromNamespaceAndPath("minecraft", "villager"));
+        if (villagerType == null) {
+            return false;
+        }
+        Villager villager = (Villager) villagerType.create(level, EntitySpawnReason.TRIGGERED);
         if (villager == null) {
             return false;
         }

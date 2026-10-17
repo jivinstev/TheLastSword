@@ -3,7 +3,7 @@ package net.the_last_sword.client.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -37,18 +37,18 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
         float yRot,
         float xRot
     ) {
-        MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.entityTranslucent(TEXTURE));
-            this.getParentModel().renderToBuffer(
-                poseStack,
-                vertexConsumer,
-                15728880,  // 最大亮度
-                LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-                0xCCFFFFFF  // ARGB (80%透明度)
-            );
+            collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(TEXTURE), (pose, vertexConsumer) -> {
+                this.getParentModel().renderToBuffer(
+                    poseStack,
+                    vertexConsumer,
+                    15728880,  // 最大亮度
+                    LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
+                    0xCCFFFFFF  // ARGB (80%透明度)
+                );
+            });
             return;
         }
 
@@ -57,15 +57,16 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
 
         //使用 The Last End 实体效果渲染类型
         RenderType renderType = TheLastEndRenderTypes.createEntityEffect(TEXTURE);
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
 
         //渲染实体模型
-        this.getParentModel().renderToBuffer(
-            poseStack,
-            vertexConsumer,
-            packedLight,  // 使用原始光照
-            LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-            0xFFFFFFFF  // ARGB (完全不透明)
-        );
+        collector.submitCustomGeometry(poseStack, renderType, (pose, vertexConsumer) -> {
+            this.getParentModel().renderToBuffer(
+                poseStack,
+                vertexConsumer,
+                packedLight,  // 使用原始光照
+                LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
+                0xFFFFFFFF  // ARGB (完全不透明)
+            );
+        });
     }
 }

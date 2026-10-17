@@ -55,7 +55,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
                 NetworkHandler.sendToServer(new DefenceConfigPacket(DefenceConfig.getData()));
 
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - buttonWidth - 5, bottomY, buttonWidth, buttonHeight).build());
@@ -190,7 +190,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
     @Override
     public void onClose() {
         if (this.minecraft != null) {
-            this.minecraft.setScreen(parent);
+            this.minecraft.gui.setScreen(parent);
         }
     }
 

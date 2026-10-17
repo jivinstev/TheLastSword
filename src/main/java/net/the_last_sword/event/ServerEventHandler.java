@@ -364,7 +364,7 @@ public class ServerEventHandler {
 
     //构造一个写好 BlockEntityTag.Items 的黑色潜影盒 ItemStack
     private static ItemStack buildBlackShulker(ListTag items) {
-        ItemStack shulker = new ItemStack(Blocks.BLACK_SHULKER_BOX);
+        ItemStack shulker = new ItemStack(net.minecraft.core.registries.BuiltInRegistries.BLOCK.getValue(Identifier.withDefaultNamespace("black_shulker_box")));
         CompoundTag blockEntityTag = new CompoundTag();
         blockEntityTag.put("Items", items);
         ItemNbt.update(shulker, t -> t.put("BlockEntityTag", blockEntityTag));

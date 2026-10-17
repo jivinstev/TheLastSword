@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
@@ -92,7 +92,7 @@ public final class BlinkRiftRenderer {
         if (effectLevel == null || RIFTS.isEmpty()) return;
         PoseStack pose = event.getPoseStack();
         Vec3 camera = event.getCamera().getPosition();
-        MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        MultiBufferSource.BufferSource buffers = net.the_last_sword.mv.MultiBufferSource.main();
         for (Rift rift : RIFTS) {
             float age = effectLevel.getGameTime() - rift.start() + event.getPartialTick().getGameTimeDeltaPartialTick(false);
             Vec3 offset = rift.packet().position().subtract(camera);

@@ -17,6 +17,9 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.gizmos.DrawableGizmoPrimitives;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -70,8 +73,8 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
 
     @Override
     public void submitNameTag(PoseStack poseStack, @Nullable Vec3 pos, int offset, Component name, boolean seeThrough,
-                              int light, double distanceSq, CameraRenderState cameraState) {
-        this.delegate.submitNameTag(poseStack, pos, offset, name, seeThrough, light, distanceSq, cameraState);
+                              int light, CameraRenderState cameraState) {
+        this.delegate.submitNameTag(poseStack, pos, offset, name, seeThrough, light, cameraState);
     }
 
     @Override
@@ -104,25 +107,30 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
 
     @Override
     public void submitModelPart(ModelPart part, PoseStack poseStack, RenderType type, int light, int overlay,
-                                @Nullable TextureAtlasSprite sprite, boolean sheeted, boolean foil, int tint,
+                                @Nullable TextureAtlasSprite sprite, int tint,
                                 @Nullable ModelFeatureRenderer.CrumblingOverlay crumbling, int outline) {
         if (phased(type)) {
             this.delegate.submitModelPart(part, poseStack, PhasingBufferSource.translucentType(type), light, overlay, sprite,
-                    sheeted, foil, halfAlpha(tint), crumbling, outline);
+                    halfAlpha(tint), crumbling, outline);
         } else {
-            this.delegate.submitModelPart(part, poseStack, type, light, overlay, sprite, sheeted, foil, tint, crumbling, outline);
+            this.delegate.submitModelPart(part, poseStack, type, light, overlay, sprite, tint, crumbling, outline);
         }
     }
 
     @Override
-    public void submitBreakingBlockModel(PoseStack poseStack, net.minecraft.client.renderer.block.dispatch.BlockStateModel model,
-                                         long seed, int progress) {
-        this.delegate.submitBreakingBlockModel(poseStack, model, seed, progress);
+    public void submitShapeOutline(PoseStack poseStack, VoxelShape shape, RenderType type, int color, float width,
+                                   boolean afterTerrain) {
+        this.delegate.submitShapeOutline(poseStack, shape, type, color, width, afterTerrain);
     }
 
     @Override
-    public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState state) {
-        this.delegate.submitMovingBlock(poseStack, state);
+    public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> parts, int progress) {
+        this.delegate.submitBreakingBlockModel(poseStack, parts, progress);
+    }
+
+    @Override
+    public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState state, int light) {
+        this.delegate.submitMovingBlock(poseStack, state, light);
     }
 
     @Override
@@ -148,8 +156,13 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     @Override
-    public void submitParticleGroup(SubmitNodeCollector.ParticleGroupRenderer renderer) {
-        this.delegate.submitParticleGroup(renderer);
+    public void submitQuadParticleGroup(QuadParticleRenderState particles) {
+        this.delegate.submitQuadParticleGroup(particles);
+    }
+
+    @Override
+    public void submitGizmoPrimitives(DrawableGizmoPrimitives.Group group, CameraRenderState cameraState, boolean flag) {
+        this.delegate.submitGizmoPrimitives(group, cameraState, flag);
     }
 
     /** Halves every vertex's alpha, as PhasingBufferSource's consumer did. */

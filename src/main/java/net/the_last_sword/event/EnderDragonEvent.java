@@ -94,11 +94,12 @@ public class EnderDragonEvent {
     private static final UUID ALDUIN_KILL_ATTACK_MODIFIER_ID = modifierId("alduin_kill_attack");
 
     public static void onEntityAttributeModification(EntityAttributeModificationEvent event) {
-        if (!event.has(EntityType.ENDER_DRAGON, Attributes.ATTACK_DAMAGE)) {
-            event.add(EntityType.ENDER_DRAGON, Attributes.ATTACK_DAMAGE, 10.0);
+        EntityType<EnderDragon> enderDragon = (EntityType<EnderDragon>) net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.withDefaultNamespace("ender_dragon"));
+        if (!event.has(enderDragon, Attributes.ATTACK_DAMAGE)) {
+            event.add(enderDragon, Attributes.ATTACK_DAMAGE, 10.0);
         }
-        if (!event.has(EntityType.ENDER_DRAGON, Attributes.FLYING_SPEED)) {
-            event.add(EntityType.ENDER_DRAGON, Attributes.FLYING_SPEED, 0.6);
+        if (!event.has(enderDragon, Attributes.FLYING_SPEED)) {
+            event.add(enderDragon, Attributes.FLYING_SPEED, 0.6);
         }
     }
 

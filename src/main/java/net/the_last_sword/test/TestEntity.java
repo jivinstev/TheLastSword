@@ -255,7 +255,7 @@ public class TestEntity extends PathfinderMob {
     @Override protected void doPush(Entity e) {}
     @Override protected void pushEntities() {}
     @Override public boolean canTeleport(Level oldLevel, Level newLevel) { return false; }
-    @Override public void knockback(double s, double x, double z) {}
+    @Override public void knockback(double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect) {}
     @Override public void travel(Vec3 v) {
     }
     @Override public void setDeltaMovement(Vec3 m) {

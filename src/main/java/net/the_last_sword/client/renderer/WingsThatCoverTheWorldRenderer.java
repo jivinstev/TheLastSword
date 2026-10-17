@@ -9,8 +9,7 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.the_last_sword.client.model.WingsThatCoverTheWorldModel;
@@ -36,7 +35,7 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
             ItemStack stack,
             SlotContext slotContext,
             PoseStack poseStack,
-            MultiBufferSource renderTypeBuffer,
+            SubmitNodeCollector renderTypeBuffer,
             int light,
             S renderState,
             RenderLayerParent<S, M> renderLayerParent,
@@ -54,8 +53,8 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
             renderState.ageInTicks, yRotation, xRotation);
 
-        VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderTypes.entityCutout(TEXTURE));
-        this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, -1);
+        renderTypeBuffer.submitModel(this.model, renderState, poseStack, RenderTypes.entityCutout(TEXTURE), light,
+            OverlayTexture.NO_OVERLAY, -1, null, 0, null);
 
         poseStack.popPose();
     }

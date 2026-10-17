@@ -43,7 +43,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.empty(),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new ArmorPieceConfigScreen(
+                    this.minecraft.gui.setScreen(new ArmorPieceConfigScreen(
                         this,
                         Component.translatable("gui.the_last_sword.dragon_armor_config.helmet"),
                         ArmorPieceConfigScreen.ArmorType.DRAGON,
@@ -58,7 +58,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.empty(),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new ArmorPieceConfigScreen(
+                    this.minecraft.gui.setScreen(new ArmorPieceConfigScreen(
                         this,
                         Component.translatable("gui.the_last_sword.dragon_armor_config.chestplate"),
                         ArmorPieceConfigScreen.ArmorType.DRAGON,
@@ -73,7 +73,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.empty(),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new ArmorPieceConfigScreen(
+                    this.minecraft.gui.setScreen(new ArmorPieceConfigScreen(
                         this,
                         Component.translatable("gui.the_last_sword.dragon_armor_config.leggings"),
                         ArmorPieceConfigScreen.ArmorType.DRAGON,
@@ -88,7 +88,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.empty(),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new ArmorPieceConfigScreen(
+                    this.minecraft.gui.setScreen(new ArmorPieceConfigScreen(
                         this,
                         Component.translatable("gui.the_last_sword.dragon_armor_config.boots"),
                         ArmorPieceConfigScreen.ArmorType.DRAGON,
@@ -103,7 +103,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.dragon_armor_config.module_settings"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorModuleConfigScreen(this));
+                    this.minecraft.gui.setScreen(new DragonArmorModuleConfigScreen(this));
                 }
             }
         ).bounds(this.width / 2 - 100, startY + 60, 200, 20).build());
@@ -113,7 +113,7 @@ public class DragonArmorConfigScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(this.width / 2 - 100, startY + 90, 200, 20).build());

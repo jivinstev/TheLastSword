@@ -32,7 +32,7 @@ public final class PresentWorldAnchorHealthOverlay {
 
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
-        if (player == null || minecraft.options.hideGui || player.isCreative() || player.isSpectator()) {
+        if (player == null || minecraft.gui.hud.isHidden() || player.isCreative() || player.isSpectator()) {
             return;
         }
 
@@ -67,7 +67,7 @@ public final class PresentWorldAnchorHealthOverlay {
         }
 
         int left = guiGraphics.guiWidth() / 2 - 91;
-        int top = guiGraphics.guiHeight() - (minecraft.gui.leftHeight - consumedHeight);
+        int top = guiGraphics.guiHeight() - (minecraft.gui.hud.leftHeight - consumedHeight);
         int heartCount = Mth.ceil(maxHealthPoints / 2.0F);
 
         net.the_last_sword.mv.LegacyGl.enableBlend();

@@ -3,6 +3,7 @@ package net.the_last_sword.entity.ai;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -111,10 +112,25 @@ public class DragonCultPaladinHeavyAttackGoal extends DangerousSkillGoal<DragonC
             //先破盾再结算，否则伤害会被格挡吃掉
             disableBlocking(target);
 
-            if (net.the_last_sword.mv.Hurt.server(target,paladin.damageSources().mobAttack(paladin), damage)) {
-                target.knockback(KNOCKBACK_STRENGTH,
-                    getDangerousSkillOrigin().x - target.getX(),
-                    getDangerousSkillOrigin().z - target.getZ());
+            DamageSource source = paladin.damageSources().mobAttack(paladin);
+            boolean canHurt = !(paladin.level() instanceof ServerLevel serverLevel
+                && target.isInvulnerableTo(serverLevel, source));
+            target.hurt(source, damage);
+            if (canHurt) {
+                double strength = KNOCKBACK_STRENGTH
+                    * (1.0D - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+                if (strength > 0.0D) {
+                    target.needsSync = true;
+                    Vec3 motion = target.getDeltaMovement();
+                    Vec3 push = new Vec3(
+                        getDangerousSkillOrigin().x - target.getX(),
+                        0.0D,
+                        getDangerousSkillOrigin().z - target.getZ()).normalize().scale(strength);
+                    target.setDeltaMovement(
+                        motion.x / 2.0D - push.x,
+                        target.onGround() ? Math.min(0.4D, motion.y / 2.0D + strength) : motion.y,
+                        motion.z / 2.0D - push.z);
+                }
             }
         }
     }

@@ -261,7 +261,7 @@ public class JourneyLogsScreen extends Screen {
     @Override
     public void onClose() {
         if (parent != null) {
-            Minecraft.getInstance().setScreen(parent);
+            Minecraft.getInstance().gui.setScreen(parent);
         } else {
             super.onClose();
         }

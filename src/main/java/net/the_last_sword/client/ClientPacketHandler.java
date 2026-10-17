@@ -110,15 +110,15 @@ public final class ClientPacketHandler {
     }
 
     public static void openLastEndScroll(boolean hasLocation, int x, int z, List<PaperNoteEntry> collectedNotes) {
-        Minecraft.getInstance().setScreen(new TheLastEndScrollScreen(hasLocation, x, z, collectedNotes));
+        Minecraft.getInstance().gui.setScreen(new TheLastEndScrollScreen(hasLocation, x, z, collectedNotes));
     }
 
     public static void openPaperNote(String noteId, String nameKey, String guiContentKey, boolean collected) {
-        Minecraft.getInstance().setScreen(new PaperNoteScreen(noteId, nameKey, guiContentKey, collected));
+        Minecraft.getInstance().gui.setScreen(new PaperNoteScreen(noteId, nameKey, guiContentKey, collected));
     }
 
     public static void openWraithAppearanceScreen(InteractionHand hand, TheLastEndSwordWraithAppearance appearance) {
-        Minecraft.getInstance().setScreen(new SwordWraithAppearanceScreen(hand, appearance));
+        Minecraft.getInstance().gui.setScreen(new SwordWraithAppearanceScreen(hand, appearance));
     }
 
     public static void setQueenExecutionCamera(boolean active, float yaw) {
@@ -133,16 +133,16 @@ public final class ClientPacketHandler {
                                          Set<String> readOptionIds, boolean close) {
         Minecraft minecraft = Minecraft.getInstance();
         if (close) {
-            if (minecraft.screen instanceof NpcDialogueScreen) {
-                minecraft.setScreen(null);
+            if (minecraft.gui.screen() instanceof NpcDialogueScreen) {
+                minecraft.gui.setScreen(null);
             }
             return;
         }
-        if (minecraft.screen instanceof NpcDialogueScreen screen
+        if (minecraft.gui.screen() instanceof NpcDialogueScreen screen
                 && screen.matches(entityId, dialogueId)) {
             screen.setNode(nodeId, readOptionIds);
             return;
         }
-        minecraft.setScreen(new NpcDialogueScreen(entityId, dialogueId, nodeId, readOptionIds));
+        minecraft.gui.setScreen(new NpcDialogueScreen(entityId, dialogueId, nodeId, readOptionIds));
     }
 }

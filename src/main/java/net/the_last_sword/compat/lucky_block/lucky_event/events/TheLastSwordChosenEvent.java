@@ -105,7 +105,9 @@ public class TheLastSwordChosenEvent extends LuckyEvent {
 
     private static void summonFinale(ServerLevel world, BlockPos center) {
         Vec3 centerVec = Vec3.atCenterOf(center);
-        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world, EntitySpawnReason.EVENT);
+        @SuppressWarnings("unchecked")
+        EntityType<LightningBolt> boltType = (EntityType<LightningBolt>) (EntityType<?>) net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("lightning_bolt"));
+        LightningBolt bolt = boltType.create(world, EntitySpawnReason.EVENT);
         if (bolt != null) {
             bolt.snapTo(centerVec.x, centerVec.y, centerVec.z);
             world.addFreshEntity(bolt);

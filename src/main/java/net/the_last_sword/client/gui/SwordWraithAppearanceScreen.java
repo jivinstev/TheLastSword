@@ -57,6 +57,10 @@ public class SwordWraithAppearanceScreen extends Screen {
         }
         preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, EntitySpawnReason.LOAD);
         if (preview != null) {
+            // 26.2: a client-side entity has no id until an add packet sets one, and Entity.getId() now throws for it;
+            // this preview is never added to the level, and inventory rendering asks for its id (glow checks). 1.21.1
+            // gave it a fresh counter id; a negative one (servers count up from 1) can name no real entity either.
+            preview.setId(-1);
             preview.setAppearance(appearance);
             preview.setAppearancePreview(true);
             preview.setAnimationState(TheLastEndEntity.STATE_IDLE);

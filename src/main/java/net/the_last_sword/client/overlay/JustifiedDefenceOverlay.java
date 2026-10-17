@@ -130,6 +130,12 @@ public class JustifiedDefenceOverlay {
 
     //获取右侧HUD的高度偏移
     private static int getRightHeightOffset(Minecraft mc) {
-        return ((Gui) mc.gui).rightHeight;
+        try {
+            java.lang.reflect.Field f = Gui.class.getDeclaredField("rightHeight");
+            f.setAccessible(true);
+            return f.getInt((Gui) mc.gui);
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            return 39; // vanilla default right-side HUD height
+        }
     }
 }

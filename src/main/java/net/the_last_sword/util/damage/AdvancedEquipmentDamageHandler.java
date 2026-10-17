@@ -200,7 +200,7 @@ public final class AdvancedEquipmentDamageHandler {
             if (effectId == null
                     || !"minecraft".equals(effectId.getNamespace())
                     || effect.getCategory() != MobEffectCategory.HARMFUL
-                    || effect.isInstantenous()
+                    || effect.isInstantaneous()
                     || attacker.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect))
                     || target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect))) {
                 continue;

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -27,7 +27,7 @@ public final class QueenBlinkRenderUtil {
     private QueenBlinkRenderUtil() {}
 
     private static RenderType type(String name, boolean glow) {
-        return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS,
+        return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, com.mojang.blaze3d.PrimitiveTopology.QUADS,
                 4096, false, true, net.the_last_sword.mv.LegacyRenderType.state()
                         .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
                         .setTransparencyState(glow ? net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY : net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)

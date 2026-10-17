@@ -40,17 +40,20 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     private static final int SEGMENTS = 12;
     private static final int SIDES = 4;
     private static final Vec3[][] LINK_VERTICES = createLinks();
+    //26.x is reverse-Z (CATALOG V99, V108), so 1.21's LEQUAL_DEPTH_TEST is GREATER_THAN_OR_EQUAL, with depth writes as
+    //1.21 had them
     private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder()
             .withLocation("pipeline/lost_wraith_seal")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
-            .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, true))
+            .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, true))
             .withCull(false)
-            .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
+            .withVertexBinding(0, DefaultVertexFormat.POSITION_COLOR)
+            .withPrimitiveTopology(com.mojang.blaze3d.PrimitiveTopology.QUADS)
             .build();
     private static final RenderType SEAL = RenderType.create("lost_wraith_seal",
-            RenderSetup.builder(SEAL_PIPELINE).bufferSize(32768).sortOnUpload().createRenderSetup());
+            RenderSetup.builder(SEAL_PIPELINE).sortOnUpload().createRenderSetup());
 
     public LostWraithSealLayer(GeoRenderer<LostWraithEntity, Void, R> renderer) {
         super(renderer);

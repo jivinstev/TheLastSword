@@ -4,7 +4,7 @@ import com.geckolib.renderer.base.RenderPassInfo;
 import com.geckolib.renderer.base.BoneSnapshots;
 import com.geckolib.constant.DataTickets;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;

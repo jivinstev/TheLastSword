@@ -8,7 +8,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -38,7 +38,7 @@ public final class DangerousSkillPreviewRenderer {
             .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
             .build();
     private static final RenderType FILL = RenderType.create("dangerous_skill_preview",
-            RenderSetup.builder(FILL_PIPELINE).bufferSize(256).sortOnUpload().createRenderSetup());
+            RenderSetup.builder(FILL_PIPELINE).sortOnUpload().createRenderSetup());
 
     private DangerousSkillPreviewRenderer() {
     }
@@ -81,7 +81,7 @@ public final class DangerousSkillPreviewRenderer {
                 || !TheLastSwordConfiguration.getEntityDangerousSkillRangePreviewEnabledSafely()) {
             return;
         }
-        MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        MultiBufferSource.BufferSource buffers = MultiBufferSource.main();
         float alpha = 0.65F + 0.2F * (float) Math.sin((previewLevel.getGameTime() + partialTick) * 0.4);
         for (DangerousSkillPreviewPacket packet : PREVIEWS.values()) {
             poseStack.pushPose();

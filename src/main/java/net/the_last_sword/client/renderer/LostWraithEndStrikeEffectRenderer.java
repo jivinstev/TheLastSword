@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -66,7 +66,7 @@ public final class LostWraithEndStrikeEffectRenderer {
             return;
         }
 
-        MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        MultiBufferSource.BufferSource buffers = MultiBufferSource.main();
         VertexConsumer rays = buffers.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lightning());
         double renderTick = effectLevel.getGameTime() + partialTick;
         for (LostWraithEndStrikeEffectPacket packet : EFFECTS.values()) {

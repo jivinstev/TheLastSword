@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -114,7 +114,14 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         levelEditBox.setBordered(false);
         levelEditBox.setTextColor(0xFFFFFF);
         levelEditBox.setVisible(false);
-        levelEditBox.setFilter(s -> s.isEmpty() || s.matches("\\d{0,3}"));
+        String[] lastValidLevel = {""};
+        levelEditBox.setResponder(s -> {
+            if (s.isEmpty() || s.matches("\\d{0,3}")) {
+                lastValidLevel[0] = s;
+            } else {
+                levelEditBox.setValue(lastValidLevel[0]);
+            }
+        });
         this.addRenderableWidget(levelEditBox);
 
         applyButton = Button.builder(
@@ -713,7 +720,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         // GUI pose is now a 2D Matrix3x2f stack; lift its translation/scale into a Matrix4f
         var guiPose = guiGraphics.pose();
 
-        MultiBufferSource.BufferSource bufferSource = net.minecraft.client.Minecraft.getInstance().renderBuffers().bufferSource();
+        MultiBufferSource.BufferSource bufferSource = MultiBufferSource.main();
         VertexConsumer vertexConsumer = bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.endPortal());
         Matrix4f matrix = new Matrix4f();
         matrix.m00(guiPose.m00);

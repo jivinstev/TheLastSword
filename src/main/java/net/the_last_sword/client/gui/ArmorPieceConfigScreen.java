@@ -60,7 +60,7 @@ public class ArmorPieceConfigScreen extends Screen {
                 //发送配置到服务端
                 NetworkHandler.sendToServer(new DefenceConfigPacket(DefenceConfig.getData()));
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(this.width / 2 - 105, this.height - 50, 100, 20).build());
@@ -70,7 +70,7 @@ public class ArmorPieceConfigScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(this.width / 2 + 5, this.height - 50, 100, 20).build());

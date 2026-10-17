@@ -25,7 +25,7 @@ public class DefenceConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.defence_config.equipment_settings"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new ArmorConfigScreen(this));
+                    this.minecraft.gui.setScreen(new ArmorConfigScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY, buttonWidth, buttonHeight).build());
@@ -35,7 +35,7 @@ public class DefenceConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.defence_config.justified_defence"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new JustifiedDefenceConfigScreen(this));
+                    this.minecraft.gui.setScreen(new JustifiedDefenceConfigScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 30, buttonWidth, buttonHeight).build());
@@ -45,7 +45,7 @@ public class DefenceConfigScreen extends Screen {
             Component.translatable("gui.done"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(null);
+                    this.minecraft.gui.setScreen(null);
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 60, buttonWidth, buttonHeight).build());

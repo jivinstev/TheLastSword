@@ -38,7 +38,7 @@ public class ArmorConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.armor_config.dragon_crystal_armor"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonCrystalArmorConfigScreen(this));
+                    this.minecraft.gui.setScreen(new DragonCrystalArmorConfigScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY, buttonWidth, buttonHeight).build());
@@ -48,7 +48,7 @@ public class ArmorConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.armor_config.dragon_armor"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorConfigScreen(this));
+                    this.minecraft.gui.setScreen(new DragonArmorConfigScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 30, buttonWidth, buttonHeight).build());
@@ -58,7 +58,7 @@ public class ArmorConfigScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 70, buttonWidth, buttonHeight).build());

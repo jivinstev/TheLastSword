@@ -52,7 +52,7 @@ public class JustifiedDefenceConfigScreen extends Screen {
             Component.translatable("gui.the_last_sword.defence_config.justified_defence_position"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new JustifiedDefenceOverlayPositionScreen(this));
+                    this.minecraft.gui.setScreen(new JustifiedDefenceOverlayPositionScreen(this));
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 30, buttonWidth, buttonHeight).build());
@@ -62,7 +62,7 @@ public class JustifiedDefenceConfigScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(centerX - buttonWidth / 2, startY + 60, buttonWidth, buttonHeight).build());
@@ -86,7 +86,7 @@ public class JustifiedDefenceConfigScreen extends Screen {
     @Override
     public void onClose() {
         if (this.minecraft != null) {
-            this.minecraft.setScreen(parent);
+            this.minecraft.gui.setScreen(parent);
         }
     }
 

@@ -3,7 +3,7 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -52,7 +52,7 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
 
     @Override
     public void submit(State state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
-        MultiBufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        MultiBufferSource buffers = MultiBufferSource.main();
         QueenBlinkBlade entity = state.entity;
         pose.pushPose();
         pose.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));

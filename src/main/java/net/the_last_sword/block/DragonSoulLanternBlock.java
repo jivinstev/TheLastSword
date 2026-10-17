@@ -25,7 +25,7 @@ public class DragonSoulLanternBlock extends LanternBlock {
                 .pushReaction(PushReaction.DESTROY)
                 //26.1: hasPostProcess(predicate) is postProcess(state, level, pos -> the position to post-process)
                 .postProcess((bs, br, bp) -> bp)
-                .emissiveRendering((bs, br, bp) -> true)
+                .emissiveRendering(bs -> true)
                 .isRedstoneConductor((bs, br, bp) -> false));
     }
 

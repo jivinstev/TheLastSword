@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -93,7 +93,7 @@ public class ClientEventHandler {
     private static final RenderType SPHERE_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "all_things_end_sphere",
             DefaultVertexFormat.POSITION_TEX,
-            VertexFormat.Mode.QUADS,
+            com.mojang.blaze3d.PrimitiveTopology.QUADS,
             2097152,
             false,
             true,
@@ -240,7 +240,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onMouseInput(InputEvent.MouseButton.Pre event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player == null || minecraft.level == null || minecraft.screen != null) {
+        if (minecraft.player == null || minecraft.level == null || minecraft.gui.screen() != null) {
             return; //有GUI界面打开时不处理
         }
 
@@ -296,14 +296,14 @@ public class ClientEventHandler {
 
         //检查防御配置按键
         while (ModKeyMappings.OPEN_DEFENCE_CONFIG.consumeClick()) {
-            if (mc.screen == null) {
-                mc.setScreen(new DefenceConfigScreen());
+            if (mc.gui.screen() == null) {
+                mc.gui.setScreen(new DefenceConfigScreen());
             }
         }
 
         //检查打开唤灵GUI按键
         while (ModKeyMappings.OPEN_SUMMON_GUI.consumeClick()) {
-            if (mc.screen == null && mc.player != null) {
+            if (mc.gui.screen() == null && mc.player != null) {
                 NetworkHandler.sendToServer(new OpenSummonGuiPacket());
             }
         }
@@ -322,7 +322,7 @@ public class ClientEventHandler {
             if (System.currentTimeMillis() - miningPreviewUpdateTime > 10000) {
                 clearMiningPreview();
             } else {
-                renderMiningPreview(event.getPoseStack(), mc.gameRenderer.getMainCamera());
+                renderMiningPreview(event.getPoseStack(), mc.gameRenderer.mainCamera());
             }
         }
 
@@ -331,18 +331,18 @@ public class ClientEventHandler {
             if (System.currentTimeMillis() - arenaPreviewUpdateTime > 10000) {
                 clearArenaPreview();
             } else {
-                renderArenaPreview(event.getPoseStack(), mc.gameRenderer.getMainCamera());
+                renderArenaPreview(event.getPoseStack(), mc.gameRenderer.mainCamera());
             }
         }
 
-        DangerousSkillPreviewRenderer.render(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
-        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+        DangerousSkillPreviewRenderer.render(event.getPoseStack(), mc.gameRenderer.mainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), mc.gameRenderer.mainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         //渲染龙魂灯笼范围
-        renderDragonSoulLanternRanges(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.level);
+        renderDragonSoulLanternRanges(event.getPoseStack(), mc.gameRenderer.mainCamera(), mc.level);
 
         //渲染龙套护盾（复用全局缓冲避免每帧new导致OOM）
-        MultiBufferSource.BufferSource buf = mc.renderBuffers.bufferSource();
+        MultiBufferSource.BufferSource buf = MultiBufferSource.main();
         DragonShieldRenderer.render(event.getPoseStack(), buf, mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
         buf.endBatch();
     }
@@ -350,13 +350,13 @@ public class ClientEventHandler {
     //渲染球体
     private static void renderSphere(PoseStack poseStack, Vec3 center, float partialTick) {
         net.the_last_sword.mv.LegacyGl.enableBlend();
-        net.the_last_sword.mv.LegacyGl.blendFunc(com.mojang.blaze3d.platform.SourceFactor.SRC_ALPHA, com.mojang.blaze3d.platform.DestFactor.ONE_MINUS_SRC_ALPHA);
+        net.the_last_sword.mv.LegacyGl.blendFunc(com.mojang.blaze3d.platform.BlendFactor.SRC_ALPHA, com.mojang.blaze3d.platform.BlendFactor.ONE_MINUS_SRC_ALPHA);
         net.the_last_sword.mv.LegacyGl.depthMask(false);
 
         poseStack.pushPose();
 
         //移动到球心位置
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
+        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.mainCamera().position();
         poseStack.translate(
                 center.x - cameraPos.x,
                 center.y - cameraPos.y,
@@ -441,7 +441,7 @@ public class ClientEventHandler {
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-        MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
+        MultiBufferSource.BufferSource buf = MultiBufferSource.main();
         VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         float time = (System.currentTimeMillis() % 2000) / 2000.0f;
@@ -505,7 +505,7 @@ public class ClientEventHandler {
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-        MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
+        MultiBufferSource.BufferSource buf = MultiBufferSource.main();
         VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         //绿色闪烁效果（与挖掘预览一致）
@@ -598,7 +598,7 @@ public class ClientEventHandler {
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-        MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
+        MultiBufferSource.BufferSource buf = MultiBufferSource.main();
         VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         //紫色呼吸效果

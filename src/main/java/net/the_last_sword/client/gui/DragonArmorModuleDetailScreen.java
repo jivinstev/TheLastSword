@@ -76,7 +76,7 @@ public class DragonArmorModuleDetailScreen extends Screen {
                 DefenceConfig.save();
                 NetworkHandler.sendToServer(new DefenceConfigPacket(DefenceConfig.getData()));
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(this.width / 2 - 105, this.height - 50, 100, 20).build());
@@ -86,7 +86,7 @@ public class DragonArmorModuleDetailScreen extends Screen {
             Component.translatable("gui.back"),
             button -> {
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(parent);
+                    this.minecraft.gui.setScreen(parent);
                 }
             }
         ).bounds(this.width / 2 + 5, this.height - 50, 100, 20).build());
@@ -169,7 +169,7 @@ public class DragonArmorModuleDetailScreen extends Screen {
             button -> {
                 saveConfig();
                 if (this.minecraft != null) {
-                    this.minecraft.setScreen(new DragonArmorEnergyDisplayPositionScreen(this));
+                    this.minecraft.gui.setScreen(new DragonArmorEnergyDisplayPositionScreen(this));
                 }
             }
         ).bounds(this.width / 2 - 100, startY + spacing * 3, 200, 20).build());

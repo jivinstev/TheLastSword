@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// 26.2: renderScreenEffect is submit(...) with the same arguments.
 // 26.1: renderScreenEffect(boolean isFirstPerson, boolean isSleeping, float partialTick, SubmitNodeCollector, boolean hideGui);
 // the activation animation is drawn when !hideGui, as vanilla does at the end of the method.
 // 1.21.9: renderScreenEffect and renderItemActivationAnimation also take the SubmitNodeCollector.
@@ -31,7 +32,7 @@ public class ScreenEffectRendererMixin {
 
     //虚化效果：阻止渲染屏幕效果（方块覆盖纹理），实现透视效果
     @Inject(
-        method = "renderScreenEffect",
+        method = "submit",
         at = @At("HEAD"),
         cancellable = true
     )
