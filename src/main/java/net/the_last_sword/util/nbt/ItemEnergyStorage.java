@@ -28,7 +28,7 @@ public class ItemEnergyStorage extends EnergyStorage {
         this.maxEnergySupplier = maxEnergySupplier;
 
         if (ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).contains(ENERGY_TAG)) {
-            this.energy = ItemNbt.getTag(stack).getInt(ENERGY_TAG);
+            this.energy = ItemNbt.getTag(stack).getIntOr(ENERGY_TAG, 0);
         } else if (startFull) {
             this.energy = maxEnergySupplier.getAsInt();
             saveEnergyToNBT();
@@ -85,7 +85,7 @@ public class ItemEnergyStorage extends EnergyStorage {
         if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 0;
         }
-        return ItemNbt.getTag(stack).getInt(ENERGY_TAG);
+        return ItemNbt.getTag(stack).getIntOr(ENERGY_TAG, 0);
     }
 
     private void saveEnergyToNBT() {

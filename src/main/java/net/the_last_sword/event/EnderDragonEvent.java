@@ -112,21 +112,21 @@ public class EnderDragonEvent {
         }
 
         public ChallengeData(CompoundTag tag) {
-            this.challengeCount = tag.getInt(CHALLENGE_COUNT_KEY);
-            ListTag uuidList = tag.getList(PLAYER_UUID_LIST_KEY, Tag.TAG_COMPOUND);
+            this.challengeCount = tag.getIntOr(CHALLENGE_COUNT_KEY, 0);
+            ListTag uuidList = tag.getListOrEmpty(PLAYER_UUID_LIST_KEY);
             for (int i = 0; i < uuidList.size(); i++) {
-                CompoundTag uuidTag = uuidList.getCompound(i);
-                this.attackerUUIDs.add(uuidTag.getUUID("UUID"));
+                CompoundTag uuidTag = uuidList.getCompoundOrEmpty(i);
+                this.attackerUUIDs.add(net.the_last_sword.mv.Nbt.getUuid(uuidTag, "UUID"));
             }
         }
 
-        @Override
+        
         public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
             tag.putInt(CHALLENGE_COUNT_KEY, this.challengeCount);
             ListTag uuidList = new ListTag();
             for (UUID uuid : this.attackerUUIDs) {
                 CompoundTag uuidTag = new CompoundTag();
-                uuidTag.putUUID("UUID", uuid);
+                net.the_last_sword.mv.Nbt.putUuid(uuidTag, "UUID", uuid);
                 uuidList.add(uuidTag);
             }
             tag.put(PLAYER_UUID_LIST_KEY, uuidList);
@@ -165,8 +165,7 @@ public class EnderDragonEvent {
     private static ChallengeData getChallengeData(ServerLevel level) {
         if (level.dimension() == Level.END) {
             DimensionDataStorage storage = level.getDataStorage();
-            return storage.computeIfAbsent(new SavedData.Factory<>(ChallengeData::new,
-                    (tag, provider) -> ChallengeData.load(tag), null), "dragon_challenges");
+            return net.the_last_sword.mv.SavedDatas.computeIfAbsent(storage, ChallengeData::new, (tag, provider) -> ChallengeData.load(tag), "dragon_challenges");
         }
         return null;
     }
@@ -274,7 +273,7 @@ public class EnderDragonEvent {
         if (data == null || data.getChallengeCount() <= 0) return;
 
         CompoundTag dragonData = dragon.getPersistentData();
-        if (dragonData.getBoolean(MODIFIER_ADDED_KEY)) return;
+        if (dragonData.getBooleanOr(MODIFIER_ADDED_KEY, false)) return;
 
         int challengeCount = data.getChallengeCount();
         int cappedLevel = Math.min(challengeCount, TheLastSwordConfiguration.ENDER_DRAGON_MAX_LEVEL.get());
@@ -295,8 +294,8 @@ public class EnderDragonEvent {
         if (!(living instanceof EnderDragon dragon)) return;
 
         CompoundTag data = dragon.getPersistentData();
-        int requestedId = data.getInt(NAMED_VARIANT_ID_KEY);
-        int appliedId = data.getInt(APPLIED_NAMED_VARIANT_ID_KEY);
+        int requestedId = data.getIntOr(NAMED_VARIANT_ID_KEY, 0);
+        int appliedId = data.getIntOr(APPLIED_NAMED_VARIANT_ID_KEY, 0);
         if (requestedId != appliedId) {
             syncNamedVariant(dragon, false);
         }
@@ -305,7 +304,7 @@ public class EnderDragonEvent {
     }
 
     private static void rollNamedVariantIfNeeded(EnderDragon dragon, CompoundTag data) {
-        if (data.getBoolean(NAMED_VARIANT_ROLLED_KEY) || data.contains(NAMED_VARIANT_ID_KEY, Tag.TAG_INT)) {
+        if (data.getBooleanOr(NAMED_VARIANT_ROLLED_KEY, false) || (data.get(NAMED_VARIANT_ID_KEY) instanceof net.minecraft.nbt.IntTag)) {
             return;
         }
 
@@ -321,8 +320,8 @@ public class EnderDragonEvent {
     private static void syncNamedVariant(EnderDragon dragon, boolean forceNameUpdate) {
         CompoundTag data = dragon.getPersistentData();
         migrateLegacyNamedShield(dragon);
-        int requestedId = data.getInt(NAMED_VARIANT_ID_KEY);
-        int appliedId = data.getInt(APPLIED_NAMED_VARIANT_ID_KEY);
+        int requestedId = data.getIntOr(NAMED_VARIANT_ID_KEY, 0);
+        int appliedId = data.getIntOr(APPLIED_NAMED_VARIANT_ID_KEY, 0);
         NamedDragonVariant oldVariant = NamedDragonVariant.byId(appliedId);
         NamedDragonVariant newVariant = NamedDragonVariant.byId(requestedId);
 
@@ -338,7 +337,7 @@ public class EnderDragonEvent {
         }
 
         if (forceNameUpdate || requestedId != appliedId) {
-            updateDragonName(dragon, newVariant, data.getInt(DRAGON_LEVEL_KEY));
+            updateDragonName(dragon, newVariant, data.getIntOr(DRAGON_LEVEL_KEY, 0));
         }
     }
 
@@ -428,14 +427,14 @@ public class EnderDragonEvent {
     }
 
     private static void tickAkatosh(EnderDragon dragon, CompoundTag data, long gameTime) {
-        long nextCheck = data.getLong(NEXT_AKATOSH_HEAL_CHECK_KEY);
+        long nextCheck = data.getLongOr(NEXT_AKATOSH_HEAL_CHECK_KEY, 0L);
         if (nextCheck <= 0) {
             data.putLong(NEXT_AKATOSH_HEAL_CHECK_KEY, gameTime + AKATOSH_HEAL_CHECK_INTERVAL);
             return;
         }
         if (gameTime < nextCheck) return;
 
-        long cooldownEnd = data.getLong(AKATOSH_HEAL_COOLDOWN_END_KEY);
+        long cooldownEnd = data.getLongOr(AKATOSH_HEAL_COOLDOWN_END_KEY, 0L);
         if (gameTime < cooldownEnd) {
             data.putLong(NEXT_AKATOSH_HEAL_CHECK_KEY, cooldownEnd);
             return;
@@ -453,7 +452,7 @@ public class EnderDragonEvent {
 
     private static void tickFireballRain(EnderDragon dragon, CompoundTag data, long gameTime,
                                          int interval) {
-        long nextRain = data.getLong(NEXT_FIREBALL_RAIN_KEY);
+        long nextRain = data.getLongOr(NEXT_FIREBALL_RAIN_KEY, 0L);
         if (nextRain <= 0) {
             data.putLong(NEXT_FIREBALL_RAIN_KEY, gameTime + interval);
             return;
@@ -513,7 +512,7 @@ public class EnderDragonEvent {
     private static void triggerPlacidusaxThresholds(EnderDragon dragon, float healthAfterDamage) {
         if (dragon.getMaxHealth() <= 0.0F) return;
         CompoundTag data = dragon.getPersistentData();
-        int mask = data.getInt(PLACIDUSAX_THRESHOLD_MASK_KEY);
+        int mask = data.getIntOr(PLACIDUSAX_THRESHOLD_MASK_KEY, 0);
         float healthRatio = healthAfterDamage / dragon.getMaxHealth();
         float[] thresholds = {0.50F, 0.25F, 0.05F};
 
@@ -537,10 +536,10 @@ public class EnderDragonEvent {
     }
 
     private static void tickPlacidusaxLightning(EnderDragon dragon, CompoundTag data, long gameTime) {
-        long stormEnd = data.getLong(PLACIDUSAX_LIGHTNING_END_KEY);
+        long stormEnd = data.getLongOr(PLACIDUSAX_LIGHTNING_END_KEY, 0L);
         if (stormEnd <= 0 || gameTime >= stormEnd) return;
 
-        long nextStrike = data.getLong(PLACIDUSAX_NEXT_LIGHTNING_KEY);
+        long nextStrike = data.getLongOr(PLACIDUSAX_NEXT_LIGHTNING_KEY, 0L);
         if (gameTime < nextStrike) return;
         data.putLong(PLACIDUSAX_NEXT_LIGHTNING_KEY, gameTime + PLACIDUSAX_LIGHTNING_INTERVAL);
         summonPlacidusaxLightning(dragon);
@@ -564,7 +563,7 @@ public class EnderDragonEvent {
         LivingEntity target = targets.get(dragon.getRandom().nextInt(targets.size()));
         DragonLightingEntity lightning = new DragonLightingEntity(
                 ModEntities.DRAGON_LIGHTING.get(), serverLevel);
-        lightning.moveTo(target.getX(), target.getY(), target.getZ());
+        lightning.snapTo(target.getX(), target.getY(), target.getZ());
         serverLevel.addFreshEntity(lightning);
         target.invulnerableTime = 0;
         target.hurt(source, damage);
@@ -572,7 +571,7 @@ public class EnderDragonEvent {
 
     private static void incrementAlduinKillCount(EnderDragon dragon) {
         CompoundTag data = dragon.getPersistentData();
-        int kills = Math.min(1000, data.getInt(ALDUIN_KILL_COUNT_KEY) + 1);
+        int kills = Math.min(1000, data.getIntOr(ALDUIN_KILL_COUNT_KEY, 0) + 1);
         data.putInt(ALDUIN_KILL_COUNT_KEY, kills);
         applyAlduinKillBonus(dragon);
     }
@@ -581,7 +580,7 @@ public class EnderDragonEvent {
         AttributeInstance attack = dragon.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attack == null) return;
         attack.removeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"));
-        int kills = dragon.getPersistentData().getInt(ALDUIN_KILL_COUNT_KEY);
+        int kills = dragon.getPersistentData().getIntOr(ALDUIN_KILL_COUNT_KEY, 0);
         if (kills > 0) {
             attack.addPermanentModifier(new AttributeModifier(
                     ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"), kills,
@@ -590,7 +589,7 @@ public class EnderDragonEvent {
     }
 
     private static NamedDragonVariant getNamedVariant(EnderDragon dragon) {
-        return NamedDragonVariant.byId(dragon.getPersistentData().getInt(NAMED_VARIANT_ID_KEY));
+        return NamedDragonVariant.byId(dragon.getPersistentData().getIntOr(NAMED_VARIANT_ID_KEY, 0));
     }
 
     private static AABB areaAround(EnderDragon dragon, double radius) {
@@ -618,7 +617,7 @@ public class EnderDragonEvent {
         NamedDragonVariant variant = getNamedVariant(dragon);
         double multiplier = variant == null ? 1.0 : Math.max(0.0, 1.0 + variant.getAttackBonus());
         if (variant == NamedDragonVariant.ALDUIN) {
-            multiplier *= 1.0 + Math.max(0, dragon.getPersistentData().getInt(ALDUIN_KILL_COUNT_KEY));
+            multiplier *= 1.0 + Math.max(0, dragon.getPersistentData().getIntOr(ALDUIN_KILL_COUNT_KEY, 0));
         }
         return multiplier;
     }

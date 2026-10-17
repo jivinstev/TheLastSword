@@ -1,52 +1,83 @@
 package net.the_last_sword.client.layer;
 
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.entity.LostWraithEntity;
 import net.the_last_sword.entity.TheLastEndEntity;
 import org.joml.Matrix4f;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.renderer.GeoRenderer;
+import software.bernie.geckolib.constant.dataticket.DataTicket;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
+import software.bernie.geckolib.renderer.base.GeoRenderer;
+import software.bernie.geckolib.renderer.base.PerBoneRender;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import software.bernie.geckolib.util.RenderUtil;
 
-public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> {
+import java.util.function.BiConsumer;
+
+public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderState> extends GeoRenderLayer<LostWraithEntity, Void, R> {
+    //提取阶段记录封印状态（渲染状态不再持有实体）
+    private static final DataTicket<Boolean> UNSPAWNED =
+            DataTicket.create("the_last_sword_lost_wraith_unspawned", Boolean.class);
     private static final int LINKS = 12;
     private static final int SEGMENTS = 12;
     private static final int SIDES = 4;
     private static final Vec3[][] LINK_VERTICES = createLinks();
-    private static final RenderType SEAL = RenderType.create(
-            "lost_wraith_seal", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS,
-            32768, false, true, RenderType.CompositeState.builder()
-                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                    .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
-                    .setCullState(RenderStateShard.NO_CULL).createCompositeState(false));
+    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_COLOR_SNIPPET)
+            .withLocation("pipeline/lost_wraith_seal")
+            .withVertexShader("core/position_color")
+            .withFragmentShader("core/position_color")
+            .withBlend(BlendFunction.TRANSLUCENT)
+            .withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
+            .withDepthWrite(true)
+            .withCull(false)
+            .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
+            .build();
+    private static final RenderType SEAL = RenderType.create("lost_wraith_seal", 32768, false, true,
+            SEAL_PIPELINE, RenderType.CompositeState.builder().createCompositeState(false));
 
-    public LostWraithSealLayer(GeoRenderer<LostWraithEntity> renderer) {
+    public LostWraithSealLayer(GeoRenderer<LostWraithEntity, Void, R> renderer) {
         super(renderer);
     }
 
     @Override
-    public void renderForBone(PoseStack poseStack, LostWraithEntity entity, GeoBone bone,
-            RenderType renderType, MultiBufferSource buffers, VertexConsumer buffer,
-            float partialTick, int packedLight, int packedOverlay, int renderColor) {
+    public void addRenderData(LostWraithEntity entity, Void relatedObject, R renderState) {
+        renderState.addGeckolibData(UNSPAWNED, entity.getAnimationState() == TheLastEndEntity.STATE_UNSPAWNED);
+    }
+
+    //GeckoLib 5: renderForBone became per-bone tasks registered here and run after the model is drawn, with the
+    //PoseStack the bone had when it was rendered (the same pose renderForBone received)
+    @Override
+    public void addPerBoneRender(R renderState, BakedGeoModel model, BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
         // 激活动画开始即解除封印，不等待战斗就绪状态。
-        if (entity.getAnimationState() != TheLastEndEntity.STATE_UNSPAWNED || bone.isHidden()) {
+        if (!Boolean.TRUE.equals(renderState.getGeckolibData(UNSPAWNED))) {
+            return;
+        }
+        for (String name : new String[]{"left_hand", "right_hand"}) {
+            model.getBone(name).ifPresent(bone -> consumer.accept(bone,
+                    (state, poseStack, b, renderType, buffers, packedLight, packedOverlay, renderColor) ->
+                            renderSeal(state, poseStack, b, renderType, buffers)));
+        }
+    }
+
+    private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, RenderType renderType, MultiBufferSource buffers) {
+        if (bone.isHidden()) {
             return;
         }
         boolean left = "left_hand".equals(bone.getName());
-        if (!left && !"right_hand".equals(bone.getName())) {
-            return;
-        }
 
         poseStack.pushPose();
         RenderUtil.translateToPivotPoint(poseStack, bone);
@@ -55,7 +86,7 @@ public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> 
                 left ? -2.5 / 16.0 : 0.0);
         Matrix4f pose = poseStack.last().pose();
         VertexConsumer vertices = buffers.getBuffer(SEAL);
-        float pulse = 0.88F + 0.12F * Mth.sin((entity.tickCount + partialTick) * 0.07F);
+        float pulse = 0.88F + 0.12F * Mth.sin(renderState.ageInTicks * 0.07F);
         for (Vec3[] link : LINK_VERTICES) {
             for (int segment = 0; segment < SEGMENTS; segment++) {
                 for (int side = 0; side < SIDES; side++) {

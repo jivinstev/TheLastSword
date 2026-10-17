@@ -1,0 +1,12 @@
+# shared-library helpers as installed (path blob): tools/fork-branches.py
+src/main/java/net/the_last_sword/mv/EntityOf.java cafd591b3840d1847331c67a0e539b1911dcdbe9
+src/main/java/net/the_last_sword/mv/Hurt.java 3ae57f8c4b8ce2195bb1bc6f1a47d84b38e4856a
+src/main/java/net/the_last_sword/mv/Nbt.java 723472a7930eb1d7215c405d53845075f7ae4410
+src/main/java/net/the_last_sword/mv/RawGlTexture.java ec701913074d3119914ac6d70bc90b79bb2632ea
+src/main/java/net/the_last_sword/mv/RegIds.java 167541f677ec7391a32d888183946370cc3f477b
+src/main/java/net/the_last_sword/mv/RegisterShadersEvent.java a8d40b494d9d135856f1745f94e149431b63efe3
+src/main/java/net/the_last_sword/mv/SavedDatas.java 69692a24c9f87de5b44dcc014bb5f99a033cbaa8
+src/main/java/net/the_last_sword/mv/ShaderInstance.java 11d85d8a45dddc44cb2365b74cd42c07b192d8ff
+src/main/java/net/the_last_sword/mv/ShaderReloader.java 25bdfbb2571ff1646737a760402e270c8672faf2
+src/main/java/net/the_last_sword/mv/ShaderShard.java 76f557dbee1eae98c58d76192846ca6647584245
+src/main/java/net/the_last_sword/mv/Uniform.java 3c48985a050c385c59b532e6ce83f0c19de267f8

@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -103,20 +104,20 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
 
     //成功受伤后请求格挡；由高优先级Goal在下一次AI调度时进入block
     @Override
-    public boolean hurtServer(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource source, float amount) {
-        boolean hurt = super.hurtServer(mv$hurtLevel, source, amount);
-        if (hurt && !level().isClientSide) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        boolean hurt = super.hurtServer(level, source, amount);
+        if (hurt) {
             requestBlock();
         }
         return hurt;
     }
 
     //沿用原版玩家逻辑：支持斧及其他声明可破盾的物品
+    //1.21.5: blockUsingShield/canDisableShield are gone; the weapon component's disable_blocking_for_seconds says whether the attacker breaks guard
     @Override
-    protected void blockUsingShield(LivingEntity attacker) {
-        super.blockUsingShield(attacker);
-        ItemStack shield = getUseItem();
-        if (attacker.getMainHandItem().canDisableShield(shield, this, attacker)) {
+    protected void blockUsingItem(ServerLevel level, LivingEntity attacker) {
+        super.blockUsingItem(level, attacker);
+        if (attacker.getSecondsToDisableBlocking() > 0.0F) {
             shieldDisabledUntil = level().getGameTime()
                     + TheLastSwordConfiguration.getGuardianSaberShieldDisableTimeSafely();
             stopUsingItem();
@@ -128,10 +129,19 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
     }
 
     //LivingEntity默认不会损耗非玩家实体的盾牌，这里补齐原版玩家的耐久逻辑
+    //1.21.5: hurtCurrentlyUsedShield is gone; the blocked damage comes out of applyItemBlocking
     @Override
-    protected void hurtCurrentlyUsedShield(float damage) {
+    public float applyItemBlocking(ServerLevel level, DamageSource source, float amount) {
+        float blocked = super.applyItemBlocking(level, source, amount);
+        if (blocked > 0.0F) {
+            hurtCurrentlyUsedShield(blocked);
+        }
+        return blocked;
+    }
+
+    private void hurtCurrentlyUsedShield(float damage) {
         ItemStack shield = getUseItem();
-        if (!shield.canPerformAction(ItemAbilities.SHIELD_BLOCK) || damage < 3.0F) {
+        if (!shield.has(net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS) || damage < 3.0F) {
             return;
         }
 
@@ -144,7 +154,7 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
         if (shield.isEmpty()) {
             setItemSlot(usedSlot, ItemStack.EMPTY);
             stopUsingItem();
-            playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
+            playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
             if (getAnimationState() == STATE_BLOCK) {
                 setAnimationState(STATE_IDLE);
             }

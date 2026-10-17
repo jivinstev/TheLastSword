@@ -61,7 +61,7 @@ public class VoidBountyEvent extends LuckyEvent {
             serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName()));
         }
         player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
-        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
+        player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
     }
 
@@ -81,7 +81,7 @@ public class VoidBountyEvent extends LuckyEvent {
 
     private static void spawnGuardian(ServerLevel world, Mob entity, BlockPos pos) {
         if (entity == null) return;
-        entity.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
+        entity.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
         entity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), EntitySpawnReason.EVENT, null);
         world.addFreshEntity(entity);
     }

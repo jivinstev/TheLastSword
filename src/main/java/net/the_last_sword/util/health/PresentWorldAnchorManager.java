@@ -51,12 +51,12 @@ public final class PresentWorldAnchorManager {
             }
         }
 
-        if (!entity.getPersistentData().contains(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, Tag.TAG_ANY_NUMERIC)) {
+        if (!(entity.getPersistentData().get(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
             float maxHealth = entity.getMaxHealth();
             return Float.isFinite(maxHealth) ? Math.max(0.0F, maxHealth) : 0.0F;
         }
 
-        float presentWorldAnchor = entity.getPersistentData().getFloat(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR);
+        float presentWorldAnchor = entity.getPersistentData().getFloatOr(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, 0.0F);
         return Float.isFinite(presentWorldAnchor) ? Math.max(0.0F, presentWorldAnchor) : 0.0F;
     }
 
@@ -131,10 +131,9 @@ public final class PresentWorldAnchorManager {
             return;
         }
         float syncedAnchor = UNSET_PRESENT_WORLD_ANCHOR;
-        if (entity.getPersistentData().contains(
-                NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, Tag.TAG_ANY_NUMERIC)) {
+        if ((entity.getPersistentData().get(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
             float storedAnchor = entity.getPersistentData()
-                    .getFloat(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR);
+                    .getFloatOr(NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, 0.0F);
             if (Float.isFinite(storedAnchor)) {
                 syncedAnchor = Math.max(0.0F, storedAnchor);
             }
@@ -258,7 +257,7 @@ public final class PresentWorldAnchorManager {
             } catch (Exception ignored) {
             }
         }
-        return entity.getPersistentData().getInt(NBT_HEAL_BAN_TIME);
+        return entity.getPersistentData().getIntOr(NBT_HEAL_BAN_TIME, 0);
     }
 
     public static boolean isHealBanned(LivingEntity entity) {

@@ -3,21 +3,22 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.item.DragonCultPaladinArmorItem;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 public class DragonCultPaladinArmorModel extends GeoModel<DragonCultPaladinArmorItem> {
 
     @Override
     public ResourceLocation getAnimationResource(DragonCultPaladinArmorItem object) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "animations/dragon_cult_paladin_armor.animation.json");
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_paladin_armor");
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCultPaladinArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultPaladinArmorItem> renderer) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_cult_paladin_armor.geo.json");
+    public ResourceLocation getModelResource(GeoRenderState renderState) {
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_paladin_armor");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCultPaladinArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultPaladinArmorItem> renderer) {
+    public ResourceLocation getTextureResource(GeoRenderState renderState) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/item/dragon_cult_paladin_armor.png");
     }
 }

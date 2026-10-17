@@ -44,7 +44,6 @@ import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimationController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -285,7 +284,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         super.onSyncedDataUpdated(dataAccessor);
         if (TEXTURE.equals(dataAccessor) && level().isClientSide) {
-            AnimationController<?> controller = getAnimatableInstanceCache()
+            var controller = getAnimatableInstanceCache()
                     .getManagerForId(getId())
                     .getAnimationControllers()
                     .get("main");
@@ -396,7 +395,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("TEXTURE")) {
-            this.setTexture(compound.getString("TEXTURE"));
+            this.setTexture(compound.getString("TEXTURE").orElse(""));
         }
     }
 

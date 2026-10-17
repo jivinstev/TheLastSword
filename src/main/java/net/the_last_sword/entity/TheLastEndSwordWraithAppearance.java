@@ -20,8 +20,8 @@ public enum TheLastEndSwordWraithAppearance {
         this.id = id;
         this.nameKey = nameKey;
         this.entityNameKey = entityNameKey;
-        this.model = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "geo/" + id + ".geo.json");
-        this.animation = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "animations/" + id + ".animation.json");
+        this.model = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
+        this.animation = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
         this.texture = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/" + id + ".png");
     }
 

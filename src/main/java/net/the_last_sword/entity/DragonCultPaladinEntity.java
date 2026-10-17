@@ -26,6 +26,7 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.ai.DragonCultPaladinAttackGoal;
@@ -72,8 +73,8 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this)
                 .setAlertOthers(DragonCultPaladinEntity.class, DragonCultistEntity.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                (mv$target, mv$level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(mv$target)));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 10, true, false,
+                (entity, level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(entity)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
@@ -170,17 +171,17 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
 
     //格挡免伤窗口内完全不受伤
     @Override
-    public boolean hurtServer(net.minecraft.server.level.ServerLevel mv$hurtLevel, @NotNull DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
         if (blockImmune) {
             long gameTime = level().getGameTime();
             if (!level().isClientSide && gameTime != lastBlockSoundTick) {
-                level().playSound(null, blockPosition(), SoundEvents.SHIELD_BLOCK,
+                level().playSound(null, blockPosition(), SoundEvents.SHIELD_BLOCK.value(),
                     getSoundSource(), 1.0F, 0.8F + getRandom().nextFloat() * 0.4F);
                 lastBlockSoundTick = gameTime;
             }
             return false;
         }
-        boolean hurt = super.hurtServer(mv$hurtLevel, source, amount);
+        boolean hurt = super.hurtServer(serverLevel, source, amount);
         if (hurt && !level().isClientSide) {
             requestBlock();
         }

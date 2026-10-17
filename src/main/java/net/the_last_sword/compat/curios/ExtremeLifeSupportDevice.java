@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -23,8 +24,10 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 //极限维生装置 - belt槽位
 public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
@@ -87,8 +90,9 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, consumer, flag);
+        List<Component> tooltip = new ArrayList<>();
         //能量信息
         IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
         if (energy != null) {
@@ -102,6 +106,7 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         appendCurrentValueLine(tooltip);
         tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.extreme_life_support_device")
             .withStyle(ChatFormatting.GRAY));
+        tooltip.forEach(consumer);
     }
 
     //基于客户端玩家当前生命比例显示损伤百分比与额外Buff等级

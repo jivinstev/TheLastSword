@@ -13,18 +13,23 @@ import net.the_last_sword.client.layer.DeathRayLayer;
 import net.the_last_sword.client.model.DragonCultPriestModel;
 import net.the_last_sword.entity.DragonCultPriestEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
-public class DragonCultPriestRenderer extends GeoEntityRenderer<DragonCultPriestEntity> {
+//GeckoLib 5.1: R is a type variable bounded by EntityRenderState & GeoRenderState (see LostWraithRenderer)
+public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<DragonCultPriestEntity, R> {
 
     //拜龙教紫，替代末影龙原本的品红
     private static final int RAY_RED = 155;
     private static final int RAY_GREEN = 89;
     private static final int RAY_BLUE = 208;
 
-    //当前帧渲染的实体与插值进度, 由 preRender 记录供 render 叠加光柱
-    private DragonCultPriestEntity renderingEntity;
-    private float renderingPartialTick;
+    //死亡进度与半身高在提取阶段记录（渲染状态不再持有实体）
+    private static final DataTicket<Float> DEATH_PROGRESS =
+            DataTicket.create("the_last_sword_priest_death_progress", Float.class);
+    private static final DataTicket<Float> HALF_HEIGHT =
+            DataTicket.create("the_last_sword_priest_half_height", Float.class);
 
     public DragonCultPriestRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new DragonCultPriestModel());
@@ -32,57 +37,54 @@ public class DragonCultPriestRenderer extends GeoEntityRenderer<DragonCultPriest
     }
 
     @Override
-    public RenderType getRenderType(DragonCultPriestEntity animatable, ResourceLocation texture,
-            MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(getTextureLocation(animatable));
+    public RenderType getRenderType(R renderState, ResourceLocation texture) {
+        return RenderType.entityTranslucent(getTextureLocation(renderState));
     }
 
     @Override
-    public void preRender(PoseStack poseStack, DragonCultPriestEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        if (!isReRender) {
-            this.renderingEntity = entity;
-            this.renderingPartialTick = partialTick;
-        }
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
+        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender,
                 packedLight, packedOverlay, colour);
+    }
+
+    @Override
+    public void extractRenderState(DragonCultPriestEntity entity, R renderState, float partialTick) {
+        super.extractRenderState(entity, renderState, partialTick);
+        int deathTick = entity.getDeathTick();
+        renderState.addGeckolibData(DEATH_PROGRESS, deathTick <= 0 ? 0.0f
+                : Math.min((deathTick + partialTick) / DragonCultPriestEntity.DEATH_ANIMATION_TICKS, 1.0f));
+        renderState.addGeckolibData(HALF_HEIGHT, entity.getBbHeight() * 0.5f);
     }
 
     //模型渲染完毕后叠加死亡放射光柱
     @Override
-    public void render(EntityRenderState renderState, PoseStack poseStack,
+    public void render(R renderState, PoseStack poseStack,
             MultiBufferSource bufferSource, int packedLight) {
-        this.renderingEntity = null;
         super.render(renderState, poseStack, bufferSource, packedLight);
 
-        DragonCultPriestEntity entity = this.renderingEntity;
-        this.renderingEntity = null;
-        if (entity == null) {
+        float progress = renderState.getOrDefaultGeckolibData(DEATH_PROGRESS, 0.0f);
+        if (progress <= 0.0f) {
             return;
         }
-        int deathTick = entity.getDeathTick();
-        if (deathTick <= 0) {
-            return;
-        }
-
-        float progress = Math.min((deathTick + this.renderingPartialTick) / DragonCultPriestEntity.DEATH_ANIMATION_TICKS, 1.0f);
-        DeathRayLayer.render(poseStack, bufferSource, progress, entity.getBbHeight() * 0.5f,
+        DeathRayLayer.render(poseStack, bufferSource, progress, renderState.getOrDefaultGeckolibData(HALF_HEIGHT, 0.0f),
                 RAY_RED, RAY_GREEN, RAY_BLUE);
     }
 
     @Override
-    protected float getDeathMaxRotation(DragonCultPriestEntity entity, float partialTick) {
+    protected float getDeathMaxRotation(GeoRenderState renderState) {
         return 0.0F;
     }
 
     @Override
-    public int getPackedOverlay(DragonCultPriestEntity entity, float u, float partialTick) {
+    public int getPackedOverlay(DragonCultPriestEntity entity, Void relatedObject, float u, float partialTick) {
         //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
         //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
         float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
         return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
                 OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
+
 }

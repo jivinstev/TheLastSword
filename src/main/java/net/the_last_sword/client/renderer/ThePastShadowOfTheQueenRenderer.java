@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -17,20 +16,23 @@ import net.the_last_sword.client.model.ThePastShadowOfTheQueenModel;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
-public class ThePastShadowOfTheQueenRenderer extends GeoEntityRenderer<ThePastShadowOfTheQueenEntity> {
+//GeckoLib 5.1: R is a type variable bounded by QueenRenderState & GeoRenderState; GeckoLib's mixin makes every
+//EntityRenderState a GeoRenderState at runtime (5.1 ships no interface injection for javac)
+public class ThePastShadowOfTheQueenRenderer<R extends ThePastShadowOfTheQueenRenderer.QueenRenderState & GeoRenderState>
+        extends GeoEntityRenderer<ThePastShadowOfTheQueenEntity, R> {
     public ThePastShadowOfTheQueenRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ThePastShadowOfTheQueenModel());
-        addRenderLayer(new ThePastShadowOfTheQueenItemLayer(this));
+        addRenderLayer(new ThePastShadowOfTheQueenItemLayer<>(this));
         this.shadowRadius = 0.5f;
     }
 
     @Override
-    public void render(EntityRenderState state, PoseStack pose, MultiBufferSource buffers, int light) {
-        QueenRenderState queen = (QueenRenderState) state;
+    public void render(R queen, PoseStack pose, MultiBufferSource buffers, int light) {
         ThePastShadowOfTheQueenEntity entity = queen.entity;
         float partialTick = queen.partialTick;
-        super.render(state, pose, buffers, light);
+        super.render(queen, pose, buffers, light);
         if (entity.getSummonTick() >= 0) {
             QueenBlinkRenderUtil.summonRift(pose, buffers, entity.getSummonTick() + partialTick,
                     entity.getSummonYaw());
@@ -49,26 +51,26 @@ public class ThePastShadowOfTheQueenRenderer extends GeoEntityRenderer<ThePastSh
     }
 
     @Override
-    public RenderType getRenderType(ThePastShadowOfTheQueenEntity animatable, ResourceLocation texture, MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(getTextureLocation(animatable));
+    public RenderType getRenderType(R queen, ResourceLocation texture) {
+        return RenderType.entityTranslucent(getTextureLocation(queen));
     }
 
     @Override
-    public void preRender(PoseStack poseStack, ThePastShadowOfTheQueenEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R queen, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
         float scale = 57.5F / 44.5F;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+        super.preRender(queen, poseStack, model, bufferSource, buffer, isReRender, packedLight, packedOverlay, colour);
     }
 
     @Override
-    protected float getDeathMaxRotation(ThePastShadowOfTheQueenEntity entityLivingBaseIn, float partialTick) {
+    protected float getDeathMaxRotation(GeoRenderState renderState) {
         return 0.0F;
     }
 
     //受伤变红效果
     @Override
-    public int getPackedOverlay(ThePastShadowOfTheQueenEntity entity, float u, float partialTick) {
+    public int getPackedOverlay(ThePastShadowOfTheQueenEntity entity, Void relatedObject, float u, float partialTick) {
         //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
         //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
         float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
@@ -76,17 +78,18 @@ public class ThePastShadowOfTheQueenRenderer extends GeoEntityRenderer<ThePastSh
                 OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
 
+    //GeckoLib 5.1 builds its state in createBaseRenderState (createRenderState() is never asked)
     @Override
-    public QueenRenderState createRenderState() {
-        return new QueenRenderState();
+    @SuppressWarnings("unchecked")
+    protected R createBaseRenderState(ThePastShadowOfTheQueenEntity entity) {
+        return (R) new QueenRenderState();
     }
 
     @Override
-    public void extractRenderState(ThePastShadowOfTheQueenEntity entity, EntityRenderState state, float partialTick) {
-        super.extractRenderState(entity, state, partialTick);
-        QueenRenderState queen = (QueenRenderState) state;
+    public void extractRenderState(ThePastShadowOfTheQueenEntity entity, R queen, float partialTick) {
         queen.entity = entity;
         queen.partialTick = partialTick;
+        super.extractRenderState(entity, queen, partialTick);
     }
 
     public static class QueenRenderState extends LivingEntityRenderState {

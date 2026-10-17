@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.renderer.WingsThatCoverTheWorldRenderer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -53,7 +54,7 @@ public class WingsThatCoverTheWorld extends Item implements ICurioItem {
         if (entity instanceof Player player) {
             //卸下时仅移除自己赋予的飞行能力（通过NBT标记区分来源，避免清除其他装备赋予的飞行）
             if (!player.isCreative() && !player.isSpectator()) {
-                if (player.getPersistentData().getBoolean("WingsFly")) {
+                if (player.getPersistentData().getBoolean("WingsFly").orElse(false)) {
                     player.getAbilities().mayfly = false;
                     player.getAbilities().flying = false;
                     player.getPersistentData().remove("WingsFly");
@@ -65,16 +66,16 @@ public class WingsThatCoverTheWorld extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
         double reduction = TheLastSwordConfiguration.getCuriosWingsVoidDamageReductionSafely();
         //显示减免百分比：例如 multiplier=0.1 -> 减免 90%
         String reductionPercent = String.format("-%.0f", (1.0 - reduction) * 100);
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world", reductionPercent));
+        tooltip.accept(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world", reductionPercent));
         if (TheLastSwordConfiguration.getCuriosWingsIceFireImmunityEnabledSafely()) {
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world.ice_fire_immunity"));
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.wings_that_cover_the_world.ice_fire_immunity"));
         }
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.wings_that_cover_the_world")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.wings_that_cover_the_world")
             .withStyle(ChatFormatting.GRAY));
     }
 

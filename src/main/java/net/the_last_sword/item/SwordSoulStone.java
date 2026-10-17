@@ -20,7 +20,10 @@ import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.network.OpenWraithAppearanceScreenPacket;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 //剑之魂石 - 预设绑定终焉之剑剑灵的魂石
 public class SwordSoulStone extends DragonCrystalSoulStone {
@@ -56,10 +59,11 @@ public class SwordSoulStone extends DragonCrystalSoulStone {
             return TheLastEndSwordWraithAppearance.DEFAULT;
         }
         if (tag.contains(APPEARANCE_KEY)) {
-            return TheLastEndSwordWraithAppearance.fromId(tag.getString(APPEARANCE_KEY));
+            return TheLastEndSwordWraithAppearance.fromId(tag.getString(APPEARANCE_KEY).orElse(""));
         }
         if (tag.contains("entity_nbt")) {
-            return TheLastEndSwordWraithAppearance.fromId(tag.getCompound("entity_nbt").getString("TEXTURE"));
+            return TheLastEndSwordWraithAppearance.fromId(
+                    tag.getCompound("entity_nbt").map(c -> c.getString("TEXTURE").orElse("")).orElse(""));
         }
         return TheLastEndSwordWraithAppearance.DEFAULT;
     }
@@ -68,14 +72,20 @@ public class SwordSoulStone extends DragonCrystalSoulStone {
         CompoundTag tag = ItemNbt.getOrCreateTag(stack);
         tag.putString(APPEARANCE_KEY, appearance.getId());
         if (tag.contains("entity_nbt")) {
-            tag.getCompound("entity_nbt").putString("TEXTURE", appearance.getId());
+            tag.getCompound("entity_nbt").ifPresent(c -> c.putString("TEXTURE", appearance.getId()));
         }
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, consumer, flag);
 
+        List<Component> lines = new ArrayList<>();
+        appendSkillLines(lines);
+        lines.forEach(consumer);
+    }
+
+    private static void appendSkillLines(List<Component> tooltip) {
         if (TooltipKeys.hasControlDown()) {
             addPassiveSkills(tooltip, true);
             return;

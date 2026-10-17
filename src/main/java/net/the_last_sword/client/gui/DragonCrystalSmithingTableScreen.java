@@ -36,12 +36,12 @@ public class DragonCrystalSmithingTableScreen extends AbstractContainerScreen<Dr
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        net.the_last_sword.mv.LegacyGl.enableBlend();
+        net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
 
         guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.disableBlend();
     }
 
     @Override

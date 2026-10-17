@@ -206,7 +206,7 @@ public class CataclysmEventHandler {
         } else {
             CompoundTag entityData = entity.getPersistentData();
             if (entityData.contains("shield_cooldown_end")) {
-                long cooldownEnd = entityData.getLong("shield_cooldown_end");
+                long cooldownEnd = entityData.getLong("shield_cooldown_end").orElse(0L);
                 return entity.level().getGameTime() < cooldownEnd;
             }
         }
@@ -243,9 +243,9 @@ public class CataclysmEventHandler {
             target.igniteForSeconds(3);
         }
 
-        if (!target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) ||
-                target.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getAmplifier() < 2) {
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
+        if (!target.hasEffect(MobEffects.SLOWNESS) ||
+                target.getEffect(MobEffects.SLOWNESS).getAmplifier() < 2) {
+            target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 2));
         }
     }
 
@@ -283,7 +283,7 @@ public class CataclysmEventHandler {
         }
 
         //检查背包中的奖章
-        for (ItemStack stack : player.getInventory().items) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof CataclysmMedals.AncientRemnantMedal medal) {
                 medal.onOwnerAttacked(player, stack, attacker);
             }
@@ -340,7 +340,7 @@ public class CataclysmEventHandler {
     //处理斯库拉奖章的风暴效果
     private static void handleScyllaMedalStorm(Player attacker, LivingEntity target) {
         //检查背包中的奖章
-        for (ItemStack stack : attacker.getInventory().items) {
+        for (ItemStack stack : attacker.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof CataclysmMedals.ScyllaMedal medal) {
                 medal.onOwnerAttack(attacker, stack, target);
             }
@@ -359,7 +359,7 @@ public class CataclysmEventHandler {
     //检查玩家背包和饰品槽中是否有指定类型的奖章
     private static boolean hasMedalInAnySlot(Player player, Class<? extends CataclysmMedal> medalClass) {
         //检查背包
-        boolean hasInInventory = player.getInventory().items.stream()
+        boolean hasInInventory = player.getInventory().getNonEquipmentItems().stream()
                 .anyMatch(stack -> medalClass.isInstance(stack.getItem()));
         if (hasInInventory) {
             return true;
@@ -380,7 +380,7 @@ public class CataclysmEventHandler {
             return;
         }
 
-        if (event.getEntity().getPersistentData().getBoolean(MEDAL_DROPPED_TAG)) {
+        if (event.getEntity().getPersistentData().getBoolean(MEDAL_DROPPED_TAG).orElse(false)) {
             return;
         }
 

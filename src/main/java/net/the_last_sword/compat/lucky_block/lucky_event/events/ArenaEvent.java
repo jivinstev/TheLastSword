@@ -107,7 +107,7 @@ public class ArenaEvent extends LuckyEvent {
             if (!isActorAlive(player, world)) return;
             Mob opponent = pickRandomMob(world);
             if (opponent == null) return;
-            opponent.moveTo(enemySpawn.getX() + 0.5, enemySpawn.getY(), enemySpawn.getZ() + 0.5, 0.0F, 0.0F);
+            opponent.snapTo(enemySpawn.getX() + 0.5, enemySpawn.getY(), enemySpawn.getZ() + 0.5, 0.0F, 0.0F);
             opponent.finalizeSpawn(world, world.getCurrentDifficultyAt(enemySpawn), EntitySpawnReason.EVENT, null);
             world.addFreshEntity(opponent);
             opponent.setTarget(player);

@@ -7,7 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -21,8 +22,8 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -32,7 +33,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 //圣骑士以更高护甲抵挡正面攻击，耐久仍维持铁甲档次
-public abstract class DragonCultPaladinArmorItem extends ArmorItem implements GeoItem {
+public abstract class DragonCultPaladinArmorItem extends Item implements GeoItem {
 
     private static final String TEXTURE = "the_last_sword:textures/item/dragon_cult_paladin_armor.png";
     private static final String DESCRIPTION_KEY = "item_tooltip.the_last_sword.dragon_cult_paladin_armor";
@@ -63,7 +64,7 @@ public abstract class DragonCultPaladinArmorItem extends ArmorItem implements Ge
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     protected DragonCultPaladinArmorItem(ArmorType type) {
-        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+        super(net.the_last_sword.mv.RegIds.stamp(new Properties().humanoidArmor(MATERIAL, type)));
     }
 
     //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
@@ -73,17 +74,17 @@ public abstract class DragonCultPaladinArmorItem extends ArmorItem implements Ge
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable(DESCRIPTION_KEY));
-        tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, display, tooltip, flag);
+        tooltip.accept(Component.translatable(DESCRIPTION_KEY));
+        tooltip.accept(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
     }
 
     //披风常驻摆动
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 5, state -> {
-            state.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
+        controllers.add(new AnimationController<>("controller", 5, state -> {
+            state.setAnimation(RawAnimation.begin().thenLoop("idle"));
             return PlayState.CONTINUE;
         }));
     }

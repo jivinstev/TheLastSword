@@ -74,7 +74,7 @@ public class EndCrystalMixin {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty() && stack.getItem() instanceof DragonArmorItem) {
+            if (!stack.isEmpty() && ((Object) stack.getItem()) instanceof DragonArmorItem) {
                 return true;
             }
         }

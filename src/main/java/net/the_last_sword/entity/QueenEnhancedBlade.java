@@ -150,6 +150,6 @@ public class QueenEnhancedBlade extends QueenBlinkBlade {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setBladeRoll(tag.getFloat("BladeRoll"));
+        setBladeRoll(tag.getFloatOr("BladeRoll", 0.0F));
     }
 }

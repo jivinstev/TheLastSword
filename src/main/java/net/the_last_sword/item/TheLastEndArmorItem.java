@@ -8,12 +8,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
+import net.the_last_sword.compat.gear.ArmorItem;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.init.ModKeyMappings;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -21,7 +22,9 @@ import net.the_last_sword.init.ModAttributes;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.Locale;
 
 /**
@@ -32,7 +35,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
 
     private final ArmorMaterial armorMaterial;
 
-    protected TheLastEndArmorItem(ArmorMaterial material, ArmorType type, Properties properties) {
+    protected TheLastEndArmorItem(ArmorMaterial material, ArmorType type, net.minecraft.world.item.Item.Properties properties) {
         super(material, type, properties);
         this.armorMaterial = material;
     }
@@ -49,8 +52,6 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
     }
 
     //动态属性修饰符，根据等级计算（物品没有 ATTRIBUTE_MODIFIERS 组件时使用）
-    //1.21.4: ArmorItem always carries an ATTRIBUTE_MODIFIERS component, so NeoForge never falls back to this method;
-    //event/ArmorAttributeModifierHandler applies it instead
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         EquipmentSlot slot = this.getEquipmentSlot(stack);
@@ -126,18 +127,20 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
 
     //Tooltip显示等级和特定信息
     @Override
-    public void appendHoverText(ItemStack itemstack, net.minecraft.world.item.Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemstack, level, list, flag);
+    public void appendHoverText(ItemStack itemstack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> adder, TooltipFlag flag) {
+        super.appendHoverText(itemstack, level, display, adder, flag);
 
         //显示等级（包括0级）
         int itemLevel = getItemLevel(itemstack);
-        list.add(Component.translatable("item_tooltip.the_last_sword.level").append(" " + itemLevel));
+        adder.accept(Component.translatable("item_tooltip.the_last_sword.level").append(" " + itemLevel));
 
         //子类特定的tooltip
-        appendSpecificTooltip(itemstack, level.level(), list, flag);
+        List<Component> specific = new ArrayList<>();
+        appendSpecificTooltip(itemstack, level.level(), specific, flag);
+        specific.forEach(adder);
 
         //按键提示：打开防御配置
-        list.add(Component.translatable("item_tooltip.the_last_sword.open_defence_config_key")
+        adder.accept(Component.translatable("item_tooltip.the_last_sword.open_defence_config_key")
                 .append(" ")
                 .append(ModKeyMappings.OPEN_DEFENCE_CONFIG.getKey().getDisplayName().getString()));
     }

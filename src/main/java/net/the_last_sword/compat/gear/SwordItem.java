@@ -5,6 +5,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -17,7 +18,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 /** The 1.21.1 tiered SwordItem contract, built on the 1.21.4 components exactly as ToolMaterial.applySwordProperties does. */
-public class SwordItem extends net.minecraft.world.item.SwordItem {
+public class SwordItem extends Item {
+    private static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
+    private static final ResourceLocation BASE_ATTACK_SPEED_ID = ResourceLocation.withDefaultNamespace("base_attack_speed");
     private final Tier tier;
 
     public SwordItem(Tier tier, Item.Properties properties, ItemAttributeModifiers attributes) {
@@ -57,7 +60,8 @@ public class SwordItem extends net.minecraft.world.item.SwordItem {
                         Tool.Rule.overrideSpeed(blocks.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)
                     ),
                     1.0F,
-                    2
+                    2,
+                    true
                 )
             );
         // 1.21.1 read the repair ingredient lazily; 1.21.4 stores it as a component, so an item that is

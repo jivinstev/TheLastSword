@@ -41,13 +41,10 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
         guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ResourceLocation.parse("the_last_sword:textures/screens/summon_wraith_gui_background.png"), this.leftPos + 28, this.topPos + -38, 0, 0, 120, 186, 120, 186);
 
-        RenderSystem.disableBlend();
     }
 
     @Override

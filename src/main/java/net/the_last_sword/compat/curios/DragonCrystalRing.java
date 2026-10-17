@@ -12,12 +12,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModAttributes;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.List;
+import java.util.function.Consumer;
 import java.util.UUID;
 
 //龙水晶指环 - ring槽位
@@ -42,12 +43,12 @@ public class DragonCrystalRing extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
         double multiplier = TheLastSwordConfiguration.getCuriosDragonCrystalRingDamageMultiplierSafely();
         String bonusPercent = String.format("%+.0f", (multiplier - 1.0) * 100);
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.dragon_crystal_ring", bonusPercent));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_ring")
+        tooltip.accept(Component.translatable("item_tooltip.the_last_sword.dragon_crystal_ring", bonusPercent));
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_ring")
             .withStyle(ChatFormatting.GRAY));
     }
 }

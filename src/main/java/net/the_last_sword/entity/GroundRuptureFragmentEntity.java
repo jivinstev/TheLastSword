@@ -82,9 +82,9 @@ public class GroundRuptureFragmentEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        entityData.set(BLOCK_STATE_ID, tag.getInt("BlockState"));
-        entityData.set(SCALE, tag.getFloat("Scale"));
-        entityData.set(VISUAL_SEED, tag.getInt("VisualSeed"));
+        entityData.set(BLOCK_STATE_ID, tag.getInt("BlockState").orElse(0));
+        entityData.set(SCALE, tag.getFloat("Scale").orElse(0.0F));
+        entityData.set(VISUAL_SEED, tag.getInt("VisualSeed").orElse(0));
     }
 
     @Override

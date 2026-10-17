@@ -14,11 +14,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -138,7 +140,7 @@ public class UltraTestSwordItem extends Item {
 
     //读取封锁开关状态，供物品扩展渲染判断
     public static boolean isLockdownEnabled(ItemStack stack) {
-        return !stack.isEmpty() && ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBoolean(LOCKDOWN_TAG);
+        return !stack.isEmpty() && ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBoolean(LOCKDOWN_TAG).orElse(false);
     }
 
     private static void setLockdownEnabled(ItemStack stack, boolean enabled) {
@@ -147,8 +149,9 @@ public class UltraTestSwordItem extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, TooltipDisplay display, java.util.function.Consumer<Component> tooltipConsumer, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltipConsumer, flag);
+        List<Component> tooltip = new java.util.ArrayList<>();
 
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.creative"));
 
@@ -181,6 +184,7 @@ public class UltraTestSwordItem extends Item {
                         .append(" ")
                         .append(ModKeyMappings.CHANGE_SWORD_MODE.getKey().getDisplayName().getString())
         );
+        tooltip.forEach(tooltipConsumer);
     }
 
     @Override
@@ -190,8 +194,8 @@ public class UltraTestSwordItem extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, level, entity, slot, selected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
 
         //初始化模式系统
         ItemModeHelper.initializeMode(stack, 0, MAX_MODES);
@@ -202,7 +206,12 @@ public class UltraTestSwordItem extends Item {
 
             //仅允许（创造模式或旁观模式）且为管理员的玩家保留
             if (!(isCreativeOrSpec && isOp)) {
-                sp.getInventory().setItem(slot, ItemStack.EMPTY);
+                for (int i = 0; i < sp.getInventory().getContainerSize(); i++) {
+                    if (sp.getInventory().getItem(i) == stack) {
+                        sp.getInventory().setItem(i, ItemStack.EMPTY);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -211,7 +220,8 @@ public class UltraTestSwordItem extends Item {
     public static boolean hasUltraTestSword(Player player) {
         if (player == null || player.getInventory() == null) return false;
 
-        for (ItemStack stack : player.getInventory().items) {
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof UltraTestSwordItem) {
                 return true;
             }
@@ -224,7 +234,8 @@ public class UltraTestSwordItem extends Item {
         if (!(entity instanceof Player player)) return false;
         if (player.getInventory() == null) return false;
 
-        for (ItemStack st : player.getInventory().items) {
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack st : player.getInventory().getNonEquipmentItems()) {
             if (st.getItem() instanceof UltraTestSwordItem) {
                 ItemModeHelper.initializeMode(st, 0, MAX_MODES);
                 if (ItemModeHelper.getMode(st) == 1) return true;
@@ -257,7 +268,7 @@ public class UltraTestSwordItem extends Item {
             EcaAPI.lockLocation(sp);
             sp.getPersistentData().putBoolean("UltraTestSwordDefence", true);
         } else {
-            if (sp.getPersistentData().getBoolean("UltraTestSwordDefence")) {
+            if (sp.getPersistentData().getBoolean("UltraTestSwordDefence").orElse(false)) {
                 EcaAPI.setInvulnerable(sp, false);
                 EcaAPI.unlockLocation(sp);
                 sp.getPersistentData().remove("UltraTestSwordDefence");

@@ -34,7 +34,7 @@ public final class TrueHealthManager {
                 || isProtectionSword(entity.getMainHandItem())
                 || isProtectionSword(entity.getOffhandItem())) return true;
         if (entity instanceof Player player) {
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (isProtectionSword(stack)) return true;
             }
         }

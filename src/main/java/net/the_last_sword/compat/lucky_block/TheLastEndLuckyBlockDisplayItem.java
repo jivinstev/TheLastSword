@@ -6,13 +6,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.ItemNbt;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -41,16 +42,16 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
         if (tag == null) return 0;
         //方块物品 NBT 存在两层结构: 直接 Luck (合成后) 或 BlockEntityTag.Luck (破坏掉落)
         if (tag.contains("BlockEntityTag")) {
-            CompoundTag beTag = tag.getCompound("BlockEntityTag");
-            if (beTag.contains(TAG_LUCK)) return beTag.getInt(TAG_LUCK);
+            CompoundTag beTag = tag.getCompoundOrEmpty("BlockEntityTag");
+            if (beTag.contains(TAG_LUCK)) return beTag.getIntOr(TAG_LUCK, 0);
         }
-        return tag.contains(TAG_LUCK) ? tag.getInt(TAG_LUCK) : 0;
+        return tag.contains(TAG_LUCK) ? tag.getIntOr(TAG_LUCK, 0) : 0;
     }
 
     //复刻 LuckyBlock 原版 tooltip 格式: "幸运值: +20"(灰前缀 + 绿/红/金数字)
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
         int luck = readLuck(stack);
         Component luckNum;
         if (luck > 0) {
@@ -60,7 +61,7 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
         } else {
             luckNum = Component.literal("0").withStyle(ChatFormatting.GOLD);
         }
-        tooltip.add(Component.translatable("item.the_last_sword.the_last_end_lucky_block.luck")
+        tooltip.accept(Component.translatable("item.the_last_sword.the_last_end_lucky_block.luck")
             .withStyle(ChatFormatting.GRAY)
             .append(Component.literal(": ").withStyle(ChatFormatting.GRAY))
             .append(luckNum));
@@ -98,7 +99,7 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, state -> PlayState.CONTINUE));
+        controllers.add(new AnimationController<>("controller", 0, state -> PlayState.CONTINUE));
     }
 
     @Override

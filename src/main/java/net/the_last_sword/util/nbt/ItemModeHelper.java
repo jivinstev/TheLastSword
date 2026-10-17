@@ -29,7 +29,7 @@ public class ItemModeHelper {
         if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 0;
         }
-        return ItemNbt.getTag(stack).getInt(MODE_TAG);
+        return ItemNbt.getTag(stack).getIntOr(MODE_TAG, 0);
     }
 
     //获取最大模式数，如果没有则返回1
@@ -37,7 +37,7 @@ public class ItemModeHelper {
         if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 1;
         }
-        int maxModes = ItemNbt.getTag(stack).getInt(MAX_MODES_TAG);
+        int maxModes = ItemNbt.getTag(stack).getIntOr(MAX_MODES_TAG, 0);
         return maxModes > 0 ? maxModes : 1;
     }
 

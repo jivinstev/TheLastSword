@@ -456,7 +456,7 @@ public class LostWraithEntity extends TheLastEndEntity {
         super.readAdditionalSaveData(compound);
         setTheLastEndLevel(1);
         if (compound.contains("TalkIndex")) {
-            setTalkIndex(compound.getInt("TalkIndex"));
+            setTalkIndex(compound.getIntOr("TalkIndex", 0));
         }
     }
 

@@ -71,9 +71,12 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
 
     //近战攻击：造成物理伤害+魔法伤害
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
-        if (!super.hurtEnemy(stack, target, attacker)) return false;
+        super.hurtEnemy(stack, target, attacker);
 
         //造成额外的魔法伤害
         if (!attacker.level().isClientSide) {
@@ -98,7 +101,6 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
             }
         }
 
-        return true;
     }
 
     //右键使用：发射弹射物

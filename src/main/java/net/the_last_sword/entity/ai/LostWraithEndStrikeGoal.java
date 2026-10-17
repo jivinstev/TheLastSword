@@ -166,7 +166,7 @@ public class LostWraithEndStrikeGoal extends DangerousSkillGoal<LostWraithEntity
             if (target.isAlive() && EntityUtil.canAttack(wraith, target)) {
                 if (isTargetBlocking(target)) {
                     target.level().playSound(null, target.blockPosition(),
-                        SoundEvents.SHIELD_BLOCK, target.getSoundSource(),
+                        SoundEvents.SHIELD_BLOCK.value(), target.getSoundSource(),
                         1.0F, 0.8F + target.level().random.nextFloat() * 0.4F);
 
                     if (target instanceof Player player) {

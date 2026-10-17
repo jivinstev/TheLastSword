@@ -3,13 +3,13 @@ package net.the_last_sword.entity.ai;
 import java.util.EnumSet;
 import java.util.List;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
 
@@ -120,7 +120,9 @@ public class GuardianPickupWeaponGoal extends Goal {
         if (stack.isEmpty()) {
             return false;
         }
-        return stack.getItem() instanceof SwordItem
+        //1.21.5: no vanilla SwordItem class (vanilla swords are plain Items in #minecraft:swords); this mod's swords extend
+        //compat/gear/SwordItem and only knight_greatsword is in the tag, so test both, as 1.21.1's instanceof SwordItem covered both
+        return stack.is(ItemTags.SWORDS) || stack.getItem() instanceof net.the_last_sword.compat.gear.SwordItem
             || stack.getItem() instanceof BowItem
             || stack.getItem() instanceof AxeItem;
     }

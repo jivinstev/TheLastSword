@@ -58,19 +58,19 @@ public class DragonArmorOverlay {
         int screenWidth = gui.guiWidth();
         int screenHeight = gui.guiHeight();
 
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(net.minecraft.client.renderer.CoreShaders.POSITION_TEX);
+        net.the_last_sword.mv.LegacyGl.disableDepthTest();
+        net.the_last_sword.mv.LegacyGl.depthMask(false);
+        net.the_last_sword.mv.LegacyGl.enableBlend();
+        net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
+        net.the_last_sword.mv.LegacyGl.setShader(net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_TEX);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         //绘制全屏叠加层
         gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, OVERLAY_TEXTURE, 0, 0, 0, 0, screenWidth, screenHeight, screenWidth, screenHeight);
 
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.depthMask(true);
+        net.the_last_sword.mv.LegacyGl.enableDepthTest();
+        net.the_last_sword.mv.LegacyGl.disableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 

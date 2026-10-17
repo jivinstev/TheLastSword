@@ -91,15 +91,17 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
 
     // 左键：基础物理伤害 + 自定义attack
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!super.hurtEnemy(stack, target, attacker)) return false;
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
+        super.hurtEnemy(stack, target, attacker);
 
         if (!attacker.level().isClientSide) {
             applyTimedAllReturn(target);
             target.invulnerableTime = 0;
             attack(target, attacker, ABSOLUTE_DESTRUCTION_DAMAGE);
         }
-        return true;
     }
 
     /**
@@ -233,7 +235,7 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                 EntityUtil.applyImmunity(player);
 
                 // 无冷却
-                for (ItemStack stack : player.getInventory().items) {
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                     if (!stack.isEmpty()) {
                         player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
@@ -244,13 +246,13 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                 }
             } else {
                 // 移除ECA无敌
-                if (player.getPersistentData().getBoolean(INVUL_TAG)) {
+                if (player.getPersistentData().getBoolean(INVUL_TAG).orElse(false)) {
                     EcaAPI.setInvulnerable(player, false);
                     player.getPersistentData().remove(INVUL_TAG);
                 }
 
                 // 移除飞行
-                if (player.getPersistentData().getBoolean(FLY_TAG)) {
+                if (player.getPersistentData().getBoolean(FLY_TAG).orElse(false)) {
                     player.getAbilities().mayfly = false;
                     player.getAbilities().flying = false;
                     player.getPersistentData().remove(FLY_TAG);
@@ -262,7 +264,7 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
         }
 
         private static boolean hasHiddenSword(Player player) {
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (stack.getItem() instanceof TheLastSwordYouNeverForgot) return true;
             }
             return player.getOffhandItem().getItem() instanceof TheLastSwordYouNeverForgot;

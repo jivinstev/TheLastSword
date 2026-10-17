@@ -14,12 +14,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.the_last_sword.event.TheLastSwordQuestHandler;
 import net.the_last_sword.init.ModInstruments;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 //拜龙教号角，吹响后在村庄内召来一场拜龙教袭击
 public class DragonCultHornItem extends InstrumentItem {
@@ -30,9 +31,16 @@ public class DragonCultHornItem extends InstrumentItem {
     private static final String RAID_ACTIVE_KEY = "message.the_last_sword.dragon_cult_horn_raid_active";
 
     public DragonCultHornItem() {
-        super(ModInstruments.DRAGON_CULT_HORNS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
+        //1.21.5: InstrumentItem takes no instrument tag; its tooltip line names the INSTRUMENT component, which 1.21.1
+        //filled from the first instrument of DRAGON_CULT_HORNS (the only one: the data file instrument/dragon_cult_horn)
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(1)
                 .rarity(Rarity.UNCOMMON)
+                .component(net.minecraft.core.component.DataComponents.INSTRUMENT,
+                        new net.minecraft.world.item.component.InstrumentComponent(net.minecraft.resources.ResourceKey.create(
+                                net.minecraft.core.registries.Registries.INSTRUMENT,
+                                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                                        net.the_last_sword.TheLastSwordMod.MOD_ID, "dragon_cult_horn"))))
         );
     }
 
@@ -67,9 +75,9 @@ public class DragonCultHornItem extends InstrumentItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable(DESCRIPTION_KEY));
-        tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
+        tooltip.accept(Component.translatable(DESCRIPTION_KEY));
+        tooltip.accept(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
     }
 }

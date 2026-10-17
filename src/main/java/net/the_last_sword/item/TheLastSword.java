@@ -13,12 +13,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.tags.BlockTags;
@@ -91,17 +93,20 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
 
     //背包刻更新
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
         //初始化模式系统（如果还没有）
         ItemModeHelper.initializeMode(stack, 0, MAX_MODES);
     }
 
     //近战单体攻击：模式0造成绝毁伤害，模式1和2造成虚空伤害
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
-        if (!super.hurtEnemy(stack, target, attacker)) return false;
+        super.hurtEnemy(stack, target, attacker);
 
         if (!attacker.level().isClientSide) {
             int mode = ItemModeHelper.getMode(stack);
@@ -127,7 +132,6 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 }
             }
         }
-        return true;
     }
 
     private boolean returnSwing;
@@ -404,7 +408,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                         player.onUpdateAbilities();
                     }
                 } else {
-                    if (player.getPersistentData().getBoolean("TheLastSwordFly")) {
+                    if (player.getPersistentData().getBoolean("TheLastSwordFly").orElse(false)) {
                         player.getAbilities().mayfly = false;
                         player.getAbilities().flying = false;
                         player.getPersistentData().remove("TheLastSwordFly");
@@ -428,7 +432,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
             //无冷却逻辑：持有最终之剑时，清除所有物品的冷却时间
             if (hasSword) {
                 //清除主物品栏所有物品的冷却
-                for (ItemStack stack : player.getInventory().items) {
+                //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                     if (!stack.isEmpty()) {
                         player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
@@ -444,7 +449,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         //检查玩家背包中是否有最终之剑
         private static boolean hasTheLastSwordInInventory(Player player) {
             if (player == null) return false;
-            for (ItemStack s : player.getInventory().items) {
+            //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+            for (ItemStack s : player.getInventory().getNonEquipmentItems()) {
                 if (s.getItem() instanceof TheLastSword) {
                     return true;
                 }

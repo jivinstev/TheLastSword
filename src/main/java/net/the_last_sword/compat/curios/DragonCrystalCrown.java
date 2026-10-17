@@ -13,11 +13,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.UUID;
 
 //龙水晶王冠 - head槽位
@@ -57,14 +59,14 @@ public class DragonCrystalCrown extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
         //根据虚空转换开关显示不同提示
         String key = TheLastSwordConfiguration.getCuriosDragonCrystalCrownVoidConversionEnabledSafely()
             ? "item_tooltip.the_last_sword.dragon_crystal_crown.enabled"
             : "item_tooltip.the_last_sword.dragon_crystal_crown.disabled";
-        tooltip.add(Component.translatable(key));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_crown")
+        tooltip.accept(Component.translatable(key));
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_crown")
             .withStyle(ChatFormatting.GRAY));
     }
 }

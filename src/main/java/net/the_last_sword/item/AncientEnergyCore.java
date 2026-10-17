@@ -6,11 +6,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -23,6 +26,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.Optional;
 
 public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, ICurioItem {
@@ -104,15 +108,15 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
                 player.displayClientMessage(Component.translatable(key), true);
             }
 
-            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
         performCharging(stack, level, entity);
     }
 
@@ -142,7 +146,8 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
 
             //按顺序充能：盔甲栏 -> 物品栏 -> 背包
             //盔甲栏（从头到脚）
-            for (ItemStack armorStack : player.getArmorSlots()) {
+            for (EquipmentSlot armorSlot : new EquipmentSlot[]{EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD}) {
+                ItemStack armorStack = player.getItemBySlot(armorSlot);
                 if (chargeItem(coreEnergy, armorStack)) {
                     return;
                 }
@@ -217,7 +222,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
         if (tag == null) {
             return false; //默认关闭
         }
-        return tag.getBoolean(CHARGING_ENABLED_TAG);
+        return tag.getBoolean(CHARGING_ENABLED_TAG).orElse(false);
     }
 
     //设置充能启用状态
@@ -226,10 +231,10 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         //显示能量信息
         Optional.ofNullable(energyOf(stack)).ifPresent(energy -> {
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
+            tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.energy")
                     .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
         });
 
@@ -238,11 +243,11 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
         String statusKey = chargingEnabled ?
             "item_tooltip.the_last_sword.ancient_energy_core.charging_enabled" :
             "item_tooltip.the_last_sword.ancient_energy_core.charging_disabled";
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.ancient_energy_core",
+        tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.ancient_energy_core",
             TheLastSwordConfiguration.getAncientEnergyCoreChargeRateSafely(),
             Component.translatable(statusKey)));
 
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.ancient_energy_core")
+        tooltipAdder.accept(Component.translatable("item_tooltip_lore.the_last_sword.ancient_energy_core")
             .withStyle(ChatFormatting.GRAY));
     }
 }

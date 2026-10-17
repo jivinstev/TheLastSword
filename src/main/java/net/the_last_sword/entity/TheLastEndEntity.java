@@ -30,9 +30,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animatable.processing.AnimationTest;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -183,10 +183,10 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     // 动画系统
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "main", 0, this::animationPredicate));
+        controllers.add(new AnimationController<>("main", 0, this::animationPredicate));
     }
 
-    private PlayState animationPredicate(AnimationState<TheLastEndEntity> state) {
+    private PlayState animationPredicate(AnimationTest<TheLastEndEntity> state) {
         int attackState = getAnimationState();
 
         if (attackState == STATE_UNSPAWNED) {
@@ -706,27 +706,27 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        CompoundTag rescue = tag.getCompound("VoidRescue");
-        lastSafeDimension = rescue.getString("Dimension");
+        CompoundTag rescue = tag.getCompoundOrEmpty("VoidRescue");
+        lastSafeDimension = rescue.getStringOr("Dimension", "");
         lastSafePosition = null;
         if (rescue.contains("X") && rescue.contains("Y") && rescue.contains("Z")) {
-            Vec3 savedPosition = new Vec3(rescue.getDouble("X"), rescue.getDouble("Y"), rescue.getDouble("Z"));
+            Vec3 savedPosition = new Vec3(rescue.getDoubleOr("X", 0.0), rescue.getDoubleOr("Y", 0.0), rescue.getDoubleOr("Z", 0.0));
             if (Double.isFinite(savedPosition.x) && Double.isFinite(savedPosition.y)
                     && Double.isFinite(savedPosition.z)) lastSafePosition = savedPosition;
         }
-        voidRescueActive = rescue.getBoolean("Active");
+        voidRescueActive = rescue.getBooleanOr("Active", false);
         voidRescueRetryTicks = 0;
         if (tag.contains("AnimationState")) {
-            int savedState = tag.getInt("AnimationState");
+            int savedState = tag.getIntOr("AnimationState", 0);
             // Skill Goal timers are transient and are not serialized. Restoring one of
             // those states would leave GeckoLib frozen on the last animation frame.
             setAnimationState(savedState > STATE_IDLE ? STATE_IDLE : savedState);
         }
         if (tag.contains("Level")) {
-            setTheLastEndLevel(tag.getInt("Level"));
+            setTheLastEndLevel(tag.getIntOr("Level", 0));
         }
         if (tag.contains("AllThingsEnd")) {
-            setAllThingsEnd(tag.getBoolean("AllThingsEnd"));
+            setAllThingsEnd(tag.getBooleanOr("AllThingsEnd", false));
         }
 
         if (!level().isClientSide) {

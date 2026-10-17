@@ -9,8 +9,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -24,14 +26,15 @@ import java.util.UUID;
 public final class DangerousSkillPreviewRenderer {
     private static final Map<UUID, DangerousSkillPreviewPacket> PREVIEWS = new HashMap<>();
     private static ClientLevel previewLevel;
-    private static final RenderType FILL = RenderType.create("dangerous_skill_preview",
-            DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, true,
-            RenderType.CompositeState.builder()
-                    .setShaderState(new net.minecraft.client.renderer.RenderStateShard.ShaderStateShard(net.minecraft.client.renderer.CoreShaders.POSITION_COLOR))
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setCullState(RenderStateShard.NO_CULL)
-                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                    .createCompositeState(false));
+    //1.21.5: shader, blend, cull and write mask are one RenderPipeline (position_color shaders + translucent blend come from the snippet)
+    private static final RenderPipeline FILL_PIPELINE = RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
+            .withLocation("pipeline/dangerous_skill_preview_fill")
+            .withBlend(BlendFunction.TRANSLUCENT)
+            .withCull(false)
+            .withDepthWrite(false)
+            .build();
+    private static final RenderType FILL = RenderType.create("dangerous_skill_preview", 256, false, true,
+            FILL_PIPELINE, RenderType.CompositeState.builder().createCompositeState(false));
 
     private DangerousSkillPreviewRenderer() {
     }

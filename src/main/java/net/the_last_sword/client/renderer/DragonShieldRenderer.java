@@ -41,19 +41,19 @@ public class DragonShieldRenderer {
     private static final float IMPACT_MAX_ANGLE = 0.62f;
     private static final int RECENT_HIT_WINDOW_TICKS = 10;
 
-    private static final RenderType SHIELD_RENDER_TYPE = RenderType.create(
+    private static final RenderType SHIELD_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "the_last_sword_dragon_shield",
             DefaultVertexFormat.POSITION_COLOR,
             VertexFormat.Mode.QUADS,
             2097152,
             true,
             false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                    .setCullState(RenderStateShard.NO_CULL)
+            net.the_last_sword.mv.LegacyRenderType.state()
+                    .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
+                    .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
+                    .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
+                    .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
                     .createCompositeState(false)
     );
 

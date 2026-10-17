@@ -24,17 +24,17 @@ public final class ArenaBattleHandler {
     private ArenaBattleHandler() {}
 
     public static void tagParticipants(LivingEntity a, LivingEntity b) {
-        a.getPersistentData().putUUID(TAG_KEY, b.getUUID());
-        b.getPersistentData().putUUID(TAG_KEY, a.getUUID());
+        a.getPersistentData().putIntArray(TAG_KEY, net.minecraft.core.UUIDUtil.uuidToIntArray(b.getUUID()));
+        b.getPersistentData().putIntArray(TAG_KEY, net.minecraft.core.UUIDUtil.uuidToIntArray(a.getUUID()));
     }
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         LivingEntity dying = event.getEntity();
         CompoundTag dyingTag = dying.getPersistentData();
-        if (!dyingTag.hasUUID(TAG_KEY)) return;
+        if (!net.the_last_sword.mv.Nbt.hasUuid(dyingTag, TAG_KEY)) return;
 
-        UUID opponentUuid = dyingTag.getUUID(TAG_KEY);
+        UUID opponentUuid = net.the_last_sword.mv.Nbt.getUuid(dyingTag, TAG_KEY);
         dyingTag.remove(TAG_KEY);
 
         if (!(dying.level() instanceof ServerLevel serverLevel)) return;

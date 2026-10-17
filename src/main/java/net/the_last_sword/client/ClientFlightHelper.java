@@ -7,8 +7,8 @@ import net.minecraft.world.entity.player.Player;
 public class ClientFlightHelper {
     public static boolean isNoMoveInput(Player player) {
         return player instanceof LocalPlayer localPlayer
-                && localPlayer.input.forwardImpulse == 0
-                && localPlayer.input.leftImpulse == 0
+                && localPlayer.input.getMoveVector().y == 0
+                && localPlayer.input.getMoveVector().x == 0
                 && !localPlayer.input.keyPresses.jump()
                 && !localPlayer.input.keyPresses.shift();
     }

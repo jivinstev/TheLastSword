@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -22,15 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public class PlayerMixin {
 
-    //防止外部代码替换受保护玩家的装备槽（受强力背包保护开关控制）
-    @Inject(method = "setItemSlot", at = @At("HEAD"), cancellable = true)
-    private void tls$blockSetItemSlot(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
-        if (TheLastSwordConfiguration.getEnableStrongInventoryProtectionSafely()
-                && EntityUtil.hasInventoryProtection((Player) (Object) this)
-                && InventoryProtectionPolicy.hasBlockedExternalCaller()) {
-            ci.cancel();
-        }
-    }
+    //1.21.5: Player no longer declares setItemSlot or drop(ItemStack, boolean, boolean) -- both moved to LivingEntity
+    //(CATALOG M30) -- so those two injections are in LivingEntityMixin, limited to players
 
     //拦截死亡时清空背包（keepInventory=false 时调用，取消后物品不掉落不消失）
     @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
@@ -40,26 +32,17 @@ public class PlayerMixin {
         }
     }
 
-    //拦截外部mod生成掉落物（防止强制缴械），玩家自己丢物品不受影响
-    @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void tls$blockDrop(ItemStack stack, boolean b1, boolean b2, CallbackInfoReturnable<ItemEntity> cir) {
-        if (EntityUtil.hasInventoryProtection((Player) (Object) this)
-                && net.eca.util.EntityUtil.hasExternalCaller(5)) {
-            cir.setReturnValue(null);
-        }
-    }
-
     // 持久化现世锚度血量到磁盘
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void tls$savePresentWorldAnchor(CompoundTag tag, CallbackInfo ci) {
         Player player = (Player) (Object) this;
         CompoundTag pd = player.getPersistentData();
-        if (pd.contains(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, Tag.TAG_ANY_NUMERIC)) {
+        if ((pd.get(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
             tag.putFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR,
-                    pd.getFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR));
+                    pd.getFloatOr(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, 0.0F));
         }
         if (pd.contains("tlsIsProtected")) {
-            tag.putBoolean("tlsIsProtected", pd.getBoolean("tlsIsProtected"));
+            tag.putBoolean("tlsIsProtected", pd.getBooleanOr("tlsIsProtected", false));
         }
         // 持久化肃正防御值
         AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
@@ -74,19 +57,19 @@ public class PlayerMixin {
     private void tls$loadPresentWorldAnchor(CompoundTag tag, CallbackInfo ci) {
         Player player = (Player) (Object) this;
         CompoundTag pd = player.getPersistentData();
-        if (tag.contains(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, Tag.TAG_ANY_NUMERIC)) {
+        if ((tag.get(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
             pd.putFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR,
-                    tag.getFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR));
+                    tag.getFloatOr(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, 0.0F));
         }
         PresentWorldAnchorManager.syncPresentWorldAnchor(player);
         if (tag.contains("tlsIsProtected")) {
-            pd.putBoolean("tlsIsProtected", tag.getBoolean("tlsIsProtected"));
+            pd.putBoolean("tlsIsProtected", tag.getBooleanOr("tlsIsProtected", false));
         }
         // 恢复肃正防御值
         if (tag.contains("tlsJustifiedDefence")) {
             AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
             if (shield != null) {
-                shield.setBaseValue(tag.getDouble("tlsJustifiedDefence"));
+                shield.setBaseValue(tag.getDoubleOr("tlsJustifiedDefence", 0.0));
             }
         }
         AttributeInstance maxShield = player.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);

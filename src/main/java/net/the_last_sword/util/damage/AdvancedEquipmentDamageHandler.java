@@ -123,7 +123,7 @@ public final class AdvancedEquipmentDamageHandler {
     }
 
     private static boolean exceedsTheLastSwordLimit(LivingEntity target, float amount) {
-        if (!target.getPersistentData().getBoolean(THE_LAST_SWORD_DEFENCE)) {
+        if (!target.getPersistentData().getBoolean(THE_LAST_SWORD_DEFENCE).orElse(false)) {
             return false;
         }
         float threshold = target.getMaxHealth()

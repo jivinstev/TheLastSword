@@ -8,6 +8,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -18,7 +19,9 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * 最终之剑系列物品的抽象基类
@@ -63,8 +66,9 @@ public abstract class TheLastEndSwordItems extends SwordItem {
         return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(toolAction) ||
                ItemAbilities.DEFAULT_HOE_ACTIONS.contains(toolAction) ||
                ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(toolAction) ||
-               ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(toolAction) ||
-               ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+               toolAction == ItemAbility.get("pickaxe_dig") ||
+               toolAction == ItemAbility.get("sword_dig") ||
+               toolAction == ItemAbilities.SWORD_SWEEP;
     }
 
     //计算基础物理伤害：Tier的攻击伤害 + 4（公共方法，供tooltip和弹射物使用）
@@ -85,23 +89,27 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //重写伤害逻辑：检查友方误伤，清除无敌时间允许子类添加额外伤害
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         //友方检查：如果是友方则跳过所有额外伤害逻辑
-        if (!EntityUtil.canAttack(attacker, target)) return false;
+        if (!EntityUtil.canAttack(attacker, target)) return;
 
-        boolean result = super.hurtEnemy(stack, target, attacker);
+        super.hurtEnemy(stack, target, attacker);
 
         //清除目标的无敌时间，让后续的额外伤害能够生效（避免伤害冷却覆盖问题）
         target.invulnerableTime = 0;
-
-        return result;
     }
 
     //添加工具提示信息（显示等级和额外攻击伤害）
+    //1.21.5 的 appendHoverText 以 Consumer 收集提示，子类仍按 List 重写下面的方法
     @Override
-    public void appendHoverText(ItemStack itemstack, Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemstack, level, list, flag);
+    public void appendHoverText(ItemStack itemstack, Item.TooltipContext level, TooltipDisplay display, Consumer<Component> adder, TooltipFlag flag) {
+        super.appendHoverText(itemstack, level, display, adder, flag);
+        List<Component> collected = new ArrayList<>();
+        appendHoverText(itemstack, level, collected, flag);
+        collected.forEach(adder);
+    }
 
+    public void appendHoverText(ItemStack itemstack, Item.TooltipContext level, List<Component> list, TooltipFlag flag) {
         // 获取等级
         int itemLevel = getItemLevel(itemstack);
         list.add(Component.translatable("item_tooltip.the_last_sword.level").append(" " + itemLevel));
@@ -128,11 +136,6 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //isEnchantable/isRepairable no longer exist: enchantability comes from the tier's ENCHANTABLE component,
     //repair from TieredItem.isValidRepairItem
-    @Override
-    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return true;
-    }
-
     @Override
     public boolean canBeHurtBy(ItemStack stack, DamageSource damageSource) {
         return false;

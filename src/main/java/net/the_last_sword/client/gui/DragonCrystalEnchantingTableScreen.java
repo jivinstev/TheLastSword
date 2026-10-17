@@ -497,8 +497,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        // blend state comes from the GUI render pipeline in 1.21.5
         guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         guiGraphics.fill(this.leftPos + 21, this.topPos + 43, this.leftPos + 21 + 16, this.topPos + 43 + 16, 0x80FF0000);
@@ -514,8 +513,6 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             int barStartY = this.topPos + 15 + (128 - barHeight);
             renderEndPortalEffect(guiGraphics, this.leftPos + 56, barStartY, this.leftPos + 56 + 32, this.topPos + 15 + 128);
         }
-
-        RenderSystem.disableBlend();
     }
 
     @Override

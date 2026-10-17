@@ -4,7 +4,6 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.client.renderer.DragonCultPaladinArmorRenderer;
 import net.the_last_sword.client.renderer.DragonCultPriestArmorRenderer;
@@ -35,13 +34,13 @@ public final class DragonCultArmorClientExtensions {
         return create(DragonCultistArmorRenderer::new);
     }
 
-    public static GeoRenderProvider create(Supplier<GeoArmorRenderer<?>> factory) {
+    public static GeoRenderProvider create(Supplier<GeoArmorRenderer<?, ?>> factory) {
         return new GeoRenderProvider() {
-            private GeoArmorRenderer<?> renderer;
+            private GeoArmorRenderer<?, ?> renderer;
 
             @Override
-            public <E extends LivingEntity, S extends HumanoidRenderState> HumanoidModel<?> getGeoArmorRenderer(
-                    E livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot,
+            public <S extends HumanoidRenderState> GeoArmorRenderer<?, ?> getGeoArmorRenderer(
+                    S renderState, ItemStack itemStack, EquipmentSlot equipmentSlot,
                     EquipmentClientInfo.LayerType type, HumanoidModel<S> original) {
                 if (this.renderer == null) {
                     this.renderer = factory.get();

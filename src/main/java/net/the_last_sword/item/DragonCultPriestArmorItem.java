@@ -8,7 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.ArmorItem;
+import net.the_last_sword.compat.gear.ArmorItem;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -25,8 +25,8 @@ import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import net.the_last_sword.init.ModAttributes;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -125,17 +125,17 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable(DESCRIPTION_KEY));
-        tooltip.add(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
+        tooltip.accept(Component.translatable(DESCRIPTION_KEY));
+        tooltip.accept(Component.translatable(LORE_KEY).withStyle(ChatFormatting.GRAY));
     }
 
     //披风、腰带与裙摆常驻摆动
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 5, state -> {
-            state.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
+        controllers.add(new AnimationController<>("controller", 5, state -> {
+            state.setAnimation(RawAnimation.begin().thenLoop("idle"));
             return PlayState.CONTINUE;
         }));
     }

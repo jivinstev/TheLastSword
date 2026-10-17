@@ -1,6 +1,6 @@
 package net.the_last_sword.client.shader;
 
-import com.mojang.blaze3d.shaders.Uniform;
+import net.eca.mv.Uniform;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.eca.client.render.shader.EcaShaderInstance;
@@ -21,15 +21,15 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
     private final Uniform localUvScale;
     private final Uniform glowPhase;
 
-    public static final RenderType ITEM = RenderType.create(
+    public static final RenderType ITEM = net.the_last_sword.mv.LegacyRenderType.create(
             "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
-            256, false, false, RenderType.CompositeState.builder()
+            256, false, false, net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
                     .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                    .setCullState(RenderStateShard.NO_CULL)
-                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
+                    .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
+                    .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
                     .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
                     .createCompositeState(false));
 

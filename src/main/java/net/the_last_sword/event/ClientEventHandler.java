@@ -3,6 +3,7 @@ package net.the_last_sword.event;
 import net.minecraft.world.item.crafting.RecipeMap;
 import net.the_last_sword.client.gui.scroll.ScrollRecipeRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
@@ -93,19 +94,19 @@ public class ClientEventHandler {
     private static MultiBufferSource.BufferSource sphereBufferSource = null;
 
     //球体渲染类型（使用终焉着色器）
-    private static final RenderType SPHERE_RENDER_TYPE = RenderType.create(
+    private static final RenderType SPHERE_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "all_things_end_sphere",
             DefaultVertexFormat.POSITION_TEX,
             VertexFormat.Mode.QUADS,
             2097152,
             false,
             true,
-            RenderType.CompositeState.builder()
+            net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                     .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, net.minecraft.util.TriState.FALSE, false))
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setCullState(RenderStateShard.NO_CULL)
-                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
+                    .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
                     .createCompositeState(false)
     );
 
@@ -364,9 +365,9 @@ public class ClientEventHandler {
 
     //渲染球体
     private static void renderSphere(PoseStack poseStack, Vec3 center, float partialTick) {
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.depthMask(false);
+        net.the_last_sword.mv.LegacyGl.enableBlend();
+        net.the_last_sword.mv.LegacyGl.blendFunc(com.mojang.blaze3d.platform.SourceFactor.SRC_ALPHA, com.mojang.blaze3d.platform.DestFactor.ONE_MINUS_SRC_ALPHA);
+        net.the_last_sword.mv.LegacyGl.depthMask(false);
 
         poseStack.pushPose();
 
@@ -387,8 +388,8 @@ public class ClientEventHandler {
 
         poseStack.popPose();
 
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.depthMask(true);
+        net.the_last_sword.mv.LegacyGl.disableBlend();
     }
 
     //渲染球体网格

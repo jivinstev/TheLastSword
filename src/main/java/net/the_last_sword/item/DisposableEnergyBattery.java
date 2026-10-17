@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -17,6 +18,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 //一次性能量电池：使用后消耗自身，立即为背包内所有FE未满的物品恢复能量
 public class DisposableEnergyBattery extends Item {
@@ -61,7 +63,7 @@ public class DisposableEnergyBattery extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide) {
-            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+            return InteractionResult.SUCCESS;
         }
 
         int restoreAmount = TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely();
@@ -97,7 +99,7 @@ public class DisposableEnergyBattery extends Item {
         //仅在确实充能后才消耗电池
         if (anyCharged) {
             stack.shrink(1);
-            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
@@ -135,15 +137,15 @@ public class DisposableEnergyBattery extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         IEnergyStorage energy = energyOf(stack);
         if (energy != null) {
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
+            tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.energy")
                 .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
         }
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.disposable_energy_battery",
+        tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.disposable_energy_battery",
             TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely()));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.disposable_energy_battery")
+        tooltipAdder.accept(Component.translatable("item_tooltip_lore.the_last_sword.disposable_energy_battery")
             .withStyle(ChatFormatting.GRAY));
     }
 }

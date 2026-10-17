@@ -24,7 +24,7 @@ public class ItemLevelHelper {
         if (stack.isEmpty() || !ItemNbt.hasTag(stack)) {
             return 0;
         }
-        return ItemNbt.getTag(stack).getInt(LEVEL_TAG);
+        return ItemNbt.getTag(stack).getIntOr(LEVEL_TAG, 0);
     }
 
     //检查物品是否有等级数据

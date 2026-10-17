@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +21,8 @@ import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 //Cataclysm各Boss奖章实现
@@ -50,8 +53,8 @@ public class CataclysmMedals {
             }
 
             //免疫缓慢效果
-            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-                player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+            if (player.hasEffect(MobEffects.SLOWNESS)) {
+                player.removeEffect(MobEffects.SLOWNESS);
             }
 
             //处理shift主动技能
@@ -59,8 +62,8 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-            super.inventoryTick(stack, world, entity, slot, selected);
+        public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
+            super.inventoryTick(stack, world, entity, slot);
 
             if (entity instanceof Player player && !world.isClientSide) {
                 applyPassiveEffects(player, stack);
@@ -84,7 +87,7 @@ public class CataclysmMedals {
                 //对生物实体施加缓慢效果
                 for (LivingEntity target : nearbyLivingEntities) {
                     if (target != player && target.isAlive()) {
-                        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
+                        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 2));
                     }
                 }
 
@@ -155,9 +158,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.ancient_remnant_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.ancient_remnant_medal"));
         }
     }
 
@@ -178,9 +181,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.ender_guardian_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.ender_guardian_medal"));
         }
     }
 
@@ -201,9 +204,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.ignis_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.ignis_medal"));
         }
     }
 
@@ -224,9 +227,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.maledictus_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.maledictus_medal"));
         }
     }
 
@@ -258,8 +261,8 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-            super.inventoryTick(stack, world, entity, slot, selected);
+        public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
+            super.inventoryTick(stack, world, entity, slot);
 
             if (entity instanceof Player player && !world.isClientSide) {
                 applyPassiveEffects(player, stack);
@@ -274,9 +277,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.netherite_monstrosity_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.netherite_monstrosity_medal"));
         }
     }
 
@@ -305,8 +308,8 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-            super.inventoryTick(stack, world, entity, slot, selected);
+        public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
+            super.inventoryTick(stack, world, entity, slot);
 
             if (entity instanceof Player player && !world.isClientSide) {
                 applyPassiveEffects(player, stack);
@@ -321,9 +324,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.harbinger_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.harbinger_medal"));
         }
     }
 
@@ -353,8 +356,8 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-            super.inventoryTick(stack, world, entity, slot, selected);
+        public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
+            super.inventoryTick(stack, world, entity, slot);
 
             if (entity instanceof Player player && !world.isClientSide) {
                 applyPassiveEffects(player, stack);
@@ -369,9 +372,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.the_leviathan_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.the_leviathan_medal"));
         }
     }
 
@@ -413,7 +416,7 @@ public class CataclysmMedals {
                 player.getCooldowns().addCooldown(stack, 600);
             }
 
-            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+            return InteractionResult.SUCCESS;
         }
 
         //攻击时的被动效果
@@ -441,9 +444,9 @@ public class CataclysmMedals {
                         int moistureLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect)).getAmplifier() + 1;
                         float lightningDamage = moistureLevel * 5.0f;
 
-                        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+                        LightningBolt lightning = world instanceof ServerLevel serverWorld ? EntityType.LIGHTNING_BOLT.create(serverWorld, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED) : null;
                         if (lightning != null) {
-                            lightning.moveTo(target.getX(), target.getY(), target.getZ());
+                            lightning.snapTo(target.getX(), target.getY(), target.getZ());
                             lightning.setVisualOnly(false);
                             world.addFreshEntity(lightning);
                             //清除无敌帧，确保额外伤害能够生效
@@ -464,9 +467,9 @@ public class CataclysmMedals {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, List<Component> tooltip, TooltipFlag flag) {
-            super.appendHoverText(stack, world, tooltip, flag);
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.scylla_medal"));
+        public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext world, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+            super.appendHoverText(stack, world, display, tooltip, flag);
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.scylla_medal"));
         }
     }
 }

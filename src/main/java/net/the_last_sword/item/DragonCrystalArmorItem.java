@@ -12,6 +12,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,7 +29,7 @@ import java.util.Map;
  */
 public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
-    public DragonCrystalArmorItem(ArmorType type, Properties props) {
+    public DragonCrystalArmorItem(ArmorType type, Item.Properties props) {
         //耐久单位 74 × 各部位基数 [13, 15, 16, 11] = [962, 1110, 1184, 814]，即下界合金各部位耐久的 2 倍
         super(new ArmorMaterial(
             74,
@@ -92,7 +93,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Helmet extends DragonCrystalArmorItem {
         public Helmet() {
-            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -108,7 +109,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Chestplate extends DragonCrystalArmorItem {
         public Chestplate() {
-            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -124,7 +125,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Leggings extends DragonCrystalArmorItem {
         public Leggings() {
-            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -140,7 +141,7 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Boots extends DragonCrystalArmorItem {
         public Boots() {
-            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override

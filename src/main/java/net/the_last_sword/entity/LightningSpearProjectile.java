@@ -118,7 +118,7 @@ public class LightningSpearProjectile extends AbstractArrow {
                     entity -> entity.isAlive() && entity != owner && EntityUtil.canAttack(owner, entity))) {
                 boolean damaged = net.the_last_sword.mv.Hurt.server(target,source, (float) settings.damage());
                 if (settings.slowTicks() > 0) {
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
+                    target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,
                             settings.slowTicks(), settings.slowLevel() - 1), owner);
                 }
                 if (damaged && owner instanceof LivingEntity livingOwner) {
@@ -151,7 +151,7 @@ public class LightningSpearProjectile extends AbstractArrow {
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        double savedDistance = tag.getDouble("FlightDistance");
+        double savedDistance = tag.getDouble("FlightDistance").orElse(0.0D);
         flightDistance = Double.isFinite(savedDistance) ? Math.max(0.0D, savedDistance) : 0.0D;
         pickup = Pickup.DISALLOWED;
         setNoGravity(true);

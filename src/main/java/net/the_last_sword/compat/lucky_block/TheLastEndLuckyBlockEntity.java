@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.the_last_sword.init.ModBlockEntities;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -56,10 +56,10 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
     //放置时从ItemStack的NBT读取数据
     public void readFromItemTag(CompoundTag tag) {
         if (tag.contains(TAG_LUCK)) {
-            this.luck = tag.getInt(TAG_LUCK);
+            this.luck = tag.getIntOr(TAG_LUCK, 0);
         }
         if (tag.contains(TAG_WELL_VARIANT)) {
-            this.wellVariant = tag.getBoolean(TAG_WELL_VARIANT);
+            this.wellVariant = tag.getBooleanOr(TAG_WELL_VARIANT, false);
         }
     }
 
@@ -73,8 +73,8 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.luck = tag.contains(TAG_LUCK) ? tag.getInt(TAG_LUCK) : 0;
-        this.wellVariant = tag.getBoolean(TAG_WELL_VARIANT);
+        this.luck = tag.contains(TAG_LUCK) ? tag.getIntOr(TAG_LUCK, 0) : 0;
+        this.wellVariant = tag.getBooleanOr(TAG_WELL_VARIANT, false);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, state -> {
-            state.getController().setAnimation(LOOP);
+        controllers.add(new AnimationController<>("controller", 0, state -> {
+            state.setAnimation(LOOP);
             return PlayState.CONTINUE;
         }));
     }

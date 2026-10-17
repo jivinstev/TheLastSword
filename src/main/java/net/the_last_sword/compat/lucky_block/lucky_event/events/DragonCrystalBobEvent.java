@@ -47,7 +47,7 @@ public class DragonCrystalBobEvent extends LuckyEvent {
         float yaw = ctx.random().nextFloat() * 360.0F;
 
         Zombie bob = new Zombie(world);
-        bob.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, yaw, 0.0F);
+        bob.snapTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, yaw, 0.0F);
         bob.setCustomName(Component.literal(BOB_NAME));
         bob.setCustomNameVisible(true);
 

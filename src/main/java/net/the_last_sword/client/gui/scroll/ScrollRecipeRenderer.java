@@ -115,7 +115,7 @@ public final class ScrollRecipeRenderer {
         if (value instanceof SmithingTransformRecipe smithingRecipe) {
             SmithingTransformRecipeAccessor accessor = (SmithingTransformRecipeAccessor) smithingRecipe;
             SmithingRecipeDisplay smithingDisplay = (SmithingRecipeDisplay) smithingRecipe.display().getFirst();
-            return renderSmithing(accessor.theLastSword$getTemplate().orElse(null), accessor.theLastSword$getBase().orElse(null),
+            return renderSmithing(accessor.theLastSword$getTemplate().orElse(null), accessor.theLastSword$getBase(),
                     accessor.theLastSword$getAddition().orElse(null),
                     smithingDisplay.result().resolveForFirstStack(ContextMap.EMPTY), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, false, 0, 0, 0);

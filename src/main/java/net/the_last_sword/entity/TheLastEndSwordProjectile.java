@@ -57,7 +57,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("RemainingLifetime")) setLifetimeTicks(tag.getInt("RemainingLifetime"));
+        if (tag.contains("RemainingLifetime")) setLifetimeTicks(tag.getIntOr("RemainingLifetime", 0));
     }
 
     //拖尾位置历史（客户端）
@@ -192,7 +192,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     protected void applyVisualEffect(Entity target) {
         if (this.level() instanceof ServerLevel serverLevel) {
             TheLastEndLightingEntity lightning = new TheLastEndLightingEntity(ModEntities.THE_LAST_END_LIGHTING.get(), serverLevel);
-            lightning.moveTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
+            lightning.snapTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
             lightning.setVisualOnly(true);
             serverLevel.addFreshEntity(lightning);
         }
@@ -203,7 +203,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     protected void onHitBlock(BlockHitResult blockHitResult) {
         if (this.level() instanceof ServerLevel serverLevel) {
             TheLastEndLightingEntity lightning = new TheLastEndLightingEntity(ModEntities.THE_LAST_END_LIGHTING.get(), serverLevel);
-            lightning.moveTo(Vec3.atBottomCenterOf(blockHitResult.getBlockPos()));
+            lightning.snapTo(Vec3.atBottomCenterOf(blockHitResult.getBlockPos()));
             lightning.setVisualOnly(true);
             serverLevel.addFreshEntity(lightning);
         }

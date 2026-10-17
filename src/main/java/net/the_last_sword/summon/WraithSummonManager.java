@@ -63,7 +63,7 @@ public class WraithSummonManager {
     private static ItemStack getSoulStoneFromPlayer(Player player) {
         CompoundTag playerData = player.getPersistentData();
         if (playerData.contains(SOUL_STONE_KEY)) {
-            return ItemStack.parseOptional(player.registryAccess(), playerData.getCompound(SOUL_STONE_KEY));
+            return ItemStack.parse(player.registryAccess(), playerData.getCompoundOrEmpty(SOUL_STONE_KEY)).orElse(ItemStack.EMPTY);
         }
         return ItemStack.EMPTY;
     }
@@ -133,8 +133,8 @@ public class WraithSummonManager {
         }
 
         //4. 移除加成
-        float healthBonus = nbt.getFloat("health_bonus");
-        float attackBonus = nbt.getFloat("attack_bonus");
+        float healthBonus = nbt.getFloatOr("health_bonus", 0.0F);
+        float attackBonus = nbt.getFloatOr("attack_bonus", 0.0F);
         removeBonusFromEntity(wraith, healthBonus, attackBonus);
 
         //4.5. 清除禁疗状态（防止快照把禁疗带入魂石，且确保下一步 setHealth 不被禁疗拦截）
@@ -190,7 +190,7 @@ public class WraithSummonManager {
         UUID soulStoneWraithUUID = null;
         if (soulStoneNbt != null && soulStoneNbt.contains("wraith_uuid")) {
             try {
-                soulStoneWraithUUID = UUID.fromString(soulStoneNbt.getString("wraith_uuid"));
+                soulStoneWraithUUID = UUID.fromString(soulStoneNbt.getStringOr("wraith_uuid", ""));
             } catch (IllegalArgumentException e) {
                 TheLastSwordLogger.warn("[WraithSummon] Invalid UUID format in soul stone");
             }
@@ -269,7 +269,7 @@ public class WraithSummonManager {
 
         //方法2：从NBT读取实体类型
         if (entityId == null && nbt.contains("wraith_entity_id")) {
-            entityId = nbt.getString("wraith_entity_id");
+            entityId = nbt.getStringOr("wraith_entity_id", "");
         }
 
         if (entityId == null) {
@@ -283,10 +283,10 @@ public class WraithSummonManager {
             return firstSummon(player, weaponStack, level, soulStone, entityId);
         } else {
             //有UUID，检查 is_summoned 字段
-            boolean isSummoned = nbt.getBoolean("is_summoned");
+            boolean isSummoned = nbt.getBooleanOr("is_summoned", false);
             if (isSummoned) {
                 //已召唤 → 唤回
-                UUID wraitheUUID = UUID.fromString(nbt.getString("wraith_uuid"));
+                UUID wraitheUUID = UUID.fromString(nbt.getStringOr("wraith_uuid", ""));
 
                 //执行完整的唤回逻辑（仅服务端）
                 boolean success = recallWraith(player, wraitheUUID, (ServerLevel) level);
@@ -319,7 +319,7 @@ public class WraithSummonManager {
         LivingEntity wraith;
         if (nbt != null && nbt.contains("entity_nbt")) {
             //从捕获的NBT恢复实体（保留装备、属性等）
-            CompoundTag entityNBT = nbt.getCompound("entity_nbt");
+            CompoundTag entityNBT = nbt.getCompoundOrEmpty("entity_nbt");
             Entity entity = entityType.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (entity instanceof LivingEntity living) {
                 living.load(entityNBT);  //加载NBT数据
@@ -430,8 +430,8 @@ public class WraithSummonManager {
 
     private static boolean reSummon(Player player, ItemStack weaponStack, Level level, ItemStack soulStone, String entityId) {
         CompoundTag nbt = ItemNbt.getOrCreateTag(soulStone);
-        UUID wraitheUUID = UUID.fromString(nbt.getString("wraith_uuid"));
-        CompoundTag entityNBT = nbt.getCompound("entity_nbt");
+        UUID wraitheUUID = UUID.fromString(nbt.getStringOr("wraith_uuid", ""));
+        CompoundTag entityNBT = nbt.getCompoundOrEmpty("entity_nbt");
 
         //1. 从NBT加载实体
         Entity entity = EntityType.loadEntityRecursive(entityNBT, level, net.minecraft.world.entity.EntitySpawnReason.LOAD, (e) -> e);
@@ -743,10 +743,10 @@ public class WraithSummonManager {
     //设置主人
     private static void setupOwnership(LivingEntity wraith, Player owner) {
         if (wraith instanceof TamableAnimal tamable) {
-            tamable.setOwnerUUID(owner.getUUID());
+            tamable.setOwner(owner);
             tamable.setTame(true, true);
         } else if (wraith instanceof AbstractHorse horse) {
-            horse.setOwnerUUID(owner.getUUID());
+            horse.setOwner(owner);
             horse.setTamed(true);
         }
     }
@@ -830,7 +830,7 @@ public class WraithSummonManager {
                 ItemStack soulStone = getSoulStoneFromPlayer(owner);
                 CompoundTag nbt = ItemNbt.getTag(soulStone);
                 if (nbt != null && nbt.contains("wraith_uuid")) {
-                    String storedUUID = nbt.getString("wraith_uuid");
+                    String storedUUID = nbt.getStringOr("wraith_uuid", "");
                     if (storedUUID.equals(wraitheUUID.toString())) {
                         nbt.putBoolean("is_summoned", false);
                         saveSoulStoneToPlayer(owner, soulStone);
@@ -868,7 +868,7 @@ public class WraithSummonManager {
 
     private static void storeWraithIdentity(LivingEntity wraith, Player owner, int level) {
         CompoundTag data = wraith.getPersistentData();
-        data.putUUID(WRAITH_OWNER_KEY, owner.getUUID());
+        putUuid(data, WRAITH_OWNER_KEY, owner.getUUID());
         data.putString(WRAITH_OWNER_NAME_KEY, owner.getGameProfile().getName());
         data.putInt(WRAITH_LEVEL_KEY, level);
     }
@@ -882,42 +882,42 @@ public class WraithSummonManager {
             return 0;
         }
         CompoundTag data = wraith.getPersistentData();
-        if (data.hasUUID(WRAITH_OWNER_KEY) && ownerUUID.equals(data.getUUID(WRAITH_OWNER_KEY))
+        if (hasUuid(data, WRAITH_OWNER_KEY) && ownerUUID.equals(getUuid(data, WRAITH_OWNER_KEY))
                 && data.contains(WRAITH_LEVEL_KEY)) {
-            return data.getInt(WRAITH_LEVEL_KEY);
+            return data.getIntOr(WRAITH_LEVEL_KEY, 0);
         }
         Player owner = wraith.level().getServer().getPlayerList().getPlayer(ownerUUID);
         if (owner == null) {
             return 0;
         }
         CompoundTag soulStone = ItemNbt.getTag(getSoulStoneFromPlayer(owner));
-        if (soulStone == null || !wraith.getUUID().toString().equals(soulStone.getString("wraith_uuid"))) {
+        if (soulStone == null || !wraith.getUUID().toString().equals(soulStone.getStringOr("wraith_uuid", ""))) {
             return 0;
         }
-        int level = soulStone.getInt("weapon_level");
+        int level = soulStone.getIntOr("weapon_level", 0);
         storeWraithIdentity(wraith, owner, level);
         return level;
     }
 
     public static void handleEntityJoinLevel(Entity entity, Level level) {
         if (!(entity instanceof LivingEntity wraith) || !(level instanceof ServerLevel serverLevel)
-                || !wraith.getPersistentData().hasUUID(WRAITH_OWNER_KEY)) {
+                || !hasUuid(wraith.getPersistentData(), WRAITH_OWNER_KEY)) {
             return;
         }
-        UUID ownerUUID = wraith.getPersistentData().getUUID(WRAITH_OWNER_KEY);
+        UUID ownerUUID = getUuid(wraith.getPersistentData(), WRAITH_OWNER_KEY);
         Player owner = serverLevel.getServer().getPlayerList().getPlayer(ownerUUID);
         ItemStack soulStone = ItemStack.EMPTY;
         CompoundTag stoneData = null;
         if (owner != null) {
             soulStone = getSoulStoneFromPlayer(owner);
             stoneData = ItemNbt.getTag(soulStone);
-            if (stoneData == null || !wraith.getUUID().toString().equals(stoneData.getString("wraith_uuid"))) {
+            if (stoneData == null || !wraith.getUUID().toString().equals(stoneData.getStringOr("wraith_uuid", ""))) {
                 return;
             }
             WraithFaction.ensureFaction(owner, level);
         } else {
             WraithFaction.ensureFaction(ownerUUID,
-                    wraith.getPersistentData().getString(WRAITH_OWNER_NAME_KEY), level);
+                    wraith.getPersistentData().getStringOr(WRAITH_OWNER_NAME_KEY, ""), level);
         }
         ResourceLocation typeId = BuiltInRegistries.ENTITY_TYPE.getKey(wraith.getType());
         if (typeId != null && WraithFaction.bind(ownerUUID, wraith.getUUID(), typeId.toString(), level)) {
@@ -1097,6 +1097,19 @@ public class WraithSummonManager {
     // ============ 龙魂灯捕获系统 ============
 
     //成功捕获后写入实体的去重标记键
+    //UUID 的 NBT 读写（与 1.21.1 的 putUUID/getUUID/hasUUID 格式一致：int[4]）
+    private static void putUuid(CompoundTag tag, String key, UUID value) {
+        tag.putIntArray(key, net.minecraft.core.UUIDUtil.uuidToIntArray(value));
+    }
+
+    private static boolean hasUuid(CompoundTag tag, String key) {
+        return tag.get(key) instanceof net.minecraft.nbt.IntArrayTag;
+    }
+
+    private static UUID getUuid(CompoundTag tag, String key) {
+        return tag.getIntArray(key).map(net.minecraft.core.UUIDUtil::uuidFromIntArray).orElse(null);
+    }
+
     private static final String SOUL_CAPTURED_KEY = "the_last_sword_soul_captured";
     private static final String SOUL_CAPTURE_REJECTED_KEY = "the_last_sword_soul_capture_rejected";
 
@@ -1105,7 +1118,7 @@ public class WraithSummonManager {
         if (victim instanceof Player || isWraith(victim)) {
             return;
         }
-        if (victim.getPersistentData().getBoolean(SOUL_CAPTURED_KEY)) {
+        if (victim.getPersistentData().getBooleanOr(SOUL_CAPTURED_KEY, false)) {
             return;
         }
         boolean hasPlaced = hasNearbyDragonSoulLantern(victim.level(), victim.blockPosition());
@@ -1122,7 +1135,7 @@ public class WraithSummonManager {
         if (victim instanceof Player || isWraith(victim)) {
             return;
         }
-        if (victim.getPersistentData().getBoolean(SOUL_CAPTURED_KEY)) {
+        if (victim.getPersistentData().getBooleanOr(SOUL_CAPTURED_KEY, false)) {
             return;
         }
         Player owner = findNearbyCaptureOwner(victim);
@@ -1146,7 +1159,7 @@ public class WraithSummonManager {
             return false;
         }
         if (isSoulCaptureBlacklisted(entityId)) {
-            if (!victim.getPersistentData().getBoolean(SOUL_CAPTURE_REJECTED_KEY)) {
+            if (!victim.getPersistentData().getBooleanOr(SOUL_CAPTURE_REJECTED_KEY, false)) {
                 owner.displayClientMessage(Component.translatable(
                         "message.the_last_sword.dragon_soul_lantern.capture_blacklisted")
                         .withStyle(ChatFormatting.RED), false);
@@ -1280,7 +1293,9 @@ public class WraithSummonManager {
             }
         }
 
-        for (ItemStack stack : player.getInventory().items) {
+        net.minecraft.world.entity.player.Inventory inventory = player.getInventory();
+        for (int i = 0; i < net.minecraft.world.entity.player.Inventory.INVENTORY_SIZE; i++) {
+            ItemStack stack = inventory.getItem(i);
             if (stack.getItem() instanceof DragonCrystalSoulStone) {
                 if (!DragonCrystalSoulStone.hasStoredEntity(stack)) {
                     return stack;

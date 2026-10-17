@@ -9,6 +9,7 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -70,32 +71,35 @@ public class EntityUtil {
             } catch (Exception ignored) {
             }
         }
-        return entity.getPersistentData().getBoolean(NBT_IS_PROTECTED);
+        return entity.getPersistentData().getBoolean(NBT_IS_PROTECTED).orElse(false);
     }
 
     // 检查携带或穿戴的高级装备，统一启用背包保护。
     public static boolean hasInventoryProtection(Player player) {
-        for (ItemStack stack : player.getInventory().items) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (!stack.isEmpty() && isProtectionItem(stack)) {
                 return true;
             }
         }
-        for (ItemStack stack : player.getInventory().armor) {
-            if (!stack.isEmpty() && isProtectionItem(stack)) {
+        for (EquipmentSlot armorSlot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+            ItemStack armorStack = player.getItemBySlot(armorSlot);
+            if (!armorStack.isEmpty() && isProtectionItem(armorStack)) {
                 return true;
             }
         }
-        if (!player.getInventory().offhand.isEmpty() && isProtectionItem(player.getInventory().offhand.get(0))) {
+        ItemStack offhandStack = player.getItemBySlot(EquipmentSlot.OFFHAND);
+        if (!offhandStack.isEmpty() && isProtectionItem(offhandStack)) {
             return true;
         }
         return false;
     }
 
     private static boolean isProtectionItem(ItemStack stack) {
-        return stack.getItem() instanceof TheLastSword
-                || stack.getItem() instanceof DragonArmorItem
+        Object item = stack.getItem();
+        return item instanceof TheLastSword
+                || item instanceof DragonArmorItem
                 || PrimalSourceEquipment.isArmor(stack)
-                || stack.getItem() instanceof TheLastSwordYouNeverForgot;
+                || item instanceof TheLastSwordYouNeverForgot;
     }
 
     //设置实体的保护状态
@@ -276,7 +280,7 @@ public class EntityUtil {
 
         // 两条路径必须互斥，否则手工传送包仍会干扰原版移动追踪基准。
         if (useVanillaMovement) {
-            entity.moveTo(x, y, z, entity.getYRot(), entity.getXRot());
+            entity.snapTo(x, y, z, entity.getYRot(), entity.getXRot());
             return Math.abs(entity.getX() - x) < 1.0E-6
                     && Math.abs(entity.getY() - y) < 1.0E-6
                     && Math.abs(entity.getZ() - z) < 1.0E-6;
@@ -594,7 +598,7 @@ public class EntityUtil {
         //力量附魔：增加箭矢伤害
         int powerLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.POWER));
         if (powerLevel > 0) {
-            arrow.setBaseDamage(arrow.getBaseDamage() + (double)powerLevel * 0.5 + 0.5);
+            arrow.setBaseDamage(2.0 + (double)powerLevel * 0.5 + 0.5);
         }
 
         //冲击附魔：增加击退

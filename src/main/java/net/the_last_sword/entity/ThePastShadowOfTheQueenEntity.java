@@ -544,10 +544,10 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        deathRewardGranted = tag.getBoolean(DEATH_REWARD_GRANTED_TAG);
+        deathRewardGranted = tag.getBoolean(DEATH_REWARD_GRANTED_TAG).orElse(false);
         activationTalkSent = tag.contains(ACTIVATION_TALK_SENT_TAG)
-                ? tag.getBoolean(ACTIVATION_TALK_SENT_TAG) : isReady();
-        if (tag.getBoolean(NPC_STATE_TAG)) {
+                ? tag.getBoolean(ACTIVATION_TALK_SENT_TAG).orElse(false) : isReady();
+        if (tag.getBoolean(NPC_STATE_TAG).orElse(false)) {
             setDeathTick(0);
             setAnimationState(STATE_NPC);
         }

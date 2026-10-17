@@ -3,21 +3,22 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.block.entity.DragonCrystalEnchantingTableBlockEntity;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 public class DragonCrystalEnchantingTableModel extends GeoModel<DragonCrystalEnchantingTableBlockEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(DragonCrystalEnchantingTableBlockEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "animations/dragon_crystal_enchanting_table.animation.json");
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_enchanting_table");
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCrystalEnchantingTableBlockEntity animatable, software.bernie.geckolib.renderer.GeoRenderer<DragonCrystalEnchantingTableBlockEntity> renderer) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_crystal_enchanting_table.geo.json");
+    public ResourceLocation getModelResource(GeoRenderState renderState) {
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_enchanting_table");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCrystalEnchantingTableBlockEntity animatable, software.bernie.geckolib.renderer.GeoRenderer<DragonCrystalEnchantingTableBlockEntity> renderer) {
+    public ResourceLocation getTextureResource(GeoRenderState renderState) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/block/dragon_crystal_enchanting_table.png");
     }
 }

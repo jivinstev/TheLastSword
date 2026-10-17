@@ -136,16 +136,16 @@ public class KnightGreatswordItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, net.minecraft.world.item.component.TooltipDisplay display, java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
 
-        tooltip.add(Component.translatable(
+        tooltip.accept(Component.translatable(
             "item_tooltip.the_last_sword.knight_greatsword.ground_slam",
             String.format("%.1f", TheLastSwordConfiguration
                 .getKnightGreatswordGroundSlamDamageMultiplierSafely())
         ));
 
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.knight_greatsword")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.knight_greatsword")
             .withStyle(ChatFormatting.GRAY));
     }
 }

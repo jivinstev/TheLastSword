@@ -150,7 +150,7 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
             LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (lightning != null) {
                 BlockPos pos = blockHitResult.getBlockPos();
-                lightning.moveTo(Vec3.atBottomCenterOf(pos));
+                lightning.snapTo(Vec3.atBottomCenterOf(pos));
                 lightning.setVisualOnly(true);
                 serverLevel.addFreshEntity(lightning);
             }

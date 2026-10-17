@@ -30,7 +30,7 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
+import net.the_last_sword.compat.gear.SwordItem;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -247,7 +247,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("GuardianType")) {
-            int typeId = tag.getInt("GuardianType");
+            int typeId = tag.getIntOr("GuardianType", 0);
             this.entityData.set(GUARDIAN_TYPE, typeId);
         }
     }
@@ -284,7 +284,9 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     private GuardianType getTypeFromItem(ItemStack stack) {
-        if (stack.getItem() instanceof SwordItem) {
+        //1.21.5: no vanilla SwordItem class (vanilla swords are plain Items in #minecraft:swords); this mod's swords extend
+        //compat/gear/SwordItem and only knight_greatsword is in the tag, so test both, as 1.21.1's instanceof SwordItem covered both
+        if (stack.is(net.minecraft.tags.ItemTags.SWORDS) || stack.getItem() instanceof SwordItem) {
             return GuardianType.SABER;
         } else if (stack.getItem() instanceof BowItem) {
             return GuardianType.ARCHER;
@@ -316,7 +318,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
             return;
         }
 
-        newEntity.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        newEntity.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
 
         if (level() instanceof ServerLevel serverLevel) {
             newEntity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),

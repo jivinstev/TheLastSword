@@ -15,12 +15,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.DragonSwordProjectile;
 import net.the_last_sword.entity.util.PriestGuardEffect;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class PriestStaffItem extends Item {
     private final ItemAttributeModifiers defaultModifiers;
@@ -84,20 +85,20 @@ public class PriestStaffItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
 
-        tooltip.add(Component.translatable(
+        tooltip.accept(Component.translatable(
             "item_tooltip.the_last_sword.priest_staff.projectile",
             formatValue(TheLastSwordConfiguration.getPriestStaffProjectileDamageMultiplierSafely())
         ));
-        tooltip.add(Component.translatable(
+        tooltip.accept(Component.translatable(
             "item_tooltip.the_last_sword.priest_staff.guard",
             formatValue(TheLastSwordConfiguration.getPriestStaffGuardRadiusSafely()),
             formatValue(TheLastSwordConfiguration.getPriestStaffGuardShieldGainSafely()),
             formatValue(TheLastSwordConfiguration.getPriestStaffGuardCooldownSafely() / 20.0)
         ));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.priest_staff")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.priest_staff")
             .withStyle(ChatFormatting.GRAY));
     }
 

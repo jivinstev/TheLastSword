@@ -130,7 +130,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     //飞行实体不受摔落伤害
     @Override
-    public boolean causeFallDamage(float distance, float multiplier, @NotNull DamageSource source) {
+    public boolean causeFallDamage(double distance, float multiplier, @NotNull DamageSource source) {
         return false;
     }
 
@@ -358,7 +358,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     }
 
     public NamedPriestVariant getNamedVariant() {
-        return NamedPriestVariant.byId(getPersistentData().getInt(NAMED_VARIANT_ID_KEY));
+        return NamedPriestVariant.byId(getPersistentData().getIntOr(NAMED_VARIANT_ID_KEY, 0));
     }
 
     public double getSkillDamageMultiplier() {
@@ -414,9 +414,8 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     private void syncNamedVariant(boolean force) {
         CompoundTag data = getPersistentData();
-        int requestedId = data.getInt(NAMED_VARIANT_ID_KEY);
-        int appliedId = data.contains(APPLIED_NAMED_VARIANT_ID_KEY)
-                ? data.getInt(APPLIED_NAMED_VARIANT_ID_KEY) : Integer.MIN_VALUE;
+        int requestedId = data.getIntOr(NAMED_VARIANT_ID_KEY, 0);
+        int appliedId = data.getIntOr(APPLIED_NAMED_VARIANT_ID_KEY, Integer.MIN_VALUE);
         if (!force && requestedId == appliedId) {
             return;
         }
@@ -523,19 +522,19 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             return;
         }
         if (target instanceof Player player) {
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 2));
+            player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 200, 2));
             player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 2));
-            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 2));
+            player.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 200, 2));
             return;
         }
 
         boolean tamed = false;
         if (target instanceof TamableAnimal tamable) {
-            tamable.setOwnerUUID(getUUID());
+            tamable.setOwner(this);
             tamable.setTame(true, true);
             tamed = true;
         } else if (target instanceof AbstractHorse horse) {
-            horse.setOwnerUUID(getUUID());
+            horse.setOwner(this);
             horse.setTamed(true);
             tamed = true;
         }
@@ -569,7 +568,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     private void placeSummon(Mob summon, ServerLevel serverLevel) {
         double x = getX() + (getRandom().nextDouble() - 0.5) * 4.0;
         double z = getZ() + (getRandom().nextDouble() - 0.5) * 4.0;
-        summon.moveTo(x, getY(), z, getRandom().nextFloat() * 360.0F, 0.0F);
+        summon.snapTo(x, getY(), z, getRandom().nextFloat() * 360.0F, 0.0F);
         summon.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(summon.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         if (getTarget() != null) {

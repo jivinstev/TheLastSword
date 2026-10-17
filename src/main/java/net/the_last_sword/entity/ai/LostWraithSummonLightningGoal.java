@@ -125,7 +125,7 @@ public class LostWraithSummonLightningGoal extends Goal {
         DragonLightingEntity lightning = new DragonLightingEntity(
             ModEntities.DRAGON_LIGHTING.get(), serverLevel
         );
-        lightning.moveTo(targetPos.x, targetPos.y, targetPos.z);
+        lightning.snapTo(targetPos.x, targetPos.y, targetPos.z);
         serverLevel.addFreshEntity(lightning);
 
         double aoeRadius = TheLastSwordConfiguration.getLostWraithLightningAoeRadiusSafely();

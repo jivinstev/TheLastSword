@@ -1,176 +1,114 @@
 package net.the_last_sword.client.shader;
 
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import net.the_last_sword.mv.LegacyRenderType;
+import net.the_last_sword.mv.ShaderShard;
+
+import java.util.HashMap;
+import java.util.Map;
 
 //The Last End 渲染类型工厂
 //为不同的渲染场景（实体、物品、方块、粒子）创建对应的 RenderType
 public class TheLastEndRenderTypes {
 
+    private static final Map<String, RenderPipeline> PIPELINES = new HashMap<>();
+
+    //按名称缓存原版着色器的管线，避免每次调用都新建
+    private static RenderPipeline pipeline(String name, RenderPipeline.Snippet base, BlendFunction blend,
+                                           boolean cull, boolean writeDepth) {
+        return PIPELINES.computeIfAbsent(name, n -> RenderPipeline.builder(base)
+            .withLocation("pipeline/" + n)
+            .withBlend(blend)
+            .withCull(cull)
+            .withDepthWrite(writeDepth)
+            .build());
+    }
+
+    //自定义着色器的渲染类型：着色器随 RenderType 状态绑定（1.21.4 的 ShaderStateShard 写法）
+    private static RenderType custom(String name, VertexFormat format, ResourceLocation texture,
+                                     boolean lightmap, boolean overlay, boolean cull, boolean writeDepth) {
+        LegacyRenderType.State.Builder sb = LegacyRenderType.state()
+            .setShaderState(new ShaderShard(TheLastEndEffect::getShader))
+            .setDepthTestState(LegacyRenderType.LEQUAL_DEPTH_TEST)
+            .setTransparencyState(LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
+            .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
+            .setCullState(cull ? LegacyRenderType.CULL : LegacyRenderType.NO_CULL);
+        if (lightmap) {
+            sb.setLightmapState(RenderStateShard.LIGHTMAP);
+        }
+        if (overlay) {
+            sb.setOverlayState(RenderStateShard.OVERLAY);
+        }
+        if (!writeDepth) {
+            sb.setWriteMaskState(LegacyRenderType.COLOR_WRITE);
+        }
+        return LegacyRenderType.create(name, format, VertexFormat.Mode.QUADS, 2097152, true, false,
+            sb.createCompositeState(true));
+    }
+
+    private static RenderType make(String name, RenderPipeline pipeline, ResourceLocation texture,
+                                   boolean lightmap, boolean overlay, boolean outline) {
+        RenderType.CompositeState.CompositeStateBuilder sb = RenderType.CompositeState.builder()
+            .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false));
+        if (lightmap) {
+            sb.setLightmapState(RenderStateShard.LIGHTMAP);
+        }
+        if (overlay) {
+            sb.setOverlayState(RenderStateShard.OVERLAY);
+        }
+        return RenderType.create(name, 1536, outline, false, pipeline, sb.createCompositeState(outline));
+    }
+
     //创建实体表面的 The Last End 效果渲染类型
     //适用于: 实体外表渲染（如 TestEntity）
     public static RenderType createEntityEffect(ResourceLocation texture) {
-        return RenderType.create(
-            "the_last_end_entity_effect",
-            DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用 The Last End 着色器
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //深度测试
-                .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                //光照贴图
-                .setLightmapState(RenderStateShard.LIGHTMAP)
-                //透明度混合
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
-                //禁用面剔除
-                .setCullState(RenderStateShard.NO_CULL)
-                //覆盖层
-                .setOverlayState(RenderStateShard.OVERLAY)
-                .createCompositeState(true)
-        );
+        return custom("the_last_end_entity_effect", DefaultVertexFormat.NEW_ENTITY, texture,
+            true, true, false, true);
     }
 
     //创建物品的 The Last End 效果渲染类型（使用纹理图集）
     //适用于: 手持物品、掉落物、GUI 中的物品
     public static RenderType createItemEffectWithAtlas() {
-        return RenderType.create(
-            "the_last_end_item_effect_atlas",
-            DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用 The Last End 着色器
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //深度测试
-                .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                //透明度混合
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //使用物品纹理图集
-                .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
-                //禁用面剔除
-                .setCullState(RenderStateShard.NO_CULL)
-                //覆盖层
-                .setOverlayState(RenderStateShard.OVERLAY)
-                //只写入颜色，不写入深度（避免透明区域遮挡）
-                .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                .createCompositeState(true)
-        );
+        //只写入颜色，不写入深度（避免透明区域遮挡）
+        return custom("the_last_end_item_effect_atlas", DefaultVertexFormat.NEW_ENTITY, TextureAtlas.LOCATION_BLOCKS,
+            false, true, false, false);
     }
 
     //创建物品的 The Last End 效果渲染类型（使用指定纹理）
     //适用于: 特殊物品渲染
     public static RenderType createItemEffect(ResourceLocation texture) {
-        return RenderType.create(
-            "the_last_end_item_effect",
-            DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用 The Last End 着色器
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //深度测试
-                .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                //透明度混合
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
-                //禁用面剔除
-                .setCullState(RenderStateShard.NO_CULL)
-                .createCompositeState(true)
-        );
+        return custom("the_last_end_item_effect", DefaultVertexFormat.NEW_ENTITY, texture,
+            false, false, false, true);
     }
 
     //创建方块/天空盒的 The Last End 效果渲染类型
     //适用于: 方块特效、天空盒渲染
     public static RenderType createBlockEffect(ResourceLocation texture) {
-        return RenderType.create(
-            "the_last_end_block_effect",
-            DefaultVertexFormat.BLOCK,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用 The Last End 着色器
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //深度测试
-                .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                //光照贴图
-                .setLightmapState(RenderStateShard.LIGHTMAP)
-                //透明度混合
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //使用方块纹理集
-                .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
-                .createCompositeState(true)
-        );
+        return custom("the_last_end_block_effect", DefaultVertexFormat.BLOCK, TextureAtlas.LOCATION_BLOCKS,
+            true, false, true, true);
     }
 
     //创建粒子的 The Last End 效果渲染类型
     //适用于: 剑刃周围的星点粒子效果
     public static RenderType createParticleEffect() {
-        return RenderType.create(
-            "the_last_end_particle_effect",
-            DefaultVertexFormat.PARTICLE,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用标准位置颜色纹理着色器
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //加法混合 - 创造发光效果
-                .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
-                //禁用深度写入 - 避免遮挡其他粒子
-                .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                //禁用面剔除
-                .setCullState(RenderStateShard.NO_CULL)
-                //使用方块纹理集
-                .setTextureState(RenderStateShard.BLOCK_SHEET)
-                .createCompositeState(false)
-        );
+        //加法混合 + 禁用深度写入 + 禁用面剔除
+        RenderPipeline pipeline = pipeline("the_last_end_particle_effect",
+            RenderPipelines.PARTICLE_SNIPPET, BlendFunction.ADDITIVE, false, false);
+        return make("the_last_end_particle_effect", pipeline, TextureAtlas.LOCATION_BLOCKS, false, false, false);
     }
 
     //创建发光层的 The Last End 效果渲染类型（不使用自定义着色器）
     //适用于: 发光边缘效果
     public static RenderType createGlowEffect(ResourceLocation texture) {
-        return RenderType.create(
-            "the_last_end_glow_effect",
-            DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
-            RenderType.CompositeState.builder()
-                //使用标准实体着色器（带光照贴图）
-                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                //透明度混合
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //禁用面剔除
-                .setCullState(RenderStateShard.NO_CULL)
-                //视图偏移 Z 分层 - 防止 Z-fighting
-                .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
-                //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
-                //光照贴图
-                .setLightmapState(RenderStateShard.LIGHTMAP)
-                //覆盖层
-                .setOverlayState(RenderStateShard.OVERLAY)
-                .createCompositeState(true)
-        );
+        return make("the_last_end_glow_effect", RenderPipelines.ENTITY_TRANSLUCENT, texture, true, true, true);
     }
 
     private TheLastEndRenderTypes() {}

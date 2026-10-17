@@ -57,11 +57,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 @Mixin(value = LivingEntity.class, priority = 1024)
 public class LivingEntityMixin {
 
-    @Shadow
-    protected Player lastHurtByPlayer;
-
-    @Shadow
-    protected int lastHurtByPlayerTime;
+    //1.21.5: lastHurtByPlayer is an EntityReference<Player> and lastHurtByPlayerTime is lastHurtByPlayerMemoryTime;
+    //both are written through LivingEntity.setLastHurtByPlayer(Player, int) instead of shadowed
 
     @Shadow
     private DamageSource lastDamageSource;
@@ -77,6 +74,29 @@ public class LivingEntityMixin {
     private double the_last_sword$justifiedDefenceRecoveryProgress;
 
     //静态初始化注入：在原版 defineId 调用后紧接着定义我们的 EntityDataAccessor
+    //防止外部代码替换受保护玩家的装备槽（受强力背包保护开关控制）
+    //1.21.5: moved here from PlayerMixin -- Player.setItemSlot is LivingEntity.setItemSlot now
+    @Inject(method = "setItemSlot", at = @At("HEAD"), cancellable = true)
+    private void tls$blockSetItemSlot(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
+        if (TheLastSwordConfiguration.getEnableStrongInventoryProtectionSafely()
+                && (Object) this instanceof Player tls$player
+                && EntityUtil.hasInventoryProtection(tls$player)
+                && net.the_last_sword.util.InventoryProtectionPolicy.hasBlockedExternalCaller()) {
+            ci.cancel();
+        }
+    }
+
+    //拦截外部mod生成掉落物（防止强制缴械），玩家自己丢物品不受影响
+    //1.21.5: moved here from PlayerMixin -- drop(ItemStack, boolean, boolean) is declared on LivingEntity now
+    @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
+    private void tls$blockDrop(ItemStack stack, boolean b1, boolean b2, CallbackInfoReturnable<net.minecraft.world.entity.item.ItemEntity> cir) {
+        if ((Object) this instanceof Player tls$player
+                && EntityUtil.hasInventoryProtection(tls$player)
+                && net.eca.util.EntityUtil.hasExternalCaller(5)) {
+            cir.setReturnValue(null);
+        }
+    }
+
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void the_last_sword$onClinit(CallbackInfo ci) {
         PresentWorldAnchorManager.PRESENT_WORLD_ANCHOR = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.STRING);
@@ -141,8 +161,7 @@ public class LivingEntityMixin {
             playerCredit = WraithSummonManager.getWraithOwnerFromDamageSource(source, target.level());
         }
         if (playerCredit != null) {
-            lastHurtByPlayer = playerCredit;
-            lastHurtByPlayerTime = 100;
+            target.setLastHurtByPlayer(playerCredit, 100);
         }
 
         lastDamageSource = source;
@@ -253,13 +272,13 @@ public class LivingEntityMixin {
             //分支1: cur == 0 → 直接 return（99%普通实体快速退出）
             if (cur <= 0) {
                 //临时护盾已耗尽，清除标记恢复常规约束
-                if (entity.getPersistentData().getBoolean(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE)) {
+                if (entity.getPersistentData().getBooleanOr(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE, false)) {
                     entity.getPersistentData().remove(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE);
                 }
                 return;
             }
             //分支2: 临时护盾不设上限，豁免清零且不参与回复
-            if (entity.getPersistentData().getBoolean(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE)) {
+            if (entity.getPersistentData().getBooleanOr(EntityUtil.NBT_TEMP_JUSTIFIED_DEFENCE, false)) {
                 return;
             }
             //分支3: cur > 0 → 限制为0

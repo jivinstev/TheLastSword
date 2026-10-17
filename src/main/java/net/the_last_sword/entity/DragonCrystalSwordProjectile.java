@@ -78,7 +78,7 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
         if (this.level() instanceof ServerLevel serverLevel) {
             LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (lightning != null) {
-                lightning.moveTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
+                lightning.snapTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
                 lightning.setVisualOnly(true);
                 serverLevel.addFreshEntity(lightning);
             }

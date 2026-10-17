@@ -5,12 +5,13 @@ import net.the_last_sword.util.TooltipKeys;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
+
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +20,7 @@ import net.the_last_sword.summon.WraithSummonManager;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 //龙魂灯笼物品 - 可召唤剑灵、放置为方块或作为腰带饰品
 public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISummonableItem {
@@ -29,8 +30,8 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        super.onCraftedBy(stack, level, player);
+    public void onCraftedBy(ItemStack stack, Player player) {
+        super.onCraftedBy(stack, player);
         //初始化默认等级为1
         ItemLevelHelper.ensureInitialized(stack, 1);
     }
@@ -50,7 +51,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
         //非潜行状态下右键空气时召唤剑灵
         if (!player.isCrouching() && !world.isClientSide) {
             WraithSummonManager.summonWraith(player, stack, world);
-            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+            return InteractionResult.SUCCESS;
         }
 
         //其他情况（潜行或客户端）使用默认行为
@@ -77,21 +78,21 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
 
         //显示等级
         int itemLevel = ItemLevelHelper.getLevel(stack);
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.level")
+        tooltip.accept(Component.translatable("item_tooltip.the_last_sword.level")
                 .append(" " + itemLevel));
 
         //主标语
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_soul_lantern")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.dragon_soul_lantern")
             .withStyle(ChatFormatting.GRAY));
 
         //未按Shift时提示
         if (!TooltipKeys.hasShiftDown()) {
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.shift"));
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             //按住Shift显示详细描述
             //计算剑灵属性
@@ -110,7 +111,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
                     TheLastSwordConfiguration.getDragonSoulLanternRangePlacedSafely());
             String equippedRange = String.format("%.0f",
                     TheLastSwordConfiguration.getDragonSoulLanternRangeEquippedSafely());
-            tooltip.add(Component.translatable("item_tooltip.the_last_sword.dragon_soul_lantern_descr",
+            tooltip.accept(Component.translatable("item_tooltip.the_last_sword.dragon_soul_lantern_descr",
                     String.format("%.0f", healthBonus),
                     String.format("%.0f", attackBonus),
                     placedRange,

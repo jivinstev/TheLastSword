@@ -49,7 +49,7 @@ public class WraithSummonEventHandler {
         if (event.getOriginal().getPersistentData().contains(SOUL_STONE_KEY)) {
             event.getEntity().getPersistentData().put(
                 SOUL_STONE_KEY,
-                event.getOriginal().getPersistentData().getCompound(SOUL_STONE_KEY).copy()
+                event.getOriginal().getPersistentData().getCompoundOrEmpty(SOUL_STONE_KEY).copy()
             );
         }
     }
@@ -64,7 +64,7 @@ public class WraithSummonEventHandler {
         Player owner = WraithSummonManager.getWraithOwnerFromDamageSource(
                 event.getSource(), event.getEntity().level());
         if (owner != null) {
-            event.getEntity().setLastHurtByPlayer(owner);
+            event.getEntity().setLastHurtByPlayer(owner, 100);
         }
     }
 

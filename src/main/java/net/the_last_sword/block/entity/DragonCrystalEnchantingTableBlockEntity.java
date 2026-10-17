@@ -30,8 +30,8 @@ import net.the_last_sword.network.EnchantingTableDataPacket;
 import net.the_last_sword.network.NetworkHandler;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -88,8 +88,8 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, state -> {
-            state.getController().setAnimation(CRYSTAL_ROTATION);
+        controllers.add(new AnimationController<>("controller", 0, state -> {
+            state.setAnimation(CRYSTAL_ROTATION);
             return null;
         }));
     }
@@ -147,7 +147,7 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         if (tag.contains("Energy")) {
             energyStorage.deserializeNBT(registries, tag.get("Energy"));
         }
-        this.totalPowerTime = tag.getInt("TotalPowerTime");
+        this.totalPowerTime = tag.getIntOr("TotalPowerTime", 0);
     }
 
     @Override

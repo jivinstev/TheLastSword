@@ -24,6 +24,8 @@ import net.the_last_sword.summon.WraithSummonManager;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
 
@@ -83,16 +85,19 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
 
     //背包刻更新：初始化模式NBT
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
         ItemModeHelper.initializeMode(stack, 0, MAX_MODES);
     }
 
     //近战攻击：造成物理伤害+龙息伤害
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
+        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
+        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
-        if (!super.hurtEnemy(stack, target, attacker)) return false;
+        super.hurtEnemy(stack, target, attacker);
 
         //造成额外龙息伤害
         if (!attacker.level().isClientSide) {
@@ -116,8 +121,6 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
                 target.hurt(damageSource, extraDamage);
             }
         }
-
-        return true;
     }
 
     //右键使用

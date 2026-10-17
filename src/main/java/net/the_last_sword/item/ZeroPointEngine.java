@@ -3,6 +3,8 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +30,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class ZeroPointEngine extends Item implements ICurioItem {
     private static final String CHARGING_ENABLED_TAG = "the_last_sword.charging_enabled";
@@ -78,7 +81,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private boolean isChargingEnabled(ItemStack stack) {
-        return ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBoolean(CHARGING_ENABLED_TAG);
+        return ItemNbt.hasTag(stack) && ItemNbt.getTag(stack).getBooleanOr(CHARGING_ENABLED_TAG, false);
     }
 
     private Component chargingStatus(ItemStack stack) {
@@ -99,8 +102,8 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean selected) {
-        super.inventoryTick(stack, level, entity, slotId, selected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
         tickEnergy(stack, entity);
     }
 
@@ -122,8 +125,8 @@ public class ZeroPointEngine extends Item implements ICurioItem {
             targets.add(player.getItemBySlot(EquipmentSlot.CHEST));
             targets.add(player.getItemBySlot(EquipmentSlot.LEGS));
             targets.add(player.getItemBySlot(EquipmentSlot.FEET));
-            for (int i = 0; i < player.getInventory().items.size(); i++) {
-                targets.add(player.getInventory().items.get(i));
+            for (int i = 0; i < player.getInventory().getNonEquipmentItems().size(); i++) {
+                targets.add(player.getInventory().getNonEquipmentItems().get(i));
             }
             targets.add(player.getOffhandItem());
             CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
@@ -155,14 +158,14 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         energyOf(stack).ifPresent(energy ->
-                tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
+                tooltip.accept(Component.translatable("item_tooltip.the_last_sword.energy")
                         .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE")));
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.zero_point_engine",
+        tooltip.accept(Component.translatable("item_tooltip.the_last_sword.zero_point_engine",
                 TheLastSwordConfiguration.getZeroPointEngineGenerationRateSafely(),
                 TheLastSwordConfiguration.getZeroPointEngineChargeRateSafely(), chargingStatus(stack)));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.zero_point_engine")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.zero_point_engine")
                 .withStyle(ChatFormatting.GRAY));
     }
 }

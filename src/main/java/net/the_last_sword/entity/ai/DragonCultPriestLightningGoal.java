@@ -127,7 +127,7 @@ public class DragonCultPriestLightningGoal extends Goal {
         DragonLightingEntity lightning = new DragonLightingEntity(
             ModEntities.DRAGON_LIGHTING.get(), serverLevel
         );
-        lightning.moveTo(pos.x, pos.y, pos.z);
+        lightning.snapTo(pos.x, pos.y, pos.z);
         serverLevel.addFreshEntity(lightning);
 
         double aoeRadius = TheLastSwordConfiguration.getDragonCultPriestLightningAoeRadiusSafely();
@@ -146,7 +146,7 @@ public class DragonCultPriestLightningGoal extends Goal {
             * TheLastSwordConfiguration.getDragonCultPriestLightningDamageMultiplierSafely()
             * priest.getSkillDamageMultiplier());
         for (LivingEntity target : targets) {
-            if (net.the_last_sword.mv.Hurt.server(target,damageSource, damage)) {
+            if (target.hurtServer(serverLevel, damageSource, damage)) {
                 priest.onSuccessfulAttack(target);
             }
         }

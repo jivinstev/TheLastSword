@@ -14,12 +14,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.network.OpenPaperNotePacket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 //剧情纸条基类：右键阅读，确认后收录进终焉卷轴「旅途见闻」
 public class PaperNote extends Item {
@@ -58,16 +60,16 @@ public class PaperNote extends Item {
 
     //物品悬停提示
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
     }
 
     //========== 收集数据 ==========
 
     //将纸条登记进玩家收集列表
     public static void markCollected(ServerPlayer player, String noteId) {
-        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY, Tag.TAG_STRING);
-        if (list.stream().noneMatch(tag -> tag.getAsString().equals(noteId))) {
+        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY).orElse(new ListTag());
+        if (list.stream().noneMatch(tag -> tag.asString().orElse("").equals(noteId))) {
             list.add(StringTag.valueOf(noteId));
             player.getPersistentData().put(COLLECTED_NOTES_KEY, list);
         }
@@ -75,16 +77,16 @@ public class PaperNote extends Item {
 
     //判断纸条是否已收集
     public static boolean isCollected(ServerPlayer player, String noteId) {
-        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY, Tag.TAG_STRING);
-        return list.stream().anyMatch(tag -> tag.getAsString().equals(noteId));
+        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY).orElse(new ListTag());
+        return list.stream().anyMatch(tag -> tag.asString().orElse("").equals(noteId));
     }
 
     //获取已收集纸条ID列表
     public static List<String> getCollectedNoteIds(ServerPlayer player) {
-        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY, Tag.TAG_STRING);
+        ListTag list = player.getPersistentData().getList(COLLECTED_NOTES_KEY).orElse(new ListTag());
         List<String> ids = new ArrayList<>();
         for (Tag tag : list) {
-            ids.add(tag.getAsString());
+            ids.add(tag.asString().orElse(""));
         }
         return ids;
     }

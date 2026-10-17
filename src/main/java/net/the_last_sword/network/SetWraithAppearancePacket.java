@@ -72,7 +72,7 @@ public class SetWraithAppearancePacket implements CustomPacketPayload {
 
         UUID wraithUuid;
         try {
-            wraithUuid = UUID.fromString(ItemNbt.getTag(stack).getString("wraith_uuid"));
+            wraithUuid = UUID.fromString(ItemNbt.getTag(stack).getStringOr("wraith_uuid", ""));
         } catch (IllegalArgumentException exception) {
             return;
         }

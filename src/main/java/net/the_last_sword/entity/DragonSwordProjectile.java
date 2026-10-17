@@ -77,7 +77,7 @@ public class DragonSwordProjectile extends TheLastEndSwordItemsProjectile {
     protected void applyVisualEffect(Entity target) {
         if (this.level() instanceof ServerLevel serverLevel) {
             DragonLightingEntity lightning = new DragonLightingEntity(ModEntities.DRAGON_LIGHTING.get(), serverLevel);
-            lightning.moveTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
+            lightning.snapTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
             lightning.setVisualOnly(true);
             serverLevel.addFreshEntity(lightning);
         }
@@ -135,7 +135,7 @@ public class DragonSwordProjectile extends TheLastEndSwordItemsProjectile {
         if (this.level() instanceof ServerLevel serverLevel) {
             DragonLightingEntity lightning = new DragonLightingEntity(ModEntities.DRAGON_LIGHTING.get(), serverLevel);
             BlockPos pos = blockHitResult.getBlockPos();
-            lightning.moveTo(Vec3.atBottomCenterOf(pos));
+            lightning.snapTo(Vec3.atBottomCenterOf(pos));
             lightning.setVisualOnly(true);
             serverLevel.addFreshEntity(lightning);
         }

@@ -1,6 +1,7 @@
 package net.the_last_sword.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
@@ -76,6 +77,7 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
+    //1.21.2: getLightBlock lost its BlockGetter/BlockPos parameters
     @Override
     public int getLightBlock(BlockState state) {
         return 0;
@@ -92,16 +94,13 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    // 1.21.5: Block.onRemove is gone. Its two jobs moved: the block entity drops its contents itself
+    // (BlockEntity.preRemoveSideEffects drops any Container, which this RandomizableContainerBlockEntity is,
+    // and runs only when the block changes), and the comparator update is affectNeighborsAfterRemoval, as for
+    // vanilla's container blocks.
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof DragonCrystalEnchantingTableBlockEntity be) {
-                Containers.dropContents(level, pos, be);
-                level.updateNeighbourForOutputSignal(pos, this);
-            }
-            super.onRemove(state, level, pos, newState, isMoving);
-        }
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 
     @Override

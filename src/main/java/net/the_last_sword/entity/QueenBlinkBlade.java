@@ -67,7 +67,7 @@ public class QueenBlinkBlade extends Projectile {
         return new Vec3(-Math.sin(yaw), 0, Math.cos(yaw));
     }
 
-    
+    // 1.21.2+: no longer an Entity override; QueenBlinkBladeRenderer.getBoundingBoxForCulling calls it
     public AABB getBoundingBoxForCulling() {
         return bounds(forward());
     }
@@ -172,11 +172,11 @@ public class QueenBlinkBlade extends Projectile {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("BladeWidth")) entityData.set(WIDTH, tag.getFloat("BladeWidth"));
-        if (tag.contains("BladeHeight")) entityData.set(HEIGHT, tag.getFloat("BladeHeight"));
-        if (tag.contains("BladeLength")) entityData.set(LENGTH, tag.getFloat("BladeLength"));
-        if (tag.contains("Damage")) damage = tag.getDouble("Damage");
-        travelled = tag.getDouble("Travelled");
+        if (tag.contains("BladeWidth")) entityData.set(WIDTH, tag.getFloat("BladeWidth").orElse(bladeWidth()));
+        if (tag.contains("BladeHeight")) entityData.set(HEIGHT, tag.getFloat("BladeHeight").orElse(bladeHeight()));
+        if (tag.contains("BladeLength")) entityData.set(LENGTH, tag.getFloat("BladeLength").orElse(bladeLength()));
+        if (tag.contains("Damage")) damage = tag.getDouble("Damage").orElse(damage);
+        travelled = tag.getDouble("Travelled").orElse(0.0);
     }
 
 }

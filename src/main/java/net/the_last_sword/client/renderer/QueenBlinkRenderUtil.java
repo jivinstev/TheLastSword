@@ -31,13 +31,13 @@ public final class QueenBlinkRenderUtil {
     }
 
     private static RenderType type(String name, boolean glow) {
-        return RenderType.create(name, DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS,
-                4096, false, true, RenderType.CompositeState.builder()
-                        .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                        .setTransparencyState(glow ? RenderStateShard.LIGHTNING_TRANSPARENCY : RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                        .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                        .setCullState(RenderStateShard.NO_CULL).createCompositeState(false));
+        return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS,
+                4096, false, true, net.the_last_sword.mv.LegacyRenderType.state()
+                        .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
+                        .setTransparencyState(glow ? net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY : net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
+                        .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
+                        .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
+                        .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL).createCompositeState(false));
     }
 
     public static void rift(PoseStack pose, MultiBufferSource buffers, float age, float yaw) {

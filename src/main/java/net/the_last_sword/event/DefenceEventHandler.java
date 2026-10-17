@@ -146,11 +146,11 @@ public final class DefenceEventHandler {
                 if (player.isCreative() || player.isSpectator()) continue;
                 CompoundTag data = player.getPersistentData();
                 //三套飞行来源的NBT标记任一存在，即代表有有效飞行授权（标记本身已含各自配置开关）
-                boolean hasFlightSource = data.getBoolean("TheLastSwordFly")
-                        || data.getBoolean("DragonArmorFly")
-                        || data.getBoolean("WingsFly");
+                boolean hasFlightSource = data.getBooleanOr("TheLastSwordFly", false)
+                        || data.getBooleanOr("DragonArmorFly", false)
+                        || data.getBooleanOr("WingsFly", false);
                 if (hasFlightSource
-                        && data.getBoolean("PlayerFlightIntent")
+                        && data.getBooleanOr("PlayerFlightIntent", false)
                         && !player.getAbilities().flying) {
                     player.getAbilities().flying = true;
                 }
@@ -163,9 +163,9 @@ public final class DefenceEventHandler {
             if (!(event.getEntity() instanceof Player player) || player.level().isClientSide()) return;
 
             boolean fromDragonCrystal = !event.getFrom().isEmpty() &&
-                                       event.getFrom().getItem() instanceof DragonCrystalArmorItem;
+                                       (Object) event.getFrom().getItem() instanceof DragonCrystalArmorItem;
             boolean toDragonCrystal = !event.getTo().isEmpty() &&
-                                     event.getTo().getItem() instanceof DragonCrystalArmorItem;
+                                     (Object) event.getTo().getItem() instanceof DragonCrystalArmorItem;
 
             if (!fromDragonCrystal && !toDragonCrystal) return;
 
@@ -182,7 +182,7 @@ public final class DefenceEventHandler {
             ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
 
             //检查是否穿戴龙之甲胸甲
-            if (chestplate.isEmpty() || !(chestplate.getItem() instanceof DragonArmorItem.Chestplate)) {
+            if (chestplate.isEmpty() || !((Object) chestplate.getItem() instanceof DragonArmorItem.Chestplate)) {
                 //不穿龙甲时恢复默认速度
                 if (player.getAbilities().getFlyingSpeed() != 0.05f) {
                     player.getAbilities().setFlyingSpeed(0.05f);
@@ -262,7 +262,7 @@ public final class DefenceEventHandler {
         DragonCrystalArmorConfig config = playerConfig.armor.dragonCrystalArmor;
 
         //头盔效果：夜视 + 水下呼吸
-        if (!helmet.isEmpty() && helmet.getItem() instanceof DragonCrystalArmorItem.Helmet) {
+        if (!helmet.isEmpty() && (Object) helmet.getItem() instanceof DragonCrystalArmorItem.Helmet) {
             if (config.helmet.enableNightVision) {
                 player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 240, 2, false, false));
             }
@@ -272,29 +272,29 @@ public final class DefenceEventHandler {
         }
 
         //胸甲效果：伤害抗性 + 力量
-        if (!chestplate.isEmpty() && chestplate.getItem() instanceof DragonCrystalArmorItem.Chestplate) {
+        if (!chestplate.isEmpty() && (Object) chestplate.getItem() instanceof DragonCrystalArmorItem.Chestplate) {
             if (config.chestplate.enableDamageResistance) {
-                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 240, 2, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 240, 2, false, false));
             }
             if (config.chestplate.enableStrength) {
-                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 240, 2, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 240, 2, false, false));
             }
         }
 
         //护腿效果：生命恢复 + 跳跃提升
-        if (!leggings.isEmpty() && leggings.getItem() instanceof DragonCrystalArmorItem.Leggings) {
+        if (!leggings.isEmpty() && (Object) leggings.getItem() instanceof DragonCrystalArmorItem.Leggings) {
             if (config.leggings.enableRegeneration) {
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 240, 2, false, false));
             }
             if (config.leggings.enableJumpBoost) {
-                player.addEffect(new MobEffectInstance(MobEffects.JUMP, 240, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 240, 0, false, false));
             }
         }
 
         //靴子效果：速度 + 火焰抗性
-        if (!boots.isEmpty() && boots.getItem() instanceof DragonCrystalArmorItem.Boots) {
+        if (!boots.isEmpty() && (Object) boots.getItem() instanceof DragonCrystalArmorItem.Boots) {
             if (config.boots.enableSpeed) {
-                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 240, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.SPEED, 240, 0, false, false));
             }
             if (config.boots.enableFireResistance) {
                 player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 240, 2, false, false));
@@ -364,7 +364,7 @@ public final class DefenceEventHandler {
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 
             ItemStack stack = player.getItemBySlot(slot);
-            if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
+            if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
 
             //检查能量并决定是否增强
             boolean enhanced = false;
@@ -396,19 +396,19 @@ public final class DefenceEventHandler {
                 }
                 case CHEST -> {
                     if (config.chestplate.enableDamageResistance)
-                        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 240, baseLevel, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 240, baseLevel, false, false));
                     if (config.chestplate.enableStrength)
-                        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 240, baseLevel, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 240, baseLevel, false, false));
                 }
                 case LEGS -> {
                     if (config.leggings.enableRegeneration)
                         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 240, baseLevel, false, false));
                     if (config.leggings.enableJumpBoost)
-                        player.addEffect(new MobEffectInstance(MobEffects.JUMP, 240, speedJumpLevel, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 240, speedJumpLevel, false, false));
                 }
                 case FEET -> {
                     if (config.boots.enableSpeed)
-                        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 240, speedJumpLevel, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.SPEED, 240, speedJumpLevel, false, false));
                     if (config.boots.enableFireResistance)
                         player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 240, baseLevel, false, false));
                 }
@@ -433,7 +433,7 @@ public final class DefenceEventHandler {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
-            if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
+            if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             boolean hasEnergy = energyOf(stack)
                     .map(energy -> energy.getEnergyStored() > 0)
                     .orElse(false);
@@ -573,7 +573,7 @@ public final class DefenceEventHandler {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
-            if (stack.isEmpty() || !(stack.getItem() instanceof DragonArmorItem)) continue;
+            if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             energyOf(stack).ifPresent(energy -> {
                 recordArmorEnergyConsumption(player,
                         energy.extractEnergy(costPerPiece, false));
@@ -602,7 +602,7 @@ public final class DefenceEventHandler {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
-            if (!(stack.getItem() instanceof DragonArmorItem)) continue;
+            if (!((Object) stack.getItem() instanceof DragonArmorItem)) continue;
 
             int[] values = energyOf(stack)
                     .map(energy -> new int[]{energy.getEnergyStored(), energy.getMaxEnergyStored()})
@@ -639,7 +639,7 @@ public final class DefenceEventHandler {
         DefenceConfigData playerConfig = DefenceConfigPacket.getPlayerConfig(player.getUUID());
         if (!playerConfig.armor.dragonArmor.chestplate.enableFlight) {
             //如果飞行被禁用，移除龙之甲赋予的飞行能力
-            if (player.getPersistentData().getBoolean("DragonArmorFly")) {
+            if (player.getPersistentData().getBooleanOr("DragonArmorFly", false)) {
                 player.getAbilities().mayfly = false;
                 player.getAbilities().flying = false;
                 player.getPersistentData().remove("DragonArmorFly");
@@ -654,7 +654,7 @@ public final class DefenceEventHandler {
 
         //检查是否穿戴龙之甲胸甲
         boolean wearingDragonChestplate = !chestplate.isEmpty() &&
-                chestplate.getItem() instanceof DragonArmorItem.Chestplate;
+                (Object) chestplate.getItem() instanceof DragonArmorItem.Chestplate;
 
         //如果穿戴龙之甲胸甲且不是创造模式或旁观模式，启用飞行
         if (wearingDragonChestplate && !player.isCreative() && !player.isSpectator()) {
@@ -665,7 +665,7 @@ public final class DefenceEventHandler {
             }
         } else if (!player.isCreative() && !player.isSpectator()) {
             //只移除龙之甲自己赋予的飞行能力
-            if (player.getPersistentData().getBoolean("DragonArmorFly")) {
+            if (player.getPersistentData().getBooleanOr("DragonArmorFly", false)) {
                 player.getAbilities().mayfly = false;
                 player.getAbilities().flying = false;
                 player.getPersistentData().remove("DragonArmorFly");

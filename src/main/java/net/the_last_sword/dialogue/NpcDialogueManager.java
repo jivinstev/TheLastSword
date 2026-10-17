@@ -112,11 +112,11 @@ public final class NpcDialogueManager {
 
     private static Set<String> getReadOptionIds(ServerPlayer player, String dialogueId) {
         CompoundTag dialogueData = player.getPersistentData()
-                .getCompound(READ_DATA_KEY)
-                .getCompound(dialogueId);
+                .getCompoundOrEmpty(READ_DATA_KEY)
+                .getCompoundOrEmpty(dialogueId);
         Set<String> readOptionIds = new HashSet<>();
-        for (String optionId : dialogueData.getAllKeys()) {
-            if (dialogueData.getBoolean(optionId)) {
+        for (String optionId : dialogueData.keySet()) {
+            if (dialogueData.getBooleanOr(optionId, false)) {
                 readOptionIds.add(optionId);
             }
         }
@@ -125,8 +125,8 @@ public final class NpcDialogueManager {
 
     private static void markOptionRead(ServerPlayer player, String dialogueId, String optionId) {
         CompoundTag playerData = player.getPersistentData();
-        CompoundTag readData = playerData.getCompound(READ_DATA_KEY);
-        CompoundTag dialogueData = readData.getCompound(dialogueId);
+        CompoundTag readData = playerData.getCompoundOrEmpty(READ_DATA_KEY);
+        CompoundTag dialogueData = readData.getCompoundOrEmpty(dialogueId);
         dialogueData.putBoolean(optionId, true);
         readData.put(dialogueId, dialogueData);
         playerData.put(READ_DATA_KEY, readData);
@@ -137,7 +137,7 @@ public final class NpcDialogueManager {
     public static void onPlayerClone(PlayerEvent.Clone event) {
         if (event.getOriginal().getPersistentData().contains(READ_DATA_KEY)) {
             event.getEntity().getPersistentData().put(READ_DATA_KEY,
-                    event.getOriginal().getPersistentData().getCompound(READ_DATA_KEY).copy());
+                    event.getOriginal().getPersistentData().getCompoundOrEmpty(READ_DATA_KEY).copy());
         }
     }
 

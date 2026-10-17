@@ -40,7 +40,7 @@ public class SyncSummonGuiPacket implements CustomPacketPayload {
         CompoundTag tag = buf.readNbt();
         ItemStack soulStone = ItemStack.EMPTY;
         if (tag != null) {
-            soulStone = ItemStack.parseOptional(buf.registryAccess(), tag);
+            soulStone = ItemStack.parse(buf.registryAccess(), tag).orElse(ItemStack.EMPTY);
         }
         return new SyncSummonGuiPacket(soulStone);
     }

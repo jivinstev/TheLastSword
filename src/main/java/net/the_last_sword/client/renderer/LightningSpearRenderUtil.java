@@ -26,16 +26,16 @@ public final class LightningSpearRenderUtil {
     private static final Vector3f[] TRANSFORMED = new Vector3f[MAX_ARC_POINTS];
     private static final Vector3f[] SIDES = new Vector3f[MAX_ARC_POINTS];
     private static final Vector3f SCALE_VECTOR = new Vector3f();
-    private static final RenderType ARC_RENDER_TYPE = RenderType.create(
+    private static final RenderType ARC_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "the_last_sword_lightning_spear",
             DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 65536, false, false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                    .setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
-                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+            net.the_last_sword.mv.LegacyRenderType.state()
+                    .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
+                    .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY)
+                    .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
                     // 光晕与核心需要叠加，不能让透明边缘遮挡后续电弧。
-                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                    .setCullState(RenderStateShard.NO_CULL)
+                    .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
+                    .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
                     .createCompositeState(false));
 
     static {

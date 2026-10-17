@@ -43,7 +43,7 @@ public class EndCrystalRift extends Entity {
         this(ModEntities.END_CRYSTAL_RIFT.get(), level);
         ownerId = owner.getUUID();
         remainingCrystals = Math.max(1, Math.min(10, count));
-        moveTo(owner.getX(), owner.getY(), owner.getZ(), owner.getYRot(), 0);
+        snapTo(owner.getX(), owner.getY(), owner.getZ(), owner.getYRot(), 0);
         entityData.set(OPENED_AT, level.getGameTime());
         nextShot = level.getGameTime() + 40;
     }

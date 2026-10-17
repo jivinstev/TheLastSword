@@ -98,13 +98,12 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
         if (luckyStack.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack result = luckyStack.copyWithCount(1);
-        int oldLuck = ItemNbt.hasTag(result) && ItemNbt.getTag(result).contains(TAG_LUCK) ? ItemNbt.getTag(result).getInt(TAG_LUCK) : 0;
+        int oldLuck = ItemNbt.hasTag(result) && ItemNbt.getTag(result).contains(TAG_LUCK) ? ItemNbt.getTag(result).getIntOr(TAG_LUCK, 0) : 0;
         int newLuck = Math.max(LUCK_MIN, Math.min(LUCK_MAX, oldLuck + sum));
         ItemNbt.update(result, t -> t.putInt(TAG_LUCK, newLuck));
         return result;
     }
 
-    
     public boolean canCraftInDimensions(int width, int height) {
         return width >= 2 && height >= 2;
     }

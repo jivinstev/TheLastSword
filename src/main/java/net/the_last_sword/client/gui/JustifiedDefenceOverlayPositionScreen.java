@@ -120,14 +120,14 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
                      boundingBoxY + boundingBoxHeight,
                      dragging ? 0x80FFFF00 : 0x80FFFFFF);
 
-        RenderSystem.enableBlend();
+        net.the_last_sword.mv.LegacyGl.enableBlend();
 
         for (int i = 0; i < MAX_ICONS; i++) {
             int x = leftX + i * step;
             graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.disableBlend();
     }
 
     @Override

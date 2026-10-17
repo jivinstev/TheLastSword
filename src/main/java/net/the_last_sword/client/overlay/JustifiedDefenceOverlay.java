@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.gui.Gui;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -45,7 +46,7 @@ public class JustifiedDefenceOverlay {
         Player player = mc.player;
         if (player == null || !shouldRender(player)) return;
 
-        net.minecraft.util.profiling.Profiler.get().push("justifiedDefenceHud");
+        Profiler.get().push("justifiedDefenceHud");
 
         //HUD 右侧基准位置（与饥饿值对齐）
         int baseX = screenWidth / 2 + 91 - ICON_SIZE;
@@ -62,7 +63,7 @@ public class JustifiedDefenceOverlay {
 
         //没有护盾则不渲染
         if (currentShield <= 0) {
-            net.minecraft.util.profiling.Profiler.get().pop();
+            Profiler.get().pop();
             return;
         }
 
@@ -79,7 +80,7 @@ public class JustifiedDefenceOverlay {
         int step = -ICON_SPACING; // 正间距
         int leftX = startX + ICON_SPACING * (MAX_ICONS - 1);
 
-        RenderSystem.enableBlend();
+        //1.21.5: blending is set by the GUI render pipeline used by RenderType::guiTextured
 
         //渲染满格图标（从左到右）
         for (int i = 0; i < fullIcons; i++) {
@@ -118,8 +119,8 @@ public class JustifiedDefenceOverlay {
             gui.drawString(mc.font, text, textX, textY, 0xFFFFFF, true);
         }
 
-        RenderSystem.disableBlend();
-        net.minecraft.util.profiling.Profiler.get().pop();
+
+        Profiler.get().pop();
     }
 
     //判断是否应该渲染护盾（创造模式和旁观模式不渲染）

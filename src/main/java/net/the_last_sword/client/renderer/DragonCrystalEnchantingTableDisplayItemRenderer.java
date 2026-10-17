@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.client.model.DragonCrystalEnchantingTableDisplayModel;
 import net.the_last_sword.item.display.DragonCrystalEnchantingTableDisplayItem;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 public class DragonCrystalEnchantingTableDisplayItemRenderer extends GeoItemRenderer<DragonCrystalEnchantingTableDisplayItem> {
 
@@ -14,7 +15,7 @@ public class DragonCrystalEnchantingTableDisplayItemRenderer extends GeoItemRend
     }
 
     @Override
-    public RenderType getRenderType(DragonCrystalEnchantingTableDisplayItem animatable, ResourceLocation texture, MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(getTextureLocation(animatable));
+    public RenderType getRenderType(GeoRenderState renderState, ResourceLocation texture) {
+        return RenderType.entityTranslucent(getTextureLocation(renderState));
     }
 }

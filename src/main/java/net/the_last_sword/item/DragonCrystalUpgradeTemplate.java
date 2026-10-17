@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
 
@@ -74,9 +75,9 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_upgrade_template").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_upgrade_template").withStyle(ChatFormatting.GRAY));
     }
 
 }

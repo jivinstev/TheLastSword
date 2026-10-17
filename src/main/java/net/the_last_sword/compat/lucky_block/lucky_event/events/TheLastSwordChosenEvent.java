@@ -4,8 +4,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -73,7 +75,9 @@ public class TheLastSwordChosenEvent extends LuckyEvent {
         ServerLevel world = ctx.world();
         BlockPos center = player.blockPosition().relative(player.getDirection(), 3).below();
 
-        { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName())); }
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName()));
+        }
         setBlock(world, center, Blocks.CRYING_OBSIDIAN.defaultBlockState());
 
         int startIdx = directionIndex(player.getDirection());
@@ -101,9 +105,9 @@ public class TheLastSwordChosenEvent extends LuckyEvent {
 
     private static void summonFinale(ServerLevel world, BlockPos center) {
         Vec3 centerVec = Vec3.atCenterOf(center);
-        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world, EntitySpawnReason.EVENT);
         if (bolt != null) {
-            bolt.moveTo(centerVec.x, centerVec.y, centerVec.z);
+            bolt.snapTo(centerVec.x, centerVec.y, centerVec.z);
             world.addFreshEntity(bolt);
         }
         world.playSound(null, center, SoundEvents.ENDER_DRAGON_GROWL, SoundSource.HOSTILE, 1.0F, 1.0F);

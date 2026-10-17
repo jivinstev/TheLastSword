@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.the_last_sword.entity.TheLastEndEntity;
@@ -49,13 +50,13 @@ public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
 
         //在服务端生成实体
         if (level instanceof ServerLevel serverLevel) {
-            TheLastEndSwordWraithEntity wraith = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+            TheLastEndSwordWraithEntity wraith = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(serverLevel, EntitySpawnReason.SPAWN_ITEM_USE);
             if (wraith != null) {
                 //设置生成位置（在方块上方）
                 double x = spawnPos.getX() + 0.5;
                 double y = spawnPos.getY();
                 double z = spawnPos.getZ() + 0.5;
-                wraith.moveTo(x, y, z, context.getRotation(), 0.0F);
+                wraith.snapTo(x, y, z, context.getRotation(), 0.0F);
 
                 //设置等级为13
                 wraith.setTheLastEndLevel(13);

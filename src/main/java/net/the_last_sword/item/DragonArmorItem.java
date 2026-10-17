@@ -1,7 +1,6 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
@@ -34,10 +33,13 @@ import net.the_last_sword.init.ModItems;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animatable.processing.AnimationTest;
 import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -73,7 +75,19 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("the_last_sword", "repairs_dragon_armor")),
             ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor")));
 
-    public DragonArmorItem(ArmorType type, Properties props) {
+    public abstract EquipmentSlot getEquipmentSlot(ItemStack stack);
+
+    private static List<ItemStack> armorStacks(LivingEntity living) {
+        List<ItemStack> result = new java.util.ArrayList<>();
+        for (EquipmentSlot s : EquipmentSlot.values()) {
+            if (s.getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
+                result.add(living.getItemBySlot(s));
+            }
+        }
+        return result;
+    }
+
+    public DragonArmorItem(ArmorType type, Item.Properties props) {
         super(MATERIAL, type, props.fireResistant().rarity(Rarity.EPIC));
     }
     @Override
@@ -181,16 +195,27 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     // ==================== GeckoLib动画 ====================
 
-    private PlayState predicate(AnimationState event) {
+    //GeckoLib 5: the render state no longer carries the entity (4.x's DataTickets.ENTITY); DragonArmorRenderer records
+    //the wearer under this ticket in addRenderData. No client class is named here: this item loads on a server too.
+    public static final DataTicket<LivingEntity> WEARER = DataTicket.create("the_last_sword_dragon_armor_wearer", LivingEntity.class);
+
+    private static Entity entityOf(AnimationTest<DragonArmorItem> event) {
+        return event.getData(WEARER);
+    }
+
+    private PlayState predicate(AnimationTest<DragonArmorItem> event) {
         if (this.animationprocedure.equals("empty")) {
-            Entity entity = (Entity) event.getData(DataTickets.ENTITY);
+            Entity entity = entityOf(event);
+            if (!(entity instanceof LivingEntity)) {
+                return PlayState.STOP;
+            }
             if (entity instanceof ArmorStand) {
-                event.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
+                event.setAnimation(RawAnimation.begin().thenLoop("idle"));
                 return PlayState.CONTINUE;
             }
 
             Set<Item> wornArmor = new ObjectOpenHashSet<>();
-            for (ItemStack stack : ((LivingEntity) entity).getArmorSlots()) {
+            for (ItemStack stack : armorStacks((LivingEntity) entity)) {
                 if (stack.isEmpty())
                     return PlayState.STOP;
                 wornArmor.add(stack.getItem());
@@ -219,24 +244,24 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
                 //根据飞行状态设置动画
                 if (isDragonArmorFlying) {
                     //检查当前动画是否是fly，如果不是则切换
-                    if (event.getController().getCurrentAnimation() == null ||
-                        !event.getController().getCurrentAnimation().animation().name().equals("fly")) {
+                    if (event.controller().getCurrentAnimation() == null ||
+                        !event.controller().getCurrentAnimation().animation().name().equals("fly")) {
                         //切换到飞行动画
-                        event.getController().setAnimation(RawAnimation.begin().thenLoop("fly"));
+                        event.setAnimation(RawAnimation.begin().thenLoop("fly"));
                     }
                 } else {
                     //检查当前动画是否是idle，如果不是则切换
-                    if (event.getController().getCurrentAnimation() != null &&
-                        event.getController().getCurrentAnimation().animation().name().equals("fly")) {
+                    if (event.controller().getCurrentAnimation() != null &&
+                        event.controller().getCurrentAnimation().animation().name().equals("fly")) {
                         //切换到待机动画
-                        event.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
-                    } else if (event.getController().getCurrentAnimation() == null) {
+                        event.setAnimation(RawAnimation.begin().thenLoop("idle"));
+                    } else if (event.controller().getCurrentAnimation() == null) {
                         //初始状态，直接设置idle动画
-                        event.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
+                        event.setAnimation(RawAnimation.begin().thenLoop("idle"));
                     }
                 }
             } else {
-                event.getController().setAnimation(RawAnimation.begin().thenLoop("idle"));
+                event.setAnimation(RawAnimation.begin().thenLoop("idle"));
             }
             return PlayState.CONTINUE;
         }
@@ -245,28 +270,31 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     String prevAnim = "empty";
 
-    private PlayState procedurePredicate(AnimationState event) {
+    private PlayState procedurePredicate(AnimationTest<DragonArmorItem> event) {
         if (!this.animationprocedure.equals("empty") &&
-                event.getController().getAnimationState() == AnimationController.State.STOPPED ||
+                event.controller().getAnimationState() == AnimationController.State.STOPPED ||
                 (!this.animationprocedure.equals(prevAnim) && !this.animationprocedure.equals("empty"))) {
 
             if (!this.animationprocedure.equals(prevAnim))
-                event.getController().forceAnimationReset();
+                event.controller().forceAnimationReset();
 
-            event.getController().setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
+            event.setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
 
-            if (event.getController().getAnimationState() == AnimationController.State.STOPPED) {
+            if (event.controller().getAnimationState() == AnimationController.State.STOPPED) {
                 this.animationprocedure = "empty";
-                event.getController().forceAnimationReset();
+                event.controller().forceAnimationReset();
             }
 
-            Entity entity = (Entity) event.getData(DataTickets.ENTITY);
+            Entity entity = entityOf(event);
             if (entity instanceof ArmorStand) {
                 return PlayState.CONTINUE;
             }
+            if (!(entity instanceof LivingEntity)) {
+                return PlayState.STOP;
+            }
 
             Set<Item> wornArmor = new ObjectOpenHashSet<>();
-            for (ItemStack stack : ((LivingEntity) entity).getArmorSlots()) {
+            for (ItemStack stack : armorStacks((LivingEntity) entity)) {
                 if (stack.isEmpty())
                     return PlayState.STOP;
                 wornArmor.add(stack.getItem());
@@ -289,8 +317,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-        data.add(new AnimationController<>(this, "controller", 5, this::predicate));
-        data.add(new AnimationController<>(this, "procedureController", 5, this::procedurePredicate));
+        data.add(new AnimationController<>("controller", 5, this::predicate));
+        data.add(new AnimationController<>("procedureController", 5, this::procedurePredicate));
     }
 
     @Override
@@ -340,7 +368,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Helmet extends DragonArmorItem {
         public Helmet() {
-            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -351,7 +379,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Chestplate extends DragonArmorItem {
         public Chestplate() {
-            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -362,7 +390,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Leggings extends DragonArmorItem {
         public Leggings() {
-            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override
@@ -373,7 +401,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Boots extends DragonArmorItem {
         public Boots() {
-            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()));
         }
 
         @Override

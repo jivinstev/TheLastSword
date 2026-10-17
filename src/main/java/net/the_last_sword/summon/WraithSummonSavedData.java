@@ -1,6 +1,8 @@
 package net.the_last_sword.summon;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -8,6 +10,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -30,27 +33,31 @@ public class WraithSummonSavedData extends SavedData {
 
     //获取实例
     public static WraithSummonSavedData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(
-                new SavedData.Factory<WraithSummonSavedData>(WraithSummonSavedData::new, (tag, registries) -> load(tag), null),
-                DATA_NAME
-        );
+        Codec<WraithSummonSavedData> codec = CompoundTag.CODEC.xmap(
+                WraithSummonSavedData::load,
+                (WraithSummonSavedData d) -> d.save(new CompoundTag(), null));
+        SavedDataType<WraithSummonSavedData> type = new SavedDataType<>(
+                DATA_NAME,
+                WraithSummonSavedData::new,
+                codec);
+        return level.getDataStorage().computeIfAbsent(type);
     }
 
     //从NBT加载
     private static WraithSummonSavedData load(CompoundTag root) {
         WraithSummonSavedData data = new WraithSummonSavedData();
-        data.migrated = root.getBoolean(NBT_MIGRATED);
+        data.migrated = root.getBooleanOr(NBT_MIGRATED, false);
 
-        CompoundTag bindings = root.getCompound(NBT_BINDINGS);
-        for (String playerUUIDStr : bindings.getAllKeys()) {
+        CompoundTag bindings = root.getCompoundOrEmpty(NBT_BINDINGS);
+        for (String playerUUIDStr : bindings.keySet()) {
             try {
                 UUID playerUUID = UUID.fromString(playerUUIDStr);
                 Set<UUID> wraithSet = new HashSet<>();
 
-                ListTag wraithList = bindings.getList(playerUUIDStr, Tag.TAG_STRING);
+                ListTag wraithList = bindings.getList(playerUUIDStr).orElse(new ListTag());
                 for (int i = 0; i < wraithList.size(); i++) {
                     try {
-                        wraithSet.add(UUID.fromString(wraithList.getString(i)));
+                        wraithSet.add(UUID.fromString(wraithList.getString(i).orElse("")));
                     } catch (IllegalArgumentException ignored) {}
                 }
 
@@ -64,7 +71,7 @@ public class WraithSummonSavedData extends SavedData {
     }
 
     //保存到NBT（原绑定数据保留，仅追加迁移标记，便于回滚）
-    @Override
+    
     public CompoundTag save(CompoundTag root, HolderLookup.Provider registries) {
         CompoundTag bindings = new CompoundTag();
 

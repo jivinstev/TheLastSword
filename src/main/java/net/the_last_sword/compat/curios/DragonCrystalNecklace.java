@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -22,6 +23,7 @@ import net.the_last_sword.init.ModAttributes;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,8 +55,9 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, java.util.function.Consumer<Component> consumer, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, consumer, flag);
+        List<Component> tooltip = new ArrayList<>();
         String immuneBase = String.format("%.0f", TheLastSwordConfiguration.getCuriosDragonCrystalNecklaceImmunityChanceBaseSafely() * 100);
         String immunePerLuck = String.format("%.0f", TheLastSwordConfiguration.getCuriosDragonCrystalNecklaceImmunityChancePerLuckSafely() * 100);
         String immuneMax = String.format("%.0f", TheLastSwordConfiguration.getCuriosDragonCrystalNecklaceImmunityChanceMaxSafely() * 100);
@@ -65,6 +68,7 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
         appendCurrentValueLine(tooltip);
         tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.dragon_crystal_necklace")
             .withStyle(ChatFormatting.GRAY));
+        tooltip.forEach(consumer);
     }
 
     //基于客户端玩家幸运值显示实时免疫概率与暴击加成

@@ -13,11 +13,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.List;
+import java.util.function.Consumer;
 import java.util.UUID;
 
 //给予者的痛苦 - hands槽位
@@ -50,8 +51,8 @@ public class TheGiversPain extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltip, flag);
         String effectSeconds = String.format("%.1f",
             TheLastSwordConfiguration.getCuriosGiversPainEffectDurationSafely() / 20.0);
         String attackMult = String.format("%.2f",
@@ -60,9 +61,9 @@ public class TheGiversPain extends Item implements ICurioItem {
             TheLastSwordConfiguration.getCuriosGiversPainAttackerLostHealthMultiplierSafely());
         String targetMult = String.format("%.2f",
             TheLastSwordConfiguration.getCuriosGiversPainTargetLostHealthMultiplierSafely());
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.the_givers_pain",
+        tooltip.accept(Component.translatable("item_tooltip.the_last_sword.the_givers_pain",
             effectSeconds, attackMult, attackerMult, targetMult));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.the_givers_pain")
+        tooltip.accept(Component.translatable("item_tooltip_lore.the_last_sword.the_givers_pain")
             .withStyle(ChatFormatting.GRAY));
     }
 }

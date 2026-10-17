@@ -481,13 +481,13 @@ public class TheLastEndScrollScreen extends Screen {
 
         //渲染卷轴背景纹理
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        net.the_last_sword.mv.LegacyGl.enableBlend();
+        net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
 
         // 参数: ResourceLocation, x, y, u, v, width, height, textureWidth, textureHeight
         graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.disableBlend();
 
         hoveredRecipeStack = ItemStack.EMPTY;
         renderPageContent(graphics, guiLeft, guiTop, mouseX, mouseY);

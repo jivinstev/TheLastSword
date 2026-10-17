@@ -157,7 +157,7 @@ public class CuriosEffectHandler {
         int duration = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEffectDurationSafely();
 
         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, duration, bonusLevel, false, false, true));
-        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration, bonusLevel, false, false, true));
+        player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, duration, bonusLevel, false, false, true));
         player.addEffect(new MobEffectInstance(MobEffects.SATURATION, duration, bonusLevel, false, false, true));
     }
 
@@ -168,7 +168,7 @@ public class CuriosEffectHandler {
         }
 
         int jumpAmplifier = TheLastSwordConfiguration.getCuriosDimensionExplorerJumpAmplifierSafely();
-        player.addEffect(new MobEffectInstance(MobEffects.JUMP, 60, jumpAmplifier, false, false, true));
+        player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 60, jumpAmplifier, false, false, true));
     }
 
     //维度探索者：死亡保护
@@ -184,7 +184,7 @@ public class CuriosEffectHandler {
             return;
         }
 
-        if (player.getCooldowns().isOnCooldown(new net.minecraft.world.item.ItemStack(ModItems.DIMENSION_EXPLORER.get()))) {
+        if (player.getCooldowns().isOnCooldown(new ItemStack(ModItems.DIMENSION_EXPLORER.get()))) {
             return;
         }
 
@@ -211,13 +211,13 @@ public class CuriosEffectHandler {
         player.addEffect(new MobEffectInstance(ModEffects.PHASING, effectDuration, 0, false, true, true));
 
         //急迫
-        player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, effectDuration, hasteAmplifier, false, true, true));
+        player.addEffect(new MobEffectInstance(MobEffects.HASTE, effectDuration, hasteAmplifier, false, true, true));
 
         //速度
-        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, effectDuration, speedAmplifier, false, true, true));
+        player.addEffect(new MobEffectInstance(MobEffects.SPEED, effectDuration, speedAmplifier, false, true, true));
 
         //进入冷却
-        player.getCooldowns().addCooldown(new net.minecraft.world.item.ItemStack(ModItems.DIMENSION_EXPLORER.get()), cooldown);
+        player.getCooldowns().addCooldown(new ItemStack(ModItems.DIMENSION_EXPLORER.get()), cooldown);
     }
 
     //获取玩家装备的指定Curios饰品ItemStack（未装备返回EMPTY）

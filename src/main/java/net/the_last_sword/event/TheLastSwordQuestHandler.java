@@ -102,9 +102,9 @@ public class TheLastSwordQuestHandler {
         if (!isQuestSystemEnabled()) {
             return;
         }
-        { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(PREFIX_KEY,
+        player.sendSystemMessage(Component.translatable(PREFIX_KEY,
                 Component.translatable(MOD_NAME_KEY),
-                Component.translatable(key, args))); }
+                Component.translatable(key, args)));
     }
 
     //任务系统总开关
@@ -207,10 +207,12 @@ public class TheLastSwordQuestHandler {
         if (pos == null) {
             return false;
         }
-        villager.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
+        villager.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
         villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.EVENT, null);
 
-        villager.setVillagerData(villager.getVillagerData().setProfession(VillagerProfession.WEAPONSMITH).setLevel(5));
+        villager.setVillagerData(villager.getVillagerData()
+                .withProfession(level.registryAccess(), VillagerProfession.WEAPONSMITH)
+                .withLevel(5));
         villager.setCustomName(Component.translatable("entity.the_last_sword.troubled_blacksmith"));
         villager.setCustomNameVisible(true);
         AttributeInstance maxHealthAttr = villager.getAttribute(Attributes.MAX_HEALTH);
@@ -220,8 +222,8 @@ public class TheLastSwordQuestHandler {
         }
 
         villager.addEffect(new MobEffectInstance(MobEffects.GLOWING, BLACKSMITH_EFFECT_DURATION, 0, false, false));
-        villager.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, BLACKSMITH_EFFECT_DURATION, 4, false, false));
-        villager.addEffect(new MobEffectInstance(MobEffects.HEAL, BLACKSMITH_EFFECT_DURATION, 4, false, false));
+        villager.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, BLACKSMITH_EFFECT_DURATION, 4, false, false));
+        villager.addEffect(new MobEffectInstance(MobEffects.INSTANT_HEALTH, BLACKSMITH_EFFECT_DURATION, 4, false, false));
         villager.setPersistenceRequired();
 
         //专属交易：终焉卷轴与变卖的家当
@@ -261,7 +263,7 @@ public class TheLastSwordQuestHandler {
             BlockPos pos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     new BlockPos(x, 0, z));
 
-            villager.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+            villager.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
             if (!level.getFluidState(pos).isEmpty()
                     || !level.getFluidState(pos.above()).isEmpty()
                     || !level.noCollision(villager)) {

@@ -70,8 +70,8 @@ public final class PresentWorldAnchorHealthOverlay {
         int top = guiGraphics.guiHeight() - (minecraft.gui.leftHeight - consumedHeight);
         int heartCount = Mth.ceil(maxHealthPoints / 2.0F);
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        net.the_last_sword.mv.LegacyGl.enableBlend();
+        net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
         for (int heartIndex = 0; heartIndex < heartCount; heartIndex++) {
             int leftPoint = heartIndex * 2;
             int rightPoint = leftPoint + 1;
@@ -95,6 +95,6 @@ public final class PresentWorldAnchorHealthOverlay {
                         halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
             }
         }
-        RenderSystem.disableBlend();
+        net.the_last_sword.mv.LegacyGl.disableBlend();
     }
 }

@@ -91,7 +91,7 @@ public class ChangeModePacket implements CustomPacketPayload {
     //根据物品类型和模式ID获取翻译键
     private static String getModeTranslationKey(ItemStack stack, int mode) {
         //检查是否是最终之剑
-        if (stack.getItem() instanceof TheLastSword) {
+        if ((Object) stack.getItem() instanceof TheLastSword) {
             return switch (mode) {
                 case 0 -> "item_tooltip.the_last_sword.normal_mode";
                 case 1 -> "item_tooltip.the_last_sword.powerful_mining_mode";
@@ -101,7 +101,7 @@ public class ChangeModePacket implements CustomPacketPayload {
         }
 
         //检查是否是龙之剑
-        if (stack.getItem() instanceof DragonSword) {
+        if ((Object) stack.getItem() instanceof DragonSword) {
             return switch (mode) {
                 case 0 -> "item_tooltip.the_last_sword.normal_mode";
                 case 1 -> "item_tooltip.the_last_sword.summon_entity_mode";

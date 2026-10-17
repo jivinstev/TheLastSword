@@ -9,9 +9,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.the_last_sword.ItemNbt;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 //龙晶魂石 - 用于存储剑灵的物品
 public class DragonCrystalSoulStone extends Item {
@@ -58,7 +60,7 @@ public class DragonCrystalSoulStone extends Item {
         CompoundTag nbt = ItemNbt.getTag(stack);
         if (nbt != null && nbt.contains("wraith_entity_id")) {
             CompoundTag entityData = new CompoundTag();
-            entityData.putString("id", nbt.getString("wraith_entity_id"));
+            entityData.putString("id", nbt.getStringOr("wraith_entity_id", ""));
             return entityData;
         }
 
@@ -77,7 +79,7 @@ public class DragonCrystalSoulStone extends Item {
         //否则从NBT获取实体显示名称
         CompoundTag entityData = getStoredEntity(stack);
         if (entityData != null) {
-            String entityId = entityData.getString("id");
+            String entityId = entityData.getStringOr("id", "");
             if (!entityId.isEmpty()) {
                 try {
                     ResourceLocation rl = ResourceLocation.parse(entityId);
@@ -92,8 +94,9 @@ public class DragonCrystalSoulStone extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltipAdder, flag);
+        List<Component> tooltip = new java.util.ArrayList<>();
 
         //始终显示龙晶魂石的状态信息
         if (hasStoredEntity(stack)) {
@@ -114,9 +117,9 @@ public class DragonCrystalSoulStone extends Item {
 
         if (nbt != null && nbt.contains("wraith_uuid")) {
             //有UUID数据
-            boolean isSummoned = nbt.getBoolean("is_summoned");
+            boolean isSummoned = nbt.getBooleanOr("is_summoned", false);
             summonedText = Component.literal(String.valueOf(isSummoned));
-            uuidText = Component.literal(nbt.getString("wraith_uuid"));
+            uuidText = Component.literal(nbt.getStringOr("wraith_uuid", ""));
         } else {
             //没有数据，显示"空"
             summonedText = Component.translatable("item_tooltip.the_last_sword.dragon_crystal_soul_stone.empty");
@@ -124,5 +127,6 @@ public class DragonCrystalSoulStone extends Item {
         }
 
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.dragon_crystal_soul_stone.extra", summonedText, uuidText));
+        tooltip.forEach(tooltipAdder);
     }
 }

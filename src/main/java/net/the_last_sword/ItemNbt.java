@@ -39,6 +39,6 @@ public final class ItemNbt {
 
     public static CompoundTag getTagElement(ItemStack stack, String key) {
         CompoundTag tag = getTag(stack);
-        return tag != null && tag.contains(key, 10) ? tag.getCompound(key) : null;
+        return tag != null && (tag.get(key) instanceof net.minecraft.nbt.CompoundTag) ? tag.getCompound(key).orElse(null) : null;
     }
 }

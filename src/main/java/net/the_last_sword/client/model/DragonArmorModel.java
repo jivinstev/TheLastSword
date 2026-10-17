@@ -3,21 +3,22 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.item.DragonArmorItem;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 public class DragonArmorModel extends GeoModel<DragonArmorItem> {
 
     @Override
     public ResourceLocation getAnimationResource(DragonArmorItem object) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "animations/dragon_armor.animation.json");
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor");
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonArmorItem> renderer) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_armor.geo.json");
+    public ResourceLocation getModelResource(GeoRenderState renderState) {
+        return ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonArmorItem> renderer) {
+    public ResourceLocation getTextureResource(GeoRenderState renderState) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/item/dragon_armor.png");
     }
 }

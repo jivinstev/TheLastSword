@@ -1,6 +1,7 @@
 package net.the_last_sword.item;
 
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -97,17 +98,17 @@ public class LightningSpearItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
+    public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(stack, level, display, tooltipAdder, flag);
         LightningSpearSettings settings = LightningSpearClientSettings.get();
         Component slowLevel = settings.slowLevel() <= 10
                 ? Component.translatable("enchantment.level." + settings.slowLevel())
                 : Component.literal(Integer.toString(settings.slowLevel()));
-        tooltip.add(Component.translatable("item_tooltip.the_last_sword.lightning_spear.skill",
+        tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.lightning_spear.skill",
                 formatValue(settings.chargeTicks() / 20.0), formatValue(settings.range()),
                 formatValue(settings.burstSize()), formatValue(settings.damage()), slowLevel,
                 formatValue(settings.slowTicks() / 20.0), formatValue(settings.cooldownTicks() / 20.0)));
-        tooltip.add(Component.translatable("item_tooltip_lore.the_last_sword.lightning_spear")
+        tooltipAdder.accept(Component.translatable("item_tooltip_lore.the_last_sword.lightning_spear")
                 .withStyle(ChatFormatting.GRAY));
     }
 
