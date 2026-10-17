@@ -1,0 +1,4006 @@
+{
+ "target": "26.1.2",
+ "items": [
+  {
+   "id": "main:net/the_last_sword/TheLastSwordMod.java#event:@SubscribeEvent ServerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/TheLastSwordMod.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/TheLastSwordMod.java#event:addListener AddPackFindersEvent",
+   "set": "main",
+   "file": "net/the_last_sword/TheLastSwordMod.java",
+   "kind": "event",
+   "key": "addListener AddPackFindersEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/TheLastSwordMod.java#event:addListener handler onEntityAttributeModification",
+   "set": "main",
+   "file": "net/the_last_sword/TheLastSwordMod.java",
+   "kind": "event",
+   "key": "addListener handler onEntityAttributeModification",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/TheLastSwordMod.java#event:addListener handler register",
+   "set": "main",
+   "file": "net/the_last_sword/TheLastSwordMod.java",
+   "kind": "event",
+   "key": "addListener handler register",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java#render-class:class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions",
+   "set": "main",
+   "file": "net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions",
+   "status": "moved",
+   "detail": "not in the target's file; reviewed in STUBS.json: (inherited from 1.21.4) Ported: getCustomRenderer is gone from 1.21.4 IClientItemExtensions; the class is now a client-only factory whose provider() returns a GeckoLib GeoRenderProvider serving the same DragonCrystalEnchantingTableDisplayItemRenderer (the emptied body is its private constructor), ha",
+   "accounted": true
+  },
+  {
+   "id": "main:net/the_last_sword/client/LightningSpearClientExtensions.java#render-class:class LightningSpearClientExtensions : IClientItemExtensions",
+   "set": "main",
+   "file": "net/the_last_sword/client/LightningSpearClientExtensions.java",
+   "kind": "render-class",
+   "key": "class LightningSpearClientExtensions : IClientItemExtensions",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/LightningSpearClientSettings.java#event:@SubscribeEvent ClientPlayerNetworkEvent.LoggingOut",
+   "set": "main",
+   "file": "net/the_last_sword/client/LightningSpearClientSettings.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientPlayerNetworkEvent.LoggingOut",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/ArmorConfigScreen.java#render-class:class ArmorConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/ArmorConfigScreen.java",
+   "kind": "render-class",
+   "key": "class ArmorConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/ArmorPieceConfigScreen.java#render-class:class ArmorPieceConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/ArmorPieceConfigScreen.java",
+   "kind": "render-class",
+   "key": "class ArmorPieceConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DefenceConfigScreen.java#render-class:class DefenceConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DefenceConfigScreen.java",
+   "kind": "render-class",
+   "key": "class DefenceConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonArmorConfigScreen.java#render-class:class DragonArmorConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonArmorConfigScreen.java",
+   "kind": "render-class",
+   "key": "class DragonArmorConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonArmorDefenceModuleScreen.java#render-class:class DragonArmorDefenceModuleScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonArmorDefenceModuleScreen.java",
+   "kind": "render-class",
+   "key": "class DragonArmorDefenceModuleScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonArmorEnergyDisplayPositionScreen.java#render-class:class DragonArmorEnergyDisplayPositionScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonArmorEnergyDisplayPositionScreen.java",
+   "kind": "render-class",
+   "key": "class DragonArmorEnergyDisplayPositionScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonArmorModuleConfigScreen.java#render-class:class DragonArmorModuleConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonArmorModuleConfigScreen.java",
+   "kind": "render-class",
+   "key": "class DragonArmorModuleConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonArmorModuleDetailScreen.java#render-class:class DragonArmorModuleDetailScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonArmorModuleDetailScreen.java",
+   "kind": "render-class",
+   "key": "class DragonArmorModuleDetailScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalArmorConfigScreen.java#render-class:class DragonCrystalArmorConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalArmorConfigScreen.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalArmorConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-class:class DragonCrystalEnchantingTableScreen : AbstractContainerScreen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableScreen : AbstractContainerScreen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderType.endPortal",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
+   "kind": "render-use",
+   "key": "RenderType.endPortal",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.endPortal",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java#render-class:class DragonCrystalSmithingTableScreen : AbstractContainerScreen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalSmithingTableScreen : AbstractContainerScreen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-class:class JourneyLogsScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/JourneyLogsScreen.java",
+   "kind": "render-class",
+   "key": "class JourneyLogsScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/JourneyLogsScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/JustifiedDefenceConfigScreen.java#render-class:class JustifiedDefenceConfigScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/JustifiedDefenceConfigScreen.java",
+   "kind": "render-class",
+   "key": "class JustifiedDefenceConfigScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/JustifiedDefenceOverlayPositionScreen.java#render-class:class JustifiedDefenceOverlayPositionScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/JustifiedDefenceOverlayPositionScreen.java",
+   "kind": "render-class",
+   "key": "class JustifiedDefenceOverlayPositionScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/NpcDialogueScreen.java#render-class:class NpcDialogueScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/NpcDialogueScreen.java",
+   "kind": "render-class",
+   "key": "class NpcDialogueScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-class:class PaperNoteScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/PaperNoteScreen.java",
+   "kind": "render-class",
+   "key": "class PaperNoteScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/PaperNoteScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-class:class SummonWraithGuiScreen : AbstractContainerScreen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/SummonWraithGuiScreen.java",
+   "kind": "render-class",
+   "key": "class SummonWraithGuiScreen : AbstractContainerScreen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/SummonWraithGuiScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/SwordWraithAppearanceScreen.java#render-class:class SwordWraithAppearanceScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/SwordWraithAppearanceScreen.java",
+   "kind": "render-class",
+   "key": "class SwordWraithAppearanceScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-class:class TheLastEndScrollScreen : Screen",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/TheLastEndScrollScreen.java",
+   "kind": "render-class",
+   "key": "class TheLastEndScrollScreen : Screen",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/gui/TheLastEndScrollScreen.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/DeathRayLayer.java#render-use:RenderType.lightning",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/DeathRayLayer.java",
+   "kind": "render-use",
+   "key": "RenderType.lightning",
+   "status": "same",
+   "detail": "through the rename tables",
+   "now": "RenderTypes.lightning"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-class:class LostWraithSealLayer : GeoRenderLayer",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-class",
+   "key": "class LostWraithSealLayer : GeoRenderLayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderPipeline",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.POSITION_COLOR_SHADER",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_DEPTH_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-class:class TestEntityTheLastEndLayer : RenderLayer",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java",
+   "kind": "render-class",
+   "key": "class TestEntityTheLastEndLayer : RenderLayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucentCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-class:class TheLastEndSwordWraithLayer : GeoRenderLayer",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndSwordWraithLayer : GeoRenderLayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-use:RenderType.eyes",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java",
+   "kind": "render-use",
+   "key": "RenderType.eyes",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.eyes",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java#render-class:class TheLastEndSwordWraithTheLastEndLayer : GeoRenderLayer",
+   "set": "main",
+   "file": "net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndSwordWraithTheLastEndLayer : GeoRenderLayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonArmorModel.java#render-class:class DragonArmorModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonArmorModel.java",
+   "kind": "render-class",
+   "key": "class DragonArmorModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCrystalEnchantingTableDisplayModel.java#render-class:class DragonCrystalEnchantingTableDisplayModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCrystalEnchantingTableDisplayModel.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableDisplayModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCrystalEnchantingTableModel.java#render-class:class DragonCrystalEnchantingTableModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCrystalEnchantingTableModel.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultPaladinArmorModel.java#render-class:class DragonCultPaladinArmorModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultPaladinArmorModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultPaladinArmorModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultPaladinModel.java#render-class:class DragonCultPaladinModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultPaladinModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultPaladinModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultPriestArmorModel.java#render-class:class DragonCultPriestArmorModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultPriestArmorModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultPriestArmorModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultPriestModel.java#render-class:class DragonCultPriestModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultPriestModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultPriestModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultistArmorModel.java#render-class:class DragonCultistArmorModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultistArmorModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultistArmorModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/DragonCultistModel.java#render-class:class DragonCultistModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/DragonCultistModel.java",
+   "kind": "render-class",
+   "key": "class DragonCultistModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/GuardianOfSealedSpireModel.java#render-class:class GuardianOfSealedSpireModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/GuardianOfSealedSpireModel.java",
+   "kind": "render-class",
+   "key": "class GuardianOfSealedSpireModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/LostWraithModel.java#render-class:class LostWraithModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/LostWraithModel.java",
+   "kind": "render-class",
+   "key": "class LostWraithModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/TheLastEndSwordWraithModel.java#render-class:class TheLastEndSwordWraithModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/TheLastEndSwordWraithModel.java",
+   "kind": "render-class",
+   "key": "class TheLastEndSwordWraithModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java#render-class:class ThePastShadowOfTheQueenModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java",
+   "kind": "render-class",
+   "key": "class ThePastShadowOfTheQueenModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java#render-class:class WingsThatCoverTheWorldModel : AgeableListModel",
+   "set": "main",
+   "file": "net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java",
+   "kind": "render-class",
+   "key": "class WingsThatCoverTheWorldModel : AgeableListModel",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-class",
+   "now": "class WingsThatCoverTheWorldModel : EntityModel",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShader",
+   "set": "main",
+   "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShader",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:GameRenderer.getPositionTexShader",
+   "set": "main",
+   "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
+   "kind": "render-use",
+   "key": "GameRenderer.getPositionTexShader",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor",
+   "set": "main",
+   "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
+   "kind": "render-use",
+   "key": "RenderSystem.setShaderColor",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent ClientTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/BlinkRiftRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderHandEvent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/BlinkRiftRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderHandEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderPlayerEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/BlinkRiftRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderPlayerEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderLevelStageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/BlinkRiftRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderLevelStageEvent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different event",
+   "now": "@SubscribeEvent RenderLevelStageEvent.AfterParticles",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderPipeline",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.ShaderStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.ShaderStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "GameRenderer.getPositionColorShader",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.lines",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.lines",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.lines",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-class:class DragonArmorRenderer : GeoArmorRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonArmorRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonArmorRenderer : GeoArmorRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonArmorRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java#render-class:class DragonCrystalEnchantingTableDisplayItemRenderer : GeoItemRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableDisplayItemRenderer : GeoItemRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableRenderer.java#render-class:class DragonCrystalEnchantingTableRenderer : GeoBlockRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCrystalEnchantingTableRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCrystalEnchantingTableRenderer : GeoBlockRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPaladinArmorRenderer.java#render-class:class DragonCultPaladinArmorRenderer : GeoArmorRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPaladinArmorRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultPaladinArmorRenderer : GeoArmorRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java#render-class:class DragonCultPaladinRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultPaladinRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPriestArmorRenderer.java#render-class:class DragonCultPriestArmorRenderer : GeoArmorRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPriestArmorRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultPriestArmorRenderer : GeoArmorRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPriestRenderer.java#render-class:class DragonCultPriestRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultPriestRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultPriestRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultistArmorRenderer.java#render-class:class DragonCultistArmorRenderer : GeoArmorRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultistArmorRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultistArmorRenderer : GeoArmorRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultistRenderer.java#render-class:class DragonCultistRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultistRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonCultistRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonCultistRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonCultistRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonLightingRenderer.java#render-class:class DragonLightingRenderer : LightningBoltRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonLightingRenderer.java",
+   "kind": "render-class",
+   "key": "class DragonLightingRenderer : LightningBoltRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonLightingRenderer.java#render-use:RenderType.lightning",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonLightingRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.lightning",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.lightning",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.POSITION_COLOR_SHADER",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java#render-class:class EndCrystalRiftRenderer : EntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java",
+   "kind": "render-class",
+   "key": "class EndCrystalRiftRenderer : EntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/GroundRuptureFragmentRenderer.java#render-class:class GroundRuptureFragmentRenderer : EntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/GroundRuptureFragmentRenderer.java",
+   "kind": "render-class",
+   "key": "class GroundRuptureFragmentRenderer : EntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java#render-class:class GuardianOfSealedSpireRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java",
+   "kind": "render-class",
+   "key": "class GuardianOfSealedSpireRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java#event:@SubscribeEvent ClientTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java#event:@SubscribeEvent RenderLevelStageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderLevelStageEvent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different event",
+   "now": "@SubscribeEvent RenderLevelStageEvent.AfterTranslucentParticles",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearItemRenderer.java#render-class:class LightningSpearItemRenderer : BlockEntityWithoutLevelRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
+   "kind": "render-class",
+   "key": "class LightningSpearItemRenderer : BlockEntityWithoutLevelRenderer",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-class; reviewed in STUBS.json: (inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/li",
+   "now": "class LightningSpearItemRenderer : NoDataSpecialModelRenderer",
+   "accounted": true
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearProjectileRenderer.java#render-class:class LightningSpearProjectileRenderer : EntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearProjectileRenderer.java",
+   "kind": "render-class",
+   "key": "class LightningSpearProjectileRenderer : EntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.POSITION_COLOR_SHADER",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LIGHTNING_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.lightning",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.lightning",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LostWraithRenderer.java#render-class:class LostWraithRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LostWraithRenderer.java",
+   "kind": "render-class",
+   "key": "class LostWraithRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/LostWraithRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/LostWraithRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.CompositeRenderType",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeRenderType",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.eyes",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.eyes",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.eyes",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucentEmissive",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucentEmissive",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucentEmissive",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySolid",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entitySolid",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entitySolid",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutout",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityCutout",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityCutout",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCull",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityCutoutNoCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityCutoutCull",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCullZOffset",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityCutoutNoCullZOffset",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityCutoutZOffset",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.armorCutoutNoCull",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.armorCutoutNoCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.armorCutoutNoCull",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySmoothCutout",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entitySmoothCutout",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityDecal",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityDecal",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderType.class",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/PhasingBufferSource.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java#render-class:class QueenBlinkBladeRenderer : EntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java",
+   "kind": "render-class",
+   "key": "class QueenBlinkBladeRenderer : EntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.POSITION_COLOR_SHADER",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LIGHTNING_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TestEntityRenderer.java#render-class:class TestEntityRenderer : HumanoidMobRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TestEntityRenderer.java",
+   "kind": "render-class",
+   "key": "class TestEntityRenderer : HumanoidMobRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java#render-class:class TheLastEndLightingRenderer : LightningBoltRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndLightingRenderer : LightningBoltRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java#render-use:RenderType.endPortal",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.endPortal",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.endPortal",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java#render-class:class TheLastEndSwordProjectileRenderer : EntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndSwordProjectileRenderer : EntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java#render-use:RenderType.entityCutoutNoCull",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityCutoutNoCull",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; reviewed in STUBS.json: (inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override; the 1.21.1 one was only the abstract requirement, and renderCrystal binds END_CRYSTAL_LOCATION itself.",
+   "now": "RenderTypes.entityCutout",
+   "accounted": true
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java#render-use:RenderType.LIGHTNING",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.LIGHTNING",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; reviewed in STUBS.json: (inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override; the 1.21.1 one was only the abstract requirement, and renderCrystal binds END_CRYSTAL_LOCATION itself.",
+   "now": "RenderTypes.lightning",
+   "accounted": true
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java#render-class:class TheLastEndSwordWraithRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndSwordWraithRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java#render-class:class ThePastShadowOfTheQueenRenderer : GeoEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java",
+   "kind": "render-class",
+   "key": "class ThePastShadowOfTheQueenRenderer : GeoEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java#render-use:RenderType.entityTranslucent",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-class:class WingsThatCoverTheWorldRenderer : ICurioRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java",
+   "kind": "render-class",
+   "key": "class WingsThatCoverTheWorldRenderer : ICurioRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-use:RenderType.entityCutoutNoCull",
+   "set": "main",
+   "file": "net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityCutoutNoCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityCutout",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndEffect.java#render-use:ShaderInstance",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndEffect.java",
+   "kind": "render-use",
+   "key": "ShaderInstance",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderPipeline",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ShaderStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.ShaderStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LIGHTMAP",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LIGHTMAP",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TextureStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TextureStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.OVERLAY",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.OVERLAY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.BLOCK_SHEET_MIPPED",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "GameRenderer.getParticleShader",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderPipeline.builder",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.ADDITIVE_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.BLOCK_SHEET",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderPipelines.ENTITY_TRANSLUCENT",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndRenderTypes.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.VIEW_OFFSET_Z_LAYERING",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/TheLastEndShaderInstance.java#render-use:ShaderInstance",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/TheLastEndShaderInstance.java",
+   "kind": "render-use",
+   "key": "ShaderInstance",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:ShaderInstance",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "ShaderInstance",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.BLOCK_SHEET_MIPPED",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.VIEW_OFFSET_Z_LAYERING",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.ShaderStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/apotheosis/ApotheosisCompat.java#event:@SubscribeEvent InterModEnqueueEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/apotheosis/ApotheosisCompat.java",
+   "kind": "event",
+   "key": "@SubscribeEvent InterModEnqueueEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java#event:@SubscribeEvent CriticalHitEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent CriticalHitEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java#event:@SubscribeEvent LivingDropsEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDropsEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java#event:@SubscribeEvent LivingIncomingDamageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/cataclysm/CataclysmEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingIncomingDamageEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/curios/CuriosEffectHandler.java#event:@SubscribeEvent CriticalHitEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/curios/CuriosEffectHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent CriticalHitEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/curios/CuriosEffectHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/curios/CuriosEffectHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/curios/CuriosEffectHandler.java#event:@SubscribeEvent LivingIncomingDamageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/curios/CuriosEffectHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingIncomingDamageEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/curios/CuriosEffectHandler.java#event:@SubscribeEvent PlayerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/compat/curios/CuriosEffectHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java#event:@SubscribeEvent ItemAttributeModifierEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ItemAttributeModifierEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java#event:addListener handler onCooldownAdded",
+   "set": "main",
+   "file": "net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java",
+   "kind": "event",
+   "key": "addListener handler onCooldownAdded",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java#registry:registry SchoolRegistry",
+   "set": "main",
+   "file": "net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java",
+   "kind": "registry",
+   "key": "registry SchoolRegistry",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java#registry:registry SpellRegistry",
+   "set": "main",
+   "file": "net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java",
+   "kind": "registry",
+   "key": "registry SpellRegistry",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-class:class TheLastEndLuckyBlockDisplayItemRenderer : GeoItemRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndLuckyBlockDisplayItemRenderer : GeoItemRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucentCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java",
+   "kind": "render-class",
+   "key": "class TheLastEndLuckyBlockDisplayModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockModel.java#render-class:class TheLastEndLuckyBlockModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockModel.java",
+   "kind": "render-class",
+   "key": "class TheLastEndLuckyBlockModel : GeoModel",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-class:class TheLastEndLuckyBlockRenderer : GeoBlockRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java",
+   "kind": "render-class",
+   "key": "class TheLastEndLuckyBlockRenderer : GeoBlockRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java",
+   "kind": "render-use",
+   "key": "RenderType.entityTranslucentCull",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.entityTranslucent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/lucky_block/lucky_event/ArenaBattleHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/lucky_block/lucky_event/ArenaBattleHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/TransmutationStaffEventHandler.java#event:@SubscribeEvent PlayerInteractEvent.EntityInteract",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/TransmutationStaffEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerInteractEvent.EntityInteract",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/TransmutationStaffEventHandler.java#event:@SubscribeEvent PlayerInteractEvent.EntityInteractSpecific",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/TransmutationStaffEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerInteractEvent.EntityInteractSpecific",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/TransmutationStaffField.java#event:@SubscribeEvent LevelEvent.Unload",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/TransmutationStaffField.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LevelEvent.Unload",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/TransmutationStaffField.java#event:@SubscribeEvent LevelTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/TransmutationStaffField.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LevelTickEvent.Pre",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/TransmutationStaffField.java#event:@SubscribeEvent ServerStoppedEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/TransmutationStaffField.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerStoppedEvent",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/PrimalSourceArmorClientExtension.java#render-class:class PrimalSourceArmorClientExtension : IClientItemExtensions",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/PrimalSourceArmorClientExtension.java",
+   "kind": "render-class",
+   "key": "class PrimalSourceArmorClientExtension : IClientItemExtensions",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/PrimalSourceArmorModel.java#render-class:class PrimalSourceArmorModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/PrimalSourceArmorModel.java",
+   "kind": "render-class",
+   "key": "class PrimalSourceArmorModel : GeoModel",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/PrimalSourceArmorRenderer.java#render-class:class PrimalSourceArmorRenderer : GeoArmorRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/PrimalSourceArmorRenderer.java",
+   "kind": "render-class",
+   "key": "class PrimalSourceArmorRenderer : GeoArmorRenderer",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationModel.java#render-class:class StaffOfUniversalTransmutationModel : GeoModel",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationModel.java",
+   "kind": "render-class",
+   "key": "class StaffOfUniversalTransmutationModel : GeoModel",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationRenderer.java#render-class:class StaffOfUniversalTransmutationRenderer : GeoItemRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationRenderer.java",
+   "kind": "render-class",
+   "key": "class StaffOfUniversalTransmutationRenderer : GeoItemRenderer",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/TransmutationStaffClientExtension.java#render-class:class TransmutationStaffClientExtension : IClientItemExtensions",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/TransmutationStaffClientExtension.java",
+   "kind": "render-class",
+   "key": "class TransmutationStaffClientExtension : IClientItemExtensions",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java#event:@SubscribeEvent ClientTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientTickEvent.Post",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java#event:@SubscribeEvent RenderLevelStageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderLevelStageEvent",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java#render-use:GameRenderer.getPositionTexColorShader",
+   "set": "main",
+   "file": "net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java",
+   "kind": "render-use",
+   "key": "GameRenderer.getPositionTexColorShader",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/dialogue/NpcDialogueManager.java#event:@SubscribeEvent PlayerEvent.Clone",
+   "set": "main",
+   "file": "net/the_last_sword/dialogue/NpcDialogueManager.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.Clone",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent ClientPlayerNetworkEvent.LoggingIn",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientPlayerNetworkEvent.LoggingIn",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent ClientPlayerNetworkEvent.LoggingOut",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientPlayerNetworkEvent.LoggingOut",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent ClientTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent FMLClientSetupEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent FMLClientSetupEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent InputEvent.Key",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent InputEvent.Key",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent InputEvent.MouseButton.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent InputEvent.MouseButton.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderGuiLayerEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderGuiLayerEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderGuiLayerEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderGuiLayerEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderLevelStageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RenderLevelStageEvent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different event",
+   "now": "@SubscribeEvent RenderLevelStageEvent.AfterTranslucentBlocks",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.create",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderType.create",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderType.CompositeState",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.ShaderStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TextureStateShard",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TextureStateShard",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.NO_CULL",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderStateShard.COLOR_WRITE",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.lines",
+   "set": "main",
+   "file": "net/the_last_sword/event/ClientEventHandler.java",
+   "kind": "render-use",
+   "key": "RenderType.lines",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different render-use",
+   "now": "RenderTypes.lines",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent EntityAttributeModificationEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/DefenceEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityAttributeModificationEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent LevelTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/DefenceEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LevelTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/DefenceEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent LivingEquipmentChangeEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/DefenceEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingEquipmentChangeEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent PlayerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/DefenceEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EffectEventHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/EffectEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EffectEventHandler.java#event:@SubscribeEvent LivingIncomingDamageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/EffectEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingIncomingDamageEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EnderDragonEvent.java#event:@SubscribeEvent EntityJoinLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/EnderDragonEvent.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityJoinLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EnderDragonEvent.java#event:@SubscribeEvent EntityTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/event/EnderDragonEvent.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityTickEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EnderDragonEvent.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/EnderDragonEvent.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/EnderDragonEvent.java#event:@SubscribeEvent LivingIncomingDamageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/EnderDragonEvent.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingIncomingDamageEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/LightningSpearConfigSync.java#event:@SubscribeEvent PlayerEvent.PlayerLoggedInEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/LightningSpearConfigSync.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.PlayerLoggedInEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/LightningSpearConfigSync.java#event:@SubscribeEvent ServerStoppedEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/LightningSpearConfigSync.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerStoppedEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/LightningSpearConfigSync.java#event:@SubscribeEvent ServerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/LightningSpearConfigSync.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent EntityJoinLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityJoinLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent EntityLeaveLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityLeaveLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent OnDatapackSyncEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent OnDatapackSyncEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent PlayerEvent.PlayerRespawnEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.PlayerRespawnEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent ServerStartingEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerStartingEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent ServerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent BlockEvent.BreakEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/ServerEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent BlockEvent.BreakEvent",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different event",
+   "now": "@SubscribeEvent BreakBlockEvent",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/event/TheLastSwordQuestHandler.java#event:@SubscribeEvent AdvancementEvent.AdvancementEarnEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/TheLastSwordQuestHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent AdvancementEvent.AdvancementEarnEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/TheLastSwordQuestHandler.java#event:@SubscribeEvent PlayerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/event/TheLastSwordQuestHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/VillagerTradeHandler.java#event:@SubscribeEvent WandererTradesEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/VillagerTradeHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent WandererTradesEvent",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent EntityJoinLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityJoinLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent EntityLeaveLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityLeaveLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent EntityTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityTickEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent LivingDeathEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingDeathEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent PlayerEvent.Clone",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.Clone",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent PlayerEvent.PlayerChangedDimensionEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.PlayerChangedDimensionEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/event/WraithSummonEventHandler.java#event:@SubscribeEvent PlayerEvent.PlayerLoggedOutEvent",
+   "set": "main",
+   "file": "net/the_last_sword/event/WraithSummonEventHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.PlayerLoggedOutEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModAttributes.java#registry:registry ATTRIBUTE",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModAttributes.java",
+   "kind": "registry",
+   "key": "registry ATTRIBUTE",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModBlockEntities.java#registry:registry BLOCK_ENTITY_TYPE",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModBlockEntities.java",
+   "kind": "registry",
+   "key": "registry BLOCK_ENTITY_TYPE",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModBlocks.java#registry:registry BLOCK",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModBlocks.java",
+   "kind": "registry",
+   "key": "registry BLOCK",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModCapabilities.java#event:@SubscribeEvent RegisterCapabilitiesEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModCapabilities.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RegisterCapabilitiesEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModCommands.java#event:@SubscribeEvent RegisterCommandsEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModCommands.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RegisterCommandsEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModCreativeTabs.java#registry:registry CREATIVE_MODE_TAB",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModCreativeTabs.java",
+   "kind": "registry",
+   "key": "registry CREATIVE_MODE_TAB",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEffects.java#registry:registry MOB_EFFECT",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEffects.java",
+   "kind": "registry",
+   "key": "registry MOB_EFFECT",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEntities.java#event:@SubscribeEvent EntityAttributeCreationEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEntities.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityAttributeCreationEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEntities.java#registry:registry ENTITY_TYPE",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEntities.java",
+   "kind": "registry",
+   "key": "registry ENTITY_TYPE",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEntityRenderers.java#event:@SubscribeEvent EntityRenderersEvent.RegisterLayerDefinitions",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEntityRenderers.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityRenderersEvent.RegisterLayerDefinitions",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEntityRenderers.java#event:@SubscribeEvent EntityRenderersEvent.RegisterRenderers",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEntityRenderers.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityRenderersEvent.RegisterRenderers",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModEntityRenderers.java#event:@SubscribeEvent FMLClientSetupEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModEntityRenderers.java",
+   "kind": "event",
+   "key": "@SubscribeEvent FMLClientSetupEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModInstruments.java#registry:registry INSTRUMENT",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModInstruments.java",
+   "kind": "registry",
+   "key": "registry INSTRUMENT",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModItems.java#registry:registry ITEM",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModItems.java",
+   "kind": "registry",
+   "key": "registry ITEM",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModKeyMappings.java#event:@SubscribeEvent RegisterKeyMappingsEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModKeyMappings.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RegisterKeyMappingsEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModMenus.java#registry:registry MENU",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModMenus.java",
+   "kind": "registry",
+   "key": "registry MENU",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModRecipes.java#registry:registry RECIPE_SERIALIZER",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModRecipes.java",
+   "kind": "registry",
+   "key": "registry RECIPE_SERIALIZER",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModRecipes.java#registry:registry RECIPE_TYPE",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModRecipes.java",
+   "kind": "registry",
+   "key": "registry RECIPE_TYPE",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModScreens.java#event:@SubscribeEvent FMLClientSetupEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModScreens.java",
+   "kind": "event",
+   "key": "@SubscribeEvent FMLClientSetupEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModScreens.java#event:@SubscribeEvent RegisterMenuScreensEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModScreens.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RegisterMenuScreensEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModShaders.java#event:@SubscribeEvent RegisterShadersEvent",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModShaders.java",
+   "kind": "event",
+   "key": "@SubscribeEvent RegisterShadersEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModShaders.java#render-use:ShaderInstance",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModShaders.java",
+   "kind": "render-use",
+   "key": "ShaderInstance",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/init/ModSounds.java#registry:registry SOUND_EVENT",
+   "set": "main",
+   "file": "net/the_last_sword/init/ModSounds.java",
+   "kind": "registry",
+   "key": "registry SOUND_EVENT",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/item/DragonCrystalUpgradeTemplate.java#event:@SubscribeEvent ModifyDefaultComponentsEvent",
+   "set": "main",
+   "file": "net/the_last_sword/item/DragonCrystalUpgradeTemplate.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ModifyDefaultComponentsEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/item/TheLastSword.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/item/TheLastSword.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Post",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/item/TheLastSwordYouNeverForgot.java#event:@SubscribeEvent PlayerTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/item/TheLastSwordYouNeverForgot.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/BlockBehaviourMixin.java#injection:@Inject method=getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape; @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/BlockBehaviourMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape; @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/BlockBehaviourMixin.java#injection:@Inject method=getDestroyProgress @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/BlockBehaviourMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=getDestroyProgress @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/BlockBehaviourMixin.java#mixin:@Mixin BlockBehaviour.BlockStateBase",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/BlockBehaviourMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin BlockBehaviour.BlockStateBase",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/CameraMixin.java#mixin:@Mixin Camera",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/CameraMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Camera",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/CameraMixin.java#injection:@Inject method=setup @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/CameraMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setup @At(value=\"TAIL\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@Inject method=alignWithEntity @At(value=\"TAIL\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ConnectionMixin.java#injection:@Inject method=disconnect @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ConnectionMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=disconnect @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ConnectionMixin.java#mixin:@Mixin Connection",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ConnectionMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Connection",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EndCrystalMixin.java#injection:@Inject method=tick @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EndCrystalMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=tick @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EndCrystalMixin.java#mixin:@Mixin EndCrystal",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EndCrystalMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin EndCrystal",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonMixin.java#mixin:@Mixin EnderDragon",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin EnderDragon",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonMixin.java#injection:@ModifyArg method=aiStep @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;moveRelative(FLnet/minecraft/world/phys/Vec3;)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonMixin.java",
+   "kind": "injection",
+   "key": "@ModifyArg method=aiStep @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;moveRelative(FLnet/minecraft/world/phys/Vec3;)V\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonMixin.java#injection:@ModifyConstant method=knockBack(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V ",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonMixin.java",
+   "kind": "injection",
+   "key": "@ModifyConstant method=knockBack(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V ",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonMixin.java#injection:@ModifyConstant method=hurt(Ljava/util/List;)V ",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonMixin.java",
+   "kind": "injection",
+   "key": "@ModifyConstant method=hurt(Ljava/util/List;)V ",
+   "status": "same",
+   "detail": "through the rename tables",
+   "now": "@ModifyConstant method=hurt(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V "
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#mixin:@Mixin EnderDragonRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin EnderDragonRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EnderDragonRendererMixin.java",
+   "kind": "injection",
+   "key": "@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=discard @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=discard @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=getTeamColor @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=getTeamColor @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=isCurrentlyGlowing @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=isCurrentlyGlowing @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=isInWall @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=isInWall @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=isRemoved @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=isRemoved @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=kill @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=kill @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=remove @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=remove @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=setLevelCallback @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setLevelCallback @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#injection:@Inject method=setRemoved @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setRemoved @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityMixin.java#mixin:@Mixin Entity",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Entity",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#mixin:@Mixin EntityRenderDispatcher",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityRenderDispatcherMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin EntityRenderDispatcher",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/EntityRenderDispatcherMixin.java",
+   "kind": "injection",
+   "key": "@ModifyVariable method=render @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@ModifyVariable method=submit @At(value=\"HEAD\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=bobHurt @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/GameRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=bobHurt @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=bobView @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/GameRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=bobView @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#mixin:@Mixin GameRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/GameRendererMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin GameRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=renderConfusionOverlay @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/GameRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=renderConfusionOverlay @At(value=\"HEAD\")",
+   "status": "moved",
+   "detail": "not in the target's file; reviewed in STUBS.json: The removed handler is the authors' GameRenderer.renderConfusionOverlay cancel: since 1.21.4 vanilla draws nausea in Gui (26.1: Gui.extractConfusionOverlay(GuiGraphicsExtractor, float)), and the same HEAD-cancel for the defence sword is GuiConfusionOverlayMixin, added to the client mixins by the inh",
+   "accounted": true
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=clearContent @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=clearContent @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=clearOrCountMatchingItems @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=clearOrCountMatchingItems @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=dropAll @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=dropAll @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=removeItem(Lnet/minecraft/world/item/ItemStack;)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=removeItem(Lnet/minecraft/world/item/ItemStack;)V @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#injection:@Inject method=setItem(ILnet/minecraft/world/item/ItemStack;)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setItem(ILnet/minecraft/world/item/ItemStack;)V @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/InventoryMixin.java#mixin:@Mixin Inventory",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/InventoryMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Inventory",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LevelRendererMixin.java#mixin:@Mixin LevelRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LevelRendererMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin LevelRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LevelRendererMixin.java#injection:@ModifyVariable method=setupRender @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LevelRendererMixin.java",
+   "kind": "injection",
+   "key": "@ModifyVariable method=setupRender @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@ModifyVariable method=cullTerrain @At(value=\"HEAD\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=<clinit> @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=<clinit> @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=actuallyHurt @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=actuallyHurt @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=defineSynchedData @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=defineSynchedData @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=die @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=die @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=die @At(value=\"RETURN\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=die @At(value=\"RETURN\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=readAdditionalSaveData @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=readAdditionalSaveData @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=setHealth @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setHealth @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=tick @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=tick @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=tick @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=tick @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=tickDeath @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=tickDeath @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=tickEffects @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=tickEffects @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#mixin:@Mixin LivingEntity",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin LivingEntity",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=hurt @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@Inject method=hurtServer @At(value=\"HEAD\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=getOverlayCoords @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=getOverlayCoords @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#mixin:@Mixin LivingEntityRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityRendererMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin LivingEntityRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "the target's overlay has a different injection",
+   "now": "@Inject method=submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V @At(value=\"HEAD\")",
+   "was": "changed"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LocalPlayerMixin.java#injection:@Inject method=aiStep @At(value=\"FIELD\",target=\"Lnet/minecraft/world/entity/player/Abilities;flying:Z\",opcode=Opcodes.PUTFIELD,shift=At.Shift.AFTER)",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LocalPlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=aiStep @At(value=\"FIELD\",target=\"Lnet/minecraft/world/entity/player/Abilities;flying:Z\",opcode=Opcodes.PUTFIELD,shift=At.Shift.AFTER)",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LocalPlayerMixin.java#injection:@Inject method=aiStep @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LocalPlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=aiStep @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/LocalPlayerMixin.java#mixin:@Mixin LocalPlayer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LocalPlayerMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin LocalPlayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/MinecraftMixin.java#mixin:@Mixin Minecraft",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/MinecraftMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Minecraft",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/MinecraftMixin.java#injection:@ModifyVariable method=setScreen @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/MinecraftMixin.java",
+   "kind": "injection",
+   "key": "@ModifyVariable method=setScreen @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java#injection:@Inject method=onRemove @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=onRemove @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java#mixin:@Mixin PersistentEntitySectionManager",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin PersistentEntitySectionManager",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java#mixin:@Mixin PersistentEntitySectionManager.Callback",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PersistentEntitySectionManagerMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin PersistentEntitySectionManager.Callback",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerAdvancementsMixin.java#injection:@Inject method=award @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerAdvancementsMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=award @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerAdvancementsMixin.java#mixin:@Mixin PlayerAdvancements",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerAdvancementsMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin PlayerAdvancements",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=addAdditionalSaveData @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=addAdditionalSaveData @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=dropEquipment @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=dropEquipment @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=readAdditionalSaveData @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=readAdditionalSaveData @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#mixin:@Mixin Player",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin Player",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/PlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=setItemSlot @At(value=\"HEAD\")",
+   "status": "unaccounted",
+   "detail": "not in the target's file",
+   "was": "missing"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ScreenEffectRendererMixin.java#injection:@Inject method=renderScreenEffect @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ScreenEffectRendererMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=renderScreenEffect @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ScreenEffectRendererMixin.java#mixin:@Mixin ScreenEffectRenderer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ScreenEffectRendererMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin ScreenEffectRenderer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java#injection:@Inject method=disconnect(Lnet/minecraft/network/DisconnectionDetails;)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=disconnect(Lnet/minecraft/network/DisconnectionDetails;)V @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java#mixin:@Mixin ServerCommonPacketListenerImpl",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin ServerCommonPacketListenerImpl",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java#injection:@Inject method=send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerCommonPacketListenerImplMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "through the rename tables",
+   "now": "@Inject method=send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;)V @At(value=\"HEAD\")"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerGamePacketListenerImplMixin.java#injection:@Inject method=handlePlayerAbilities @At(value=\"HEAD\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerGamePacketListenerImplMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=handlePlayerAbilities @At(value=\"HEAD\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerGamePacketListenerImplMixin.java#mixin:@Mixin ServerGamePacketListenerImpl",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerGamePacketListenerImplMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin ServerGamePacketListenerImpl",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerPlayerMixin.java#injection:@Inject method=die @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerPlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=die @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerPlayerMixin.java#injection:@Inject method=restoreFrom @At(value=\"TAIL\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerPlayerMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=restoreFrom @At(value=\"TAIL\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/ServerPlayerMixin.java#mixin:@Mixin ServerPlayer",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/ServerPlayerMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin ServerPlayer",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SmithingLevelEmcMixin.java#mixin:@Mixin moze_intel.projecte.emc.components.DataComponentManager",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SmithingLevelEmcMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin moze_intel.projecte.emc.components.DataComponentManager",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SmithingLevelEmcMixin.java#injection:@Redirect method=getEmcValue @At(value=\"INVOKE\",target=\"Lmoze_intel/projecte/emc/EMCMappingHandler;getStoredEmcValue(Lmoze_intel/projecte/api/ItemInfo;)J\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SmithingLevelEmcMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=getEmcValue @At(value=\"INVOKE\",target=\"Lmoze_intel/projecte/emc/EMCMappingHandler;getStoredEmcValue(Lmoze_intel/projecte/api/ItemInfo;)J\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SmithingTransformRecipeAccessor.java#mixin:@Mixin SmithingTransformRecipe",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SmithingTransformRecipeAccessor.java",
+   "kind": "mixin",
+   "key": "@Mixin SmithingTransformRecipe",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SpellCooldownTooltipMixin.java#mixin:@Mixin io.redspace.ironsspellbooks.util.TooltipsUtils",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SpellCooldownTooltipMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin io.redspace.ironsspellbooks.util.TooltipsUtils",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SpellCooldownTooltipMixin.java#injection:@Redirect method=formatActiveSpellTooltip @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/capabilities/magic/MagicManager;getEffectiveSpellCooldown(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;Lnet/minecraft/world/entity/player/Player;Lio/redspace/ironsspellbooks/api/spells/CastSource;)I\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SpellCooldownTooltipMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=formatActiveSpellTooltip @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/capabilities/magic/MagicManager;getEffectiveSpellCooldown(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;Lnet/minecraft/world/entity/player/Player;Lio/redspace/ironsspellbooks/api/spells/CastSource;)I\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/SpellCooldownTooltipMixin.java#injection:@Redirect method=formatScrollTooltip @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/capabilities/magic/MagicManager;getEffectiveSpellCooldown(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;Lnet/minecraft/world/entity/player/Player;Lio/redspace/ironsspellbooks/api/spells/CastSource;)I\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/SpellCooldownTooltipMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=formatScrollTooltip @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/capabilities/magic/MagicManager;getEffectiveSpellCooldown(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;Lnet/minecraft/world/entity/player/Player;Lio/redspace/ironsspellbooks/api/spells/CastSource;)I\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffCastingMixin.java#injection:@Inject method=attemptInitiateCast @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/magic/MagicData;initiateCast(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;IILio/redspace/ironsspellbooks/api/spells/CastSource;Ljava/lang/String;)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffCastingMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=attemptInitiateCast @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/magic/MagicData;initiateCast(Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;IILio/redspace/ironsspellbooks/api/spells/CastSource;Ljava/lang/String;)V\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffCastingMixin.java#injection:@Inject method=onServerCastComplete @At(value=\"RETURN\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffCastingMixin.java",
+   "kind": "injection",
+   "key": "@Inject method=onServerCastComplete @At(value=\"RETURN\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffCastingMixin.java#injection:@Redirect method=attemptInitiateCast @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onServerPreCast(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffCastingMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=attemptInitiateCast @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onServerPreCast(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffCastingMixin.java#injection:@Redirect method=castSpell @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onCast(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/spells/CastSource;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffCastingMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=castSpell @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onCast(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/spells/CastSource;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffCastingMixin.java#mixin:@Mixin io.redspace.ironsspellbooks.api.spells.AbstractSpell",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffCastingMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin io.redspace.ironsspellbooks.api.spells.AbstractSpell",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffChannelMixin.java#mixin:@Mixin io.redspace.ironsspellbooks.capabilities.magic.MagicManager",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffChannelMixin.java",
+   "kind": "mixin",
+   "key": "@Mixin io.redspace.ironsspellbooks.capabilities.magic.MagicManager",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/mixin/TransmutationStaffChannelMixin.java#injection:@Redirect method=* @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onServerCastTick(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/TransmutationStaffChannelMixin.java",
+   "kind": "injection",
+   "key": "@Redirect method=* @At(value=\"INVOKE\",target=\"Lio/redspace/ironsspellbooks/api/spells/AbstractSpell;onServerCastTick(Lnet/minecraft/world/level/Level;ILnet/minecraft/world/entity/LivingEntity;Lio/redspace/ironsspellbooks/api/magic/MagicData;)V\")",
+   "status": "dropped",
+   "detail": "ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped, extra). Every file that compiles against either is left out of every target (this list is inherited); their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json. (drops.txt of 1.21.4)"
+  },
+  {
+   "id": "main:net/the_last_sword/music/CombatMusicHandler.java#event:@SubscribeEvent ClientTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/music/CombatMusicHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ClientTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/summon/WraithSummonSavedData.java#event:@SubscribeEvent LevelEvent.Load",
+   "set": "main",
+   "file": "net/the_last_sword/summon/WraithSummonSavedData.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LevelEvent.Load",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/test/TestEntity.java#event:@SubscribeEvent EntityJoinLevelEvent",
+   "set": "main",
+   "file": "net/the_last_sword/test/TestEntity.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityJoinLevelEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/test/TestEntity.java#event:@SubscribeEvent ServerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/test/TestEntity.java",
+   "kind": "event",
+   "key": "@SubscribeEvent ServerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/test/UltraTestSwordItem.java#event:@SubscribeEvent EntityTravelToDimensionEvent",
+   "set": "main",
+   "file": "net/the_last_sword/test/UltraTestSwordItem.java",
+   "kind": "event",
+   "key": "@SubscribeEvent EntityTravelToDimensionEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/test/UltraTestSwordItem.java#event:@SubscribeEvent PlayerEvent.PlayerChangeGameModeEvent",
+   "set": "main",
+   "file": "net/the_last_sword/test/UltraTestSwordItem.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerEvent.PlayerChangeGameModeEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/test/UltraTestSwordItem.java#event:@SubscribeEvent PlayerTickEvent.Pre",
+   "set": "main",
+   "file": "net/the_last_sword/test/UltraTestSwordItem.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Pre",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/util/damage/AdvancedEquipmentDamageHandler.java#event:@SubscribeEvent LivingIncomingDamageEvent",
+   "set": "main",
+   "file": "net/the_last_sword/util/damage/AdvancedEquipmentDamageHandler.java",
+   "kind": "event",
+   "key": "@SubscribeEvent LivingIncomingDamageEvent",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:net/the_last_sword/worldgen/ModStructureTypes.java#registry:registry STRUCTURE_TYPE",
+   "set": "main",
+   "file": "net/the_last_sword/worldgen/ModStructureTypes.java",
+   "kind": "registry",
+   "key": "registry STRUCTURE_TYPE",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.fsh#shader:the_last_sword:core/the_last_end.fsh",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.fsh",
+   "kind": "shader",
+   "key": "the_last_sword:core/the_last_end.fsh",
+   "status": "same",
+   "detail": "the target's resources have it"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader:the_last_sword:core/the_last_end.json",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader",
+   "key": "the_last_sword:core/the_last_end.json",
+   "status": "same",
+   "detail": "named by the target's prepared Java (a RenderPipeline)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader-uniform:the_last_sword:core/the_last_end ModelViewMat",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/the_last_end ModelViewMat",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader-uniform:the_last_sword:core/the_last_end ProjMat",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/the_last_end ProjMat",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader-uniform:the_last_sword:core/the_last_end ColorModulator",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/the_last_end ColorModulator",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader-uniform:the_last_sword:core/the_last_end GameTime",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/the_last_end GameTime",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.json#shader-sampler:the_last_sword:core/the_last_end Sampler0",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.json",
+   "kind": "shader-sampler",
+   "key": "the_last_sword:core/the_last_end Sampler0",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/the_last_end.vsh#shader:the_last_sword:core/the_last_end.vsh",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/the_last_end.vsh",
+   "kind": "shader",
+   "key": "the_last_sword:core/the_last_end.vsh",
+   "status": "same",
+   "detail": "the target's resources have it"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.fsh#shader:the_last_sword:core/zero_point_engine.fsh",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.fsh",
+   "kind": "shader",
+   "key": "the_last_sword:core/zero_point_engine.fsh",
+   "status": "same",
+   "detail": "the target's resources have it"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader:the_last_sword:core/zero_point_engine.json",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader",
+   "key": "the_last_sword:core/zero_point_engine.json",
+   "status": "same",
+   "detail": "named by the target's prepared Java (a RenderPipeline)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-uniform:the_last_sword:core/zero_point_engine ModelViewMat",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/zero_point_engine ModelViewMat",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-uniform:the_last_sword:core/zero_point_engine ProjMat",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/zero_point_engine ProjMat",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-uniform:the_last_sword:core/zero_point_engine LocalUvMin",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/zero_point_engine LocalUvMin",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-uniform:the_last_sword:core/zero_point_engine LocalUvScale",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/zero_point_engine LocalUvScale",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-uniform:the_last_sword:core/zero_point_engine GlowPhase",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-uniform",
+   "key": "the_last_sword:core/zero_point_engine GlowPhase",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.json#shader-sampler:the_last_sword:core/zero_point_engine Sampler0",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.json",
+   "kind": "shader-sampler",
+   "key": "the_last_sword:core/zero_point_engine Sampler0",
+   "status": "same",
+   "detail": "named in the target's prepared Java (a pipeline declaration)"
+  },
+  {
+   "id": "main:resources/assets/the_last_sword/shaders/core/zero_point_engine.vsh#shader:the_last_sword:core/zero_point_engine.vsh",
+   "set": "main",
+   "file": "resources/assets/the_last_sword/shaders/core/zero_point_engine.vsh",
+   "kind": "shader",
+   "key": "the_last_sword:core/zero_point_engine.vsh",
+   "status": "same",
+   "detail": "the target's resources have it"
+  }
+ ],
+ "unaccounted": [
+  "main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderType.endPortal",
+  "main:net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE",
+  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull",
+  "main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-use:RenderType.eyes",
+  "main:net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java#render-class:class WingsThatCoverTheWorldModel : AgeableListModel",
+  "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShader",
+  "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:GameRenderer.getPositionTexShader",
+  "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor",
+  "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderLevelStageEvent",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.ShaderStateShard",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.lines",
+  "main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/DragonCultPriestRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/DragonCultistRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/DragonLightingRenderer.java#render-use:RenderType.lightning",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.create",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java#event:@SubscribeEvent RenderLevelStageEvent",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.create",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning",
+  "main:net/the_last_sword/client/renderer/LostWraithRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.CompositeRenderType",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.eyes",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucentEmissive",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySolid",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutout",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCull",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCullZOffset",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.armorCutoutNoCull",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySmoothCutout",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityDecal",
+  "main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.create",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java#render-use:RenderType.endPortal",
+  "main:net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java#render-use:RenderType.entityTranslucent",
+  "main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-use:RenderType.entityCutoutNoCull",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ShaderStateShard",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LIGHTMAP",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TextureStateShard",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.OVERLAY",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER",
+  "main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.create",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull",
+  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull",
+  "main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderLevelStageEvent",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.create",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TextureStateShard",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE",
+  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.lines",
+  "main:net/the_last_sword/event/ServerEventHandler.java#event:@SubscribeEvent BlockEvent.BreakEvent",
+  "main:net/the_last_sword/event/VillagerTradeHandler.java#event:@SubscribeEvent WandererTradesEvent",
+  "main:net/the_last_sword/init/ModInstruments.java#registry:registry INSTRUMENT",
+  "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Post",
+  "main:net/the_last_sword/mixin/CameraMixin.java#injection:@Inject method=setup @At(value=\"TAIL\")",
+  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
+  "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/LevelRendererMixin.java#injection:@ModifyVariable method=setupRender @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
+  "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
+  "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value=\"HEAD\")"
+ ],
+ "counts": {
+  "same": 254,
+  "moved": 2,
+  "unaccounted": 122,
+  "changed": 3,
+  "dropped": 29
+ },
+ "notes": []
+}
