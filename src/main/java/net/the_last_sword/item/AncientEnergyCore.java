@@ -16,7 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.the_last_sword.mv.IEnergyStorage;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.ItemNbt;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;

@@ -51,7 +51,7 @@ public class EndResetSkyEvent extends LuckyEvent {
     public void execute(LuckyEventContext ctx) {
         ServerLevel world = ctx.world();
         Player player = ctx.player();
-        StructureTemplateManager manager = world.getStructureManager();
+        StructureTemplateManager manager = world.getServer().getStructureTemplateManager();
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player instanceof ServerPlayer serverPlayer) {

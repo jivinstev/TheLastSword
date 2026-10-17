@@ -245,8 +245,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         );
 
         //5. 未按Shift时，提示玩家按下Shift查看详情
-        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), InputConstants.KEY_LSHIFT)
-                && !InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), InputConstants.KEY_RSHIFT)) {
+        if (!InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)
+                && !InputConstants.isKeyDown(InputConstants.KEY_RSHIFT)) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             //5. 按住Shift时，首先显示操作描述，然后显示模式描述

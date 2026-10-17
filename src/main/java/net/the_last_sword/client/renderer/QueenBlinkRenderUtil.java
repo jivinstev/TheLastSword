@@ -3,7 +3,6 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -27,7 +26,7 @@ public final class QueenBlinkRenderUtil {
     private QueenBlinkRenderUtil() {}
 
     private static RenderType type(String name, boolean glow) {
-        return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, com.mojang.blaze3d.PrimitiveTopology.QUADS,
+        return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS,
                 4096, false, true, net.the_last_sword.mv.LegacyRenderType.state()
                         .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
                         .setTransparencyState(glow ? net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY : net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
@@ -46,7 +45,7 @@ public final class QueenBlinkRenderUtil {
         float opening = Mth.clamp((age - 5) / 10, 0, 1);
         float fade = Mth.clamp((50 - age) / 5, 0, 1);
         pose.pushPose();
-        pose.mulPose(Axis.YP.rotationDegrees(-yaw));
+        pose.rotate(Axis.YP.rotationDegrees(-yaw));
         pose.translate(0, 1.75, 1);
         drawRift(pose, buffers, opening, fade, false);
         pose.popPose();
@@ -57,10 +56,10 @@ public final class QueenBlinkRenderUtil {
         float opening = Mth.clamp((age - 20) / 10, 0, 1);
         float fade = Mth.clamp((150 - age) / 10, 0, 1);
         pose.pushPose();
-        pose.mulPose(Axis.YP.rotationDegrees(-yaw));
+        pose.rotate(Axis.YP.rotationDegrees(-yaw));
         Vec3 center = QueenSummonRiftPlacement.LOCAL_CENTER;
         pose.translate(center.x, center.y, center.z);
-        pose.mulPose(Axis.XP.rotationDegrees(90));
+        pose.rotate(Axis.XP.rotationDegrees(90));
         drawRift(pose, buffers, opening, fade, true);
         pose.popPose();
     }

@@ -2,7 +2,7 @@ package net.the_last_sword.client.shader;
 
 import net.eca.mv.Uniform;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import net.eca.client.render.shader.EcaShaderInstance;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -22,7 +22,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
     private final Uniform glowPhase;
 
     public static final RenderType ITEM = net.the_last_sword.mv.LegacyRenderType.create(
-            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, com.mojang.blaze3d.PrimitiveTopology.QUADS,
+            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS,
             256, false, false, net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
                     .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)

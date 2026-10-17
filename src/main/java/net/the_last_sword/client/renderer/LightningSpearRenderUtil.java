@@ -3,7 +3,7 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import java.util.Random;
 import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -27,7 +27,7 @@ public final class LightningSpearRenderUtil {
     private static final Vector3f SCALE_VECTOR = new Vector3f();
     private static final RenderType ARC_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "the_last_sword_lightning_spear",
-            DefaultVertexFormat.POSITION_COLOR, com.mojang.blaze3d.PrimitiveTopology.QUADS, 65536, false, false,
+            DefaultVertexFormat.POSITION_COLOR, com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS, 65536, false, false,
             net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> net.the_last_sword.mv.LegacyGl.Vanilla.POSITION_COLOR))
                     .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.LIGHTNING_TRANSPARENCY)

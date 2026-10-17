@@ -9,7 +9,7 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
-import org.lwjgl.glfw.GLFW;
+
 
 //按键映射定义和注册
 @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
@@ -23,8 +23,8 @@ public class ModKeyMappings {
     //切换模式按键
     public static final KeyMapping CHANGE_SWORD_MODE = new KeyMapping(
             "key.the_last_sword.change_sword_mode",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_LEFT_CONTROL,
+            InputConstants.Type.KEYBOARD,
+            InputConstants.KEY_LCONTROL,
             KEY_CATEGORY
     );
 
@@ -32,8 +32,8 @@ public class ModKeyMappings {
     public static final KeyMapping OPEN_DEFENCE_CONFIG = new KeyMapping(
             "key.the_last_sword.open_defence_config",
             KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_LEFT_ALT,
+            InputConstants.Type.KEYBOARD,
+            InputConstants.KEY_LALT,
             KEY_CATEGORY
     );
 
@@ -41,8 +41,8 @@ public class ModKeyMappings {
     public static final KeyMapping OPEN_SUMMON_GUI = new KeyMapping(
             "key.the_last_sword.open_summon_gui",
             KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_Z,
+            InputConstants.Type.KEYBOARD,
+            InputConstants.KEY_Z,
             KEY_CATEGORY
     );
 

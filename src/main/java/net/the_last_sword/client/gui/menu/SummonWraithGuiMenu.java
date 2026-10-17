@@ -8,9 +8,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import net.the_last_sword.init.ModMenus;
 import net.the_last_sword.summon.WraithSummonManager;
 import net.the_last_sword.item.DragonCrystalSoulStone;
@@ -24,14 +24,14 @@ public class SummonWraithGuiMenu extends AbstractContainerMenu implements Suppli
     public final Level world;
     public final Player entity;
     public int x, y, z;
-    private IItemHandler internal;
+    private ItemStacksResourceHandler internal;
     private final Map<Integer, Slot> customSlots = new HashMap<>();
 
     public SummonWraithGuiMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
         super(ModMenus.SUMMON_WRAITH_GUI.get(), id);
         this.entity = inv.player;
         this.world = inv.player.level();
-        this.internal = new ItemStackHandler(1);
+        this.internal = new ItemStacksResourceHandler(1);
 
         BlockPos pos = null;
         if (extraData != null) {
@@ -42,16 +42,16 @@ public class SummonWraithGuiMenu extends AbstractContainerMenu implements Suppli
         }
 
         //从玩家持久化数据中加载魂石
-        if (!this.world.isClientSide() && this.internal instanceof ItemStackHandler handler) {
+        if (!this.world.isClientSide()) {
             ItemStack savedSoulStone = WraithSummonManager.getPlayerSoulStone(this.entity);
 
             if (!savedSoulStone.isEmpty()) {
-                handler.setStackInSlot(0, savedSoulStone);
+                this.internal.set(0, ItemResource.of(savedSoulStone), savedSoulStone.getCount());
             }
         }
 
         //魂石槽位
-        this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 80, 58) {
+        this.customSlots.put(0, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 0, 80, 58) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return stack.getItem() instanceof DragonCrystalSoulStone;
@@ -187,7 +187,7 @@ public class SummonWraithGuiMenu extends AbstractContainerMenu implements Suppli
 
         //保存魂石到玩家持久化数据
         if (!this.world.isClientSide()) {
-            ItemStack soulStone = this.internal.getStackInSlot(0);
+            ItemStack soulStone = this.internal.getResource(0).toStack(this.internal.getAmountAsInt(0));
             WraithSummonManager.setPlayerSoulStone(playerIn, soulStone);
         }
     }

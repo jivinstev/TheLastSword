@@ -47,9 +47,9 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
         float spinDirection = (seed & 1) == 0 ? 1.0F : -1.0F;
 
         poseStack.pushPose();
-        poseStack.mulPose(Axis.XP.rotationDegrees(component(seed, 4) * 45.0F + age * 7.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(component(seed, 12) * 360.0F + age * 5.0F * spinDirection));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(component(seed, 20) * 45.0F - age * 6.0F * spinDirection));
+        poseStack.rotateDegrees(Axis.XP, component(seed, 4) * 45.0F + age * 7.0F);
+        poseStack.rotateDegrees(Axis.YP, component(seed, 12) * 360.0F + age * 5.0F * spinDirection);
+        poseStack.rotateDegrees(Axis.ZP, component(seed, 20) * 45.0F - age * 6.0F * spinDirection);
         poseStack.scale(scaleX, scaleY, scaleZ);
         poseStack.translate(-0.5D, -0.5D, -0.5D);
         state.blockModel.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);

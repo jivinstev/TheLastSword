@@ -119,19 +119,19 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
         poseStack.scale(2.0f, 2.0f, 2.0f);
         poseStack.translate(0.0f, -1.0f, 0.0f);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(time));
+        poseStack.rotate(Axis.YP.rotationDegrees(time));
         poseStack.translate(0.0f, 1.5f + yOffset / 2.0f, 0.0f);
-        poseStack.mulPose(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
+        poseStack.rotate(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
         this.glass.render(poseStack, vertexConsumer, packedLight, overlay);
 
         poseStack.scale(0.875f, 0.875f, 0.875f);
-        poseStack.mulPose(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
-        poseStack.mulPose(Axis.YP.rotationDegrees(time));
+        poseStack.rotate(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
+        poseStack.rotate(Axis.YP.rotationDegrees(time));
         this.glass.render(poseStack, vertexConsumer, packedLight, overlay);
 
         poseStack.scale(0.875f, 0.875f, 0.875f);
-        poseStack.mulPose(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
-        poseStack.mulPose(Axis.YP.rotationDegrees(time));
+        poseStack.rotate(new Quaternionf().setAngleAxis(1.0471976f, SIN_45, 0.0f, SIN_45));
+        poseStack.rotate(Axis.YP.rotationDegrees(time));
         this.cube.render(poseStack, vertexConsumer, packedLight, overlay);
 
         poseStack.popPose();

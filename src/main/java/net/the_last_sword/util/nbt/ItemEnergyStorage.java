@@ -1,7 +1,7 @@
 package net.the_last_sword.util.nbt;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import net.the_last_sword.mv.EnergyStorage;
 import net.the_last_sword.ItemNbt;
 
 import java.util.function.IntSupplier;

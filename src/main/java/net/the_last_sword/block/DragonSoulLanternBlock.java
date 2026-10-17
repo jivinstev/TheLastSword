@@ -22,7 +22,7 @@ public class DragonSoulLanternBlock extends LanternBlock {
                 .strength(1f, 100f)
                 .lightLevel(s -> 15)
                 .noOcclusion()
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
                 //26.1: hasPostProcess(predicate) is postProcess(state, level, pos -> the position to post-process)
                 .postProcess((bs, br, bp) -> bp)
                 .emissiveRendering(bs -> true)

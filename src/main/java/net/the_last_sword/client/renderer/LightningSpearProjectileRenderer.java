@@ -42,8 +42,8 @@ public class LightningSpearProjectileRenderer extends EntityRenderer<LightningSp
     @Override
     public void submit(RenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.yawDegrees));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(state.pitchDegrees));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.yawDegrees));
+        poseStack.rotate(Axis.ZP.rotationDegrees(state.pitchDegrees));
         LightningSpearRenderUtil.render(poseStack, collector, state.age);
         poseStack.popPose();
         super.submit(state, poseStack, collector, camera);

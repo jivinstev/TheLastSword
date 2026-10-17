@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
-import net.the_last_sword.util.InventoryProtectionPolicy;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +25,8 @@ public abstract class InventoryMixin {
 
     //拦截按条件清除物品（/clear等）
     @Inject(method = "clearOrCountMatchingItems", at = @At("HEAD"), cancellable = true)
-    private void tls$blockClear(Predicate<ItemStack> predicate, int maxCount, Container container, CallbackInfoReturnable<Integer> cir) {
+    // 26.3: clearOrCountMatchingItems takes the counting-only flag explicitly (1.21: maxCount == 0); both are blocked, as before
+    private void tls$blockClear(Predicate<ItemStack> predicate, boolean countingOnly, int maxCount, Container container, CallbackInfoReturnable<Integer> cir) {
         if (EntityUtil.hasInventoryProtection(this.player)) {
             cir.setReturnValue(0);
         }
@@ -53,7 +53,7 @@ public abstract class InventoryMixin {
     private void tls$blockRemoveItemByReference(ItemStack stack, CallbackInfo ci) {
         if (TheLastSwordConfiguration.getEnableStrongInventoryProtectionSafely()
                 && EntityUtil.hasInventoryProtection(this.player)
-                && InventoryProtectionPolicy.hasBlockedExternalCaller()) {
+                && net.eca.util.EntityUtil.hasExternalCaller(5)) {
             ci.cancel();
         }
     }
@@ -63,7 +63,7 @@ public abstract class InventoryMixin {
     private void tls$blockSetItem(int index, ItemStack stack, CallbackInfo ci) {
         if (TheLastSwordConfiguration.getEnableStrongInventoryProtectionSafely()
                 && EntityUtil.hasInventoryProtection(this.player)
-                && InventoryProtectionPolicy.hasBlockedExternalCaller()) {
+                && net.eca.util.EntityUtil.hasExternalCaller(5)) {
             ci.cancel();
         }
     }

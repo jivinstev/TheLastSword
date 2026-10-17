@@ -318,7 +318,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
 
     @Override
     public boolean canBeAffected(@NotNull MobEffectInstance effect) {
-        return effect.getEffect() == ModEffects.VOID_ENCHANTING.get();
+        return effect.getEffect().value() == ModEffects.VOID_ENCHANTING.get();
     }
 
     @Override

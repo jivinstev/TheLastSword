@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Mirror;
@@ -52,7 +53,7 @@ public class LuckyWellEvent extends LuckyEvent {
     public void execute(LuckyEventContext ctx) {
         ServerLevel world = ctx.world();
         Player player = ctx.player();
-        StructureTemplateManager manager = world.getStructureManager();
+        StructureTemplateManager manager = world.getServer().getStructureTemplateManager();
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player != null) {
@@ -77,7 +78,7 @@ public class LuckyWellEvent extends LuckyEvent {
             .withItalic(true)));
         player.addItem(coin);
         if (!coin.isEmpty()) {
-            player.drop(coin, false);
+            player.drop(coin, false, Prediction.SERVER_ONLY);
         }
     }
 }

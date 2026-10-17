@@ -1,6 +1,6 @@
 package net.the_last_sword.client.shader;
 
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import net.the_last_sword.mv.ShaderInstance;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceProvider;

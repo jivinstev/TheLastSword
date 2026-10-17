@@ -87,8 +87,9 @@ public class LivingEntityMixin {
 
     //拦截外部mod生成掉落物（防止强制缴械），玩家自己丢物品不受影响
     //1.21.5: moved here from PlayerMixin -- drop(ItemStack, boolean, boolean) is declared on LivingEntity now
-    @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void tls$blockDrop(ItemStack stack, boolean b1, boolean b2, CallbackInfoReturnable<net.minecraft.world.entity.item.ItemEntity> cir) {
+    //26.3: the third parameter (swing on the client) is a net.minecraft.util.Prediction
+    @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZLnet/minecraft/util/Prediction;)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
+    private void tls$blockDrop(ItemStack stack, boolean b1, net.minecraft.util.Prediction prediction, CallbackInfoReturnable<net.minecraft.world.entity.item.ItemEntity> cir) {
         if ((Object) this instanceof Player tls$player
                 && EntityUtil.hasInventoryProtection(tls$player)
                 && net.eca.util.EntityUtil.hasExternalCaller(5)) {
@@ -370,7 +371,7 @@ public class LivingEntityMixin {
 
             for (MobEffectInstance effectInstance : activeEffects) {
                 MobEffect effect = effectInstance.getEffect().value();
-                if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION
+                if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION.value()
                         && effect != ModEffects.WORLD_SEVERANCE.get()) {
                     effectsToRemove.add(effect);
                 }

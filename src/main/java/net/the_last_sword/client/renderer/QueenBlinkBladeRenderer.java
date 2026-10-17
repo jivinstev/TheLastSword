@@ -35,7 +35,7 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
 
     // 1.21.2 asks the renderer for the culling box; the blade's own box (QueenBlinkBlade) still answers it
     @Override
-    protected AABB getBoundingBoxForCulling(QueenBlinkBlade entity) {
+    protected AABB getBoundingBoxForCulling(QueenBlinkBlade entity, float partialTicks) {
         return entity.getBoundingBoxForCulling();
     }
 
@@ -55,10 +55,10 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
         MultiBufferSource buffers = MultiBufferSource.main();
         QueenBlinkBlade entity = state.entity;
         pose.pushPose();
-        pose.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
+        pose.rotate(Axis.YP.rotationDegrees(-entity.getYRot()));
         if (entity instanceof QueenEnhancedBlade blade) {
             pose.translate(0, entity.bladeHeight() * 0.5, 0);
-            pose.mulPose(Axis.ZP.rotationDegrees(blade.bladeRoll()));
+            pose.rotate(Axis.ZP.rotationDegrees(blade.bladeRoll()));
             pose.translate(0, -entity.bladeHeight() * 0.5, 0);
         }
         QueenBlinkRenderUtil.blade(pose, buffers, entity.bladeWidth(), entity.bladeHeight(), entity.bladeLength(), enhanced);

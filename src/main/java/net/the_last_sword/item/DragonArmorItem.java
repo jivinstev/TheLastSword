@@ -27,7 +27,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.the_last_sword.mv.IEnergyStorage;
 import net.the_last_sword.client.renderer.DragonArmorRenderer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModItems;
@@ -92,7 +92,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         super(MATERIAL, type, props.fireResistant().rarity(Rarity.EPIC));
     }
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<ItemStack> onBroken) {
         //龙之套装不掉耐久
         return 0;
     }

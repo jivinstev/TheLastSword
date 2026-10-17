@@ -1,9 +1,9 @@
 package net.the_last_sword.compat.lucky_block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,13 +31,6 @@ import net.the_last_sword.ModHolders;
 
 //终焉幸运方块 - 行为参考原版LuckyBlock：红石/破坏/放置后被充能时触发幸运事件
 public class TheLastEndLuckyBlock extends BaseEntityBlock {
-
-    public static final MapCodec<TheLastEndLuckyBlock> CODEC = simpleCodec(props -> new TheLastEndLuckyBlock());
-
-    @Override
-    protected MapCodec<TheLastEndLuckyBlock> codec() {
-        return CODEC;
-    }
 
     public TheLastEndLuckyBlock() {
         super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
@@ -77,7 +70,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
 
     //玩家破坏触发幸运事件
     @Override
-    public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
+    public void playerDestroy(ServerLevel world, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.playerDestroy(world, player, pos, state, blockEntity, stack);
         //此时方块已被移除, BE 也已失效, 必须使用 Forge 在移除前捕获的 blockEntity 参数读 luck
         onBreak(this, world, player, pos, blockEntity, stack, false);

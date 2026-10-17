@@ -7,12 +7,11 @@ import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.geometry.ItemQuads;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxRenderState;
@@ -22,7 +21,7 @@ import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.UvMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -94,26 +93,32 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     @Override
+    public void submitTextBackground(PoseStack poseStack, float x0, float y0, float x1, float y1, int color,
+                                     Font.DisplayMode mode, int light) {
+        this.delegate.submitTextBackground(poseStack, x0, y0, x1, y1, color, mode, light);
+    }
+
+    // 26.3: submitModelPart is a default that routes through submitModel, so model parts are phased there.
+    @Override
     public <S> void submitModel(Model<? super S> model, S state, PoseStack poseStack, RenderType type, int light,
-                                int overlay, int tint, @Nullable TextureAtlasSprite sprite, int outline,
-                                @Nullable ModelFeatureRenderer.CrumblingOverlay crumbling) {
+                                int overlay, int tint, @Nullable UvMapping uvMapping, int outline) {
         if (phased(type)) {
             this.delegate.submitModel(model, state, poseStack, PhasingBufferSource.translucentType(type), light, overlay,
-                    halfAlpha(tint), sprite, outline, crumbling);
+                    halfAlpha(tint), uvMapping, outline);
         } else {
-            this.delegate.submitModel(model, state, poseStack, type, light, overlay, tint, sprite, outline, crumbling);
+            this.delegate.submitModel(model, state, poseStack, type, light, overlay, tint, uvMapping, outline);
         }
     }
 
     @Override
-    public void submitModelPart(ModelPart part, PoseStack poseStack, RenderType type, int light, int overlay,
-                                @Nullable TextureAtlasSprite sprite, int tint,
-                                @Nullable ModelFeatureRenderer.CrumblingOverlay crumbling, int outline) {
+    public <S> void submitCrumblingOverlay(Model<? super S> model, S state, PoseStack poseStack, RenderType type,
+                                           int light, int overlay, int tint,
+                                           ModelFeatureRenderer.CrumblingOverlay crumbling) {
         if (phased(type)) {
-            this.delegate.submitModelPart(part, poseStack, PhasingBufferSource.translucentType(type), light, overlay, sprite,
-                    halfAlpha(tint), crumbling, outline);
+            this.delegate.submitCrumblingOverlay(model, state, poseStack, PhasingBufferSource.translucentType(type), light,
+                    overlay, halfAlpha(tint), crumbling);
         } else {
-            this.delegate.submitModelPart(part, poseStack, type, light, overlay, sprite, tint, crumbling, outline);
+            this.delegate.submitCrumblingOverlay(model, state, poseStack, type, light, overlay, tint, crumbling);
         }
     }
 
@@ -124,8 +129,9 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     }
 
     @Override
-    public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> parts, int progress) {
-        this.delegate.submitBreakingBlockModel(poseStack, parts, progress);
+    public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> parts, int progress,
+                                         boolean isBlockTranslucent) {
+        this.delegate.submitBreakingBlockModel(poseStack, parts, progress, isBlockTranslucent);
     }
 
     @Override
@@ -141,7 +147,7 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
 
     @Override
     public void submitItem(PoseStack poseStack, ItemDisplayContext context, int light, int overlay, int outline,
-                           int[] tints, List<BakedQuad> quads, ItemStackRenderState.FoilType foil) {
+                           int[] tints, ItemQuads quads, ItemStackRenderState.FoilType foil) {
         this.delegate.submitItem(poseStack, context, light, overlay, outline, tints, quads, foil);
     }
 
@@ -207,6 +213,12 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
         @Override
         public VertexConsumer setUv2(int u, int v) {
             this.delegate.setUv2(u, v);
+            return this;
+        }
+
+        @Override
+        public VertexConsumer setUv3(float u, float v) {
+            this.delegate.setUv3(u, v);
             return this;
         }
 

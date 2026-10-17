@@ -42,7 +42,9 @@ import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.bus.api.ICancellableEvent;
 import java.util.Optional;
 import net.the_last_sword.init.ModEffects;
@@ -198,7 +200,7 @@ public final class DefenceEventHandler {
 
             //检查能量
             boolean hasEnergy = energyOf(chestplate)
-                    .map(energy -> energy.getEnergyStored() > 0)
+                    .map(energy -> energy.getAmountAsInt() > 0)
                     .orElse(false);
 
             //有电时应用配置速度，无电时恢复默认
@@ -219,9 +221,20 @@ public final class DefenceEventHandler {
     }
 
     //物品能量存储（无能量能力时为空）
-    private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
-        var handler = stack.getCapability(Capabilities.Energy.ITEM, null);
-        return Optional.ofNullable(handler).map(IEnergyStorage::of);
+    private static Optional<EnergyHandler> energyOf(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM));
+    }
+
+    //提取能量并立即提交
+    private static int extractEnergy(EnergyHandler energy, int amount) {
+        try (Transaction tx = Transaction.openRoot()) {
+            int extracted = energy.extract(amount, tx);
+            tx.commit();
+            return extracted;
+        }
     }
 
     //护盾保护触发：取消事件，设置满血，按 cost 扣除护盾
@@ -371,14 +384,14 @@ public final class DefenceEventHandler {
             boolean enhanced = false;
             if (enhancedBuff) {
                 boolean hasEnergy = energyOf(stack)
-                        .map(energy -> energy.getEnergyStored() > 0)
+                        .map(energy -> energy.getAmountAsInt() > 0)
                         .orElse(false);
                 if (hasEnergy) {
                     enhanced = true;
                     //增强Buff消耗该件装备的能量
                     energyOf(stack).ifPresent(energy -> {
                         recordArmorEnergyConsumption(player,
-                                energy.extractEnergy(enhanceCost, false));
+                                extractEnergy(energy, enhanceCost));
                     });
                 }
             }
@@ -436,7 +449,7 @@ public final class DefenceEventHandler {
             ItemStack stack = player.getItemBySlot(slot);
             if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             boolean hasEnergy = energyOf(stack)
-                    .map(energy -> energy.getEnergyStored() > 0)
+                    .map(energy -> energy.getAmountAsInt() > 0)
                     .orElse(false);
             if (!hasEnergy) {
                 allHaveEnergy = false;
@@ -551,7 +564,7 @@ public final class DefenceEventHandler {
                 entity.setDeltaMovement(current.x * 0.35 + repel.x, Math.max(current.y, 0.08), current.z * 0.35 + repel.z);
                 entity.fallDistance = 0.0f;
             }
-            entity.hurtMarked = true;
+            entity.needsSync = true;
             if (player instanceof ServerPlayer sp && DefenceConfig.getDragonShieldModule().shieldEffect != DefenceConfigData.ShieldEffectMode.DISABLED) {
                 NetworkHandler.sendToPlayer(new DragonShieldPacket(true,
                         (float) direction.x, (float) direction.y, (float) direction.z), sp);
@@ -577,7 +590,7 @@ public final class DefenceEventHandler {
             if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             energyOf(stack).ifPresent(energy -> {
                 recordArmorEnergyConsumption(player,
-                        energy.extractEnergy(costPerPiece, false));
+                        extractEnergy(energy, costPerPiece));
             });
         }
     }
@@ -606,7 +619,7 @@ public final class DefenceEventHandler {
             if (!((Object) stack.getItem() instanceof DragonArmorItem)) continue;
 
             int[] values = energyOf(stack)
-                    .map(energy -> new int[]{energy.getEnergyStored(), energy.getMaxEnergyStored()})
+                    .map(energy -> new int[]{energy.getAmountAsInt(), energy.getCapacityAsInt()})
                     .orElse(new int[]{0, 0});
             currentEnergy += values[0];
             maxEnergy += values[1];

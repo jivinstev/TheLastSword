@@ -11,9 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.the_last_sword.init.ModMenus;
 import net.the_last_sword.init.ModTags;
 
@@ -28,7 +26,7 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
     public final Player entity;
     public int x, y, z;
     private ContainerLevelAccess access = ContainerLevelAccess.NULL;
-    private IItemHandler internal;
+    private ItemStacksResourceHandler internal;
     private final Map<Integer, Slot> customSlots = new HashMap<>();
     private boolean bound = false;
     private BlockEntity boundBlockEntity = null;
@@ -42,7 +40,7 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         super(ModMenus.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(), id);
         this.entity = inv.player;
         this.world = inv.player.level();
-        this.internal = new ItemStackHandler(2);
+        this.internal = new ItemStacksResourceHandler(2);
         BlockPos pos = null;
         if (extraData != null) {
             pos = extraData.readBlockPos();
@@ -55,7 +53,7 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
             boundBlockEntity = this.world.getBlockEntity(pos);
             if (boundBlockEntity != null) {
                 var newHandler = this.world.getCapability(Capabilities.Item.BLOCK, pos, null);
-                IItemHandler handler = newHandler == null ? null : IItemHandler.of(newHandler);
+                ItemStacksResourceHandler handler = newHandler == null ? null : (ItemStacksResourceHandler) newHandler;
                 if (handler != null) {
                     this.internal = handler;
                     this.bound = true;
@@ -64,13 +62,13 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         }
 
         // 添加2个输入槽位：slot 0 为红色燃料槽，仅接受燃料标签内物品
-        this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 21, 43) {
+        this.customSlots.put(0, this.addSlot(new Slot(inv, 0, 21, 43) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return super.mayPlace(stack) && stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
             }
         }));
-        this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 201, 43) {
+        this.customSlots.put(1, this.addSlot(new Slot(inv, 1, 201, 43) {
         }));
 
         // 添加玩家背包槽位

@@ -69,8 +69,8 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
 
     // 1.21.1's ThePastShadowOfTheQueenEntity.getBoundingBoxForCulling: 1.21.2 asks the renderer instead
     @Override
-    protected AABB getBoundingBoxForCulling(ThePastShadowOfTheQueenEntity entity) {
-        AABB box = super.getBoundingBoxForCulling(entity);
+    protected AABB getBoundingBoxForCulling(ThePastShadowOfTheQueenEntity entity, float partialTicks) {
+        AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
         return entity.getSummonTick() >= 0 ? box.inflate(3, 6, 3) : box;
     }
 

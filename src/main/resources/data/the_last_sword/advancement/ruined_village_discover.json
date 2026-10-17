@@ -19,8 +19,12 @@
       "trigger": "minecraft:tick",
       "conditions": {
         "player": {
-          "location": {
-            "structures": "the_last_sword:ruined_village"
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "location": {
+              "structure": "the_last_sword:ruined_village"
+            }
           }
         }
       }

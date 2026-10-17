@@ -60,7 +60,7 @@ import net.the_last_sword.network.OpenSummonGuiPacket;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 import net.the_last_sword.util.TheLastSwordLogger;
 import org.joml.Matrix4f;
-import org.lwjgl.glfw.GLFW;
+import net.the_last_sword.mv.GLFW;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -93,7 +93,7 @@ public class ClientEventHandler {
     private static final RenderType SPHERE_RENDER_TYPE = net.the_last_sword.mv.LegacyRenderType.create(
             "all_things_end_sphere",
             DefaultVertexFormat.POSITION_TEX,
-            com.mojang.blaze3d.PrimitiveTopology.QUADS,
+            com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS,
             2097152,
             false,
             true,
@@ -350,7 +350,7 @@ public class ClientEventHandler {
     //渲染球体
     private static void renderSphere(PoseStack poseStack, Vec3 center, float partialTick) {
         net.the_last_sword.mv.LegacyGl.enableBlend();
-        net.the_last_sword.mv.LegacyGl.blendFunc(com.mojang.blaze3d.platform.BlendFactor.SRC_ALPHA, com.mojang.blaze3d.platform.BlendFactor.ONE_MINUS_SRC_ALPHA);
+        net.the_last_sword.mv.LegacyGl.blendFunc(com.mojang.renderpearl.api.pipeline.BlendFactor.SRC_ALPHA, com.mojang.renderpearl.api.pipeline.BlendFactor.ONE_MINUS_SRC_ALPHA);
         net.the_last_sword.mv.LegacyGl.depthMask(false);
 
         poseStack.pushPose();
@@ -364,8 +364,8 @@ public class ClientEventHandler {
         );
 
         //旋转效果
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation * 0.5f));
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotation * 0.3f));
+        poseStack.last().pose().rotateY((float) Math.toRadians(rotation * 0.5f));
+        poseStack.last().pose().rotateX((float) Math.toRadians(rotation * 0.3f));
 
         //渲染球体网格
         renderSphereMesh(poseStack, (float) EFFECT_RADIUS);

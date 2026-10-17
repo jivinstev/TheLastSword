@@ -84,7 +84,7 @@ public class TheLastSwordMod {
         modEventBus.addListener(NetworkHandler::register);
 
         container.registerConfig(
-                ModConfig.Type.COMMON,
+                ModConfig.Type.LOCAL,
                 TheLastSwordConfiguration.SPEC,
                 "TheLastSword-common.toml"
         );

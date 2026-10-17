@@ -12,7 +12,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
@@ -36,26 +37,37 @@ public class DisposableEnergyBattery extends Item {
         return TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely();
     }
 
-    private static IEnergyStorage energyOf(ItemStack stack) {
-        var handler = net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
-        return handler == null ? null : IEnergyStorage.of(handler);
+    private static EnergyHandler energyOf(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        return net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
+    }
+
+    //插入能量并立即提交
+    private static int receiveEnergy(EnergyHandler energy, int amount) {
+        try (Transaction tx = Transaction.openRoot()) {
+            int inserted = energy.insert(amount, tx);
+            tx.commit();
+            return inserted;
+        }
     }
 
     private static boolean receiveInto(ItemStack target, int amount) {
-        IEnergyStorage energy = energyOf(target);
-        if (energy == null || !energy.canReceive()) {
+        EnergyHandler energy = energyOf(target);
+        if (energy == null) {
             return false;
         }
-        return energy.receiveEnergy(amount, false) > 0;
+        return receiveEnergy(energy, amount) > 0;
     }
 
     //默认满电
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy != null) {
-            energy.receiveEnergy(getMaxEnergy(), false);
+            receiveEnergy(energy, getMaxEnergy());
         }
         return stack;
     }
@@ -112,20 +124,20 @@ public class DisposableEnergyBattery extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy == null) return 0;
-        int maxEnergy = energy.getMaxEnergyStored();
+        int maxEnergy = energy.getCapacityAsInt();
         if (maxEnergy == 0) return 0;
-        return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
+        return Math.round(13.0F * energy.getAmountAsInt() / maxEnergy);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy == null) return 0x9B30FF;
-        int maxEnergy = energy.getMaxEnergyStored();
+        int maxEnergy = energy.getCapacityAsInt();
         if (maxEnergy == 0) return 0x9B30FF;
-        float ratio = (float) energy.getEnergyStored() / maxEnergy;
+        float ratio = (float) energy.getAmountAsInt() / maxEnergy;
         if (ratio < 0.25F) {
             return 0xFF0000;
         } else if (ratio < 0.5F) {
@@ -139,10 +151,10 @@ public class DisposableEnergyBattery extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy != null) {
             tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.energy")
-                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
+                .append(": §a" + energy.getAmountAsInt() + " §r/ " + energy.getCapacityAsInt() + " FE"));
         }
         tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.disposable_energy_battery",
             TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely()));

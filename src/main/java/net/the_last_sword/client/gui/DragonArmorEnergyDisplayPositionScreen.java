@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -105,7 +106,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
         double mouseX = event.x();
         double mouseY = event.y();
         int button = event.buttonInfo().button();
-        if (button == 0 && isInsidePreview(mouseX, mouseY)) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isInsidePreview(mouseX, mouseY)) {
             dragging = true;
             dragStartX = (int) mouseX - offsetX;
             dragStartY = (int) mouseY - offsetY;
@@ -117,7 +118,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
         int button = event.buttonInfo().button();
-        if (button == 0 && dragging) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && dragging) {
             dragging = false;
             return true;
         }
@@ -129,7 +130,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
         double mouseX = event.x();
         double mouseY = event.y();
         int button = event.buttonInfo().button();
-        if (button == 0 && dragging) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && dragging) {
             offsetX = (int) mouseX - dragStartX;
             offsetY = (int) mouseY - dragStartY;
             return true;

@@ -6,7 +6,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.item.DragonArmorItem;
@@ -111,9 +112,8 @@ public class EndCrystalMixin {
 
     //物品是否带FE能量且未满
     private boolean needsCharge(ItemStack stack) {
-        var handler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
-        IEnergyStorage energy = handler == null ? null : IEnergyStorage.of(handler);
-        return energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored();
+        EnergyHandler energy = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
+        return energy != null && energy.getAmountAsInt() < energy.getCapacityAsInt();
     }
 
     //给玩家所有带FE capability且能量未满的物品充能
@@ -152,10 +152,12 @@ public class EndCrystalMixin {
 
     //给单个物品充能（若带FE能量且未满）
     private void chargeStack(ItemStack stack, int chargeRate) {
-        var handler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
-        IEnergyStorage energy = handler == null ? null : IEnergyStorage.of(handler);
-        if (energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored()) {
-            energy.receiveEnergy(chargeRate, false);
+        EnergyHandler energy = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
+        if (energy != null && energy.getAmountAsInt() < energy.getCapacityAsInt()) {
+            try (Transaction tx = Transaction.openRoot()) {
+                energy.insert(chargeRate, tx);
+                tx.commit();
+            }
         }
     }
 }

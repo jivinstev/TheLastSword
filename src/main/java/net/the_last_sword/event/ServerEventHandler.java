@@ -478,7 +478,7 @@ public class ServerEventHandler {
 
     //创建竞技场预览
     private static void createArenaPreview(ServerLevel serverLevel, Player player) {
-        StructureTemplateManager templateManager = serverLevel.getStructureManager();
+        StructureTemplateManager templateManager = serverLevel.getStructureTemplateManager();
         Optional<StructureTemplate> optional = templateManager.get(ARENA_STRUCTURE);
         if (optional.isEmpty()) {
             if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.translatable("message.the_last_sword.arena.load_failed"));
@@ -512,7 +512,7 @@ public class ServerEventHandler {
 
     //执行竞技场放置
     private static void executeArenaPlacement(ServerLevel serverLevel, Player player, ArenaPreview preview) {
-        StructureTemplateManager templateManager = serverLevel.getStructureManager();
+        StructureTemplateManager templateManager = serverLevel.getStructureTemplateManager();
         Optional<StructureTemplate> optional = templateManager.get(ARENA_STRUCTURE);
         if (optional.isEmpty()) return;
 

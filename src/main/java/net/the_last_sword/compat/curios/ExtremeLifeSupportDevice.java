@@ -19,7 +19,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -45,31 +45,30 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         return true;
     }
 
-    private static IEnergyStorage energyOf(ItemStack stack) {
-        var handler = Capabilities.Energy.ITEM.getCapability(stack, net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack));
-        return handler == null ? null : IEnergyStorage.of(handler);
+    private static EnergyHandler energyOf(ItemStack stack) {
+        return Capabilities.Energy.ITEM.getCapability(stack, net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack));
     }
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy == null) {
             return 0;
         }
-        int maxEnergy = energy.getMaxEnergyStored();
+        int maxEnergy = energy.getCapacityAsInt();
         if (maxEnergy == 0) return 0;
-        return Math.round(13.0F * energy.getEnergyStored() / maxEnergy);
+        return Math.round(13.0F * energy.getAmountAsInt() / maxEnergy);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy == null) {
             return 0x8B00FF;
         }
-        int maxEnergy = energy.getMaxEnergyStored();
+        int maxEnergy = energy.getCapacityAsInt();
         if (maxEnergy == 0) return 0x8B00FF;
-        float ratio = (float) energy.getEnergyStored() / maxEnergy;
+        float ratio = (float) energy.getAmountAsInt() / maxEnergy;
         if (ratio < 0.25F) {
             return 0xFF0000;
         } else if (ratio < 0.5F) {
@@ -99,10 +98,10 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         super.appendHoverText(stack, level, display, consumer, flag);
         List<Component> tooltip = new ArrayList<>();
         //能量信息
-        IEnergyStorage energy = energyOf(stack);
+        EnergyHandler energy = energyOf(stack);
         if (energy != null) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
-                .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
+                .append(": §a" + energy.getAmountAsInt() + " §r/ " + energy.getCapacityAsInt() + " FE"));
         }
         int energyCost = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEnergyCostSafely();
         String thresholdPercent = String.format("%.0f",

@@ -46,15 +46,19 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         poseStack.pushPose();
 
         //跟随玩家身体旋转（蹲下时）
-        ICurioRenderer.rotateIfSneaking(poseStack, slotContext.entity());
-        ICurioRenderer.translateIfSneaking(poseStack, slotContext.entity());
+        if (slotContext.entity().isCrouching()) {
+            poseStack.rotate(com.mojang.math.Axis.XP.rotation(0.5F));
+            poseStack.translate(0.0F, 0.1875F, 0.0F);
+        }
 
         //设置翅膀动画
         this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
             renderState.ageInTicks, yRotation, xRotation);
 
-        renderTypeBuffer.submitModel(this.model, renderState, poseStack, RenderTypes.entityCutout(TEXTURE), light,
-            OverlayTexture.NO_OVERLAY, -1, null, 0, null);
+        @SuppressWarnings("unchecked")
+        EntityModel<S> submitted = (EntityModel<S>) (Object) this.model;
+        renderTypeBuffer.submitModel(submitted, renderState, poseStack, RenderTypes.entityCutout(TEXTURE), light,
+            OverlayTexture.NO_OVERLAY, -1, null, 0);
 
         poseStack.popPose();
     }

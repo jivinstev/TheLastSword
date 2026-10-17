@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.the_last_sword.client.gui.PaperNoteScreen;
 import net.the_last_sword.client.gui.NpcDialogueScreen;
 import net.the_last_sword.client.gui.SwordWraithAppearanceScreen;
@@ -59,8 +59,8 @@ public final class ClientPacketHandler {
         AbstractContainerMenu menu = minecraft.player.containerMenu;
         if (menu instanceof SummonWraithGuiMenu summonMenu
                 && summonMenu.get().containsKey(0)
-                && summonMenu.get().get(0).container instanceof ItemStackHandler handler) {
-            handler.setStackInSlot(0, soulStone);
+                && summonMenu.get().get(0).container instanceof ItemStacksResourceHandler handler) {
+            handler.set(0, net.neoforged.neoforge.transfer.item.ItemResource.of(soulStone), soulStone.getCount());
         }
     }
 

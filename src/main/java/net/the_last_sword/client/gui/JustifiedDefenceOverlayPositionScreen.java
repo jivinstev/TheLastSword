@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -135,7 +136,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
         double mouseX = event.x();
         double mouseY = event.y();
         int button = event.buttonInfo().button();
-        if (button == 0) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             int screenWidth = this.width;
             int screenHeight = this.height;
 
@@ -168,7 +169,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
         int button = event.buttonInfo().button();
-        if (button == 0 && dragging) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && dragging) {
             dragging = false;
             return true;
         }

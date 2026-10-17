@@ -67,7 +67,7 @@ public class ThePastShadowOfTheQueenItemLayer<R extends EntityRenderState & GeoR
         RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         // 手部骨骼的枢轴在肘部，沿前臂下移到掌心后再应用物品变换。
         poseStack.translate(0.0D, -7.0D / 16.0D, 0.0D);
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+        poseStack.rotate(Axis.XP.rotationDegrees(-90.0F));
         super.submitItemStackRender(poseStack, bone, stackRenderState, displayContext, renderState, renderTasks, packedLight);
         poseStack.popPose();
     }

@@ -16,16 +16,14 @@
         {
           "type": "minecraft:item",
           "name": "the_last_sword:dragon_crystal",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 32,
-                "max": 64
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 32,
+              "max": 64
             }
-          ]
+          }
         }
       ]
     },
@@ -45,91 +43,79 @@
           "type": "minecraft:item",
           "name": "minecraft:enchanted_golden_apple",
           "weight": 30,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 8,
-                "max": 16
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
             }
-          ]
+          }
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:dragon_egg",
           "weight": 30,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:nether_star",
           "weight": 30,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "minecraft:item",
           "name": "the_last_sword:dragon_crystal_upgrade_template",
           "weight": 50,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4,
-                "max": 25
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 4,
+              "max": 25
             }
-          ]
+          }
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:netherite_block",
           "weight": 30,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:emerald_block",
           "weight": 30,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         }
       ]
     },
@@ -142,94 +128,84 @@
       "entries": [
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_ancient_metal_block",
-          "expand": false
-        },
-        {
-          "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_ignitium_ingot",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 3
-            }
-          ]
+          "items": "#the_last_sword:queen_cataclysm_ancient_metal_block"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_cursium_ingot",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 3,
-                "max": 4
-              }
-            }
-          ]
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 3
+          },
+          "items": "#the_last_sword:queen_cataclysm_ignitium_ingot"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_monstrous_horn",
-          "expand": false
-        },
-        {
-          "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_lava_power_cell",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 16,
-                "max": 24
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 4
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_cataclysm_cursium_ingot"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_witherite_block",
-          "expand": false
-        },
-        {
-          "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_abyssal_egg",
-          "expand": false
-        },
-        {
-          "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_lacrima",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 8,
-                "max": 16
-              }
-            }
-          ]
+          "items": "#the_last_sword:queen_cataclysm_monstrous_horn"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_cataclysm_essence_of_the_storm",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 3,
-                "max": 4
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 16,
+              "max": 24
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_cataclysm_lava_power_cell"
+        },
+        {
+          "type": "minecraft:tag",
+          "expand": false,
+          "items": "#the_last_sword:queen_cataclysm_witherite_block"
+        },
+        {
+          "type": "minecraft:tag",
+          "expand": false,
+          "items": "#the_last_sword:queen_cataclysm_abyssal_egg"
+        },
+        {
+          "type": "minecraft:tag",
+          "expand": false,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
+            }
+          },
+          "items": "#the_last_sword:queen_cataclysm_lacrima"
+        },
+        {
+          "type": "minecraft:tag",
+          "expand": false,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 4
+            }
+          },
+          "items": "#the_last_sword:queen_cataclysm_essence_of_the_storm"
         }
       ]
     },
@@ -238,20 +214,18 @@
       "entries": [
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_lucky_block_rewards",
-          "expand": true
+          "expand": true,
+          "items": "#the_last_sword:queen_lucky_block_rewards"
         }
       ],
-      "functions": [
-        {
-          "function": "minecraft:set_count",
-          "count": {
-            "type": "minecraft:uniform",
-            "min": 1,
-            "max": 9
-          }
+      "modifier": {
+        "type": "minecraft:set_count",
+        "count": {
+          "type": "minecraft:uniform",
+          "min": 1,
+          "max": 9
         }
-      ]
+      }
     },
     {
       "rolls": {
@@ -262,93 +236,81 @@
       "entries": [
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_legendary_ink",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4,
-                "max": 16
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 4,
+              "max": 16
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_legendary_ink"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_magic_cloth",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 32,
-                "max": 64
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 32,
+              "max": 64
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_magic_cloth"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_mithril_ingot",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 16,
-                "max": 32
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 16,
+              "max": 32
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_mithril_ingot"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_pyrium_ingot",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 8,
-                "max": 16
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_pyrium_ingot"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_divine_soulshard",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 8,
-                "max": 16
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 8,
+              "max": 16
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_divine_soulshard"
         },
         {
           "type": "minecraft:tag",
-          "name": "the_last_sword:queen_irons_blank_rune",
           "expand": false,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 16,
-                "max": 32
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 16,
+              "max": 32
             }
-          ]
+          },
+          "items": "#the_last_sword:queen_irons_blank_rune"
         }
       ]
     }

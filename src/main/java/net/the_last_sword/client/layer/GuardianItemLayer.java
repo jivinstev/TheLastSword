@@ -116,7 +116,7 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
         RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //新版left_hand枢轴就是盾牌挂点：盾牌模型本身已是竖直的，只需转出盾面朝外、握把贴身的持盾姿态
         if (stack.is(Items.SHIELD)) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(SHIELD_FACE_ROTATION));
+            poseStack.rotate(Axis.YP.rotationDegrees(SHIELD_FACE_ROTATION));
             //抵消ItemRenderer对方块模型的半格居中平移，让盾牌握把落在枢轴上
             poseStack.translate(0.5, 0.5, 0.5);
             super.submitItemStackRender(poseStack, bone, stackRenderState, displayContext, renderState, renderTasks,
@@ -127,7 +127,7 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
 
         //先沿守卫正前方移动，再将物品朝上额外旋转10度
         poseStack.translate(0, 0, -ITEM_FORWARD_OFFSET / 16.0);
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F + ITEM_UPWARD_ROTATION));
+        poseStack.rotate(Axis.XP.rotationDegrees(-90.0F + ITEM_UPWARD_ROTATION));
 
         //弓的模型比近战武器更宽，保留少量额外偏移
         if (Boolean.TRUE.equals(renderState.getGeckolibData(IS_ARCHER))) {

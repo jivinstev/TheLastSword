@@ -1,10 +1,10 @@
 package net.the_last_sword.client.shader;
 
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.ColorTargetState;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.BlendFunction;
+import com.mojang.renderpearl.api.pipeline.ColorTargetState;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -30,8 +30,8 @@ public class TheLastEndRenderTypes {
             .withLocation("pipeline/" + n)
             .withColorTargetState(new ColorTargetState(blend))
             .withCull(cull)
-            .withDepthStencilState(new com.mojang.blaze3d.pipeline.DepthStencilState(
-                com.mojang.blaze3d.platform.CompareOp.LESS_THAN_OR_EQUAL, writeDepth))
+            .withDepthStencilState(new com.mojang.renderpearl.api.pipeline.DepthStencilState(
+                com.mojang.renderpearl.api.pipeline.CompareOp.LESS_THAN_OR_EQUAL, writeDepth, 0.0F, 0.0F, null))
             .build());
     }
 
@@ -53,7 +53,7 @@ public class TheLastEndRenderTypes {
         if (!writeDepth) {
             sb.setWriteMaskState(LegacyRenderType.COLOR_WRITE);
         }
-        return LegacyRenderType.create(name, format, com.mojang.blaze3d.PrimitiveTopology.QUADS, 2097152, true, false,
+        return LegacyRenderType.create(name, format, com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS, 2097152, true, false,
             sb.createCompositeState(true));
     }
 

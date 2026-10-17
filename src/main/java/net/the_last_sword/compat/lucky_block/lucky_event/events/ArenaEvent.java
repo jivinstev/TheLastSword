@@ -70,7 +70,7 @@ public class ArenaEvent extends LuckyEvent {
     public void execute(LuckyEventContext ctx) {
         ServerLevel world = ctx.world();
         Player player = ctx.player();
-        StructureTemplateManager manager = world.getStructureManager();
+        StructureTemplateManager manager = world.getStructureTemplateManager();
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player != null) {

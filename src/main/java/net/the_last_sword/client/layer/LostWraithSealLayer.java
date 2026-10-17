@@ -1,14 +1,14 @@
 package net.the_last_sword.client.layer;
 
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.pipeline.ColorTargetState;
-import com.mojang.blaze3d.pipeline.DepthStencilState;
-import com.mojang.blaze3d.platform.CompareOp;
+import com.mojang.renderpearl.api.pipeline.BlendFunction;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.ColorTargetState;
+import com.mojang.renderpearl.api.pipeline.DepthStencilState;
+import com.mojang.renderpearl.api.pipeline.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.RenderPipelines;
 
@@ -40,9 +40,11 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     private static final int SEGMENTS = 12;
     private static final int SIDES = 4;
     private static final Vec3[][] LINK_VERTICES = createLinks();
-    //26.x is reverse-Z (CATALOG V99, V108), so 1.21's LEQUAL_DEPTH_TEST is GREATER_THAN_OR_EQUAL, with depth writes as
-    //1.21 had them
-    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder()
+    //26.3: a pipeline must declare every uniform block its shaders read (position_color: Globals, Projection,
+    //DynamicTransforms -- vanilla's DEBUG_FILLED_SNIPPET, which also carries the shaders, format and translucent
+    //blend), or it fails to compile ("Unable to find shader defined uniform (Projection)"); 26.x is reverse-Z, so
+    //1.21's LEQUAL_DEPTH_TEST is GREATER_THAN_OR_EQUAL (CATALOG V92), with depth writes as 1.21 had them
+    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
             .withLocation("pipeline/lost_wraith_seal")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
@@ -50,7 +52,7 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
             .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, true))
             .withCull(false)
             .withVertexBinding(0, DefaultVertexFormat.POSITION_COLOR)
-            .withPrimitiveTopology(com.mojang.blaze3d.PrimitiveTopology.QUADS)
+            .withPrimitiveTopology(com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS)
             .build();
     private static final RenderType SEAL = RenderType.create("lost_wraith_seal",
             RenderSetup.builder(SEAL_PIPELINE).sortOnUpload().createRenderSetup());

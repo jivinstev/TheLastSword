@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import net.minecraft.core.registries.Registries;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -664,7 +665,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     @Override
     public boolean keyPressed(KeyEvent event) {
         int key = event.key();
-        if (key == 256) {
+        if (key == GLFW.GLFW_KEY_ESCAPE) {
             // 有输入框处于选中状态时，ESC 先清空内容并取消选中，不关闭界面
             if (editingOption != null && levelEditBox.isFocused()) {
                 levelEditBox.setValue("");
@@ -686,7 +687,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
         // 等级输入框回车确认
         if (editingOption != null && levelEditBox.isFocused()) {
-            if (key == 257 || key == 335) {
+            if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {
                 commitLevelEdit();
                 return true;
             }

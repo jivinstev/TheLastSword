@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
@@ -1042,7 +1043,7 @@ public class TheLastEndScrollScreen extends Screen {
     public boolean keyPressed(KeyEvent event) {
         int keyCode = event.key();
         //ESC键关闭GUI
-        if (keyCode == 256) { //GLFW.GLFW_KEY_ESCAPE
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             this.onClose();
             return true;
         }

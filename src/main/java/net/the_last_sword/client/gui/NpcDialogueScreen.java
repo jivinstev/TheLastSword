@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.screens.Screen;
@@ -251,13 +252,13 @@ public class NpcDialogueScreen extends Screen {
         double mouseX = event.x();
         double mouseY = event.y();
         int button = event.buttonInfo().button();
-        if (button == 0 && maxScroll > 0
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && maxScroll > 0
                 && isInside(mouseX, mouseY, scrollBarLeft - 3, contentTop, 9, viewportHeight)) {
             draggingScrollBar = true;
             setScrollFromMouse(mouseY);
             return true;
         }
-        if (button == 0 && !choicePending) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && !choicePending) {
             for (OptionLayout option : optionLayouts) {
                 int optionY = contentTop + option.contentY() - Mth.floor(scrollOffset);
                 if (mouseY >= contentTop && mouseY < contentTop + viewportHeight
@@ -275,7 +276,7 @@ public class NpcDialogueScreen extends Screen {
     public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
         int button = event.buttonInfo().button();
         double mouseY = event.y();
-        if (button == 0 && draggingScrollBar) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && draggingScrollBar) {
             setScrollFromMouse(mouseY);
             return true;
         }
@@ -285,7 +286,7 @@ public class NpcDialogueScreen extends Screen {
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
         int button = event.buttonInfo().button();
-        if (button == 0 && draggingScrollBar) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && draggingScrollBar) {
             draggingScrollBar = false;
             return true;
         }

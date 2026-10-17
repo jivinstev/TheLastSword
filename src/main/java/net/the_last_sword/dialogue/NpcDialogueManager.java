@@ -105,7 +105,7 @@ public final class NpcDialogueManager {
         if (action == NpcDialogueAction.GIVE_BLACKSMITHS_PAIN_NOTE) {
             ItemStack note = new ItemStack(ModItems.BLACKSMITHS_PAIN_NOTE.get());
             if (!player.getInventory().add(note)) {
-                player.drop(note, false);
+                player.drop(note, false, net.minecraft.util.Prediction.SERVER_ONLY);
             }
         }
     }

@@ -37,7 +37,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.entity.DragonLightingEntity;
@@ -242,7 +242,7 @@ public class EnderDragonEvent {
             if (distance > radius * radius) continue;
 
             ItemStack dragonEgg = new ItemStack(Blocks.DRAGON_EGG, amount);
-            ItemHandlerHelper.giveItemToPlayer(player, dragonEgg);
+            giveItemToPlayer(player, dragonEgg);
             remainingUUIDs.remove(player.getUUID());
 
             // 非多人模式下只给第一个在场玩家
@@ -255,9 +255,16 @@ public class EnderDragonEvent {
                 Player absentPlayer = level.getServer().getPlayerList().getPlayer(uuid);
                 if (absentPlayer != null) {
                     ItemStack dragonEgg = new ItemStack(Blocks.DRAGON_EGG, amount);
-                    ItemHandlerHelper.giveItemToPlayer(absentPlayer, dragonEgg);
+                    giveItemToPlayer(absentPlayer, dragonEgg);
                 }
             }
+        }
+    }
+
+    // 将物品交给玩家，背包放不下则掉落在玩家脚下（替代 ItemHandlerHelper.giveItemToPlayer）
+    private static void giveItemToPlayer(Player player, ItemStack stack) {
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
     }
 

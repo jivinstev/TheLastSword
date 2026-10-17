@@ -46,18 +46,22 @@ public class OpenLastEndScrollPacket implements CustomPacketPayload {
             buffer.writeInt(message.x);
             buffer.writeInt(message.z);
         }
-        buffer.writeCollection(message.collectedNotes, (buf, entry) -> {
-            buf.writeUtf(entry.nameKey());
-            buf.writeUtf(entry.contentKey());
-        });
+        buffer.writeVarInt(message.collectedNotes.size());
+        for (PaperNoteEntry entry : message.collectedNotes) {
+            buffer.writeUtf(entry.nameKey());
+            buffer.writeUtf(entry.contentKey());
+        }
     }
 
     public static OpenLastEndScrollPacket decode(FriendlyByteBuf buffer) {
         boolean hasLocation = buffer.readBoolean();
         int x = hasLocation ? buffer.readInt() : 0;
         int z = hasLocation ? buffer.readInt() : 0;
-        List<PaperNoteEntry> collectedNotes = buffer.readCollection(ArrayList::new,
-            buf -> new PaperNoteEntry(buf.readUtf(), buf.readUtf()));
+        int noteCount = buffer.readVarInt();
+        List<PaperNoteEntry> collectedNotes = new ArrayList<>(noteCount);
+        for (int i = 0; i < noteCount; i++) {
+            collectedNotes.add(new PaperNoteEntry(buffer.readUtf(), buffer.readUtf()));
+        }
         return new OpenLastEndScrollPacket(hasLocation, x, z, collectedNotes);
     }
 

@@ -1,5 +1,6 @@
 package net.the_last_sword.client.gui;
 
+import net.the_last_sword.mv.GLFW; // 26.3: SDL key/button numbers (CATALOG V102)
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
@@ -48,7 +49,7 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
 
     @Override
     public boolean keyPressed(KeyEvent keyEvent) {
-        if (keyEvent.key() == 256) {
+        if (keyEvent.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.minecraft.player.closeContainer();
             return true;
         }

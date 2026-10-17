@@ -131,7 +131,7 @@ public class EntityUtil {
             ArrayList<MobEffect> effectsToRemove = new ArrayList<>();
             for (MobEffectInstance effectInstance : activeEffects) {
                 MobEffect effect = effectInstance.getEffect().value();
-                if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION
+                if (!effect.isBeneficial() && effect != MobEffects.ABSORPTION.value()
                         && effect != ModEffects.WORLD_SEVERANCE.get()) {
                     effectsToRemove.add(effect);
                 }

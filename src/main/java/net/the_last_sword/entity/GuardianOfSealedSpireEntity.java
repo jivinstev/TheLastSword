@@ -26,7 +26,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -286,7 +286,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
             return GuardianType.SABER;
         } else if (stack.getItem() instanceof BowItem) {
             return GuardianType.ARCHER;
-        } else if (stack.getItem() instanceof AxeItem) {
+        } else if (stack.is(ItemTags.AXES)) {
             return GuardianType.BERSERKER;
         }
         return null;

@@ -43,12 +43,12 @@ public class DeathRayLayer {
         int alpha = (int) (255.0f * (1.0f - fade));
 
         for (int i = 0; i < rayCount; i++) {
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0f));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0f));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0f));
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0f));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0f));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0f + progress * 90.0f));
+            poseStack.rotate(Axis.XP.rotationDegrees(random.nextFloat() * 360.0f));
+            poseStack.rotate(Axis.YP.rotationDegrees(random.nextFloat() * 360.0f));
+            poseStack.rotate(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0f));
+            poseStack.rotate(Axis.XP.rotationDegrees(random.nextFloat() * 360.0f));
+            poseStack.rotate(Axis.YP.rotationDegrees(random.nextFloat() * 360.0f));
+            poseStack.rotate(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0f + progress * 90.0f));
 
             float length = random.nextFloat() * 20.0f + 5.0f + fade * 10.0f;
             float width = random.nextFloat() * 2.0f + 1.0f + fade * 2.0f;

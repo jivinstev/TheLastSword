@@ -94,12 +94,12 @@ public final class LostWraithEndStrikeEffectRenderer {
         Vec3 offset = packet.position().subtract(camera.position());
         poseStack.translate(offset.x, offset.y, offset.z);
         for (int index = 0; index < rayCount; index++) {
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F
+            poseStack.rotate(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            poseStack.rotate(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            poseStack.rotate(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            poseStack.rotate(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            poseStack.rotate(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            poseStack.rotate(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F
                     + (float) (renderTick - packet.startTick()) * 4.5F));
             float length = (random.nextFloat() * 2.4F + 1.2F) * size;
             float radius = (random.nextFloat() * 0.5F + 0.25F) * size;

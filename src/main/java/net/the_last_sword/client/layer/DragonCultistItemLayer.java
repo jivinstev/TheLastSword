@@ -59,7 +59,7 @@ public class DragonCultistItemLayer<R extends EntityRenderState & GeoRenderState
         //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
         RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //向外旋转90度
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90));
+        poseStack.rotate(Axis.XP.rotationDegrees(-90));
         poseStack.translate(ITEM_OFFSET_X / 16.0, 0, ITEM_OFFSET_Z / 16.0);
 
         super.submitItemStackRender(poseStack, bone, stackRenderState, displayContext, renderState, renderTasks, packedLight);

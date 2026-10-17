@@ -137,7 +137,7 @@ public class DragonCultRaid extends RaidDefinition {
     private static void giveOrDrop(ServerPlayer player, ItemStack reward) {
         player.getInventory().add(reward);
         if (!reward.isEmpty()) {
-            player.drop(reward, false);
+            player.drop(reward, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
     }
 }

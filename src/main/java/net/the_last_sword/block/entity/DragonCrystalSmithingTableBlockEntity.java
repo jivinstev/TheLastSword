@@ -16,8 +16,9 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import net.the_last_sword.init.ModBlockEntities;
 import net.the_last_sword.client.gui.menu.DragonCrystalSmithingTableMenu;
 
@@ -27,7 +28,7 @@ import java.util.stream.IntStream;
 public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
-    private final IItemHandler[] handlers = createHandlers();
+    private final ResourceHandler<ItemResource>[] handlers = createHandlers();
 
     public DragonCrystalSmithingTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(), pos, state);
@@ -100,17 +101,18 @@ public class DragonCrystalSmithingTableBlockEntity extends RandomizableContainer
         return index == 3;
     }
 
-    private IItemHandler[] createHandlers() {
+    @SuppressWarnings("unchecked")
+    private ResourceHandler<ItemResource>[] createHandlers() {
         Direction[] dirs = Direction.values();
-        IItemHandler[] result = new IItemHandler[dirs.length];
+        ResourceHandler<ItemResource>[] result = new ResourceHandler[dirs.length];
         for (int i = 0; i < dirs.length; i++) {
-            result[i] = new SidedInvWrapper(this, dirs[i]);
+            result[i] = new WorldlyContainerWrapper(this, dirs[i]);
         }
         return result;
     }
 
     @Nullable
-    public IItemHandler getItemHandler(@Nullable Direction side) {
+    public ResourceHandler<ItemResource> getItemHandler(@Nullable Direction side) {
         if (this.isRemoved() || side == null) {
             return null;
         }

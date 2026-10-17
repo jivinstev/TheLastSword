@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -49,7 +50,7 @@ public final class ArenaBattleHandler {
         ItemStack reward = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, REWARD_COUNT);
         player.addItem(reward);
         if (!reward.isEmpty()) {
-            player.drop(reward, false);
+            player.drop(reward, false, Prediction.SERVER_ONLY);
         }
     }
 }

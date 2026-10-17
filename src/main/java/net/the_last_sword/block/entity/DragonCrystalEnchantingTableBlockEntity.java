@@ -22,9 +22,12 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.energy.EnergyStorage;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.the_last_sword.mv.EnergyStorage;
+import net.the_last_sword.mv.IEnergyStorage;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+
 import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModBlockEntities;
@@ -49,9 +52,9 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
-    private final SidedInvWrapper[] handlers = Arrays.stream(Direction.values())
-            .map(side -> new SidedInvWrapper(this, side))
-            .toArray(SidedInvWrapper[]::new);
+    private final WorldlyContainerWrapper[] handlers = Arrays.stream(Direction.values())
+            .map(side -> new WorldlyContainerWrapper(this, side))
+            .toArray(WorldlyContainerWrapper[]::new);
 
     // 能量存储系统
     private final InternalEnergyStorage energyStorage;
@@ -198,7 +201,7 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         return true;
     }
 
-    public SidedInvWrapper getItemHandler(Direction side) {
+    public WorldlyContainerWrapper getItemHandler(Direction side) {
         return handlers[side.ordinal()];
     }
 
@@ -247,13 +250,16 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         ItemStack chargeSlot = blockEntity.getItem(1);
         if (!chargeSlot.isEmpty() && blockEntity.energyStorage.getEnergyStored() > 0) {
             var itemHandler = ItemAccess.forStack(chargeSlot).getCapability(Capabilities.Energy.ITEM);
-            IEnergyStorage itemEnergy = itemHandler != null ? IEnergyStorage.of(itemHandler) : null;
+            EnergyHandler itemEnergy = itemHandler;
             if (itemEnergy != null) {
                     int rate = TheLastSwordConfiguration.getEnchantingTableItemChargeRateSafely();
-                    int canReceive = itemEnergy.getMaxEnergyStored() - itemEnergy.getEnergyStored();
+                    int canReceive = itemEnergy.getCapacityAsInt() - itemEnergy.getAmountAsInt();
                     int toCharge = Math.min(Math.min(blockEntity.energyStorage.getEnergyStored(), canReceive), rate);
                     if (toCharge > 0) {
-                        itemEnergy.receiveEnergy(toCharge, false);
+                        try (Transaction tx = Transaction.openRoot()) {
+                            itemEnergy.insert(toCharge, tx);
+                            tx.commit();
+                        }
                         blockEntity.energyStorage.extractEnergy(toCharge, false);
                         changed = true;
                     }
@@ -264,14 +270,20 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = pos.relative(direction);
             var neighborHandler = level.getCapability(Capabilities.Energy.BLOCK, neighborPos, direction.getOpposite());
-            IEnergyStorage neighborEnergy = neighborHandler != null ? IEnergyStorage.of(neighborHandler) : null;
+            EnergyHandler neighborEnergy = neighborHandler;
             if (neighborEnergy != null) {
                     // 尝试从邻居接收能量
                     if (blockEntity.energyStorage.getEnergyStored() < blockEntity.energyStorage.getMaxEnergyStored()) {
-                        int received = neighborEnergy.extractEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(), true);
+                        int received;
+                        try (Transaction simulate = Transaction.openRoot()) {
+                            received = neighborEnergy.extract(TheLastSwordConfiguration.getEnchantingTableEnergyReceiveRateSafely(), simulate);
+                        }
                         if (received > 0) {
                             int actualReceived = blockEntity.energyStorage.receiveEnergy(received, false);
-                            neighborEnergy.extractEnergy(actualReceived, false);
+                            try (Transaction tx = Transaction.openRoot()) {
+                                neighborEnergy.extract(actualReceived, tx);
+                                tx.commit();
+                            }
                             blockEntity.setChanged();
                         }
                     }
@@ -279,7 +291,11 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
                     if (blockEntity.energyStorage.getEnergyStored() > 0) {
                         int sent = blockEntity.energyStorage.extractEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyExtractRateSafely(), true);
                         if (sent > 0) {
-                            int actualSent = neighborEnergy.receiveEnergy(sent, false);
+                            int actualSent;
+                            try (Transaction tx = Transaction.openRoot()) {
+                                actualSent = neighborEnergy.insert(sent, tx);
+                                tx.commit();
+                            }
                             blockEntity.energyStorage.extractEnergy(actualSent, false);
                             blockEntity.setChanged();
                         }

@@ -16,16 +16,14 @@
         {
           "type": "minecraft:item",
           "name": "the_last_sword:dragon_crystal",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 16,
-                "max": 32
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 16,
+              "max": 32
             }
-          ]
+          }
         }
       ]
     }
