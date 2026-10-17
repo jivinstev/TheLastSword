@@ -1,0 +1,18 @@
+{
+ "tool": "tools/fork-branches.py migrate",
+ "layer_ref": "e2d35aa",
+ "layer_commit": "e2d35aa01335bd025776af24c4b24d0ef9a68c1b",
+ "target": "1.21.10",
+ "port_commit": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
+ "branch_commit": "abc5c3fd8d36267f60d0fc748d593899b5bf1e61",
+ "digest": "cfc737673dc02bf983f599a0b48e096027b593a02b4dde89c627b13e0a12cbe2",
+ "review_inputs": "092ed6397817f8c596fe8395cec6b23d33cdd13166b3db03d0fc39f58abf1cd6",
+ "with_modes": true,
+ "recorded": {
+  "dd19a1f418319a575d98305c6119cb12435899c8": {
+   "digest": "a4aff626ef6f7d987defcce3999872b5e022e50aa772a6823748b7c74446a1ee",
+   "review_inputs": "bfced86bd39110de0ac08c4710525b2c159ebacae4a8684514558f925608b5d4",
+   "with_modes": true
+  }
+ }
+}
