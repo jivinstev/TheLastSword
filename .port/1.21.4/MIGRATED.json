@@ -1,0 +1,23 @@
+{
+ "tool": "tools/fork-branches.py migrate",
+ "layer_ref": "e2d35aa",
+ "layer_commit": "e2d35aa01335bd025776af24c4b24d0ef9a68c1b",
+ "target": "1.21.4",
+ "port_commit": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
+ "branch_commit": "b83b92aeb7004a380d845c02ba0fe340a12aba85",
+ "digest": "620c6b927d830071239f2614dc6482f017feb42907177afa2c47a759034631b4",
+ "review_inputs": "36ec4dc1f9ad3567ae52dc7b57aa2a8c764373ad712b1c8d58ae10ecc48b8707",
+ "with_modes": true,
+ "recorded": {
+  "12f5a3c5bee8dc26488f5007607c56970f6a007e": {
+   "digest": "620c6b927d830071239f2614dc6482f017feb42907177afa2c47a759034631b4",
+   "review_inputs": "36ec4dc1f9ad3567ae52dc7b57aa2a8c764373ad712b1c8d58ae10ecc48b8707",
+   "with_modes": true
+  },
+  "a416de3cd1e2bfdafe771c04f09138ac372b8126": {
+   "digest": "620c6b927d830071239f2614dc6482f017feb42907177afa2c47a759034631b4",
+   "review_inputs": "36ec4dc1f9ad3567ae52dc7b57aa2a8c764373ad712b1c8d58ae10ecc48b8707",
+   "with_modes": true
+  }
+ }
+}
