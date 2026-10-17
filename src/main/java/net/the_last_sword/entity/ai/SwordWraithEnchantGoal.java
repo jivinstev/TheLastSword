@@ -99,7 +99,7 @@ public class SwordWraithEnchantGoal extends Goal {
 
     //应用虚空附魔效果
     private void applyVoidEnchantment() {
-        if (wraith.level().isClientSide) {
+        if (wraith.level().isClientSide()) {
             return;
         }
 

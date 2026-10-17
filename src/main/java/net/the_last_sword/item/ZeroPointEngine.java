@@ -93,7 +93,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown()) return InteractionResult.PASS;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             boolean enable = !isChargingEnabled(stack);
             ItemNbt.update(stack, tag -> tag.putBoolean(CHARGING_ENABLED_TAG, enable));
             player.displayClientMessage(chargingStatus(stack), true);
@@ -113,7 +113,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private void tickEnergy(ItemStack stack, Entity entity) {
-        if (entity.level().isClientSide || !(entity instanceof Player player)) return;
+        if (entity.level().isClientSide() || !(entity instanceof Player player)) return;
         energyOf(stack).ifPresent(source -> {
             source.receiveEnergy(TheLastSwordConfiguration.getZeroPointEngineGenerationRateSafely(), false);
             if (!isChargingEnabled(stack) || source.getEnergyStored() <= 0) return;

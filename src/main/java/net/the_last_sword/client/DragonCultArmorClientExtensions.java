@@ -1,8 +1,5 @@
 package net.the_last_sword.client;
 
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.client.renderer.DragonCultPaladinArmorRenderer;
@@ -39,9 +36,8 @@ public final class DragonCultArmorClientExtensions {
             private GeoArmorRenderer<?, ?> renderer;
 
             @Override
-            public <S extends HumanoidRenderState> GeoArmorRenderer<?, ?> getGeoArmorRenderer(
-                    S renderState, ItemStack itemStack, EquipmentSlot equipmentSlot,
-                    EquipmentClientInfo.LayerType type, HumanoidModel<S> original) {
+            //GeckoLib 5.3: the provider is asked with the stack and slot only (no render state, layer or base model)
+            public GeoArmorRenderer<?, ?> getGeoArmorRenderer(ItemStack itemStack, EquipmentSlot equipmentSlot) {
                 if (this.renderer == null) {
                     this.renderer = factory.get();
                 }

@@ -43,6 +43,6 @@ public class ArenaPreviewPacket implements CustomPacketPayload {
 
     //处理
     public static void handle(ArenaPreviewPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.setArenaPreview(msg.minPos, msg.maxPos); });
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.setArenaPreview(msg.minPos, msg.maxPos); });
     }
 }

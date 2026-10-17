@@ -44,7 +44,7 @@ public final class PresentWorldAnchorManager {
             return 0.0F;
         }
 
-        if (entity.level().isClientSide) {
+        if (entity.level().isClientSide()) {
             float syncedAnchor = getSyncedPresentWorldAnchor(entity);
             if (syncedAnchor >= 0.0F) {
                 return syncedAnchor;
@@ -86,7 +86,7 @@ public final class PresentWorldAnchorManager {
     }
 
     public static void restorePresentWorldAnchorFromHeal(LivingEntity entity, float healAmount) {
-        if (entity == null || entity.level().isClientSide || !Float.isFinite(healAmount)
+        if (entity == null || entity.level().isClientSide() || !Float.isFinite(healAmount)
                 || healAmount <= 0.0F || isHealBanned(entity)) {
             return;
         }
@@ -127,7 +127,7 @@ public final class PresentWorldAnchorManager {
     }
 
     public static void syncPresentWorldAnchor(LivingEntity entity) {
-        if (entity == null || entity.level().isClientSide) {
+        if (entity == null || entity.level().isClientSide()) {
             return;
         }
         float syncedAnchor = UNSET_PRESENT_WORLD_ANCHOR;
@@ -265,7 +265,7 @@ public final class PresentWorldAnchorManager {
     }
 
     public static void tickHealBanTime(LivingEntity entity) {
-        if (entity == null || entity.level().isClientSide) {
+        if (entity == null || entity.level().isClientSide()) {
             return;
         }
 

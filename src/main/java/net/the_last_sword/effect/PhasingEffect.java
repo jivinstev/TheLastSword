@@ -26,8 +26,8 @@ public class PhasingEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
-        // 续时也会重加属性，重复初始化无敌会用底层旧血量覆盖治疗后的锁定值。
-        if (!entity.level().isClientSide && !EcaAPI.isInvulnerable(entity)) {
+        //虚化效果设置ECA无敌
+        if (!entity.level().isClientSide()) {
             EcaAPI.setInvulnerable(entity, true);
         }
         return super.applyEffectTick(level, entity, amplifier);
@@ -38,7 +38,7 @@ public class PhasingEffect extends MobEffect {
         //只在buff真正结束时执行清理（检查实体是否还有虚化效果）
         if (!entity.hasEffect(ModEffects.PHASING)) {
             //移除ECA无敌
-            if (!entity.level().isClientSide) {
+            if (!entity.level().isClientSide()) {
                 EcaAPI.setInvulnerable(entity, false);
             }
 
@@ -58,7 +58,7 @@ public class PhasingEffect extends MobEffect {
     //破坏实体碰撞箱范围内会导致窒息的固体方块
     private static void breakBlocksInEntityBoundingBox(LivingEntity entity) {
         Level level = entity.level();
-        if (level.isClientSide) return;
+        if (level.isClientSide()) return;
 
         AABB boundingBox = entity.getBoundingBox();
 

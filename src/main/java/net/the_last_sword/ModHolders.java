@@ -27,7 +27,7 @@ public final class ModHolders {
     public static HolderLookup.Provider registries() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server != null && server.isSameThread()) return server.registryAccess();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             HolderLookup.Provider client = Client.registries();
             if (client != null) return client;
         }

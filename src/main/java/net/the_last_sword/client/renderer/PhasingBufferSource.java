@@ -27,7 +27,8 @@ public final class PhasingBufferSource implements MultiBufferSource {
         return new PhasingVertexConsumer(delegate, translucentType(type));
     }
 
-    private static RenderType translucentType(RenderType type) {
+    //1.21.9+: also used by PhasingSubmitNodeCollector, which phases submitted models the same way
+    static RenderType translucentType(RenderType type) {
         if (!(type instanceof CompositeRenderType composite)) {
             return type;
         }

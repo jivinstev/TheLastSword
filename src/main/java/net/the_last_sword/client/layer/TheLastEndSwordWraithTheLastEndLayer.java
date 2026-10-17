@@ -1,10 +1,10 @@
 package net.the_last_sword.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.client.shader.TheLastEndEffect;
@@ -28,14 +28,14 @@ public class TheLastEndSwordWraithTheLastEndLayer<R extends EntityRenderState & 
     }
 
     @Override
-    public void addRenderData(TheLastEndSwordWraithEntity animatable, Void relatedObject, R renderState) {
+    public void addRenderData(TheLastEndSwordWraithEntity animatable, Void relatedObject, R renderState, float partialTick) {
         renderState.addGeckolibData(ALL_THINGS_END, animatable.isAllThingsEnd());
     }
 
     @Override
-    public void render(R renderState, PoseStack poseStack, BakedGeoModel bakedModel,
-                       RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,
-                       int packedLight, int packedOverlay, int renderColor) {
+    public void submitRenderTask(R renderState, PoseStack poseStack, BakedGeoModel bakedModel,
+                                 SubmitNodeCollector renderTasks, CameraRenderState cameraState,
+                                 int packedLight, int packedOverlay, int renderColor, boolean didRenderModel) {
 
         //只在万物终焉状态下渲染
         if (!Boolean.TRUE.equals(renderState.getGeckolibData(ALL_THINGS_END))) {
@@ -55,17 +55,17 @@ public class TheLastEndSwordWraithTheLastEndLayer<R extends EntityRenderState & 
 
         //使用终焉着色器渲染类型
         RenderType theLastEndRenderType = TheLastEndRenderTypes.createEntityEffect(texture);
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(theLastEndRenderType);
 
         //渲染模型
-        getRenderer().reRender(
+        getRenderer().buildRenderTask(
             renderState,
             poseStack,
             bakedModel,
-            bufferSource,
+            getRenderer().getGeoModel(),
+            renderTasks.order(1),
+            cameraState,
             theLastEndRenderType,
-            vertexConsumer,
             packedLight,
-            OverlayTexture.NO_OVERLAY, -1);
+            OverlayTexture.NO_OVERLAY, -1, null);
     }
 }

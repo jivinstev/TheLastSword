@@ -175,7 +175,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
         if (blockImmune) {
             long gameTime = level().getGameTime();
-            if (!level().isClientSide && gameTime != lastBlockSoundTick) {
+            if (!level().isClientSide() && gameTime != lastBlockSoundTick) {
                 level().playSound(null, blockPosition(), SoundEvents.SHIELD_BLOCK.value(),
                     getSoundSource(), 1.0F, 0.8F + getRandom().nextFloat() * 0.4F);
                 lastBlockSoundTick = gameTime;
@@ -183,7 +183,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
             return false;
         }
         boolean hurt = super.hurtServer(serverLevel, source, amount);
-        if (hurt && !level().isClientSide) {
+        if (hurt && !level().isClientSide()) {
             requestBlock();
         }
         return hurt;
@@ -203,9 +203,10 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
             setTheLastEndLevel(1);

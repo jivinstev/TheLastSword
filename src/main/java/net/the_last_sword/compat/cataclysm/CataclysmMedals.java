@@ -65,14 +65,14 @@ public class CataclysmMedals {
         public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
             super.inventoryTick(stack, world, entity, slot);
 
-            if (entity instanceof Player player && !world.isClientSide) {
+            if (entity instanceof Player player && !world.isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
 
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity() instanceof Player player && !player.level().isClientSide) {
+            if (slotContext.entity() instanceof Player player && !player.level().isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
@@ -264,14 +264,14 @@ public class CataclysmMedals {
         public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
             super.inventoryTick(stack, world, entity, slot);
 
-            if (entity instanceof Player player && !world.isClientSide) {
+            if (entity instanceof Player player && !world.isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
 
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity() instanceof Player player && !player.level().isClientSide) {
+            if (slotContext.entity() instanceof Player player && !player.level().isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
@@ -311,14 +311,14 @@ public class CataclysmMedals {
         public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
             super.inventoryTick(stack, world, entity, slot);
 
-            if (entity instanceof Player player && !world.isClientSide) {
+            if (entity instanceof Player player && !world.isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
 
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity() instanceof Player player && !player.level().isClientSide) {
+            if (slotContext.entity() instanceof Player player && !player.level().isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
@@ -359,14 +359,14 @@ public class CataclysmMedals {
         public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
             super.inventoryTick(stack, world, entity, slot);
 
-            if (entity instanceof Player player && !world.isClientSide) {
+            if (entity instanceof Player player && !world.isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
 
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity() instanceof Player player && !player.level().isClientSide) {
+            if (slotContext.entity() instanceof Player player && !player.level().isClientSide()) {
                 applyPassiveEffects(player, stack);
             }
         }
@@ -422,7 +422,7 @@ public class CataclysmMedals {
         //攻击时的被动效果
         public void onOwnerAttack(Player owner, ItemStack stack, LivingEntity target) {
             Level world = owner.level();
-            if (world.isClientSide) return;
+            if (world.isClientSide()) return;
 
             //给予/叠加敌人潮湿效果
             MobEffect moistureEffect = getMoistureEffect();

@@ -38,6 +38,6 @@ public record LightningSpearBurstPacket(ResourceLocation dimension, Vec3 positio
     }
 
     public static void handle(LightningSpearBurstPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) LightningSpearBurstRenderer.receive(packet); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) LightningSpearBurstRenderer.receive(packet); });
     }
 }

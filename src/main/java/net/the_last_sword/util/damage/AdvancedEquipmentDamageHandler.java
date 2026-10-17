@@ -165,7 +165,7 @@ public final class AdvancedEquipmentDamageHandler {
                 || APPLYING_PAIN_DAMAGE.get()
                 || !(source.getEntity() instanceof Player attacker)
                 || !CuriosEffectHandler.hasCurioEquipped(attacker, ModItems.THE_GIVERS_PAIN.get())
-                || attacker.level().isClientSide
+                || attacker.level().isClientSide()
                 || !EntityUtil.canAttack(attacker, target)) {
             return;
         }
@@ -237,7 +237,9 @@ public final class AdvancedEquipmentDamageHandler {
         boolean applied;
         try {
             CONVERTING_DAMAGE.set(true);
-            applied = net.the_last_sword.mv.Hurt.server(player,player.damageSources().fellOutOfWorld(), amount);
+            float healthBefore = player.getHealth();
+            player.hurt(player.damageSources().fellOutOfWorld(), amount);
+            applied = player.getHealth() != healthBefore;
         } finally {
             CONVERTING_DAMAGE.set(false);
         }

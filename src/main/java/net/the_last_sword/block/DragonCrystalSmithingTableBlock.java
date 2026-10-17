@@ -1,6 +1,7 @@
 package net.the_last_sword.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
@@ -36,7 +37,7 @@ public class DragonCrystalSmithingTableBlock extends Block implements EntityBloc
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof DragonCrystalSmithingTableBlockEntity be) {
                 serverPlayer.openMenu(be);
@@ -58,7 +59,7 @@ public class DragonCrystalSmithingTableBlock extends Block implements EntityBloc
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof DragonCrystalSmithingTableBlockEntity be) {
             return AbstractContainerMenu.getRedstoneSignalFromContainer(be);

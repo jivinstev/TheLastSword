@@ -176,9 +176,10 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
             setTheLastEndLevel(1);
@@ -281,9 +282,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     private GuardianType getTypeFromItem(ItemStack stack) {
-        //1.21.5: no vanilla SwordItem class (vanilla swords are plain Items in #minecraft:swords); this mod's swords extend
-        //compat/gear/SwordItem and only knight_greatsword is in the tag, so test both, as 1.21.1's instanceof SwordItem covered both
-        if (stack.is(net.minecraft.tags.ItemTags.SWORDS) || stack.getItem() instanceof SwordItem) {
+        if (stack.getItem() instanceof SwordItem) {
             return GuardianType.SABER;
         } else if (stack.getItem() instanceof BowItem) {
             return GuardianType.ARCHER;
@@ -294,7 +293,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     private void transformTo(GuardianType type) {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 

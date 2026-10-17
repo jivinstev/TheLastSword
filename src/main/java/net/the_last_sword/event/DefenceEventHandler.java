@@ -209,7 +209,7 @@ public final class DefenceEventHandler {
 
             //飞行惯性控制：关闭时松开按键立即停止
             if (player.getAbilities().flying && !DefenceConfig.getAntiGravityModule().enableInertia
-                    && player.level().isClientSide) {
+                    && player.level().isClientSide()) {
                 boolean noInput = net.the_last_sword.client.ClientFlightHelper.isNoMoveInput(player);
                 if (noInput) {
                     player.setDeltaMovement(Vec3.ZERO);
@@ -220,7 +220,8 @@ public final class DefenceEventHandler {
 
     //物品能量存储（无能量能力时为空）
     private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
-        return Optional.ofNullable(stack.getCapability(Capabilities.EnergyStorage.ITEM, null));
+        var handler = stack.getCapability(Capabilities.Energy.ITEM, null);
+        return Optional.ofNullable(handler).map(IEnergyStorage::of);
     }
 
     //护盾保护触发：取消事件，设置满血，按 cost 扣除护盾

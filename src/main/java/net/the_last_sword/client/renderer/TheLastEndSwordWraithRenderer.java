@@ -1,11 +1,10 @@
 package net.the_last_sword.client.renderer;
 
-import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -29,8 +28,8 @@ public class TheLastEndSwordWraithRenderer<R extends EntityRenderState & GeoRend
     public TheLastEndSwordWraithRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new TheLastEndSwordWraithModel());
         this.shadowRadius = 0.5f;
-        this.addRenderLayer(new TheLastEndSwordWraithLayer<>(this));
-        this.addRenderLayer(new TheLastEndSwordWraithTheLastEndLayer<>(this));
+        this.withRenderLayer(new TheLastEndSwordWraithLayer<>(this));
+        this.withRenderLayer(new TheLastEndSwordWraithTheLastEndLayer<>(this));
     }
 
     @Override
@@ -39,11 +38,11 @@ public class TheLastEndSwordWraithRenderer<R extends EntityRenderState & GeoRend
     }
 
     @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector, CameraRenderState cameraState, int packedLight, int packedOverlay, int colour) {
         float scale = 0.55f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender, packedLight, packedOverlay, colour);
+        super.preRender(renderState, poseStack, model, collector, cameraState, packedLight, packedOverlay, colour);
     }
 
     @Override
@@ -64,26 +63,29 @@ public class TheLastEndSwordWraithRenderer<R extends EntityRenderState & GeoRend
     }
 
     @Override
-    protected void renderNameTag(R renderState, Component name, PoseStack poseStack,
-                                 MultiBufferSource bufferSource, int packedLight) {
-        super.renderNameTag(renderState, name, poseStack, bufferSource, packedLight);
+    protected void submitNameTag(R renderState, PoseStack poseStack, SubmitNodeCollector collector,
+                                 CameraRenderState cameraState) {
+        super.submitNameTag(renderState, poseStack, collector, cameraState);
+        if (renderState.nameTag == null) {
+            return;
+        }
+        Component name = renderState.nameTag;
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.28D, 0.0D);
         Integer endMark = renderState.getGeckolibData(END_MARK);
-        Component marks = Component.translatable("entity.the_last_sword.the_last_end_sword_wraith.end_mark",
+        renderState.nameTag = Component.translatable("entity.the_last_sword.the_last_end_sword_wraith.end_mark",
                 endMark != null ? endMark : 0).withStyle(ChatFormatting.DARK_PURPLE);
-        super.renderNameTag(renderState, marks, poseStack, bufferSource, packedLight);
+        try {
+            super.submitNameTag(renderState, poseStack, collector, cameraState);
+        } finally {
+            renderState.nameTag = name;
+        }
         poseStack.popPose();
     }
 
     //受伤变红效果（等同原版 getOverlayCoords(entity, 0)）
     @Override
     public int getPackedOverlay(TheLastEndSwordWraithEntity entity, Void relatedObject, float u, float partialTick) {
-        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
-        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
-        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
-        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
-                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
+        return OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
-
 }

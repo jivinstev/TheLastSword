@@ -1,8 +1,9 @@
 package net.the_last_sword.mixin;
 
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -35,12 +36,13 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     @Inject(
-        method = "render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+        method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
         at = @At("HEAD"),
         cancellable = true
     )
+    //1.21.9: render(...) is submit(state, pose, SubmitNodeCollector, CameraRenderState); cancelling it still submits nothing
     private void theLastSword$captureEntity(S state, PoseStack poseStack,
-                                             MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
+                                             SubmitNodeCollector collector, CameraRenderState cameraState, CallbackInfo ci) {
         //防御模式的究极测试剑持有者完全不可见
         if (EntityOf.get(state) instanceof LivingEntity entity && UltraTestSwordItem.hasDefenseSword(entity)) {
             ci.cancel();

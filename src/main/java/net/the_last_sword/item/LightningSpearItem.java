@@ -75,7 +75,7 @@ public class LightningSpearItem extends Item {
     @Override
     public boolean releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity,
                              int timeLeft) {
-        if (level.isClientSide || !(livingEntity instanceof Player player)
+        if (level.isClientSide() || !(livingEntity instanceof Player player)
                 || player.getCooldowns().isOnCooldown(stack)) {
             return false;
         }

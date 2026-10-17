@@ -274,14 +274,15 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     @Override
     public void tick() {
         // 首次tick初始化防御系统
-        if (!level().isClientSide && tickCount == 1) {
+        if (!level().isClientSide() && tickCount == 1) {
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                float maxHealth = (float) this.getAttributeValue(Attributes.MAX_HEALTH);
+                TrueHealthManager.register(this, maxHealth);
             }
         }
 
         // 无效目标清理
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             LivingEntity target = getTarget();
             if (!EntityUtil.canAttack(this, target)) {
                 setTarget(null);
@@ -298,7 +299,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             return;
         }
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             tickVoidRescue();
         }
 
@@ -429,7 +430,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
 
     @Override
     public void move(@NotNull MoverType type, @NotNull Vec3 movement) {
-        if (!level().isClientSide && voidRescueActive) {
+        if (!level().isClientSide() && voidRescueActive) {
             setDeltaMovement(Vec3.ZERO);
             fallDistance = 0;
             return;
@@ -439,7 +440,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
 
     @Override
     protected void onBelowWorld() {
-        if (!level().isClientSide && voidRescueActive
+        if (!level().isClientSide() && voidRescueActive
                 && TheLastSwordConfiguration.getEntityVoidRescueEnabledSafely()) return;
         super.onBelowWorld();
     }
@@ -469,7 +470,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     }
 
     protected void onDeathEnd() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -481,6 +482,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             damageSource = damageSources().generic();
         }
 
+        float previousMaxHealth = TrueHealthManager.getMaxHealth(this);
         TrueHealthManager.setHealth(this, 0.0F);
         TrueHealthManager.clear(this);
         super.die(damageSource);
@@ -491,20 +493,23 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         }
 
         // 其他死亡事件处理器仍可取消最终结算；取消后必须退出死亡动画并恢复真实血量保护。
-        float restoredMaxHealth = getMaxHealth();
+        float restoredMaxHealth = Float.isFinite(previousMaxHealth) && previousMaxHealth > 0.0F
+                ? previousMaxHealth
+                : getMaxHealth();
         float restoredHealth = super.getHealth();
         if (!Float.isFinite(restoredHealth) || restoredHealth <= 0.0F) {
             restoredHealth = restoredMaxHealth;
         }
-
+        TrueHealthManager.setMaxHealth(this, restoredMaxHealth);
+        TrueHealthManager.setHealth(this, Math.min(restoredHealth, restoredMaxHealth));
+        EntityUtil.setProtection(this, true);
         deathDamageSource = null;
         setDeathTick(0);
         setAnimationState(STATE_IDLE);
-        TrueHealthManager.setHealth(this, Math.min(restoredHealth, restoredMaxHealth));
     }
 
     protected void finishDeathWithoutRemoval(int nextState) {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -513,11 +518,12 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             restoredMaxHealth = getMaxHealth();
         }
         EcaAPI.revive(this);
-
+        TrueHealthManager.setMaxHealth(this, restoredMaxHealth);
+        TrueHealthManager.setHealth(this, restoredMaxHealth);
+        EntityUtil.setProtection(this, true);
         deathDamageSource = null;
         setDeathTick(0);
         setAnimationState(nextState);
-        TrueHealthManager.setHealth(this, restoredMaxHealth);
     }
 
     public void triggerDeath(@NotNull DamageSource damageSource) {
@@ -733,9 +739,10 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             setAllThingsEnd(tag.getBooleanOr("AllThingsEnd", false));
         }
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
         }
     }
@@ -780,8 +787,9 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         return this.xpReward;
     }
 
+    // Entity.startRiding(Entity) is final in 1.21.10; block riding at the overridable overload instead.
     @Override
-    public boolean startRiding(@NotNull Entity entity) {
+    public boolean startRiding(Entity entity, boolean force, boolean sendEvent) {
         return false;
     }
 

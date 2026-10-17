@@ -50,6 +50,6 @@ public record DangerousSkillPreviewPacket(ResourceLocation dimension, int entity
     }
 
     public static void handle(DangerousSkillPreviewPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) DangerousSkillPreviewRenderer.receive(packet); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) DangerousSkillPreviewRenderer.receive(packet); });
     }
 }

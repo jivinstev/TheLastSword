@@ -37,7 +37,8 @@ public class DisposableEnergyBattery extends Item {
     }
 
     private static IEnergyStorage energyOf(ItemStack stack) {
-        return stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        var handler = net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
+        return handler == null ? null : IEnergyStorage.of(handler);
     }
 
     private static boolean receiveInto(ItemStack target, int amount) {
@@ -62,7 +63,7 @@ public class DisposableEnergyBattery extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
 

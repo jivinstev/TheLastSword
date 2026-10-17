@@ -32,7 +32,7 @@ public record DragonArmorEnergyStatusPacket(long currentEnergy, long maxEnergy, 
     }
 
     public static void handle(DragonArmorEnergyStatusPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.updateDragonArmorEnergyStatus(
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.updateDragonArmorEnergyStatus(
                         msg.currentEnergy, msg.maxEnergy, msg.consumptionPerTick); });
     }
 }

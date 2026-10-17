@@ -78,7 +78,7 @@ public class ThePastShadowOfTheQueenSummonProjectilesGoal extends Goal {
         }
         holdPose();
         queen.setSummonTick(++tick);
-        if (!queen.level().isClientSide && tick >= 40 && tick <= 140 && tick % 20 == 0) {
+        if (!queen.level().isClientSide() && tick >= 40 && tick <= 140 && tick % 20 == 0) {
             releaseCrystal();
         }
         if (tick >= DURATION) stop();

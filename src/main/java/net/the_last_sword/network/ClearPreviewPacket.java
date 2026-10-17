@@ -33,6 +33,6 @@ public class ClearPreviewPacket implements CustomPacketPayload {
 
     //处理
     public static void handle(ClearPreviewPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.clearPreviews(); });
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.clearPreviews(); });
     }
 }

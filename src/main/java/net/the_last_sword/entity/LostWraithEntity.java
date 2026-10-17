@@ -2,6 +2,7 @@ package net.the_last_sword.entity;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -220,11 +221,12 @@ public class LostWraithEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setTheLastEndLevel(1);
 
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
         }
@@ -260,7 +262,7 @@ public class LostWraithEntity extends TheLastEndEntity {
         super.tick();
         this.refreshDimensions();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (isPunchTeleportReady()) {
                 spawnPunchTeleportReadyParticles();
             }
@@ -330,7 +332,7 @@ public class LostWraithEntity extends TheLastEndEntity {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.getItem() == Items.DRAGON_EGG && !isReady()) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 activate();
 
                 if (!player.getAbilities().instabuild) {
@@ -344,15 +346,15 @@ public class LostWraithEntity extends TheLastEndEntity {
 
                 spawnActivationParticles();
             }
-            return level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+            return level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         // 未激活时，除龙蛋以外的任何物品（包括空手）右键都会继续对话。
         if (!isReady()) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 sendNextTalk(player);
             }
-            return level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+            return level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         return super.mobInteract(player, hand);
@@ -444,7 +446,7 @@ public class LostWraithEntity extends TheLastEndEntity {
             }
 
             for (int i = 0; i < 15; i++) {
-                serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH,
+                serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F),
                     this.getX() + (random.nextDouble() - 0.5D) * 1.5D,
                     this.getY() + random.nextDouble() * 1.5D + 0.5D,
                     this.getZ() + (random.nextDouble() - 0.5D) * 1.5D,

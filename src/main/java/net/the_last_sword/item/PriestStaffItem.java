@@ -59,7 +59,7 @@ public class PriestStaffItem extends Item {
             return InteractionResult.FAIL;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             if (player.isShiftKeyDown()) {
                 PriestGuardEffect.apply(
                     player,

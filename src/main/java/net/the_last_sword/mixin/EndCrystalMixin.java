@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.item.DragonArmorItem;
 import org.spongepowered.asm.mixin.Mixin;
@@ -110,7 +111,8 @@ public class EndCrystalMixin {
 
     //物品是否带FE能量且未满
     private boolean needsCharge(ItemStack stack) {
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        var handler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
+        IEnergyStorage energy = handler == null ? null : IEnergyStorage.of(handler);
         return energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored();
     }
 
@@ -150,7 +152,8 @@ public class EndCrystalMixin {
 
     //给单个物品充能（若带FE能量且未满）
     private void chargeStack(ItemStack stack, int chargeRate) {
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        var handler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
+        IEnergyStorage energy = handler == null ? null : IEnergyStorage.of(handler);
         if (energy != null && energy.getEnergyStored() < energy.getMaxEnergyStored()) {
             energy.receiveEnergy(chargeRate, false);
         }

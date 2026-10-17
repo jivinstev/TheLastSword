@@ -62,7 +62,7 @@ public class OpenLastEndScrollPacket implements CustomPacketPayload {
     }
 
     public static void handle(OpenLastEndScrollPacket message, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.openLastEndScroll(
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.openLastEndScroll(
                         message.hasLocation, message.x, message.z, message.collectedNotes); });
     }
 }

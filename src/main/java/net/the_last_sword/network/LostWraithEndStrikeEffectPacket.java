@@ -46,6 +46,6 @@ public record LostWraithEndStrikeEffectPacket(ResourceLocation dimension, int en
     }
 
     public static void handle(LostWraithEndStrikeEffectPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) LostWraithEndStrikeEffectRenderer.receive(packet); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) LostWraithEndStrikeEffectRenderer.receive(packet); });
     }
 }

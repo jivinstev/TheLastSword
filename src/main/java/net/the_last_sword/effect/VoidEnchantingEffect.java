@@ -24,10 +24,10 @@ public class VoidEnchantingEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(net.minecraft.server.level.ServerLevel mv$level, LivingEntity entity, int amplifier) {
-        boolean result = super.applyEffectTick(mv$level, entity, amplifier);
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+        boolean result = super.applyEffectTick(level, entity, amplifier);
 
-        if (!entity.level().isClientSide
+        if (!entity.level().isClientSide()
             && entity.level() instanceof ServerLevel serverLevel
             && TheLastSwordConfiguration.getVoidEnchantmentParticleEffectsSafely()) {
             spawnEnchantParticles(entity, serverLevel);

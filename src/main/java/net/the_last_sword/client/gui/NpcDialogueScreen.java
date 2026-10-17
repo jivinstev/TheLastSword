@@ -1,7 +1,9 @@
 package net.the_last_sword.client.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -179,8 +181,7 @@ public class NpcDialogueScreen extends Screen {
         int availableHeight = Math.max(70, panelTop - 18);
         int scale = Mth.clamp(availableHeight / 4, 28, 62);
         graphics.enableScissor(8, 8, Math.max(9, width / 2), panelTop + 6);
-        // 1.21.8: vanilla's helper crashes on a GeckoLib 5.2 entity (the queen; CATALOG M62); same three methods, shared
-        net.the_last_sword.mv.GeoInventoryEntity.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
                 modelX + scale, modelBottom, scale, 0.0F,
                 mouseX, mouseY, livingEntity);
         graphics.disableScissor();
@@ -246,7 +247,10 @@ public class NpcDialogueScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        double mouseX = event.x();
+        double mouseY = event.y();
+        int button = event.buttonInfo().button();
         if (button == 0 && maxScroll > 0
                 && isInside(mouseX, mouseY, scrollBarLeft - 3, contentTop, 9, viewportHeight)) {
             draggingScrollBar = true;
@@ -264,25 +268,28 @@ public class NpcDialogueScreen extends Screen {
                 }
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
+        int button = event.buttonInfo().button();
+        double mouseY = event.y();
         if (button == 0 && draggingScrollBar) {
             setScrollFromMouse(mouseY);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, dragX, dragY);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+        int button = event.buttonInfo().button();
         if (button == 0 && draggingScrollBar) {
             draggingScrollBar = false;
             return true;
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
 
     @Override

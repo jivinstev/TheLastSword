@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.redstone.Orientation;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEvent;
 import net.the_last_sword.ItemNbt;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEventContext;
@@ -53,6 +54,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
         return new TheLastEndLuckyBlockEntity(pos, state);
     }
 
+    //1.21.2 removed ENTITYBLOCK_ANIMATED: INVISIBLE is the shape whose block entity renderer alone draws the block
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.INVISIBLE;
@@ -65,8 +67,8 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
 
     //红石信号触发破坏
     @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block neighborBlock, @org.jetbrains.annotations.Nullable net.minecraft.world.level.redstone.Orientation neighborPos, boolean notify) {
-        super.neighborChanged(state, world, pos, neighborBlock, neighborPos, notify);
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block neighborBlock, Orientation orientation, boolean notify) {
+        super.neighborChanged(state, world, pos, neighborBlock, orientation, notify);
         if (world.hasNeighborSignal(pos)) {
             onBreak(this, world, null, pos, world.getBlockEntity(pos), ItemStack.EMPTY, true);
         }
@@ -100,7 +102,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
 
     //统一破坏入口：精准采集掉落方块(保留luck)；否则触发幸运事件
     private static void onBreak(Block block, Level world, @Nullable Player player, BlockPos pos, @Nullable BlockEntity be, ItemStack tool, boolean removedByRedstone) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
 
         int luck = (be instanceof TheLastEndLuckyBlockEntity tle) ? tle.getLuck() : 0;
         boolean wellVariant = (be instanceof TheLastEndLuckyBlockEntity tle) && tle.isWellVariant();

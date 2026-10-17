@@ -141,7 +141,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
         super.setTheLastEndLevel(level);
         int newLevel = getTheLastEndLevel();
 
-        if (newLevel != oldLevel && !level().isClientSide) {
+        if (newLevel != oldLevel && !level().isClientSide()) {
             updateAttributesByLevel(newLevel);
         }
     }
@@ -167,6 +167,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
             attackAttr.setBaseValue(newAttack);
         }
 
+        TrueHealthManager.setMaxHealth(this, (float) newMaxHealth);
         TrueHealthManager.setHealth(this, (float) newMaxHealth);
     }
 
@@ -201,7 +202,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
         super.setTarget(target);
 
         LivingEntity currentTarget = getTarget();
-        if (level().isClientSide || currentTarget == null || currentTarget == previousTarget
+        if (level().isClientSide() || currentTarget == null || currentTarget == previousTarget
                 || !TheLastSwordConfiguration.getSwordWraithBossTalkSafely()) {
             return;
         }
@@ -285,7 +286,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         super.onSyncedDataUpdated(dataAccessor);
-        if (TEXTURE.equals(dataAccessor) && level().isClientSide) {
+        if (TEXTURE.equals(dataAccessor) && level().isClientSide()) {
             var controller = getAnimatableInstanceCache()
                     .getManagerForId(getId())
                     .getAnimationControllers()
@@ -343,13 +344,14 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (getTheLastEndLevel() <= 0) {
                 setTheLastEndLevel(1);
             }
 
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
             setAnimationState(STATE_SPAWNING);
@@ -457,7 +459,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
             wraith.setAllThingsEnd(false);
 
             //技能结束后再结算终焉审判，避免持续阶段提前斩杀
-            if (!wraith.level().isClientSide) {
+            if (!wraith.level().isClientSide()) {
                 double effectRange = TheLastSwordConfiguration.getSkillEndOfAllThingsRangeSafely();
                 double executionHealthThreshold = TheLastSwordConfiguration
                         .getSkillEndOfAllThingsExecutionHealthThresholdSafely();
@@ -482,7 +484,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
         }
 
         private static void executeAllThingsEndEffect(TheLastEndSwordWraithEntity wraith, Vec3 center) {
-            if (wraith.level().isClientSide) {
+            if (wraith.level().isClientSide()) {
                 return;
             }
 

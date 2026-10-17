@@ -2,7 +2,8 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -23,7 +24,7 @@ public class GuardianOfSealedSpireRenderer<R extends EntityRenderState & GeoRend
         super(renderManager, new GuardianOfSealedSpireModel());
         this.shadowRadius = 0.5f;
         this.withScale(1.0f);
-        this.addRenderLayer(new GuardianItemLayer<>(this));
+        this.withRenderLayer(new GuardianItemLayer<>(this));
     }
 
     @Override
@@ -32,11 +33,11 @@ public class GuardianOfSealedSpireRenderer<R extends EntityRenderState & GeoRend
     }
 
     @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector, CameraRenderState camera, int packedLight, int packedOverlay, int colour) {
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender,
+        super.preRender(renderState, poseStack, model, collector, camera,
                 packedLight, packedOverlay, colour);
     }
 
@@ -53,5 +54,4 @@ public class GuardianOfSealedSpireRenderer<R extends EntityRenderState & GeoRend
         return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
                 OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
-
 }

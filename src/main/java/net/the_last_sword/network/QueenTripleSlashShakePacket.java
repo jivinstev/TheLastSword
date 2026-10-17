@@ -29,6 +29,6 @@ public record QueenTripleSlashShakePacket() implements CustomPacketPayload {
     }
 
     public static void handle(QueenTripleSlashShakePacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) ClientPacketHandler.triggerQueenTripleSlashScreenShake(); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) ClientPacketHandler.triggerQueenTripleSlashScreenShake(); });
     }
 }

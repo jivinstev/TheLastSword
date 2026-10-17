@@ -2,6 +2,7 @@ package net.the_last_sword.entity.ai;
 
 import java.util.EnumSet;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -81,7 +82,7 @@ public class ThePastShadowOfTheQueenTripleSlashGoal extends Goal {
         if (queen.level() instanceof ServerLevel server) {
             if (tick >= 15 && tick <= 27) {
                 Vec3 point = origin.add(forward.scale(2)).add(0, 2 + (tick - 15) / 12.0 * 3, 0);
-                server.sendParticles(ParticleTypes.DRAGON_BREATH, point.x, point.y, point.z,
+                server.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), point.x, point.y, point.z,
                         24, 0.3, 0.15, 0.3, 0.015);
             }
             if (tick == 45) releaseBlade(45F);

@@ -50,7 +50,7 @@ public class OpenPaperNotePacket implements CustomPacketPayload {
     }
 
     public static void handle(OpenPaperNotePacket message, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.openPaperNote(
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.openPaperNote(
                         message.noteId, message.nameKey, message.guiContentKey, message.collected); });
     }
 }

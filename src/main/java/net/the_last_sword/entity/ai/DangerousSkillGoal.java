@@ -59,7 +59,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
     @Override
     public final void start() {
         onDangerousSkillStart();
-        if (!dangerousEntity.level().isClientSide) {
+        if (!dangerousEntity.level().isClientSide()) {
             dangerousSkillOrigin = dangerousEntity.position();
             dangerousSkillForward = Vec3.directionFromRotation(0.0F, dangerousEntity.getYRot());
             skillFrame = 0;
@@ -81,7 +81,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
 
     @Override
     public final void tick() {
-        if (!dangerousEntity.level().isClientSide && previewActive) {
+        if (!dangerousEntity.level().isClientSide() && previewActive) {
             if (skillFrame >= previewEndFrame) {
                 clearPreview();
             } else if (skillFrame > 0 && skillFrame % 5 == 0) {
@@ -119,7 +119,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
     }
 
     private void clearPreview() {
-        if (previewActive && !dangerousEntity.level().isClientSide) {
+        if (previewActive && !dangerousEntity.level().isClientSide()) {
             syncPreview(0);
         }
         previewActive = false;
@@ -143,7 +143,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
 
     // 指定位置用于需要先将目标拉到技能作用点的危险技能。
     protected final void lockDangerousSkillTarget(LivingEntity target, Vec3 position) {
-        if (target == null || position == null || dangerousEntity.level().isClientSide) {
+        if (target == null || position == null || dangerousEntity.level().isClientSide()) {
             return;
         }
         lockedTargets.computeIfAbsent(target.getUUID(), uuid -> new LockedTargetData(
@@ -172,7 +172,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
     }
 
     private void notifyLockedPlayers() {
-        if (dangerousEntity.level().isClientSide
+        if (dangerousEntity.level().isClientSide()
                 || dangerousEntity.level().getGameTime() % LOCATION_LOCKED_MESSAGE_INTERVAL != 0) {
             return;
         }

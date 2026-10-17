@@ -39,7 +39,7 @@ public class WraithFaction {
         if (owner == null || level == null) {
             return;
         }
-        ensureFaction(owner.getUUID(), owner.getGameProfile().getName(), level);
+        ensureFaction(owner.getUUID(), owner.getGameProfile().name(), level);
     }
 
     //离线版：无需玩家实体即可建营并设首领

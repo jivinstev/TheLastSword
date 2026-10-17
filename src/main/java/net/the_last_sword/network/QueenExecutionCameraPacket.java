@@ -31,6 +31,6 @@ public record QueenExecutionCameraPacket(boolean active, float yaw) implements C
     }
 
     public static void handle(QueenExecutionCameraPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) ClientPacketHandler.setQueenExecutionCamera(packet.active(), packet.yaw()); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) ClientPacketHandler.setQueenExecutionCamera(packet.active(), packet.yaw()); });
     }
 }

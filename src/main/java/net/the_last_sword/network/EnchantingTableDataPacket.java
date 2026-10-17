@@ -45,7 +45,7 @@ public class EnchantingTableDataPacket implements CustomPacketPayload {
     }
 
     public static void handle(EnchantingTableDataPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncEnchantingTable(
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncEnchantingTable(
                         msg.containerId, msg.energy, msg.maxEnergy, msg.totalPowerTime); });
     }
 }

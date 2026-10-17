@@ -14,8 +14,10 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import software.bernie.geckolib.util.RenderUtil;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -49,7 +51,7 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
     }
 
     @Override
-    public void addRenderData(GuardianOfSealedSpireEntity entity, Void relatedObject, R renderState) {
+    public void addRenderData(GuardianOfSealedSpireEntity entity, Void relatedObject, R renderState, float partialTick) {
         GeoRenderState geoState = renderState;
         geoState.addGeckolibData(MAIN_HAND_STACK, entity.getItemBySlot(EquipmentSlot.MAINHAND).copy());
         geoState.addGeckolibData(OFF_HAND_STACK, entity.getItemBySlot(EquipmentSlot.OFFHAND).copy());
@@ -94,10 +96,15 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
         return ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
     }
 
+    //GeckoLib 5.3: renderStackForBone is submitItemStackRender, with the render colour as a third int
     @Override
-    protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack,
-                                      ItemDisplayContext boneContext, R renderState,
-                                      MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStack stack,
+                                         ItemDisplayContext boneContext, R renderState,
+                                         SubmitNodeCollector renderTasks, CameraRenderState cameraState,
+                                         int packedLight, int packedOverlay, int renderColor) {
+        //GeckoLib 5.3 no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
+        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //显示方式取决于物品本身（盾牌），而不仅是骨骼
         ItemDisplayContext displayContext = getTransformTypeForStack(bone, stack, renderState);
         //新版left_hand枢轴就是盾牌挂点：盾牌模型本身已是竖直的，只需转出盾面朝外、握把贴身的持盾姿态
@@ -105,8 +112,8 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
             poseStack.mulPose(Axis.YP.rotationDegrees(SHIELD_FACE_ROTATION));
             //抵消ItemRenderer对方块模型的半格居中平移，让盾牌握把落在枢轴上
             poseStack.translate(0.5, 0.5, 0.5);
-            super.renderStackForBone(poseStack, bone, stack, displayContext, renderState, bufferSource,
-                    packedLight, packedOverlay);
+            super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks,
+                    cameraState, packedLight, packedOverlay, renderColor);
             return;
         }
 
@@ -122,6 +129,7 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
             poseStack.translate(0, 0, ITEM_OFFSET_Z / 16.0);
         }
 
-        super.renderStackForBone(poseStack, bone, stack, displayContext, renderState, bufferSource, packedLight, packedOverlay);
+        super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
+                packedLight, packedOverlay, renderColor);
     }
 }

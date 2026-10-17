@@ -2,11 +2,12 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -31,7 +32,7 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
     }
 
     @Override
-    public void render(RenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void submit(RenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         int seed = state.seed;
         float age = state.age;
         float shrink = age > 13.0F ? Mth.clamp(1.0F - (age - 13.0F) / 8.0F, 0.35F, 1.0F) : 1.0F;
@@ -48,11 +49,10 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
         poseStack.mulPose(Axis.ZP.rotationDegrees(component(seed, 20) * 45.0F - age * 6.0F * spinDirection));
         poseStack.scale(scaleX, scaleY, scaleZ);
         poseStack.translate(-0.5D, -0.5D, -0.5D);
-        blockRenderer.renderSingleBlock(state.blockState, poseStack, buffer,
-            packedLight, OverlayTexture.NO_OVERLAY);
+        collector.submitBlock(poseStack, state.blockState, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
 
-        super.render(state, poseStack, buffer, packedLight);
+        super.submit(state, poseStack, collector, camera);
     }
 
     private static float component(int seed, int shift) {

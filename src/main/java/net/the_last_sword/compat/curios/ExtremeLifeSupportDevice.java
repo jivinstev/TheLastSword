@@ -45,9 +45,14 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         return true;
     }
 
+    private static IEnergyStorage energyOf(ItemStack stack) {
+        var handler = Capabilities.Energy.ITEM.getCapability(stack, net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack));
+        return handler == null ? null : IEnergyStorage.of(handler);
+    }
+
     @Override
     public int getBarWidth(ItemStack stack) {
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        IEnergyStorage energy = energyOf(stack);
         if (energy == null) {
             return 0;
         }
@@ -58,7 +63,7 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        IEnergyStorage energy = energyOf(stack);
         if (energy == null) {
             return 0x8B00FF;
         }
@@ -94,7 +99,7 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         super.appendHoverText(stack, level, display, consumer, flag);
         List<Component> tooltip = new ArrayList<>();
         //能量信息
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        IEnergyStorage energy = energyOf(stack);
         if (energy != null) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.energy")
                 .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));

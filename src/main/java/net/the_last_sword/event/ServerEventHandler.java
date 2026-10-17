@@ -70,7 +70,7 @@ public class ServerEventHandler {
     //实体死亡时存储到魂石（捕获逻辑在剑灵管理器）
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
-        if (event.getEntity().level().isClientSide) {
+        if (event.getEntity().level().isClientSide()) {
             return;
         }
         Player killer = event.getSource().getEntity() instanceof Player player ? player
@@ -84,7 +84,7 @@ public class ServerEventHandler {
     //兜底：实体被直接清除（不触发死亡事件）时尝试捕获
     @SubscribeEvent
     public static void onEntityForceRemoved(EntityLeaveLevelEvent event) {
-        if (event.getLevel().isClientSide) {
+        if (event.getLevel().isClientSide()) {
             return;
         }
         if (!(event.getEntity() instanceof LivingEntity victim)) {
@@ -134,8 +134,6 @@ public class ServerEventHandler {
     //登录时同步给单个玩家；/reload后重载config配方并同步给所有在线玩家
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        //1.21.4: the client no longer receives recipes; the scroll book's recipe pages need the crafting and smithing ones
-        event.sendRecipes(net.minecraft.world.item.crafting.RecipeType.CRAFTING, net.minecraft.world.item.crafting.RecipeType.SMITHING);
         ServerPlayer player = event.getPlayer();
         if (player != null) {
             syncDragonCrystalRecipes(player);
@@ -168,7 +166,7 @@ public class ServerEventHandler {
 
     //执行挖掘（带预览系统）
     public static void performMining(Player player, Level world) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
 
         UUID playerId = player.getUUID();
         MiningPreview existingPreview = playerPreviews.get(playerId);
@@ -375,7 +373,7 @@ public class ServerEventHandler {
     //左键挖掘不可破坏方块时手动掉落物品
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        if (event.getPlayer().level().isClientSide) return;
+        if (event.getPlayer().level().isClientSide()) return;
 
         BlockState state = event.getState();
         if (state.getDestroySpeed(event.getLevel(), event.getPos()) >= 0) return;
@@ -461,7 +459,7 @@ public class ServerEventHandler {
 
     //执行竞技场放置（带预览系统）
     public static void performArenaPlacement(Player player, Level world) {
-        if (world.isClientSide || !(world instanceof ServerLevel serverLevel)) return;
+        if (world.isClientSide() || !(world instanceof ServerLevel serverLevel)) return;
 
         UUID playerId = player.getUUID();
         ArenaPreview existingPreview = arenaPreviewMap.get(playerId);

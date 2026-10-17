@@ -1,6 +1,7 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,13 +17,13 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.the_last_sword.configuration.QueenBlinkSettings;
 import net.the_last_sword.init.ModEntities;
 import net.the_last_sword.util.EntityUtil;
 
 public class QueenBlinkBlade extends Projectile {
     private static final double FLIGHT_RANGE = 16.0;
-    private static final double FLIGHT_SPEED_SCALE = 0.5;
     private static final EntityDataAccessor<Float> WIDTH = SynchedEntityData.defineId(QueenBlinkBlade.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> HEIGHT = SynchedEntityData.defineId(QueenBlinkBlade.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> LENGTH = SynchedEntityData.defineId(QueenBlinkBlade.class, EntityDataSerializers.FLOAT);
@@ -35,12 +36,12 @@ public class QueenBlinkBlade extends Projectile {
         setNoGravity(true);
     }
 
-    public QueenBlinkBlade(Level level, LivingEntity queen, QueenBlinkSettings settings) {
+    public QueenBlinkBlade(Level level, ThePastShadowOfTheQueenEntity queen, QueenBlinkSettings settings) {
         this(ModEntities.QUEEN_BLINK_BLADE.get(), level, queen, settings);
     }
 
     protected QueenBlinkBlade(EntityType<? extends QueenBlinkBlade> type, Level level,
-                              LivingEntity queen, QueenBlinkSettings settings) {
+                              ThePastShadowOfTheQueenEntity queen, QueenBlinkSettings settings) {
         this(type, level);
         setOwner(queen);
         entityData.set(WIDTH, (float) settings.width());
@@ -50,7 +51,7 @@ public class QueenBlinkBlade extends Projectile {
         setYRot(queen.getYRot());
         Vec3 forward = forward();
         setPos(queen.position().add(forward.scale(settings.length() * 0.5 + 0.5)).add(0, 0.1, 0));
-        setDeltaMovement(forward.scale(settings.speed() * FLIGHT_SPEED_SCALE));
+        setDeltaMovement(forward.scale(settings.speed()));
     }
 
     @Override
@@ -64,7 +65,7 @@ public class QueenBlinkBlade extends Projectile {
     public float bladeHeight() { return entityData.get(HEIGHT); }
     public float bladeLength() { return entityData.get(LENGTH); }
 
-    protected Vec3 forward() {
+    private Vec3 forward() {
         double yaw = Math.toRadians(getYRot());
         return new Vec3(-Math.sin(yaw), 0, Math.cos(yaw));
     }
@@ -84,35 +85,42 @@ public class QueenBlinkBlade extends Projectile {
     public void tick() {
         super.tick();
         Vec3 f = forward();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             setPos(position().add(getDeltaMovement()));
             for (int i = 0; i < 6; i++) {
                 double p = random.nextDouble();
                 Vec3 point = bladeParticlePosition(f, p);
-                level().addParticle(ParticleTypes.DRAGON_BREATH, point.x, point.y, point.z,
+                level().addParticle(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), point.x, point.y, point.z,
                         -f.x * 0.03, 0.01, -f.z * 0.03);
             }
             return;
         }
-        if (!(getOwner() instanceof LivingEntity owner) || !owner.isAlive()) {
+        if (!(getOwner() instanceof LivingEntity owner) || !owner.isAlive() || tickCount > 640) {
             discard();
             return;
         }
         double range = flightRange();
         double step = Math.min(getDeltaMovement().length(), Math.max(0, range - travelled));
         AABB broad = bounds(f).expandTowards(f.scale(step));
+        double wall = Double.POSITIVE_INFINITY;
+        for (VoxelShape shape : level().getBlockCollisions(this, broad)) {
+            for (AABB box : shape.toAabbs()) {
+                wall = Math.min(wall, contactDistance(box, f, step));
+            }
+        }
+        double distance = Math.min(step, wall);
         // 一次查询只返回每个实体一次，穿透时也不会在同一 tick 重复结算。
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, broad,
                 entity -> entity != owner && entity.isAlive() && EntityUtil.canAttack(owner, entity))) {
-            double contact = contactDistance(target.getBoundingBox(), f, step);
-            if (Double.isFinite(contact)) {
+            double contact = contactDistance(target.getBoundingBox(), f, distance);
+            if (Double.isFinite(contact) && contact < wall) {
                 target.invulnerableTime = 0;
                 target.hurt(bladeDamageSource(owner), (float) damage);
             }
         }
-        setPos(position().add(f.scale(step)));
-        travelled += step;
-        if (travelled >= range - 1.0E-6 || step <= 0) {
+        setPos(position().add(f.scale(distance)));
+        travelled += distance;
+        if (wall <= step || travelled >= range - 1.0E-6 || step <= 0) {
             discard();
         }
     }
@@ -131,7 +139,7 @@ public class QueenBlinkBlade extends Projectile {
                 .add(0, progress * bladeHeight(), 0);
     }
 
-    // 扫描整段位移，避免刀光在两刻之间越过目标而漏伤。
+    // 连续分离轴检测保持旋转后的真实宽度，并计算最早接触距离以阻止穿墙伤害。
     protected double contactDistance(AABB box, Vec3 f, double step) {
         if (box.maxY <= getY() || box.minY >= getY() + bladeHeight()) return Double.POSITIVE_INFINITY;
         double dx = (box.minX + box.maxX) * 0.5 - getX();

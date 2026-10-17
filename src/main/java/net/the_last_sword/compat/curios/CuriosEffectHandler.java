@@ -14,6 +14,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -120,7 +121,7 @@ public class CuriosEffectHandler {
         }
 
         Player player = event.getEntity();
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -140,7 +141,8 @@ public class CuriosEffectHandler {
 
         //扣电；电量不足则不施加主动buff（盔甲韧性走属性系统不受此影响）
         int energyCost = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEnergyCostSafely();
-        IEnergyStorage energy = device.getCapability(Capabilities.EnergyStorage.ITEM);
+        var energyHandler = ItemAccess.forStack(device).getCapability(Capabilities.Energy.ITEM);
+        IEnergyStorage energy = energyHandler == null ? null : IEnergyStorage.of(energyHandler);
         boolean powered = false;
         if (energy != null && energy.extractEnergy(energyCost, true) >= energyCost) {
             energy.extractEnergy(energyCost, false);
@@ -180,7 +182,7 @@ public class CuriosEffectHandler {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 

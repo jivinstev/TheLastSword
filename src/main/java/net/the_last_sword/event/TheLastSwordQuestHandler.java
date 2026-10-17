@@ -151,7 +151,7 @@ public class TheLastSwordQuestHandler {
         }
         ResourceLocation advancementId = event.getAdvancement().id();
         if (WELCOME.equals(advancementId)) {
-            MinecraftServer server = player.getServer();
+            MinecraftServer server = ((ServerLevel) player.level()).getServer();
             UUID playerId = player.getUUID();
             TheLastSwordMod.queueServerWork(VILLAGE_HINT_DELAY, () -> locateNearestVillage(server, playerId));
         } else if (LIBERATOR.equals(advancementId)) {
@@ -350,13 +350,13 @@ public class TheLastSwordQuestHandler {
 
     //判断进度是否已完成
     public static boolean isDone(ServerPlayer player, ResourceLocation id) {
-        AdvancementHolder advancement = player.getServer().getAdvancements().get(id);
+        AdvancementHolder advancement = ((ServerLevel) player.level()).getServer().getAdvancements().get(id);
         return advancement != null && player.getAdvancements().getOrStartProgress(advancement).isDone();
     }
 
     //授予进度（补齐全部条件）
     public static void grant(ServerPlayer player, ResourceLocation id) {
-        AdvancementHolder advancement = player.getServer().getAdvancements().get(id);
+        AdvancementHolder advancement = ((ServerLevel) player.level()).getServer().getAdvancements().get(id);
         if (advancement == null) {
             return;
         }

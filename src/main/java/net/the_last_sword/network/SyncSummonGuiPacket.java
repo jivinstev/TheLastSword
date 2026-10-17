@@ -48,6 +48,6 @@ public class SyncSummonGuiPacket implements CustomPacketPayload {
 
     //处理
     public static void handle(SyncSummonGuiPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncSummonGui(msg.soulStone); });
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.syncSummonGui(msg.soulStone); });
     }
 }

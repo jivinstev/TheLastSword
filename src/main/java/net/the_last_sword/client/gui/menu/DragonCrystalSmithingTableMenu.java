@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.block.entity.DragonCrystalSmithingTableBlockEntity;
 import net.the_last_sword.init.ModBlocks;
@@ -188,7 +189,7 @@ public class DragonCrystalSmithingTableMenu extends AbstractContainerMenu {
     }
 
     private void updateResult() {
-        if (this.level.isClientSide) {
+        if (this.level.isClientSide()) {
             return;
         }
 
@@ -225,7 +226,7 @@ public class DragonCrystalSmithingTableMenu extends AbstractContainerMenu {
                     return recipeContainer.getContainerSize();
                 }
             };
-            recipe = ((net.minecraft.server.level.ServerLevel) this.level).getServer().getRecipeManager()
+            recipe = ((ServerLevel) this.level).getServer().getRecipeManager()
                 .getRecipeFor(ModRecipes.DRAGON_CRYSTAL_SMITHING_TYPE.get(), input, this.level)
                 .map(RecipeHolder::value);
         }

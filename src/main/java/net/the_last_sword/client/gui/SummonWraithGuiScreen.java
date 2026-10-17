@@ -2,6 +2,7 @@ package net.the_last_sword.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -46,12 +47,12 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     }
 
     @Override
-    public boolean keyPressed(int key, int b, int c) {
-        if (key == 256) {
+    public boolean keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.key() == 256) {
             this.minecraft.player.closeContainer();
             return true;
         }
-        return super.keyPressed(key, b, c);
+        return super.keyPressed(keyEvent);
     }
 
     @Override

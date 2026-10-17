@@ -10,10 +10,10 @@ public final class TooltipKeys {
     }
 
     public static boolean hasShiftDown() {
-        return FMLEnvironment.dist == Dist.CLIENT && ClientScreenHelper.hasShiftDown();
+        return FMLEnvironment.getDist() == Dist.CLIENT && ClientScreenHelper.hasShiftDown();
     }
 
     public static boolean hasControlDown() {
-        return FMLEnvironment.dist == Dist.CLIENT && ClientScreenHelper.hasControlDown();
+        return FMLEnvironment.getDist() == Dist.CLIENT && ClientScreenHelper.hasControlDown();
     }
 }

@@ -1,10 +1,9 @@
 package net.the_last_sword.client.renderer;
 
-import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -23,7 +22,7 @@ public class LostWraithRenderer<R extends EntityRenderState & GeoRenderState> ex
 
     public LostWraithRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new LostWraithModel());
-        addRenderLayer(new LostWraithSealLayer<>(this));
+        withRenderLayer(new LostWraithSealLayer<>(this));
         this.shadowRadius = 1.0f;
     }
 
@@ -33,11 +32,11 @@ public class LostWraithRenderer<R extends EntityRenderState & GeoRenderState> ex
     }
 
     @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, int packedLight, int packedOverlay, int colour) {
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender, packedLight, packedOverlay, colour);
+        super.preRender(renderState, poseStack, model, submitNodeCollector, cameraRenderState, packedLight, packedOverlay, colour);
     }
 
     @Override
@@ -49,11 +48,6 @@ public class LostWraithRenderer<R extends EntityRenderState & GeoRenderState> ex
     //等同原版 LivingEntityRenderer.getOverlayCoords(entity, 0)
     @Override
     public int getPackedOverlay(LostWraithEntity entity, Void relatedObject, float u, float partialTick) {
-        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
-        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
-        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
-        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
-                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
+        return OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
-
 }

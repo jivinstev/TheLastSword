@@ -2,7 +2,8 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
@@ -23,7 +24,8 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
     }
 
     @Override
-    public void render(LightningBoltRenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void submit(LightningBoltRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+        collector.submitCustomGeometry(poseStack, RenderType.endPortal(), (pose, vertexconsumer) -> {
         float[] afloat = new float[16];
         float[] afloat1 = new float[16];
         float f = 0.0F;
@@ -36,8 +38,7 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
             f1 += (float) (randomsource.nextInt(11) - 5);
         }
         //使用末地传送门渲染类型
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.endPortal());
-        Matrix4f matrix4f = poseStack.last().pose();
+        Matrix4f matrix4f = pose.pose();
         float time = (System.currentTimeMillis() % 10000) / 5000.0F;
         for (int j = 0; j < 4; ++j) {
             RandomSource randomsource1 = RandomSource.create(state.seed);
@@ -79,6 +80,7 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
                 }
             }
         }
+        });
     }
 
     private static void quad(Matrix4f matrix, VertexConsumer consumer, float x1, float z1, int y, float x2, float z2, float width1, float width2, boolean flag1, boolean flag2, boolean flag3, boolean flag4, float alpha, float time) {

@@ -27,7 +27,6 @@ public class ModEntityRenderers {
         event.registerEntityRenderer(ModEntities.THE_LAST_END_LIGHTING.get(), TheLastEndLightingRenderer::new);
         event.registerEntityRenderer(ModEntities.THE_LAST_END_SWORD_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.QUEEN_SUMMONED_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
-        event.registerEntityRenderer(ModEntities.END_CRYSTAL_RIFT.get(), EndCrystalRiftRenderer::new);
         event.registerEntityRenderer(ModEntities.THE_LAST_SWORD_YOU_NEVER_FORGOT_PROJECTILE.get(), TheLastEndSwordProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR_PROJECTILE.get(), LightningSpearProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.QUEEN_BLINK_BLADE.get(), QueenBlinkBladeRenderer::new);
@@ -56,10 +55,10 @@ public class ModEntityRenderers {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            BlockEntityRenderers.register(ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
+            BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
                 context -> new DragonCrystalEnchantingTableRenderer());
             if (ModBlockEntities.THE_LAST_END_LUCKY_BLOCK != null) {
-                BlockEntityRenderers.register(ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
+                BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
                     context -> new TheLastEndLuckyBlockRenderer());
             }
         });

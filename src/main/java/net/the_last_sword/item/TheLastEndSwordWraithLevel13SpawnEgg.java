@@ -34,7 +34,7 @@ public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         Level level = context.getLevel();
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
 
@@ -63,10 +63,10 @@ public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
 
                 //终焉种初始化：保护性真实血量、防御注册、生成动画
                 float maxHealth = (float) wraith.getAttributeValue(Attributes.MAX_HEALTH);
-
+                TrueHealthManager.setMaxHealth(wraith, maxHealth);
                 TrueHealthManager.setHealth(wraith, maxHealth);
                 if (!EntityUtil.hasProtection(wraith)) {
-                    TrueHealthManager.register(wraith);
+                    TrueHealthManager.register(wraith, maxHealth);
                 }
                 wraith.setAnimationState(TheLastEndEntity.STATE_SPAWNING);
 

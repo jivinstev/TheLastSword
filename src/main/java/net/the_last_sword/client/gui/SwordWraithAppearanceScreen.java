@@ -3,8 +3,10 @@ package net.the_last_sword.client.gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
 import net.the_last_sword.entity.TheLastEndEntity;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
@@ -53,7 +55,7 @@ public class SwordWraithAppearanceScreen extends Screen {
             preview = null;
             return;
         }
-        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, net.minecraft.world.entity.EntitySpawnReason.LOAD);
+        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, EntitySpawnReason.LOAD);
         if (preview != null) {
             preview.setAppearance(appearance);
             preview.setAppearancePreview(true);
@@ -82,8 +84,7 @@ public class SwordWraithAppearanceScreen extends Screen {
             guiGraphics.enableScissor(frameLeft + 1, frameTop + 1,
                     frameLeft + FRAME_WIDTH - 1, frameTop + FRAME_HEIGHT - 1);
             int bottom = frameTop + FRAME_HEIGHT - 8;
-            // 1.21.8: vanilla's helper crashes on a GeckoLib 5.2 entity (CATALOG M62); the shared helper is the same three methods
-            net.the_last_sword.mv.GeoInventoryEntity.renderEntityInInventoryFollowsMouse(guiGraphics,
+            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,
                     width / 2 - 50, bottom - 100, width / 2 + 50, bottom, 48,
                     0.0625F, width / 2.0F - mouseX, frameTop + FRAME_HEIGHT / 2.0F - mouseY, preview);
             guiGraphics.disableScissor();

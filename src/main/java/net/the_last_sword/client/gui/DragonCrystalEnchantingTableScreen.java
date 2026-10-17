@@ -8,6 +8,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -514,7 +517,9 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        double mouseX = event.x();
+        double mouseY = event.y();
         // 搜索框点击
         if (searchBox != null && searchBox.isMouseOver(mouseX, mouseY)) {
             this.setFocused(searchBox);
@@ -522,7 +527,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             if (editingOption != null) {
                 commitLevelEdit();
             }
-            return searchBox.mouseClicked(mouseX, mouseY, button);
+            return searchBox.mouseClicked(event, doubleClick);
         }
 
         // 点击搜索框以外区域时退出编辑，但保留搜索内容
@@ -537,7 +542,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (levelEditBox != null && levelEditBox.isVisible() && levelEditBox.isMouseOver(mouseX, mouseY)) {
             this.setFocused(levelEditBox);
             levelEditBox.setFocused(true);
-            return levelEditBox.mouseClicked(mouseX, mouseY, button);
+            return levelEditBox.mouseClicked(event, doubleClick);
         }
 
         int listX = this.leftPos + LIST_X;
@@ -590,11 +595,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             commitLevelEdit();
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
+        double mouseX = event.x();
+        double mouseY = event.y();
         if (draggingScrollbar && filteredOptions.size() > VISIBLE_ROWS) {
             int scrollBarHeight = VISIBLE_ROWS * ROW_HEIGHT;
             int maxScroll = filteredOptions.size() - VISIBLE_ROWS;
@@ -612,14 +619,14 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             updateSliderValue(draggingOption, mouseX, sliderX);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, dragX, dragY);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         draggingOption = null;
         draggingScrollbar = false;
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
 
     // 根据鼠标位置更新滑块值（范围0~255）
@@ -649,7 +656,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    public boolean keyPressed(int key, int b, int c) {
+    public boolean keyPressed(KeyEvent event) {
+        int key = event.key();
         if (key == 256) {
             // 有输入框处于选中状态时，ESC 先清空内容并取消选中，不关闭界面
             if (editingOption != null && levelEditBox.isFocused()) {
@@ -676,26 +684,26 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 commitLevelEdit();
                 return true;
             }
-            return levelEditBox.keyPressed(key, b, c);
+            return levelEditBox.keyPressed(event);
         }
 
         // 搜索框获得焦点时拦截按键
         if (searchBox != null && searchBox.isFocused()) {
-            return searchBox.keyPressed(key, b, c);
+            return searchBox.keyPressed(event);
         }
 
-        return super.keyPressed(key, b, c);
+        return super.keyPressed(event);
     }
 
     @Override
-    public boolean charTyped(char ch, int modifiers) {
+    public boolean charTyped(CharacterEvent event) {
         if (editingOption != null && levelEditBox.isFocused()) {
-            return levelEditBox.charTyped(ch, modifiers);
+            return levelEditBox.charTyped(event);
         }
         if (searchBox != null && searchBox.isFocused()) {
-            return searchBox.charTyped(ch, modifiers);
+            return searchBox.charTyped(event);
         }
-        return super.charTyped(ch, modifiers);
+        return super.charTyped(event);
     }
 
     @Override
@@ -703,92 +711,25 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     private void renderEndPortalEffect(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2) {
-        // 1.21.6: the GUI is recorded during render and drawn later by GuiRenderer, so drawing RenderType.endPortal()
-        // here at once (1.21.1's immediate bufferSource draw) would land under this screen's background blit, which
-        // is drawn afterwards. The quad is submitted as a picture-in-picture element instead: EndPortalPipRenderer
-        // draws it into a texture of the rectangle when the frame is prepared, and the texture is blitted at this
-        // call's place in the GUI order (above the energy bar, below the slots), with this call's pose and scissor.
-        if (x2 <= x1 || y2 <= y1) {
-            return;
-        }
-        org.joml.Matrix3x2f pose = new org.joml.Matrix3x2f(guiGraphics.pose());
-        net.minecraft.client.gui.navigation.ScreenRectangle scissor = guiGraphics.peekScissorStack();
-        net.minecraft.client.gui.navigation.ScreenRectangle area =
-                new net.minecraft.client.gui.navigation.ScreenRectangle(x1, y1, x2 - x1, y2 - y1).transformMaxBounds(pose);
-        guiGraphics.submitPictureInPictureRenderState(new EndPortalPip(x1, y1, x2, y2, pose, scissor,
-                scissor != null ? scissor.intersection(area) : area));
-    }
+        // GUI pose is now a 2D Matrix3x2f stack; lift its translation/scale into a Matrix4f
+        var guiPose = guiGraphics.pose();
 
-    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+). */
-    public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
-                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
-                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
-            implements net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState {
-        @Override
-        public float scale() {
-            return 1.0F;
-        }
-    }
+        MultiBufferSource.BufferSource bufferSource = net.minecraft.client.Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.endPortal());
+        Matrix4f matrix = new Matrix4f();
+        matrix.m00(guiPose.m00);
+        matrix.m01(guiPose.m01);
+        matrix.m10(guiPose.m10);
+        matrix.m11(guiPose.m11);
+        matrix.m30(guiPose.m20);
+        matrix.m31(guiPose.m21);
 
-    /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture: an orthographic projection over the
-     *  rectangle in GUI units (z -10000..10000, as the 1.21.1 GUI) and the model-view moved by (-x0, -y0). */
-    public static final class EndPortalPipRenderer
-            extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
-        private final net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer projection =
-                new net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer("the_last_sword_end_portal_pip");
+        vertexConsumer.addVertex(matrix, x1, y2, 0);
+        vertexConsumer.addVertex(matrix, x2, y2, 0);
+        vertexConsumer.addVertex(matrix, x2, y1, 0);
+        vertexConsumer.addVertex(matrix, x1, y1, 0);
 
-        public EndPortalPipRenderer(MultiBufferSource.BufferSource bufferSource) {
-            super(bufferSource);
-        }
-
-        @Override
-        public Class<EndPortalPip> getRenderStateClass() {
-            return EndPortalPip.class;
-        }
-
-        @Override
-        protected void renderToTexture(EndPortalPip state, PoseStack unused) {
-            int width = state.x1() - state.x0();
-            int height = state.y1() - state.y0();
-            RenderSystem.setProjectionMatrix(
-                    projection.getBuffer(new Matrix4f().setOrtho(0.0F, width, height, 0.0F, -10000.0F, 10000.0F)),
-                    com.mojang.blaze3d.ProjectionType.ORTHOGRAPHIC);
-            org.joml.Matrix4fStack modelView = RenderSystem.getModelViewStack();
-            modelView.pushMatrix();
-            try {
-                modelView.identity().translate(-state.x0(), -state.y0(), 0.0F);
-                VertexConsumer vertexConsumer = this.bufferSource.getBuffer(RenderType.endPortal());
-                Matrix4f matrix = new Matrix4f();
-                vertexConsumer.addVertex(matrix, state.x0(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y0(), 0);
-                vertexConsumer.addVertex(matrix, state.x0(), state.y0(), 0);
-                this.bufferSource.endBatch();
-            } finally {
-                modelView.popMatrix();
-            }
-        }
-
-        @Override
-        protected String getTextureLabel() {
-            return "the_last_sword_end_portal_pip";
-        }
-
-        @Override
-        public void close() {
-            super.close();
-            projection.close();
-        }
-    }
-
-    @net.neoforged.fml.common.EventBusSubscriber(modid = "the_last_sword", value = net.neoforged.api.distmarker.Dist.CLIENT)
-    public static final class EndPortalPipRegistration {
-        @net.neoforged.bus.api.SubscribeEvent
-        public static void register(net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent event) {
-            event.register(EndPortalPip.class, EndPortalPipRenderer::new);
-        }
-
-        private EndPortalPipRegistration() {}
+        bufferSource.endBatch();
     }
 
     // 附魔选项数据类

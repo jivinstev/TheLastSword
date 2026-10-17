@@ -14,8 +14,7 @@
     "EnderDragonRendererMixin",
     "ScreenEffectRendererMixin",
     "SmithingTransformRecipeAccessor",
-    "GuiConfusionOverlayMixin",
-    "SpecialModelWrapperMixin"
+    "GuiConfusionOverlayMixin"
   ],
   "mixins": [
     "BlockBehaviourMixin",

@@ -12,13 +12,13 @@ public final class PhasingState {
 
     public static boolean isPhasing(LivingEntity entity) {
         // 旁观客户端没有普通生物的完整效果列表，渲染需要使用同步标记。
-        return entity.level().isClientSide
+        return entity.level().isClientSide()
                 ? entity.getEntityData().get(PHASING)
                 : entity.hasEffect(ModEffects.PHASING);
     }
 
     public static void sync(LivingEntity entity) {
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             entity.getEntityData().set(PHASING, entity.hasEffect(ModEffects.PHASING));
         }
     }

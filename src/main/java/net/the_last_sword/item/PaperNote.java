@@ -46,7 +46,7 @@ public class PaperNote extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             String noteId = BuiltInRegistries.ITEM.getKey(this).toString();
             NetworkHandler.sendToPlayer(new OpenPaperNotePacket(
                 noteId,

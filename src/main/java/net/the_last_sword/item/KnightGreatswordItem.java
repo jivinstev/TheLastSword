@@ -112,7 +112,7 @@ public class KnightGreatswordItem extends SwordItem {
             context.getItemInHand().hurtAndBreak(1, player, slot);
         }
 
-        return level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
     }
 
     private void damageNearbyTargets(ServerLevel level, Player player, Vec3 center) {

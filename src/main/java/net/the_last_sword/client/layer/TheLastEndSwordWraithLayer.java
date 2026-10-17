@@ -1,10 +1,10 @@
 package net.the_last_sword.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.client.model.TheLastEndSwordWraithModel;
@@ -23,12 +23,15 @@ public class TheLastEndSwordWraithLayer<R extends EntityRenderState & GeoRenderS
     }
 
     @Override
-    public void render(R renderState, PoseStack poseStack, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, int packedLight, int packedOverlay, int renderColor) {
+    public void submitRenderTask(R renderState, PoseStack poseStack, BakedGeoModel bakedModel, SubmitNodeCollector renderTasks,
+                                 CameraRenderState cameraState, int packedLight, int packedOverlay, int renderColor,
+                                 boolean didRenderModel) {
         //外观在提取阶段记录（渲染状态不再持有实体）
         if (renderState.getGeckolibData(TheLastEndSwordWraithModel.APPEARANCE) != TheLastEndSwordWraithAppearance.DEFAULT) {
             return;
         }
         RenderType glowRenderType = RenderType.eyes(LAYER);
-        this.renderer.reRender(renderState, poseStack, bakedModel, bufferSource, glowRenderType, bufferSource.getBuffer(glowRenderType), packedLight, OverlayTexture.NO_OVERLAY, -1);
+        this.renderer.buildRenderTask(renderState, poseStack, bakedModel, this.renderer.getGeoModel(), renderTasks.order(1),
+                cameraState, glowRenderType, packedLight, OverlayTexture.NO_OVERLAY, -1, null);
     }
 }

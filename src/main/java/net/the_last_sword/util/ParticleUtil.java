@@ -1,6 +1,7 @@
 package net.the_last_sword.util;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -11,7 +12,7 @@ public class ParticleUtil {
 
     //生成召唤粒子效果（扩散球体 + 圆圈 + 六芒星组合）
     public static void spawnSummonParticles(Entity entity) {
-        if (entity == null || entity.level().isClientSide || !(entity.level() instanceof ServerLevel serverLevel)) {
+        if (entity == null || entity.level().isClientSide() || !(entity.level() instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -84,7 +85,7 @@ public class ParticleUtil {
                 double px = start.x + (end.x - start.x) * t;
                 double py = start.y + (end.y - start.y) * t;
                 double pz = start.z + (end.z - start.z) * t;
-                serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, px, py, pz, 1, 0, 0, 0, 0);
+                serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), px, py, pz, 1, 0, 0, 0, 0);
             }
         }
 
@@ -97,14 +98,14 @@ public class ParticleUtil {
                 double px = start.x + (end.x - start.x) * t;
                 double py = start.y + (end.y - start.y) * t;
                 double pz = start.z + (end.z - start.z) * t;
-                serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, px, py, pz, 1, 0, 0, 0, 0);
+                serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), px, py, pz, 1, 0, 0, 0, 0);
             }
         }
     }
 
     //生成终焉死亡粒子效果（传送门 + 末地烛）
     public static void spawnDeathParticles(Entity entity) {
-        if (entity == null || entity.level().isClientSide || !(entity.level() instanceof ServerLevel serverLevel)) {
+        if (entity == null || entity.level().isClientSide() || !(entity.level() instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -141,7 +142,7 @@ public class ParticleUtil {
 
     //生成传送粒子效果（起点 + 终点传送门粒子）
     public static void spawnTeleportParticles(Level level, Vec3 from, Vec3 to, double entityHeight) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -162,7 +163,7 @@ public class ParticleUtil {
 
     //生成末影死亡粒子效果（反向传送门 + 龙息 + 末地烛）
     public static void spawnEndDeathParticles(Level level, Vec3 pos, double entityHeight) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -177,7 +178,7 @@ public class ParticleUtil {
 
         //龙息粒子
         serverLevel.sendParticles(
-            ParticleTypes.DRAGON_BREATH,
+            PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F),
             pos.x, y, pos.z,
             20, 0.3, 0.3, 0.3, 0.1
         );
@@ -192,7 +193,7 @@ public class ParticleUtil {
 
     //生成附魔粒子效果（附魔台 + 附魔击中 + 女巫粒子环 + 传送门）
     public static void spawnEnchantingParticles(Entity entity, int tickCount) {
-        if (entity == null || entity.level().isClientSide || !(entity.level() instanceof ServerLevel serverLevel)) {
+        if (entity == null || entity.level().isClientSide() || !(entity.level() instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -235,7 +236,7 @@ public class ParticleUtil {
 
     //生成横扫粒子轨迹（第一击：左到右，第二击：右到左）
     public static void spawnSweepParticles(Entity entity, boolean isFirstStrike, double attackRange) {
-        if (entity == null || entity.level().isClientSide || !(entity.level() instanceof ServerLevel serverLevel)) {
+        if (entity == null || entity.level().isClientSide() || !(entity.level() instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -288,7 +289,7 @@ public class ParticleUtil {
 
     //生成十字切传送粒子（反向传送门）
     public static void spawnCrossSlashTeleportParticles(Level level, Vec3 pos, double entityHeight) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -302,7 +303,7 @@ public class ParticleUtil {
 
     //生成万物终焉粒子圆圈（稳定期）
     public static void spawnAllThingsEndCircles(Level level, Vec3 centerPos, double radius) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -327,7 +328,7 @@ public class ParticleUtil {
 
     //生成万物终焉收缩粒子圆圈
     public static void spawnAllThingsEndShrinkingCircles(Level level, Vec3 center, double originalRadius, double shrinkProgress) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -370,7 +371,7 @@ public class ParticleUtil {
 
     //生成万物终焉圆心龙息粒子
     public static void spawnAllThingsEndCenterParticles(Level level, Vec3 centerPos, boolean intensive) {
-        if (level == null || level.isClientSide || !(level instanceof ServerLevel serverLevel)) {
+        if (level == null || level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
 
@@ -380,7 +381,7 @@ public class ParticleUtil {
         double speed = intensive ? 0.05 : 0.02;
 
         serverLevel.sendParticles(
-            ParticleTypes.DRAGON_BREATH,
+            PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F),
             centerPos.x, centerPos.y, centerPos.z,
             particleCount, spread, spread, spread, speed
         );

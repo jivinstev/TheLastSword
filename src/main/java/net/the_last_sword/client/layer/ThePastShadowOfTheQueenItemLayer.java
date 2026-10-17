@@ -3,10 +3,11 @@ package net.the_last_sword.client.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.the_last_sword.client.renderer.ThePastShadowOfTheQueenRenderer;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
 import net.the_last_sword.init.ModItems;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -15,12 +16,13 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;
 
 //GeckoLib 5: the right-hand item is decided in addRenderData (the render state does not carry the entity) and
 //the layer names its bone up front
-public class ThePastShadowOfTheQueenItemLayer<R extends ThePastShadowOfTheQueenRenderer.QueenRenderState & GeoRenderState>
+public class ThePastShadowOfTheQueenItemLayer<R extends EntityRenderState & GeoRenderState>
         extends BlockAndItemGeoLayer<ThePastShadowOfTheQueenEntity, Void, R> {
     private static final DataTicket<ItemStack> RIGHT_HAND_STACK =
             DataTicket.create("the_last_sword_queen_right_hand", ItemStack.class);
@@ -31,7 +33,7 @@ public class ThePastShadowOfTheQueenItemLayer<R extends ThePastShadowOfTheQueenR
     }
 
     @Override
-    public void addRenderData(ThePastShadowOfTheQueenEntity entity, Void relatedObject, R renderState) {
+    public void addRenderData(ThePastShadowOfTheQueenEntity entity, Void relatedObject, R renderState, float partialTick) {
         ItemStack stack;
         if (entity.isDying()) {
             stack = entity.getMainHandItem();
@@ -47,15 +49,20 @@ public class ThePastShadowOfTheQueenItemLayer<R extends ThePastShadowOfTheQueenR
                 (bone, state) -> Either.left(state.getOrDefaultGeckolibData(RIGHT_HAND_STACK, ItemStack.EMPTY))));
     }
 
+    //GeckoLib 5.3: renderStackForBone is submitItemStackRender, with the render colour as a third int
     @Override
-    protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack,
-                                      ItemDisplayContext displayContext, R renderState,
-                                      MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStack stack,
+                                         ItemDisplayContext displayContext, R renderState,
+                                         SubmitNodeCollector renderTasks, CameraRenderState cameraState,
+                                         int packedLight, int packedOverlay, int renderColor) {
+        //GeckoLib 5.3 no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
+        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         // 手部骨骼的枢轴在肘部，沿前臂下移到掌心后再应用物品变换。
         poseStack.translate(0.0D, -7.0D / 16.0D, 0.0D);
         poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
-        super.renderStackForBone(poseStack, bone, stack, displayContext, renderState, bufferSource,
-                packedLight, packedOverlay);
+        super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
+                packedLight, packedOverlay, renderColor);
     }
 
 }

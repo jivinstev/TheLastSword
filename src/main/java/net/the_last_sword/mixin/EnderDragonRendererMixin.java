@@ -1,7 +1,8 @@
 package net.the_last_sword.mixin;
 
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.state.EnderDragonRenderState;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -16,22 +17,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // 1.21.4: render takes the EnderDragonRenderState; the dragon is read off the state (EntityOf, parked by a
 // render-state modifier, CATALOG M19).
+// 1.21.9: EnderDragonRenderer.render(state, pose, MultiBufferSource, light) is submit(state, pose, SubmitNodeCollector,
+// CameraRenderState); it still packs the overlay with OverlayTexture.pack(float, boolean), so the flash keeps its hook.
 @Mixin(EnderDragonRenderer.class)
 public class EnderDragonRendererMixin {
     @Unique
     private EnderDragon the_last_sword$renderedDragon;
 
     @Inject(
-            method = "render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            method = "submit(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
             at = @At("HEAD")
     )
     private void the_last_sword$captureRenderedDragon(EnderDragonRenderState state, PoseStack poseStack,
-            MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
+            SubmitNodeCollector collector, CameraRenderState cameraState, CallbackInfo ci) {
         the_last_sword$renderedDragon = EntityOf.get(state) instanceof EnderDragon dragon ? dragon : null;
     }
 
     @ModifyArg(
-            method = "render(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            method = "submit(Lnet/minecraft/client/renderer/entity/state/EnderDragonRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I"),
             index = 0

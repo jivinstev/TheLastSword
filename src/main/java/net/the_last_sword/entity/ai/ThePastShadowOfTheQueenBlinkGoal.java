@@ -62,7 +62,7 @@ public class ThePastShadowOfTheQueenBlinkGoal extends Goal {
             // 安全落点检查必须使用女皇恢复后的正常碰撞尺寸。
             queen.setBlinkTick(tick);
         }
-        if (!queen.level().isClientSide) {
+        if (!queen.level().isClientSide()) {
             if (tick == 20) {
                 recordBlinkDestination();
             } else if (tick == 45) {
@@ -70,7 +70,7 @@ public class ThePastShadowOfTheQueenBlinkGoal extends Goal {
             }
         }
         queen.setBlinkTick(tick);
-        if (tick == 65 && !queen.level().isClientSide) {
+        if (tick == 65 && !queen.level().isClientSide()) {
             LivingEntity target = queen.getTarget();
             if (target != null && target.isAlive() && EntityUtil.canAttack(queen, target)) {
                 EntityUtil.faceTarget(queen, target);

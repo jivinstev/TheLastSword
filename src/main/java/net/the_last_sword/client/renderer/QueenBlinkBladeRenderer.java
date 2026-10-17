@@ -2,10 +2,13 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.the_last_sword.TheLastSwordMod;
@@ -48,19 +51,19 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
     }
 
     @Override
-    public void render(State state, PoseStack pose, MultiBufferSource buffers, int light) {
+    public void submit(State state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
+        MultiBufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         QueenBlinkBlade entity = state.entity;
         pose.pushPose();
         pose.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
         if (entity instanceof QueenEnhancedBlade blade) {
             pose.translate(0, entity.bladeHeight() * 0.5, 0);
-            pose.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
             pose.mulPose(Axis.ZP.rotationDegrees(blade.bladeRoll()));
             pose.translate(0, -entity.bladeHeight() * 0.5, 0);
         }
         QueenBlinkRenderUtil.blade(pose, buffers, entity.bladeWidth(), entity.bladeHeight(), entity.bladeLength(), enhanced);
         pose.popPose();
-        super.render(state, pose, buffers, light);
+        super.submit(state, pose, collector, camera);
     }
 
     public ResourceLocation getTextureLocation(State state) {

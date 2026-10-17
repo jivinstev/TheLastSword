@@ -9,12 +9,15 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.entity.DragonCultistEntity;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class DragonCultistItemLayer<R extends EntityRenderState & GeoRenderState
     }
 
     @Override
-    public void addRenderData(DragonCultistEntity entity, Void relatedObject, R renderState) {
+    public void addRenderData(DragonCultistEntity entity, Void relatedObject, R renderState, float partialTick) {
         //右手骨骼渲染主手物品，左手骨骼渲染副手物品
         renderState.addGeckolibData(MAIN_HAND_STACK, entity.getItemBySlot(EquipmentSlot.MAINHAND).copy());
         renderState.addGeckolibData(OFF_HAND_STACK, entity.getItemBySlot(EquipmentSlot.OFFHAND).copy());
@@ -56,14 +59,20 @@ public class DragonCultistItemLayer<R extends EntityRenderState & GeoRenderState
                         (bone, state) -> Either.left(state.getOrDefaultGeckolibData(OFF_HAND_STACK, ItemStack.EMPTY))));
     }
 
+    //GeckoLib 5.3: renderStackForBone is submitItemStackRender, with the render colour as a third int
     @Override
-    protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack,
-                                      ItemDisplayContext displayContext, R renderState,
-                                      MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStack stack,
+                                         ItemDisplayContext displayContext, R renderState,
+                                         SubmitNodeCollector renderTasks, CameraRenderState cameraState,
+                                         int packedLight, int packedOverlay, int renderColor) {
+        //GeckoLib 5.3 no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
+        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //向外旋转90度
         poseStack.mulPose(Axis.XP.rotationDegrees(-90));
         poseStack.translate(ITEM_OFFSET_X / 16.0, 0, ITEM_OFFSET_Z / 16.0);
 
-        super.renderStackForBone(poseStack, bone, stack, displayContext, renderState, bufferSource, packedLight, packedOverlay);
+        super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
+                packedLight, packedOverlay, renderColor);
     }
 }

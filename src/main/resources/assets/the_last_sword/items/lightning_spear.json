@@ -1,9 +1,6 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "the_last_sword:item/lightning_spear",
-    "model": {
-      "type": "the_last_sword:lightning_spear"
-    }
+    "type": "minecraft:model",
+    "model": "the_last_sword:item/lightning_spear"
   }
 }

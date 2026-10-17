@@ -39,6 +39,6 @@ public record LightningSpearConfigPacket(LightningSpearSettings settings) implem
     }
 
     public static void handle(LightningSpearConfigPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) LightningSpearClientSettings.receive(packet.settings()); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) LightningSpearClientSettings.receive(packet.settings()); });
     }
 }

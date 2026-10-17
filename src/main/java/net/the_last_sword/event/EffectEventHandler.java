@@ -1,6 +1,7 @@
 package net.the_last_sword.event;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,7 +32,7 @@ public class EffectEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onPhasingHurt(LivingIncomingDamageEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
 
         if (entity.hasEffect(ModEffects.PHASING)) {
             event.setCanceled(true);
@@ -42,7 +43,7 @@ public class EffectEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onPhasingDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
 
         if (entity.hasEffect(ModEffects.PHASING)) {
             event.setCanceled(true);
@@ -84,7 +85,7 @@ public class EffectEventHandler {
 
         DamageSource voidDamageSource = createVoidDamageSource(attacker);
 
-        if (!attacker.level().isClientSide && attacker.level() instanceof ServerLevel serverLevel) {
+        if (!attacker.level().isClientSide() && attacker.level() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().execute(() -> {
                 if (victim.isAlive()) {
                     applyVoidDamage(victim, voidDamageSource, voidDamage, serverLevel);
@@ -112,7 +113,9 @@ public class EffectEventHandler {
         APPLYING_VOID_DAMAGE.set(true);
         try {
             victim.invulnerableTime = 0;
-            boolean damaged = net.the_last_sword.mv.Hurt.server(victim,voidDamageSource, damage);
+            float healthBefore = victim.getHealth();
+            victim.hurt(voidDamageSource, damage);
+            boolean damaged = victim.getHealth() < healthBefore;
             if (damaged) {
                 spawnVoidEnchantingEffects(victim, serverLevel);
             }
@@ -145,7 +148,7 @@ public class EffectEventHandler {
             double velY = (y - centerY) * 0.15;
             double velZ = (z - centerZ) * 0.15;
 
-            serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH,
+            serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 0.0f),
                 x, y, z,
                 1, velX, velY, velZ, 0.0);
         }

@@ -13,6 +13,8 @@ import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 
 //测试实体的 The Last End 星空剑刃特效渲染层
 public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
@@ -26,18 +28,19 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
     }
 
     @Override
-    public void render(
+    public void submit(
         PoseStack poseStack,
-        MultiBufferSource bufferSource,
+        SubmitNodeCollector collector,
         int packedLight,
         HumanoidRenderState entity,
         float yRot,
         float xRot
     ) {
+        MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(net.neoforged.neoforge.client.NeoForgeRenderTypes.getItemLayeredTranslucent(TEXTURE));
+            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
             this.getParentModel().renderToBuffer(
                 poseStack,
                 vertexConsumer,

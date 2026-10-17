@@ -2,10 +2,12 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -38,13 +40,13 @@ public class LightningSpearProjectileRenderer extends EntityRenderer<LightningSp
     }
 
     @Override
-    public void render(RenderState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void submit(RenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(state.yawDegrees));
         poseStack.mulPose(Axis.ZP.rotationDegrees(state.pitchDegrees));
-        LightningSpearRenderUtil.render(poseStack, bufferSource, state.age);
+        LightningSpearRenderUtil.render(poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), state.age);
         poseStack.popPose();
-        super.render(state, poseStack, bufferSource, packedLight);
+        super.submit(state, poseStack, collector, camera);
     }
 
 

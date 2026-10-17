@@ -22,7 +22,7 @@ public class EntityMixin {
     @Inject(method = "kill", at = @At("HEAD"), cancellable = true)
     private void theLastSword$preventKill(CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide) return;
+        if (self.level().isClientSide()) return;
         if (self instanceof LivingEntity livingEntity) {
             if (EntityUtil.hasProtection(livingEntity)) {
                 ci.cancel();
@@ -33,7 +33,7 @@ public class EntityMixin {
     @Inject(method = "discard", at = @At("HEAD"), cancellable = true)
     private void theLastSword$preventDiscard(CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide) return;
+        if (self.level().isClientSide()) return;
         if (self instanceof LivingEntity livingEntity) {
             if (EntityUtil.hasProtection(livingEntity)) {
                 ci.cancel();
@@ -44,7 +44,7 @@ public class EntityMixin {
     @Inject(method = "remove", at = @At("HEAD"), cancellable = true)
     private void theLastSword$preventRemove(Entity.RemovalReason reason, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide) return;
+        if (self.level().isClientSide()) return;
         if (reason == Entity.RemovalReason.CHANGED_DIMENSION) return;
         if (self instanceof LivingEntity living && EntityUtil.hasProtection(living)) {
             ci.cancel();
@@ -54,7 +54,7 @@ public class EntityMixin {
     @Inject(method = "setRemoved", at = @At("HEAD"), cancellable = true)
     private void theLastSword$preventSetRemoved(Entity.RemovalReason reason, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide) return;
+        if (self.level().isClientSide()) return;
         if (reason == Entity.RemovalReason.CHANGED_DIMENSION) return;
         if (self instanceof LivingEntity living && EntityUtil.hasProtection(living)) {
             ci.cancel();
@@ -64,7 +64,7 @@ public class EntityMixin {
     @Inject(method = "setLevelCallback", at = @At("HEAD"), cancellable = true)
     private void theLastSword$preventSetLevelCallback(EntityInLevelCallback callback, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide) return;
+        if (self.level().isClientSide()) return;
         Entity.RemovalReason reason = self.getRemovalReason();
         if (reason == Entity.RemovalReason.CHANGED_DIMENSION) return;
         if (self instanceof LivingEntity living && EntityUtil.hasProtection(living)) {
@@ -80,7 +80,7 @@ public class EntityMixin {
         if (this.removalReason != null
                 && this.removalReason != Entity.RemovalReason.CHANGED_DIMENSION
                 && (Object) this instanceof LivingEntity living
-                && !living.level().isClientSide
+                && !living.level().isClientSide()
                 && EntityUtil.hasProtection(living)) {
             this.removalReason = null;
             cir.setReturnValue(false);

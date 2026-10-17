@@ -51,6 +51,6 @@ public class PreviewBlocksPacket implements CustomPacketPayload {
 
     //处理
     public static void handle(PreviewBlocksPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.setMiningPreview(msg.blocks); });
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.setMiningPreview(msg.blocks); });
     }
 }

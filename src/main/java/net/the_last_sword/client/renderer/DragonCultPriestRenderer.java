@@ -1,9 +1,9 @@
 package net.the_last_sword.client.renderer;
 
-import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -42,12 +42,11 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
     }
 
     @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector, CameraRenderState cameraState, int packedLight, int packedOverlay, int colour) {
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender,
-                packedLight, packedOverlay, colour);
+        super.preRender(renderState, poseStack, model, collector, cameraState, packedLight, packedOverlay, colour);
     }
 
     @Override
@@ -60,17 +59,22 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
     }
 
     //模型渲染完毕后叠加死亡放射光柱
+    //1.21.9+: render(state, pose, MultiBufferSource, light) is submit(state, pose, SubmitNodeCollector, camera); the rays
+    //are queued as custom geometry on the lightning render type DeathRayLayer draws with, from the same pose
     @Override
-    public void render(R renderState, PoseStack poseStack,
-            MultiBufferSource bufferSource, int packedLight) {
-        super.render(renderState, poseStack, bufferSource, packedLight);
+    public void submit(R renderState, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState cameraState) {
+        super.submit(renderState, poseStack, collector, cameraState);
 
         float progress = renderState.getOrDefaultGeckolibData(DEATH_PROGRESS, 0.0f);
         if (progress <= 0.0f) {
             return;
         }
-        DeathRayLayer.render(poseStack, bufferSource, progress, renderState.getOrDefaultGeckolibData(HALF_HEIGHT, 0.0f),
-                RAY_RED, RAY_GREEN, RAY_BLUE);
+        float halfHeight = renderState.getOrDefaultGeckolibData(HALF_HEIGHT, 0.0f);
+        collector.submitCustomGeometry(poseStack, RenderType.lightning(), (pose, vertices) -> {
+            PoseStack rays = new PoseStack();
+            rays.last().set(pose);
+            DeathRayLayer.render(rays, renderType -> vertices, progress, halfHeight, RAY_RED, RAY_GREEN, RAY_BLUE);
+        });
     }
 
     @Override
@@ -80,11 +84,7 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
 
     @Override
     public int getPackedOverlay(DragonCultPriestEntity entity, Void relatedObject, float u, float partialTick) {
-        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
-        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
-        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
-        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
-                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
+        //等同原版 LivingEntityRenderer.getOverlayCoords(entity, 0)
+        return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
     }
-
 }

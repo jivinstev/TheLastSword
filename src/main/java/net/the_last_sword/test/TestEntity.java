@@ -41,8 +41,6 @@ import net.the_last_sword.util.health.TrueHealthManager;
 
 public class TestEntity extends PathfinderMob {
 
-    private boolean healthManagementReady;
-
     /*────────────────────  显示名渐变：先准备  ────────────────────*/
     private static final int GRADIENT_START = 0x800080;   // 紫
     private static final int GRADIENT_END   = 0x000000;   // 黑
@@ -76,7 +74,6 @@ public class TestEntity extends PathfinderMob {
     /*────────────── 构造 ─────────────*/
     public TestEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        healthManagementReady = true;
         this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(2.0D);
         xpReward = 100;
         setNoAi(false);
@@ -227,11 +224,6 @@ public class TestEntity extends PathfinderMob {
 
     @Override
     public void setHealth(float health) {
-        // 父类构造时装备列表尚未初始化，不能进入装备资格检查。
-        if (!healthManagementReady) {
-            super.setHealth(health);
-            return;
-        }
         TrueHealthManager.setHealth(this, health);
     }
 
@@ -255,7 +247,7 @@ public class TestEntity extends PathfinderMob {
     public void setNoAi(boolean noAi) {
     }
 
-    @Override protected boolean shouldDespawnInPeaceful() { return false; }
+    // 1.21.10: Mob#shouldDespawnInPeaceful no longer exists; the peaceful despawn path runs only inside checkDespawn, which is overridden as a no-op below
     @Override public void checkDespawn(){}
     @Override public boolean removeWhenFarAway(double d) { return false; }
     @Override public Vec3 getVehicleAttachmentPoint(Entity vehicle) { return new Vec3(0.0D, -0.35D, 0.0D); }
@@ -269,14 +261,11 @@ public class TestEntity extends PathfinderMob {
     @Override public void setDeltaMovement(Vec3 m) {
     }
     @Override public void snapTo(double x, double y, double z, float yaw, float pitch) {
-        // 生成流程先定位再入场，位置保护不能拦截初始坐标。
-        if (!isAddedToLevel()) {
-            super.snapTo(x, y, z, yaw, pitch);
-        }
+
     }
 
     public void safeRemove() {
-        if (!this.level().isClientSide && this.level() instanceof ServerLevel serverLevel) {
+        if (!this.level().isClientSide() && this.level() instanceof ServerLevel serverLevel) {
             ClientboundRemoveEntitiesPacket removePacket = new ClientboundRemoveEntitiesPacket(this.getId());
             for (ServerPlayer player : serverLevel.getServer().getPlayerList().getPlayers()) {
                 player.connection.send(removePacket);

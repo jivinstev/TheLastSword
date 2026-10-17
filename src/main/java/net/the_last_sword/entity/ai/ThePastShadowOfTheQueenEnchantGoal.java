@@ -3,6 +3,7 @@ package net.the_last_sword.entity.ai;
 import java.util.EnumSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -60,13 +61,13 @@ public class ThePastShadowOfTheQueenEnchantGoal extends Goal {
         queen.setDeltaMovement(0, movement.y, 0);
         ++tick;
 
-        if (!queen.level().isClientSide && tick == SHIELD_TICK) {
+        if (!queen.level().isClientSide() && tick == SHIELD_TICK) {
             EntityUtil.grantTempShield(queen, 2.0);
         }
         if (queen.level() instanceof ServerLevel serverLevel && tick >= SHIELD_TICK && tick <= ENCHANT_TICK) {
             spawnParticleRing(serverLevel);
         }
-        if (!queen.level().isClientSide && tick == ENCHANT_TICK) {
+        if (!queen.level().isClientSide() && tick == ENCHANT_TICK) {
             applyVoidEnchantment();
         }
         if (tick >= DURATION) {
@@ -80,7 +81,12 @@ public class ThePastShadowOfTheQueenEnchantGoal extends Goal {
             double angle = Math.PI * 2.0 * i / PARTICLE_POINTS + phase;
             double x = queen.getX() + Math.cos(angle) * PARTICLE_RADIUS;
             double z = queen.getZ() + Math.sin(angle) * PARTICLE_RADIUS;
-            ParticleOptions particle = i % 2 == 0 ? ParticleTypes.ENCHANT : ParticleTypes.DRAGON_BREATH;
+            ParticleOptions particle;
+            if (i % 2 == 0) {
+                particle = ParticleTypes.ENCHANT;
+            } else {
+                particle = PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F);
+            }
             serverLevel.sendParticles(particle, x, queen.getY() + 0.1, z, 1, 0, 0, 0, 0);
         }
     }

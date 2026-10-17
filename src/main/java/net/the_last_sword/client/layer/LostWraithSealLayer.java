@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -54,26 +54,32 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     }
 
     @Override
-    public void addRenderData(LostWraithEntity entity, Void relatedObject, R renderState) {
+    public void addRenderData(LostWraithEntity entity, Void relatedObject, R renderState, float partialTick) {
         renderState.addGeckolibData(UNSPAWNED, entity.getAnimationState() == TheLastEndEntity.STATE_UNSPAWNED);
     }
 
     //GeckoLib 5: renderForBone became per-bone tasks registered here and run after the model is drawn, with the
     //PoseStack the bone had when it was rendered (the same pose renderForBone received)
     @Override
-    public void addPerBoneRender(R renderState, BakedGeoModel model, BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
+    public void addPerBoneRender(R renderState, BakedGeoModel model, boolean didRenderModel,
+                                 BiConsumer<GeoBone, PerBoneRender<R>> consumer) {
+        //GeckoLib 5.3: the seal follows the model -- no per-bone task when the model itself was not drawn (as
+        //BlockAndItemGeoLayer does), the same as 5.1/5.2, where tasks were only captured for rendered bones
+        if (!didRenderModel) {
+            return;
+        }
         // 激活动画开始即解除封印，不等待战斗就绪状态。
         if (!Boolean.TRUE.equals(renderState.getGeckolibData(UNSPAWNED))) {
             return;
         }
         for (String name : new String[]{"left_hand", "right_hand"}) {
             model.getBone(name).ifPresent(bone -> consumer.accept(bone,
-                    (state, poseStack, b, renderType, buffers, packedLight, packedOverlay, renderColor) ->
-                            renderSeal(state, poseStack, b, renderType, buffers)));
+                    (state, poseStack, b, renderTasks, cameraState, packedLight, packedOverlay, renderColor) ->
+                            renderSeal(state, poseStack, b, renderTasks)));
         }
     }
 
-    private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, RenderType renderType, MultiBufferSource buffers) {
+    private void renderSeal(R renderState, PoseStack poseStack, GeoBone bone, SubmitNodeCollector renderTasks) {
         if (bone.isHidden()) {
             return;
         }
@@ -84,27 +90,24 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
         // 模型两侧前臂的枢轴不对称，分别对齐护腕中心，避免链环穿入手臂。
         poseStack.translate(left ? -1.0 / 16.0 : 2.8 / 16.0, -6.0 / 16.0,
                 left ? -2.5 / 16.0 : 0.0);
-        Matrix4f pose = poseStack.last().pose();
-        VertexConsumer vertices = buffers.getBuffer(SEAL);
         float pulse = 0.88F + 0.12F * Mth.sin(renderState.ageInTicks * 0.07F);
-        for (Vec3[] link : LINK_VERTICES) {
-            for (int segment = 0; segment < SEGMENTS; segment++) {
-                for (int side = 0; side < SIDES; side++) {
-                    float shade = side == 0 ? 1.0F : side == 2 ? 0.55F : 0.78F;
-                    int nextSegment = (segment + 1) % SEGMENTS;
-                    int nextSide = (side + 1) % SIDES;
-                    vertex(vertices, pose, link[segment * SIDES + side], shade, pulse);
-                    vertex(vertices, pose, link[nextSegment * SIDES + side], shade, pulse);
-                    vertex(vertices, pose, link[nextSegment * SIDES + nextSide], shade, pulse);
-                    vertex(vertices, pose, link[segment * SIDES + nextSide], shade, pulse);
+        renderTasks.submitCustomGeometry(poseStack, SEAL, (last, vertices) -> {
+            Matrix4f pose = last.pose();
+            for (Vec3[] link : LINK_VERTICES) {
+                for (int segment = 0; segment < SEGMENTS; segment++) {
+                    for (int side = 0; side < SIDES; side++) {
+                        float shade = side == 0 ? 1.0F : side == 2 ? 0.55F : 0.78F;
+                        int nextSegment = (segment + 1) % SEGMENTS;
+                        int nextSide = (side + 1) % SIDES;
+                        vertex(vertices, pose, link[segment * SIDES + side], shade, pulse);
+                        vertex(vertices, pose, link[nextSegment * SIDES + side], shade, pulse);
+                        vertex(vertices, pose, link[nextSegment * SIDES + nextSide], shade, pulse);
+                        vertex(vertices, pose, link[segment * SIDES + nextSide], shade, pulse);
+                    }
                 }
             }
-        }
+        });
         poseStack.popPose();
-        // 骨骼递归还会继续使用原模型缓冲，切回其顶点格式后再交还渲染流程。
-        if (renderType != null) {
-            buffers.getBuffer(renderType);
-        }
     }
 
     private static void vertex(VertexConsumer buffer, Matrix4f pose, Vec3 point, float shade, float pulse) {

@@ -287,52 +287,52 @@ public class ModItems {
 
     //测试实体刷怪蛋
     public static final Supplier<Item> TEST_ENTITY_SPAWN_EGG = ITEMS.register("test_entity_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("test_entity_spawn_egg") ? null : new SpawnEggItem(ModEntities.TEST_ENTITY.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("test_entity_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.TEST_ENTITY.get())))
     );
 
     //拜龙教教徒刷怪蛋（深紫色 + 紫色）
     public static final Supplier<Item> DRAGON_CULTIST_SPAWN_EGG = ITEMS.register("dragon_cultist_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("dragon_cultist_spawn_egg") ? null : new SpawnEggItem(ModEntities.DRAGON_CULTIST.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_cultist_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.DRAGON_CULTIST.get())))
     );
 
     //拜龙教圣骑士刷怪蛋（深紫色 + 黑色）
     public static final Supplier<Item> DRAGON_CULT_PALADIN_SPAWN_EGG = ITEMS.register("dragon_cult_paladin_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("dragon_cult_paladin_spawn_egg") ? null : new SpawnEggItem(ModEntities.DRAGON_CULT_PALADIN.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_cult_paladin_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.DRAGON_CULT_PALADIN.get())))
     );
 
     //拜龙教祭司刷怪蛋（深紫色 + 金色）
     public static final Supplier<Item> DRAGON_CULT_PRIEST_SPAWN_EGG = ITEMS.register("dragon_cult_priest_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("dragon_cult_priest_spawn_egg") ? null : new SpawnEggItem(ModEntities.DRAGON_CULT_PRIEST.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_cult_priest_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.DRAGON_CULT_PRIEST.get())))
     );
 
     //封印尖塔守卫刷怪蛋（深灰色 + 紫色）
     public static final Supplier<Item> GUARDIAN_OF_SEALED_SPIRE_SPAWN_EGG = ITEMS.register("guardian_of_sealed_spire_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("guardian_of_sealed_spire_spawn_egg") ? null : new SpawnEggItem(ModEntities.GUARDIAN_OF_SEALED_SPIRE.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("guardian_of_sealed_spire_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.GUARDIAN_OF_SEALED_SPIRE.get())))
     );
 
     //守卫剑士刷怪蛋（深灰色 + 蓝色）
     public static final Supplier<Item> GUARDIAN_SABER_SPAWN_EGG = ITEMS.register("guardian_saber_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("guardian_saber_spawn_egg") ? null : new SpawnEggItem(ModEntities.GUARDIAN_SABER.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("guardian_saber_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.GUARDIAN_SABER.get())))
     );
 
     //守卫狂战士刷怪蛋（深灰色 + 红色）
     public static final Supplier<Item> GUARDIAN_BERSERKER_SPAWN_EGG = ITEMS.register("guardian_berserker_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("guardian_berserker_spawn_egg") ? null : new SpawnEggItem(ModEntities.GUARDIAN_BERSERKER.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("guardian_berserker_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.GUARDIAN_BERSERKER.get())))
     );
 
     //守卫弓箭手刷怪蛋（深灰色 + 绿色）
     public static final Supplier<Item> GUARDIAN_ARCHER_SPAWN_EGG = ITEMS.register("guardian_archer_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("guardian_archer_spawn_egg") ? null : new SpawnEggItem(ModEntities.GUARDIAN_ARCHER.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("guardian_archer_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.GUARDIAN_ARCHER.get())))
     );
 
     //迷失战魂刷怪蛋（黑色 + 深灰色）
     public static final Supplier<Item> LOST_WRAITH_SPAWN_EGG = ITEMS.register("lost_wraith_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("lost_wraith_spawn_egg") ? null : new SpawnEggItem(ModEntities.LOST_WRAITH.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("lost_wraith_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.LOST_WRAITH.get())))
     );
 
     //终焉剑灵刷怪蛋（黑色 + 白色）
     public static final Supplier<Item> THE_LAST_END_SWORD_WRAITH_SPAWN_EGG = ITEMS.register("the_last_end_sword_wraith_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("the_last_end_sword_wraith_spawn_egg") ? null : new SpawnEggItem(ModEntities.THE_LAST_END_SWORD_WRAITH.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("the_last_end_sword_wraith_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.THE_LAST_END_SWORD_WRAITH.get())))
     );
 
     //13级终焉剑灵生成蛋（自定义物品）
@@ -342,7 +342,7 @@ public class ModItems {
 
     //女皇的逝去之影刷怪蛋（紫色 + 浅紫色）
     public static final Supplier<Item> THE_PAST_SHADOW_OF_THE_QUEEN_SPAWN_EGG = ITEMS.register("the_past_shadow_of_the_queen_spawn_egg",
-        () -> net.the_last_sword.mv.RegIds.enter("the_past_shadow_of_the_queen_spawn_egg") ? null : new SpawnEggItem(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN.get(), net.the_last_sword.mv.RegIds.stamp(new Item.Properties()))
+        () -> net.the_last_sword.mv.RegIds.enter("the_past_shadow_of_the_queen_spawn_egg") ? null : new SpawnEggItem(net.the_last_sword.mv.RegIds.stamp(new Item.Properties().spawnEgg(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN.get())))
     );
 
     //Curios饰品（前置mod，直接注册）

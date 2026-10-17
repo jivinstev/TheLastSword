@@ -13,13 +13,15 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class LevelRendererMixin {
 
     //修改setupRender方法的isSpectator参数，让虚化玩家也能透视
+    //1.21.9: setupRender(Camera, Frustum, boolean captured, boolean isSpectator) is cullTerrain(Camera, Frustum, boolean
+    //isSpectator); the spectator flag is now its only boolean and gates the same solid-block occlusion check
     @ModifyVariable(
-        method = "setupRender",
+        method = "cullTerrain",
         at = @At("HEAD"),
-        ordinal = 1,
+        ordinal = 0,
         argsOnly = true
     )
-    private boolean modifyIsSpectator(boolean isSpectator, Camera camera, Frustum frustum, boolean capturedFrustum, boolean originalIsSpectator) {
+    private boolean modifyIsSpectator(boolean isSpectator, Camera camera, Frustum frustum, boolean originalIsSpectator) {
         //如果玩家有虚化效果，视为旁观者模式进行渲染
         if (camera.getEntity() instanceof Player player) {
             if (player.hasEffect(ModEffects.PHASING)) {

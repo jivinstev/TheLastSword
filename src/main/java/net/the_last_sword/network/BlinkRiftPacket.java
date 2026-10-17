@@ -40,6 +40,6 @@ public record BlinkRiftPacket(ResourceLocation dimension, UUID caster, Vec3 posi
     }
 
     public static void handle(BlinkRiftPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) BlinkRiftRenderer.receive(packet); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) BlinkRiftRenderer.receive(packet); });
     }
 }

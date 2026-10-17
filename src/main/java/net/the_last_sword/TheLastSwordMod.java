@@ -37,8 +37,6 @@ import net.the_last_sword.util.TheLastSwordLogger;
 import net.the_last_sword.event.ClientEventHandler;
 import net.the_last_sword.event.EnderDragonEvent;
 import net.the_last_sword.compat.apotheosis.ApotheosisCompat;
-// Iron's Spells 'n Spellbooks: no build for this Minecraft, SpellIntegration is not compiled (drops.txt)
-import net.the_last_sword.compat.CompatCheck;
 
 import java.util.Optional;
 import java.util.PriorityQueue;
@@ -74,9 +72,6 @@ public class TheLastSwordMod {
         ModSounds.SOUNDS.register(modEventBus);
         ModInstruments.register(modEventBus);
         ModStructureTypes.register(modEventBus);
-
-        // 可选施法接口仅在对应依赖存在时加载。
-        { /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
 
         //注册内置资源包
         modEventBus.addListener(this::addPackFinders);
@@ -117,7 +112,7 @@ public class TheLastSwordMod {
     private void addPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             var resourcePath = ModList.get().getModFileById(MOD_ID).getFile()
-                    .findResource("resourcepacks", "The Last Sword Classical Texture Pack");
+                    .getFilePath().resolve("resourcepacks").resolve("The Last Sword Classical Texture Pack");
             event.addRepositorySource(consumer -> {
                 var pack = Pack.readMetaAndCreate(
                         new PackLocationInfo(MOD_ID + ":classical_texture",

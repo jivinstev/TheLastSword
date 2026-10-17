@@ -26,10 +26,6 @@ public final class QueenBlinkRenderUtil {
 
     private QueenBlinkRenderUtil() {}
 
-    public static void finishRiftBatch(MultiBufferSource.BufferSource buffers) {
-        buffers.endBatch(RIFT);
-    }
-
     private static RenderType type(String name, boolean glow) {
         return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS,
                 4096, false, true, net.the_last_sword.mv.LegacyRenderType.state()
@@ -38,6 +34,11 @@ public final class QueenBlinkRenderUtil {
                         .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
                         .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
                         .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL).createCompositeState(false));
+    }
+
+    //1.21.9+: a renderer queues the rifts with SubmitNodeCollector.submitCustomGeometry, which needs the type up front
+    public static RenderType riftRenderType() {
+        return RIFT;
     }
 
     public static void rift(PoseStack pose, MultiBufferSource buffers, float age, float yaw) {

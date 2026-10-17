@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.util.Mth;
@@ -22,23 +24,28 @@ public class DragonLightingRenderer extends LightningBoltRenderer {
     }
 
     @Override
-    public void render(LightningBoltRenderState entity, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void submit(LightningBoltRenderState entity, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+        final long boltSeed = entity.seed;
+        collector.submitCustomGeometry(poseStack, RenderType.lightning(),
+                (pose, consumer) -> draw(boltSeed, pose.pose(), consumer));
+    }
+
+    private static void draw(long seed, Matrix4f matrix4f, VertexConsumer vertexconsumer) {
         float[] afloat = new float[16];
         float[] afloat1 = new float[16];
         float f = 0.0F;
         float f1 = 0.0F;
-        RandomSource randomsource = RandomSource.create(entity.seed);
+        RandomSource randomsource = RandomSource.create(seed);
         for (int i = 7; i >= 0; --i) {
             afloat[i] = f;
             afloat1[i] = f1;
             f += (float) (randomsource.nextInt(11) - 5);
             f1 += (float) (randomsource.nextInt(11) - 5);
         }
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.lightning());
-        Matrix4f matrix4f = poseStack.last().pose();
+
         float time = (System.currentTimeMillis() % 10000) / 5000.0F;
         for (int j = 0; j < 4; ++j) {
-            RandomSource randomsource1 = RandomSource.create(entity.seed);
+            RandomSource randomsource1 = RandomSource.create(seed);
             for (int k = 0; k < 3; ++k) {
                 int l = 7;
                 int i1 = 0;

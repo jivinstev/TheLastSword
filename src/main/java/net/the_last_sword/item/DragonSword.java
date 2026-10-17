@@ -13,11 +13,11 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.the_last_sword.compat.gear.Tier;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.DragonSwordProjectile;
 import net.the_last_sword.summon.WraithSummonManager;
@@ -93,14 +93,11 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
     //近战攻击：造成物理伤害+龙息伤害
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
-        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
-        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
         super.hurtEnemy(stack, target, attacker);
 
         //造成额外龙息伤害
-        if (!attacker.level().isClientSide) {
+        if (!attacker.level().isClientSide()) {
             int level = ItemLevelHelper.getLevel(stack);
             double configValue = (level < 6)
                     ? TheLastSwordConfiguration.getIncreaseValueSafely()
@@ -138,17 +135,17 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
 
         if (mode == 0) {
             //普通模式：发射弹射物
-            if (!world.isClientSide) {
+            if (!world.isClientSide()) {
                 DragonSwordProjectile.shoot(world, player, player.getRandom(), player.getUUID(), this.getBasePhysicalDamage());
             }
         } else {
             //唤灵模式：召唤或唤回剑灵
-            if (!world.isClientSide) {
+            if (!world.isClientSide()) {
                 WraithSummonManager.summonWraith(player, stack, world);
             }
         }
 
-        return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

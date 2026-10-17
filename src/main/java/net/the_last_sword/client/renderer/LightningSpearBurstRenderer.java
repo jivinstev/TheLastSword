@@ -63,10 +63,10 @@ public final class LightningSpearBurstRenderer {
             return;
         }
         PoseStack poses = event.getPoseStack();
-        Vec3 camera = event.getCamera().getPosition();
+        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         for (Burst burst : BURSTS) {
-            float age = (float) (effectLevel.getGameTime() - burst.startTick()) + event.getPartialTick().getGameTimeDeltaPartialTick(false);
+            float age = (float) (effectLevel.getGameTime() - burst.startTick()) + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
             float expansion = 0.75F + 0.25F * Mth.clamp(age, 0.0F, 1.0F);
             float alpha = 1.0F - Mth.clamp((age - 3.0F) / (LIFETIME - 3.0F), 0.0F, 1.0F);
             Vec3 offset = burst.position().subtract(camera);

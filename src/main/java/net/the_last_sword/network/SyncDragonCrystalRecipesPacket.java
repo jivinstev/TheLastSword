@@ -57,6 +57,6 @@ public class SyncDragonCrystalRecipesPacket implements CustomPacketPayload {
     }
 
     public static void handle(SyncDragonCrystalRecipesPacket message, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.replaceDragonCrystalRecipes(message.recipes); });
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.replaceDragonCrystalRecipes(message.recipes); });
     }
 }

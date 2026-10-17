@@ -3,6 +3,8 @@ package net.the_last_sword.item;
 import net.eca.api.EcaAPI;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -102,13 +104,10 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
     //近战单体攻击：模式0造成绝毁伤害，模式1和2造成虚空伤害
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
-        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
-        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
         //调用基类方法，检查友方误伤并造成物理伤害
         super.hurtEnemy(stack, target, attacker);
 
-        if (!attacker.level().isClientSide) {
+        if (!attacker.level().isClientSide()) {
             int mode = ItemModeHelper.getMode(stack);
             int level = ItemLevelHelper.getLevel(stack);
             double configValue = (level < 6)
@@ -151,17 +150,17 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
 
         if (mode == 0) {
             //模式0：右键发射弹射物
-            if (!world.isClientSide) {
+            if (!world.isClientSide()) {
                 TheLastEndSwordProjectile.shoot(world, player, RandomSource.create());
             }
         } else if (mode == 1) {
             //模式1：右键进行强力范围挖掘（带预览系统）
-            if (!world.isClientSide) {
+            if (!world.isClientSide()) {
                 ServerEventHandler.performMining(player, world);
             }
         } else if (mode == 2) {
             //模式2：右键唤灵（召唤或唤回剑灵）
-            if (!world.isClientSide) {
+            if (!world.isClientSide()) {
                 returnSwing = true;
                 WraithSummonManager.summonWraith(player, itemstack, world);
             }
@@ -176,7 +175,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
             returnSwing = false;
             return true;
         }
-        if (entity instanceof Player player && !entity.level().isClientSide) {
+        if (entity instanceof Player player && !entity.level().isClientSide()) {
             int mode = ItemModeHelper.getMode(stack);
             if (mode == 0) {
                 performNormalModeForwardAreaAttack(player, stack);
@@ -246,7 +245,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         );
 
         //5. 未按Shift时，提示玩家按下Shift查看详情
-        if (!Screen.hasShiftDown()) {
+        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), InputConstants.KEY_LSHIFT)
+                && !InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), InputConstants.KEY_RSHIFT)) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             //5. 按住Shift时，首先显示操作描述，然后显示模式描述
@@ -382,20 +382,10 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
     public static class TheLastSwordTickHandler {
 
         @SubscribeEvent
-        public static void onPlayerTickPost(PlayerTickEvent.Post event) {
-            if (event.getEntity().level().isClientSide) return;
-            // 开始时清除旧上限锁，结束时收敛装备更新后的血量。（1.21.1：开始/结束为 Pre/Post 两个事件）
-            TrueHealthManager.syncProtection(event.getEntity());
-        }
-
-        @SubscribeEvent
         public static void onPlayerTick(PlayerTickEvent.Pre event) {
-            if (event.getEntity().level().isClientSide) return;
+            if (event.getEntity().level().isClientSide()) return;
 
             Player player = event.getEntity();
-            // 开始时清除旧上限锁，结束时收敛装备更新后的血量。
-            TrueHealthManager.syncProtection(player);
-
             boolean hasSword = hasTheLastSwordInInventory(player);
 
             //飞行逻辑
@@ -418,12 +408,17 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 }
             }
 
-            // 伤害阈值独立于真实血量系统的统一注册。
-            if (hasSword) {
+            //防御逻辑
+            if (hasSword && !player.dead && player.getHealth() > 0.0F) {
+                TrueHealthManager.register(player, player.getMaxHealth());
                 player.getPersistentData().putBoolean("TheLastSwordDefence", true);
             } else {
-                player.getPersistentData().remove("TheLastSwordDefence");
+                if (player.getPersistentData().getBoolean("TheLastSwordDefence").orElse(false)) {
+                    TrueHealthManager.clear(player);
+                    player.getPersistentData().remove("TheLastSwordDefence");
+                }
             }
+
             //免疫逻辑：清除火焰、冰冻和负面效果
             if (hasSword) {
                 EntityUtil.applyImmunity(player);
@@ -432,8 +427,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
             //无冷却逻辑：持有最终之剑时，清除所有物品的冷却时间
             if (hasSword) {
                 //清除主物品栏所有物品的冷却
-                //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
-                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+                for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                ItemStack stack = player.getInventory().getItem(i);
                     if (!stack.isEmpty()) {
                         player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
@@ -449,8 +444,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
         //检查玩家背包中是否有最终之剑
         private static boolean hasTheLastSwordInInventory(Player player) {
             if (player == null) return false;
-            //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
-            for (ItemStack s : player.getInventory().getNonEquipmentItems()) {
+            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                ItemStack s = player.getInventory().getItem(i);
                 if (s.getItem() instanceof TheLastSword) {
                     return true;
                 }

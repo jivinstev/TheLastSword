@@ -54,7 +54,8 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         if (pos != null) {
             boundBlockEntity = this.world.getBlockEntity(pos);
             if (boundBlockEntity != null) {
-                IItemHandler handler = this.world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+                var newHandler = this.world.getCapability(Capabilities.Item.BLOCK, pos, null);
+                IItemHandler handler = newHandler == null ? null : IItemHandler.of(newHandler);
                 if (handler != null) {
                     this.internal = handler;
                     this.bound = true;

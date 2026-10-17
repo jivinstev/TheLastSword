@@ -54,7 +54,7 @@ public class TheLastEndScroll extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
 
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             CompoundTag tag = ItemNbt.getOrCreateTag(itemStack);
             if (!tag.contains(RUINED_VILLAGE_X_KEY)
                     || !tag.contains(RUINED_VILLAGE_Z_KEY)) {

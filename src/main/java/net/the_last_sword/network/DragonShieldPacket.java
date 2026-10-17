@@ -74,7 +74,7 @@ public class DragonShieldPacket implements CustomPacketPayload {
     }
 
     public static void handle(DragonShieldPacket msg, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.triggerDragonShield(
+        ctx.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) net.the_last_sword.client.ClientPacketHandler.triggerDragonShield(
                         msg.hasDirection, msg.directionX, msg.directionY, msg.directionZ); });
     }
 }

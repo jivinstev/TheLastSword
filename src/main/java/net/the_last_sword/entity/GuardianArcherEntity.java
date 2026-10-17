@@ -61,7 +61,7 @@ public class GuardianArcherEntity extends GuardianOfSealedSpireEntity {
     public void tick() {
         super.tick();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (isTeleportReady()) {
                 spawnTeleportReadyParticles();
             }

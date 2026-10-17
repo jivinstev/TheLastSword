@@ -33,7 +33,7 @@ public record JustifiedDefenceFlashPacket(int entityId, UUID entityUuid) impleme
     }
 
     public static void handle(JustifiedDefenceFlashPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> { if (FMLEnvironment.dist == Dist.CLIENT) ClientPacketHandler.triggerJustifiedDefenceFlash(
+        context.enqueueWork(() -> { if (FMLEnvironment.getDist() == Dist.CLIENT) ClientPacketHandler.triggerJustifiedDefenceFlash(
                         packet.entityId, packet.entityUuid); });
     }
 }

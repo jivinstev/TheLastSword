@@ -11,10 +11,12 @@
 							"vector": [0, 0, 0]
 						},
 						"1.0": {
-							"vector": [0, 1, 0]
+							"vector": [0, 1, 0],
+							"easing": "linear"
 						},
 						"2.0": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, 0],
+							"easing": "linear"
 						}
 					}
 				},
@@ -89,10 +91,12 @@
 							"vector": [0, 0, 0]
 						},
 						"1.25": {
-							"vector": [-10, 0, 0]
+							"vector": [-10, 0, 0],
+							"easing": "easeInBack"
 						},
 						"1.5": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack"
 						},
 						"4.0": {
 							"vector": [0, 0, 0]
@@ -108,10 +112,12 @@
 							"vector": [0, 0, 0]
 						},
 						"1.25": {
-							"vector": [-10, 0, 0]
+							"vector": [-10, 0, 0],
+							"easing": "easeInBack"
 						},
 						"1.5": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack"
 						},
 						"4.0": {
 							"vector": [0, 0, 0]
@@ -120,5 +126,6 @@
 				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }

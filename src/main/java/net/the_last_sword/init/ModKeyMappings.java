@@ -2,6 +2,7 @@ package net.the_last_sword.init;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
@@ -14,12 +15,17 @@ import org.lwjgl.glfw.GLFW;
 @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ModKeyMappings {
 
+    //按键分类
+    public static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(
+            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_sword")
+    );
+
     //切换模式按键
     public static final KeyMapping CHANGE_SWORD_MODE = new KeyMapping(
             "key.the_last_sword.change_sword_mode",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_LEFT_CONTROL,
-            "key.categories.the_last_sword"
+            KEY_CATEGORY
     );
 
     //防御配置按键
@@ -28,7 +34,7 @@ public class ModKeyMappings {
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_LEFT_ALT,
-            "key.categories.the_last_sword"
+            KEY_CATEGORY
     );
 
     //打开唤灵GUI按键
@@ -37,7 +43,7 @@ public class ModKeyMappings {
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_Z,
-            "key.categories.the_last_sword"
+            KEY_CATEGORY
     );
 
     //注册按键映射

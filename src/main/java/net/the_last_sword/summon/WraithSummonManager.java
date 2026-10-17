@@ -546,7 +546,7 @@ public class WraithSummonManager {
         theLastEnd.setAnimationState(TheLastEndEntity.STATE_IDLE);
 
         float maxHealth = (float) wraith.getAttributeValue(Attributes.MAX_HEALTH);
-
+        TrueHealthManager.setMaxHealth(theLastEnd, maxHealth);
         TrueHealthManager.setHealth(theLastEnd, maxHealth);
     }
 
@@ -633,7 +633,7 @@ public class WraithSummonManager {
                     return living;
                 }
             }
-        } else if (level != null && level.isClientSide) {
+        } else if (level != null && level.isClientSide()) {
             //客户端：遍历渲染中的实体
             return net.the_last_sword.client.ClientEntityLookup.find(level, entityUUID);
         }
@@ -689,7 +689,11 @@ public class WraithSummonManager {
                 double newMaxHealth = healthAttr.getBaseValue() + healthBonus;
                 healthAttr.setBaseValue(newMaxHealth);
 
-                TrueHealthManager.setHealth(entity, entity.getMaxHealth());
+                //同步真实生命值（必须用 newMaxHealth，因为 getMaxHealth 会返回旧值）
+                TrueHealthManager.setMaxHealth(entity, (float) newMaxHealth);
+                TrueHealthManager.setHealth(entity, (float) newMaxHealth);
+
+                entity.setHealth((float) newMaxHealth);
             }
         }
 
@@ -710,7 +714,11 @@ public class WraithSummonManager {
                 double newMaxHealth = Math.max(1.0, healthAttr.getBaseValue() - healthBonus);
                 healthAttr.setBaseValue(newMaxHealth);
 
-                TrueHealthManager.setHealth(entity, entity.getMaxHealth());
+                //同步真实生命值（必须用 newMaxHealth，因为 getMaxHealth 会返回旧值）
+                TrueHealthManager.setMaxHealth(entity, (float) newMaxHealth);
+                TrueHealthManager.setHealth(entity, (float) newMaxHealth);
+
+                entity.setHealth((float) newMaxHealth);
             }
         }
 
@@ -773,7 +781,7 @@ public class WraithSummonManager {
 
         //注册防御追踪
         if (TheLastSwordConfiguration.getSwordWraithAsTheLastEndEntitySafely()) {
-            TrueHealthManager.register(wraith);
+            TrueHealthManager.register(wraith, wraith.getMaxHealth());
         }
     }
 
@@ -872,7 +880,7 @@ public class WraithSummonManager {
     private static void storeWraithIdentity(LivingEntity wraith, Player owner, int level) {
         CompoundTag data = wraith.getPersistentData();
         putUuid(data, WRAITH_OWNER_KEY, owner.getUUID());
-        data.putString(WRAITH_OWNER_NAME_KEY, owner.getGameProfile().getName());
+        data.putString(WRAITH_OWNER_NAME_KEY, owner.getGameProfile().name());
         data.putInt(WRAITH_LEVEL_KEY, level);
     }
 
@@ -942,7 +950,7 @@ public class WraithSummonManager {
         }
         boolean enabled = TheLastSwordConfiguration.getSwordWraithAsTheLastEndEntitySafely();
         if (enabled && !EntityUtil.hasProtection(wraith)) {
-            TrueHealthManager.register(wraith);
+            TrueHealthManager.register(wraith, wraith.getMaxHealth());
         }
         if (enabled && getWraithLevel(wraith) >= TheLastEndEntity.RESURRECTION_LEVEL
                 && TrueHealthManager.getHealth(wraith) > 0.0F) {

@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "the_last_sword:item/the_past_shadow_of_the_queen_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 8388736
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 14524637
-      }
-    ]
+    "model": "the_last_sword:item/the_past_shadow_of_the_queen_spawn_egg"
   }
 }

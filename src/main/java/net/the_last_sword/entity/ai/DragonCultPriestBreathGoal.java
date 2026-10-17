@@ -1,6 +1,7 @@
 package net.the_last_sword.entity.ai;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -136,7 +137,7 @@ public class DragonCultPriestBreathGoal extends Goal {
                     double px = center.x - half + step * (x + 0.5);
                     double py = center.y - half + step * (y + 0.5);
                     double pz = center.z - half + step * (z + 0.5);
-                    serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, px, py, pz,
+                    serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), px, py, pz,
                             1, PARTICLE_SPREAD, PARTICLE_SPREAD, PARTICLE_SPREAD, 0.0);
                 }
             }
@@ -145,7 +146,7 @@ public class DragonCultPriestBreathGoal extends Goal {
 
     //每tick对吐息立方体内的可攻击目标造成按攻击力换算的龙息伤害
     private void hurtTargetsInBreath() {
-        if (priest.level().isClientSide) {
+        if (priest.level().isClientSide()) {
             return;
         }
 
@@ -167,7 +168,9 @@ public class DragonCultPriestBreathGoal extends Goal {
 
         for (LivingEntity target : priest.level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(priest, entity))) {
-            if (net.the_last_sword.mv.Hurt.server(target,damageSource, damage)) {
+            float healthBefore = target.getHealth();
+            target.hurt(damageSource, damage);
+            if (target.getHealth() < healthBefore) {
                 priest.onSuccessfulAttack(target);
             }
         }

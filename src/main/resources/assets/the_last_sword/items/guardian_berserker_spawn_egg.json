@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "the_last_sword:item/guardian_berserker_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 4934475
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 14423100
-      }
-    ]
+    "model": "the_last_sword:item/guardian_berserker_spawn_egg"
   }
 }

@@ -1,7 +1,5 @@
 package net.the_last_sword.event;
 
-import net.minecraft.world.item.crafting.RecipeMap;
-import net.the_last_sword.client.gui.scroll.ScrollRecipeRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import com.mojang.blaze3d.vertex.*;
@@ -29,7 +27,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -225,14 +222,6 @@ public class ClientEventHandler {
         DangerousSkillPreviewRenderer.clear();
         LostWraithEndStrikeEffectRenderer.clear();
         ClientDragonCrystalRecipeCache.clear();
-        ScrollRecipeRenderer.setReceivedRecipes(RecipeMap.EMPTY);
-    }
-
-    //1.21.4: the client holds no recipe manager; the server sends its crafting and smithing recipes
-    //(ServerEventHandler.onDatapackSync), and the scroll book draws its recipe pages from them
-    @SubscribeEvent
-    public static void onRecipesReceived(RecipesReceivedEvent event) {
-        ScrollRecipeRenderer.setReceivedRecipes(event.getRecipeMap());
     }
 
     //按键输入事件
@@ -334,7 +323,7 @@ public class ClientEventHandler {
             if (System.currentTimeMillis() - miningPreviewUpdateTime > 10000) {
                 clearMiningPreview();
             } else {
-                renderMiningPreview(event.getPoseStack(), event.getCamera());
+                renderMiningPreview(event.getPoseStack(), mc.gameRenderer.getMainCamera());
             }
         }
 
@@ -343,19 +332,19 @@ public class ClientEventHandler {
             if (System.currentTimeMillis() - arenaPreviewUpdateTime > 10000) {
                 clearArenaPreview();
             } else {
-                renderArenaPreview(event.getPoseStack(), event.getCamera());
+                renderArenaPreview(event.getPoseStack(), mc.gameRenderer.getMainCamera());
             }
         }
 
-        DangerousSkillPreviewRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(true));
-        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(true));
+        DangerousSkillPreviewRenderer.render(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+        LostWraithEndStrikeEffectRenderer.render(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         //渲染龙魂灯笼范围
-        renderDragonSoulLanternRanges(event.getPoseStack(), event.getCamera(), mc.level);
+        renderDragonSoulLanternRanges(event.getPoseStack(), mc.gameRenderer.getMainCamera(), mc.level);
 
         //渲染龙套护盾（复用全局缓冲避免每帧new导致OOM）
         MultiBufferSource.BufferSource buf = mc.renderBuffers.bufferSource();
-        DragonShieldRenderer.render(event.getPoseStack(), buf, event.getPartialTick().getGameTimeDeltaPartialTick(true));
+        DragonShieldRenderer.render(event.getPoseStack(), buf, mc.getDeltaTracker().getGameTimeDeltaPartialTick(true));
         buf.endBatch();
     }
 

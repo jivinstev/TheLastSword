@@ -115,7 +115,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     public void trySendSkillTalk(String skillId) {
-        if (level().isClientSide || skillId == null || skillId.isBlank()) {
+        if (level().isClientSide() || skillId == null || skillId.isBlank()) {
             return;
         }
 
@@ -173,7 +173,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     private void sendDeathTalk(String talkId) {
-        if (!level().isClientSide && getKillCredit() instanceof ServerPlayer player) {
+        if (!level().isClientSide() && getKillCredit() instanceof ServerPlayer player) {
             player.sendSystemMessage(createTalkMessage(talkId));
         }
     }
@@ -232,7 +232,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     @Override
     public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         if (isNpc()) {
-            if (!level().isClientSide && player instanceof ServerPlayer serverPlayer) {
+            if (!level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
                 NpcDialogueManager.open(serverPlayer, this);
             }
             return InteractionResult.SUCCESS;
@@ -454,11 +454,12 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingData) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingData);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setTheLastEndLevel(6);
 
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
         }
 
@@ -477,7 +478,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     public void activate() {
-        if (level().isClientSide || isReady() || isDying()) {
+        if (level().isClientSide() || isReady() || isDying()) {
             return;
         }
 
@@ -529,7 +530,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
 
     @Override
     protected void onDeathEnd() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -573,7 +574,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         int previousState = getAnimationState();
         super.setAnimationState(state);
         boolean executionTransition = isExecutionState(previousState) && isExecutionState(state);
-        if (!level().isClientSide && previousState != state && !executionTransition) {
+        if (!level().isClientSide() && previousState != state && !executionTransition) {
             // 先切换状态再清理，避免 stop 再次触发同一技能的退出。
             switch (previousState) {
                 case STATE_LIGHTNING_SPEAR -> {
@@ -597,7 +598,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
                 default -> { }
             }
         }
-        if (!level().isClientSide && state == STATE_IDLE) {
+        if (!level().isClientSide() && state == STATE_IDLE) {
             setNoGravity(false);
         }
     }
@@ -605,21 +606,21 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     @Override
     public void tick() {
         // 旧存档可能保留技能的无重力标记，必须在 AI 起手前恢复。
-        if (!level().isClientSide && getAnimationState() == STATE_IDLE) {
+        if (!level().isClientSide() && getAnimationState() == STATE_IDLE) {
             setNoGravity(false);
         }
         super.tick();
-        if (!level().isClientSide && isDying()) {
+        if (!level().isClientSide() && isDying()) {
             tickDeathSequence();
         }
-        if (!level().isClientSide && tripleSlashGoal != null) tripleSlashGoal.holdPose();
-        if (!level().isClientSide && summonProjectilesGoal != null) summonProjectilesGoal.holdPose();
-        if (!level().isClientSide && executionGoal != null) executionGoal.holdPose();
+        if (!level().isClientSide() && tripleSlashGoal != null) tripleSlashGoal.holdPose();
+        if (!level().isClientSide() && summonProjectilesGoal != null) summonProjectilesGoal.holdPose();
+        if (!level().isClientSide() && executionGoal != null) executionGoal.holdPose();
         updateBlinkPhysics();
-        if (!level().isClientSide && getAnimationState() == STATE_IDLE) {
+        if (!level().isClientSide() && getAnimationState() == STATE_IDLE) {
             setNoGravity(false);
         }
-        if (!level().isClientSide && getAnimationState() != STATE_LIGHTNING_SPEAR) {
+        if (!level().isClientSide() && getAnimationState() != STATE_LIGHTNING_SPEAR) {
             setLightningSpearVisible(false);
         }
         this.refreshDimensions();

@@ -49,7 +49,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
         ItemLevelHelper.ensureInitialized(stack, 1);
 
         //非潜行状态下右键空气时召唤剑灵
-        if (!player.isCrouching() && !world.isClientSide) {
+        if (!player.isCrouching() && !world.isClientSide()) {
             WraithSummonManager.summonWraith(player, stack, world);
             return InteractionResult.SUCCESS;
         }
@@ -69,7 +69,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
 
         //非潜行状态右键方块时也召唤剑灵（不放置方块）
         Player player = context.getPlayer();
-        if (player != null && !context.getLevel().isClientSide) {
+        if (player != null && !context.getLevel().isClientSide()) {
             WraithSummonManager.summonWraith(player, stack, context.getLevel());
             return InteractionResult.SUCCESS;
         }

@@ -147,7 +147,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         }
 
         // 寿命由发射者指定，服务端统一决定移除时机。
-        if (!level().isClientSide && --remainingLifetime <= 0) {
+        if (!level().isClientSide() && --remainingLifetime <= 0) {
             this.discard();
         }
     }

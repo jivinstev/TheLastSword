@@ -62,7 +62,7 @@ public final class TrueHealthManager {
     }
 
     public static boolean setHealth(LivingEntity entity, float health) {
-        if (entity == null || entity.level().isClientSide || !Float.isFinite(health)) {
+        if (entity == null || entity.level().isClientSide() || !Float.isFinite(health)) {
             return false;
         }
         if (EntityUtil.hasProtection(entity) || shouldProtect(entity)) {
@@ -103,7 +103,7 @@ public final class TrueHealthManager {
     }
 
     public static void register(LivingEntity entity) {
-        if (entity == null || entity.level().isClientSide || !shouldProtect(entity)) return;
+        if (entity == null || entity.level().isClientSide() || !shouldProtect(entity)) return;
         releaseMaxHealthLock(entity);
         float health = getHealth(entity);
         if (entity.dead || health <= 0.0F) {
@@ -116,7 +116,7 @@ public final class TrueHealthManager {
 
     // 统一检查所有来源，避免失去一种装备时误清除其他来源的保护。
     public static void syncProtection(LivingEntity entity) {
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
         if (EntityUtil.hasProtection(entity) && (entity.dead || getHealth(entity) <= 0.0F)) {
             clear(entity);
         } else if (shouldProtect(entity)) {
@@ -133,7 +133,7 @@ public final class TrueHealthManager {
 
     // 属性更新后只收敛超出上限的血量，增加上限不会获得额外治疗。
     public static void clampHealth(LivingEntity entity) {
-        if (entity.level().isClientSide || !EntityUtil.hasProtection(entity)) return;
+        if (entity.level().isClientSide() || !EntityUtil.hasProtection(entity)) return;
         float maxHealth = entity.getMaxHealth();
         if (Float.isFinite(maxHealth) && maxHealth > 0.0F && getHealth(entity) > maxHealth) {
             setHealth(entity, maxHealth);
@@ -141,7 +141,7 @@ public final class TrueHealthManager {
     }
 
     public static void clear(LivingEntity entity) {
-        if (entity == null || entity.level().isClientSide) {
+        if (entity == null || entity.level().isClientSide()) {
             return;
         }
 

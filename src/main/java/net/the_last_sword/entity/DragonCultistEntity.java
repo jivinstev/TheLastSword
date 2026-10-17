@@ -65,8 +65,8 @@ public class DragonCultistEntity extends TheLastEndEntity {
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this)
                 .setAlertOthers(DragonCultistEntity.class, DragonCultPaladinEntity.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                (mv$target, mv$level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(mv$target)));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 10, true, false,
+                (e, serverLevel) -> e instanceof Player p && DragonCultDisguise.NOT_DISGUISED_PLAYER.test(p)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
@@ -157,9 +157,10 @@ public class DragonCultistEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
             setTheLastEndLevel(1);

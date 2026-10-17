@@ -4,6 +4,7 @@ import net.eca.api.EcaAPI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
@@ -204,7 +205,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     @Override
     protected void onDeathStart() {
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             level().playSound(null, blockPosition(), SoundEvents.ENDER_DRAGON_DEATH,
                     SoundSource.HOSTILE, 4.0F, 1.0F);
         }
@@ -276,7 +277,9 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             amount *= 0.7F;
         }
 
-        boolean hurt = super.hurtServer(level, source, amount);
+        float healthBefore = getHealth();
+        super.hurtServer(level, source, amount);
+        boolean hurt = getHealth() < healthBefore;
         if (hurt && variant == NamedPriestVariant.KROSIS && getRandom().nextFloat() < 0.30F) {
             addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60));
         }
@@ -297,7 +300,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             CompoundTag data = getPersistentData();
             if (!data.contains(NAMED_VARIANT_ID_KEY)) {
                 int variantId = TheLastSwordConfiguration.getDragonCultPriestNamedEnableSafely()
@@ -307,8 +310,9 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             }
             syncNamedVariant(true);
 
+            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this);
+                TrueHealthManager.register(this, maxHealth);
             }
 
             setTheLastEndLevel(1);
@@ -351,7 +355,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         this.refreshDimensions();
         tickHover();
 
-        if (!level().isClientSide && isAlive()) {
+        if (!level().isClientSide() && isAlive()) {
             syncNamedVariant(false);
             tickNamedAbility();
         }
@@ -454,7 +458,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
         if (TrueHealthManager.getMaxHealth(this) > 0.0F) {
             float newMax = (float) getAttributeValue(Attributes.MAX_HEALTH);
-
+            TrueHealthManager.setMaxHealth(this, newMax);
             TrueHealthManager.setHealth(this, newMax * healthRatio);
         }
     }
@@ -501,7 +505,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             return;
         }
         Vec3 center = position().add(0.0, getBbHeight() * 0.5, 0.0);
-        serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, center.x, center.y, center.z,
+        serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), center.x, center.y, center.z,
                 36, 1.5, 1.5, 1.5, 0.0);
         AABB area = new AABB(center.subtract(1.5, 1.5, 1.5), center.add(1.5, 1.5, 1.5));
         DamageSource source = new DamageSource(
@@ -511,7 +515,9 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
                 * TheLastSwordConfiguration.getDragonCultPriestBreathDamageMultiplierSafely());
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(this, entity))) {
-            if (target.hurtServer(serverLevel, source, damage)) {
+            float healthBefore = target.getHealth();
+            target.hurt(source, damage);
+            if (target.getHealth() < healthBefore) {
                 onSuccessfulAttack(target);
             }
         }
@@ -584,7 +590,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     //维持离地高度，贴地时上浮、悬空过高时缓慢下沉
     private void tickHover() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 

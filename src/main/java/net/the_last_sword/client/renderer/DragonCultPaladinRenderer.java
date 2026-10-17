@@ -1,13 +1,13 @@
 package net.the_last_sword.client.renderer;
 
-import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.client.model.DragonCultPaladinModel;
 import net.the_last_sword.entity.DragonCultPaladinEntity;
@@ -19,7 +19,6 @@ import software.bernie.geckolib.renderer.base.GeoRenderState;
 public class DragonCultPaladinRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<DragonCultPaladinEntity, R> {
     public DragonCultPaladinRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new DragonCultPaladinModel());
-        this.shadowRadius = 0.6f;
     }
 
     @Override
@@ -28,9 +27,9 @@ public class DragonCultPaladinRenderer<R extends EntityRenderState & GeoRenderSt
     }
 
     @Override
-    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, int packedLight, int packedOverlay, int colour) {
+    public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector, CameraRenderState camera, int packedLight, int packedOverlay, int colour) {
 
-        super.preRender(renderState, poseStack, model, bufferSource, buffer, isReRender,
+        super.preRender(renderState, poseStack, model, collector, camera,
                 packedLight, packedOverlay, colour);
     }
 
@@ -41,11 +40,6 @@ public class DragonCultPaladinRenderer<R extends EntityRenderState & GeoRenderSt
 
     @Override
     public int getPackedOverlay(DragonCultPaladinEntity entity, Void relatedObject, float u, float partialTick) {
-        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
-        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
-        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
-        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
-                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
+        return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
     }
-
 }

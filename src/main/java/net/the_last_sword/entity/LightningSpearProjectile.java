@@ -56,7 +56,7 @@ public class LightningSpearProjectile extends AbstractArrow {
     public void tick() {
         boolean reachesLimit = false;
         Vec3 previousPosition = position();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setNoGravity(true);
             if (isInGround()) {
                 detonate(position());
@@ -76,7 +76,7 @@ public class LightningSpearProjectile extends AbstractArrow {
             }
         }
         super.tick();
-        if (!level().isClientSide && !isRemoved()) {
+        if (!level().isClientSide() && !isRemoved()) {
             flightDistance += position().distanceTo(previousPosition);
             if (reachesLimit) {
                 discard();
@@ -118,7 +118,9 @@ public class LightningSpearProjectile extends AbstractArrow {
                             .getOrThrow(DamageTypes.LIGHTNING_BOLT), this, owner);
             for (LivingEntity target : serverLevel.getEntitiesOfClass(LivingEntity.class, area,
                     entity -> entity.isAlive() && entity != owner && EntityUtil.canAttack(owner, entity))) {
-                boolean damaged = net.the_last_sword.mv.Hurt.server(target,source, (float) settings.damage());
+                float healthBefore = target.getHealth();
+                target.hurt(source, (float) settings.damage());
+                boolean damaged = target.getHealth() < healthBefore;
                 if (settings.slowTicks() > 0) {
                     target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,
                             settings.slowTicks(), settings.slowLevel() - 1), owner);

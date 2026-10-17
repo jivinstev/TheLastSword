@@ -34,7 +34,7 @@ public final class PriestGuardEffect {
     }
 
     public static void apply(LivingEntity source, double radius, double shieldGain) {
-        if (source == null || source.level().isClientSide) {
+        if (source == null || source.level().isClientSide()) {
             return;
         }
 

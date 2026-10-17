@@ -24,10 +24,11 @@ public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, Humanoid
         );
 
         //添加护甲层
+        net.minecraft.client.renderer.entity.ArmorModelSet<HumanoidModel<HumanoidRenderState>> armorModels =
+            net.minecraft.client.renderer.entity.ArmorModelSet.bake(ModelLayers.PLAYER_ARMOR, context.getModelSet(), HumanoidModel::new);
         this.addLayer(new HumanoidArmorLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>, HumanoidModel<HumanoidRenderState>>(
             this,
-            new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-            new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
+            armorModels,
             context.getEquipmentRenderer()
         ));
 

@@ -57,7 +57,7 @@ public class SwordWraithBlockGoal extends Goal {
         wraith.setAnimationState(TheLastEndSwordWraithEntity.STATE_BLOCK);
         wraith.getNavigation().stop();
         lastUseTime = wraith.level().getGameTime();
-        if (!wraith.level().isClientSide) {
+        if (!wraith.level().isClientSide()) {
             float currentHealth = TrueHealthManager.getHealth(wraith);
             if (Float.isFinite(currentHealth) && currentHealth > 0.0F) {
                 EcaAPI.lockHealth(wraith, currentHealth);
@@ -120,7 +120,9 @@ public class SwordWraithBlockGoal extends Goal {
                 knockbackDir.x * KNOCKBACK_STRENGTH, 0.1, knockbackDir.z * KNOCKBACK_STRENGTH
             ));
 
-            if (net.the_last_sword.mv.Hurt.server(target,wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage))) {
+            float healthBefore = target.getHealth();
+            target.hurt(wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage));
+            if (target.getHealth() < healthBefore) {
                 wraith.addEndMark();
             }
         }

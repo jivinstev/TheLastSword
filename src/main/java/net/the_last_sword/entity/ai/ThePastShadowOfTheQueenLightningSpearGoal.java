@@ -99,7 +99,7 @@ public class ThePastShadowOfTheQueenLightningSpearGoal extends Goal {
     }
 
     private void releaseSpear() {
-        if (queen.level().isClientSide) {
+        if (queen.level().isClientSide()) {
             return;
         }
         LivingEntity target = queen.getTarget();

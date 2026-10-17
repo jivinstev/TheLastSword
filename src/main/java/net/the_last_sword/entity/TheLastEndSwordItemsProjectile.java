@@ -85,7 +85,7 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
 
         //末影水晶特殊处理：转换为掉落物，不造成爆炸
         if (target instanceof EndCrystal endCrystal) {
-            if (!endCrystal.level().isClientSide) {
+            if (!endCrystal.level().isClientSide()) {
                 ItemStack crystalItem = new ItemStack(Items.END_CRYSTAL);
                 ItemEntity itemEntity = new ItemEntity(
                     endCrystal.level(),

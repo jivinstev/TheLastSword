@@ -9,11 +9,12 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -89,18 +90,22 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
     }
 
     @Override
-    public void render(TrailRenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void submit(TrailRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         //渲染末影水晶模型
-        renderCrystal(state, state.partialTicks, poseStack, buffer, packedLight);
+        collector.submitCustomGeometry(poseStack, RENDER_TYPE, (pose, consumer) ->
+                renderCrystal(state, state.partialTicks, pose, consumer, state.lightCoords));
 
         //渲染拖尾
-        renderTrail(state, state.partialTicks, poseStack, buffer);
+        collector.submitCustomGeometry(poseStack, RenderType.LIGHTNING, (pose, consumer) ->
+                renderTrail(state, state.partialTicks, pose, consumer));
 
-        super.render(state, poseStack, buffer, packedLight);
+        super.submit(state, poseStack, collector, camera);
     }
 
     //渲染末影水晶模型
-    private void renderCrystal(TrailRenderState entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    private void renderCrystal(TrailRenderState entity, float partialTicks, PoseStack.Pose basePose, VertexConsumer vertexConsumer, int packedLight) {
+        PoseStack poseStack = new PoseStack();
+        poseStack.last().set(basePose);
         poseStack.pushPose();
 
         float time = (entity.tickCount + partialTicks) * 3.0f;
@@ -108,7 +113,6 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
         bobbing = (bobbing * bobbing + bobbing) * 0.4f;
         float yOffset = bobbing - 1.4f;
 
-        VertexConsumer vertexConsumer = buffer.getBuffer(RENDER_TYPE);
         int overlay = OverlayTexture.NO_OVERLAY;
 
         poseStack.scale(2.0f, 2.0f, 2.0f);
@@ -133,7 +137,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
     }
 
     //渲染红蓝双螺旋拖尾
-    private void renderTrail(TrailRenderState entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
+    private void renderTrail(TrailRenderState entity, float partialTicks, PoseStack.Pose basePose, VertexConsumer trailConsumer) {
         Vec3[] positions = entity.trailPositions;
         if (positions.length < 2) return;
 
@@ -143,8 +147,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
 
         int count = positions.length;
 
-        VertexConsumer trailConsumer = buffer.getBuffer(RenderType.LIGHTNING);
-        Matrix4f matrix = poseStack.last().pose();
+        Matrix4f matrix = basePose.pose();
 
         float time = (entity.tickCount + partialTicks) * 0.3f;
 

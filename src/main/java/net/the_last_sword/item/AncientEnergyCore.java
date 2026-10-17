@@ -48,7 +48,8 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     }
 
     private static IEnergyStorage energyOf(ItemStack stack) {
-        return stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        var handler = Capabilities.Energy.ITEM.getCapability(stack, net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack));
+        return handler == null ? null : IEnergyStorage.of(handler);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
             setChargingEnabled(stack, !currentState);
 
             //发送消息给玩家
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 String key = !currentState ?
                     "item_tooltip.the_last_sword.ancient_energy_core.charging_enabled" :
                     "item_tooltip.the_last_sword.ancient_energy_core.charging_disabled";
@@ -129,7 +130,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     //执行充能逻辑（供inventoryTick和curioTick共用）
     private void performCharging(ItemStack stack, Level level, Entity entity) {
         //服务端执行充能逻辑
-        if (level.isClientSide || !(entity instanceof Player player)) {
+        if (level.isClientSide() || !(entity instanceof Player player)) {
             return;
         }
 
@@ -187,7 +188,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
         });
     }
 
-    // 一旦成功充能就结束本 tick，即使目标只缺少少量能量。
+    //充能单个物品，返回true表示已充能（能量核心能量已用尽或目标已充满）
     private boolean chargeItem(IEnergyStorage source, ItemStack target) {
         if (target.isEmpty()) {
             return false;
@@ -209,7 +210,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
             if (received > 0) {
                 //从能量核心中实际扣除能量
                 source.extractEnergy(received, false);
-                return true;
+                return received < extracted; //如果没充满说明还有空间，继续充能其他物品
             }
 
             return false;
@@ -244,7 +245,6 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
             "item_tooltip.the_last_sword.ancient_energy_core.charging_enabled" :
             "item_tooltip.the_last_sword.ancient_energy_core.charging_disabled";
         tooltipAdder.accept(Component.translatable("item_tooltip.the_last_sword.ancient_energy_core",
-            TheLastSwordConfiguration.getAncientEnergyCoreChargeRateSafely(),
             Component.translatable(statusKey)));
 
         tooltipAdder.accept(Component.translatable("item_tooltip_lore.the_last_sword.ancient_energy_core")

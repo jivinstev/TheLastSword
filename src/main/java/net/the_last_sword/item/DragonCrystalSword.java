@@ -8,12 +8,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -72,14 +72,11 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
     //近战攻击：造成物理伤害+魔法伤害
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        //1.21.5: Item.hurtEnemy is void, so the base's friendly-fire return no longer stops this method (1.21.1:
-        //'if (!super.hurtEnemy(...)) return false;'); test the same EntityUtil.canAttack guard here first
-        if (!net.the_last_sword.util.EntityUtil.canAttack(attacker, target)) return;
-        //调用基类方法，检查友方误伤并造成物理伤害
+        //调用基类方法，检查友方误伤并造成物理伤害（1.21.5 基类返回 void，检查由基类内部完成）
         super.hurtEnemy(stack, target, attacker);
 
         //造成额外的魔法伤害
-        if (!attacker.level().isClientSide) {
+        if (!attacker.level().isClientSide()) {
             int level = ItemLevelHelper.getLevel(stack);
             double configValue = (level < 6)
                     ? TheLastSwordConfiguration.getIncreaseValueSafely()
@@ -115,7 +112,7 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
         }
 
         //发射弹射物（传递剑的基础物理伤害）
-        if (!world.isClientSide) {
+        if (!world.isClientSide()) {
             float projectileDamage = this.getBasePhysicalDamage();
             DragonCrystalSwordProjectile.shoot(world, player, player.getRandom(), player.getUUID(), projectileDamage);
         }
