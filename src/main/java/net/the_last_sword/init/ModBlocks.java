@@ -18,15 +18,15 @@ public class ModBlocks {
         DeferredRegister.create(Registries.BLOCK, TheLastSwordMod.MOD_ID);
 
     public static final Supplier<Block> DRAGON_CRYSTAL_SMITHING_TABLE = BLOCKS.register("dragon_crystal_smithing_table",
-        DragonCrystalSmithingTableBlock::new
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_crystal_smithing_table") ? null : new DragonCrystalSmithingTableBlock()
     );
 
     public static final Supplier<Block> DRAGON_SOUL_LANTERN = BLOCKS.register("dragon_soul_lantern",
-        DragonSoulLanternBlock::new
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_soul_lantern") ? null : new DragonSoulLanternBlock()
     );
 
     public static final Supplier<Block> DRAGON_CRYSTAL_ENCHANTING_TABLE = BLOCKS.register("dragon_crystal_enchanting_table",
-        DragonCrystalEnchantingTableBlock::new
+        () -> net.the_last_sword.mv.RegIds.enter("dragon_crystal_enchanting_table") ? null : new DragonCrystalEnchantingTableBlock()
     );
 
     //幸运方块联动（仅在 lucky 本体 mod 加载时注册）
@@ -39,7 +39,7 @@ public class ModBlocks {
 
     private static void registerConditionalBlocks() {
         if (CompatCheck.isLuckyBlockLoaded()) {
-            THE_LAST_END_LUCKY_BLOCK = BLOCKS.register("the_last_end_lucky_block", TheLastEndLuckyBlock::new);
+            THE_LAST_END_LUCKY_BLOCK = BLOCKS.register("the_last_end_lucky_block", () -> net.the_last_sword.mv.RegIds.enter("the_last_end_lucky_block") ? null : new TheLastEndLuckyBlock());
         }
     }
 }

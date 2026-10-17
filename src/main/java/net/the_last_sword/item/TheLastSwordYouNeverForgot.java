@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,6 +30,7 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.entity.TheLastSwordYouNeverForgotProjectile;
 import net.the_last_sword.util.EntityUtil;
+import net.the_last_sword.compat.gear.Tier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -72,9 +73,9 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
 
             @Override
             public Ingredient getRepairIngredient() {
-                return Ingredient.EMPTY;
+                return Ingredient.of(new net.minecraft.world.level.ItemLike[0]);
             }
-        }, 0, -2.4f, new Item.Properties().fireResistant().rarity(Rarity.EPIC), 1024f, 1024);
+        }, 0, -2.4f, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.EPIC), 1024f, 1024);
     }
 
     @Override
@@ -133,12 +134,12 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
 
     // 右键：发射独立弹射物
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (!world.isClientSide) {
             TheLastSwordYouNeverForgotProjectile.shoot(world, player, RandomSource.create(), ABSOLUTE_DESTRUCTION_DAMAGE);
         }
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResult.SUCCESS;
     }
 
     // 工具提示：Awesome等级（彩虹色）
@@ -234,12 +235,12 @@ public class TheLastSwordYouNeverForgot extends TheLastEndSwordItems {
                 // 无冷却
                 for (ItemStack stack : player.getInventory().items) {
                     if (!stack.isEmpty()) {
-                        player.getCooldowns().removeCooldown(stack.getItem());
+                        player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
                 }
                 ItemStack offhand = player.getOffhandItem();
                 if (!offhand.isEmpty()) {
-                    player.getCooldowns().removeCooldown(offhand.getItem());
+                    player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(offhand.getItem()));
                 }
             } else {
                 // 移除ECA无敌

@@ -45,7 +45,7 @@ public class JustifiedDefenceOverlay {
         Player player = mc.player;
         if (player == null || !shouldRender(player)) return;
 
-        mc.getProfiler().push("justifiedDefenceHud");
+        net.minecraft.util.profiling.Profiler.get().push("justifiedDefenceHud");
 
         //HUD 右侧基准位置（与饥饿值对齐）
         int baseX = screenWidth / 2 + 91 - ICON_SIZE;
@@ -62,7 +62,7 @@ public class JustifiedDefenceOverlay {
 
         //没有护盾则不渲染
         if (currentShield <= 0) {
-            mc.getProfiler().pop();
+            net.minecraft.util.profiling.Profiler.get().pop();
             return;
         }
 
@@ -84,21 +84,21 @@ public class JustifiedDefenceOverlay {
         //渲染满格图标（从左到右）
         for (int i = 0; i < fullIcons; i++) {
             int x = leftX + i * step;
-            gui.blit(ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //渲染半格图标
         if (halfIcon) {
             int x = leftX + fullIcons * step;
             int halfWidth = ICON_SIZE / 2;
-            gui.blit(ICON_FULL, x, startY, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //渲染空格图标
         int offset_icons = fullIcons + (halfIcon ? 1 : 0);
         for (int i = 0; i < emptyIcons; i++) {
             int x = leftX + (offset_icons + i) * step;
-            gui.blit(ICON_EMPTY, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_EMPTY, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //超出显示上限的护盾值提示（右侧文字）
@@ -119,7 +119,7 @@ public class JustifiedDefenceOverlay {
         }
 
         RenderSystem.disableBlend();
-        mc.getProfiler().pop();
+        net.minecraft.util.profiling.Profiler.get().pop();
     }
 
     //判断是否应该渲染护盾（创造模式和旁观模式不渲染）

@@ -32,7 +32,7 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
     private static final UUID ARMOR_TOUGHNESS_UUID = UUID.fromString("d4e5f6a7-b8c9-4d1e-8f3a-4b5c6d7e8f90");
 
     public ExtremeLifeSupportDevice() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
     //Forge Energy 能力 -> 已迁移至 RegisterCapabilitiesEvent (Capabilities.EnergyStorage.ITEM)

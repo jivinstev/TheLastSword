@@ -161,13 +161,13 @@ public class DragonCultPriestBreathGoal extends Goal {
         }
 
         DamageSource damageSource = new DamageSource(
-            priest.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.DRAGON_BREATH),
+            priest.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.DRAGON_BREATH),
             priest, priest);
 
         for (LivingEntity target : priest.level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(priest, entity))) {
-            if (target.hurt(damageSource, damage)) {
+            if (net.the_last_sword.mv.Hurt.server(target,damageSource, damage)) {
                 priest.onSuccessfulAttack(target);
             }
         }

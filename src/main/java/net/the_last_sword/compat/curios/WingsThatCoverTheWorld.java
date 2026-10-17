@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class WingsThatCoverTheWorld extends Item implements ICurioItem {
 
     public WingsThatCoverTheWorld() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override
@@ -78,18 +78,5 @@ public class WingsThatCoverTheWorld extends Item implements ICurioItem {
             .withStyle(ChatFormatting.GRAY));
     }
 
-    //注册客户端渲染器
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private WingsThatCoverTheWorldRenderer renderer;
-
-            public ICurioRenderer getCurioRenderer() {
-                if (renderer == null) {
-                    renderer = new WingsThatCoverTheWorldRenderer();
-                }
-                return renderer;
-            }
-        });
-    }
+    //1.21.4: the curio renderer is registered through CuriosRendererRegistry (client/WingsThatCoverTheWorldClient)
 }

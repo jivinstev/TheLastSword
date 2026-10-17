@@ -23,7 +23,7 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
         event.modifyMatching(item -> item instanceof DragonCrystalUpgradeTemplate, builder -> {
             builder.set(DataComponents.RARITY, Rarity.UNCOMMON);
-            builder.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
+            builder.set(DataComponents.DAMAGE_RESISTANT, new net.minecraft.world.item.component.DamageResistant(net.minecraft.tags.DamageTypeTags.IS_FIRE));
         });
     }
 
@@ -49,11 +49,11 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
         super(
             DRAGON_CRYSTAL_UPGRADE_APPLIES_TO,
             DRAGON_CRYSTAL_UPGRADE_INGREDIENTS,
-            DRAGON_CRYSTAL_UPGRADE,
             DRAGON_CRYSTAL_UPGRADE_BASE_SLOT_DESCRIPTION,
             DRAGON_CRYSTAL_UPGRADE_ADDITIONS_SLOT_DESCRIPTION,
             createDragonCrystalUpgradeIconList(),
-            createDragonCrystalUpgradeMaterialList()
+            createDragonCrystalUpgradeMaterialList(),
+            net.the_last_sword.mv.RegIds.stamp(new net.minecraft.world.item.Item.Properties())
         );
     }
 

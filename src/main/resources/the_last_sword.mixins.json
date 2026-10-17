@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "SpellCooldownTooltipMixin",
     "EntityRenderDispatcherMixin",
     "CameraMixin",
     "MinecraftMixin",
@@ -14,12 +13,10 @@
     "LocalPlayerMixin",
     "EnderDragonRendererMixin",
     "ScreenEffectRendererMixin",
-    "SmithingTransformRecipeAccessor"
+    "SmithingTransformRecipeAccessor",
+    "GuiConfusionOverlayMixin"
   ],
   "mixins": [
-    "TransmutationStaffCastingMixin",
-    "TransmutationStaffChannelMixin",
-    "SmithingLevelEmcMixin",
     "BlockBehaviourMixin",
     "ConnectionMixin",
     "EndCrystalMixin",

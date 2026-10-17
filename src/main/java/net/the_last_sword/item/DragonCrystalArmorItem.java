@@ -4,18 +4,19 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.Holder;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
-import net.the_last_sword.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,18 +28,18 @@ import java.util.Map;
  */
 public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
-    public DragonCrystalArmorItem(Type type, Properties props) {
-        //顺序对应 EquipmentSlot 索引 [靴子, 护腿, 胸甲, 头盔]，取下界合金各部位基数的 2 倍
-        super(Holder.direct(new ArmorMaterial(
-            Map.of(Type.HELMET, 4, Type.CHESTPLATE, 6, Type.LEGGINGS, 6, Type.BOOTS, 4),
+    public DragonCrystalArmorItem(ArmorType type, Properties props) {
+        //耐久单位 74 × 各部位基数 [13, 15, 16, 11] = [962, 1110, 1184, 814]，即下界合金各部位耐久的 2 倍
+        super(new ArmorMaterial(
+            74,
+            Map.of(ArmorType.HELMET, 4, ArmorType.CHESTPLATE, 6, ArmorType.LEGGINGS, 6, ArmorType.BOOTS, 4),
             22,
             SoundEvents.ARMOR_EQUIP_NETHERITE,
-            () -> Ingredient.of(new ItemStack(ModItems.DRAGON_CRYSTAL.get())),
-            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("the_last_sword:dragon_crystal_armor"))),
             5f,
-            1f
-        )), type, props.fireResistant().rarity(Rarity.RARE)
-            .durability(new int[]{481*2, 555*2, 592*2, 407*2}[type.getSlot().getIndex()]));
+            1f,
+            TagKey.create(Registries.ITEM, ResourceLocation.parse("the_last_sword:repairs_dragon_crystal_armor")),
+            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse("the_last_sword:dragon_crystal_armor"))
+        ), type, props.fireResistant().rarity(Rarity.RARE));
     }
 
     // ==================== 实现抽象方法 ====================
@@ -91,16 +92,11 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Helmet extends DragonCrystalArmorItem {
         public Helmet() {
-            super(Type.HELMET, new Properties());
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.HEAD;
         }
 
@@ -112,16 +108,11 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Chestplate extends DragonCrystalArmorItem {
         public Chestplate() {
-            super(Type.CHESTPLATE, new Properties());
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.CHEST;
         }
 
@@ -133,16 +124,11 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Leggings extends DragonCrystalArmorItem {
         public Leggings() {
-            super(Type.LEGGINGS, new Properties());
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_2.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.LEGS;
         }
 
@@ -154,16 +140,11 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
 
     public static class Boots extends DragonCrystalArmorItem {
         public Boots() {
-            super(Type.BOOTS, new Properties());
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack s, Entity e, EquipmentSlot sl, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.FEET;
         }
 

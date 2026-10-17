@@ -18,7 +18,6 @@ public class DragonLightingEntity extends LightningBolt {
 
     public DragonLightingEntity(EntityType<DragonLightingEntity> type, Level world) {
         super(type, world);
-        this.noCulling = true;
         this.life = 6;
         this.seed = this.random.nextLong();
         this.flashes = this.random.nextInt(40) + 1;

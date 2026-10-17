@@ -2,7 +2,6 @@ package net.the_last_sword.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.the_last_sword.test.UltraTestSwordItem;
@@ -32,12 +31,5 @@ public class GameRendererMixin {
         }
     }
 
-    //防御模式：禁止恶心效果画面扭曲
-    @Inject(method = "renderConfusionOverlay", at = @At("HEAD"), cancellable = true)
-    private void theLastSword$cancelConfusionOverlay(GuiGraphics guiGraphics, float strength, CallbackInfo ci) {
-        Player player = Minecraft.getInstance().player;
-        if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
-            ci.cancel();
-        }
-    }
+    // 1.21.4: the confusion overlay moved to Gui.renderConfusionOverlay (GuiConfusionOverlayMixin).
 }

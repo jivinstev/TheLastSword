@@ -161,8 +161,8 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     protected void applyBaseDamage(Entity target) {
         if (this.getOwner() instanceof LivingEntity owner && snapshotBaseDamage > 0) {
             DamageSource source = new DamageSource(
-                owner.getCommandSenderWorld().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypes.GENERIC),
+                owner.getCommandSenderWorld().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                    .getOrThrow(DamageTypes.GENERIC),
                 this, owner
             );
             target.hurt(source, snapshotBaseDamage);
@@ -243,7 +243,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
         return projectile;
@@ -259,7 +259,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         shooter.level().addFreshEntity(projectile);
         shooter.level().playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (RandomSource.create().nextFloat() * 0.5f + 1));
         return projectile;

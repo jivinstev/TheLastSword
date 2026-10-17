@@ -138,8 +138,8 @@ public class LostWraithSummonLightningGoal extends Goal {
         float damage = (float) wraith.getAttributeValue(Attributes.ATTACK_DAMAGE)
             * (float) TheLastSwordConfiguration.getLostWraithLightningDamageMultiplierSafely();
         DamageSource damageSource = new DamageSource(
-            wraith.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.LIGHTNING_BOLT),
+            wraith.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.LIGHTNING_BOLT),
             wraith, wraith);
 
         for (LivingEntity target : targets) {

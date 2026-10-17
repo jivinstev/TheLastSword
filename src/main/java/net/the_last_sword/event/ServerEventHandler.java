@@ -134,6 +134,8 @@ public class ServerEventHandler {
     //登录时同步给单个玩家；/reload后重载config配方并同步给所有在线玩家
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
+        //1.21.4: the client no longer receives recipes; the scroll book's recipe pages need the crafting and smithing ones
+        event.sendRecipes(net.minecraft.world.item.crafting.RecipeType.CRAFTING, net.minecraft.world.item.crafting.RecipeType.SMITHING);
         ServerPlayer player = event.getPlayer();
         if (player != null) {
             syncDragonCrystalRecipes(player);
@@ -476,7 +478,7 @@ public class ServerEventHandler {
         StructureTemplateManager templateManager = serverLevel.getStructureManager();
         Optional<StructureTemplate> optional = templateManager.get(ARENA_STRUCTURE);
         if (optional.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.arena.load_failed"));
+            if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.translatable("message.the_last_sword.arena.load_failed"));
             return;
         }
 
@@ -518,7 +520,7 @@ public class ServerEventHandler {
                 .setIgnoreEntities(false);
 
         template.placeInWorld(serverLevel, preview.placePos, preview.placePos, settings, serverLevel.getRandom(), 2);
-        player.sendSystemMessage(Component.translatable("message.the_last_sword.arena.placed"));
+        if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.translatable("message.the_last_sword.arena.placed"));
     }
 
     //取消竞技场预览

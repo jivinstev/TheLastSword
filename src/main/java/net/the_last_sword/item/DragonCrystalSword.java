@@ -7,12 +7,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -57,12 +58,12 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
 
                 @Override
                 public Ingredient getRepairIngredient() {
-                    return Ingredient.of(new ItemStack(ModItems.DRAGON_CRYSTAL.get()));
+                    return Ingredient.of(ModItems.DRAGON_CRYSTAL.get());
                 }
             },
             3,
             -2.4f,
-            new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON),
+            net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.UNCOMMON),
             64f,
             4
         );
@@ -87,8 +88,8 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
                 target.hurt(
                     new DamageSource(
                         attacker.getCommandSenderWorld().registryAccess()
-                            .registryOrThrow(Registries.DAMAGE_TYPE)
-                            .getHolderOrThrow(DamageTypes.MAGIC),
+                            .lookupOrThrow(Registries.DAMAGE_TYPE)
+                            .getOrThrow(DamageTypes.MAGIC),
                         attacker,
                         attacker
                     ),
@@ -102,13 +103,13 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
 
     //右键使用：发射弹射物
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
         //如果副手持盾且配置启用了盾牌取消使用，则传递事件给盾牌
         if (player.getOffhandItem().getItem() == Items.SHIELD &&
             TheLastSwordConfiguration.getBlockCancelUseSafely()) {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
 
         //发射弹射物（传递剑的基础物理伤害）
@@ -117,7 +118,7 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
             DragonCrystalSwordProjectile.shoot(world, player, player.getRandom(), player.getUUID(), projectileDamage);
         }
 
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

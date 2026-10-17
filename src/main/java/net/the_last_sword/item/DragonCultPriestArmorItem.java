@@ -9,7 +9,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -59,43 +63,48 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
         UUID.fromString("e3356bb2-90c7-45ad-a081-2cf7fe4c88fc")
     };
 
-    private static final Holder<ArmorMaterial> MATERIAL = createMaterial();
+    private static final ArmorMaterial MATERIAL = createMaterial();
 
-    private static Holder<ArmorMaterial> createMaterial() {
-        Map<Type, Integer> defense = new EnumMap<>(Type.class);
-        for (Type t : Type.values()) {
-            if (t == Type.BODY) {
+    private static ArmorMaterial createMaterial() {
+        Map<ArmorType, Integer> defense = new EnumMap<>(ArmorType.class);
+        for (ArmorType t : ArmorType.values()) {
+            if (t == ArmorType.BODY) {
                 defense.put(t, 0);
             } else {
                 defense.put(t, DEFENSE_PER_TYPE[t.getSlot().getIndex()]);
             }
         }
-        return Holder.direct(new ArmorMaterial(
+        //耐久单位即倍率，各部位耐久 = 13/15/16/11 × 倍率
+        return new ArmorMaterial(
+            DURABILITY_MULTIPLIER,
             defense,
             10,
             SoundEvents.ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.of(Items.DIAMOND),
-            List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor"))),
             2.0F,
-            0.0F
-        ));
+            0.0F,
+            ItemTags.REPAIRS_DIAMOND_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor"))
+        );
     }
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final ArmorType armorType;
 
-    protected DragonCultPriestArmorItem(Type type) {
-        super(MATERIAL, type, new Properties().durability(
-            DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER));
+    protected DragonCultPriestArmorItem(ArmorType type) {
+        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
+        this.armorType = type;
     }
 
     @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+    //1.21.4: the armour material's ATTRIBUTE_MODIFIERS component is the base (super returns EMPTY); this method only
+    //runs through event/ArmorAttributeModifierHandler, because a stack with that component never falls back to it
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        for (ItemAttributeModifiers.Entry entry : super.getDefaultAttributeModifiers().modifiers()) {
+        for (ItemAttributeModifiers.Entry entry : this.components().getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY).modifiers()) {
             builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
-        EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.getEquipmentSlot());
-        String suffix = this.getType().getName();
+        EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.armorType.getSlot());
+        String suffix = this.armorType.getName();
         builder.add(ModAttributes.MAX_JUSTIFIED_DEFENCE, new AttributeModifier(
             ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_max_justified_defence_" + suffix),
             1.0,
@@ -109,14 +118,10 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
         return builder.build();
     }
 
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
         consumer.accept(DragonCultArmorClientExtensions.priest());
-    }
-
-    @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.parse(TEXTURE);
     }
 
     @Override
@@ -142,25 +147,25 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
 
     public static class Helmet extends DragonCultPriestArmorItem {
         public Helmet() {
-            super(Type.HELMET);
+            super(ArmorType.HELMET);
         }
     }
 
     public static class Chestplate extends DragonCultPriestArmorItem {
         public Chestplate() {
-            super(Type.CHESTPLATE);
+            super(ArmorType.CHESTPLATE);
         }
     }
 
     public static class Leggings extends DragonCultPriestArmorItem {
         public Leggings() {
-            super(Type.LEGGINGS);
+            super(ArmorType.LEGGINGS);
         }
     }
 
     public static class Boots extends DragonCultPriestArmorItem {
         public Boots() {
-            super(Type.BOOTS);
+            super(ArmorType.BOOTS);
         }
     }
 }

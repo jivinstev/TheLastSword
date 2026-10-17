@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -65,7 +65,7 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         ItemStack sword = new ItemStack(Items.NETHERITE_SWORD);
@@ -103,8 +103,8 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
 
     //成功受伤后请求格挡；由高优先级Goal在下一次AI调度时进入block
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        boolean hurt = super.hurt(source, amount);
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource source, float amount) {
+        boolean hurt = super.hurtServer(mv$hurtLevel, source, amount);
         if (hurt && !level().isClientSide) {
             requestBlock();
         }

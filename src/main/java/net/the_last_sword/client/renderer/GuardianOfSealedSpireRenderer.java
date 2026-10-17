@@ -5,8 +5,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.the_last_sword.client.JustifiedDefenceFlash;
 import net.the_last_sword.client.layer.GuardianItemLayer;
 import net.the_last_sword.client.model.GuardianOfSealedSpireModel;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
@@ -36,14 +37,17 @@ public class GuardianOfSealedSpireRenderer extends GeoEntityRenderer<GuardianOfS
                 packedLight, packedOverlay, colour);
     }
 
+    //死亡不倾倒（GeoEntityRenderer 不继承 LivingEntityRenderer，仍使用 getDeathMaxRotation）
     @Override
-    protected float getDeathMaxRotation(GuardianOfSealedSpireEntity entityLivingBaseIn) {
+    protected float getDeathMaxRotation(GuardianOfSealedSpireEntity animatable, float partialTick) {
         return 0.0F;
     }
 
-    //受伤变红效果
+    //受伤变红效果，同时保留统一覆盖色入口的闪光叠加（原 getOverlayCoords 的 Mixin 逻辑）
     @Override
     public int getPackedOverlay(GuardianOfSealedSpireEntity entity, float u, float partialTick) {
-        return LivingEntityRenderer.getOverlayCoords(entity, 0);
+        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
+        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
+                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
 }

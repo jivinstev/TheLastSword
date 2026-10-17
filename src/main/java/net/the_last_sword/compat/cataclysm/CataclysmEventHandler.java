@@ -183,7 +183,7 @@ public class CataclysmEventHandler {
     //获取炽热烙印效果
     private static MobEffect getBlazingBrandEffect() {
         try {
-            return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "blazing_brand"));
+            return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "blazing_brand"));
         } catch (Exception ignored) {
             return null;
         }
@@ -192,7 +192,7 @@ public class CataclysmEventHandler {
     //检查目标是否已经处于眩晕状态
     private static boolean isAlreadyStunned(LivingEntity target) {
         try {
-            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
             return stunEffect != null && target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect));
         } catch (Exception ignored) {
             return false;
@@ -202,7 +202,7 @@ public class CataclysmEventHandler {
     //检查盾牌是否在冷却中
     private static boolean hasShieldCooldown(LivingEntity entity, ItemStack shield) {
         if (entity instanceof Player player) {
-            return player.getCooldowns().isOnCooldown(shield.getItem());
+            return player.getCooldowns().isOnCooldown(shield);
         } else {
             CompoundTag entityData = entity.getPersistentData();
             if (entityData.contains("shield_cooldown_end")) {
@@ -216,7 +216,7 @@ public class CataclysmEventHandler {
     //为盾牌添加冷却时间
     private static void applyShieldCooldown(ItemStack shield, LivingEntity entity, int cooldownTicks) {
         if (entity instanceof Player player) {
-            player.getCooldowns().addCooldown(shield.getItem(), cooldownTicks);
+            player.getCooldowns().addCooldown(shield, cooldownTicks);
         }
         CompoundTag entityData = entity.getPersistentData();
         entityData.putLong("shield_cooldown_end", entity.level().getGameTime() + cooldownTicks);
@@ -225,7 +225,7 @@ public class CataclysmEventHandler {
     //应用灾变的眩晕效果
     private static void applyCataclysmStunEffect(LivingEntity target, int durationTicks) {
         try {
-            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
             if (stunEffect != null) {
                 target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect), durationTicks, 0));
             }
@@ -270,7 +270,7 @@ public class CataclysmEventHandler {
     //获取深渊烧灼效果
     private static MobEffect getAbyssalBurnEffect() {
         try {
-            return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
+            return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
         } catch (Exception ignored) {
             return null;
         }

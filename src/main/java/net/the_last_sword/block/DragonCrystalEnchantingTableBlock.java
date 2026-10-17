@@ -45,7 +45,7 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Shapes.or(BASE, CRYSTAL);
 
     public DragonCrystalEnchantingTableBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
             .sound(SoundType.STONE)
             .strength(50.0f, 100.0f) // 硬度50（黑曜石级别），爆炸抗性100
             .lightLevel(state -> 4) // 亮度4
@@ -73,11 +73,11 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+    public int getLightBlock(BlockState state) {
         return 0;
     }
 
@@ -89,7 +89,7 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
                 serverPlayer.openMenu(be);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TheLastEndSwordWraithTheLastEndLayer extends GeoRenderLayer<TheLast
     @Override
     public void render(PoseStack poseStack, TheLastEndSwordWraithEntity animatable, BakedGeoModel bakedModel,
                        RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,
-                       float partialTick, int packedLight, int packedOverlay) {
+                       float partialTick, int packedLight, int packedOverlay, int renderColor) {
 
         //只在万物终焉状态下渲染
         if (!animatable.isAllThingsEnd()) {

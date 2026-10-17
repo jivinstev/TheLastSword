@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
 
     public TheLastEndSwordWraithLevel13SpawnEgg() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(16)
                 .rarity(Rarity.EPIC)
                 .fireResistant()
@@ -49,7 +49,7 @@ public class TheLastEndSwordWraithLevel13SpawnEgg extends Item {
 
         //在服务端生成实体
         if (level instanceof ServerLevel serverLevel) {
-            TheLastEndSwordWraithEntity wraith = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(serverLevel);
+            TheLastEndSwordWraithEntity wraith = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (wraith != null) {
                 //设置生成位置（在方块上方）
                 double x = spawnPos.getX() + 0.5;

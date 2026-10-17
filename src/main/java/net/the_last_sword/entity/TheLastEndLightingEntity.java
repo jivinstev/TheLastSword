@@ -18,7 +18,6 @@ public class TheLastEndLightingEntity extends LightningBolt {
 
     public TheLastEndLightingEntity(EntityType<TheLastEndLightingEntity> type, Level world) {
         super(type, world);
-        this.noCulling = true;
         this.life = 6;
         this.seed = this.random.nextLong();
         this.flashes = this.random.nextInt(40) + 1;

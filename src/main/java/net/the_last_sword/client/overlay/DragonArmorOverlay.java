@@ -62,11 +62,11 @@ public class DragonArmorOverlay {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(net.minecraft.client.renderer.CoreShaders.POSITION_TEX);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         //绘制全屏叠加层
-        gui.blit(OVERLAY_TEXTURE, 0, 0, 0, 0, screenWidth, screenHeight, screenWidth, screenHeight);
+        gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, OVERLAY_TEXTURE, 0, 0, 0, 0, screenWidth, screenHeight, screenWidth, screenHeight);
 
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();

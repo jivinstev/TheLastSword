@@ -104,13 +104,13 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
         return result;
     }
 
-    @Override
+    
     public boolean canCraftInDimensions(int width, int height) {
         return width >= 2 && height >= 2;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return ModRecipes.LUCK_MODIFIER_CRAFTING_SERIALIZER.get();
     }
 }

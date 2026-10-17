@@ -12,12 +12,12 @@ public class DragonCultPriestArmorModel extends GeoModel<DragonCultPriestArmorIt
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCultPriestArmorItem object) {
+    public ResourceLocation getModelResource(DragonCultPriestArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultPriestArmorItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_cult_priest_armor.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCultPriestArmorItem object) {
+    public ResourceLocation getTextureResource(DragonCultPriestArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultPriestArmorItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/item/dragon_cult_priest_armor.png");
     }
 }

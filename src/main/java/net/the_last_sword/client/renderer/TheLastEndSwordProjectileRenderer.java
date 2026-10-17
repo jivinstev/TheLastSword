@@ -3,12 +3,17 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -23,7 +28,16 @@ import java.util.Deque;
 
 //最终之剑弹射物渲染器 - 末影水晶模型 + 红蓝螺旋拖尾
 @OnlyIn(Dist.CLIENT)
-public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEndSwordProjectile> {
+public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEndSwordProjectile, TheLastEndSwordProjectileRenderer.TrailRenderState> {
+
+    //渲染状态：在提取阶段拷贝实体数据，供渲染阶段使用
+    public static class TrailRenderState extends EntityRenderState {
+        public int tickCount;
+        public float partialTicks;
+        public Vec3 currentPos;
+        public Vec3 entityRenderPos;
+        public Vec3[] trailPositions = new Vec3[0];
+    }
 
     private static final ResourceLocation END_CRYSTAL_LOCATION = ResourceLocation.parse("textures/entity/end_crystal/end_crystal.png");
     private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(END_CRYSTAL_LOCATION);
@@ -38,24 +52,56 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
 
     public TheLastEndSwordProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
-        ModelPart root = context.bakeLayer(ModelLayers.END_CRYSTAL);
+        //1.21.2 rebuilt vanilla's END_CRYSTAL layer as nested outer_glass > inner_glass > cube (no root "glass"/"cube",
+        //and rendering outer_glass draws its children too), so this renderer bakes 1.21.1's flat crystal layer itself
+        ModelPart root = createLegacyCrystalLayer().bakeRoot();
         this.glass = root.getChild("glass");
         this.cube = root.getChild("cube");
     }
 
+    //1.21.1's EndCrystalRenderer.createBodyLayer: glass and cube are separate root parts, both 8x8x8 at the origin
+    private static LayerDefinition createLegacyCrystalLayer() {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+        root.addOrReplaceChild("glass", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+        root.addOrReplaceChild("cube", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+        root.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 16).addBox(-6.0F, 0.0F, -6.0F, 12.0F, 4.0F, 12.0F), PartPose.ZERO);
+        return LayerDefinition.create(mesh, 64, 32);
+    }
+
     @Override
-    public void render(TheLastEndSwordProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public TrailRenderState createRenderState() {
+        return new TrailRenderState();
+    }
+
+    @Override
+    public void extractRenderState(TheLastEndSwordProjectile entity, TrailRenderState state, float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        state.tickCount = entity.tickCount;
+        state.partialTicks = partialTicks;
+        state.currentPos = entity.position();
+        state.entityRenderPos = new Vec3(
+                Mth.lerp(partialTicks, entity.xOld, entity.getX()),
+                Mth.lerp(partialTicks, entity.yOld, entity.getY()),
+                Mth.lerp(partialTicks, entity.zOld, entity.getZ())
+        );
+        Deque<Vec3> trail = entity.getTrailPositions();
+        state.trailPositions = trail.toArray(new Vec3[0]);
+    }
+
+    @Override
+    public void render(TrailRenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         //渲染末影水晶模型
-        renderCrystal(entity, partialTicks, poseStack, buffer, packedLight);
+        renderCrystal(state, state.partialTicks, poseStack, buffer, packedLight);
 
         //渲染拖尾
-        renderTrail(entity, partialTicks, poseStack, buffer);
+        renderTrail(state, state.partialTicks, poseStack, buffer);
 
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        super.render(state, poseStack, buffer, packedLight);
     }
 
     //渲染末影水晶模型
-    private void renderCrystal(TheLastEndSwordProjectile entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    private void renderCrystal(TrailRenderState entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         float time = (entity.tickCount + partialTicks) * 3.0f;
@@ -88,19 +134,14 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
     }
 
     //渲染红蓝双螺旋拖尾
-    private void renderTrail(TheLastEndSwordProjectile entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        Deque<Vec3> trail = entity.getTrailPositions();
-        if (trail.size() < 2) return;
+    private void renderTrail(TrailRenderState entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
+        Vec3[] positions = entity.trailPositions;
+        if (positions.length < 2) return;
 
         //当前插值位置
-        Vec3 currentPos = entity.position();
-        Vec3 entityRenderPos = new Vec3(
-                Mth.lerp(partialTicks, entity.xOld, entity.getX()),
-                Mth.lerp(partialTicks, entity.yOld, entity.getY()),
-                Mth.lerp(partialTicks, entity.zOld, entity.getZ())
-        );
+        Vec3 currentPos = entity.currentPos;
+        Vec3 entityRenderPos = entity.entityRenderPos;
 
-        Vec3[] positions = trail.toArray(new Vec3[0]);
         int count = positions.length;
 
         VertexConsumer trailConsumer = buffer.getBuffer(RenderType.LIGHTNING);
@@ -178,8 +219,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
         }
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(TheLastEndSwordProjectile entity) {
+    public ResourceLocation getTextureLocation(TrailRenderState entity) {
         return END_CRYSTAL_LOCATION;
     }
 }

@@ -1,14 +1,8 @@
 {
   "type": "minecraft:smithing_transform",
-  "template": {
-    "item": "the_last_sword:dragon_crystal_upgrade_template"
-  },
-  "base": {
-    "item": "minecraft:netherite_sword"
-  },
-  "addition": {
-    "item": "the_last_sword:dragon_crystal"
-  },
+  "template": "the_last_sword:dragon_crystal_upgrade_template",
+  "base": "minecraft:netherite_sword",
+  "addition": "the_last_sword:dragon_crystal",
   "result": {
     "id": "the_last_sword:dragon_crystal_sword"
   }

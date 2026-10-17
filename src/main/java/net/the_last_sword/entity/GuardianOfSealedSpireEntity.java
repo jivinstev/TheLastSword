@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -173,7 +173,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
@@ -320,7 +320,7 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
 
         if (level() instanceof ServerLevel serverLevel) {
             newEntity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                EntitySpawnReason.CONVERSION, null);
         }
 
         if (getTarget() != null) {
@@ -339,11 +339,12 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
         return false;
     }
 
+    // 同类守卫之间不互相伤害。1.21.2: server-side damage goes through hurtServer (1.21.1's hurt override)
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
         if (source.getEntity() instanceof GuardianOfSealedSpireEntity) {
             return false;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(serverLevel, source, amount);
     }
 }

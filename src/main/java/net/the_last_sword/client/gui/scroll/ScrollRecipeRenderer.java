@@ -3,16 +3,21 @@ package net.the_last_sword.client.gui.scroll;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
+import net.minecraft.world.item.crafting.display.SmithingRecipeDisplay;
 import net.the_last_sword.client.recipe.ClientDragonCrystalRecipeCache;
 import net.the_last_sword.mixin.SmithingTransformRecipeAccessor;
 import net.the_last_sword.recipe.DragonCrystalSmithingRecipe;
@@ -44,8 +49,7 @@ public final class ScrollRecipeRenderer {
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
-            Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId)
-                    .map(RecipeHolder::value);
+            Optional<Recipe<?>> recipe = findRecipe(minecraft, recipeId);
             if (recipe.isPresent()
                     && (recipe.get() instanceof SmithingTransformRecipe
                     || recipe.get() instanceof DragonCrystalSmithingRecipe)) {
@@ -53,6 +57,28 @@ public final class ScrollRecipeRenderer {
             }
         }
         return CRAFTING_DISPLAY_HEIGHT;
+    }
+
+    //1.21.4: the client holds no recipe manager. The server sends its crafting and smithing recipes
+    //(OnDatapackSyncEvent.sendRecipes, ServerEventHandler); a dedicated server or LAN host's recipes arrive here
+    private static RecipeMap receivedRecipes = RecipeMap.EMPTY;
+
+    public static synchronized void setReceivedRecipes(RecipeMap recipes) {
+        receivedRecipes = recipes == null ? RecipeMap.EMPTY : recipes;
+    }
+
+    private static synchronized Optional<Recipe<?>> findRecipe(Minecraft minecraft, ResourceLocation recipeId) {
+        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, recipeId);
+        RecipeHolder<?> received = receivedRecipes.byKey(key);
+        if (received != null) {
+            return Optional.of(received.value());
+        }
+        if (minecraft.getSingleplayerServer() == null) {
+            return Optional.empty();
+        }
+        return minecraft.getSingleplayerServer().getRecipeManager()
+                .byKey(key)
+                .<Recipe<?>>map(RecipeHolder::value);
     }
 
     public static ItemStack render(ResourceLocation recipeId, GuiGraphics graphics, Font font,
@@ -70,8 +96,7 @@ public final class ScrollRecipeRenderer {
             return renderMissing(recipeId, graphics, font, areaX, areaY);
         }
 
-        Optional<? extends Recipe<?>> recipe = minecraft.level.getRecipeManager().byKey(recipeId)
-                .map(RecipeHolder::value);
+        Optional<Recipe<?>> recipe = findRecipe(minecraft, recipeId);
         if (recipe.isEmpty()) {
             return renderMissing(recipeId, graphics, font, areaX, areaY);
         }
@@ -79,19 +104,20 @@ public final class ScrollRecipeRenderer {
         Recipe<?> value = recipe.get();
         if (value instanceof ShapedRecipe shapedRecipe) {
             return renderCrafting(shapedRecipe.getIngredients(), shapedRecipe.getWidth(), shapedRecipe.getHeight(),
-                    shapedRecipe.getResultItem(minecraft.level.registryAccess()), graphics, font,
+                    shapedRecipe.assemble(CraftingInput.EMPTY, minecraft.level.registryAccess()), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, false);
         }
         if (value instanceof ShapelessRecipe shapelessRecipe) {
-            return renderCrafting(shapelessRecipe.getIngredients(), GRID_SIZE, GRID_SIZE,
-                    shapelessRecipe.getResultItem(minecraft.level.registryAccess()), graphics, font,
+            return renderCrafting(shapelessRecipe.placementInfo().ingredients().stream().map(Optional::of).toList(), GRID_SIZE, GRID_SIZE,
+                    shapelessRecipe.assemble(CraftingInput.EMPTY, minecraft.level.registryAccess()), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, true);
         }
         if (value instanceof SmithingTransformRecipe smithingRecipe) {
             SmithingTransformRecipeAccessor accessor = (SmithingTransformRecipeAccessor) smithingRecipe;
-            return renderSmithing(accessor.theLastSword$getTemplate(), accessor.theLastSword$getBase(),
-                    accessor.theLastSword$getAddition(),
-                    smithingRecipe.getResultItem(minecraft.level.registryAccess()), graphics, font,
+            SmithingRecipeDisplay smithingDisplay = (SmithingRecipeDisplay) smithingRecipe.display().getFirst();
+            return renderSmithing(accessor.theLastSword$getTemplate().orElse(null), accessor.theLastSword$getBase().orElse(null),
+                    accessor.theLastSword$getAddition().orElse(null),
+                    smithingDisplay.result().resolveForFirstStack(ContextMap.EMPTY), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, false, 0, 0, 0);
         }
         if (value instanceof DragonCrystalSmithingRecipe dragonSmithingRecipe) {
@@ -105,7 +131,7 @@ public final class ScrollRecipeRenderer {
         return ItemStack.EMPTY;
     }
 
-    private static ItemStack renderCrafting(NonNullList<Ingredient> ingredients, int recipeWidth, int recipeHeight,
+    private static ItemStack renderCrafting(List<Optional<Ingredient>> ingredients, int recipeWidth, int recipeHeight,
                                             ItemStack result, GuiGraphics graphics, Font font,
                                             int areaX, int areaY, int areaWidth, int mouseX, int mouseY,
                                             boolean shapeless) {
@@ -134,7 +160,7 @@ public final class ScrollRecipeRenderer {
                 for (int column = 0; column < recipeWidth; column++) {
                     int ingredientIndex = row * recipeWidth + column;
                     int slotIndex = (row + offsetY) * GRID_SIZE + column + offsetX;
-                    replaceSlot(slots, slotIndex, displayStack(ingredients.get(ingredientIndex), slotIndex));
+                    replaceSlot(slots, slotIndex, displayStack(ingredients.get(ingredientIndex).orElse(null), slotIndex));
                 }
             }
         }
@@ -150,7 +176,7 @@ public final class ScrollRecipeRenderer {
     }
 
     private static void placeShapelessIngredients(List<RecipeSlotElement> slots,
-                                                  NonNullList<Ingredient> ingredients) {
+                                                  List<Optional<Ingredient>> ingredients) {
         int count = Math.min(ingredients.size(), GRID_SIZE * GRID_SIZE);
         int startIndex;
         if (count == 1) {
@@ -162,7 +188,7 @@ public final class ScrollRecipeRenderer {
         }
         for (int i = 0; i < count; i++) {
             int slotIndex = startIndex + i;
-            replaceSlot(slots, slotIndex, displayStack(ingredients.get(i), slotIndex));
+            replaceSlot(slots, slotIndex, displayStack(ingredients.get(i).orElse(null), slotIndex));
         }
     }
 
@@ -225,7 +251,9 @@ public final class ScrollRecipeRenderer {
         if (ingredient == null || ingredient.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        ItemStack[] candidates = ingredient.getItems();
+        ItemStack[] candidates = ingredient.items()
+                .map(holder -> holder.value().getDefaultInstance())
+                .toArray(ItemStack[]::new);
         if (candidates.length == 0) {
             return ItemStack.EMPTY;
         }

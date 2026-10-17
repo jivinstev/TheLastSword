@@ -9,7 +9,7 @@ public class ClientFlightHelper {
         return player instanceof LocalPlayer localPlayer
                 && localPlayer.input.forwardImpulse == 0
                 && localPlayer.input.leftImpulse == 0
-                && !localPlayer.input.jumping
-                && !localPlayer.input.shiftKeyDown;
+                && !localPlayer.input.keyPresses.jump()
+                && !localPlayer.input.keyPresses.shift();
     }
 }

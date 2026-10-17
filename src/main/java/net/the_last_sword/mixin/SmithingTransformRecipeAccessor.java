@@ -9,11 +9,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface SmithingTransformRecipeAccessor {
 
     @Accessor("template")
-    Ingredient theLastSword$getTemplate();
+    java.util.Optional<Ingredient> theLastSword$getTemplate();
 
     @Accessor("base")
-    Ingredient theLastSword$getBase();
+    java.util.Optional<Ingredient> theLastSword$getBase();
 
     @Accessor("addition")
-    Ingredient theLastSword$getAddition();
+    java.util.Optional<Ingredient> theLastSword$getAddition();
 }

@@ -225,7 +225,7 @@ public class DragonCrystalSmithingTableMenu extends AbstractContainerMenu {
                     return recipeContainer.getContainerSize();
                 }
             };
-            recipe = this.level.getRecipeManager()
+            recipe = ((net.minecraft.server.level.ServerLevel) this.level).getServer().getRecipeManager()
                 .getRecipeFor(ModRecipes.DRAGON_CRYSTAL_SMITHING_TYPE.get(), input, this.level)
                 .map(RecipeHolder::value);
         }

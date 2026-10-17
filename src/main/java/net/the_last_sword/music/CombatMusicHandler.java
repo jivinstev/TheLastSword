@@ -99,7 +99,7 @@ public class CombatMusicHandler {
         }
 
         currentMusic = new SimpleSoundInstance(
-                musicEvent.getLocation(),
+                musicEvent.location(),
                 SoundSource.MUSIC,
                 1.0F, 1.0F,
                 SoundInstance.createUnseededRandom(),

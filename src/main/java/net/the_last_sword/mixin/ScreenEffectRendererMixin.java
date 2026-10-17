@@ -18,7 +18,7 @@ public class ScreenEffectRendererMixin {
         at = @At("HEAD"),
         cancellable = true
     )
-    private static void theLastSword$cancelScreenEffectWhenPhasing(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
+    private static void theLastSword$cancelScreenEffectWhenPhasing(Minecraft minecraft, PoseStack poseStack, net.minecraft.client.renderer.MultiBufferSource mv$bufferSource, CallbackInfo ci) {
         if (minecraft.player == null) {
             return;
         }

@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -130,7 +131,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         double radiusSqr = SKILL_TALK_RADIUS * SKILL_TALK_RADIUS;
         for (Player player : level().getEntitiesOfClass(Player.class,
                 getBoundingBox().inflate(SKILL_TALK_RADIUS), player -> distanceToSqr(player) <= radiusSqr)) {
-            player.sendSystemMessage(message);
+            player.displayClientMessage(message, false);
         }
     }
 
@@ -164,8 +165,8 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
             if (!recipients.add(player.getUUID())) {
                 continue;
             }
-            player.sendSystemMessage(firstLine);
-            player.sendSystemMessage(secondLine);
+            player.displayClientMessage(firstLine, false);
+            player.displayClientMessage(secondLine, false);
         }
     }
 
@@ -200,11 +201,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         entityData.set(SUMMON_YAW, yaw);
     }
 
-    @Override
-    public AABB getBoundingBoxForCulling() {
-        return getSummonTick() >= 0 ? super.getBoundingBoxForCulling().inflate(3, 6, 3)
-                : super.getBoundingBoxForCulling();
-    }
+    // 1.21.2+: the culling box is the renderer's (ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling)
 
     public boolean isLightningSpearVisible() {
         return getAnimationState() == STATE_LIGHTNING_SPEAR && !isDying()
@@ -236,7 +233,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
             if (!level().isClientSide && player instanceof ServerPlayer serverPlayer) {
                 NpcDialogueManager.open(serverPlayer, this);
             }
-            return InteractionResult.sidedSuccess(level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
@@ -328,7 +325,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
 
         this.targetSelector.addGoal(1, new ThePastShadowOfTheQueenHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                entity -> entity instanceof Player player
+                (entity, serverLevel) -> entity instanceof Player player
                         && !isNpc()
                         && !player.isCreative()
                         && !player.isSpectator()
@@ -434,16 +431,16 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
         if (!isReady() || isNpc()) {
             return false;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(serverLevel, source, amount);
     }
 
     @Override
-    public boolean doHurtTarget(@NotNull Entity target) {
-        return !isNpc() && super.doHurtTarget(target);
+    public boolean doHurtTarget(@NotNull ServerLevel serverLevel, @NotNull Entity target) {
+        return !isNpc() && super.doHurtTarget(serverLevel, target);
     }
 
     @Override
@@ -452,7 +449,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingData) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingData);
 
         if (!level().isClientSide) {
@@ -521,8 +518,9 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         if (!reward.isEmpty()) {
             player.drop(reward, false);
         }
-        if (level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            dropFromLootTable(damageSources().playerAttack(player), true);
+        ServerLevel serverLevel = player.serverLevel();
+        if (serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            dropFromLootTable(serverLevel, damageSources().playerAttack(player), true);
         }
         TheLastSwordQuestHandler.grant(player, TheLastSwordQuestHandler.PROOF_OF_SOVEREIGNTY);
     }

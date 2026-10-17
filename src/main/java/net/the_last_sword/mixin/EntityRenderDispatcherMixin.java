@@ -14,9 +14,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
     // 在模型提交顶点前统一处理，避免模型调用被重定向后参数索引发生变化。
-    @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    // 1.21.2 dropped render's yaw argument (entity, x, y, z, partialTick, pose, buffers, light) and added render
+    // overloads for a render state; the descriptor pins the entity entry LevelRenderer calls, and the captured
+    // arguments follow it (Mixin refuses a handler whose arguments do not match: a load crash, not a compile error)
+    @ModifyVariable(
+            method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private MultiBufferSource theLastSword$phasingBuffers(MultiBufferSource original,
-            Entity entity, double x, double y, double z, float yaw, float partialTick,
+            Entity entity, double x, double y, double z, float partialTick,
             PoseStack poseStack, MultiBufferSource buffers, int light) {
         if (entity instanceof LivingEntity living && PhasingState.isPhasing(living)) {
             return PhasingBufferSource.wrap(original);

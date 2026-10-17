@@ -4,7 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -114,11 +114,11 @@ public class CataclysmMedals {
         }
 
         private boolean isOnCooldown(Player player, ItemStack stack) {
-            return player.getCooldowns().isOnCooldown(stack.getItem());
+            return player.getCooldowns().isOnCooldown(stack);
         }
 
         private void setCooldown(Player player, ItemStack stack, int ticks) {
-            player.getCooldowns().addCooldown(stack.getItem(), ticks);
+            player.getCooldowns().addCooldown(stack, ticks);
         }
 
         //被攻击时的反击效果
@@ -140,7 +140,7 @@ public class CataclysmMedals {
 
         private MobEffect getCurseOfDesertEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
             } catch (Exception ignored) {
                 return null;
             }
@@ -148,7 +148,7 @@ public class CataclysmMedals {
 
         private MobEffect getStunEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
             } catch (Exception ignored) {
                 return null;
             }
@@ -393,11 +393,11 @@ public class CataclysmMedals {
 
         //右键切换天气
         @Override
-        public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        public InteractionResult use(Level world, Player player, InteractionHand hand) {
             ItemStack stack = player.getItemInHand(hand);
 
-            if (player.getCooldowns().isOnCooldown(stack.getItem())) {
-                return InteractionResultHolder.fail(stack);
+            if (player.getCooldowns().isOnCooldown(stack)) {
+                return InteractionResult.FAIL;
             }
 
             if (world instanceof ServerLevel serverLevel) {
@@ -410,10 +410,10 @@ public class CataclysmMedals {
                 } else {
                     serverLevel.setWeatherParameters(0, 6000, true, false);
                 }
-                player.getCooldowns().addCooldown(stack.getItem(), 600);
+                player.getCooldowns().addCooldown(stack, 600);
             }
 
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
 
         //攻击时的被动效果
@@ -441,7 +441,7 @@ public class CataclysmMedals {
                         int moistureLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect)).getAmplifier() + 1;
                         float lightningDamage = moistureLevel * 5.0f;
 
-                        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world);
+                        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
                         if (lightning != null) {
                             lightning.moveTo(target.getX(), target.getY(), target.getZ());
                             lightning.setVisualOnly(false);
@@ -457,7 +457,7 @@ public class CataclysmMedals {
 
         private MobEffect getMoistureEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.fromNamespaceAndPath("cataclysm", "wetness"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "wetness"));
             } catch (Exception ignored) {
                 return null;
             }

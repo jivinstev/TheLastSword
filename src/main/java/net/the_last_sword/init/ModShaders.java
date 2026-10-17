@@ -1,10 +1,10 @@
 package net.the_last_sword.init;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.the_last_sword.mv.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.the_last_sword.mv.RegisterShadersEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
@@ -28,6 +28,33 @@ public class ModShaders {
             DefaultVertexFormat.BLOCK
         );
         event.registerShader(shader, TheLastEndEffect::setShader);
-        event.registerShader(new ZeroPointEngineShader(event.getResourceProvider()), ZeroPointEngineShader::setShader);
+        event.registerShader(new ZeroPointEngineProgram(event.getResourceProvider()), ZeroPointEngineShader::setShader);
+    }
+
+    // 1.21.2+: EcaShaderInstance no longer extends the fork's ShaderInstance, so ZeroPointEngineShader's apply() lives here
+    private static final class ZeroPointEngineProgram extends ShaderInstance {
+        private static final long ANIMATION_START_NANOS = System.nanoTime();
+        private static final long GLOW_CYCLE_NANOS = 6_000_000_000L;
+        private final com.mojang.blaze3d.shaders.Uniform localUvMin;
+        private final com.mojang.blaze3d.shaders.Uniform localUvScale;
+        private final com.mojang.blaze3d.shaders.Uniform glowPhase;
+
+        ZeroPointEngineProgram(net.minecraft.server.packs.resources.ResourceProvider provider) throws IOException {
+            super(provider, ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
+                    DefaultVertexFormat.NEW_ENTITY);
+            localUvMin = getUniform("LocalUvMin");
+            localUvScale = getUniform("LocalUvScale");
+            glowPhase = getUniform("GlowPhase");
+        }
+
+        @Override
+        public void apply() {
+            net.eca.client.render.shader.EcaShaderInstance.applyLocalUvBoundsUniforms(localUvMin, localUvScale);
+            if (glowPhase != null) {
+                glowPhase.set((float) ((System.nanoTime() - ANIMATION_START_NANOS) % GLOW_CYCLE_NANOS)
+                        / GLOW_CYCLE_NANOS);
+            }
+            super.apply();
+        }
     }
 }

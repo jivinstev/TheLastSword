@@ -56,7 +56,7 @@ public class LuckyWellEvent extends LuckyEvent {
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player != null) {
-                player.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
+                { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY)); }
             }
             return;
         }

@@ -111,7 +111,7 @@ public class DragonCultPaladinHeavyAttackGoal extends DangerousSkillGoal<DragonC
             //先破盾再结算，否则伤害会被格挡吃掉
             disableBlocking(target);
 
-            if (target.hurt(paladin.damageSources().mobAttack(paladin), damage)) {
+            if (net.the_last_sword.mv.Hurt.server(target,paladin.damageSources().mobAttack(paladin), damage)) {
                 target.knockback(KNOCKBACK_STRENGTH,
                     getDangerousSkillOrigin().x - target.getX(),
                     getDangerousSkillOrigin().z - target.getZ());
@@ -148,7 +148,7 @@ public class DragonCultPaladinHeavyAttackGoal extends DangerousSkillGoal<DragonC
 
         int disableTime = TheLastSwordConfiguration.getDragonCultPaladinHeavyAttackShieldDisableTimeSafely();
         if (disableTime > 0) {
-            player.getCooldowns().addCooldown(blockingStack.getItem(), disableTime);
+            player.getCooldowns().addCooldown(blockingStack, disableTime);
         }
         //事件30：播放盾牌破防音效与动作
         player.level().broadcastEntityEvent(player, (byte) 30);

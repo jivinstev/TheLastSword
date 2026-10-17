@@ -14,7 +14,7 @@ public class DragonCrystalSmithingTableBlockItem extends BlockItem {
 
     public DragonCrystalSmithingTableBlockItem() {
         super(ModBlocks.DRAGON_CRYSTAL_SMITHING_TABLE.get(),
-            new Properties()
+            net.the_last_sword.mv.RegIds.stamp(new Properties())
                 .rarity(Rarity.UNCOMMON)
                 .fireResistant()
         );

@@ -23,7 +23,7 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用 The Last End 着色器
-                .setShaderState(new RenderStateShard.ShaderStateShard(TheLastEndEffect::getShader))
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //深度测试
                 .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                 //光照贴图
@@ -31,7 +31,7 @@ public class TheLastEndRenderTypes {
                 //透明度混合
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
                 //禁用面剔除
                 .setCullState(RenderStateShard.NO_CULL)
                 //覆盖层
@@ -52,7 +52,7 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用 The Last End 着色器
-                .setShaderState(new RenderStateShard.ShaderStateShard(TheLastEndEffect::getShader))
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //深度测试
                 .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                 //透明度混合
@@ -81,13 +81,13 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用 The Last End 着色器
-                .setShaderState(new RenderStateShard.ShaderStateShard(TheLastEndEffect::getShader))
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //深度测试
                 .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                 //透明度混合
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
                 //禁用面剔除
                 .setCullState(RenderStateShard.NO_CULL)
                 .createCompositeState(true)
@@ -106,7 +106,7 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用 The Last End 着色器
-                .setShaderState(new RenderStateShard.ShaderStateShard(TheLastEndEffect::getShader))
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //深度测试
                 .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                 //光照贴图
@@ -131,7 +131,7 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用标准位置颜色纹理着色器
-                .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getParticleShader))
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //加法混合 - 创造发光效果
                 .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
                 //禁用深度写入 - 避免遮挡其他粒子
@@ -156,7 +156,7 @@ public class TheLastEndRenderTypes {
             false,
             RenderType.CompositeState.builder()
                 //使用标准实体着色器（带光照贴图）
-                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
                 //透明度混合
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 //禁用面剔除
@@ -164,7 +164,7 @@ public class TheLastEndRenderTypes {
                 //视图偏移 Z 分层 - 防止 Z-fighting
                 .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
                 //使用指定纹理
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
                 //光照贴图
                 .setLightmapState(RenderStateShard.LIGHTMAP)
                 //覆盖层

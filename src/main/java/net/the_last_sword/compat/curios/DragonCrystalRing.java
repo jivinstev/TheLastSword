@@ -26,7 +26,7 @@ public class DragonCrystalRing extends Item implements ICurioItem {
     private static final UUID RING_UUID = UUID.fromString("c3d4e5f6-a7b8-6c7d-0e1f-2a3b4c5d6e7f");
 
     public DragonCrystalRing() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
 
     @Override

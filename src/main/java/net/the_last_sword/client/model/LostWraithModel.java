@@ -16,12 +16,12 @@ public class LostWraithModel extends GeoModel<LostWraithEntity> {
     }
 
     @Override
-    public ResourceLocation getModelResource(LostWraithEntity entity) {
+    public ResourceLocation getModelResource(LostWraithEntity entity, software.bernie.geckolib.renderer.GeoRenderer<LostWraithEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/lost_wraith.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(LostWraithEntity entity) {
+    public ResourceLocation getTextureResource(LostWraithEntity entity, software.bernie.geckolib.renderer.GeoRenderer<LostWraithEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/entities/lost_wraith.png");
     }
 

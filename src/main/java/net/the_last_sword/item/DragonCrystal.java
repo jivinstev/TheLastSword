@@ -12,7 +12,7 @@ import java.util.List;
 public class DragonCrystal extends Item {
 
     public DragonCrystal() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(64)
             .fireResistant()
             .rarity(Rarity.UNCOMMON)

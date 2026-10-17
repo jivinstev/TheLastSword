@@ -5,7 +5,7 @@ import net.the_last_sword.util.TooltipKeys;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -41,7 +41,7 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         //确保等级已初始化
@@ -50,11 +50,11 @@ public class DragonSoulLanternItem extends BlockItem implements ICurioItem, ISum
         //非潜行状态下右键空气时召唤剑灵
         if (!player.isCrouching() && !world.isClientSide) {
             WraithSummonManager.summonWraith(player, stack, world);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
 
         //其他情况（潜行或客户端）使用默认行为
-        return InteractionResultHolder.pass(stack);
+        return InteractionResult.PASS;
     }
 
     @Override

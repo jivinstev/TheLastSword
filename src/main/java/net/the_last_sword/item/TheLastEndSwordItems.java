@@ -12,6 +12,8 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
+import net.the_last_sword.compat.gear.SwordItem;
+import net.the_last_sword.compat.gear.Tier;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
@@ -28,7 +30,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     public TheLastEndSwordItems(Tier tier, int attackDamageModifier, float attackSpeedModifier,
                                 Properties properties, float destroySpeed, int toolLevel) {
-        super(tier, properties.attributes(SwordItem.createAttributes(tier, attackDamageModifier, attackSpeedModifier)));
+        super(tier, properties, SwordItem.createAttributes(tier, attackDamageModifier, attackSpeedModifier));
         this.destroySpeed = destroySpeed;
         this.toolLevel = toolLevel;
     }
@@ -124,18 +126,10 @@ public abstract class TheLastEndSwordItems extends SwordItem {
                super.supportsEnchantment(stack, enchantment);
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
+    //isEnchantable/isRepairable no longer exist: enchantability comes from the tier's ENCHANTABLE component,
+    //repair from TieredItem.isValidRepairItem
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return true;
-    }
-
-    @Override
-    public boolean isRepairable(ItemStack stack) {
         return true;
     }
 

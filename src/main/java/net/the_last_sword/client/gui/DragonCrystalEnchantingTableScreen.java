@@ -159,8 +159,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
         ItemEnchantments existingEnchants = stack.getEnchantments();
 
-        Registry<Enchantment> enchRegistry = this.world.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
-        for (Holder<Enchantment> ench : enchRegistry.holders().toList()) {
+        net.minecraft.core.HolderLookup.RegistryLookup<Enchantment> enchRegistry = this.world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        for (Holder<Enchantment> ench : enchRegistry.listElements().toList()) {
             if (ench.value().canEnchant(stack) || existingEnchants.keySet().contains(ench)) {
                 int currentLevel = existingEnchants.getLevel(ench);
                 enchantmentOptions.add(new EnchantmentOption(ench, currentLevel, currentLevel));
@@ -499,12 +499,12 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        guiGraphics.blit(texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         guiGraphics.fill(this.leftPos + 21, this.topPos + 43, this.leftPos + 21 + 16, this.topPos + 43 + 16, 0x80FF0000);
         guiGraphics.fill(this.leftPos + 201, this.topPos + 43, this.leftPos + 201 + 16, this.topPos + 43 + 16, 0x8000FF00);
 
-        guiGraphics.blit(barTexture, this.leftPos + 56, this.topPos + 15, 0, 0, 32, 128, 32, 128);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, barTexture, this.leftPos + 56, this.topPos + 15, 0, 0, 32, 128, 32, 128);
 
         int energy = this.menu.getEnergy();
         int maxEnergy = this.menu.getMaxEnergy();
@@ -711,7 +711,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
 
-        MultiBufferSource.BufferSource bufferSource = guiGraphics.bufferSource();
+        MultiBufferSource.BufferSource bufferSource = net.minecraft.client.Minecraft.getInstance().renderBuffers().bufferSource();
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.endPortal());
         Matrix4f matrix = poseStack.last().pose();
 

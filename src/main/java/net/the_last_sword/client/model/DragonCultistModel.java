@@ -17,12 +17,12 @@ public class DragonCultistModel extends GeoModel<DragonCultistEntity> {
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCultistEntity entity) {
+    public ResourceLocation getModelResource(DragonCultistEntity entity, software.bernie.geckolib.renderer.GeoRenderer<DragonCultistEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_cultist.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCultistEntity entity) {
+    public ResourceLocation getTextureResource(DragonCultistEntity entity, software.bernie.geckolib.renderer.GeoRenderer<DragonCultistEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/entities/dragon_cultist.png");
     }
 

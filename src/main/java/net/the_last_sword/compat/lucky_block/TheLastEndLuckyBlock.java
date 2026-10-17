@@ -39,7 +39,7 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
     }
 
     public TheLastEndLuckyBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
             .mapColor(MapColor.COLOR_PURPLE)
             .sound(SoundType.STONE)
             .strength(0.2F, 6_000_000.0F)
@@ -55,17 +55,17 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+    public int getLightBlock(BlockState state) {
         return 0;
     }
 
     //红石信号触发破坏
     @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean notify) {
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block neighborBlock, @org.jetbrains.annotations.Nullable net.minecraft.world.level.redstone.Orientation neighborPos, boolean notify) {
         super.neighborChanged(state, world, pos, neighborBlock, neighborPos, notify);
         if (world.hasNeighborSignal(pos)) {
             onBreak(this, world, null, pos, world.getBlockEntity(pos), ItemStack.EMPTY, true);

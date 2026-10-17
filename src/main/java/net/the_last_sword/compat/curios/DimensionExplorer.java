@@ -26,7 +26,7 @@ public class DimensionExplorer extends Item implements ICurioItem {
     private static final UUID SPEED_UUID = UUID.fromString("a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d");
 
     public DimensionExplorer() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override

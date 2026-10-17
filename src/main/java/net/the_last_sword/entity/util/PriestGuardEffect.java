@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -95,8 +96,9 @@ public final class PriestGuardEffect {
         ItemCooldowns cooldowns = player.getCooldowns();
         // 冷却按物品类型记录，遍历注册表也能覆盖饰品与已移出背包的物品。
         for (Item item : BuiltInRegistries.ITEM) {
-            if (cooldowns.isOnCooldown(item)) {
-                cooldowns.removeCooldown(item);
+            ItemStack stack = item.getDefaultInstance();
+            if (cooldowns.isOnCooldown(stack)) {
+                cooldowns.removeCooldown(BuiltInRegistries.ITEM.getKey(item));
             }
         }
     }

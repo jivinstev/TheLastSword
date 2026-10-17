@@ -28,7 +28,7 @@ public class ThePastShadowOfTheQueenExtension extends EntityExtension {
 
         @Override
         public ResourceLocation soundEventId() {
-            return ModSounds.THE_PAST_SHADOW_OF_THE_QUEEN.get().getLocation();
+            return ModSounds.THE_PAST_SHADOW_OF_THE_QUEEN.get().location();
         }
 
         @Override

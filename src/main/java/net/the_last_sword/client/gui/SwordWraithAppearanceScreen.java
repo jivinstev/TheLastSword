@@ -54,7 +54,7 @@ public class SwordWraithAppearanceScreen extends Screen {
             preview = null;
             return;
         }
-        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level);
+        preview = ModEntities.THE_LAST_END_SWORD_WRAITH.get().create(minecraft.level, net.minecraft.world.entity.EntitySpawnReason.LOAD);
         if (preview != null) {
             preview.setAppearance(appearance);
             preview.setAppearancePreview(true);

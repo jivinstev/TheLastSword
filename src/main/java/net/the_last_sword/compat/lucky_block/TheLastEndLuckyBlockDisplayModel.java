@@ -11,12 +11,12 @@ public class TheLastEndLuckyBlockDisplayModel extends GeoModel<TheLastEndLuckyBl
     }
 
     @Override
-    public ResourceLocation getModelResource(TheLastEndLuckyBlockDisplayItem animatable) {
+    public ResourceLocation getModelResource(TheLastEndLuckyBlockDisplayItem animatable, software.bernie.geckolib.renderer.GeoRenderer<TheLastEndLuckyBlockDisplayItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/the_last_end_lucky_block.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(TheLastEndLuckyBlockDisplayItem animatable) {
+    public ResourceLocation getTextureResource(TheLastEndLuckyBlockDisplayItem animatable, software.bernie.geckolib.renderer.GeoRenderer<TheLastEndLuckyBlockDisplayItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/block/the_last_end_lucky_block.png");
     }
 }

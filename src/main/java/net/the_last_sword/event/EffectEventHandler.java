@@ -96,8 +96,8 @@ public class EffectEventHandler {
     //创建虚空伤害源
     private static DamageSource createVoidDamageSource(LivingEntity attacker) {
         return new DamageSource(
-            attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.FELL_OUT_OF_WORLD),
+            attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.FELL_OUT_OF_WORLD),
             attacker,
             attacker
         );
@@ -112,7 +112,7 @@ public class EffectEventHandler {
         APPLYING_VOID_DAMAGE.set(true);
         try {
             victim.invulnerableTime = 0;
-            boolean damaged = victim.hurt(voidDamageSource, damage);
+            boolean damaged = net.the_last_sword.mv.Hurt.server(victim,voidDamageSource, damage);
             if (damaged) {
                 spawnVoidEnchantingEffects(victim, serverLevel);
             }

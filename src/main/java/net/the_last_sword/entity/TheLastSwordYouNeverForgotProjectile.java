@@ -49,7 +49,7 @@ public class TheLastSwordYouNeverForgotProjectile extends TheLastEndSwordProject
         projectile.setSnapshotDamage(0, extraDamage);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + 0.75f);
         return projectile;

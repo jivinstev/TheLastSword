@@ -22,7 +22,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -112,13 +112,13 @@ public class LostWraithEntity extends TheLastEndEntity {
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new LostWraithHurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-            entity -> entity instanceof Player player
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 10, true, false,
+            (entity, lvl) -> entity instanceof Player player
                 && !player.isCreative()
                 && !player.isSpectator()
                 && EntityUtil.canAttack(this, player)));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false,
-            entity -> DragonCultFaction.ID.equals(EcaAPI.getEntityFaction(entity))
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 10, true, false,
+            (entity, lvl) -> DragonCultFaction.ID.equals(EcaAPI.getEntityFaction(entity))
                 && EntityUtil.canAttack(this, entity)));
     }
 
@@ -201,7 +201,7 @@ public class LostWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, @NotNull DamageSource source, float amount) {
         if (!isReady()) {
             return false;
         }
@@ -211,11 +211,11 @@ public class LostWraithEntity extends TheLastEndEntity {
         if (source.is(DamageTypes.FALL)) {
             return false;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
@@ -342,7 +342,7 @@ public class LostWraithEntity extends TheLastEndEntity {
 
                 spawnActivationParticles();
             }
-            return InteractionResult.sidedSuccess(level().isClientSide);
+            return level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         // 未激活时，除龙蛋以外的任何物品（包括空手）右键都会继续对话。
@@ -350,7 +350,7 @@ public class LostWraithEntity extends TheLastEndEntity {
             if (!level().isClientSide) {
                 sendNextTalk(player);
             }
-            return InteractionResult.sidedSuccess(level().isClientSide);
+            return level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         return super.mobInteract(player, hand);
@@ -396,7 +396,9 @@ public class LostWraithEntity extends TheLastEndEntity {
             .withStyle(ChatFormatting.DARK_PURPLE)
             .append(Component.translatable(translationKey).copy().withStyle(ChatFormatting.WHITE));
 
-        player.sendSystemMessage(prefixedMessage);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(prefixedMessage);
+        }
 
         if (currentIndex < 7) {
             setTalkIndex(currentIndex + 1);
@@ -421,7 +423,9 @@ public class LostWraithEntity extends TheLastEndEntity {
             .append(Component.translatable("bossshow.the_last_sword.lost_wraith.subtitle_1")
                 .copy().withStyle(ChatFormatting.WHITE));
 
-        player.sendSystemMessage(prefixedMessage);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(prefixedMessage);
+        }
     }
 
     private void spawnActivationParticles() {

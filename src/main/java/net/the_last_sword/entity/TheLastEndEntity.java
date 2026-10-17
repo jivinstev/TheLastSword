@@ -338,7 +338,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
             return;
         }
 
-        if (!voidRescueActive && getY() < level().getMinBuildHeight() - 16.0) {
+        if (!voidRescueActive && getY() < level().getMinY() - 16.0) {
             voidRescueActive = true;
             voidRescueRetryTicks = 0;
             // 必须让正在运行的 Goal 释放自己的位置锁定，再选择传送落点。
@@ -364,9 +364,9 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
                 lastSafePosition = destination;
                 setDeltaMovement(Vec3.ZERO);
                 fallDistance = 0;
-            } else if (getY() < level().getMinBuildHeight() - 8.0) {
+            } else if (getY() < level().getMinY() - 8.0) {
                 // 无落点时停在建筑范围下方的空域，不修改实体原有的重力模式。
-                EntityUtil.theLastEndTeleport(this, getX(), level().getMinBuildHeight() - 8.0, getZ());
+                EntityUtil.theLastEndTeleport(this, getX(), level().getMinY() - 8.0, getZ());
             }
             return;
         }
@@ -401,7 +401,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
                     if (Math.max(Math.abs(dx), Math.abs(dz)) != radius) continue;
                     int x = origin.getX() + dx;
                     int z = origin.getZ() + dz;
-                    if (!level().hasChunkAt(new BlockPos(x, level().getMinBuildHeight(), z))) continue;
+                    if (!level().hasChunkAt(new BlockPos(x, level().getMinY(), z))) continue;
                     int y = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                     Vec3 safePosition = checkVoidRescuePosition(new Vec3(x + 0.5, y, z + 0.5), 2);
                     if (safePosition != null) return safePosition;
@@ -592,7 +592,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
 
     // 伤害处理
     @Override
-    public void actuallyHurt(@NotNull DamageSource damageSource, float damageAmount) {
+    public void actuallyHurt(ServerLevel serverLevel, @NotNull DamageSource damageSource, float damageAmount) {
         if (getHurtResistTick() > 0) {
             return;
         }
@@ -667,7 +667,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     }
 
     @Override
-    public void kill() {
+    public void kill(ServerLevel serverLevel) {
         if (hasPositiveRealHealth()) {
             return;
         }
@@ -770,7 +770,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
      * reward configured by each end entity instead (xpReward in its constructor).
     */
     @Override
-    protected int getBaseExperienceReward() {
+    protected int getBaseExperienceReward(ServerLevel serverLevel) {
         return this.xpReward;
     }
 

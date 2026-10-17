@@ -3,12 +3,13 @@ package net.the_last_sword.item;
 import net.eca.api.EcaAPI;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.the_last_sword.TheLastSwordMod;
+import net.the_last_sword.compat.gear.Tier;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.entity.TheLastEndSwordProjectile;
@@ -77,9 +79,9 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
 
             @Override
             public Ingredient getRepairIngredient() {
-                return Ingredient.of(new ItemStack(Items.DRAGON_EGG)); //修复材料
+                return Ingredient.of(Items.DRAGON_EGG); //修复材料
             }
-        }, 3, 2.4f, new Item.Properties().fireResistant().rarity(Rarity.EPIC), 1024f, 200);
+        }, 3, 2.4f, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.EPIC), 1024f, 200);
     }
 
     @Override
@@ -119,8 +121,8 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 } else if (mode == 1 || mode == 2) {
                     //模式1和2：物理伤害 + 虚空伤害
                     DamageSource voidDamageSource = new DamageSource(
-                            attacker.getCommandSenderWorld().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                                    .getHolderOrThrow(DamageTypes.FELL_OUT_OF_WORLD), attacker, attacker);
+                            attacker.getCommandSenderWorld().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                                    .getOrThrow(DamageTypes.FELL_OUT_OF_WORLD), attacker, attacker);
                     target.hurt(voidDamageSource, extraDamage);
                 }
             }
@@ -135,10 +137,10 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
     //模式1：执行强力范围挖掘
     //模式2：召唤或收回剑灵
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (player.getOffhandItem().getItem() == Items.SHIELD && TheLastSwordConfiguration.getBlockCancelUseSafely()) {
-            return InteractionResultHolder.pass(itemstack); //副手使用盾牌时让事件传递给盾牌
+            return InteractionResult.PASS; //副手使用盾牌时让事件传递给盾牌
         }
 
         int mode = ItemModeHelper.getMode(itemstack);
@@ -160,12 +162,12 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 WraithSummonManager.summonWraith(player, itemstack, world);
             }
         }
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResult.SUCCESS;
     }
 
     //左键挥动触发范围攻击：仅模式0生效
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
         if (returnSwing) {
             returnSwing = false;
             return true;
@@ -176,7 +178,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 performNormalModeForwardAreaAttack(player, stack);
             }
         }
-        return super.onEntitySwing(stack, entity);
+        return super.onEntitySwing(stack, entity, hand);
     }
 
     //常规模式的正前方范围攻击
@@ -428,13 +430,13 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 //清除主物品栏所有物品的冷却
                 for (ItemStack stack : player.getInventory().items) {
                     if (!stack.isEmpty()) {
-                        player.getCooldowns().removeCooldown(stack.getItem());
+                        player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(stack.getItem()));
                     }
                 }
                 //清除副手物品的冷却
                 ItemStack offhand = player.getOffhandItem();
                 if (!offhand.isEmpty()) {
-                    player.getCooldowns().removeCooldown(offhand.getItem());
+                    player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(offhand.getItem()));
                 }
             }
         }

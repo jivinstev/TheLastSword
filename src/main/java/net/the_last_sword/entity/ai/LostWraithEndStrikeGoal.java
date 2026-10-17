@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
@@ -170,7 +170,7 @@ public class LostWraithEndStrikeGoal extends DangerousSkillGoal<LostWraithEntity
                         1.0F, 0.8F + target.level().random.nextFloat() * 0.4F);
 
                     if (target instanceof Player player) {
-                        player.getCooldowns().addCooldown(target.getUseItem().getItem(),
+                        player.getCooldowns().addCooldown(target.getUseItem(),
                             TheLastSwordConfiguration.getLostWraithEndStrikeShieldCooldownSafely());
                     }
 
@@ -199,9 +199,9 @@ public class LostWraithEndStrikeGoal extends DangerousSkillGoal<LostWraithEntity
         boolean canBlock = false;
 
         if (useItem.is(Items.SHIELD)) {
-            canBlock = player.getCooldowns().getCooldownPercent(useItem.getItem(), 0.0f) == 0.0f;
-        } else if (useItem.getUseAnimation() == UseAnim.BLOCK) {
-            canBlock = player.getCooldowns().getCooldownPercent(useItem.getItem(), 0.0f) == 0.0f;
+            canBlock = player.getCooldowns().getCooldownPercent(useItem, 0.0f) == 0.0f;
+        } else if (useItem.getUseAnimation() == ItemUseAnimation.BLOCK) {
+            canBlock = player.getCooldowns().getCooldownPercent(useItem, 0.0f) == 0.0f;
         }
 
         if (!canBlock) {

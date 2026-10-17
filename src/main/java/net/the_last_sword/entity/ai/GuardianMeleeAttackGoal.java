@@ -115,6 +115,8 @@ public class GuardianMeleeAttackGoal extends Goal {
         }
 
         EntityUtil.faceTarget(guardian, target);
-        guardian.doHurtTarget(target);
+        if (guardian.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            guardian.doHurtTarget(serverLevel, target);
+        }
     }
 }

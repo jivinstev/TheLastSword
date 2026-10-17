@@ -3,7 +3,9 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -30,19 +32,17 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
     }
 
     @Override
-    public <T extends LivingEntity, M extends EntityModel<T>> void render(
+    public <S extends LivingEntityRenderState, M extends EntityModel<? super S>> void render(
             ItemStack stack,
             SlotContext slotContext,
             PoseStack poseStack,
-            RenderLayerParent<T, M> renderLayerParent,
             MultiBufferSource renderTypeBuffer,
             int light,
-            float limbSwing,
-            float limbSwingAmount,
-            float partialTicks,
-            float ageInTicks,
-            float netHeadYaw,
-            float headPitch) {
+            S renderState,
+            RenderLayerParent<S, M> renderLayerParent,
+            EntityRendererProvider.Context context,
+            float yRotation,
+            float xRotation) {
 
         poseStack.pushPose();
 
@@ -51,7 +51,8 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         ICurioRenderer.translateIfSneaking(poseStack, slotContext.entity());
 
         //设置翅膀动画
-        this.model.setupAnim(slotContext.entity(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
+            renderState.ageInTicks, yRotation, xRotation);
 
         VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
         this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, -1);

@@ -3,7 +3,10 @@ package net.the_last_sword.init;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
@@ -32,9 +35,19 @@ public class ModRecipes {
         });
 
     //终焉幸运方块幸运值合成(动态 CustomRecipe, 复刻 LuckyBlock 原版)
-    public static final Supplier<SimpleCraftingRecipeSerializer<LuckModifierCraftingRecipe>> LUCK_MODIFIER_CRAFTING_SERIALIZER =
+    public static final Supplier<RecipeSerializer<LuckModifierCraftingRecipe>> LUCK_MODIFIER_CRAFTING_SERIALIZER =
         SERIALIZERS.register("luck_modifier_crafting",
-            () -> new SimpleCraftingRecipeSerializer<>(category -> new LuckModifierCraftingRecipe(category)));
+            () -> new RecipeSerializer<LuckModifierCraftingRecipe>() {
+                @Override
+                public MapCodec<LuckModifierCraftingRecipe> codec() {
+                    return MapCodec.unit(() -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC));
+                }
+
+                @Override
+                public StreamCodec<RegistryFriendlyByteBuf, LuckModifierCraftingRecipe> streamCodec() {
+                    return StreamCodec.of((buf, recipe) -> { }, buf -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC));
+                }
+            });
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

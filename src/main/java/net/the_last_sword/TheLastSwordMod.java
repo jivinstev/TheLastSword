@@ -37,7 +37,7 @@ import net.the_last_sword.util.TheLastSwordLogger;
 import net.the_last_sword.event.ClientEventHandler;
 import net.the_last_sword.event.EnderDragonEvent;
 import net.the_last_sword.compat.apotheosis.ApotheosisCompat;
-import net.the_last_sword.compat.irons_spellbooks.SpellIntegration;
+// Iron's Spells 'n Spellbooks: no build for this Minecraft, SpellIntegration is not compiled (drops.txt)
 import net.the_last_sword.compat.CompatCheck;
 
 import java.util.Optional;
@@ -76,9 +76,7 @@ public class TheLastSwordMod {
         ModStructureTypes.register(modEventBus);
 
         // 可选施法接口仅在对应依赖存在时加载。
-        if (CompatCheck.isSpellcastingLoaded()) {
-            SpellIntegration.register(modEventBus);
-        }
+        { /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
 
         //注册内置资源包
         modEventBus.addListener(this::addPackFinders);

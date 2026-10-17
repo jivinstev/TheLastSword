@@ -6,12 +6,13 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -73,7 +74,7 @@ public class ArenaEvent extends LuckyEvent {
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player != null) {
-                player.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
+                sendMessage(player,Component.translatable(LOAD_FAILED_KEY));
             }
             return;
         }
@@ -91,7 +92,7 @@ public class ArenaEvent extends LuckyEvent {
         BlockPos playerSpawn = anchors[0];
         BlockPos enemySpawn = anchors[1];
         if (playerSpawn == null || enemySpawn == null) {
-            player.sendSystemMessage(Component.translatable(ANCHOR_MISSING_KEY));
+            sendMessage(player,Component.translatable(ANCHOR_MISSING_KEY));
             return;
         }
 
@@ -99,7 +100,7 @@ public class ArenaEvent extends LuckyEvent {
 
         TheLastSwordMod.queueServerWork(INTRO_DELAY, () -> {
             if (!isActorAlive(player, world)) return;
-            player.sendSystemMessage(Component.translatable(INTRO_KEY, player.getDisplayName()));
+            sendMessage(player,Component.translatable(INTRO_KEY, player.getDisplayName()));
         });
 
         TheLastSwordMod.queueServerWork(OPPONENT_DELAY, () -> {
@@ -107,12 +108,12 @@ public class ArenaEvent extends LuckyEvent {
             Mob opponent = pickRandomMob(world);
             if (opponent == null) return;
             opponent.moveTo(enemySpawn.getX() + 0.5, enemySpawn.getY(), enemySpawn.getZ() + 0.5, 0.0F, 0.0F);
-            opponent.finalizeSpawn(world, world.getCurrentDifficultyAt(enemySpawn), MobSpawnType.EVENT, null);
+            opponent.finalizeSpawn(world, world.getCurrentDifficultyAt(enemySpawn), EntitySpawnReason.EVENT, null);
             world.addFreshEntity(opponent);
             opponent.setTarget(player);
             opponent.addEffect(new MobEffectInstance(MobEffects.GLOWING, 999999, 0, false, false));
             ArenaBattleHandler.tagParticipants(player, opponent);
-            player.sendSystemMessage(Component.translatable(OPPONENT_KEY, opponent.getType().getDescription()));
+            sendMessage(player,Component.translatable(OPPONENT_KEY, opponent.getType().getDescription()));
         });
     }
 
@@ -149,10 +150,17 @@ public class ArenaEvent extends LuckyEvent {
         if (pool.isEmpty()) return null;
         for (int tries = 0; tries < OPPONENT_PICK_RETRIES; tries++) {
             EntityType<?> type = pool.get(random.nextInt(pool.size()));
-            Entity e = type.create(world);
+            Entity e = type.create(world, EntitySpawnReason.EVENT);
             if (e instanceof Mob mob) return mob;
         }
         return null;
+    }
+
+    //1.21.4 中 sendSystemMessage 只在 ServerPlayer 上; 事件总在服务端执行, 玩家必为 ServerPlayer
+    private static void sendMessage(Player player, Component message) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(message);
+        }
     }
 
     private static boolean isActorAlive(Player player, ServerLevel world) {

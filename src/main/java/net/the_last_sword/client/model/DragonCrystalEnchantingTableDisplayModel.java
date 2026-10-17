@@ -12,12 +12,12 @@ public class DragonCrystalEnchantingTableDisplayModel extends GeoModel<DragonCry
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCrystalEnchantingTableDisplayItem animatable) {
+    public ResourceLocation getModelResource(DragonCrystalEnchantingTableDisplayItem animatable, software.bernie.geckolib.renderer.GeoRenderer<DragonCrystalEnchantingTableDisplayItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_crystal_enchanting_table.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCrystalEnchantingTableDisplayItem animatable) {
+    public ResourceLocation getTextureResource(DragonCrystalEnchantingTableDisplayItem animatable, software.bernie.geckolib.renderer.GeoRenderer<DragonCrystalEnchantingTableDisplayItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/block/dragon_crystal_enchanting_table.png");
     }
 }

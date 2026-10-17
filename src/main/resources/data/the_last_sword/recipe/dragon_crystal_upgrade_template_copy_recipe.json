@@ -7,15 +7,9 @@
     "aaa"
   ],
   "key": {
-    "a": {
-      "item": "the_last_sword:dragon_crystal"
-    },
-    "b": {
-      "item": "the_last_sword:dragon_crystal_upgrade_template"
-    },
-    "c": {
-      "item": "minecraft:end_crystal"
-    }
+    "a": "the_last_sword:dragon_crystal",
+    "b": "the_last_sword:dragon_crystal_upgrade_template",
+    "c": "minecraft:end_crystal"
   },
   "result": {
     "id": "the_last_sword:dragon_crystal_upgrade_template",

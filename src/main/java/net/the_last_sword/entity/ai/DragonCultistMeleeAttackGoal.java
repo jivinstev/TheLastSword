@@ -122,7 +122,9 @@ public class DragonCultistMeleeAttackGoal extends Goal {
         if (cultist.distanceTo(target) > TheLastSwordConfiguration.getDragonCultistMeleeAttackRangeSafely()) {
             return;
         }
-        cultist.doHurtTarget(target);
+        if (cultist.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            cultist.doHurtTarget(serverLevel, target);
+        }
     }
 
     private float getHpRatio() {

@@ -56,7 +56,7 @@ public class LightningSpearProjectile extends AbstractArrow {
         Vec3 previousPosition = position();
         if (!level().isClientSide) {
             setNoGravity(true);
-            if (inGround) {
+            if (isInGround()) {
                 detonate(position());
                 return;
             }
@@ -112,11 +112,11 @@ public class LightningSpearProjectile extends AbstractArrow {
         AABB area = new AABB(center, center).inflate(halfSize);
         if (owner != null) {
             DamageSource source = new DamageSource(
-                    serverLevel.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                            .getHolderOrThrow(DamageTypes.LIGHTNING_BOLT), this, owner);
+                    serverLevel.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                            .getOrThrow(DamageTypes.LIGHTNING_BOLT), this, owner);
             for (LivingEntity target : serverLevel.getEntitiesOfClass(LivingEntity.class, area,
                     entity -> entity.isAlive() && entity != owner && EntityUtil.canAttack(owner, entity))) {
-                boolean damaged = target.hurt(source, (float) settings.damage());
+                boolean damaged = net.the_last_sword.mv.Hurt.server(target,source, (float) settings.damage());
                 if (settings.slowTicks() > 0) {
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
                             settings.slowTicks(), settings.slowLevel() - 1), owner);

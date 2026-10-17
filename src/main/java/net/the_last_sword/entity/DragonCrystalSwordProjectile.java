@@ -51,8 +51,8 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
     protected void applyBaseDamage(Entity target) {
         if (this.getOwner() instanceof LivingEntity owner && snapshotBaseDamage > 0) {
             DamageSource projectileDamageSource = new DamageSource(
-                this.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypes.GENERIC),
+                this.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                    .getOrThrow(DamageTypes.GENERIC),
                 this, owner
             );
             target.hurt(projectileDamageSource, snapshotBaseDamage);
@@ -64,8 +64,8 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
     protected void applyExtraDamage(Entity target) {
         if (this.getOwner() instanceof LivingEntity owner && snapshotExtraDamage > 0) {
             DamageSource magicDamageSource = new DamageSource(
-                this.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypes.MAGIC),
+                this.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                    .getOrThrow(DamageTypes.MAGIC),
                 this, owner
             );
             target.hurt(magicDamageSource, snapshotExtraDamage);
@@ -76,7 +76,7 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
     @Override
     protected void applyVisualEffect(Entity target) {
         if (this.level() instanceof ServerLevel serverLevel) {
-            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
+            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (lightning != null) {
                 lightning.moveTo(Vec3.atBottomCenterOf(BlockPos.containing(this.getX(), this.getY(), this.getZ())));
                 lightning.setVisualOnly(true);
@@ -114,7 +114,7 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
         world.playSound(
             null,
             entity.getX(), entity.getY(), entity.getZ(),
-            BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.arrow.shoot")),
+            BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.arrow.shoot")),
             SoundSource.PLAYERS,
             1,
             1f / (random.nextFloat() * 0.5f + 1) + 0.5f

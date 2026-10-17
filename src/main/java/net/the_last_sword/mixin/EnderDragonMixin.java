@@ -34,7 +34,7 @@ public abstract class EnderDragonMixin {
         return EnderDragonEvent.scaleDragonContactDamage((EnderDragon) (Object) this, originalDamage);
     }
 
-    @ModifyConstant(method = "hurt(Ljava/util/List;)V", constant = @Constant(floatValue = 10.0F))
+    @ModifyConstant(method = "hurt(Lnet/minecraft/server/level/ServerLevel;Ljava/util/List;)V", constant = @Constant(floatValue = 10.0F))
     private float theLastSword$scaleHeadDamage(float originalDamage) {
         return EnderDragonEvent.scaleDragonContactDamage((EnderDragon) (Object) this, originalDamage);
     }

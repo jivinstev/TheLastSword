@@ -14,7 +14,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.item.DragonSword;
 import net.the_last_sword.ItemNbt;
 import net.the_last_sword.item.TheLastSword;
-import net.the_last_sword.compat.projecte.TransmutationStaffBehavior;
 import net.the_last_sword.test.UltraTestSwordItem;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 
@@ -51,13 +50,6 @@ public class ChangeModePacket implements CustomPacketPayload {
             ItemStack stack = player.getMainHandItem();
             if (stack.isEmpty()) return;
 
-            if (TransmutationStaffBehavior.isStaff(stack)) {
-                if (player.containerMenu != player.inventoryMenu) return;
-                TransmutationStaffBehavior.initialize(stack);
-                // 切换用途前通过原有释放流程中断吟唱。
-                if (player.isUsingItem()) player.releaseUsingItem();
-            }
-
             //检查物品是否支持模式切换（通过检查是否有Mode NBT）
             if (!ItemNbt.hasTag(stack) || !ItemNbt.getTag(stack).contains("the_last_sword.mode")) {
                 return;
@@ -91,16 +83,13 @@ public class ChangeModePacket implements CustomPacketPayload {
             //播放音效
             ResourceLocation snd = ResourceLocation.parse("entity.ender_dragon.flap");
             player.level().playSound(null, player.blockPosition(),
-                    BuiltInRegistries.SOUND_EVENT.get(snd),
+                    BuiltInRegistries.SOUND_EVENT.getValue(snd),
                     SoundSource.PLAYERS, 1f, 1f);
         });
     }
 
     //根据物品类型和模式ID获取翻译键
     private static String getModeTranslationKey(ItemStack stack, int mode) {
-        if (TransmutationStaffBehavior.isStaff(stack)) {
-            return TransmutationStaffBehavior.modeKey(mode);
-        }
         //检查是否是最终之剑
         if (stack.getItem() instanceof TheLastSword) {
             return switch (mode) {
@@ -121,7 +110,7 @@ public class ChangeModePacket implements CustomPacketPayload {
         }
 
         //检查是否是究极测试剑
-        if (stack.getItem() instanceof UltraTestSwordItem) {
+        if ((Object) stack.getItem() instanceof UltraTestSwordItem) {
             return switch (mode) {
                 case 0 -> "item_tooltip.the_last_sword.powerful_range_attack_mode";
                 case 1 -> "item_tooltip.the_last_sword.mob_battle_mode";

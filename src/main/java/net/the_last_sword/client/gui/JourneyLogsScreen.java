@@ -111,7 +111,7 @@ public class JourneyLogsScreen extends Screen {
 
         //渲染卷轴背景
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        graphics.blit(SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
+        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
         //标题
         graphics.drawString(this.font, Component.translatable("gui.the_last_sword.the_last_end_scroll.chapter_7"),

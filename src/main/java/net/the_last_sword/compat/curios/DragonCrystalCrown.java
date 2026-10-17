@@ -26,7 +26,7 @@ public class DragonCrystalCrown extends Item implements ICurioItem {
     private static final UUID CROWN_UUID = UUID.fromString("b2c3d4e5-f6a7-5b6c-9d8e-0f1a2b3c4d5e");
 
     public DragonCrystalCrown() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override

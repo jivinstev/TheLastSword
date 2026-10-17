@@ -84,14 +84,14 @@ public final class PresentWorldAnchorHealthOverlay {
             int x = left + heartIndex % HEARTS_PER_ROW * ICON_SPACING;
             int y = top - heartIndex / HEARTS_PER_ROW * rowHeight;
             if (leftBlocked && rightBlocked) {
-                guiGraphics.blit(ICON, x, y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+                guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, x, y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
             } else if (leftBlocked) {
                 int halfWidth = (ICON_SIZE + 1) / 2;
-                guiGraphics.blit(ICON, x, y, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+                guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, x, y, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
             } else {
                 int sourceX = ICON_SIZE / 2;
                 int halfWidth = ICON_SIZE - sourceX;
-                guiGraphics.blit(ICON, x + sourceX, y, sourceX, 0,
+                guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, x + sourceX, y, sourceX, 0,
                         halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
             }
         }

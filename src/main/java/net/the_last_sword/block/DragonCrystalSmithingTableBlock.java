@@ -21,7 +21,7 @@ import net.the_last_sword.block.entity.DragonCrystalSmithingTableBlockEntity;
 public class DragonCrystalSmithingTableBlock extends Block implements EntityBlock {
 
     public DragonCrystalSmithingTableBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
             .sound(SoundType.ANVIL)
             .strength(5.0f, 1200.0f)
             .lightLevel(state -> 1)
@@ -42,7 +42,7 @@ public class DragonCrystalSmithingTableBlock extends Block implements EntityBloc
                 serverPlayer.openMenu(be);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DragonCrystalSmithingTableBlock extends Block implements EntityBloc
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+    public int getLightBlock(BlockState state) {
         return 15;
     }
 

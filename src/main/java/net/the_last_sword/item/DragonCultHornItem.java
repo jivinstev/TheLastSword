@@ -7,7 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.InstrumentItem;
 import net.minecraft.world.item.Item;
@@ -30,23 +30,22 @@ public class DragonCultHornItem extends InstrumentItem {
     private static final String RAID_ACTIVE_KEY = "message.the_last_sword.dragon_cult_horn_raid_active";
 
     public DragonCultHornItem() {
-        super(new Item.Properties()
+        super(ModInstruments.DRAGON_CULT_HORNS, net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(1)
-                .rarity(Rarity.UNCOMMON),
-            ModInstruments.DRAGON_CULT_HORNS
+                .rarity(Rarity.UNCOMMON)
         );
     }
 
     //右键即吹响：播号角声、进冷却，并当场判定袭击
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         //音量取自原版乐器算法：传播距离除以16
         level.playSound(player, player, SoundEvents.RAID_HORN.value(), SoundSource.RECORDS,
                 ModInstruments.RANGE / 16.0F, 1.0F);
         level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
-        player.getCooldowns().addCooldown(this, ModInstruments.USE_DURATION);
+        player.getCooldowns().addCooldown(stack, ModInstruments.USE_DURATION);
         player.awardStat(Stats.ITEM_USED.get(this));
 
         //只有真正召来一场新袭击才消耗号角
@@ -64,7 +63,7 @@ public class DragonCultHornItem extends InstrumentItem {
             }
         }
 
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Override

@@ -8,7 +8,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -37,37 +41,33 @@ public abstract class DragonCultistArmorItem extends ArmorItem implements GeoIte
     //护甲值按 [靴子, 护腿, 胸甲, 头盔] 排列
     private static final int[] DEFENSE_PER_TYPE = {1, 4, 5, 2};
 
-    private static final Map<ArmorItem.Type, Integer> DEFENSE = Map.of(
-            ArmorItem.Type.BOOTS, DEFENSE_PER_TYPE[0],
-            ArmorItem.Type.LEGGINGS, DEFENSE_PER_TYPE[1],
-            ArmorItem.Type.CHESTPLATE, DEFENSE_PER_TYPE[2],
-            ArmorItem.Type.HELMET, DEFENSE_PER_TYPE[3]);
+    private static final Map<ArmorType, Integer> DEFENSE = Map.of(
+            ArmorType.BOOTS, DEFENSE_PER_TYPE[0],
+            ArmorType.LEGGINGS, DEFENSE_PER_TYPE[1],
+            ArmorType.CHESTPLATE, DEFENSE_PER_TYPE[2],
+            ArmorType.HELMET, DEFENSE_PER_TYPE[3]);
 
+    //耐久单位即倍率，各部位耐久 = 13/15/16/11 × 倍率
     private static final ArmorMaterial MATERIAL = new ArmorMaterial(
+            DURABILITY_MULTIPLIER,
             DEFENSE,
             15,
             SoundEvents.ARMOR_EQUIP_LEATHER,
-            () -> Ingredient.of(Items.LEATHER),
-            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("the_last_sword:dragon_cultist_armor"))),
             1.0F,
-            0.0F);
-
-    private static final Holder<ArmorMaterial> MATERIAL_HOLDER = Holder.direct(MATERIAL);
+            0.0F,
+            ItemTags.REPAIRS_LEATHER_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse("the_last_sword:dragon_cultist_armor")));
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    protected DragonCultistArmorItem(Type type) {
-        super(MATERIAL_HOLDER, type, new Properties().durability(DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER));
+    protected DragonCultistArmorItem(ArmorType type) {
+        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
     }
 
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
         consumer.accept(DragonCultArmorClientExtensions.cultist());
-    }
-
-    @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.parse(TEXTURE);
     }
 
     @Override
@@ -89,25 +89,25 @@ public abstract class DragonCultistArmorItem extends ArmorItem implements GeoIte
 
     public static class Helmet extends DragonCultistArmorItem {
         public Helmet() {
-            super(Type.HELMET);
+            super(ArmorType.HELMET);
         }
     }
 
     public static class Chestplate extends DragonCultistArmorItem {
         public Chestplate() {
-            super(Type.CHESTPLATE);
+            super(ArmorType.CHESTPLATE);
         }
     }
 
     public static class Leggings extends DragonCultistArmorItem {
         public Leggings() {
-            super(Type.LEGGINGS);
+            super(ArmorType.LEGGINGS);
         }
     }
 
     public static class Boots extends DragonCultistArmorItem {
         public Boots() {
-            super(Type.BOOTS);
+            super(ArmorType.BOOTS);
         }
     }
 }

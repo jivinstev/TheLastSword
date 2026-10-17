@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "the_last_sword:item/guardian_of_sealed_spire_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 4934475
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 9109759
+      }
+    ]
+  }
+}

@@ -5,12 +5,13 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.test.TestEntity;
 
 //测试实体渲染器
-public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, HumanoidModel<TestEntity>> {
+public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
 
     private static final ResourceLocation TEXTURE =
         ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
@@ -23,17 +24,22 @@ public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, Humanoid
         );
 
         //添加护甲层
-        this.addLayer(new HumanoidArmorLayer<>(
+        this.addLayer(new HumanoidArmorLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>, HumanoidModel<HumanoidRenderState>>(
             this,
             new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
             new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
-            context.getModelManager()
+            context.getEquipmentRenderer()
         ));
 
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TestEntity entity) {
+    public HumanoidRenderState createRenderState() {
+        return new HumanoidRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(HumanoidRenderState state) {
         return TEXTURE;
     }
 }

@@ -124,7 +124,7 @@ public class PaperNoteScreen extends Screen {
 
         //渲染纸条背景（512高清贴图缩放至256）
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        graphics.blit(PAPER_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, 512, 512);
+        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, PAPER_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, 512, 512);
 
         //标题
         graphics.drawString(this.font, Component.translatable(nameKey),

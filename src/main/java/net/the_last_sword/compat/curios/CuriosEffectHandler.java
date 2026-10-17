@@ -184,7 +184,7 @@ public class CuriosEffectHandler {
             return;
         }
 
-        if (player.getCooldowns().isOnCooldown(ModItems.DIMENSION_EXPLORER.get())) {
+        if (player.getCooldowns().isOnCooldown(new net.minecraft.world.item.ItemStack(ModItems.DIMENSION_EXPLORER.get()))) {
             return;
         }
 
@@ -217,7 +217,7 @@ public class CuriosEffectHandler {
         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, effectDuration, speedAmplifier, false, true, true));
 
         //进入冷却
-        player.getCooldowns().addCooldown(ModItems.DIMENSION_EXPLORER.get(), cooldown);
+        player.getCooldowns().addCooldown(new net.minecraft.world.item.ItemStack(ModItems.DIMENSION_EXPLORER.get()), cooldown);
     }
 
     //获取玩家装备的指定Curios饰品ItemStack（未装备返回EMPTY）

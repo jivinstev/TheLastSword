@@ -17,7 +17,7 @@ public class DragonSoulLanternBlock extends LanternBlock {
     private static final VoxelShape HANGING_SHAPE = Block.box(4.5, 8, 4.5, 11.5, 16, 11.5);
 
     public DragonSoulLanternBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(net.the_last_sword.mv.RegIds.stamp(BlockBehaviour.Properties.of())
                 .sound(SoundType.LANTERN)
                 .strength(1f, 100f)
                 .lightLevel(s -> 15)
@@ -34,12 +34,12 @@ public class DragonSoulLanternBlock extends LanternBlock {
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+    public int getLightBlock(BlockState state) {
         return 0;
     }
 

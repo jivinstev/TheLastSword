@@ -73,7 +73,7 @@ public class TheLastSwordChosenEvent extends LuckyEvent {
         ServerLevel world = ctx.world();
         BlockPos center = player.blockPosition().relative(player.getDirection(), 3).below();
 
-        player.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName()));
+        { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName())); }
         setBlock(world, center, Blocks.CRYING_OBSIDIAN.defaultBlockState());
 
         int startIdx = directionIndex(player.getDirection());
@@ -101,7 +101,7 @@ public class TheLastSwordChosenEvent extends LuckyEvent {
 
     private static void summonFinale(ServerLevel world, BlockPos center) {
         Vec3 centerVec = Vec3.atCenterOf(center);
-        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world);
+        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
         if (bolt != null) {
             bolt.moveTo(centerVec.x, centerVec.y, centerVec.z);
             world.addFreshEntity(bolt);

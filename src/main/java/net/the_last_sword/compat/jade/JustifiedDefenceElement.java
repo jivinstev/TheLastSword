@@ -43,7 +43,7 @@ public class JustifiedDefenceElement extends Element {
     @Override
     public void render(GuiGraphics guiGraphics, float x, float y, float maxX, float maxY) {
         //图标 9x9
-        guiGraphics.blit(ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         //文本走 Jade 主题渲染 (自带阴影/主题色一致性)
         IDisplayHelper.get().drawText(guiGraphics, text, x + ICON_SIZE, y, IThemeHelper.get().getNormalColor());
     }

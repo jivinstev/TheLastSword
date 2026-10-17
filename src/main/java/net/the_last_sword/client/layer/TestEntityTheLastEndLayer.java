@@ -12,16 +12,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
-import net.the_last_sword.test.TestEntity;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
 //测试实体的 The Last End 星空剑刃特效渲染层
-public class TestEntityTheLastEndLayer extends RenderLayer<TestEntity, HumanoidModel<TestEntity>> {
+public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
 
     //测试实体纹理（着色器会在黑色区域自动应用星空效果）
     private static final ResourceLocation TEXTURE =
         ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
 
-    public TestEntityTheLastEndLayer(RenderLayerParent<TestEntity, HumanoidModel<TestEntity>> renderer) {
+    public TestEntityTheLastEndLayer(RenderLayerParent<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> renderer) {
         super(renderer);
     }
 
@@ -30,18 +30,14 @@ public class TestEntityTheLastEndLayer extends RenderLayer<TestEntity, HumanoidM
         PoseStack poseStack,
         MultiBufferSource bufferSource,
         int packedLight,
-        TestEntity entity,
-        float limbSwing,
-        float limbSwingAmount,
-        float partialTick,
-        float ageInTicks,
-        float netHeadYaw,
-        float headPitch
+        HumanoidRenderState entity,
+        float yRot,
+        float xRot
     ) {
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucentCull(TEXTURE));
+            VertexConsumer vertexConsumer = bufferSource.getBuffer(net.neoforged.neoforge.client.NeoForgeRenderTypes.getItemLayeredTranslucent(TEXTURE));
             this.getParentModel().renderToBuffer(
                 poseStack,
                 vertexConsumer,

@@ -1,0 +1,44 @@
+# ProjectE and Iron's Spells 'n Spellbooks have no NeoForge build for any layer target (DEPS.md: dropped,
+# extra). Every file that compiles against either is left out of every target (this list is inherited);
+# their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json.
+net/the_last_sword/compat/irons_spellbooks/BlinkSpell.java
+net/the_last_sword/compat/irons_spellbooks/CastingTransmutationStaffItem.java
+net/the_last_sword/compat/irons_spellbooks/DoubleStrikeSpell.java
+net/the_last_sword/compat/irons_spellbooks/EndSpellScrollItemExtension.java
+net/the_last_sword/compat/irons_spellbooks/GroupProtectionSpell.java
+net/the_last_sword/compat/irons_spellbooks/JudgmentThunderSpell.java
+net/the_last_sword/compat/irons_spellbooks/PhasingSpell.java
+net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java
+net/the_last_sword/compat/irons_spellbooks/TheLastEndCrystalSpell.java
+net/the_last_sword/compat/irons_spellbooks/TransmutationStaffCasting.java
+net/the_last_sword/compat/irons_spellbooks/TransmutationStaffMana.java
+net/the_last_sword/compat/irons_spellbooks/TripleSlashSpell.java
+net/the_last_sword/compat/irons_spellbooks/VoidEnchantingSpell.java
+net/the_last_sword/compat/projecte/DragonCrystalSmithingEmcMapper.java
+net/the_last_sword/compat/projecte/PrimalSourceArmorItem.java
+net/the_last_sword/compat/projecte/PrimalSourceArmorSupport.java
+net/the_last_sword/compat/projecte/PrimalSourceBootsItem.java
+net/the_last_sword/compat/projecte/PrimalSourceChestplateItem.java
+net/the_last_sword/compat/projecte/PrimalSourceHelmetItem.java
+net/the_last_sword/compat/projecte/PrimalSourceLeggingsItem.java
+net/the_last_sword/compat/projecte/ProjectECapabilities.java
+net/the_last_sword/compat/projecte/SmithingLevelEmcProcessor.java
+net/the_last_sword/compat/projecte/StaffOfUniversalTransmutationItem.java
+net/the_last_sword/compat/projecte/TransmutationStaffActions.java
+net/the_last_sword/compat/projecte/TransmutationStaffBehavior.java
+net/the_last_sword/compat/projecte/TransmutationStaffEventHandler.java
+net/the_last_sword/compat/projecte/TransmutationStaffFactory.java
+net/the_last_sword/compat/projecte/TransmutationStaffField.java
+net/the_last_sword/compat/projecte/TransmutationStaffTermination.java
+net/the_last_sword/compat/projecte/TransmutationStaffTerminationPacket.java
+net/the_last_sword/compat/projecte/client/PrimalSourceArmorClientExtension.java
+net/the_last_sword/compat/projecte/client/PrimalSourceArmorModel.java
+net/the_last_sword/compat/projecte/client/PrimalSourceArmorRenderer.java
+net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationModel.java
+net/the_last_sword/compat/projecte/client/StaffOfUniversalTransmutationRenderer.java
+net/the_last_sword/compat/projecte/client/TransmutationStaffClientExtension.java
+net/the_last_sword/compat/projecte/client/TransmutationStaffTerminationRenderer.java
+net/the_last_sword/mixin/SmithingLevelEmcMixin.java
+net/the_last_sword/mixin/SpellCooldownTooltipMixin.java
+net/the_last_sword/mixin/TransmutationStaffCastingMixin.java
+net/the_last_sword/mixin/TransmutationStaffChannelMixin.java

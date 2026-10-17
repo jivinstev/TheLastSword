@@ -7,15 +7,9 @@
     "aba"
   ],
   "key": {
-    "a": {
-      "item": "minecraft:coal_block"
-    },
-    "b": {
-      "item": "minecraft:obsidian"
-    },
-    "c": {
-      "item": "minecraft:skeleton_skull"
-    }
+    "a": "minecraft:coal_block",
+    "b": "minecraft:obsidian",
+    "c": "minecraft:skeleton_skull"
   },
   "result": {
     "id": "minecraft:wither_skeleton_skull",

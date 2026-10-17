@@ -27,7 +27,7 @@ public class TheGiversPain extends Item implements ICurioItem {
     private static final UUID ATTACK_SPEED_UUID = UUID.fromString("c3d4e5f6-a7b8-4c0d-9e2f-3a4b5c6d7e8f");
 
     public TheGiversPain() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override

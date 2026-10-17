@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
+import net.minecraft.client.renderer.entity.state.LightningBoltRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LightningBolt;
@@ -23,12 +24,12 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
     }
 
     @Override
-    public void render(LightningBolt entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(LightningBoltRenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         float[] afloat = new float[16];
         float[] afloat1 = new float[16];
         float f = 0.0F;
         float f1 = 0.0F;
-        RandomSource randomsource = RandomSource.create(entity.seed);
+        RandomSource randomsource = RandomSource.create(state.seed);
         for (int i = 7; i >= 0; --i) {
             afloat[i] = f;
             afloat1[i] = f1;
@@ -40,7 +41,7 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
         Matrix4f matrix4f = poseStack.last().pose();
         float time = (System.currentTimeMillis() % 10000) / 5000.0F;
         for (int j = 0; j < 4; ++j) {
-            RandomSource randomsource1 = RandomSource.create(entity.seed);
+            RandomSource randomsource1 = RandomSource.create(state.seed);
             for (int k = 0; k < 3; ++k) {
                 int l = 7;
                 int i1 = 0;

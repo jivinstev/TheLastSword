@@ -237,7 +237,7 @@ public final class AdvancedEquipmentDamageHandler {
         boolean applied;
         try {
             CONVERTING_DAMAGE.set(true);
-            applied = player.hurt(player.damageSources().fellOutOfWorld(), amount);
+            applied = net.the_last_sword.mv.Hurt.server(player,player.damageSources().fellOutOfWorld(), amount);
         } finally {
             CONVERTING_DAMAGE.set(false);
         }

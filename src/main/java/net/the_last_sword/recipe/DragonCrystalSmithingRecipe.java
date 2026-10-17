@@ -6,7 +6,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -122,14 +125,23 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
         return outputStack;
     }
 
-    @Override
+    //1.21.2 起 Recipe 不再声明 canCraftInDimensions/getResultItem，保留为普通方法供 JEI 等调用
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
-    @Override
     public ItemStack getResultItem(HolderLookup.Provider registries) {
         return output.copy();
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.SMITHING;
     }
 
     /** The same recipe under {@code id}: the codecs carry no id (a recipe's id is its file name or the sync key). */
@@ -143,12 +155,12 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return ModRecipes.DRAGON_CRYSTAL_SMITHING_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return ModRecipes.DRAGON_CRYSTAL_SMITHING_TYPE.get();
     }
 

@@ -15,7 +15,7 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.Villager;
@@ -102,9 +102,9 @@ public class TheLastSwordQuestHandler {
         if (!isQuestSystemEnabled()) {
             return;
         }
-        player.sendSystemMessage(Component.translatable(PREFIX_KEY,
+        { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(PREFIX_KEY,
                 Component.translatable(MOD_NAME_KEY),
-                Component.translatable(key, args)));
+                Component.translatable(key, args))); }
     }
 
     //任务系统总开关
@@ -199,7 +199,7 @@ public class TheLastSwordQuestHandler {
     //刷出苦恼的铁匠村民并向玩家播报位置
     private static boolean spawnTroubledBlacksmith(ServerLevel level, ServerPlayer player,
             StructureStart village) {
-        Villager villager = EntityType.VILLAGER.create(level);
+        Villager villager = EntityType.VILLAGER.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
         if (villager == null) {
             return false;
         }
@@ -208,7 +208,7 @@ public class TheLastSwordQuestHandler {
             return false;
         }
         villager.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
-        villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null);
+        villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.EVENT, null);
 
         villager.setVillagerData(villager.getVillagerData().setProfession(VillagerProfession.WEAPONSMITH).setLevel(5));
         villager.setCustomName(Component.translatable("entity.the_last_sword.troubled_blacksmith"));

@@ -24,12 +24,12 @@ public class PhasingEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(net.minecraft.server.level.ServerLevel mv$level, LivingEntity entity, int amplifier) {
         // 续时也会重加属性，重复初始化无敌会用底层旧血量覆盖治疗后的锁定值。
         if (!entity.level().isClientSide && !EcaAPI.isInvulnerable(entity)) {
             EcaAPI.setInvulnerable(entity, true);
         }
-        return super.applyEffectTick(entity, amplifier);
+        return super.applyEffectTick(mv$level, entity, amplifier);
     }
 
     //虚化效果真正结束时的清理（1.21.1 无直接的移除钩子，由效果过期事件调用）

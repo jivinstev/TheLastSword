@@ -4,7 +4,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.the_last_sword.compat.projecte.TransmutationStaffTerminationPacket;
+// ProjectE: no build for this Minecraft, TransmutationStaffTerminationPacket is not compiled (drops.txt)
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -24,7 +24,7 @@ public class NetworkHandler {
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
         registrar.playToClient(BlinkRiftPacket.TYPE, BlinkRiftPacket.STREAM_CODEC, BlinkRiftPacket::handle);
-        registrar.playToClient(TransmutationStaffTerminationPacket.TYPE, TransmutationStaffTerminationPacket.STREAM_CODEC, TransmutationStaffTerminationPacket::handle);
+        // ProjectE: no build for this Minecraft, its termination packet is not registered (drops.txt)
         registrar.playToClient(LightningSpearConfigPacket.TYPE, LightningSpearConfigPacket.STREAM_CODEC, LightningSpearConfigPacket::handle);
         registrar.playToClient(LightningSpearBurstPacket.TYPE, LightningSpearBurstPacket.STREAM_CODEC, LightningSpearBurstPacket::handle);
         registrar.playToClient(OpenWraithAppearanceScreenPacket.TYPE, OpenWraithAppearanceScreenPacket.STREAM_CODEC, OpenWraithAppearanceScreenPacket::handle);

@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -111,6 +112,11 @@ public class EndCrystalRift extends Entity {
     }
 
     @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
+    }
+
+    // 1.21.2+: no longer an Entity override; EndCrystalRiftRenderer.getBoundingBoxForCulling calls it
     public AABB getBoundingBoxForCulling() {
         return getBoundingBox().inflate(6);
     }

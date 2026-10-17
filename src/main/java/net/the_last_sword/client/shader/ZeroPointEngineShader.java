@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.eca.client.render.shader.EcaShaderInstance;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.the_last_sword.mv.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.the_last_sword.TheLastSwordMod;
@@ -24,7 +24,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
     public static final RenderType ITEM = RenderType.create(
             "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
             256, false, false, RenderType.CompositeState.builder()
-                    .setShaderState(new RenderStateShard.ShaderStateShard(() -> shader))
+                    .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
                     .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
                     .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)

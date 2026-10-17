@@ -1,0 +1,59 @@
+# 1.21.4: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
+# X3: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.world.item.UseAnim	net.minecraft.world.item.ItemUseAnimation
+# X14: proposed by a file-loop worker, kept because the error count fell
+UseAnim	ItemUseAnimation
+# X17: proposed by a file-loop worker, kept because the error count fell
+RecipeSerializer<?> getSerializer()	RecipeSerializer<? extends CustomRecipe> getSerializer()
+# X66: proposed by a file-loop worker, kept because the error count fell
+RenderShape.ENTITYBLOCK_ANIMATED	RenderShape.INVISIBLE
+# X83: proposed by a file-loop worker, kept because the error count fell
+member:getHolderOrThrow	getOrThrow
+# X99: proposed by a file-loop worker, kept because the error count fell
+re:(VertexConsumer \w+,\s*float \w+,\s*int \w+,\s*int \w+)\) \{	\1, int renderColor) {
+# ProjectE and Iron's Spells 'n Spellbooks have no build for any layer target (DEPS.md): their compat classes are
+# not compiled (drops.txt); these rows cut the authors' references to them, each behind its CompatCheck guard.
+re:import net\.the_last_sword\.compat\.irons_spellbooks\.(SpellIntegration|EndSpellScrollItemExtension);	// Iron's Spells 'n Spellbooks: no build for this Minecraft, \1 is not compiled (drops.txt)
+re:import net\.the_last_sword\.compat\.projecte\.(ProjectECapabilities|TransmutationStaffTerminationPacket);	// ProjectE: no build for this Minecraft, \1 is not compiled (drops.txt)
+re:if \(CompatCheck\.isSpellcastingLoaded\(\)\) \{\s*(SpellIntegration\.\w+\(\w+\);|ItemExtensionManager\.register\(new EndSpellScrollItemExtension\(\)\);)\s*\}	{ /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
+re:if \(CompatCheck\.isTransmutationLoaded\(\)\) \{\s*ProjectECapabilities\.register\(event\);\s*\}	{ /* ProjectE: no build for this Minecraft (drops.txt) */ }
+re:registrar\.playToClient\(TransmutationStaffTerminationPacket\.TYPE, [^;]*;	// ProjectE: no build for this Minecraft, its termination packet is not registered (drops.txt)
+# ---- review cut (2026-10-16): rows that let a rename-only overlay go. The generic 1.21.2 rows it added (Entity.hurt,
+# GeckoLib getters, InteractionResultHolder, cooldowns, light queries, applyEffectTick/doHurtTarget, blit, shaders,
+# Ingredient.of, BlockEntityType.Builder, neighborChanged, entityTranslucentCull) now come from the shared tables.
+# SoundEvent is a record since 1.21.2: getLocation() -> location() (this mod's own sounds; not a bare row)
+re:(ModSounds\.\w+\.get\(\))\.getLocation\(\)	\1.location()
+re:\bmusicEvent\.getLocation\(\)	musicEvent.location()
+# InteractionResultHolder.sidedSuccess(stack, client) with the held stack: the plain SUCCESS (the shared row keeps the stack)
+re:\bInteractionResultHolder\.sidedSuccess\((?:[^()]|\([^()]*\))*\)	InteractionResult.SUCCESS
+# Player.sendSystemMessage is ServerPlayer-only from 1.21.2 to 1.21.11 (26.x has it on Player again, and no
+# displayClientMessage): send it through the ServerPlayer, which every target has. These calls run on the server.
+re:\b((?:ctx\.)?player(?:\(\))?)\.sendSystemMessage\(((?:[^()]|\((?:[^()]|\([^()]*\))*\))*)\);	{ if (\1 instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(\2); }
+# ItemCooldowns is keyed by stack since 1.21.2: a cooldown on a registered item's group (Class.ITEM.get())
+re:(getCooldowns\(\)\.(?:isOnCooldown|addCooldown|getCooldownPercent|removeCooldown)\(\s*)([A-Z]\w*\.[A-Z_]+\.get\(\))	\1new net.minecraft.world.item.ItemStack(\2)
+# Entity.noCulling is gone (1.21.2); both lightning entities draw through LightningBoltRenderer, which is never culled
+re:[ \t]*this\.noCulling = true;[ \t]*\n	
+# Mob.doHurtTarget takes the ServerLevel (1.21.2): a statement call goes through the server level
+re:(?<![\w$.])((?!super\b)[a-z][\w$]*)\.doHurtTarget\((\w+)\);	if (\1.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {\n            \1.doHurtTarget(serverLevel, \2);\n        }
+# this mod's call shapes
+re:\.create\(minecraft\.level\)	.create(minecraft.level, net.minecraft.world.entity.EntitySpawnReason.LOAD)
+re:(true, false,\s*)DragonCultDisguise\.NOT_DISGUISED_PLAYER\)	\1(mv$target, mv$level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(mv$target))
+re:\bthis\.level\.getRecipeManager\(\)	((net.minecraft.server.level.ServerLevel) this.level).getServer().getRecipeManager()
+re:(recipe\.get(?:Template|Input|Addition|Base)\(\))\.getItems\(\)	\1.items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new)
+re:super\(type, entity, world\);	super(type, world);\n        this.setPos(entity.getX(), entity.getEyeY() - 0.1, entity.getZ());\n        this.setOwner(entity);
+re:\b[\w$]+(?:\(\))?\.getProfiler\(\)	net.minecraft.util.profiling.Profiler.get()
+# JEI 19 (1.21.4): the subtype interpreter type; no subtype is null
+mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter	mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter
+re:\bIIngredientSubtypeInterpreter\.NONE\b	null
+IIngredientSubtypeInterpreter	ISubtypeInterpreter
+# this mod's lightning bolts: EntityType.create takes the spawn reason (it does not use it)
+re:\.create\(world\)	.create(world, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED)
+# the item's held stack (itemstack = player.getItemInHand(hand)): the same InteractionResult.SUCCESS
+re:\bInteractionResultHolder\.success\(itemstack\)	InteractionResult.SUCCESS
+# Tier is gone (1.21.2): a file that builds an anonymous Tier through the item.* wildcard takes the layer's compat.gear.Tier
+re:(import net\.minecraft\.world\.item\.\*;\n)(?=[\s\S]*\bnew Tier\(\))	\1import net.the_last_sword.compat.gear.Tier;\n
+# AbstractArrow.inGround is private since 1.21.2
+re:\bif \(inGround\)	if (isInGround())
+# ServerPlayerMixin.restoreFrom: Player.level().getGameRules() is gone (1.21.2, GameRules live on the ServerLevel); the
+# mixin target is a ServerPlayer, so read them from its serverLevel()
+re:!\(\(Player\) \(Object\) this\)\.level\(\)\.getGameRules\(\)	!((ServerPlayer) (Object) this).serverLevel().getGameRules()

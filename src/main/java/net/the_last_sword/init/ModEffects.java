@@ -18,17 +18,17 @@ public class ModEffects {
     //虚空附魔效果
     public static final DeferredHolder<MobEffect, MobEffect> VOID_ENCHANTING = EFFECTS.register(
         "void_enchanting",
-        VoidEnchantingEffect::new
+        () -> net.the_last_sword.mv.RegIds.enter("void_enchanting") ? null : new VoidEnchantingEffect()
     );
 
     //虚化效果
     public static final DeferredHolder<MobEffect, MobEffect> PHASING = EFFECTS.register(
         "phasing",
-        PhasingEffect::new
+        () -> net.the_last_sword.mv.RegIds.enter("phasing") ? null : new PhasingEffect()
     );
 
     public static final DeferredHolder<MobEffect, MobEffect> WORLD_SEVERANCE = EFFECTS.register(
-        "world_severance", WorldSeveranceEffect::new
+        "world_severance", () -> net.the_last_sword.mv.RegIds.enter("world_severance") ? null : new WorldSeveranceEffect()
     );
 
     public static void register(IEventBus eventBus) {

@@ -1,6 +1,8 @@
 package net.the_last_sword.init;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
@@ -46,19 +48,19 @@ public class ModEntities {
             ENTITY_TYPES.register("queen_blink_blade",
                     () -> EntityType.Builder.<QueenBlinkBlade>of(QueenBlinkBlade::new, MobCategory.MISC)
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
-                            .build("queen_blink_blade"));
+                            .build(key("queen_blink_blade")));
 
     public static final Supplier<EntityType<QueenEnhancedBlade>> QUEEN_ENHANCED_BLADE =
             ENTITY_TYPES.register("queen_enhanced_blade",
                     () -> EntityType.Builder.<QueenEnhancedBlade>of(QueenEnhancedBlade::new, MobCategory.MISC)
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
-                            .build("queen_enhanced_blade"));
+                            .build(key("queen_enhanced_blade")));
 
     public static final Supplier<EntityType<EndCrystalRift>> END_CRYSTAL_RIFT =
         ENTITY_TYPES.register("end_crystal_rift",
             () -> EntityType.Builder.<EndCrystalRift>of(EndCrystalRift::new, MobCategory.MISC)
                 .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(20)
-                .noSave().noSummon().fireImmune().build("end_crystal_rift"));
+                .noSave().noSummon().fireImmune().build(key("end_crystal_rift")));
 
     //龙水晶剑弹射物
     public static final Supplier<EntityType<DragonCrystalSwordProjectile>> DRAGON_CRYSTAL_SWORD_PROJECTILE =
@@ -67,7 +69,7 @@ public class ModEntities {
                 .sized(0.5f, 0.5f)
                 .clientTrackingRange(4)
                 .updateInterval(1)
-                .build("dragon_crystal_sword_projectile")
+                .build(key("dragon_crystal_sword_projectile"))
         );
 
     //龙之剑弹射物
@@ -77,7 +79,7 @@ public class ModEntities {
                 .sized(0.5f, 0.5f)
                 .clientTrackingRange(4)
                 .updateInterval(1)
-                .build("dragon_sword_projectile")
+                .build(key("dragon_sword_projectile"))
         );
 
     //龙之剑闪电特效
@@ -88,7 +90,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("dragon_lighting")
+                .build(key("dragon_lighting"))
         );
 
     //最终之剑闪电特效
@@ -99,7 +101,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("the_last_end_lighting")
+                .build(key("the_last_end_lighting"))
         );
 
     //最终之剑弹射物
@@ -109,7 +111,7 @@ public class ModEntities {
                 .sized(0.5f, 0.5f)
                 .clientTrackingRange(4)
                 .updateInterval(1)
-                .build("the_last_end_sword_projectile")
+                .build(key("the_last_end_sword_projectile"))
         );
 
     public static final Supplier<EntityType<QueenSummonedProjectile>> QUEEN_SUMMONED_PROJECTILE =
@@ -118,7 +120,7 @@ public class ModEntities {
                 .sized(0.5f, 0.5f)
                 .clientTrackingRange(4)
                 .updateInterval(1)
-                .build("queen_summoned_projectile")
+                .build(key("queen_summoned_projectile"))
         );
 
     //隐藏武器弹射物
@@ -128,7 +130,7 @@ public class ModEntities {
                 .sized(0.5f, 0.5f)
                 .clientTrackingRange(4)
                 .updateInterval(1)
-                .build("the_last_sword_you_never_forgot_projectile")
+                .build(key("the_last_sword_you_never_forgot_projectile"))
         );
 
     //测试实体
@@ -139,7 +141,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("test_entity")
+                .build(key("test_entity"))
         );
 
     //封印尖塔守卫
@@ -150,7 +152,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("guardian_of_sealed_spire")
+                .build(key("guardian_of_sealed_spire"))
         );
 
     //守卫剑士
@@ -161,7 +163,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("guardian_saber")
+                .build(key("guardian_saber"))
         );
 
     //守卫狂战士
@@ -172,7 +174,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("guardian_berserker")
+                .build(key("guardian_berserker"))
         );
 
     //守卫弓箭手
@@ -183,7 +185,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("guardian_archer")
+                .build(key("guardian_archer"))
         );
 
     //迷失战魂
@@ -194,7 +196,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("lost_wraith")
+                .build(key("lost_wraith"))
         );
 
     //终焉剑灵
@@ -205,7 +207,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("the_last_end_sword_wraith")
+                .build(key("the_last_end_sword_wraith"))
         );
 
     //女皇的逝去之影
@@ -216,7 +218,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("the_past_shadow_of_the_queen")
+                .build(key("the_past_shadow_of_the_queen"))
         );
 
     //拜龙教教徒
@@ -227,7 +229,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("dragon_cultist")
+                .build(key("dragon_cultist"))
         );
 
     //拜龙教圣骑士
@@ -238,7 +240,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("dragon_cult_paladin")
+                .build(key("dragon_cult_paladin"))
         );
 
     //拜龙教祭司
@@ -249,7 +251,7 @@ public class ModEntities {
                 .clientTrackingRange(64)
                 .updateInterval(1)
                 .fireImmune()
-                .build("dragon_cult_priest")
+                .build(key("dragon_cult_priest"))
         );
 
     public static final Supplier<EntityType<LightningSpearProjectile>> LIGHTNING_SPEAR_PROJECTILE =
@@ -258,7 +260,7 @@ public class ModEntities {
                 .sized(0.5F, 0.5F)
                 .clientTrackingRange(64)
                 .updateInterval(1)
-                .build("lightning_spear_projectile")
+                .build(key("lightning_spear_projectile"))
         );
 
     public static final Supplier<EntityType<GroundRuptureFragmentEntity>> GROUND_RUPTURE_FRAGMENT =
@@ -269,8 +271,12 @@ public class ModEntities {
                 .updateInterval(1)
                 .noSave()
                 .noSummon()
-                .build("ground_rupture_fragment")
+                .build(key("ground_rupture_fragment"))
         );
+
+    private static ResourceKey<EntityType<?>> key(String name) {
+        return ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, name));
+    }
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

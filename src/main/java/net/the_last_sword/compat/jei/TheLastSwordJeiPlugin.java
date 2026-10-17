@@ -2,7 +2,7 @@ package net.the_last_sword.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -38,9 +38,9 @@ public class TheLastSwordJeiPlugin implements IModPlugin {
     //给本mod所有物品挂等级subtype判定器: 转移匹配(Ingredient context)按level区分; 配方查找(Recipe context)不区分, 保证查升级链能看到全部等级
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        IIngredientSubtypeInterpreter<ItemStack> levelInterpreter = (stack, context) -> {
+        ISubtypeInterpreter<ItemStack> levelInterpreter = (stack, context) -> {
             if (context == UidContext.Recipe) {
-                return IIngredientSubtypeInterpreter.NONE;
+                return null;
             }
             return "lvl:" + ItemLevelHelper.getLevel(stack);
         };

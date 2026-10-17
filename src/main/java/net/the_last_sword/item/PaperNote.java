@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ public class PaperNote extends Item {
     private final String guiContentKey;
 
     public PaperNote(String nameKey, String tooltipKey, String contentKey, String guiContentKey) {
-        super(new Item.Properties().stacksTo(1).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).fireResistant());
         this.nameKey = nameKey;
         this.tooltipKey = tooltipKey;
         this.contentKey = contentKey;
@@ -42,7 +42,7 @@ public class PaperNote extends Item {
 
     //右键打开纸条阅读GUI
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             String noteId = BuiltInRegistries.ITEM.getKey(this).toString();
@@ -53,7 +53,7 @@ public class PaperNote extends Item {
                 isCollected(serverPlayer, noteId)
             ), serverPlayer);
         }
-        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     //物品悬停提示
@@ -92,7 +92,7 @@ public class PaperNote extends Item {
     //判断id是否为已注册的纸条物品
     public static boolean isValidNoteId(String noteId) {
         ResourceLocation id = ResourceLocation.tryParse(noteId);
-        return id != null && BuiltInRegistries.ITEM.get(id) instanceof PaperNote;
+        return id != null && BuiltInRegistries.ITEM.getValue(id) instanceof PaperNote;
     }
 
     public String getNameKey() {

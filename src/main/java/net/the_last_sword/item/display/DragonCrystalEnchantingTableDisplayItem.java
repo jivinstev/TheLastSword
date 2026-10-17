@@ -26,10 +26,10 @@ public class DragonCrystalEnchantingTableDisplayItem extends BlockItem implement
         super(block, properties);
     }
 
+    //1.21.4: initializeClient is gone; the display renderer comes through GeckoLib's GeoRenderProvider
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        super.initializeClient(consumer);
-        consumer.accept(new DragonCrystalEnchantingTableClientExtensions());
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(net.the_last_sword.client.DragonCrystalEnchantingTableClientExtensions.provider());
     }
 
     @Override

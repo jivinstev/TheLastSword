@@ -12,12 +12,12 @@ public class DragonCultistArmorModel extends GeoModel<DragonCultistArmorItem> {
     }
 
     @Override
-    public ResourceLocation getModelResource(DragonCultistArmorItem object) {
+    public ResourceLocation getModelResource(DragonCultistArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultistArmorItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/dragon_cultist_armor.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DragonCultistArmorItem object) {
+    public ResourceLocation getTextureResource(DragonCultistArmorItem object, software.bernie.geckolib.renderer.GeoRenderer<DragonCultistArmorItem> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/item/dragon_cultist_armor.png");
     }
 }

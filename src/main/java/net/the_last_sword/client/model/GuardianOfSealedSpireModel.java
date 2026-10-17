@@ -17,12 +17,12 @@ public class GuardianOfSealedSpireModel extends GeoModel<GuardianOfSealedSpireEn
     }
 
     @Override
-    public ResourceLocation getModelResource(GuardianOfSealedSpireEntity entity) {
+    public ResourceLocation getModelResource(GuardianOfSealedSpireEntity entity, software.bernie.geckolib.renderer.GeoRenderer<GuardianOfSealedSpireEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/guardian_of_sealed_spire.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(GuardianOfSealedSpireEntity entity) {
+    public ResourceLocation getTextureResource(GuardianOfSealedSpireEntity entity, software.bernie.geckolib.renderer.GeoRenderer<GuardianOfSealedSpireEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/entities/guardian_of_sealed_spire.png");
     }
 

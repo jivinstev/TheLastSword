@@ -32,7 +32,7 @@ public class HealBanElement extends Element {
 
     @Override
     public void render(GuiGraphics guiGraphics, float x, float y, float maxX, float maxY) {
-        guiGraphics.blit(ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         //沿用浮标主题渲染，保持阴影和文字颜色一致
         IDisplayHelper.get().drawText(guiGraphics, text, x + ICON_SIZE, y, IThemeHelper.get().getNormalColor());
     }

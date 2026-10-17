@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -53,8 +54,8 @@ public class EndResetSkyEvent extends LuckyEvent {
         StructureTemplateManager manager = world.getStructureManager();
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
-            if (player != null) {
-                player.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
             }
             return;
         }
@@ -71,8 +72,8 @@ public class EndResetSkyEvent extends LuckyEvent {
         int dz = ctxPos.getZ() - (probe.minZ() + probe.maxZ()) / 2;
         BlockPos placePos = anchor.offset(dx, 0, dz);
         template.placeInWorld(world, placePos, placePos, settings, world.getRandom(), 2);
-        if (player != null) {
-            player.sendSystemMessage(Component.translatable(MESSAGE_KEY));
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY));
         }
     }
 }

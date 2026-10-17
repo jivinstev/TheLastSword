@@ -10,7 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,26 +43,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @EventBusSubscriber(modid = "the_last_sword")
-public class UltraTestSwordItem extends TieredItem {
+public class UltraTestSwordItem extends Item {
 
     private static final int MAX_MODES = 2; // 0=强力范围攻击模式, 1=斗兽模式
 
     public UltraTestSwordItem() {
-        super(new Tier() {
-            @Override public int getUses() { return 0; }
-            @Override public float getSpeed() { return 1024f; }
-            @Override public float getAttackDamageBonus() { return 1022f; }
-            @Override public TagKey<Block> getIncorrectBlocksForDrops() { return BlockTags.INCORRECT_FOR_NETHERITE_TOOL; }
-            @Override public int getEnchantmentValue() { return 1024; }
-            @Override public Ingredient getRepairIngredient() { return Ingredient.of(); }
-        }, new Item.Properties().fireResistant());
+        // 1.21.1 TieredItem: durability from tier uses (0), enchantability from tier (1024); empty repair ingredient = not repairable
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().durability(0).enchantable(1024));
     }
 
     //近战攻击：左键绝毁，Shift+左键终焉死亡
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
         if (!(entity instanceof ServerPlayer player) || player.level().isClientSide()) {
-            return super.onEntitySwing(stack, entity);
+            return super.onEntitySwing(stack, entity, hand);
         }
 
         //初始化模式系统
@@ -80,12 +74,12 @@ public class UltraTestSwordItem extends TieredItem {
                 }
             }
         }
-        return super.onEntitySwing(stack, entity);
+        return super.onEntitySwing(stack, entity, hand);
     }
 
     //右键使用：清除或最强攻击
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         //初始化模式系统
         ItemModeHelper.initializeMode(stack, 0, MAX_MODES);
@@ -136,7 +130,7 @@ public class UltraTestSwordItem extends TieredItem {
                 ServerEventHandler.performArenaPlacement(serverPlayer, world);
             }
         }
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     //究极测试剑的全局封锁开关状态（全局all return + 禁生成），存于剑自身NBT供渲染与逻辑共用

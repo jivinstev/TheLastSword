@@ -6,14 +6,23 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.the_last_sword.entity.GroundRuptureFragmentEntity;
 
-public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureFragmentEntity> {
+public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureFragmentEntity, GroundRuptureFragmentRenderer.RenderState> {
     private final BlockRenderDispatcher blockRenderer;
+
+    public static class RenderState extends EntityRenderState {
+        int seed;
+        float age;
+        float fragmentScale;
+        BlockState blockState;
+    }
 
     public GroundRuptureFragmentRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -22,12 +31,11 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
     }
 
     @Override
-    public void render(GroundRuptureFragmentEntity fragment, float entityYaw, float partialTick,
-                       PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        int seed = fragment.getVisualSeed();
-        float age = fragment.tickCount + partialTick;
+    public void render(RenderState state, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        int seed = state.seed;
+        float age = state.age;
         float shrink = age > 13.0F ? Mth.clamp(1.0F - (age - 13.0F) / 8.0F, 0.35F, 1.0F) : 1.0F;
-        float scale = fragment.getFragmentScale() * shrink;
+        float scale = state.fragmentScale * shrink;
 
         float scaleX = scale * (0.72F + component(seed, 0) * 0.38F);
         float scaleY = scale * (0.48F + component(seed, 8) * 0.52F);
@@ -40,11 +48,11 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
         poseStack.mulPose(Axis.ZP.rotationDegrees(component(seed, 20) * 45.0F - age * 6.0F * spinDirection));
         poseStack.scale(scaleX, scaleY, scaleZ);
         poseStack.translate(-0.5D, -0.5D, -0.5D);
-        blockRenderer.renderSingleBlock(fragment.getBlockState(), poseStack, buffer,
+        blockRenderer.renderSingleBlock(state.blockState, poseStack, buffer,
             packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
 
-        super.render(fragment, entityYaw, partialTick, poseStack, buffer, packedLight);
+        super.render(state, poseStack, buffer, packedLight);
     }
 
     private static float component(int seed, int shift) {
@@ -52,7 +60,17 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GroundRuptureFragmentEntity entity) {
-        return TextureAtlas.LOCATION_BLOCKS;
+    public RenderState createRenderState() {
+        return new RenderState();
     }
+
+    @Override
+    public void extractRenderState(GroundRuptureFragmentEntity fragment, RenderState state, float partialTick) {
+        super.extractRenderState(fragment, state, partialTick);
+        state.seed = fragment.getVisualSeed();
+        state.age = fragment.tickCount + partialTick;
+        state.fragmentScale = fragment.getFragmentScale();
+        state.blockState = fragment.getBlockState();
+    }
+
 }

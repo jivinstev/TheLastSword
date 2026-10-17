@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -59,8 +60,8 @@ public class WoundOfTimeLaunchEvent extends LuckyEvent {
         StructureTemplateManager manager = world.getStructureManager();
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
-            if (player != null) {
-                player.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY));
             }
             return;
         }
@@ -85,13 +86,13 @@ public class WoundOfTimeLaunchEvent extends LuckyEvent {
             String digit = String.valueOf(n);
             TheLastSwordMod.queueServerWork(delay, () -> {
                 if (!isActorAlive(player, world)) return;
-                player.sendSystemMessage(Component.literal(digit));
+                if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.literal(digit));
             });
         }
 
         TheLastSwordMod.queueServerWork(6 * TICKS_PER_SECOND, () -> {
             if (!isActorAlive(player, world)) return;
-            player.sendSystemMessage(Component.translatable(LIFTOFF_KEY));
+            if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.translatable(LIFTOFF_KEY));
             player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, LEVITATION_DURATION_TICKS, LEVITATION_AMPLIFIER));
             player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, SLOW_FALLING_DURATION_TICKS, 0));
         });

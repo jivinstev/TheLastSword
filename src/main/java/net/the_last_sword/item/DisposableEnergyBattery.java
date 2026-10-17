@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ import java.util.List;
 public class DisposableEnergyBattery extends Item {
 
     public DisposableEnergyBattery() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(64)
             .fireResistant()
             .rarity(Rarity.UNCOMMON)
@@ -58,10 +58,10 @@ public class DisposableEnergyBattery extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide) {
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
 
         int restoreAmount = TheLastSwordConfiguration.getDisposableEnergyBatteryRestoreAmountSafely();
@@ -97,9 +97,9 @@ public class DisposableEnergyBattery extends Item {
         //仅在确实充能后才消耗电池
         if (anyCharged) {
             stack.shrink(1);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
-        return InteractionResultHolder.pass(stack);
+        return InteractionResult.PASS;
     }
 
     @Override

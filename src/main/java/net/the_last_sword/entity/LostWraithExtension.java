@@ -31,7 +31,7 @@ public class LostWraithExtension extends EntityExtension {
 
         @Override
         public ResourceLocation soundEventId() {
-            return ModSounds.LOST_WRAITH.get().getLocation();
+            return ModSounds.LOST_WRAITH.get().location();
         }
 
         @Override

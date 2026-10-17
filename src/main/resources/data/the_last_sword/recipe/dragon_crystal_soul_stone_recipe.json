@@ -7,15 +7,9 @@
     "aba"
   ],
   "key": {
-    "a": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "b": {
-      "item": "the_last_sword:dragon_crystal"
-    },
-    "c": {
-      "item": "minecraft:crying_obsidian"
-    }
+    "a": "minecraft:lapis_lazuli",
+    "b": "the_last_sword:dragon_crystal",
+    "c": "minecraft:crying_obsidian"
   },
   "result": {
     "id": "the_last_sword:dragon_crystal_soul_stone",

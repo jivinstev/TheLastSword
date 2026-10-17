@@ -6,7 +6,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
-import net.the_last_sword.compat.projecte.ProjectECapabilities;
+// ProjectE: no build for this Minecraft, ProjectECapabilities is not compiled (drops.txt)
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.item.AncientEnergyCore;
 import net.the_last_sword.item.DisposableEnergyBattery;
@@ -46,8 +46,6 @@ public final class ModCapabilities {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(),
             (blockEntity, side) -> side == null ? null : blockEntity.getItemHandler(side));
         //可选联动：ProjectE 的充能能力仅在其加载时注册
-        if (CompatCheck.isTransmutationLoaded()) {
-            ProjectECapabilities.register(event);
-        }
+        { /* ProjectE: no build for this Minecraft (drops.txt) */ }
     }
 }

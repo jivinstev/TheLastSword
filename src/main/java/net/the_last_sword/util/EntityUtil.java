@@ -250,7 +250,7 @@ public class EntityUtil {
                     );
                 }
 
-                if (level.getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES)) {
+                if (level.getServer().getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES)) {
                     PlayerList playerList = level.getServer().getPlayerList();
                     playerList.broadcastSystemMessage(deathMessage, false);
                 }
@@ -323,8 +323,9 @@ public class EntityUtil {
 
     private static Vec3 checkSafeTeleportPosition(Entity entity, Vec3 position) {
         Level level = entity.level();
-        if (position.y < level.getMinBuildHeight()
-                || position.y + entity.getBbHeight() > level.getMaxBuildHeight()
+        //1.21.4: getMaxY() is the top block; 1.21.1's getMaxBuildHeight() was the height one above it
+        if (position.y < level.getMinY()
+                || position.y + entity.getBbHeight() > level.getMaxY() + 1
                 || !level.hasChunkAt(BlockPos.containing(position))) {
             return null;
         }

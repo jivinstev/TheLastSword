@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +39,7 @@ public class TheLastEndScroll extends Item {
     );
 
     public TheLastEndScroll() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(1)
             .fireResistant()
             .rarity(Rarity.EPIC)
@@ -48,7 +48,7 @@ public class TheLastEndScroll extends Item {
 
     //右键打开教程书GUI
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
 
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
@@ -77,7 +77,7 @@ public class TheLastEndScroll extends Item {
             ), serverPlayer);
         }
 
-        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     //从玩家收集数据组装已收集纸条列表
@@ -85,7 +85,7 @@ public class TheLastEndScroll extends Item {
         List<PaperNoteEntry> notes = new ArrayList<>();
         for (String noteId : PaperNote.getCollectedNoteIds(player)) {
             ResourceLocation id = ResourceLocation.tryParse(noteId);
-            Item item = id == null ? null : BuiltInRegistries.ITEM.get(id);
+            Item item = id == null ? null : BuiltInRegistries.ITEM.getValue(id);
             if (item instanceof PaperNote note) {
                 notes.add(new PaperNoteEntry(note.getNameKey(), note.getContentKey()));
             }

@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "the_last_sword:dragon_crystal_soul_stone_full",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "the_last_sword:item/dragon_crystal_soul_stone_full"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "the_last_sword:item/dragon_crystal_soul_stone"
+    }
+  }
+}

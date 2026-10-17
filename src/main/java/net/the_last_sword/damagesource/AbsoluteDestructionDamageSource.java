@@ -42,8 +42,8 @@ public class AbsoluteDestructionDamageSource extends DamageSource {
      * 创建绝对毁灭伤害源 - 完整版本
      */
     public static DamageSource absoluteDestruction(Entity attacker, ItemStack weapon) {
-        Registry<DamageType> reg = attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
-        Holder<DamageType> holder = reg.getHolderOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
+        Registry<DamageType> reg = attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+        Holder<DamageType> holder = reg.getOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
         return new AbsoluteDestructionDamageSource(holder, attacker, weapon);
     }
 
@@ -57,8 +57,8 @@ public class AbsoluteDestructionDamageSource extends DamageSource {
 
     //等级附伤使用独立标记，阻止伤害重入时再次派生自身
     public static DamageSource levelBonus(LivingEntity attacker) {
-        Registry<DamageType> reg = attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
-        Holder<DamageType> holder = reg.getHolderOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
+        Registry<DamageType> reg = attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+        Holder<DamageType> holder = reg.getOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
         return new AbsoluteDestructionDamageSource(holder, attacker, attacker.getMainHandItem(), true);
     }
 
@@ -66,8 +66,8 @@ public class AbsoluteDestructionDamageSource extends DamageSource {
      * 创建绝对毁灭伤害源 - 无攻击者版本（用于环境伤害等）
      */
     public static DamageSource absoluteDestruction(Level level) {
-        Registry<DamageType> reg = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
-        Holder<DamageType> holder = reg.getHolderOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
+        Registry<DamageType> reg = level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+        Holder<DamageType> holder = reg.getOrThrow(TheLastSwordDamageTypes.ABSOLUTE_DESTRUCTION);
         return new AbsoluteDestructionDamageSource(holder, null, ItemStack.EMPTY);
     }
 }

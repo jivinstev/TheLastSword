@@ -8,7 +8,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -41,33 +45,31 @@ public abstract class DragonCultPaladinArmorItem extends ArmorItem implements Ge
     private static final int[] DEFENSE_PER_TYPE = {3, 6, 8, 3};
 
     private static final String LAYER = "the_last_sword:dragon_cult_paladin_armor";
-    private static final Holder<ArmorMaterial> MATERIAL = Holder.direct(new ArmorMaterial(
+    //耐久单位即倍率，各部位耐久 = 13/15/16/11 × 倍率
+    private static final ArmorMaterial MATERIAL = new ArmorMaterial(
+            DURABILITY_MULTIPLIER,
             Map.of(
-                    ArmorItem.Type.BOOTS, DEFENSE_PER_TYPE[0],
-                    ArmorItem.Type.LEGGINGS, DEFENSE_PER_TYPE[1],
-                    ArmorItem.Type.CHESTPLATE, DEFENSE_PER_TYPE[2],
-                    ArmorItem.Type.HELMET, DEFENSE_PER_TYPE[3]),
+                    ArmorType.BOOTS, DEFENSE_PER_TYPE[0],
+                    ArmorType.LEGGINGS, DEFENSE_PER_TYPE[1],
+                    ArmorType.CHESTPLATE, DEFENSE_PER_TYPE[2],
+                    ArmorType.HELMET, DEFENSE_PER_TYPE[3]),
             9,
             SoundEvents.ARMOR_EQUIP_IRON,
-            () -> Ingredient.of(Items.IRON_INGOT),
-            List.of(new ArmorMaterial.Layer(ResourceLocation.parse(LAYER))),
             2.0F,
-            0.0F));
+            0.0F,
+            ItemTags.REPAIRS_IRON_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse(LAYER)));
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    protected DragonCultPaladinArmorItem(Type type) {
-        super(MATERIAL, type, new Properties().durability(DURABILITY_PER_TYPE[type.getSlot().getIndex()] * DURABILITY_MULTIPLIER));
+    protected DragonCultPaladinArmorItem(ArmorType type) {
+        super(MATERIAL, type, net.the_last_sword.mv.RegIds.stamp(new Properties()));
     }
 
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
         consumer.accept(DragonCultArmorClientExtensions.paladin());
-    }
-
-    @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.parse(TEXTURE);
     }
 
     @Override
@@ -93,25 +95,25 @@ public abstract class DragonCultPaladinArmorItem extends ArmorItem implements Ge
 
     public static class Helmet extends DragonCultPaladinArmorItem {
         public Helmet() {
-            super(Type.HELMET);
+            super(ArmorType.HELMET);
         }
     }
 
     public static class Chestplate extends DragonCultPaladinArmorItem {
         public Chestplate() {
-            super(Type.CHESTPLATE);
+            super(ArmorType.CHESTPLATE);
         }
     }
 
     public static class Leggings extends DragonCultPaladinArmorItem {
         public Leggings() {
-            super(Type.LEGGINGS);
+            super(ArmorType.LEGGINGS);
         }
     }
 
     public static class Boots extends DragonCultPaladinArmorItem {
         public Boots() {
-            super(Type.BOOTS);
+            super(ArmorType.BOOTS);
         }
     }
 }

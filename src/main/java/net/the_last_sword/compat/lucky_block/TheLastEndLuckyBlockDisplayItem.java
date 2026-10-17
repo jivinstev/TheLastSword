@@ -84,10 +84,16 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
         return readLuck(stack) >= 0 ? BAR_COLOR_POSITIVE : BAR_COLOR_NEGATIVE;
     }
 
+    //1.21.4: initializeClient/getCustomRenderer are gone; GeckoLib serves the item renderer through GeoRenderProvider
+    //(items/the_last_end_lucky_block.json names the geckolib:geckolib special model)
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        super.initializeClient(consumer);
-        consumer.accept(TheLastEndLuckyBlockDisplayItemClient.createExtensions());
+    public void createGeoRenderer(Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(new software.bernie.geckolib.animatable.client.GeoRenderProvider() {
+            @Override
+            public software.bernie.geckolib.renderer.GeoItemRenderer<?> getGeoItemRenderer() {
+                return TheLastEndLuckyBlockDisplayItemClient.getRenderer();
+            }
+        });
     }
 
     @Override

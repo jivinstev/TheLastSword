@@ -16,12 +16,12 @@ public class ThePastShadowOfTheQueenModel extends GeoModel<ThePastShadowOfTheQue
     }
 
     @Override
-    public ResourceLocation getModelResource(ThePastShadowOfTheQueenEntity entity) {
+    public ResourceLocation getModelResource(ThePastShadowOfTheQueenEntity entity, software.bernie.geckolib.renderer.GeoRenderer<ThePastShadowOfTheQueenEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "geo/the_past_shadow_of_the_queen.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(ThePastShadowOfTheQueenEntity entity) {
+    public ResourceLocation getTextureResource(ThePastShadowOfTheQueenEntity entity, software.bernie.geckolib.renderer.GeoRenderer<ThePastShadowOfTheQueenEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/entities/the_past_shadow_of_the_queen.png");
     }
 

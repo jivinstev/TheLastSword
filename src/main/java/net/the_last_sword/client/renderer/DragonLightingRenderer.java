@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.client.renderer.entity.state.LightningBoltRenderState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
@@ -23,7 +23,7 @@ public class DragonLightingRenderer extends LightningBoltRenderer {
     }
 
     @Override
-    public void render(LightningBolt entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(LightningBoltRenderState entity, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         float[] afloat = new float[16];
         float[] afloat1 = new float[16];
         float f = 0.0F;

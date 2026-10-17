@@ -60,7 +60,7 @@ public class AnvilApocalypseEvent extends LuckyEvent {
         BlockPos anchor = ctx.pos();
         Player player = ctx.player();
         if (player != null) {
-            player.sendSystemMessage(Component.translatable(MESSAGE_KEY));
+            { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY)); }
         }
 
         for (int second = 1; second <= DURATION_SECONDS; second++) {

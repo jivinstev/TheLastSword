@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.ItemNbt;
 import net.the_last_sword.compat.CompatCheck;
-import net.the_last_sword.compat.irons_spellbooks.SpellIntegration;
+// Iron's Spells 'n Spellbooks: no build for this Minecraft, SpellIntegration is not compiled (drops.txt)
 
 public class ModCreativeTabs {
 
@@ -126,9 +126,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.BOOTS_OF_THE_DEEP_ABYSS.get());
                 }
 
-                if (CompatCheck.isSpellcastingLoaded()) {
-                    SpellIntegration.addScrolls(output);
-                }
+                { /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
 
             })
             .build()

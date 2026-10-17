@@ -18,18 +18,12 @@ public class ModBlockEntities {
 
     public static final Supplier<BlockEntityType<DragonCrystalSmithingTableBlockEntity>> DRAGON_CRYSTAL_SMITHING_TABLE =
         BLOCK_ENTITIES.register("dragon_crystal_smithing_table",
-            () -> BlockEntityType.Builder.of(
-                DragonCrystalSmithingTableBlockEntity::new,
-                ModBlocks.DRAGON_CRYSTAL_SMITHING_TABLE.get()
-            ).build(null)
+            () -> new BlockEntityType<>(DragonCrystalSmithingTableBlockEntity::new, java.util.Set.of(ModBlocks.DRAGON_CRYSTAL_SMITHING_TABLE.get()))
         );
 
     public static final Supplier<BlockEntityType<DragonCrystalEnchantingTableBlockEntity>> DRAGON_CRYSTAL_ENCHANTING_TABLE =
         BLOCK_ENTITIES.register("dragon_crystal_enchanting_table",
-            () -> BlockEntityType.Builder.of(
-                DragonCrystalEnchantingTableBlockEntity::new,
-                ModBlocks.DRAGON_CRYSTAL_ENCHANTING_TABLE.get()
-            ).build(null)
+            () -> new BlockEntityType<>(DragonCrystalEnchantingTableBlockEntity::new, java.util.Set.of(ModBlocks.DRAGON_CRYSTAL_ENCHANTING_TABLE.get()))
         );
 
     //幸运方块联动（仅在 lucky 本体 mod 加载时注册）
@@ -43,10 +37,7 @@ public class ModBlockEntities {
     private static void registerConditionalBlockEntities() {
         if (CompatCheck.isLuckyBlockLoaded()) {
             THE_LAST_END_LUCKY_BLOCK = BLOCK_ENTITIES.register("the_last_end_lucky_block",
-                () -> BlockEntityType.Builder.of(
-                    TheLastEndLuckyBlockEntity::new,
-                    ModBlocks.THE_LAST_END_LUCKY_BLOCK.get()
-                ).build(null)
+                () -> new BlockEntityType<>(TheLastEndLuckyBlockEntity::new, java.util.Set.of(ModBlocks.THE_LAST_END_LUCKY_BLOCK.get()))
             );
         }
     }

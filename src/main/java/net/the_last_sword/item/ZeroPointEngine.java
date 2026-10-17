@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +33,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     private static final String CHARGING_ENABLED_TAG = "the_last_sword.charging_enabled";
 
     public ZeroPointEngine() {
-        super(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC));
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).fireResistant().rarity(Rarity.EPIC));
     }
 
     // 能量能力通过 RegisterCapabilitiesEvent 注册（Capabilities.EnergyStorage.ITEM，见 ModCapabilities）
@@ -87,15 +87,15 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!player.isShiftKeyDown()) return InteractionResultHolder.pass(stack);
+        if (!player.isShiftKeyDown()) return InteractionResult.PASS;
         if (!level.isClientSide) {
             boolean enable = !isChargingEnabled(stack);
             ItemNbt.update(stack, tag -> tag.putBoolean(CHARGING_ENABLED_TAG, enable));
             player.displayClientMessage(chargingStatus(stack), true);
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

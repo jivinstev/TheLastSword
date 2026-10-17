@@ -1,0 +1,8 @@
+{
+  "sound_event": "minecraft:event.raid.horn",
+  "use_duration": 7.0,
+  "range": 256.0,
+  "description": {
+    "translate": "instrument.the_last_sword.dragon_cult_horn"
+  }
+}

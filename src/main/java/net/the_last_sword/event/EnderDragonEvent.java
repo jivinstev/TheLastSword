@@ -557,8 +557,8 @@ public class EnderDragonEvent {
         if (targets.isEmpty()) return;
 
         DamageSource source = new DamageSource(
-                serverLevel.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                        .getHolderOrThrow(DamageTypes.LIGHTNING_BOLT),
+                serverLevel.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                        .getOrThrow(DamageTypes.LIGHTNING_BOLT),
                 dragon, dragon);
         float damage = (float) Math.max(1.0, getDragonAttackDamage(dragon));
         LivingEntity target = targets.get(dragon.getRandom().nextInt(targets.size()));

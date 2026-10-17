@@ -25,7 +25,7 @@ public class ServerPlayerMixin {
     @Inject(method = "restoreFrom", at = @At("TAIL"))
     private void tls$restoreProtectedInventory(ServerPlayer oldPlayer, boolean keepAllInventory, CallbackInfo ci) {
         if (!keepAllInventory
-                && !((Player) (Object) this).level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)
+                && !((ServerPlayer) (Object) this).serverLevel().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)
                 && !oldPlayer.isSpectator()
                 && EntityUtil.hasInventoryProtection(oldPlayer)) {
             ((Player) (Object) this).getInventory().replaceWith(oldPlayer.getInventory());

@@ -1,7 +1,7 @@
 package net.the_last_sword.client.shader;
 
 import com.mojang.blaze3d.shaders.Uniform;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.the_last_sword.mv.ShaderInstance;
 
 //The Last End 着色效果管理器
 //统一管理着色器实例和 Uniform 变量，提供给多个渲染场景使用

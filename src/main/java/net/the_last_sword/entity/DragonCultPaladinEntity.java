@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -73,7 +73,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this)
                 .setAlertOthers(DragonCultPaladinEntity.class, DragonCultistEntity.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                DragonCultDisguise.NOT_DISGUISED_PLAYER));
+                (mv$target, mv$level) -> DragonCultDisguise.NOT_DISGUISED_PLAYER.test(mv$target)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
@@ -170,7 +170,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
 
     //格挡免伤窗口内完全不受伤
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel mv$hurtLevel, @NotNull DamageSource source, float amount) {
         if (blockImmune) {
             long gameTime = level().getGameTime();
             if (!level().isClientSide && gameTime != lastBlockSoundTick) {
@@ -180,7 +180,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
             }
             return false;
         }
-        boolean hurt = super.hurt(source, amount);
+        boolean hurt = super.hurtServer(mv$hurtLevel, source, amount);
         if (hurt && !level().isClientSide) {
             requestBlock();
         }
@@ -198,7 +198,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {

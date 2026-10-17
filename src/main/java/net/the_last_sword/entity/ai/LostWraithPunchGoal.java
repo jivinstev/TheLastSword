@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.LostWraithEntity;
@@ -133,8 +133,8 @@ public class LostWraithPunchGoal extends Goal {
         float damage = (float) wraith.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
         DamageSource damageSource = new DamageSource(
-            wraith.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.GENERIC),
+            wraith.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.GENERIC),
             wraith, wraith);
 
         List<LivingEntity> targets = EntityUtil.getTargetsInFrontBox(
@@ -197,9 +197,9 @@ public class LostWraithPunchGoal extends Goal {
         boolean canBlock = false;
 
         if (useItem.is(Items.SHIELD)) {
-            canBlock = player.getCooldowns().getCooldownPercent(useItem.getItem(), 0.0f) == 0.0f;
-        } else if (useItem.getUseAnimation() == UseAnim.BLOCK) {
-            canBlock = player.getCooldowns().getCooldownPercent(useItem.getItem(), 0.0f) == 0.0f;
+            canBlock = player.getCooldowns().getCooldownPercent(useItem, 0.0f) == 0.0f;
+        } else if (useItem.getUseAnimation() == ItemUseAnimation.BLOCK) {
+            canBlock = player.getCooldowns().getCooldownPercent(useItem, 0.0f) == 0.0f;
         }
 
         if (!canBlock) {

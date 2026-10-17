@@ -365,8 +365,8 @@ public class LivingEntityMixin {
     }
 
     //底层系统必须先于原版免疫帧和事件完成绝毁、肃正防御与终焉附伤
-    @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
-    private void onLivingEntityHurt(DamageSource damageSource, float damageAmount, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hurtServer", at = @At("HEAD"), cancellable = true)
+    private void onLivingEntityHurt(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource damageSource, float damageAmount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity.level().isClientSide) {
@@ -424,7 +424,7 @@ public class LivingEntityMixin {
 
     //普通保护和非终焉种剑灵共用真实生命结算，终焉种保留自身覆写
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
-    private void onLivingEntityActuallyHurt(DamageSource damageSource, float damageAmount, CallbackInfo ci) {
+    private void onLivingEntityActuallyHurt(net.minecraft.server.level.ServerLevel mv$hurtLevel, DamageSource damageSource, float damageAmount, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity.level().isClientSide) {

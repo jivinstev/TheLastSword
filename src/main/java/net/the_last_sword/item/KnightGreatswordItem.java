@@ -22,8 +22,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.the_last_sword.compat.gear.SwordItem;
+import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -71,7 +71,7 @@ public class KnightGreatswordItem extends SwordItem {
 
         @Override
         public Ingredient getRepairIngredient() {
-            return Ingredient.EMPTY;
+            return Ingredient.of();
         }
     };
 
@@ -91,7 +91,7 @@ public class KnightGreatswordItem extends SwordItem {
 
     public KnightGreatswordItem() {
         // 玩家自带 1 点攻击伤害和 4 点攻击速度，因此这里的修正值会得到最终 12 / 1.0 的面板属性。
-        super(KNIGHT_GREATSWORD_TIER, new Item.Properties().rarity(Rarity.COMMON).attributes(knightGreatswordAttributes()));
+        super(KNIGHT_GREATSWORD_TIER, net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).rarity(Rarity.COMMON), knightGreatswordAttributes());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class KnightGreatswordItem extends SwordItem {
             context.getItemInHand().hurtAndBreak(1, player, slot);
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
     }
 
     private void damageNearbyTargets(ServerLevel level, Player player, Vec3 center) {

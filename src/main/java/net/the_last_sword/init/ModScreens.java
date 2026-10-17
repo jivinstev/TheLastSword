@@ -11,7 +11,7 @@ import net.the_last_sword.client.gui.DragonCrystalEnchantingTableScreen;
 import net.the_last_sword.client.gui.DragonCrystalSmithingTableScreen;
 import net.the_last_sword.client.gui.SummonWraithGuiScreen;
 import net.the_last_sword.compat.CompatCheck;
-import net.the_last_sword.compat.irons_spellbooks.EndSpellScrollItemExtension;
+// Iron's Spells 'n Spellbooks: no build for this Minecraft, EndSpellScrollItemExtension is not compiled (drops.txt)
 
 //菜单屏幕注册
 @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -28,9 +28,7 @@ public class ModScreens {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            if (CompatCheck.isSpellcastingLoaded()) {
-                ItemExtensionManager.register(new EndSpellScrollItemExtension());
-            }
+            { /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
         });
     }
 }

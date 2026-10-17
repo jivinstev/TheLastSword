@@ -7,12 +7,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.the_last_sword.compat.gear.Tier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -63,12 +64,12 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
 
                 @Override
                 public Ingredient getRepairIngredient() {
-                    return Ingredient.of(new ItemStack(Items.DRAGON_EGG));
+                    return Ingredient.of(Items.DRAGON_EGG);
                 }
             },
             3,
             -0.8f,
-            new Item.Properties().fireResistant().rarity(Rarity.RARE),
+            net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).fireResistant().rarity(Rarity.RARE),
             128f,
             200
         );
@@ -105,8 +106,8 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
                 //所有模式统一使用龙息伤害类型
                 DamageSource damageSource = new DamageSource(
                     attacker.getCommandSenderWorld().registryAccess()
-                        .registryOrThrow(Registries.DAMAGE_TYPE)
-                        .getHolderOrThrow(DamageTypes.DRAGON_BREATH),
+                        .lookupOrThrow(Registries.DAMAGE_TYPE)
+                        .getOrThrow(DamageTypes.DRAGON_BREATH),
                     attacker,
                     attacker
                 );
@@ -121,13 +122,13 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
 
     //右键使用
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         //如果副手持盾且配置启用了盾牌取消使用，则传递事件给盾牌
         if (player.getOffhandItem().getItem() == Items.SHIELD &&
             TheLastSwordConfiguration.getBlockCancelUseSafely()) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
 
         int mode = ItemModeHelper.getMode(stack);
@@ -144,7 +145,7 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
             }
         }
 
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
     }
 
     @Override

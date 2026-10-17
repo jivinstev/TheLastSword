@@ -138,15 +138,15 @@ public class DragonCultPriestLightningGoal extends Goal {
         );
 
         DamageSource damageSource = new DamageSource(
-            priest.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.LIGHTNING_BOLT),
+            priest.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.LIGHTNING_BOLT),
             priest, priest);
 
         float damage = (float) (priest.getAttributeValue(Attributes.ATTACK_DAMAGE)
             * TheLastSwordConfiguration.getDragonCultPriestLightningDamageMultiplierSafely()
             * priest.getSkillDamageMultiplier());
         for (LivingEntity target : targets) {
-            if (target.hurt(damageSource, damage)) {
+            if (net.the_last_sword.mv.Hurt.server(target,damageSource, damage)) {
                 priest.onSuccessfulAttack(target);
             }
         }

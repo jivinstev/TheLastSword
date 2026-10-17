@@ -67,7 +67,7 @@ public class QueenBlinkBlade extends Projectile {
         return new Vec3(-Math.sin(yaw), 0, Math.cos(yaw));
     }
 
-    @Override
+    
     public AABB getBoundingBoxForCulling() {
         return bounds(forward());
     }
@@ -116,8 +116,8 @@ public class QueenBlinkBlade extends Projectile {
     }
 
     protected DamageSource bladeDamageSource(LivingEntity owner) {
-        return new DamageSource(level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(DamageTypes.DRAGON_BREATH), this, owner);
+        return new DamageSource(level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(DamageTypes.DRAGON_BREATH), this, owner);
     }
 
     protected double flightRange() {

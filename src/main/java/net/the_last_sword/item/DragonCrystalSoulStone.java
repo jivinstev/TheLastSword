@@ -16,7 +16,7 @@ import java.util.List;
 //龙晶魂石 - 用于存储剑灵的物品
 public class DragonCrystalSoulStone extends Item {
     public DragonCrystalSoulStone() {
-        super(new Item.Properties().rarity(Rarity.RARE).stacksTo(1).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).rarity(Rarity.RARE).stacksTo(1).fireResistant());
     }
 
     //获取默认绑定的实体类型ID（子类可覆写）
@@ -81,7 +81,7 @@ public class DragonCrystalSoulStone extends Item {
             if (!entityId.isEmpty()) {
                 try {
                     ResourceLocation rl = ResourceLocation.parse(entityId);
-                    EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(rl);
+                    EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getValue(rl);
                     if (entityType != null) {
                         return entityType.getDescriptionId();
                     }

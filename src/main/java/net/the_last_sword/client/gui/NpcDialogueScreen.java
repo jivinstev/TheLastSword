@@ -229,7 +229,7 @@ public class NpcDialogueScreen extends Screen {
 
     private void blitSlice(GuiGraphics graphics, int x, int y, int width, int height,
                            int sourceX, int sourceY, int sourceWidth, int sourceHeight) {
-        graphics.blit(SCROLL_TEXTURE, x, y, width, height, sourceX, sourceY,
+        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, x, y, width, height, sourceX, sourceY,
                 sourceWidth, sourceHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
     }
 

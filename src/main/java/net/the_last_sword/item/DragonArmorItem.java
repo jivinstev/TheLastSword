@@ -1,8 +1,13 @@
 package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -12,7 +17,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
@@ -51,38 +61,30 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     //能量基础值（6级龙套的基础能量）
     private static final int BASE_ENERGY = 1048576; // 1M FE
 
-    public DragonArmorItem(Type type, Properties props) {
-        super(Holder.direct(new ArmorMaterial(
-                // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
-                Map.of(Type.BOOTS, 8, Type.LEGGINGS, 12, Type.CHESTPLATE, 12, Type.HELMET, 8),
-                32,
-                SoundEvents.ARMOR_EQUIP_NETHERITE,
-                () -> Ingredient.of(),
-                List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor"))),
-                10f,
-                5f)), type,
-                // 耐久度 2,147,483,647（原 getDurabilityForType）
-                props.fireResistant().rarity(Rarity.EPIC).durability(Integer.MAX_VALUE));
+    //耐久单位 134217727 × 各部位基数(最大16) 仍在 int 范围内，近似原来的 Integer.MAX_VALUE
+    private static final ArmorMaterial MATERIAL = new ArmorMaterial(
+            134217727,
+            // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
+            Map.of(ArmorType.BOOTS, 8, ArmorType.LEGGINGS, 12, ArmorType.CHESTPLATE, 12, ArmorType.HELMET, 8),
+            32,
+            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            10f,
+            5f,
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("the_last_sword", "repairs_dragon_armor")),
+            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor")));
+
+    public DragonArmorItem(ArmorType type, Properties props) {
+        super(MATERIAL, type, props.fireResistant().rarity(Rarity.EPIC));
     }
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         //龙之套装不掉耐久
         return 0;
     }
+    //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private GeoArmorRenderer<?> renderer;
-
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack,
-                                                          EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                if (this.renderer == null)
-                    this.renderer = new DragonArmorRenderer();
-                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-                return this.renderer;
-            }
-        });
+    public void createGeoRenderer(Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(net.the_last_sword.client.DragonCultArmorClientExtensions.create(DragonArmorRenderer::new));
     }
 
     // ==================== 实现TheLastEndArmorItem抽象方法 ====================
@@ -161,7 +163,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         }
 
         // 部件特定描述
-        EquipmentSlot slot = this.getEquipmentSlot();
+        EquipmentSlot slot = this.getEquipmentSlot(itemstack);
         switch (slot) {
             case HEAD -> list.add(Component.translatable("item_tooltip.the_last_sword.dragon_armor_helmet"));
             case CHEST -> list.add(Component.translatable("item_tooltip.the_last_sword.dragon_armor_chestplate"));
@@ -338,64 +340,44 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     public static class Helmet extends DragonArmorItem {
         public Helmet() {
-            super(Type.HELMET, new Properties());
+            super(ArmorType.HELMET, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.HEAD;
         }
     }
 
     public static class Chestplate extends DragonArmorItem {
         public Chestplate() {
-            super(Type.CHESTPLATE, new Properties());
+            super(ArmorType.CHESTPLATE, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.CHEST;
         }
     }
 
     public static class Leggings extends DragonArmorItem {
         public Leggings() {
-            super(Type.LEGGINGS, new Properties());
+            super(ArmorType.LEGGINGS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.LEGS;
         }
     }
 
     public static class Boots extends DragonArmorItem {
         public Boots() {
-            super(Type.BOOTS, new Properties());
+            super(ArmorType.BOOTS, net.the_last_sword.mv.RegIds.stamp(new Properties()));
         }
 
         @Override
-        public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-            return ResourceLocation.parse("the_last_sword:textures/item/dragon_armor.png");
-        }
-
-        @Override
-        public EquipmentSlot getEquipmentSlot() {
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.FEET;
         }
     }

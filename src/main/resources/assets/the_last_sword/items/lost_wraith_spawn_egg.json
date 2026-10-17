@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "the_last_sword:item/lost_wraith_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 0
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 4934475
+      }
+    ]
+  }
+}

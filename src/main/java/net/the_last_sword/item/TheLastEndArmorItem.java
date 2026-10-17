@@ -9,7 +9,8 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -29,8 +30,11 @@ import java.util.Locale;
  */
 public abstract class TheLastEndArmorItem extends ArmorItem {
 
-    protected TheLastEndArmorItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
+    private final ArmorMaterial armorMaterial;
+
+    protected TheLastEndArmorItem(ArmorMaterial material, ArmorType type, Properties properties) {
         super(material, type, properties);
+        this.armorMaterial = material;
     }
 
     //获取初始等级（子类可覆盖）
@@ -45,9 +49,11 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
     }
 
     //动态属性修饰符，根据等级计算（物品没有 ATTRIBUTE_MODIFIERS 组件时使用）
+    //1.21.4: ArmorItem always carries an ATTRIBUTE_MODIFIERS component, so NeoForge never falls back to this method;
+    //event/ArmorAttributeModifierHandler applies it instead
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-        EquipmentSlot slot = this.getEquipmentSlot();
+        EquipmentSlot slot = this.getEquipmentSlot(stack);
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
         String slotName = slot.getName();
         ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
@@ -80,7 +86,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
         ), group);
 
         //击退抗性
-        float knockbackResistance = this.getMaterial().value().knockbackResistance();
+        float knockbackResistance = this.armorMaterial.knockbackResistance();
         if (knockbackResistance > 0) {
             modifiers.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
                 ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_knockback_resistance_" + slotName),

@@ -1,5 +1,7 @@
 package net.the_last_sword.event;
 
+import net.minecraft.world.item.crafting.RecipeMap;
+import net.the_last_sword.client.gui.scroll.ScrollRecipeRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -8,10 +10,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.item.ItemProperties;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +28,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
+import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -93,8 +101,8 @@ public class ClientEventHandler {
             false,
             true,
             RenderType.CompositeState.builder()
-                    .setShaderState(new RenderStateShard.ShaderStateShard(TheLastEndEffect::getShader))
-                    .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, false, false))
+                    .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
+                    .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, net.minecraft.util.TriState.FALSE, false))
                     .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                     .setCullState(RenderStateShard.NO_CULL)
                     .setWriteMaskState(RenderStateShard.COLOR_WRITE)
@@ -172,10 +180,29 @@ public class ClientEventHandler {
             event.enqueueWork(() -> {
                 //加载防御配置
                 DefenceConfig.load();
-                ItemProperties.register(ModItems.DRAGON_CRYSTAL_SOUL_STONE.get(),
-                        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_soul_stone_full"),
-                        (stack, level, entity, seed) -> DragonCrystalSoulStone.hasStoredEntity(stack) ? 1.0F : 0.0F);
             });
+        }
+
+        //龙晶魂石"已存储实体"属性：1.21.4 起由客户端物品定义
+        //assets/the_last_sword/items/dragon_crystal_soul_stone.json 的 minecraft:condition 读取
+        @SubscribeEvent
+        public static void onRegisterConditionalItemModelProperties(RegisterConditionalItemModelPropertyEvent event) {
+            event.register(ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_soul_stone_full"),
+                    SoulStoneFull.MAP_CODEC);
+        }
+    }
+
+    public record SoulStoneFull() implements ConditionalItemModelProperty {
+        public static final MapCodec<SoulStoneFull> MAP_CODEC = MapCodec.unit(new SoulStoneFull());
+
+        @Override
+        public boolean get(ItemStack stack, ClientLevel level, LivingEntity entity, int seed, ItemDisplayContext context) {
+            return DragonCrystalSoulStone.hasStoredEntity(stack);
+        }
+
+        @Override
+        public MapCodec<SoulStoneFull> type() {
+            return MAP_CODEC;
         }
     }
 
@@ -197,6 +224,14 @@ public class ClientEventHandler {
         DangerousSkillPreviewRenderer.clear();
         LostWraithEndStrikeEffectRenderer.clear();
         ClientDragonCrystalRecipeCache.clear();
+        ScrollRecipeRenderer.setReceivedRecipes(RecipeMap.EMPTY);
+    }
+
+    //1.21.4: the client holds no recipe manager; the server sends its crafting and smithing recipes
+    //(ServerEventHandler.onDatapackSync), and the scroll book draws its recipe pages from them
+    @SubscribeEvent
+    public static void onRecipesReceived(RecipesReceivedEvent event) {
+        ScrollRecipeRenderer.setReceivedRecipes(event.getRecipeMap());
     }
 
     //按键输入事件

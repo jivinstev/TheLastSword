@@ -485,7 +485,7 @@ public class TheLastEndScrollScreen extends Screen {
         RenderSystem.defaultBlendFunc();
 
         // 参数: ResourceLocation, x, y, u, v, width, height, textureWidth, textureHeight
-        graphics.blit(SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
+        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
         RenderSystem.disableBlend();
 

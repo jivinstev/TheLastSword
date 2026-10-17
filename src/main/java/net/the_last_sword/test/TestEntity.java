@@ -139,10 +139,10 @@ public class TestEntity extends PathfinderMob {
 
 
     @Override public SoundEvent getHurtSound(DamageSource ds) {
-        return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.hurt"));
+        return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.hurt"));
     }
     @Override public SoundEvent getDeathSound() {
-        return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.ender_dragon.death"));
+        return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.death"));
     }
 
     @Override public void startSeenByPlayer(ServerPlayer p) {
@@ -157,8 +157,8 @@ public class TestEntity extends PathfinderMob {
             bossInfo.removePlayer(p);
         }
     }
-    @Override public void customServerAiStep() {
-        super.customServerAiStep();
+    @Override protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
         if (bossInfo != null) {
             bossInfo.setProgress(getHealth() / getMaxHealth());
         }
@@ -193,7 +193,7 @@ public class TestEntity extends PathfinderMob {
     }
 
     @Override
-    public void kill() {
+    public void kill(ServerLevel level) {
     }
 
     @Override
@@ -207,7 +207,7 @@ public class TestEntity extends PathfinderMob {
 
 
     @Override
-    protected void dropExperience(@Nullable Entity attacker) {
+    protected void dropExperience(ServerLevel level, @Nullable Entity attacker) {
 
     }
 
@@ -262,7 +262,7 @@ public class TestEntity extends PathfinderMob {
     @Override public boolean isPushable() { return false; }
     @Override protected void doPush(Entity e) {}
     @Override protected void pushEntities() {}
-    @Override public boolean canChangeDimensions(Level oldLevel, Level newLevel) { return false; }
+    @Override public boolean canTeleport(Level oldLevel, Level newLevel) { return false; }
     @Override public void knockback(double s, double x, double z) {}
     @Override public void travel(Vec3 v) {
     }

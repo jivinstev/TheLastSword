@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -26,7 +26,7 @@ public class PriestStaffItem extends Item {
     private final ItemAttributeModifiers defaultModifiers;
 
     public PriestStaffItem() {
-        super(new Item.Properties().durability(200).rarity(Rarity.UNCOMMON));
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).durability(200).rarity(Rarity.UNCOMMON));
 
         this.defaultModifiers = ItemAttributeModifiers.builder()
             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
@@ -42,7 +42,6 @@ public class PriestStaffItem extends Item {
             .build();
     }
 
-    @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers() {
         return defaultModifiers;
     }
@@ -53,10 +52,10 @@ public class PriestStaffItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (player.getCooldowns().isOnCooldown(this)) {
-            return InteractionResultHolder.fail(stack);
+        if (player.getCooldowns().isOnCooldown(stack)) {
+            return InteractionResult.FAIL;
         }
 
         if (!level.isClientSide) {
@@ -68,7 +67,7 @@ public class PriestStaffItem extends Item {
                 );
                 consumeDurability(stack, player, hand, 2);
                 player.getCooldowns().addCooldown(
-                    this,
+                    stack,
                     TheLastSwordConfiguration.getPriestStaffGuardCooldownSafely()
                 );
             } else {
@@ -81,7 +80,7 @@ public class PriestStaffItem extends Item {
             }
         }
 
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -31,7 +31,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     private static final String CHARGING_ENABLED_TAG = "the_last_sword.charging_enabled";
 
     public AncientEnergyCore() {
-        super(new Item.Properties()
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
             .stacksTo(1) //能量物品不能堆叠
             .fireResistant()
             .rarity(Rarity.RARE)
@@ -88,7 +88,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         //Shift+右键切换充能状态
@@ -104,10 +104,10 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
                 player.displayClientMessage(Component.translatable(key), true);
             }
 
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
 
-        return InteractionResultHolder.pass(stack);
+        return InteractionResult.PASS;
     }
 
     @Override

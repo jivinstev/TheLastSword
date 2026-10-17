@@ -17,7 +17,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -227,7 +227,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                                 + dialogueId)
                         .withStyle(ChatFormatting.WHITE));
         for (Player player : level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(32.0))) {
-            player.sendSystemMessage(message);
+            player.displayClientMessage(message, false);
         }
     }
 
@@ -323,23 +323,23 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource damageSource, float damageAmount) {
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource damageSource, float damageAmount) {
         if (getAnimationState() == STATE_BLOCK) {
             return false;
         }
-        return super.hurt(damageSource, damageAmount);
+        return super.hurtServer(serverLevel, damageSource, damageAmount);
     }
 
     @Override
-    public void actuallyHurt(@NotNull DamageSource damageSource, float damageAmount) {
+    public void actuallyHurt(@NotNull ServerLevel serverLevel, @NotNull DamageSource damageSource, float damageAmount) {
         if (getAnimationState() == STATE_BLOCK) {
             return;
         }
-        super.actuallyHurt(damageSource, damageAmount);
+        super.actuallyHurt(serverLevel, damageSource, damageAmount);
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {

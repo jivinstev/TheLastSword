@@ -24,8 +24,8 @@ public class VoidEnchantingEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        boolean result = super.applyEffectTick(entity, amplifier);
+    public boolean applyEffectTick(net.minecraft.server.level.ServerLevel mv$level, LivingEntity entity, int amplifier) {
+        boolean result = super.applyEffectTick(mv$level, entity, amplifier);
 
         if (!entity.level().isClientSide
             && entity.level() instanceof ServerLevel serverLevel

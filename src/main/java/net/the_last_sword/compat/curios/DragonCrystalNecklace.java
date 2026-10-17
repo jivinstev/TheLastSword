@@ -32,7 +32,7 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
     private static final UUID RECOVERY_SPEED_UUID = UUID.fromString("d9c8cfe2-311f-4e13-9497-d7452104dc5e");
 
     public DragonCrystalNecklace() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
+        super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     @Override

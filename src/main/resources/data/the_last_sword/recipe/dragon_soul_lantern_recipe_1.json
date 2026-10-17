@@ -7,15 +7,9 @@
     "aba"
   ],
   "key": {
-    "a": {
-      "item": "minecraft:crying_obsidian"
-    },
-    "b": {
-      "item": "the_last_sword:dragon_crystal"
-    },
-    "c": {
-      "item": "minecraft:lantern"
-    }
+    "a": "minecraft:crying_obsidian",
+    "b": "the_last_sword:dragon_crystal",
+    "c": "minecraft:lantern"
   },
   "result": {
     "id": "the_last_sword:dragon_soul_lantern",

@@ -7,9 +7,7 @@
     "aaa"
   ],
   "key": {
-    "a": {
-      "item": "minecraft:bone_block"
-    }
+    "a": "minecraft:bone_block"
   },
   "result": {
     "id": "minecraft:skeleton_skull",

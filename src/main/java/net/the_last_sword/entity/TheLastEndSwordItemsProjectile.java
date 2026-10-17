@@ -44,7 +44,9 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
     }
 
     public TheLastEndSwordItemsProjectile(EntityType<? extends TheLastEndSwordItemsProjectile> type, LivingEntity entity, Level world, UUID shooterUUID) {
-        super(type, entity, world);
+        super(type, world);
+        this.setPos(entity.getX(), entity.getEyeY() - 0.1, entity.getZ());
+        this.setOwner(entity);
         this.shooterUUID = shooterUUID;
     }
 
@@ -145,7 +147,7 @@ public abstract class TheLastEndSwordItemsProjectile extends ThrowableProjectile
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
         if (this.level() instanceof ServerLevel serverLevel) {
-            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
+            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (lightning != null) {
                 BlockPos pos = blockHitResult.getBlockPos();
                 lightning.moveTo(Vec3.atBottomCenterOf(pos));

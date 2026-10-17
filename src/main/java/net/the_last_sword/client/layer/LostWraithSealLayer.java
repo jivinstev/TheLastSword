@@ -38,7 +38,7 @@ public final class LostWraithSealLayer extends GeoRenderLayer<LostWraithEntity> 
     @Override
     public void renderForBone(PoseStack poseStack, LostWraithEntity entity, GeoBone bone,
             RenderType renderType, MultiBufferSource buffers, VertexConsumer buffer,
-            float partialTick, int packedLight, int packedOverlay) {
+            float partialTick, int packedLight, int packedOverlay, int renderColor) {
         // 激活动画开始即解除封印，不等待战斗就绪状态。
         if (entity.getAnimationState() != TheLastEndEntity.STATE_UNSPAWNED || bone.isHidden()) {
             return;

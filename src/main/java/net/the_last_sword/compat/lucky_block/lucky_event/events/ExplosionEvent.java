@@ -48,7 +48,7 @@ public class ExplosionEvent extends LuckyEvent {
             Level.ExplosionInteraction.BLOCK
         );
         if (ctx.player() != null) {
-            ctx.player().sendSystemMessage(Component.translatable(MESSAGE_KEY));
+            { if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY)); }
         }
     }
 }

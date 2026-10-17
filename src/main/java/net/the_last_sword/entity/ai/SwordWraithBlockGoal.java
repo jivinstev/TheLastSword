@@ -120,7 +120,7 @@ public class SwordWraithBlockGoal extends Goal {
                 knockbackDir.x * KNOCKBACK_STRENGTH, 0.1, knockbackDir.z * KNOCKBACK_STRENGTH
             ));
 
-            if (target.hurt(wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage))) {
+            if (net.the_last_sword.mv.Hurt.server(target,wraith.damageSources().mobAttack(wraith), wraith.getDamageWithEndMark(target, damage))) {
                 wraith.addEndMark();
             }
         }

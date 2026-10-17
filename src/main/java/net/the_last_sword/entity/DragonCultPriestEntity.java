@@ -24,7 +24,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -118,7 +118,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     protected @NotNull PathNavigation createNavigation(@NotNull Level world) {
         FlyingPathNavigation navigation = new FlyingPathNavigation(this, world);
         navigation.setCanFloat(false);
-        navigation.setCanPassDoors(true);
+        navigation.getNodeEvaluator().setCanPassDoors(true);
         return navigation;
     }
 
@@ -153,7 +153,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this)
                 .setAlertOthers(DragonCultistEntity.class, DragonCultPaladinEntity.class, DragonCultPriestEntity.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                DragonCultDisguise.NOT_DISGUISED_PLAYER));
+                (LivingEntity target, ServerLevel lvl) -> target instanceof Player player && DragonCultDisguise.NOT_DISGUISED_PLAYER.test(player)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
@@ -266,7 +266,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
 
     //免疫龙息，避免被自己与同族的吐息灼伤
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(@NotNull ServerLevel level, @NotNull DamageSource source, float amount) {
         if (source.is(DamageTypes.DRAGON_BREATH)) {
             return false;
         }
@@ -276,7 +276,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
             amount *= 0.7F;
         }
 
-        boolean hurt = super.hurt(source, amount);
+        boolean hurt = super.hurtServer(level, source, amount);
         if (hurt && variant == NamedPriestVariant.KROSIS && getRandom().nextFloat() < 0.30F) {
             addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60));
         }
@@ -294,7 +294,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData livingdata) {
         SpawnGroupData result = super.finalizeSpawn(world, difficulty, reason, livingdata);
 
         if (!level().isClientSide) {
@@ -506,13 +506,13 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
                 36, 1.5, 1.5, 1.5, 0.0);
         AABB area = new AABB(center.subtract(1.5, 1.5, 1.5), center.add(1.5, 1.5, 1.5));
         DamageSource source = new DamageSource(
-                level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                        .getHolderOrThrow(DamageTypes.DRAGON_BREATH), this, this);
+                level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                        .getOrThrow(DamageTypes.DRAGON_BREATH), this, this);
         float damage = (float) (getAttributeValue(Attributes.ATTACK_DAMAGE)
                 * TheLastSwordConfiguration.getDragonCultPriestBreathDamageMultiplierSafely());
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(this, entity))) {
-            if (target.hurt(source, damage)) {
+            if (target.hurtServer(serverLevel, source, damage)) {
                 onSuccessfulAttack(target);
             }
         }
@@ -553,14 +553,14 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
     }
 
     private void summonCultist(ServerLevel serverLevel) {
-        DragonCultistEntity cultist = ModEntities.DRAGON_CULTIST.get().create(serverLevel);
+        DragonCultistEntity cultist = ModEntities.DRAGON_CULTIST.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (cultist != null) {
             placeSummon(cultist, serverLevel);
         }
     }
 
     private void summonPriest(ServerLevel serverLevel) {
-        DragonCultPriestEntity priest = ModEntities.DRAGON_CULT_PRIEST.get().create(serverLevel);
+        DragonCultPriestEntity priest = ModEntities.DRAGON_CULT_PRIEST.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (priest != null) {
             placeSummon(priest, serverLevel);
         }
@@ -571,7 +571,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         double z = getZ() + (getRandom().nextDouble() - 0.5) * 4.0;
         summon.moveTo(x, getY(), z, getRandom().nextFloat() * 360.0F, 0.0F);
         summon.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(summon.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         if (getTarget() != null) {
             summon.setTarget(getTarget());
         }

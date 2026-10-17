@@ -5,12 +5,18 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.entity.QueenBlinkBlade;
 import net.the_last_sword.entity.QueenEnhancedBlade;
 
-public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade> {
+public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, QueenBlinkBladeRenderer.State> {
+    public static class State extends EntityRenderState {
+        public QueenBlinkBlade entity;
+    }
+
     private final boolean enhanced;
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID,
             "textures/entities/the_past_shadow_of_the_queen.png");
@@ -24,9 +30,26 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade> {
         this.enhanced = enhanced;
     }
 
+    // 1.21.2 asks the renderer for the culling box; the blade's own box (QueenBlinkBlade) still answers it
     @Override
-    public void render(QueenBlinkBlade entity, float yaw, float partialTick, PoseStack pose,
-                       MultiBufferSource buffers, int light) {
+    protected AABB getBoundingBoxForCulling(QueenBlinkBlade entity) {
+        return entity.getBoundingBoxForCulling();
+    }
+
+    @Override
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(QueenBlinkBlade entity, State state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.entity = entity;
+    }
+
+    @Override
+    public void render(State state, PoseStack pose, MultiBufferSource buffers, int light) {
+        QueenBlinkBlade entity = state.entity;
         pose.pushPose();
         pose.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
         if (entity instanceof QueenEnhancedBlade blade) {
@@ -37,11 +60,10 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade> {
         }
         QueenBlinkRenderUtil.blade(pose, buffers, entity.bladeWidth(), entity.bladeHeight(), entity.bladeLength(), enhanced);
         pose.popPose();
-        super.render(entity, yaw, partialTick, pose, buffers, light);
+        super.render(state, pose, buffers, light);
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(QueenBlinkBlade entity) {
+    public ResourceLocation getTextureLocation(State state) {
         return TEXTURE;
     }
 }

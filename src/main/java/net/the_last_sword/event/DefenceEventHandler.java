@@ -330,7 +330,7 @@ public final class DefenceEventHandler {
                         Level level = player.level();
                         BlockPos pos = player.blockPosition();
                         level.playSound(null, pos,
-                            BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("block.amethyst_block.chime")),
+                            BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("block.amethyst_block.chime")),
                             SoundSource.PLAYERS, 2, 1);
                     }
                     // 重新启动下一轮定时器

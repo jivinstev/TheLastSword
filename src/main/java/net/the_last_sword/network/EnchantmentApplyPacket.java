@@ -82,7 +82,7 @@ public class EnchantmentApplyPacket implements CustomPacketPayload {
             for (Holder<Enchantment> holder : currentEnchants.keySet()) {
                 existingEnchants.put(holder.value(), currentEnchants.getLevel(holder));
             }
-            var enchRegistry = player.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+            var enchRegistry = player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 
             // 分别计算增加消耗和减少返还
             long totalEnergyCost = 0;
@@ -90,8 +90,9 @@ public class EnchantmentApplyPacket implements CustomPacketPayload {
             Map<Enchantment, Integer> targetLevels = new HashMap<>();
 
             for (var entry : msg.enchantments.entrySet()) {
-                Enchantment ench = enchRegistry.get(entry.getKey());
-                if (ench == null) continue;
+                var ref = enchRegistry.get(net.minecraft.resources.ResourceKey.create(Registries.ENCHANTMENT, entry.getKey()));
+                if (ref.isEmpty()) continue;
+                Enchantment ench = ref.get().value();
 
                 int currentLevel = existingEnchants.getOrDefault(ench, 0);
                 int targetLevel = Math.max(0, Math.min(255, entry.getValue()));

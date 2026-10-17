@@ -16,12 +16,12 @@ public class TheLastEndSwordWraithModel extends GeoModel<TheLastEndSwordWraithEn
     }
 
     @Override
-    public ResourceLocation getModelResource(TheLastEndSwordWraithEntity entity) {
+    public ResourceLocation getModelResource(TheLastEndSwordWraithEntity entity, software.bernie.geckolib.renderer.GeoRenderer<TheLastEndSwordWraithEntity> renderer) {
         return entity.getAppearance().getModel();
     }
 
     @Override
-    public ResourceLocation getTextureResource(TheLastEndSwordWraithEntity entity) {
+    public ResourceLocation getTextureResource(TheLastEndSwordWraithEntity entity, software.bernie.geckolib.renderer.GeoRenderer<TheLastEndSwordWraithEntity> renderer) {
         return entity.getAppearance().getTexture();
     }
 

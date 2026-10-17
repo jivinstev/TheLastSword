@@ -253,7 +253,7 @@ public class WraithSummonManager {
         //从玩家持久化数据读取魂石
         ItemStack soulStone = getSoulStoneFromPlayer(player);
         if (soulStone.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.no_soul_stone").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.no_soul_stone").withStyle(ChatFormatting.RED), false);
             return false;
         }
 
@@ -273,7 +273,7 @@ public class WraithSummonManager {
         }
 
         if (entityId == null) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.soul_stone_empty").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.soul_stone_empty").withStyle(ChatFormatting.RED), false);
             return false;
         }
 
@@ -292,9 +292,9 @@ public class WraithSummonManager {
                 boolean success = recallWraith(player, wraitheUUID, (ServerLevel) level);
                 if (success) {
                     applyCooldown(player, weaponStack);
-                    player.sendSystemMessage(Component.translatable("message.the_last_sword.recall_success").withStyle(ChatFormatting.GREEN));
+                    player.displayClientMessage(Component.translatable("message.the_last_sword.recall_success").withStyle(ChatFormatting.GREEN), false);
                 } else {
-                    player.sendSystemMessage(Component.translatable("message.the_last_sword.recall_failed").withStyle(ChatFormatting.YELLOW));
+                    player.displayClientMessage(Component.translatable("message.the_last_sword.recall_failed").withStyle(ChatFormatting.YELLOW), false);
                 }
                 return success;
             } else {
@@ -312,7 +312,7 @@ public class WraithSummonManager {
         //1. 创建实体（优先从捕获的NBT恢复）
         EntityType<?> entityType = getEntityTypeFromString(entityId);
         if (entityType == null) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED), false);
             return false;
         }
 
@@ -320,19 +320,19 @@ public class WraithSummonManager {
         if (nbt != null && nbt.contains("entity_nbt")) {
             //从捕获的NBT恢复实体（保留装备、属性等）
             CompoundTag entityNBT = nbt.getCompound("entity_nbt");
-            Entity entity = entityType.create(level);
+            Entity entity = entityType.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (entity instanceof LivingEntity living) {
                 living.load(entityNBT);  //加载NBT数据
                 wraith = living;
             } else {
-                player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED));
+                player.displayClientMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED), false);
                 return false;
             }
         } else {
             //创建全新实体
-            Entity entity = entityType.create(level);
+            Entity entity = entityType.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (!(entity instanceof LivingEntity)) {
-                player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED));
+                player.displayClientMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED), false);
                 return false;
             }
             wraith = (LivingEntity) entity;
@@ -354,7 +354,7 @@ public class WraithSummonManager {
         //4. 添加到世界
         boolean addSuccess = level.addFreshEntity(wraith);
         if (!addSuccess) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_blocked").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.summon_blocked").withStyle(ChatFormatting.RED), false);
             return false;
         }
 
@@ -434,9 +434,9 @@ public class WraithSummonManager {
         CompoundTag entityNBT = nbt.getCompound("entity_nbt");
 
         //1. 从NBT加载实体
-        Entity entity = EntityType.loadEntityRecursive(entityNBT, level, (e) -> e);
+        Entity entity = EntityType.loadEntityRecursive(entityNBT, level, net.minecraft.world.entity.EntitySpawnReason.LOAD, (e) -> e);
         if (!(entity instanceof LivingEntity)) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED), false);
             return false;
         }
         LivingEntity wraith = (LivingEntity) entity;
@@ -474,7 +474,7 @@ public class WraithSummonManager {
         //4. 添加到世界
         boolean addSuccess = level.addFreshEntity(wraith);
         if (!addSuccess) {
-            player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_blocked").withStyle(ChatFormatting.RED));
+            player.displayClientMessage(Component.translatable("message.the_last_sword.summon_blocked").withStyle(ChatFormatting.RED), false);
             return false;
         }
 
@@ -642,7 +642,7 @@ public class WraithSummonManager {
     private static EntityType<?> getEntityTypeFromString(String entityTypeStr) {
         try {
             ResourceLocation rl = ResourceLocation.parse(entityTypeStr);
-            return BuiltInRegistries.ENTITY_TYPE.get(rl);
+            return BuiltInRegistries.ENTITY_TYPE.getValue(rl);
         } catch (Exception e) {
             return null;
         }
@@ -777,7 +777,7 @@ public class WraithSummonManager {
     //发送召唤消息
     private static void sendSummonMessage(Player player, LivingEntity entity) {
         Component entityName = entity.hasCustomName() ? entity.getCustomName() : entity.getDisplayName();
-        player.sendSystemMessage(Component.translatable("message.the_last_sword.summon_success", entityName));
+        player.displayClientMessage(Component.translatable("message.the_last_sword.summon_success", entityName), false);
 
         if (entity instanceof TheLastEndSwordWraithEntity
                 && TheLastSwordConfiguration.getTheLastEndSwordWraithSummonTalkSafely()) {
@@ -789,7 +789,7 @@ public class WraithSummonManager {
                 .append(Component.translatable("dialogue.the_last_sword.the_last_end_sword_wraith.summon.spawn_"
                                 + dialogueIndex)
                     .withStyle(ChatFormatting.WHITE));
-            player.sendSystemMessage(message);
+            player.displayClientMessage(message, false);
         }
     }
 
@@ -802,7 +802,7 @@ public class WraithSummonManager {
         //使用接口获取冷却时间
         if (weaponStack.getItem() instanceof ISummonableItem summonable) {
             int cooldownTicks = summonable.getSummonCooldownTicks();
-            player.getCooldowns().addCooldown(weaponStack.getItem(), cooldownTicks);
+            player.getCooldowns().addCooldown(BuiltInRegistries.ITEM.getKey(weaponStack.getItem()), cooldownTicks);
         }
     }
 
@@ -1147,9 +1147,9 @@ public class WraithSummonManager {
         }
         if (isSoulCaptureBlacklisted(entityId)) {
             if (!victim.getPersistentData().getBoolean(SOUL_CAPTURE_REJECTED_KEY)) {
-                owner.sendSystemMessage(Component.translatable(
+                owner.displayClientMessage(Component.translatable(
                         "message.the_last_sword.dragon_soul_lantern.capture_blacklisted")
-                        .withStyle(ChatFormatting.RED));
+                        .withStyle(ChatFormatting.RED), false);
                 victim.getPersistentData().putBoolean(SOUL_CAPTURE_REJECTED_KEY, true);
             }
             return false;
@@ -1171,8 +1171,8 @@ public class WraithSummonManager {
             victim.getCustomName().getString() :
             victim.getDisplayName().getString();
 
-        owner.sendSystemMessage(Component.translatable(
-            "message.the_last_sword.dragon_soul_lantern.stored_success", entityName));
+        owner.displayClientMessage(Component.translatable(
+            "message.the_last_sword.dragon_soul_lantern.stored_success", entityName), false);
         return true;
     }
 

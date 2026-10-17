@@ -3,10 +3,11 @@ package net.the_last_sword.compat.lucky_block.lucky_event.events;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -50,13 +51,15 @@ public class VoidBountyEvent extends LuckyEvent {
         BlockPos center = ctx.pos();
 
         buildCell(world, center);
-        spawnGuardian(world, ModEntities.GUARDIAN_SABER.get().create(world), center.offset(0, 0, 0));
-        spawnGuardian(world, ModEntities.GUARDIAN_BERSERKER.get().create(world), center.offset(-2, 0, 0));
-        spawnGuardian(world, ModEntities.GUARDIAN_ARCHER.get().create(world), center.offset(2, 0, 0));
+        spawnGuardian(world, ModEntities.GUARDIAN_SABER.get().create(world, EntitySpawnReason.EVENT), center.offset(0, 0, 0));
+        spawnGuardian(world, ModEntities.GUARDIAN_BERSERKER.get().create(world, EntitySpawnReason.EVENT), center.offset(-2, 0, 0));
+        spawnGuardian(world, ModEntities.GUARDIAN_ARCHER.get().create(world, EntitySpawnReason.EVENT), center.offset(2, 0, 0));
 
         Player player = ctx.player();
         if (player == null) return;
-        player.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName()));
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY, player.getDisplayName()));
+        }
         player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, DEBUFF_DURATION_TICKS, DEBUFF_AMPLIFIER));
@@ -79,7 +82,7 @@ public class VoidBountyEvent extends LuckyEvent {
     private static void spawnGuardian(ServerLevel world, Mob entity, BlockPos pos) {
         if (entity == null) return;
         entity.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
-        entity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null);
+        entity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), EntitySpawnReason.EVENT, null);
         world.addFreshEntity(entity);
     }
 }

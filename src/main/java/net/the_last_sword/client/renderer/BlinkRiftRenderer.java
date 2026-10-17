@@ -74,7 +74,10 @@ public final class BlinkRiftRenderer {
 
     @SubscribeEvent
     public static void player(RenderPlayerEvent.Pre event) {
-        if (hidden(event.getEntity().getUUID())) event.setCanceled(true);
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) return;
+        net.minecraft.world.entity.Entity entity = level.getEntity(event.getRenderState().id);
+        if (entity != null && hidden(entity.getUUID())) event.setCanceled(true);
     }
 
     @SubscribeEvent

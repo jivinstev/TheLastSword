@@ -68,3 +68,7 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 tasks.jar { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
+
+// Version branch (community fork only; not the authors' code): reads .port/<minecraft_version>/branch.properties
+// for what gradle.properties cannot say (Java toolchain, dependency swaps, the client's game directory).
+apply from: '.port/branch.gradle'

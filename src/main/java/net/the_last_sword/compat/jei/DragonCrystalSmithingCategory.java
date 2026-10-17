@@ -71,7 +71,7 @@ public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrys
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DragonCrystalSmithingRecipe recipe, IFocusGroup focuses) {
-        ItemStack[] templateItems = recipe.getTemplate().getItems();
+        ItemStack[] templateItems = recipe.getTemplate().items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new);
         ItemStack[] displayedTemplateItems = new ItemStack[templateItems.length];
         for (int i = 0; i < templateItems.length; i++) {
             displayedTemplateItems[i] = recipe.hasTemplateInputLevel()
@@ -83,7 +83,7 @@ public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrys
             .addItemStacks(Arrays.asList(displayedTemplateItems));
 
         //输入槽位（带等级）
-        ItemStack[] inputItems = recipe.getInput().getItems();
+        ItemStack[] inputItems = recipe.getInput().items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new);
         ItemStack[] leveledInputItems = new ItemStack[inputItems.length];
         for (int i = 0; i < inputItems.length; i++) {
             leveledInputItems[i] = createStackWithLevel(inputItems[i], recipe.getInputLevel());

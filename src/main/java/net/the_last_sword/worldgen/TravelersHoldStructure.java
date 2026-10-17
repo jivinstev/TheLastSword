@@ -54,8 +54,8 @@ public class TravelersHoldStructure extends Structure {
             return Optional.empty();
         }
 
-        Registry<StructureTemplatePool> pools = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
-        Holder<StructureTemplatePool> startPool = pools.getHolderOrThrow(START_POOL);
+        Registry<StructureTemplatePool> pools = context.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
+        Holder<StructureTemplatePool> startPool = pools.getOrThrow(START_POOL);
         BlockPos startPos = new BlockPos(x, floorY + 1, z);
         return JigsawPlacement.addPieces(
                 context,

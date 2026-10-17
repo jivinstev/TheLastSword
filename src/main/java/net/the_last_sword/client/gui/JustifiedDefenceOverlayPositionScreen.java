@@ -124,7 +124,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
 
         for (int i = 0; i < MAX_ICONS; i++) {
             int x = leftX + i * step;
-            graphics.blit(ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         RenderSystem.disableBlend();
