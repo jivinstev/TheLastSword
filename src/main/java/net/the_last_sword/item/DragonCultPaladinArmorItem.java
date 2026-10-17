@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,9 +23,9 @@ import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public abstract class DragonCultPaladinArmorItem extends Item implements GeoItem
             2.0F,
             0.0F,
             ItemTags.REPAIRS_IRON_ARMOR,
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse(LAYER)));
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.parse(LAYER)));
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 

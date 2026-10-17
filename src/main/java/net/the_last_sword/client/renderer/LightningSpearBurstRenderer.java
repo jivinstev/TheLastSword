@@ -29,7 +29,7 @@ public final class LightningSpearBurstRenderer {
 
     public static void receive(LightningSpearBurstPacket packet) {
         update();
-        if (effectLevel == null || !effectLevel.dimension().location().equals(packet.dimension())
+        if (effectLevel == null || !effectLevel.dimension().identifier().equals(packet.dimension())
                 || !Float.isFinite(packet.radius()) || packet.radius() <= 0.0F) {
             return;
         }
@@ -63,7 +63,7 @@ public final class LightningSpearBurstRenderer {
             return;
         }
         PoseStack poses = event.getPoseStack();
-        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().position();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         for (Burst burst : BURSTS) {
             float age = (float) (effectLevel.getGameTime() - burst.startTick()) + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);

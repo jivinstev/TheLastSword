@@ -1,6 +1,7 @@
 package net.the_last_sword.mixin;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +24,7 @@ public class LevelRendererMixin {
     )
     private boolean modifyIsSpectator(boolean isSpectator, Camera camera, Frustum frustum, boolean originalIsSpectator) {
         //如果玩家有虚化效果，视为旁观者模式进行渲染
-        if (camera.getEntity() instanceof Player player) {
+        if (Minecraft.getInstance().getCameraEntity() instanceof Player player) {
             if (player.hasEffect(ModEffects.PHASING)) {
                 return true;
             }

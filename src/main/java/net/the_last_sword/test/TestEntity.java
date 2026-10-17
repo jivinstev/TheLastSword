@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -136,10 +136,10 @@ public class TestEntity extends PathfinderMob {
 
 
     @Override public SoundEvent getHurtSound(DamageSource ds) {
-        return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.hurt"));
+        return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.ender_dragon.hurt"));
     }
     @Override public SoundEvent getDeathSound() {
-        return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.death"));
+        return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.ender_dragon.death"));
     }
 
     @Override public void startSeenByPlayer(ServerPlayer p) {

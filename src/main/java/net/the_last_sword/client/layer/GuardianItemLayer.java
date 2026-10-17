@@ -8,12 +8,12 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
+import software.bernie.geckolib.cache.model.GeoBone;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
+import software.bernie.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
 import software.bernie.geckolib.util.RenderUtil;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -75,11 +75,11 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
     @Nullable
     protected ItemStack getStackForBone(GeoBone bone, R renderState) {
         //右手骨骼渲染主手物品
-        if (bone.getName().equals(RIGHT_HAND)) {
+        if (bone.name().equals(RIGHT_HAND)) {
             return renderState.getGeckolibData(MAIN_HAND_STACK);
         }
         //左手骨骼渲染副手物品
-        if (bone.getName().equals(LEFT_HAND)) {
+        if (bone.name().equals(LEFT_HAND)) {
             return renderState.getGeckolibData(OFF_HAND_STACK);
         }
         return null;
@@ -90,7 +90,7 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
         if (stack.is(Items.SHIELD)) {
             return ItemDisplayContext.NONE;
         }
-        if (bone.getName().equals(RIGHT_HAND)) {
+        if (bone.name().equals(RIGHT_HAND)) {
             return ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
         }
         return ItemDisplayContext.THIRD_PERSON_LEFT_HAND;

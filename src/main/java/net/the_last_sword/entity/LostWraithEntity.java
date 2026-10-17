@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -78,8 +78,8 @@ public class LostWraithEntity extends TheLastEndEntity {
     private long punchTeleportCooldownEnd;
 
     // 激活演出BossShow的注册id
-    private static final ResourceLocation BOSS_SHOW_ID =
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "lost_wraith");
+    private static final Identifier BOSS_SHOW_ID =
+            Identifier.fromNamespaceAndPath("the_last_sword", "lost_wraith");
 
     public LostWraithEntity(EntityType<? extends LostWraithEntity> type, Level world) {
         super(type, world);

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.gui.scroll.ScrollRecipeRenderer;
@@ -24,23 +24,23 @@ import java.util.Random;
 public class TheLastEndScrollScreen extends Screen {
 
     //卷轴背景纹理
-    private static final ResourceLocation SCROLL_TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/scroll_background.png");
+    private static final Identifier SCROLL_TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/scroll_background.png");
 
     //卷轴引用真实配方ID，不再维护配方截图
-    private static final ResourceLocation DRAGON_CRYSTAL_RECIPE = recipeId("dragon_crystal_recipe");
-    private static final ResourceLocation UPGRADE_TEMPLATE_RECIPE = recipeId("dragon_crystal_upgrade_template_recipe");
-    private static final ResourceLocation SMITHING_TABLE_RECIPE = recipeId("dragon_crystal_smithing_table_recipe");
-    private static final ResourceLocation DRAGON_CRYSTAL_SWORD_RECIPE = recipeId("dragon_crystal_sword_recipe");
-    private static final ResourceLocation DRAGON_CRYSTAL_SWORD_LEVEL_1_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_1");
-    private static final ResourceLocation DRAGON_CRYSTAL_SWORD_LEVEL_6_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_6");
-    private static final ResourceLocation DRAGON_SWORD_LEVEL_7_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_7");
-    private static final ResourceLocation THE_LAST_SWORD_LEVEL_13_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_13");
-    private static final ResourceLocation DRAGON_CRYSTAL_HELMET_RECIPE = recipeId("dragon_crystal_helmet_recipe");
-    private static final ResourceLocation DRAGON_CRYSTAL_HELMET_LEVEL_1_RECIPE = configRecipeId("dragon_crystal_smithing_armor_level_1_helmet");
-    private static final ResourceLocation SOUL_STONE_RECIPE = recipeId("dragon_crystal_soul_stone_recipe");
-    private static final ResourceLocation SOUL_LANTERN_RECIPE = recipeId("dragon_soul_lantern_recipe");
-    private static final ResourceLocation SOUL_LANTERN_RECIPE_1 = recipeId("dragon_soul_lantern_recipe_1");
+    private static final Identifier DRAGON_CRYSTAL_RECIPE = recipeId("dragon_crystal_recipe");
+    private static final Identifier UPGRADE_TEMPLATE_RECIPE = recipeId("dragon_crystal_upgrade_template_recipe");
+    private static final Identifier SMITHING_TABLE_RECIPE = recipeId("dragon_crystal_smithing_table_recipe");
+    private static final Identifier DRAGON_CRYSTAL_SWORD_RECIPE = recipeId("dragon_crystal_sword_recipe");
+    private static final Identifier DRAGON_CRYSTAL_SWORD_LEVEL_1_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_1");
+    private static final Identifier DRAGON_CRYSTAL_SWORD_LEVEL_6_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_6");
+    private static final Identifier DRAGON_SWORD_LEVEL_7_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_7");
+    private static final Identifier THE_LAST_SWORD_LEVEL_13_RECIPE = configRecipeId("dragon_crystal_smithing_sword_level_13");
+    private static final Identifier DRAGON_CRYSTAL_HELMET_RECIPE = recipeId("dragon_crystal_helmet_recipe");
+    private static final Identifier DRAGON_CRYSTAL_HELMET_LEVEL_1_RECIPE = configRecipeId("dragon_crystal_smithing_armor_level_1_helmet");
+    private static final Identifier SOUL_STONE_RECIPE = recipeId("dragon_crystal_soul_stone_recipe");
+    private static final Identifier SOUL_LANTERN_RECIPE = recipeId("dragon_soul_lantern_recipe");
+    private static final Identifier SOUL_LANTERN_RECIPE_1 = recipeId("dragon_soul_lantern_recipe_1");
 
     //GUI尺寸（与纹理一致）
     private static final int GUI_WIDTH = 430;
@@ -72,9 +72,9 @@ public class TheLastEndScrollScreen extends Screen {
         int pageCount;        // 占用页数
         int textPageCount;    // 文本占用页数（最后一页可以继续显示配方）
         List<String> allLines; // 所有文本行（自动换行后）
-        List<ResourceLocation> recipeIds; // 配方ID列表
-        List<ResourceLocation> trailingRecipeIds; // 紧跟在最后一页文本后的配方
-        List<List<ResourceLocation>> recipePages; // 放不进文本页的后续配方页
+        List<Identifier> recipeIds; // 配方ID列表
+        List<Identifier> trailingRecipeIds; // 紧跟在最后一页文本后的配方
+        List<List<Identifier>> recipePages; // 放不进文本页的后续配方页
     }
 
     //粒子数据类
@@ -148,12 +148,12 @@ public class TheLastEndScrollScreen extends Screen {
     //已收集纸条列表（旅途见闻章节数据）
     private final List<PaperNoteEntry> collectedNotes;
 
-    private static ResourceLocation recipeId(String path) {
-        return ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, path);
+    private static Identifier recipeId(String path) {
+        return Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, path);
     }
 
-    private static ResourceLocation configRecipeId(String path) {
-        return ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "config/" + path);
+    private static Identifier configRecipeId(String path) {
+        return Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "config/" + path);
     }
 
     public TheLastEndScrollScreen(boolean hasRuinedVillageLocation, int ruinedVillageX, int ruinedVillageZ,
@@ -224,18 +224,18 @@ public class TheLastEndScrollScreen extends Screen {
 
     //添加章节并自动分页
     private void addChapter(String titleKey, String contentKey, ItemStack icon) {
-        addChapter(titleKey, contentKey, icon, new ResourceLocation[0]);
+        addChapter(titleKey, contentKey, icon, new Identifier[0]);
     }
 
     //添加章节并自动分页（支持多个真实配方）
-    private void addChapter(String titleKey, String contentKey, ItemStack icon, ResourceLocation... recipeIds) {
+    private void addChapter(String titleKey, String contentKey, ItemStack icon, Identifier... recipeIds) {
         ChapterData chapter = new ChapterData();
         chapter.titleKey = titleKey;
         chapter.contentKey = contentKey;
         chapter.icon = icon;
         chapter.recipeIds = new ArrayList<>();
         if (recipeIds != null && recipeIds.length > 0) {
-            for (ResourceLocation recipeId : recipeIds) {
+            for (Identifier recipeId : recipeIds) {
                 if (recipeId != null) {
                     chapter.recipeIds.add(recipeId);
                 }
@@ -297,7 +297,7 @@ public class TheLastEndScrollScreen extends Screen {
         int usedHeight = titleHeight + lastPageLineCount * LINE_HEIGHT;
         int recipeIndex = 0;
         while (recipeIndex < chapter.recipeIds.size()) {
-            ResourceLocation recipeId = chapter.recipeIds.get(recipeIndex);
+            Identifier recipeId = chapter.recipeIds.get(recipeIndex);
             int recipeHeight = ScrollRecipeRenderer.getDisplayHeight(recipeId);
             if (usedHeight + recipeHeight > TEXT_HEIGHT) {
                 break;
@@ -309,10 +309,10 @@ public class TheLastEndScrollScreen extends Screen {
 
         //后续页面也按真实高度装箱，不再固定限制为每页两个配方
         while (recipeIndex < chapter.recipeIds.size()) {
-            List<ResourceLocation> pageRecipes = new ArrayList<>();
+            List<Identifier> pageRecipes = new ArrayList<>();
             int pageHeight = 0;
             while (recipeIndex < chapter.recipeIds.size()) {
-                ResourceLocation recipeId = chapter.recipeIds.get(recipeIndex);
+                Identifier recipeId = chapter.recipeIds.get(recipeIndex);
                 int recipeHeight = ScrollRecipeRenderer.getDisplayHeight(recipeId);
                 if (!pageRecipes.isEmpty() && pageHeight + recipeHeight > TEXT_HEIGHT) {
                     break;
@@ -620,15 +620,15 @@ public class TheLastEndScrollScreen extends Screen {
 
     //渲染动态配方页
     private void renderRecipePage(GuiGraphics graphics, int guiLeft, int guiTop,
-                                  List<ResourceLocation> recipeIds, int mouseX, int mouseY) {
+                                  List<Identifier> recipeIds, int mouseX, int mouseY) {
         renderRecipes(graphics, guiLeft, guiTop + TEXT_START_Y, recipeIds, mouseX, mouseY);
     }
 
     private void renderRecipes(GuiGraphics graphics, int guiLeft, int startY,
-                               List<ResourceLocation> recipeIds, int mouseX, int mouseY) {
+                               List<Identifier> recipeIds, int mouseX, int mouseY) {
         int currentY = startY;
         int areaX = guiLeft + TEXT_START_X;
-        for (ResourceLocation recipeId : recipeIds) {
+        for (Identifier recipeId : recipeIds) {
             ItemStack hovered = ScrollRecipeRenderer.render(
                     recipeId, graphics, this.font, areaX, currentY, TEXT_WIDTH, mouseX, mouseY
             );

@@ -2,7 +2,7 @@ package net.the_last_sword.summon;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;

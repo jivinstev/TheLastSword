@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,12 +31,12 @@ public class DimensionExplorer extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, Identifier uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //移动速度+50%
         modifiers.put(Attributes.MOVEMENT_SPEED,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dimension_explorer_speed"), 0.5,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dimension_explorer_speed"), 0.5,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
         return modifiers;

@@ -34,7 +34,8 @@ import net.the_last_sword.network.NetworkHandler;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -92,7 +93,7 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>("controller", 0, state -> {
             state.setAnimation(CRYSTAL_ROTATION);
-            return null;
+            return PlayState.CONTINUE;
         }));
     }
 

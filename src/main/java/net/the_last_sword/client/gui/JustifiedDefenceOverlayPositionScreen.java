@@ -6,7 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.DefenceConfig;
 import net.the_last_sword.configuration.DefenceConfigData;
@@ -14,8 +14,8 @@ import net.the_last_sword.network.DefenceConfigPacket;
 import net.the_last_sword.network.NetworkHandler;
 
 public class JustifiedDefenceOverlayPositionScreen extends Screen {
-    private static final ResourceLocation ICON_FULL =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/justified_defence_full.png");
+    private static final Identifier ICON_FULL =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/justified_defence_full.png");
 
     private static final int ICON_SIZE = 9;
     private static final int ICON_SPACING = -8;

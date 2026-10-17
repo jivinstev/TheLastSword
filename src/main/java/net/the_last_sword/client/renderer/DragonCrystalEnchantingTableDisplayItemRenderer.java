@@ -1,8 +1,9 @@
 package net.the_last_sword.client.renderer;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.model.DragonCrystalEnchantingTableDisplayModel;
 import net.the_last_sword.item.display.DragonCrystalEnchantingTableDisplayItem;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
@@ -15,7 +16,7 @@ public class DragonCrystalEnchantingTableDisplayItemRenderer extends GeoItemRend
     }
 
     @Override
-    public RenderType getRenderType(GeoRenderState renderState, ResourceLocation texture) {
-        return RenderType.entityTranslucent(getTextureLocation(renderState));
+    public RenderType getRenderType(GeoRenderState renderState, Identifier texture) {
+        return RenderTypes.entityTranslucent(getTextureLocation(renderState));
     }
 }

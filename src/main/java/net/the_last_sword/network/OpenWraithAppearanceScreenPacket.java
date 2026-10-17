@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.client.ClientPacketHandler;
@@ -12,7 +12,7 @@ import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
 
 public class OpenWraithAppearanceScreenPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<OpenWraithAppearanceScreenPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "open_wraith_appearance_screen_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "open_wraith_appearance_screen_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenWraithAppearanceScreenPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> OpenWraithAppearanceScreenPacket.encode(msg, buf), OpenWraithAppearanceScreenPacket::decode);
 

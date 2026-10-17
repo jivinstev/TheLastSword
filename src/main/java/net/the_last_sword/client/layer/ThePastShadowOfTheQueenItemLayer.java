@@ -10,12 +10,12 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
 import net.the_last_sword.init.ModItems;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
+import software.bernie.geckolib.cache.model.GeoBone;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
+import software.bernie.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
 import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;

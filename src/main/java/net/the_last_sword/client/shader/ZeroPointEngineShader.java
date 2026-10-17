@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.eca.client.render.shader.EcaShaderInstance;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.the_last_sword.mv.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.the_last_sword.TheLastSwordMod;
 
@@ -34,7 +34,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
                     .createCompositeState(false));
 
     public ZeroPointEngineShader(ResourceProvider provider) throws IOException {
-        super(provider, ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
+        super(provider, Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
                 DefaultVertexFormat.NEW_ENTITY);
         localUvMin = getUniform("LocalUvMin");
         localUvScale = getUniform("LocalUvScale");

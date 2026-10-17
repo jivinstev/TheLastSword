@@ -12,18 +12,18 @@ import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.locale.Language;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.the_last_sword.client.gui.menu.DragonCrystalEnchantingTableMenu;
@@ -45,8 +45,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     private final int x, y, z;
     private final Player entity;
 
-    private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/screens/dragon_crystal_enchanting_table_gui.png");
-    private static final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/screens/dragon_crystal_enchanting_table_gui_bar.png");
+    private static final Identifier texture = Identifier.fromNamespaceAndPath("the_last_sword", "textures/screens/dragon_crystal_enchanting_table_gui.png");
+    private static final Identifier barTexture = Identifier.fromNamespaceAndPath("the_last_sword", "textures/screens/dragon_crystal_enchanting_table_gui_bar.png");
 
     // 附魔系统
     private final List<EnchantmentOption> enchantmentOptions = new ArrayList<>();
@@ -250,10 +250,10 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     private void applyEnchantments() {
         commitLevelEdit();
 
-        Map<ResourceLocation, Integer> enchantChanges = new HashMap<>();
+        Map<Identifier, Integer> enchantChanges = new HashMap<>();
         for (EnchantmentOption opt : enchantmentOptions) {
             if (opt.level != opt.originalLevel) {
-                ResourceLocation id = opt.enchantment.unwrapKey().map(k -> k.location()).orElse(null);
+                Identifier id = opt.enchantment.unwrapKey().map(k -> k.identifier()).orElse(null);
                 if (id != null) {
                     enchantChanges.put(id, opt.level);
                 }
@@ -462,7 +462,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
 
                 tooltip.add(Enchantment.getFullname(opt.enchantment, Math.max(1, opt.level)));
 
-                String descKey = Util.makeDescriptionId("enchantment", opt.enchantment.unwrapKey().map(k -> k.location()).orElse(null)) + ".desc";
+                String descKey = Util.makeDescriptionId("enchantment", opt.enchantment.unwrapKey().map(k -> k.identifier()).orElse(null)) + ".desc";
                 if (Language.getInstance().has(descKey)) {
                     tooltip.add(Component.translatable(descKey).withStyle(style -> style.withColor(0xAAAAAA)));
                 }
@@ -715,7 +715,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         var guiPose = guiGraphics.pose();
 
         MultiBufferSource.BufferSource bufferSource = net.minecraft.client.Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.endPortal());
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.endPortal());
         Matrix4f matrix = new Matrix4f();
         matrix.m00(guiPose.m00);
         matrix.m01(guiPose.m01);

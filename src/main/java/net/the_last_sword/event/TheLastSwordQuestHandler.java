@@ -7,7 +7,7 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,8 +18,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -53,16 +53,16 @@ public class TheLastSwordQuestHandler {
     private static final String MOD_NAME_KEY = "item_group." + TheLastSwordMod.MOD_ID + ".the_last_sword_tab";
     private static final String PREFIX_KEY = "message.the_last_sword.quest_prefix";
 
-    private static final ResourceLocation WELCOME = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_sword_welcome");
-    private static final ResourceLocation TROUBLED_BLACKSMITH = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "troubled_blacksmith");
-    private static final ResourceLocation DRAGON_CULT_RAID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_raid");
-    public static final ResourceLocation DRAGON_CULT_RAID_VICTORY =
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_raid_victory");
-    private static final ResourceLocation NETHER_TRAVELER_OUTPOST =
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "nether_traveler_outpost");
-    private static final ResourceLocation LIBERATOR = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "liberator");
-    public static final ResourceLocation PROOF_OF_SOVEREIGNTY =
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "proof_of_sovereignty");
+    private static final Identifier WELCOME = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_sword_welcome");
+    private static final Identifier TROUBLED_BLACKSMITH = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "troubled_blacksmith");
+    private static final Identifier DRAGON_CULT_RAID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_raid");
+    public static final Identifier DRAGON_CULT_RAID_VICTORY =
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_raid_victory");
+    private static final Identifier NETHER_TRAVELER_OUTPOST =
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "nether_traveler_outpost");
+    private static final Identifier LIBERATOR = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "liberator");
+    public static final Identifier PROOF_OF_SOVEREIGNTY =
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "proof_of_sovereignty");
     private static final Set<String> MAIN_QUEST_ADVANCEMENTS = Set.of(
             "the_last_sword_welcome",
             "troubled_blacksmith",
@@ -113,7 +113,7 @@ public class TheLastSwordQuestHandler {
     }
 
     //关闭任务系统时仅阻止主线进度，保留独立的收集与装备进度
-    public static boolean shouldBlockMainQuestAdvancement(ResourceLocation advancementId) {
+    public static boolean shouldBlockMainQuestAdvancement(Identifier advancementId) {
         return !isQuestSystemEnabled()
                 && TheLastSwordMod.MOD_ID.equals(advancementId.getNamespace())
                 && MAIN_QUEST_ADVANCEMENTS.contains(advancementId.getPath());
@@ -149,7 +149,7 @@ public class TheLastSwordQuestHandler {
         if (!isQuestSystemEnabled()) {
             return;
         }
-        ResourceLocation advancementId = event.getAdvancement().id();
+        Identifier advancementId = event.getAdvancement().id();
         if (WELCOME.equals(advancementId)) {
             MinecraftServer server = ((ServerLevel) player.level()).getServer();
             UUID playerId = player.getUUID();
@@ -349,13 +349,13 @@ public class TheLastSwordQuestHandler {
     //========== 进度工具 ==========
 
     //判断进度是否已完成
-    public static boolean isDone(ServerPlayer player, ResourceLocation id) {
+    public static boolean isDone(ServerPlayer player, Identifier id) {
         AdvancementHolder advancement = ((ServerLevel) player.level()).getServer().getAdvancements().get(id);
         return advancement != null && player.getAdvancements().getOrStartProgress(advancement).isDone();
     }
 
     //授予进度（补齐全部条件）
-    public static void grant(ServerPlayer player, ResourceLocation id) {
+    public static void grant(ServerPlayer player, Identifier id) {
         AdvancementHolder advancement = ((ServerLevel) player.level()).getServer().getAdvancements().get(id);
         if (advancement == null) {
             return;

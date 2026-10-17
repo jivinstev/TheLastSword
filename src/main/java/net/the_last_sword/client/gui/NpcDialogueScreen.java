@@ -5,7 +5,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 public class NpcDialogueScreen extends Screen {
-    private static final ResourceLocation SCROLL_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier SCROLL_TEXTURE = Identifier.fromNamespaceAndPath(
             TheLastSwordMod.MOD_ID, "textures/screens/scroll_background.png");
     private static final int TEXTURE_WIDTH = 430;
     private static final int TEXTURE_HEIGHT = 242;

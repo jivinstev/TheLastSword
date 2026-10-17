@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -82,12 +82,12 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, Identifier uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //盔甲韧性+100
         modifiers.put(Attributes.ARMOR_TOUGHNESS,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "extreme_life_support_armor_toughness"),
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "extreme_life_support_armor_toughness"),
                 TheLastSwordConfiguration.getCuriosExtremeLifeSupportArmorToughnessSafely(),
                 AttributeModifier.Operation.ADD_VALUE));
 

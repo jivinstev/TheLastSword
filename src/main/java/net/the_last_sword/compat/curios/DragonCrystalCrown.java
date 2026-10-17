@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,27 +32,27 @@ public class DragonCrystalCrown extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, Identifier uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //最大生命值 +200
         modifiers.put(Attributes.MAX_HEALTH,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_health"), 200.0,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_health"), 200.0,
                 AttributeModifier.Operation.ADD_VALUE));
 
         //攻击力 +20
         modifiers.put(Attributes.ATTACK_DAMAGE,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_attack"), 20.0,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_attack"), 20.0,
                 AttributeModifier.Operation.ADD_VALUE));
 
         //盔甲值 +20
         modifiers.put(Attributes.ARMOR,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_armor"), 20.0,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_armor"), 20.0,
                 AttributeModifier.Operation.ADD_VALUE));
 
         //盔甲韧性 +20
         modifiers.put(Attributes.ARMOR_TOUGHNESS,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_toughness"), 20.0,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_crown_toughness"), 20.0,
                 AttributeModifier.Operation.ADD_VALUE));
 
         return modifiers;

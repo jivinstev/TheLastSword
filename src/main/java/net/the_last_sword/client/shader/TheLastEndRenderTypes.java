@@ -5,10 +5,10 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.mv.LegacyRenderType;
 import net.the_last_sword.mv.ShaderShard;
 
@@ -33,19 +33,19 @@ public class TheLastEndRenderTypes {
     }
 
     //自定义着色器的渲染类型：着色器随 RenderType 状态绑定（1.21.4 的 ShaderStateShard 写法）
-    private static RenderType custom(String name, VertexFormat format, ResourceLocation texture,
+    private static RenderType custom(String name, VertexFormat format, Identifier texture,
                                      boolean lightmap, boolean overlay, boolean cull, boolean writeDepth) {
         LegacyRenderType.State.Builder sb = LegacyRenderType.state()
             .setShaderState(new ShaderShard(TheLastEndEffect::getShader))
             .setDepthTestState(LegacyRenderType.LEQUAL_DEPTH_TEST)
             .setTransparencyState(LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
-            .setTextureState(new RenderStateShard.TextureStateShard(texture, false))
+            .setTextureState(new LegacyRenderType.TextureStateShard(texture, false))
             .setCullState(cull ? LegacyRenderType.CULL : LegacyRenderType.NO_CULL);
         if (lightmap) {
-            sb.setLightmapState(RenderStateShard.LIGHTMAP);
+            sb.setLightmapState(LegacyRenderType.LIGHTMAP);
         }
         if (overlay) {
-            sb.setOverlayState(RenderStateShard.OVERLAY);
+            sb.setOverlayState(LegacyRenderType.OVERLAY);
         }
         if (!writeDepth) {
             sb.setWriteMaskState(LegacyRenderType.COLOR_WRITE);
@@ -54,22 +54,27 @@ public class TheLastEndRenderTypes {
             sb.createCompositeState(true));
     }
 
-    private static RenderType make(String name, RenderPipeline pipeline, ResourceLocation texture,
+    private static RenderType make(String name, RenderPipeline pipeline, Identifier texture,
                                    boolean lightmap, boolean overlay, boolean outline) {
-        RenderType.CompositeState.CompositeStateBuilder sb = RenderType.CompositeState.builder()
-            .setTextureState(new RenderStateShard.TextureStateShard(texture, false));
+        RenderSetup.RenderSetupBuilder sb = RenderSetup.builder(pipeline)
+            .withTexture("Sampler0", texture)
+            .bufferSize(1536);
         if (lightmap) {
-            sb.setLightmapState(RenderStateShard.LIGHTMAP);
+            sb.useLightmap();
         }
         if (overlay) {
-            sb.setOverlayState(RenderStateShard.OVERLAY);
+            sb.useOverlay();
         }
-        return RenderType.create(name, 1536, outline, false, pipeline, sb.createCompositeState(outline));
+        if (outline) {
+            sb.affectsCrumbling();
+            sb.setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE);
+        }
+        return RenderType.create(name, sb.createRenderSetup());
     }
 
     //创建实体表面的 The Last End 效果渲染类型
     //适用于: 实体外表渲染（如 TestEntity）
-    public static RenderType createEntityEffect(ResourceLocation texture) {
+    public static RenderType createEntityEffect(Identifier texture) {
         return custom("the_last_end_entity_effect", DefaultVertexFormat.NEW_ENTITY, texture,
             true, true, false, true);
     }
@@ -84,14 +89,14 @@ public class TheLastEndRenderTypes {
 
     //创建物品的 The Last End 效果渲染类型（使用指定纹理）
     //适用于: 特殊物品渲染
-    public static RenderType createItemEffect(ResourceLocation texture) {
+    public static RenderType createItemEffect(Identifier texture) {
         return custom("the_last_end_item_effect", DefaultVertexFormat.NEW_ENTITY, texture,
             false, false, false, true);
     }
 
     //创建方块/天空盒的 The Last End 效果渲染类型
     //适用于: 方块特效、天空盒渲染
-    public static RenderType createBlockEffect(ResourceLocation texture) {
+    public static RenderType createBlockEffect(Identifier texture) {
         return custom("the_last_end_block_effect", DefaultVertexFormat.BLOCK, TextureAtlas.LOCATION_BLOCKS,
             true, false, true, true);
     }
@@ -107,7 +112,7 @@ public class TheLastEndRenderTypes {
 
     //创建发光层的 The Last End 效果渲染类型（不使用自定义着色器）
     //适用于: 发光边缘效果
-    public static RenderType createGlowEffect(ResourceLocation texture) {
+    public static RenderType createGlowEffect(Identifier texture) {
         return make("the_last_end_glow_effect", RenderPipelines.ENTITY_TRANSLUCENT, texture, true, true, true);
     }
 

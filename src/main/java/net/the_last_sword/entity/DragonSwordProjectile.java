@@ -3,7 +3,7 @@ package net.the_last_sword.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -115,7 +115,7 @@ public class DragonSwordProjectile extends TheLastEndSwordItemsProjectile {
         world.playSound(
             null,
             entity.getX(), entity.getY(), entity.getZ(),
-            BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.arrow.shoot")),
+            BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.arrow.shoot")),
             SoundSource.PLAYERS,
             1,
             1f / (random.nextFloat() * 0.5f + 1) + 2f / 2

@@ -2,7 +2,7 @@ package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,8 +38,8 @@ public abstract class DragonCrystalArmorItem extends TheLastEndArmorItem {
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             5f,
             1f,
-            TagKey.create(Registries.ITEM, ResourceLocation.parse("the_last_sword:repairs_dragon_crystal_armor")),
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse("the_last_sword:dragon_crystal_armor"))
+            TagKey.create(Registries.ITEM, Identifier.parse("the_last_sword:repairs_dragon_crystal_armor")),
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.parse("the_last_sword:dragon_crystal_armor"))
         ), type, props.fireResistant().rarity(Rarity.RARE));
     }
 

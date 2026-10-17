@@ -2,7 +2,7 @@ package net.the_last_sword.compat.lucky_block.lucky_event.events;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ import java.util.Optional;
 //天降末地休憩处事件 - 以幸运方块位置为锚, 其上方 16 格随机四向旋转放置 end_reset 结构; 玩家仅用于消息播报
 public class EndResetSkyEvent extends LuckyEvent {
 
-    private static final ResourceLocation STRUCTURE_ID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "end_reset");
+    private static final Identifier STRUCTURE_ID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "end_reset");
     private static final String MESSAGE_KEY = "message.the_last_sword.lucky_block.look_sky";
     private static final String LOAD_FAILED_KEY = "message.the_last_sword.arena.load_failed";
     private static final int SKY_OFFSET = 16;

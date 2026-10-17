@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -23,8 +23,8 @@ public class DragonArmorOverlay {
     public static final int ENERGY_DISPLAY_BASE_Y = 30;
 
     //叠加层材质
-    public static final ResourceLocation OVERLAY_TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_armor_overlay.png");
+    public static final Identifier OVERLAY_TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_armor_overlay.png");
 
     //在所有原版 HUD 渲染之后渲染叠加层
     public static void onRenderGuiOverlay(RenderGuiLayerEvent.Post event) {

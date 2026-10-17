@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.network.OpenLastEndScrollPacket.PaperNoteEntry;
 
@@ -17,8 +17,8 @@ import java.util.List;
 public class JourneyLogsScreen extends Screen {
 
     //与卷轴GUI共用统一背景
-    private static final ResourceLocation SCROLL_TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/scroll_background.png");
+    private static final Identifier SCROLL_TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/scroll_background.png");
 
     private static final int GUI_WIDTH = 430;
     private static final int GUI_HEIGHT = 200;

@@ -3,7 +3,7 @@ package net.the_last_sword.event;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -51,7 +51,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.network.PerceptionScanPacket.ScanType;
@@ -331,7 +331,7 @@ public final class DefenceEventHandler {
                         Level level = player.level();
                         BlockPos pos = player.blockPosition();
                         level.playSound(null, pos,
-                            BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("block.amethyst_block.chime")),
+                            BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("block.amethyst_block.chime")),
                             SoundSource.PLAYERS, 2, 1);
                     }
                     // 重新启动下一轮定时器
@@ -551,7 +551,7 @@ public final class DefenceEventHandler {
                 entity.setDeltaMovement(current.x * 0.35 + repel.x, Math.max(current.y, 0.08), current.z * 0.35 + repel.z);
                 entity.fallDistance = 0.0f;
             }
-            entity.hasImpulse = true;
+            entity.hurtMarked = true;
             if (player instanceof ServerPlayer sp && DefenceConfig.getDragonShieldModule().shieldEffect != DefenceConfigData.ShieldEffectMode.DISABLED) {
                 NetworkHandler.sendToPlayer(new DragonShieldPacket(true,
                         (float) direction.x, (float) direction.y, (float) direction.z), sp);
@@ -621,16 +621,16 @@ public final class DefenceEventHandler {
         AttributeInstance attribute = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED);
         if (attribute == null) return;
 
-        AttributeModifier current = attribute.getModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
+        AttributeModifier current = attribute.getModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
         if (active) {
             if (current == null) {
                 attribute.addTransientModifier(new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"),
+                        Identifier.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"),
                         1.0,
                         AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         } else if (current != null) {
-            attribute.removeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
+            attribute.removeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_armor_justified_defence_recovery_module"));
         }
     }
 

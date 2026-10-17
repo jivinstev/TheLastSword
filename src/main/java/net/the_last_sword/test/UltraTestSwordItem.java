@@ -194,7 +194,7 @@ public class UltraTestSwordItem extends Item {
 
         if (!level.isClientSide() && entity instanceof ServerPlayer sp) {
             boolean isCreativeOrSpec = sp.isCreative() || sp.isSpectator();
-            boolean isOp = sp.hasPermissions(2);
+            boolean isOp = sp.permissions().hasPermission(net.minecraft.server.permissions.Permissions.COMMANDS_GAMEMASTER);
 
             //仅允许（创造模式或旁观模式）且为管理员的玩家保留
             if (!(isCreativeOrSpec && isOp)) {
@@ -249,7 +249,7 @@ public class UltraTestSwordItem extends Item {
 
         //权限检查：仅OP创造/旁观模式玩家
         boolean isCreativeOrSpec = sp.isCreative() || sp.isSpectator();
-        boolean isOp = sp.hasPermissions(2);
+        boolean isOp = sp.permissions().hasPermission(net.minecraft.server.permissions.Permissions.COMMANDS_GAMEMASTER);
         if (!(isCreativeOrSpec && isOp)) return;
 
         //TLS防御逻辑：持有究极测试剑时始终注册

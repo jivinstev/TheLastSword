@@ -7,7 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +19,7 @@ import net.the_last_sword.client.gui.menu.SummonWraithGuiMenu;
 //打开唤灵GUI网络包（客户端→服务端）
 public class OpenSummonGuiPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<OpenSummonGuiPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "open_summon_gui_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "open_summon_gui_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenSummonGuiPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> OpenSummonGuiPacket.encode(msg, buf), OpenSummonGuiPacket::decode);
 

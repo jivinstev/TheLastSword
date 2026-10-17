@@ -8,7 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -37,9 +37,9 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
-import software.bernie.geckolib.animatable.processing.AnimationTest;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.state.AnimationTest;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -73,8 +73,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             10f,
             5f,
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("the_last_sword", "repairs_dragon_armor")),
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_armor")));
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("the_last_sword", "repairs_dragon_armor")),
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath("the_last_sword", "dragon_armor")));
 
     public abstract EquipmentSlot getEquipmentSlot(ItemStack stack);
 
@@ -203,6 +203,8 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     //the wearer under this ticket in addRenderData. No client class is named here: this item loads on a server too.
     public static final DataTicket<LivingEntity> WEARER = DataTicket.create("the_last_sword_dragon_armor_wearer", LivingEntity.class);
 
+    private static final RawAnimation FLY_ANIMATION = RawAnimation.begin().thenLoop("fly");
+
     private static Entity entityOf(AnimationTest<DragonArmorItem> event) {
         return event.getData(WEARER);
     }
@@ -248,18 +250,18 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
                 //根据飞行状态设置动画
                 if (isDragonArmorFlying) {
                     //检查当前动画是否是fly，如果不是则切换
-                    if (event.controller().getCurrentAnimation() == null ||
-                        !event.controller().getCurrentAnimation().animation().name().equals("fly")) {
+                    if (event.controller().getCurrentRawAnimation() == null ||
+                        !FLY_ANIMATION.equals(event.controller().getCurrentRawAnimation())) {
                         //切换到飞行动画
-                        event.setAnimation(RawAnimation.begin().thenLoop("fly"));
+                        event.setAnimation(FLY_ANIMATION);
                     }
                 } else {
                     //检查当前动画是否是idle，如果不是则切换
-                    if (event.controller().getCurrentAnimation() != null &&
-                        event.controller().getCurrentAnimation().animation().name().equals("fly")) {
+                    if (event.controller().getCurrentRawAnimation() != null &&
+                        FLY_ANIMATION.equals(event.controller().getCurrentRawAnimation())) {
                         //切换到待机动画
                         event.setAnimation(RawAnimation.begin().thenLoop("idle"));
-                    } else if (event.controller().getCurrentAnimation() == null) {
+                    } else if (event.controller().getCurrentRawAnimation() == null) {
                         //初始状态，直接设置idle动画
                         event.setAnimation(RawAnimation.begin().thenLoop("idle"));
                     }
@@ -272,21 +274,30 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
         return PlayState.STOP;
     }
 
+    //GeckoLib 5.4: AnimationController has no State enum; 5.3's STOPPED was "stopped by the predicate, never started, or a
+    //non-looping animation that finished" -- PlayState.STOP (also the reset state) or hasAnimationFinished()
+    private static boolean isStopped(AnimationController<?> controller) {
+        return controller.getPlayState() == PlayState.STOP || controller.hasAnimationFinished();
+    }
+
     String prevAnim = "empty";
 
     private PlayState procedurePredicate(AnimationTest<DragonArmorItem> event) {
+        //read once, before anything below resets the controller: 5.3's forceAnimationReset() only flagged a reload and
+        //left the state as it was, while 5.4's reset() sets PlayState.STOP, which would read as "stopped" at once
+        boolean stopped = isStopped(event.controller());
         if (!this.animationprocedure.equals("empty") &&
-                event.controller().getAnimationState() == AnimationController.State.STOPPED ||
+                stopped ||
                 (!this.animationprocedure.equals(prevAnim) && !this.animationprocedure.equals("empty"))) {
 
             if (!this.animationprocedure.equals(prevAnim))
-                event.controller().forceAnimationReset();
+                event.controller().reset();
 
             event.setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
 
-            if (event.controller().getAnimationState() == AnimationController.State.STOPPED) {
+            if (stopped) {
                 this.animationprocedure = "empty";
-                event.controller().forceAnimationReset();
+                event.controller().reset();
             }
 
             Entity entity = entityOf(event);

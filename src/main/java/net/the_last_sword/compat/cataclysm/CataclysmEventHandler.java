@@ -1,7 +1,7 @@
 package net.the_last_sword.compat.cataclysm;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -183,7 +183,7 @@ public class CataclysmEventHandler {
     //获取炽热烙印效果
     private static MobEffect getBlazingBrandEffect() {
         try {
-            return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "blazing_brand"));
+            return BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "blazing_brand"));
         } catch (Exception ignored) {
             return null;
         }
@@ -192,7 +192,7 @@ public class CataclysmEventHandler {
     //检查目标是否已经处于眩晕状态
     private static boolean isAlreadyStunned(LivingEntity target) {
         try {
-            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "stun"));
             return stunEffect != null && target.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect));
         } catch (Exception ignored) {
             return false;
@@ -225,7 +225,7 @@ public class CataclysmEventHandler {
     //应用灾变的眩晕效果
     private static void applyCataclysmStunEffect(LivingEntity target, int durationTicks) {
         try {
-            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+            MobEffect stunEffect = BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "stun"));
             if (stunEffect != null) {
                 target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(stunEffect), durationTicks, 0));
             }
@@ -270,7 +270,7 @@ public class CataclysmEventHandler {
     //获取深渊烧灼效果
     private static MobEffect getAbyssalBurnEffect() {
         try {
-            return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
+            return BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "abyssal_burn"));
         } catch (Exception ignored) {
             return null;
         }

@@ -4,7 +4,7 @@ import net.eca.api.RegisterItemExtension;
 import net.eca.client.render.TheLastEndRenderTypes;
 import net.eca.util.item_extension.ItemExtension;
 import net.eca.util.item_extension.ItemExtensionManager;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModItems;

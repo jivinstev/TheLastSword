@@ -7,13 +7,12 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -73,7 +72,7 @@ import java.util.Set;
 public class ClientEventHandler {
 
     //万物终焉渲染相关
-    private static final ResourceLocation END_PORTAL_TEXTURE = ResourceLocation.parse("textures/entity/end_portal.png");
+    private static final Identifier END_PORTAL_TEXTURE = Identifier.parse("textures/entity/end_portal.png");
     private static final double EFFECT_RADIUS = 32.0;
     private static float rotation = 0.0f;
 
@@ -100,7 +99,7 @@ public class ClientEventHandler {
             true,
             net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                    .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, false))
+                    .setTextureState(new net.the_last_sword.mv.LegacyRenderType.TextureStateShard(END_PORTAL_TEXTURE, false))
                     .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
                     .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
                     .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
@@ -185,7 +184,7 @@ public class ClientEventHandler {
         //assets/the_last_sword/items/dragon_crystal_soul_stone.json 的 minecraft:condition 读取
         @SubscribeEvent
         public static void onRegisterConditionalItemModelProperties(RegisterConditionalItemModelPropertyEvent event) {
-            event.register(ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_soul_stone_full"),
+            event.register(Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_soul_stone_full"),
                     SoulStoneFull.MAP_CODEC);
         }
     }
@@ -357,7 +356,7 @@ public class ClientEventHandler {
         poseStack.pushPose();
 
         //移动到球心位置
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
         poseStack.translate(
                 center.x - cameraPos.x,
                 center.y - cameraPos.y,
@@ -438,12 +437,12 @@ public class ClientEventHandler {
 
     //渲染挖掘预览方块
     private static void renderMiningPreview(PoseStack poseStack, Camera camera) {
-        Vec3 cameraPos = camera.getPosition();
+        Vec3 cameraPos = camera.position();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
         MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
-        VertexConsumer buffer = buf.getBuffer(RenderType.lines());
+        VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         float time = (System.currentTimeMillis() % 2000) / 2000.0f;
         float alpha = 0.5f + 0.3f * (float) Math.sin(time * Math.PI * 2);
@@ -502,12 +501,12 @@ public class ClientEventHandler {
 
     //渲染竞技场预览方框
     private static void renderArenaPreview(PoseStack poseStack, Camera camera) {
-        Vec3 cameraPos = camera.getPosition();
+        Vec3 cameraPos = camera.position();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
         MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
-        VertexConsumer buffer = buf.getBuffer(RenderType.lines());
+        VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         //绿色闪烁效果（与挖掘预览一致）
         float time = (System.currentTimeMillis() % 2000) / 2000.0f;
@@ -595,12 +594,12 @@ public class ClientEventHandler {
             return;
         }
 
-        Vec3 cameraPos = camera.getPosition();
+        Vec3 cameraPos = camera.position();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
         MultiBufferSource.BufferSource buf = Minecraft.getInstance().renderBuffers.bufferSource();
-        VertexConsumer buffer = buf.getBuffer(RenderType.lines());
+        VertexConsumer buffer = buf.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
 
         //紫色呼吸效果
         float time = (System.currentTimeMillis() % 2000) / 2000.0f;

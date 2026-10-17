@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.entity.QueenBlinkBlade;
@@ -21,7 +21,7 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
     }
 
     private final boolean enhanced;
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID,
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID,
             "textures/entities/the_past_shadow_of_the_queen.png");
 
     public QueenBlinkBladeRenderer(EntityRendererProvider.Context context) {
@@ -66,7 +66,7 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
         super.submit(state, pose, collector, camera);
     }
 
-    public ResourceLocation getTextureLocation(State state) {
+    public Identifier getTextureLocation(State state) {
         return TEXTURE;
     }
 }

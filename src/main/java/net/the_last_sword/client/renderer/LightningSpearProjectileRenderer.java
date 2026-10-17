@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.the_last_sword.entity.LightningSpearProjectile;
 import org.jetbrains.annotations.NotNull;

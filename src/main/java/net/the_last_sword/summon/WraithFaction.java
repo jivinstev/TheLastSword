@@ -5,7 +5,7 @@ import net.eca.util.faction.FactionManager;
 import net.eca.util.faction.FactionMember;
 import net.eca.util.faction.FactionRelation;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -125,7 +125,7 @@ public class WraithFaction {
         if (type == null) {
             return "";
         }
-        ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(type);
+        Identifier key = BuiltInRegistries.ENTITY_TYPE.getKey(type);
         return key == null ? "" : key.toString();
     }
 }

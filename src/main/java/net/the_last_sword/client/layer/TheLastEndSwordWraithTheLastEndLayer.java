@@ -1,19 +1,20 @@
 package net.the_last_sword.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
+import software.bernie.geckolib.renderer.base.RenderPassInfo;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 //终焉剑灵的万物终焉状态着色器渲染层
@@ -32,10 +33,13 @@ public class TheLastEndSwordWraithTheLastEndLayer<R extends EntityRenderState & 
         renderState.addGeckolibData(ALL_THINGS_END, animatable.isAllThingsEnd());
     }
 
+    //GeckoLib 5.4: the layer hook takes the pass's RenderPassInfo; buildRenderTask is gone (GeoModelPass)
     @Override
-    public void submitRenderTask(R renderState, PoseStack poseStack, BakedGeoModel bakedModel,
-                                 SubmitNodeCollector renderTasks, CameraRenderState cameraState,
-                                 int packedLight, int packedOverlay, int renderColor, boolean didRenderModel) {
+    public void submitRenderTask(RenderPassInfo<R> renderPassInfo, SubmitNodeCollector renderTasks) {
+        if (!renderPassInfo.willRender()) {
+            return;
+        }
+        R renderState = renderPassInfo.renderState();
 
         //只在万物终焉状态下渲染
         if (!Boolean.TRUE.equals(renderState.getGeckolibData(ALL_THINGS_END))) {
@@ -51,21 +55,13 @@ public class TheLastEndSwordWraithTheLastEndLayer<R extends EntityRenderState & 
         TheLastEndEffect.applyUniforms();
 
         //获取剑灵的原始纹理
-        ResourceLocation texture = getRenderer().getTextureLocation(renderState);
+        Identifier texture = getRenderer().getTextureLocation(renderState);
 
         //使用终焉着色器渲染类型
         RenderType theLastEndRenderType = TheLastEndRenderTypes.createEntityEffect(texture);
 
         //渲染模型
-        getRenderer().buildRenderTask(
-            renderState,
-            poseStack,
-            bakedModel,
-            getRenderer().getGeoModel(),
-            renderTasks.order(1),
-            cameraState,
-            theLastEndRenderType,
-            packedLight,
-            OverlayTexture.NO_OVERLAY, -1, null);
+GeoModelPass.submit(renderPassInfo, renderTasks.order(1), theLastEndRenderType, renderPassInfo.packedLight(),
+                OverlayTexture.NO_OVERLAY, -1);
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,7 +21,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -579,11 +579,11 @@ public class EnderDragonEvent {
     private static void applyAlduinKillBonus(EnderDragon dragon) {
         AttributeInstance attack = dragon.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attack == null) return;
-        attack.removeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"));
+        attack.removeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"));
         int kills = dragon.getPersistentData().getIntOr(ALDUIN_KILL_COUNT_KEY, 0);
         if (kills > 0) {
             attack.addPermanentModifier(new AttributeModifier(
-                    ResourceLocation.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"), kills,
+                    Identifier.fromNamespaceAndPath("the_last_sword", "alduin_kill_attack"), kills,
                     AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
@@ -659,12 +659,12 @@ public class EnderDragonEvent {
             double fallbackAmount = NAMED_DRAGON_TOUGHNESS_REFERENCE * bonus;
             if (fallbackAmount > 0.0) {
                 toughness.addPermanentModifier(new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
+                        Identifier.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
                         fallbackAmount, AttributeModifier.Operation.ADD_VALUE));
             }
         } else {
             toughness.addPermanentModifier(new AttributeModifier(
-                    ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
+                    Identifier.fromNamespaceAndPath("the_last_sword", "named_dragon_armor_toughness"),
                     bonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
     }
@@ -689,8 +689,8 @@ public class EnderDragonEvent {
         return UUID.nameUUIDFromBytes(("the_last_sword:" + name).getBytes(StandardCharsets.UTF_8));
     }
 
-    private static ResourceLocation modifierLocation(UUID id) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", id.toString());
+    private static Identifier modifierLocation(UUID id) {
+        return Identifier.fromNamespaceAndPath("the_last_sword", id.toString());
     }
 
     // 根据等级强化末影龙属性
@@ -722,7 +722,7 @@ public class EnderDragonEvent {
         AttributeInstance attr = dragon.getAttribute(attribute);
         if (attr != null) {
             attr.addPermanentModifier(new AttributeModifier(
-                    ResourceLocation.fromNamespaceAndPath("the_last_sword", name),
+                    Identifier.fromNamespaceAndPath("the_last_sword", name),
                     value, AttributeModifier.Operation.ADD_VALUE));
         }
     }

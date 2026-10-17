@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -13,11 +13,11 @@ import net.the_last_sword.client.renderer.DangerousSkillPreviewRenderer;
 
 import java.util.UUID;
 
-public record DangerousSkillPreviewPacket(ResourceLocation dimension, int entityId, UUID entityUuid,
+public record DangerousSkillPreviewPacket(Identifier dimension, int entityId, UUID entityUuid,
                                          Vec3 origin, Vec3 forward, double width, double length,
                                          double height, long endTick, boolean active) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<DangerousSkillPreviewPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dangerous_skill_preview_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "dangerous_skill_preview_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, DangerousSkillPreviewPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> DangerousSkillPreviewPacket.encode(msg, buf), DangerousSkillPreviewPacket::decode);
 
@@ -27,7 +27,7 @@ public record DangerousSkillPreviewPacket(ResourceLocation dimension, int entity
     }
 
     public static void encode(DangerousSkillPreviewPacket packet, FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(packet.dimension);
+        buffer.writeIdentifier(packet.dimension);
         buffer.writeVarInt(packet.entityId);
         buffer.writeUUID(packet.entityUuid);
         buffer.writeDouble(packet.origin.x);
@@ -43,7 +43,7 @@ public record DangerousSkillPreviewPacket(ResourceLocation dimension, int entity
     }
 
     public static DangerousSkillPreviewPacket decode(FriendlyByteBuf buffer) {
-        return new DangerousSkillPreviewPacket(buffer.readResourceLocation(), buffer.readVarInt(),
+        return new DangerousSkillPreviewPacket(buffer.readIdentifier(), buffer.readVarInt(),
                 buffer.readUUID(), new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()),
                 new Vec3(buffer.readDouble(), 0.0, buffer.readDouble()), buffer.readDouble(),
                 buffer.readDouble(), buffer.readDouble(), buffer.readLong(), buffer.readBoolean());

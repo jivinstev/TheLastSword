@@ -2,7 +2,8 @@ package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.joml.Vector3f;
-import java.util.Set;
+import java.util.function.Consumer;
+import org.joml.Vector3fc;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.Minecraft;
@@ -16,7 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,15 +39,15 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
     }
 
     @Override
-    public void getExtents(Set<Vector3f> output) {
-        output.add(new Vector3f(0.0F, 0.0F, 0.0F));
-        output.add(new Vector3f(1.0F, 0.0F, 0.0F));
-        output.add(new Vector3f(0.0F, 1.0F, 0.0F));
-        output.add(new Vector3f(0.0F, 0.0F, 1.0F));
-        output.add(new Vector3f(1.0F, 1.0F, 0.0F));
-        output.add(new Vector3f(1.0F, 0.0F, 1.0F));
-        output.add(new Vector3f(0.0F, 1.0F, 1.0F));
-        output.add(new Vector3f(1.0F, 1.0F, 1.0F));
+    public void getExtents(Consumer<Vector3fc> output) {
+        output.accept(new Vector3f(0.0F, 0.0F, 0.0F));
+        output.accept(new Vector3f(1.0F, 0.0F, 0.0F));
+        output.accept(new Vector3f(0.0F, 1.0F, 0.0F));
+        output.accept(new Vector3f(0.0F, 0.0F, 1.0F));
+        output.accept(new Vector3f(1.0F, 1.0F, 0.0F));
+        output.accept(new Vector3f(1.0F, 0.0F, 1.0F));
+        output.accept(new Vector3f(0.0F, 1.0F, 1.0F));
+        output.accept(new Vector3f(1.0F, 1.0F, 1.0F));
     }
 
     private static float animationAge() {
@@ -74,7 +75,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
 
         @SubscribeEvent
         public static void onRegisterSpecialRenderers(RegisterSpecialModelRendererEvent event) {
-            event.register(ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "lightning_spear"), Unbaked.MAP_CODEC);
+            event.register(Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "lightning_spear"), Unbaked.MAP_CODEC);
         }
     }
 }

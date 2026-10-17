@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,9 +26,9 @@ import net.the_last_sword.init.ModAttributes;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumMap;
@@ -83,7 +83,7 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
             2.0F,
             0.0F,
             ItemTags.REPAIRS_DIAMOND_ARMOR,
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor"))
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor"))
         );
     }
 
@@ -96,22 +96,20 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
     }
 
     @Override
-    //1.21.4: the armour material's ATTRIBUTE_MODIFIERS component is the base (super returns EMPTY); this method only
-    //runs through event/ArmorAttributeModifierHandler, because a stack with that component never falls back to it
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        for (ItemAttributeModifiers.Entry entry : this.components().getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY).modifiers()) {
+        for (ItemAttributeModifiers.Entry entry : super.getDefaultAttributeModifiers(stack).modifiers()) {
             builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.armorType.getSlot());
         String suffix = this.armorType.getName();
         builder.add(ModAttributes.MAX_JUSTIFIED_DEFENCE, new AttributeModifier(
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_max_justified_defence_" + suffix),
+            Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_max_justified_defence_" + suffix),
             1.0,
             AttributeModifier.Operation.ADD_VALUE
         ), group);
         builder.add(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED, new AttributeModifier(
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_recovery_speed_" + suffix),
+            Identifier.fromNamespaceAndPath("the_last_sword", "dragon_cult_priest_armor_recovery_speed_" + suffix),
             0.25,
             AttributeModifier.Operation.ADD_MULTIPLIED_BASE
         ), group);

@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.entity.DragonCultistEntity;

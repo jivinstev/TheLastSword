@@ -1,7 +1,7 @@
 package net.the_last_sword.compat.irons_spellbooks;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.core.Holder;
@@ -24,15 +24,15 @@ import net.the_last_sword.item.TheLastSword;
 @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class IronsSpellsCompat {
 
-    private static final ResourceLocation MAX_MANA_ID =
-        ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "max_mana");
-    private static final ResourceLocation SPELL_POWER_ID =
-        ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "spell_power");
-    private static ResourceLocation modId(String path) {
-        return ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, path);
+    private static final Identifier MAX_MANA_ID =
+        Identifier.fromNamespaceAndPath("irons_spellbooks", "max_mana");
+    private static final Identifier SPELL_POWER_ID =
+        Identifier.fromNamespaceAndPath("irons_spellbooks", "spell_power");
+    private static Identifier modId(String path) {
+        return Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, path);
     }
 
-    private static Holder<Attribute> attribute(ResourceLocation id) {
+    private static Holder<Attribute> attribute(Identifier id) {
         return BuiltInRegistries.ATTRIBUTE.get(ResourceKey.create(Registries.ATTRIBUTE, id)).orElse(null);
     }
 

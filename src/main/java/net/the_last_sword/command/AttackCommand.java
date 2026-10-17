@@ -79,7 +79,7 @@ public class AttackCommand {
         for (LivingEntity entity : healNegatedEntities) {
             UUID uuid = entity.getUUID();
             String entityName = entity.getName().getString();
-            String dimensionName = entity.level().dimension().location().toString();
+            String dimensionName = entity.level().dimension().identifier().toString();
 
             int remainingTime = PresentWorldAnchorManager.getHealBanTime(entity);
 

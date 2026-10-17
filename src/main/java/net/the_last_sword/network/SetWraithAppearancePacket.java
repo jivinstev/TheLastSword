@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class SetWraithAppearancePacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SetWraithAppearancePacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "set_wraith_appearance_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "set_wraith_appearance_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SetWraithAppearancePacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> SetWraithAppearancePacket.encode(msg, buf), SetWraithAppearancePacket::decode);
 

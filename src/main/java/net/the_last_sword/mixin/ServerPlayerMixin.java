@@ -3,7 +3,7 @@ package net.the_last_sword.mixin;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.PresentWorldAnchorManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +25,7 @@ public class ServerPlayerMixin {
     @Inject(method = "restoreFrom", at = @At("TAIL"))
     private void tls$restoreProtectedInventory(ServerPlayer oldPlayer, boolean keepAllInventory, CallbackInfo ci) {
         if (!keepAllInventory
-                && !((ServerPlayer) (Object) this).level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)
+                && !((ServerPlayer) (Object) this).level().getGameRules().get(GameRules.KEEP_INVENTORY)
                 && !oldPlayer.isSpectator()
                 && EntityUtil.hasInventoryProtection(oldPlayer)) {
             ((Player) (Object) this).getInventory().replaceWith(oldPlayer.getInventory());

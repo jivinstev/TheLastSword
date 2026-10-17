@@ -1,6 +1,6 @@
 package net.the_last_sword.compat.jade;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.util.health.PresentWorldAnchorManager;
@@ -14,7 +14,7 @@ public enum HealBanProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "heal_ban");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "heal_ban");
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
@@ -27,7 +27,7 @@ public enum HealBanProvider implements IEntityComponentProvider {
     }
 
     @Override
-    public ResourceLocation getUid() {
+    public Identifier getUid() {
         return UID;
     }
 }

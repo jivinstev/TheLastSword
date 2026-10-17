@@ -30,7 +30,7 @@ public final class BlinkRiftRenderer {
 
     public static void receive(BlinkRiftPacket packet) {
         update();
-        if (effectLevel == null || !effectLevel.dimension().location().equals(packet.dimension())) return;
+        if (effectLevel == null || !effectLevel.dimension().identifier().equals(packet.dimension())) return;
         if (packet.phase() == 3) {
             ACTORS.remove(packet.caster());
             return;

@@ -31,7 +31,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -207,7 +207,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
             return;
         }
 
-        ResourceLocation targetId = BuiltInRegistries.ENTITY_TYPE.getKey(currentTarget.getType());
+        Identifier targetId = BuiltInRegistries.ENTITY_TYPE.getKey(currentTarget.getType());
         if (targetId == null || !"cataclysm".equals(targetId.getNamespace())) {
             return;
         }
@@ -292,7 +292,8 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                     .getAnimationControllers()
                     .get("main");
             if (controller != null) {
-                controller.forceAnimationReset();
+                //GeckoLib 5.4: forceAnimationReset() is reset(): the predicate starts its animation again on the next frame
+                controller.reset();
             }
         }
     }
@@ -412,7 +413,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
         private static final Map<UUID, ActiveEffectData> ACTIVE_EFFECTS = new ConcurrentHashMap<>();
         private static final int DURATION = 260;  //13秒
 
-        private static final ResourceLocation THE_LAST_END_PRESET = ResourceLocation.fromNamespaceAndPath("eca", "the_last_end");
+        private static final Identifier THE_LAST_END_PRESET = Identifier.fromNamespaceAndPath("eca", "the_last_end");
 
         public static void start(TheLastEndSwordWraithEntity wraith, Vec3 center) {
             ACTIVE_EFFECTS.put(wraith.getUUID(), new ActiveEffectData(0, center));

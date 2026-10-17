@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -24,7 +24,7 @@ import java.util.Map;
 // 附魔应用网络包（支持增加和减少附魔）
 public class EnchantmentApplyPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<EnchantmentApplyPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "enchantment_apply_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "enchantment_apply_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, EnchantmentApplyPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> EnchantmentApplyPacket.encode(msg, buf), EnchantmentApplyPacket::decode);
 
@@ -36,9 +36,9 @@ public class EnchantmentApplyPacket implements CustomPacketPayload {
 
     private final BlockPos pos;
     // 值为目标等级，0表示移除
-    private final Map<ResourceLocation, Integer> enchantments;
+    private final Map<Identifier, Integer> enchantments;
 
-    public EnchantmentApplyPacket(BlockPos pos, Map<ResourceLocation, Integer> enchantments) {
+    public EnchantmentApplyPacket(BlockPos pos, Map<Identifier, Integer> enchantments) {
         this.pos = pos;
         this.enchantments = enchantments;
     }
@@ -46,9 +46,9 @@ public class EnchantmentApplyPacket implements CustomPacketPayload {
     public static EnchantmentApplyPacket decode(FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
         int size = buf.readInt();
-        Map<ResourceLocation, Integer> enchantments = new HashMap<>();
+        Map<Identifier, Integer> enchantments = new HashMap<>();
         for (int i = 0; i < size; i++) {
-            ResourceLocation id = buf.readResourceLocation();
+            Identifier id = buf.readIdentifier();
             int level = buf.readInt();
             enchantments.put(id, level);
         }
@@ -59,7 +59,7 @@ public class EnchantmentApplyPacket implements CustomPacketPayload {
         buf.writeBlockPos(msg.pos);
         buf.writeInt(msg.enchantments.size());
         for (var entry : msg.enchantments.entrySet()) {
-            buf.writeResourceLocation(entry.getKey());
+            buf.writeIdentifier(entry.getKey());
             buf.writeInt(entry.getValue());
         }
     }

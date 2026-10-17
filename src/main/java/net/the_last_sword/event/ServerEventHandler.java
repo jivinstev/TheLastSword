@@ -6,7 +6,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -433,7 +433,7 @@ public class ServerEventHandler {
     }
 
     //========== 竞技场预览系统 ==========
-    private static final ResourceLocation ARENA_STRUCTURE = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_end_arena");
+    private static final Identifier ARENA_STRUCTURE = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_end_arena");
     private static final Map<UUID, ArenaPreview> arenaPreviewMap = new HashMap<>();
 
     //根据玩家水平朝向获取旋转

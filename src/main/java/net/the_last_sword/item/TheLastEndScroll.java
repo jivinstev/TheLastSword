@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -38,7 +38,7 @@ public class TheLastEndScroll extends Item {
     private static final int RUINED_VILLAGE_SEARCH_RADIUS = 256;
     private static final TagKey<Structure> RUINED_VILLAGE = TagKey.create(
         Registries.STRUCTURE,
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "ruined_village")
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "ruined_village")
     );
 
     public TheLastEndScroll() {
@@ -87,7 +87,7 @@ public class TheLastEndScroll extends Item {
     private static List<PaperNoteEntry> collectPaperNotes(ServerPlayer player) {
         List<PaperNoteEntry> notes = new ArrayList<>();
         for (String noteId : PaperNote.getCollectedNoteIds(player)) {
-            ResourceLocation id = ResourceLocation.tryParse(noteId);
+            Identifier id = Identifier.tryParse(noteId);
             Item item = id == null ? null : BuiltInRegistries.ITEM.getValue(id);
             if (item instanceof PaperNote note) {
                 notes.add(new PaperNoteEntry(note.getNameKey(), note.getContentKey()));

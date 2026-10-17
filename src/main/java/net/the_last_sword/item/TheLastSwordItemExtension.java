@@ -7,7 +7,7 @@ import net.eca.client.render.TheLastEndRenderTypes;
 import net.eca.util.ItemUtil;
 import net.eca.util.item_extension.ItemExtension;
 import net.eca.util.item_extension.ItemExtensionManager;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;

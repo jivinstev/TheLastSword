@@ -36,7 +36,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -522,7 +522,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
             player.drop(reward, false);
         }
         ServerLevel serverLevel = (ServerLevel) player.level();
-        if (serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+        if (serverLevel.getGameRules().get(GameRules.MOB_DROPS)) {
             dropFromLootTable(serverLevel, damageSources().playerAttack(player), true);
         }
         TheLastSwordQuestHandler.grant(player, TheLastSwordQuestHandler.PROOF_OF_SOVEREIGNTY);

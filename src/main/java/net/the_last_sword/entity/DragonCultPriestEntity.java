@@ -8,7 +8,7 @@ import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -40,9 +40,9 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.animal.golem.IronGolem;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -445,7 +445,7 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
                 AttributeModifier.Operation operation = toughness.getBaseValue() == 0.0
                         ? AttributeModifier.Operation.ADD_VALUE : AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL;
                 toughness.addPermanentModifier(new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "named_priest_toughness"), amount, operation));
+                        Identifier.fromNamespaceAndPath("the_last_sword", "named_priest_toughness"), amount, operation));
             }
         }
 
@@ -478,8 +478,8 @@ public class DragonCultPriestEntity extends TheLastEndEntity {
         }
     }
 
-    private static ResourceLocation modifierId(UUID id) {
-        return ResourceLocation.fromNamespaceAndPath("the_last_sword", id.toString());
+    private static Identifier modifierId(UUID id) {
+        return Identifier.fromNamespaceAndPath("the_last_sword", id.toString());
     }
 
     private void tickNamedAbility() {

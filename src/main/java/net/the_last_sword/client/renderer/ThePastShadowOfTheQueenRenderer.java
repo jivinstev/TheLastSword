@@ -1,20 +1,23 @@
 package net.the_last_sword.client.renderer;
 
+import software.bernie.geckolib.renderer.base.RenderPassInfo;
+import software.bernie.geckolib.renderer.base.BoneSnapshots;
+import software.bernie.geckolib.constant.DataTickets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.the_last_sword.client.layer.ThePastShadowOfTheQueenItemLayer;
 import net.the_last_sword.client.model.ThePastShadowOfTheQueenModel;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
@@ -31,8 +34,12 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
 
     public ThePastShadowOfTheQueenRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ThePastShadowOfTheQueenModel());
-        withRenderLayer(new ThePastShadowOfTheQueenItemLayer<>(this));
+        withRenderLayer(renderer -> new ThePastShadowOfTheQueenItemLayer<>(this));
         this.shadowRadius = 0.5f;
+        //GeckoLib 5.4 replaced preRender with a RenderPassInfo hook; the scale is constant, so set it once here
+        float scale = 57.5F / 44.5F;
+        this.scaleHeight = scale;
+        this.scaleWidth = scale;
     }
 
     //1.21.9+: render(...) is submit(...); the rifts are queued as custom geometry on QueenBlinkRenderUtil's rift type
@@ -68,16 +75,8 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
     }
 
     @Override
-    public RenderType getRenderType(R queen, ResourceLocation texture) {
-        return RenderType.entityTranslucent(getTextureLocation(queen));
-    }
-
-    @Override
-    public void preRender(R queen, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector, CameraRenderState camera, int packedLight, int packedOverlay, int colour) {
-        float scale = 57.5F / 44.5F;
-        this.scaleHeight = scale;
-        this.scaleWidth = scale;
-        super.preRender(queen, poseStack, model, collector, camera, packedLight, packedOverlay, colour);
+    public RenderType getRenderType(R queen, Identifier texture) {
+        return net.minecraft.client.renderer.rendertype.RenderTypes.entityTranslucent(getTextureLocation(queen));
     }
 
     @Override
@@ -98,5 +97,18 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
         queen.addGeckolibData(SUMMON_YAW, entity.getSummonYaw());
         queen.addGeckolibData(BLINK_AGE, entity.getBlinkTick() >= 0 ? entity.getBlinkTick() + partialTick : -1.0F);
         queen.addGeckolibData(BODY_YAW, Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot));
+    }
+
+    //GeckoLib 5.4: the head look the model's setCustomAnimations applied (pitch/yaw from the render state, in degrees)
+    //is a bone-snapshot adjustment on the renderer, made for every frame after the animation
+    @Override
+    public void adjustModelBonesForRender(RenderPassInfo<R> renderPassInfo, BoneSnapshots snapshots) {
+        super.adjustModelBonesForRender(renderPassInfo, snapshots);
+        Float pitch = renderPassInfo.getGeckolibData(DataTickets.ENTITY_PITCH);
+        Float yaw = renderPassInfo.getGeckolibData(DataTickets.ENTITY_YAW);
+        if (pitch == null || yaw == null) {
+            return;
+        }
+        snapshots.ifPresent("head", head -> head.setRotX(pitch * Mth.DEG_TO_RAD).setRotY(yaw * Mth.DEG_TO_RAD));
     }
 }

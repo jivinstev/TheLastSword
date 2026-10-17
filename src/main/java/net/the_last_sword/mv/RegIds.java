@@ -4,12 +4,12 @@ package net.the_last_sword.mv;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**
- * 1.21.2 made every Block and Item carry its registry id in its Properties (CATALOG R25): `new Block(props)` and
+ * (1.21.11 copy: ResourceLocation is Identifier, CATALOG M45.) 1.21.2 made every Block and Item carry its registry id in its Properties (CATALOG R25): `new Block(props)` and
  * `new Item(props)` throw "Block id not set" / "Item id not set" without it. A 1.21.1 mod builds its Properties where
  * the registry name is often not in scope (an Item subclass's own constructor), so the name is passed the other way:
  * the shared rows turn {@code REG.register("name", () -> new X(...))} into
@@ -74,7 +74,7 @@ public final class RegIds {
         if (name == null) {
             return props;
         }
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("the_last_sword", name);
+        Identifier id = Identifier.fromNamespaceAndPath("the_last_sword", name);
         // a block item kept its block's translation key in 1.21.1; in 1.21.2 that is opt-in
         if (BuiltInRegistries.BLOCK.containsKey(id)) {
             props = props.useBlockDescriptionPrefix();
@@ -85,6 +85,6 @@ public final class RegIds {
     public static BlockBehaviour.Properties stamp(BlockBehaviour.Properties props) {
         String name = current();
         return name == null ? props
-                : props.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("the_last_sword", name)));
+                : props.setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("the_last_sword", name)));
     }
 }

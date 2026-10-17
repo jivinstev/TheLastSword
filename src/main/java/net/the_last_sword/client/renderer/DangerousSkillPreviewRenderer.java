@@ -10,7 +10,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.world.entity.Entity;
@@ -33,15 +34,15 @@ public final class DangerousSkillPreviewRenderer {
             .withCull(false)
             .withDepthWrite(false)
             .build();
-    private static final RenderType FILL = RenderType.create("dangerous_skill_preview", 256, false, true,
-            FILL_PIPELINE, RenderType.CompositeState.builder().createCompositeState(false));
+    private static final RenderType FILL = RenderType.create("dangerous_skill_preview",
+            RenderSetup.builder(FILL_PIPELINE).bufferSize(256).sortOnUpload().createRenderSetup());
 
     private DangerousSkillPreviewRenderer() {
     }
 
     public static void receive(DangerousSkillPreviewPacket packet) {
         tick();
-        if (previewLevel == null || !previewLevel.dimension().location().equals(packet.dimension())) {
+        if (previewLevel == null || !previewLevel.dimension().identifier().equals(packet.dimension())) {
             return;
         }
         if (packet.active()) {
@@ -81,7 +82,7 @@ public final class DangerousSkillPreviewRenderer {
         float alpha = 0.65F + 0.2F * (float) Math.sin((previewLevel.getGameTime() + partialTick) * 0.4);
         for (DangerousSkillPreviewPacket packet : PREVIEWS.values()) {
             poseStack.pushPose();
-            Vec3 offset = packet.origin().subtract(camera.getPosition());
+            Vec3 offset = packet.origin().subtract(camera.position());
             poseStack.translate(offset.x, offset.y, offset.z);
             Matrix4f matrix = poseStack.last().pose();
             Vec3 side = new Vec3(-packet.forward().z, 0.0, packet.forward().x).scale(packet.width() * 0.5);
@@ -94,7 +95,7 @@ public final class DangerousSkillPreviewRenderer {
                         .setColor(1.0F, 0.1F, 0.1F, alpha * 0.2F);
             }
             buffers.endBatch(FILL);
-            VertexConsumer lines = buffers.getBuffer(RenderType.lines());
+            VertexConsumer lines = buffers.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
             Vec3 up = new Vec3(0.0, packet.height(), 0.0);
             for (int index = 0; index < 4; index++) {
                 Vec3 start = corners[index];
@@ -103,7 +104,7 @@ public final class DangerousSkillPreviewRenderer {
                 line(lines, poseStack.last(), start.add(up), next.add(up), alpha);
                 line(lines, poseStack.last(), start, start.add(up), alpha);
             }
-            buffers.endBatch(RenderType.lines());
+            buffers.endBatch(net.minecraft.client.renderer.rendertype.RenderTypes.lines());
             poseStack.popPose();
         }
     }

@@ -6,7 +6,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -93,7 +93,7 @@ public class PaperNote extends Item {
 
     //判断id是否为已注册的纸条物品
     public static boolean isValidNoteId(String noteId) {
-        ResourceLocation id = ResourceLocation.tryParse(noteId);
+        Identifier id = Identifier.tryParse(noteId);
         return id != null && BuiltInRegistries.ITEM.getValue(id) instanceof PaperNote;
     }
 

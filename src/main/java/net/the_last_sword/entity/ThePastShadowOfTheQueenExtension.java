@@ -7,8 +7,8 @@ import net.eca.util.entity_extension.CombatMusicExtension;
 import net.eca.util.entity_extension.EntityExtension;
 import net.eca.util.entity_extension.EntityExtensionManager;
 import net.eca.util.entity_extension.EntityLayerExtension;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -27,7 +27,7 @@ public class ThePastShadowOfTheQueenExtension extends EntityExtension {
         }
 
         @Override
-        public ResourceLocation soundEventId() {
+        public Identifier soundEventId() {
             return ModSounds.THE_PAST_SHADOW_OF_THE_QUEEN.get().location();
         }
 

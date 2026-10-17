@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -12,7 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 // 龙水晶附魔台能量数据同步包（服务端→客户端）
 public class EnchantingTableDataPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<EnchantingTableDataPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "enchanting_table_data_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "enchanting_table_data_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, EnchantingTableDataPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> EnchantingTableDataPacket.encode(msg, buf), EnchantingTableDataPacket::decode);
 

@@ -112,7 +112,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
 
     private void syncPreview(int remainingTicks) {
         NetworkHandler.sendToTrackingClients(new DangerousSkillPreviewPacket(
-                dangerousEntity.level().dimension().location(), dangerousEntity.getId(),
+                dangerousEntity.level().dimension().identifier(), dangerousEntity.getId(),
                 dangerousEntity.getUUID(), dangerousSkillOrigin, dangerousSkillForward,
                 rangeWidth, rangeLength, rangeHeight,
                 dangerousEntity.level().getGameTime() + remainingTicks, remainingTicks > 0), dangerousEntity);

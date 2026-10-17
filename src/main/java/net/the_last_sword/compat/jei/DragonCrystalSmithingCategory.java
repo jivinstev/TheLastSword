@@ -11,7 +11,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.init.ModItems;
@@ -23,12 +23,12 @@ import java.util.Arrays;
 //龙晶锻造JEI配方类别
 public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrystalSmithingRecipe> {
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_smithing");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_crystal_smithing");
     public static final RecipeType<DragonCrystalSmithingRecipe> RECIPE_TYPE =
         RecipeType.create(TheLastSwordMod.MOD_ID, "dragon_crystal_smithing", DragonCrystalSmithingRecipe.class);
 
     //箭头贴图（32x32 灰底深色箭头）
-    private static final ResourceLocation ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/arrow.png");
+    private static final Identifier ARROW_TEXTURE = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/arrow.png");
 
     //画布尺寸 132x44; 透明底, 槽框由 JEI 自绘, 箭头用贴图
     private final IDrawable background;
@@ -58,10 +58,14 @@ public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrys
         return title;
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return background.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return background.getHeight();
     }
 
     @Override
@@ -71,7 +75,7 @@ public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrys
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DragonCrystalSmithingRecipe recipe, IFocusGroup focuses) {
-        ItemStack[] templateItems = recipe.getTemplate().items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new);
+        ItemStack[] templateItems = recipe.getTemplate().items().map(ItemStack::new).toArray(ItemStack[]::new);
         ItemStack[] displayedTemplateItems = new ItemStack[templateItems.length];
         for (int i = 0; i < templateItems.length; i++) {
             displayedTemplateItems[i] = recipe.hasTemplateInputLevel()
@@ -83,7 +87,7 @@ public class DragonCrystalSmithingCategory implements IRecipeCategory<DragonCrys
             .addItemStacks(Arrays.asList(displayedTemplateItems));
 
         //输入槽位（带等级）
-        ItemStack[] inputItems = recipe.getInput().items().map(net.minecraft.world.item.ItemStack::new).toArray(net.minecraft.world.item.ItemStack[]::new);
+        ItemStack[] inputItems = recipe.getInput().items().map(ItemStack::new).toArray(ItemStack[]::new);
         ItemStack[] leveledInputItems = new ItemStack[inputItems.length];
         for (int i = 0; i < inputItems.length; i++) {
             leveledInputItems[i] = createStackWithLevel(inputItems[i], recipe.getInputLevel());

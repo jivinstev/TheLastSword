@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -12,7 +12,7 @@ import net.the_last_sword.client.ClientPacketHandler;
 
 public record QueenTripleSlashShakePacket() implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<QueenTripleSlashShakePacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "queen_triple_slash_shake_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "queen_triple_slash_shake_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, QueenTripleSlashShakePacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> QueenTripleSlashShakePacket.encode(msg, buf), QueenTripleSlashShakePacket::decode);
 

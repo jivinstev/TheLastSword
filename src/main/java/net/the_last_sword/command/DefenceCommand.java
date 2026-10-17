@@ -57,7 +57,7 @@ public class DefenceCommand {
         for (LivingEntity entity : trackedEntities) {
             UUID uuid = entity.getUUID();
             String entityName = entity.getName().getString();
-            String dimensionName = entity.level().dimension().location().toString();
+            String dimensionName = entity.level().dimension().identifier().toString();
 
             //获取真实生命值
             float realHealth = TrueHealthManager.getHealth(entity);

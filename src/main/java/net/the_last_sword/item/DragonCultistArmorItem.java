@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -56,7 +56,7 @@ public abstract class DragonCultistArmorItem extends ArmorItem implements GeoIte
             1.0F,
             0.0F,
             ItemTags.REPAIRS_LEATHER_ARMOR,
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.parse("the_last_sword:dragon_cultist_armor")));
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.parse("the_last_sword:dragon_cultist_armor")));
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 

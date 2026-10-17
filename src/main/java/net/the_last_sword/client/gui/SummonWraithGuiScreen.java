@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -30,7 +30,7 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
         this.imageHeight = 240;
     }
 
-    private static final ResourceLocation texture = ResourceLocation.parse("the_last_sword:textures/screens/summon_wraith_gui.png");
+    private static final Identifier texture = Identifier.parse("the_last_sword:textures/screens/summon_wraith_gui.png");
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
@@ -42,7 +42,7 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
-        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ResourceLocation.parse("the_last_sword:textures/screens/summon_wraith_gui_background.png"), this.leftPos + 28, this.topPos + -38, 0, 0, 120, 186, 120, 186);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, Identifier.parse("the_last_sword:textures/screens/summon_wraith_gui_background.png"), this.leftPos + 28, this.topPos + -38, 0, 0, 120, 186, 120, 186);
 
     }
 

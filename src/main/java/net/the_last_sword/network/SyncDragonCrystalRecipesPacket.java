@@ -3,7 +3,7 @@ package net.the_last_sword.network;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -16,7 +16,7 @@ import java.util.List;
 //服务端向客户端全量同步龙水晶锻造配方
 public class SyncDragonCrystalRecipesPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncDragonCrystalRecipesPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "sync_dragon_crystal_recipes_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "sync_dragon_crystal_recipes_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncDragonCrystalRecipesPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> SyncDragonCrystalRecipesPacket.encode(msg, buf), SyncDragonCrystalRecipesPacket::decode);
 
@@ -37,7 +37,7 @@ public class SyncDragonCrystalRecipesPacket implements CustomPacketPayload {
     public static void encode(SyncDragonCrystalRecipesPacket message, RegistryFriendlyByteBuf buffer) {
         buffer.writeVarInt(message.recipes.size());
         for (DragonCrystalSmithingRecipe recipe : message.recipes) {
-            buffer.writeResourceLocation(recipe.getId());
+            buffer.writeIdentifier(recipe.getId());
             SERIALIZER.streamCodec().encode(buffer, recipe);
         }
     }
@@ -50,7 +50,7 @@ public class SyncDragonCrystalRecipesPacket implements CustomPacketPayload {
 
         List<DragonCrystalSmithingRecipe> recipes = new ArrayList<>(recipeCount);
         for (int i = 0; i < recipeCount; i++) {
-            ResourceLocation recipeId = buffer.readResourceLocation();
+            Identifier recipeId = buffer.readIdentifier();
             recipes.add(SERIALIZER.streamCodec().decode(buffer).withId(recipeId));
         }
         return new SyncDragonCrystalRecipesPacket(recipes);

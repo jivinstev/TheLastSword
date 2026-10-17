@@ -3,7 +3,8 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,7 +27,7 @@ public class DragonLightingRenderer extends LightningBoltRenderer {
     @Override
     public void submit(LightningBoltRenderState entity, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         final long boltSeed = entity.seed;
-        collector.submitCustomGeometry(poseStack, RenderType.lightning(),
+        collector.submitCustomGeometry(poseStack, RenderTypes.lightning(),
                 (pose, consumer) -> draw(boltSeed, pose.pose(), consumer));
     }
 

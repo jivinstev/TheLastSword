@@ -2,7 +2,7 @@ package net.the_last_sword.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,12 +31,12 @@ public class PriestStaffItem extends Item {
 
         this.defaultModifiers = ItemAttributeModifiers.builder()
             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_damage"),
+                Identifier.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_damage"),
                 2.0,
                 AttributeModifier.Operation.ADD_VALUE
             ), EquipmentSlotGroup.MAINHAND)
             .add(Attributes.ATTACK_SPEED, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_speed"),
+                Identifier.fromNamespaceAndPath("the_last_sword", "priest_staff_attack_speed"),
                 -2.4,
                 AttributeModifier.Operation.ADD_VALUE
             ), EquipmentSlotGroup.MAINHAND)

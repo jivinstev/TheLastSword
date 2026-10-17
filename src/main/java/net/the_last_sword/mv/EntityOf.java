@@ -3,7 +3,7 @@ package net.the_last_sword.mv;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.api.distmarker.Dist;
@@ -18,7 +18,7 @@ import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEve
  */
 @EventBusSubscriber(modid = "the_last_sword", value = Dist.CLIENT)
 public final class EntityOf {
-    public static final ContextKey<Entity> KEY = new ContextKey<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "entity"));
+    public static final ContextKey<Entity> KEY = new ContextKey<>(Identifier.fromNamespaceAndPath("the_last_sword", "entity"));
 
     private EntityOf() {
     }

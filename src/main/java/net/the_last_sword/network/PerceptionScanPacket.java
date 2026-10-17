@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -15,7 +15,7 @@ import java.util.Map;
 // 感知扫描结果同步包（服务端→客户端）
 public class PerceptionScanPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<PerceptionScanPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "perception_scan_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "perception_scan_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, PerceptionScanPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> PerceptionScanPacket.encode(msg, buf), PerceptionScanPacket::decode);
 

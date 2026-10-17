@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -78,12 +78,12 @@ public class KnightGreatswordItem extends SwordItem {
     private static ItemAttributeModifiers knightGreatswordAttributes() {
         return SwordItem.createAttributes(KNIGHT_GREATSWORD_TIER, 11, -3.0f)
             .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", "knight_greatsword_entity_reach"),
+                Identifier.fromNamespaceAndPath("the_last_sword", "knight_greatsword_entity_reach"),
                 1.0,
                 AttributeModifier.Operation.ADD_VALUE
             ), EquipmentSlotGroup.MAINHAND)
             .withModifierAdded(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", "knight_greatsword_block_reach"),
+                Identifier.fromNamespaceAndPath("the_last_sword", "knight_greatsword_block_reach"),
                 1.0,
                 AttributeModifier.Operation.ADD_VALUE
             ), EquipmentSlotGroup.MAINHAND);

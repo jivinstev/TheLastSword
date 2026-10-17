@@ -7,8 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -87,7 +86,7 @@ public class DragonShieldRenderer {
         double y = Mth.lerp(partialTicks, player.yo, player.getY()) + player.getBbHeight() / 2;
         double z = Mth.lerp(partialTicks, player.zo, player.getZ());
 
-        Vec3 cam = mc.gameRenderer.getMainCamera().getPosition();
+        Vec3 cam = mc.gameRenderer.getMainCamera().position();
         poseStack.pushPose();
         poseStack.translate(x - cam.x, y - cam.y, z - cam.z);
 

@@ -4,11 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
@@ -20,8 +21,8 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
 
     //测试实体纹理（着色器会在黑色区域自动应用星空效果）
-    private static final ResourceLocation TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
+    private static final Identifier TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
 
     public TestEntityTheLastEndLayer(RenderLayerParent<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> renderer) {
         super(renderer);
@@ -40,7 +41,7 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
+            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.entityTranslucent(TEXTURE));
             this.getParentModel().renderToBuffer(
                 poseStack,
                 vertexConsumer,

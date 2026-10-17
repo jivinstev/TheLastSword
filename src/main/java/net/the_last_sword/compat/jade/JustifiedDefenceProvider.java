@@ -1,6 +1,6 @@
 package net.the_last_sword.compat.jade;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.the_last_sword.TheLastSwordMod;
@@ -15,7 +15,7 @@ public enum JustifiedDefenceProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "justified_defence");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "justified_defence");
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
@@ -33,7 +33,7 @@ public enum JustifiedDefenceProvider implements IEntityComponentProvider {
     }
 
     @Override
-    public ResourceLocation getUid() {
+    public Identifier getUid() {
         return UID;
     }
 }

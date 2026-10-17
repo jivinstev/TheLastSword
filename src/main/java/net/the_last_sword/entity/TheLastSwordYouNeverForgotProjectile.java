@@ -1,7 +1,7 @@
 package net.the_last_sword.entity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -49,7 +49,7 @@ public class TheLastSwordYouNeverForgotProjectile extends TheLastEndSwordProject
         projectile.setSnapshotDamage(0, extraDamage);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + 0.75f);
         return projectile;

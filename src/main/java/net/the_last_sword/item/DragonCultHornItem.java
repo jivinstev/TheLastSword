@@ -39,7 +39,7 @@ public class DragonCultHornItem extends InstrumentItem {
                 .component(net.minecraft.core.component.DataComponents.INSTRUMENT,
                         new net.minecraft.world.item.component.InstrumentComponent(net.minecraft.resources.ResourceKey.create(
                                 net.minecraft.core.registries.Registries.INSTRUMENT,
-                                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                                net.minecraft.resources.Identifier.fromNamespaceAndPath(
                                         net.the_last_sword.TheLastSwordMod.MOD_ID, "dragon_cult_horn"))))
         );
     }

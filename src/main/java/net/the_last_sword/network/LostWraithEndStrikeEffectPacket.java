@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -13,11 +13,11 @@ import net.the_last_sword.client.renderer.LostWraithEndStrikeEffectRenderer;
 
 import java.util.UUID;
 
-public record LostWraithEndStrikeEffectPacket(ResourceLocation dimension, int entityId, UUID entityUuid,
+public record LostWraithEndStrikeEffectPacket(Identifier dimension, int entityId, UUID entityUuid,
                                                Vec3 position, long startTick, long damageTick,
                                                long endTick, boolean active) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<LostWraithEndStrikeEffectPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "lost_wraith_end_strike_effect_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "lost_wraith_end_strike_effect_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, LostWraithEndStrikeEffectPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> LostWraithEndStrikeEffectPacket.encode(msg, buf), LostWraithEndStrikeEffectPacket::decode);
 
@@ -27,7 +27,7 @@ public record LostWraithEndStrikeEffectPacket(ResourceLocation dimension, int en
     }
 
     public static void encode(LostWraithEndStrikeEffectPacket packet, FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(packet.dimension);
+        buffer.writeIdentifier(packet.dimension);
         buffer.writeVarInt(packet.entityId);
         buffer.writeUUID(packet.entityUuid);
         buffer.writeDouble(packet.position.x);
@@ -40,7 +40,7 @@ public record LostWraithEndStrikeEffectPacket(ResourceLocation dimension, int en
     }
 
     public static LostWraithEndStrikeEffectPacket decode(FriendlyByteBuf buffer) {
-        return new LostWraithEndStrikeEffectPacket(buffer.readResourceLocation(), buffer.readVarInt(),
+        return new LostWraithEndStrikeEffectPacket(buffer.readIdentifier(), buffer.readVarInt(),
                 buffer.readUUID(), new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()),
                 buffer.readLong(), buffer.readLong(), buffer.readLong(), buffer.readBoolean());
     }

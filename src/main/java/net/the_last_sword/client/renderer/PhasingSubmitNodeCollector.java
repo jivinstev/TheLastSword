@@ -9,13 +9,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
+import net.minecraft.client.renderer.entity.state.HitboxRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -61,11 +61,6 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
     public OrderedSubmitNodeCollector order(int order) {
         SubmitNodeCollector base = this.root != null ? this.root : (SubmitNodeCollector) this.delegate;
         return new PhasingSubmitNodeCollector(base.order(order), base);
-    }
-
-    @Override
-    public void submitHitbox(PoseStack poseStack, EntityRenderState state, HitboxesRenderState hitboxes) {
-        this.delegate.submitHitbox(poseStack, state, hitboxes);
     }
 
     @Override
@@ -177,6 +172,13 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
         }
 
         @Override
+        public VertexConsumer setColor(int argb) {
+            int a = (argb >>> 24) / 2;
+            this.delegate.setColor((a << 24) | (argb & 0x00FFFFFF));
+            return this;
+        }
+
+        @Override
         public VertexConsumer setUv(float u, float v) {
             this.delegate.setUv(u, v);
             return this;
@@ -197,6 +199,12 @@ public class PhasingSubmitNodeCollector implements SubmitNodeCollector {
         @Override
         public VertexConsumer setNormal(float x, float y, float z) {
             this.delegate.setNormal(x, y, z);
+            return this;
+        }
+
+        @Override
+        public VertexConsumer setLineWidth(float width) {
+            this.delegate.setLineWidth(width);
             return this;
         }
     }

@@ -6,7 +6,7 @@ import net.eca.util.raid.RaidContext;
 import net.eca.util.raid.RaidDefinition;
 import net.eca.util.raid.RaidMusicExtension;
 import net.eca.util.raid.RaidWave;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.sounds.SoundEvents;
@@ -36,7 +36,7 @@ public class DragonCultRaid extends RaidDefinition {
     private static final int RESULT_DISPLAY_TICKS = 12 * 20;
     private static final RaidMusicExtension COMBAT_MUSIC = new RaidMusicExtension() {
         @Override
-        public ResourceLocation soundEventId() {
+        public Identifier soundEventId() {
             return ModSounds.DRAGON_CULT_IS_COMING.get().location();
         }
 

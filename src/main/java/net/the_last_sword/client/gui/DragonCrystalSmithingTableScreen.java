@@ -4,15 +4,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.gui.menu.DragonCrystalSmithingTableMenu;
 
 public class DragonCrystalSmithingTableScreen extends AbstractContainerScreen<DragonCrystalSmithingTableMenu> {
 
-    private static final ResourceLocation TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_crystal_smithing_table_gui.png");
+    private static final Identifier TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_crystal_smithing_table_gui.png");
 
     public DragonCrystalSmithingTableScreen(DragonCrystalSmithingTableMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

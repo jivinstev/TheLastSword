@@ -1,7 +1,7 @@
 package net.the_last_sword.init;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Instrument;
 import net.neoforged.bus.api.IEventBus;
@@ -21,7 +21,7 @@ public final class ModInstruments {
     //号角物品可用的乐器池
     public static final TagKey<Instrument> DRAGON_CULT_HORNS =
             TagKey.create(Registries.INSTRUMENT,
-                    ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_horns"));
+                    Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "dragon_cult_horns"));
 
     private ModInstruments() {
     }

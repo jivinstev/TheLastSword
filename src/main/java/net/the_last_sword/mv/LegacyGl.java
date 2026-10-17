@@ -1,5 +1,5 @@
 // OVERLAY-ONLY: shared fork-layer helper from mc-mod-version-upgrade templates/fork-layer/shared (not the authors' code).
-// MV-STAND-IN: shared/1.21.10's LegacyGl, unchanged. Only so the inherited targets/1.21.5/java/net/the_last_sword/mv/LegacyGl.java (the F1/F2 fix ahead of the
+// MV-STAND-IN: shared/1.21.11's LegacyGl, unchanged. Only so the inherited targets/1.21.5/java/net/the_last_sword/mv/LegacyGl.java (the F1/F2 fix ahead of the
 // MV-STAND-IN: template, see that file) does not shadow this target's own shared copy. Delete when that 1.21.5 overlay is gone.
 package net.the_last_sword.mv;
 
@@ -16,14 +16,18 @@ import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.FilterMode;
+import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.slf4j.Logger;
@@ -112,20 +116,48 @@ public final class LegacyGl {
     public static void recordRenderCall(Runnable r) {
         if (RenderSystem.isOnRenderThread()) r.run(); else Minecraft.getInstance().execute(r);
     }
-    /** 1.21.8 binds a GpuTextureView; 1.21.1 code named the texture by its location... */
-    public static void setShaderTexture(int slot, ResourceLocation texture) {
+    /**
+     * A texture bound to a SamplerN slot with the sampler it is read through. 1.21.11 removed RenderSystem's twelve
+     * shader-texture slots (a RenderPass binds texture AND sampler by name), so this layer keeps them itself.
+     */
+    public record Slot(GpuTextureView view, GpuSampler sampler) {}
+
+    private static final Slot[] SLOTS = new Slot[12];
+
+    /** 1.21.11 binds a GpuTextureView with a sampler; 1.21.1 code named the texture by its location... */
+    public static void setShaderTexture(int slot, Identifier texture) {
         AbstractTexture t = Minecraft.getInstance().getTextureManager().getTexture(texture);
-        RenderSystem.setShaderTexture(slot, t.getTextureView());
+        SLOTS[slot] = new Slot(t.getTextureView(), t.getSampler());
     }
 
     /** ...or by the GL id of a texture it made itself (see {@link RawGlTexture}). */
     public static void setShaderTexture(int slot, int glId) {
-        RenderSystem.setShaderTexture(slot, glId <= 0 ? null
-                : RenderSystem.getDevice().createTextureView(RawGlTexture.of(glId)));
+        SLOTS[slot] = glId <= 0 ? null
+                : new Slot(RenderSystem.getDevice().createTextureView(RawGlTexture.of(glId)),
+                        RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
+    }
+
+    public static void setShaderTexture(int slot, GpuTextureView texture, GpuSampler sampler) {
+        SLOTS[slot] = texture == null ? null : new Slot(texture, sampler);
     }
 
     public static void setShaderTexture(int slot, GpuTextureView texture) {
-        RenderSystem.setShaderTexture(slot, texture);
+        setShaderTexture(slot, texture, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
+    }
+
+    /** 1.21.4's {@code RenderSystem.getShaderTexture(slot)}: what was last bound to the slot (null when nothing was). */
+    public static GpuTextureView getShaderTexture(int slot) {
+        return SLOTS[slot] == null ? null : SLOTS[slot].view();
+    }
+
+    /** 1.21.4's {@code RenderType.setupRenderState()}: the type's texture / lightmap / overlay shards and its shader. */
+    public static void setupRenderState(RenderType type) {
+        if (type instanceof LegacyRenderType legacy) legacy.setupRenderState();
+    }
+
+    /** 1.21.4's {@code RenderType.clearRenderState()}. */
+    public static void clearRenderState(RenderType type) {
+        if (type instanceof LegacyRenderType legacy) legacy.clearRenderState();
     }
 
     /** BufferUploader.drawWithShader: the current shader and the state set above, into the main render target. */
@@ -202,8 +234,7 @@ public final class LegacyGl {
             GpuBufferSlice transforms = RenderSystem.getDynamicUniforms().writeTransform(
                     own == null ? RenderSystem.getModelViewMatrix() : own.transformMatrix(own.MODEL_VIEW_MATRIX, RenderSystem.getModelViewMatrix()),
                     new Vector4f(c[0], c[1], c[2], c[3]), new Vector3f(),   // 1.21.9 dropped RenderSystem.getModelOffset(); vanilla's own draws pass a zero vector
-                    own == null ? RenderSystem.getTextureMatrix() : own.transformMatrix(own.TEXTURE_MATRIX, RenderSystem.getTextureMatrix()),
-                    own == null ? RenderSystem.getShaderLineWidth() : own.lineWidth(RenderSystem.getShaderLineWidth()));
+                    own == null ? new Matrix4f() : own.transformMatrix(own.TEXTURE_MATRIX, new Matrix4f()));   // 1.21.11: RenderSystem holds no texture matrix (vanilla's default is identity) and DynamicTransforms has no line width
             // as CompositeRenderType.draw: an output override (a post-effect pass) wins over the target's own views
             GpuTextureView colorView = RenderSystem.outputColorTextureOverride != null
                     ? RenderSystem.outputColorTextureOverride : target.getColorTextureView();
@@ -227,8 +258,8 @@ public final class LegacyGl {
                 var scissor = RenderSystem.getScissorStateForRenderTypeDraws();
                 if (scissor.enabled()) pass.enableScissor(scissor.x(), scissor.y(), scissor.width(), scissor.height());
                 for (int i = 0; i < 12; i++) {
-                    GpuTextureView t = RenderSystem.getShaderTexture(i);
-                    if (t != null) pass.bindSampler("Sampler" + i, t);
+                    Slot t = SLOTS[i];
+                    if (t != null) pass.bindTexture("Sampler" + i, t.view(), t.sampler());
                 }
                 if (own != null) {
                     own.bind(pass, compiled instanceof GlRenderPipeline g ? g.program().getProgramId() : -1, temps);
@@ -244,18 +275,19 @@ public final class LegacyGl {
         }
     }
 
-    /** The missing-texture sprite: what a declared but never-bound sampler reads (see ShaderInstance.bind). */
-    static GpuTextureView missingTexture() {
+    /** The missing-texture sprite as a sampler slot: what a declared but never-bound sampler reads (see ShaderInstance.bind). */
+    static Slot missingTextureSlot() {
         net.minecraft.client.renderer.texture.AbstractTexture t = net.minecraft.client.Minecraft.getInstance().getTextureManager()
                 .getTexture(net.minecraft.client.renderer.texture.MissingTextureAtlasSprite.getLocation());
-        return t == null ? null : t.getTextureView();
+        return t == null ? null : new Slot(t.getTextureView(), t.getSampler());
     }
 
     /** A sampler named SamplerN with nothing bound to it explicitly takes RenderSystem's texture slot N. */
-    static GpuTextureView slotTexture(String sampler) {
+    static Slot slotTexture(String sampler) {
         if (sampler.startsWith("Sampler")) {
             try {
-                return RenderSystem.getShaderTexture(Integer.parseInt(sampler.substring(7)));
+                int slot = Integer.parseInt(sampler.substring(7));
+                return slot >= 0 && slot < SLOTS.length ? SLOTS[slot] : null;
             } catch (NumberFormatException ignored) {
             }
         }

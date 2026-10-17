@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -38,17 +38,17 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
     }
 
     @Override
-    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, Identifier uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
 
         //最大生命值 -10
         modifiers.put(Attributes.MAX_HEALTH,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_health"), -10.0,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_health"), -10.0,
                 AttributeModifier.Operation.ADD_VALUE));
 
         //肃正防御恢复速度 +50%
         modifiers.put(ModAttributes.JUSTIFIED_DEFENCE_RECOVERY_SPEED,
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_recovery_speed"), 0.5,
+            new AttributeModifier(Identifier.fromNamespaceAndPath("the_last_sword", "dragon_crystal_necklace_recovery_speed"), 0.5,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
         return modifiers;

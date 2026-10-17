@@ -7,7 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SmithingTemplateItem;
@@ -39,19 +39,19 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     private static final Component DRAGON_CRYSTAL_UPGRADE_ADDITIONS_SLOT_DESCRIPTION =
         Component.translatable("item.the_last_sword.dragon_crystal_upgrade_template.additions_slot_description");
 
-    private static final ResourceLocation EMPTY_SLOT_SWORD = ResourceLocation.parse("item/empty_slot_sword");
-    private static final ResourceLocation EMPTY_SLOT_HELMET = ResourceLocation.parse("item/empty_armor_slot_helmet");
-    private static final ResourceLocation EMPTY_SLOT_CHESTPLATE = ResourceLocation.parse("item/empty_armor_slot_chestplate");
-    private static final ResourceLocation EMPTY_SLOT_LEGGINGS = ResourceLocation.parse("item/empty_armor_slot_leggings");
-    private static final ResourceLocation EMPTY_SLOT_BOOTS = ResourceLocation.parse("item/empty_armor_slot_boots");
-    private static final ResourceLocation EMPTY_SLOT_INGOT = ResourceLocation.parse("item/empty_slot_ingot");
+    private static final Identifier EMPTY_SLOT_SWORD = Identifier.parse("item/empty_slot_sword");
+    private static final Identifier EMPTY_SLOT_HELMET = Identifier.parse("item/empty_armor_slot_helmet");
+    private static final Identifier EMPTY_SLOT_CHESTPLATE = Identifier.parse("item/empty_armor_slot_chestplate");
+    private static final Identifier EMPTY_SLOT_LEGGINGS = Identifier.parse("item/empty_armor_slot_leggings");
+    private static final Identifier EMPTY_SLOT_BOOTS = Identifier.parse("item/empty_armor_slot_boots");
+    private static final Identifier EMPTY_SLOT_INGOT = Identifier.parse("item/empty_slot_ingot");
 
     public DragonCrystalUpgradeTemplate() {
         super(
             DRAGON_CRYSTAL_UPGRADE_APPLIES_TO,
             DRAGON_CRYSTAL_UPGRADE_INGREDIENTS,
+            DRAGON_CRYSTAL_UPGRADE,
             DRAGON_CRYSTAL_UPGRADE_BASE_SLOT_DESCRIPTION,
-            DRAGON_CRYSTAL_UPGRADE_ADDITIONS_SLOT_DESCRIPTION,
             createDragonCrystalUpgradeIconList(),
             createDragonCrystalUpgradeMaterialList(),
             net.the_last_sword.mv.RegIds.stamp(new net.minecraft.world.item.Item.Properties())
@@ -59,7 +59,7 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     }
 
     //创建基础槽空图标列表
-    private static List<ResourceLocation> createDragonCrystalUpgradeIconList() {
+    private static List<Identifier> createDragonCrystalUpgradeIconList() {
         return List.of(
             EMPTY_SLOT_SWORD,
             EMPTY_SLOT_HELMET,
@@ -70,7 +70,7 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     }
 
     //创建附加槽空图标列表
-    private static List<ResourceLocation> createDragonCrystalUpgradeMaterialList() {
+    private static List<Identifier> createDragonCrystalUpgradeMaterialList() {
         return List.of(EMPTY_SLOT_INGOT);
     }
 

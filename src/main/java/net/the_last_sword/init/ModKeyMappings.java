@@ -2,7 +2,7 @@ package net.the_last_sword.init;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
@@ -17,7 +17,7 @@ public class ModKeyMappings {
 
     //按键分类
     public static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_sword")
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_sword")
     );
 
     //切换模式按键

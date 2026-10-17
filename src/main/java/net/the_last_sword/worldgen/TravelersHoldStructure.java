@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.NoiseColumn;
@@ -30,7 +30,7 @@ public class TravelersHoldStructure extends Structure {
 
     private static final ResourceKey<StructureTemplatePool> START_POOL = ResourceKey.create(
             Registries.TEMPLATE_POOL,
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "travelers_hold"));
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "travelers_hold"));
     private static final int MAX_SEARCH_Y = 112;
     private static final int MIN_SEARCH_Y = 32;
     // 模板本身高 26 格；只有整座据点上方空间足够时才接受这个地表。
@@ -61,7 +61,7 @@ public class TravelersHoldStructure extends Structure {
         return JigsawPlacement.addPieces(
                 context,
                 startPool,
-                Optional.<ResourceLocation>empty(),
+                Optional.<Identifier>empty(),
                 1,
                 startPos,
                 false,

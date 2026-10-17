@@ -3,7 +3,7 @@ package net.the_last_sword.recipe;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.Level;
 import com.mojang.serialization.JsonOps;
@@ -188,7 +188,7 @@ public class ConfigRecipeManager {
 
         if (officialKey != null) {
             DragonCrystalSmithingRecipe officialRecipe = recipes.get(officialKey);
-            ResourceLocation id = officialRecipe != null
+            Identifier id = officialRecipe != null
                     ? officialRecipe.getId()
                     : createRecipeId(officialKey);
             recipes.put(officialKey, parseRecipe(id, json));
@@ -198,7 +198,7 @@ public class ConfigRecipeManager {
 
         String relativePath = removeJsonExtension(baseDirectory.relativize(recipePath).toString()
                 .replace('\\', '/'));
-        ResourceLocation id = createRecipeId(relativePath);
+        Identifier id = createRecipeId(relativePath);
         recipes.put(customKey, parseRecipe(id, json));
         TheLastSwordLogger.debug("Loaded custom recipe: {} (file: {})", id, relativePath);
     }
@@ -273,12 +273,12 @@ public class ConfigRecipeManager {
         }
     }
 
-    private static DragonCrystalSmithingRecipe readRecipe(Path recipePath, ResourceLocation id)
+    private static DragonCrystalSmithingRecipe readRecipe(Path recipePath, Identifier id)
             throws IOException {
         return parseRecipe(id, readJson(recipePath));
     }
 
-    private static DragonCrystalSmithingRecipe parseRecipe(ResourceLocation id, JsonObject json) {
+    private static DragonCrystalSmithingRecipe parseRecipe(Identifier id, JsonObject json) {
         // The codec has no id field (a recipe's id is its file name), so it builds the recipe with a null id;
         // the id is what the client sync packet sends, so attach it here.
         return SERIALIZER.codec().codec().parse(JsonOps.INSTANCE, json)
@@ -324,11 +324,11 @@ public class ConfigRecipeManager {
         return path.substring(0, path.length() - ".json".length());
     }
 
-    private static ResourceLocation createRecipeId(String relativePath) {
+    private static Identifier createRecipeId(String relativePath) {
         if (isValidResourcePath(relativePath) && !relativePath.startsWith("encoded/")) {
-            return ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "config/" + relativePath);
+            return Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "config/" + relativePath);
         }
-        return ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID,
+        return Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID,
                 "config/encoded/" + sha256(relativePath));
     }
 

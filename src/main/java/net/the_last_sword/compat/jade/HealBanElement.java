@@ -3,7 +3,7 @@ package net.the_last_sword.compat.jade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
 import snownee.jade.api.ui.IDisplayHelper;
@@ -11,8 +11,8 @@ import snownee.jade.api.ui.IDisplayHelper;
 //实体信息浮标中的禁疗剩余时间使用现世锚度图标，便于区分普通负面效果
 public class HealBanElement extends Element {
 
-    private static final ResourceLocation ICON =
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "textures/screens/world_anchor_full.png");
+    private static final Identifier ICON =
+            Identifier.fromNamespaceAndPath("the_last_sword", "textures/screens/world_anchor_full.png");
     private static final int ICON_SIZE = 9;
     private static final int LINE_HEIGHT = 10;
 

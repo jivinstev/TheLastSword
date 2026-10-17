@@ -154,7 +154,7 @@ public class LostWraithEndStrikeGoal extends DangerousSkillGoal<LostWraithEntity
 
     private void syncEndStrikeEffect(boolean active) {
         NetworkHandler.sendToTrackingClients(new LostWraithEndStrikeEffectPacket(
-                wraith.level().dimension().location(), wraith.getId(), wraith.getUUID(),
+                wraith.level().dimension().identifier(), wraith.getId(), wraith.getUUID(),
                 effectPosition, effectStartTick, effectDamageTick, effectEndTick, active), wraith);
     }
 

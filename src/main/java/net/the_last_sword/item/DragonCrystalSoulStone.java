@@ -3,7 +3,7 @@ package net.the_last_sword.item;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -82,7 +82,7 @@ public class DragonCrystalSoulStone extends Item {
             String entityId = entityData.getStringOr("id", "");
             if (!entityId.isEmpty()) {
                 try {
-                    ResourceLocation rl = ResourceLocation.parse(entityId);
+                    Identifier rl = Identifier.parse(entityId);
                     EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getValue(rl);
                     if (entityType != null) {
                         return entityType.getDescriptionId();

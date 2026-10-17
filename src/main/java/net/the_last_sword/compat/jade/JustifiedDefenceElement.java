@@ -3,7 +3,7 @@ package net.the_last_sword.compat.jade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class JustifiedDefenceElement extends Element {
 
     //复用 HUD 叠加层的护盾图标
-    private static final ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/justified_defence_full.png");
+    private static final Identifier ICON = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/justified_defence_full.png");
     private static final int ICON_SIZE = 9;
     private static final int LINE_HEIGHT = 10;
 

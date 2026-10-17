@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.the_last_sword.configuration.DefenceConfig;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //同步防御配置到服务端的网络包
 public class DefenceConfigPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<DefenceConfigPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "defence_config_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "defence_config_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, DefenceConfigPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> msg.encode(buf), DefenceConfigPacket::new);
 

@@ -7,10 +7,9 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.util.QueenSummonRiftPlacement;
@@ -21,8 +20,8 @@ public final class QueenBlinkRenderUtil {
     private static final int BLADE_SEGMENTS = 24;
     private static final RenderType GLOW = type("queen_blink_glow", true);
     private static final RenderType DARK = type("queen_blink_rift", false);
-    private static final RenderType RIFT = RenderType.entityTranslucent(
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/queen_rift.png"));
+    private static final RenderType RIFT = net.minecraft.client.renderer.rendertype.RenderTypes.entityTranslucent(
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/queen_rift.png"));
 
     private QueenBlinkRenderUtil() {}
 

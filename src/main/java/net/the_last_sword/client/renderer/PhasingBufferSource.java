@@ -3,9 +3,14 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderType.CompositeRenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 public final class PhasingBufferSource implements MultiBufferSource {
     private final MultiBufferSource delegate;
@@ -29,29 +34,55 @@ public final class PhasingBufferSource implements MultiBufferSource {
 
     //1.21.9+: also used by PhasingSubmitNodeCollector, which phases submitted models the same way
     static RenderType translucentType(RenderType type) {
-        if (!(type instanceof CompositeRenderType composite)) {
-            return type;
-        }
-        ResourceLocation texture = composite.state.textureState.cutoutTexture().orElse(null);
+        Identifier texture = textureOf(type);
         if (texture == null) {
             return type;
         }
-        if (type == RenderType.eyes(texture)) {
-            return RenderType.entityTranslucentEmissive(texture);
+        if (type == RenderTypes.eyes(texture)) {
+            return RenderTypes.entityTranslucentEmissive(texture);
         }
         // 仅替换标准不透明材质，保留自定义着色器及其渲染状态。
-        if (type == RenderType.entitySolid(texture)
-                || type == RenderType.entityCutout(texture)
-                || type == RenderType.entityCutoutNoCull(texture, true)
-                || type == RenderType.entityCutoutNoCull(texture, false)
-                || type == RenderType.entityCutoutNoCullZOffset(texture, true)
-                || type == RenderType.entityCutoutNoCullZOffset(texture, false)
-                || type == RenderType.armorCutoutNoCull(texture)
-                || type == RenderType.entitySmoothCutout(texture)
-                || type == RenderType.entityDecal(texture)) {
-            return RenderType.entityTranslucent(texture);
+        if (type == RenderTypes.entitySolid(texture)
+                || type == RenderTypes.entityCutout(texture)
+                || type == RenderTypes.entityCutoutNoCull(texture, true)
+                || type == RenderTypes.entityCutoutNoCull(texture, false)
+                || type == RenderTypes.entityCutoutNoCullZOffset(texture, true)
+                || type == RenderTypes.entityCutoutNoCullZOffset(texture, false)
+                || type == RenderTypes.armorCutoutNoCull(texture)
+                || type == RenderTypes.entitySmoothCutout(texture)
+                || type == RenderTypes.entityDecal(texture)) {
+            return RenderTypes.entityTranslucent(texture);
         }
         return type;
+    }
+
+    //1.21.11: a RenderType keeps its textures in the private RenderSetup (type.state.textures, a map of sampler name -> TextureBinding);
+    //the first binding's location is the texture 1.21.4 read as state.textureState.cutoutTexture()
+    private static final Field TYPE_STATE = reflect(RenderType.class, "state");
+    private static final Field SETUP_TEXTURES = reflect(RenderSetup.class, "textures");
+
+    private static Field reflect(Class<?> owner, String name) {
+        try {
+            Field field = owner.getDeclaredField(name);
+            field.setAccessible(true);
+            return field;
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    private static Identifier textureOf(RenderType type) {
+        try {
+            Map<?, ?> textures = (Map<?, ?>) SETUP_TEXTURES.get(TYPE_STATE.get(type));
+            for (Object binding : textures.values()) {
+                Method location = binding.getClass().getDeclaredMethod("location");
+                location.setAccessible(true);
+                return (Identifier) location.invoke(binding);
+            }
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
+        return null;
     }
 
     /**
@@ -85,6 +116,13 @@ public final class PhasingBufferSource implements MultiBufferSource {
         }
 
         @Override
+        public VertexConsumer setColor(int argb) {
+            int a = (argb >>> 24) / 2;
+            delegate.setColor((a << 24) | (argb & 0x00FFFFFF));
+            return this;
+        }
+
+        @Override
         public VertexConsumer setUv(float u, float v) {
             delegate.setUv(u, v);
             return this;
@@ -105,6 +143,12 @@ public final class PhasingBufferSource implements MultiBufferSource {
         @Override
         public VertexConsumer setNormal(float x, float y, float z) {
             delegate.setNormal(x, y, z);
+            return this;
+        }
+
+        @Override
+        public VertexConsumer setLineWidth(float width) {
+            delegate.setLineWidth(width);
             return this;
         }
 

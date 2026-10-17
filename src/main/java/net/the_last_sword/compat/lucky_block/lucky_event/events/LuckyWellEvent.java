@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +25,7 @@ import java.util.Optional;
 //幸运水井事件 - 幸运方块原位置直接放置 lucky_well 结构(NBT 原点 = ctx.pos()); 玩家非空则额外给一个重命名"coin"(紫色加粗斜体)的龙水晶
 public class LuckyWellEvent extends LuckyEvent {
 
-    private static final ResourceLocation STRUCTURE_ID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "lucky_well");
+    private static final Identifier STRUCTURE_ID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "lucky_well");
     private static final String LOAD_FAILED_KEY = "message.the_last_sword.arena.load_failed";
 
     @Override
@@ -56,7 +56,7 @@ public class LuckyWellEvent extends LuckyEvent {
         Optional<StructureTemplate> optional = manager.get(STRUCTURE_ID);
         if (optional.isEmpty()) {
             if (player != null) {
-                { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(LOAD_FAILED_KEY)); }
+                player.displayClientMessage(Component.translatable(LOAD_FAILED_KEY), false);
             }
             return;
         }

@@ -1,6 +1,6 @@
 package net.the_last_sword.entity;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 
 public enum TheLastEndSwordWraithAppearance {
@@ -12,17 +12,17 @@ public enum TheLastEndSwordWraithAppearance {
     private final String id;
     private final String nameKey;
     private final String entityNameKey;
-    private final ResourceLocation model;
-    private final ResourceLocation animation;
-    private final ResourceLocation texture;
+    private final Identifier model;
+    private final Identifier animation;
+    private final Identifier texture;
 
     TheLastEndSwordWraithAppearance(String id, String nameKey, String entityNameKey) {
         this.id = id;
         this.nameKey = nameKey;
         this.entityNameKey = entityNameKey;
-        this.model = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
-        this.animation = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
-        this.texture = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/" + id + ".png");
+        this.model = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
+        this.animation = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, id);
+        this.texture = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/" + id + ".png");
     }
 
     public String getId() {
@@ -37,15 +37,15 @@ public enum TheLastEndSwordWraithAppearance {
         return entityNameKey;
     }
 
-    public ResourceLocation getModel() {
+    public Identifier getModel() {
         return model;
     }
 
-    public ResourceLocation getAnimation() {
+    public Identifier getAnimation() {
         return animation;
     }
 
-    public ResourceLocation getTexture() {
+    public Identifier getTexture() {
         return texture;
     }
 

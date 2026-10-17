@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.the_last_sword.compat.lucky_block.lucky_event.LuckyEvent;

@@ -2,7 +2,7 @@ package net.the_last_sword.compat.lucky_block.lucky_event.events;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,7 +24,7 @@ import java.util.Optional;
 //时间之伤发射事件 - 以幸运方块位置为锚, 其上方 64 格随机四向放置 wound_of_time 结构; 有玩家时再做 5..1 倒计时并给漂浮 V
 public class WoundOfTimeLaunchEvent extends LuckyEvent {
 
-    private static final ResourceLocation STRUCTURE_ID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "wound_of_time");
+    private static final Identifier STRUCTURE_ID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "wound_of_time");
     private static final String LIFTOFF_KEY = "message.the_last_sword.lucky_block.liftoff";
     private static final String LOAD_FAILED_KEY = "message.the_last_sword.arena.load_failed";
     private static final int TICKS_PER_SECOND = 20;

@@ -7,7 +7,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +30,7 @@ public final class LostWraithEndStrikeEffectRenderer {
 
     public static void receive(LostWraithEndStrikeEffectPacket packet) {
         tick();
-        if (effectLevel == null || !effectLevel.dimension().location().equals(packet.dimension())) {
+        if (effectLevel == null || !effectLevel.dimension().identifier().equals(packet.dimension())) {
             return;
         }
         if (packet.active()) {
@@ -67,12 +67,12 @@ public final class LostWraithEndStrikeEffectRenderer {
         }
 
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer rays = buffers.getBuffer(RenderType.lightning());
+        VertexConsumer rays = buffers.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lightning());
         double renderTick = effectLevel.getGameTime() + partialTick;
         for (LostWraithEndStrikeEffectPacket packet : EFFECTS.values()) {
             renderEffect(poseStack, camera, rays, packet, renderTick);
         }
-        buffers.endBatch(RenderType.lightning());
+        buffers.endBatch(net.minecraft.client.renderer.rendertype.RenderTypes.lightning());
     }
 
     private static void renderEffect(PoseStack poseStack, Camera camera, VertexConsumer rays,
@@ -91,7 +91,7 @@ public final class LostWraithEndStrikeEffectRenderer {
                 ^ packet.entityUuid().getLeastSignificantBits());
 
         poseStack.pushPose();
-        Vec3 offset = packet.position().subtract(camera.getPosition());
+        Vec3 offset = packet.position().subtract(camera.position());
         poseStack.translate(offset.x, offset.y, offset.z);
         for (int index = 0; index < rayCount; index++) {
             poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));

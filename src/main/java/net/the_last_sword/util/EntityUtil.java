@@ -15,7 +15,7 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffect;
@@ -253,7 +253,7 @@ public class EntityUtil {
                     );
                 }
 
-                if (level.getServer().getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES)) {
+                if (level.getServer().getWorldData().getGameRules().get(GameRules.SHOW_DEATH_MESSAGES)) {
                     PlayerList playerList = level.getServer().getPlayerList();
                     playerList.broadcastSystemMessage(deathMessage, false);
                 }

@@ -4,7 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.client.renderer.entity.state.LightningBoltRenderState;
@@ -25,7 +26,7 @@ public class TheLastEndLightingRenderer extends LightningBoltRenderer {
 
     @Override
     public void submit(LightningBoltRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
-        collector.submitCustomGeometry(poseStack, RenderType.endPortal(), (pose, vertexconsumer) -> {
+        collector.submitCustomGeometry(poseStack, RenderTypes.endPortal(), (pose, vertexconsumer) -> {
         float[] afloat = new float[16];
         float[] afloat1 = new float[16];
         float f = 0.0F;

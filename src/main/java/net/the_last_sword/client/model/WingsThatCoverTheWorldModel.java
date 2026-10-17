@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 //覆世之翼模型 - Blockbench 导出并修改
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class WingsThatCoverTheWorldModel<T extends LivingEntity> extends EntityModel<LivingEntityRenderState> {
 
     public static final ModelLayerLocation LAYER_LOCATION =
-        new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("the_last_sword", "wings_that_cover_the_world"), "main");
+        new ModelLayerLocation(Identifier.fromNamespaceAndPath("the_last_sword", "wings_that_cover_the_world"), "main");
 
     private final ModelPart wingsThatCoverTheWorld;
 

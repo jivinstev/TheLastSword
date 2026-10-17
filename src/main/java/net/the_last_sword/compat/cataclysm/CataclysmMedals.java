@@ -1,7 +1,7 @@
 package net.the_last_sword.compat.cataclysm;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -143,7 +143,7 @@ public class CataclysmMedals {
 
         private MobEffect getCurseOfDesertEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "curse_of_desert"));
             } catch (Exception ignored) {
                 return null;
             }
@@ -151,7 +151,7 @@ public class CataclysmMedals {
 
         private MobEffect getStunEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "stun"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "stun"));
             } catch (Exception ignored) {
                 return null;
             }
@@ -460,7 +460,7 @@ public class CataclysmMedals {
 
         private MobEffect getMoistureEffect() {
             try {
-                return BuiltInRegistries.MOB_EFFECT.getValue(ResourceLocation.fromNamespaceAndPath("cataclysm", "wetness"));
+                return BuiltInRegistries.MOB_EFFECT.getValue(Identifier.fromNamespaceAndPath("cataclysm", "wetness"));
             } catch (Exception ignored) {
                 return null;
             }

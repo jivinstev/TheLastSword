@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -43,10 +43,10 @@ public class LightningSpearItem extends Item {
     private static ItemAttributeModifiers buildAttributeModifiers() {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_DAMAGE_MODIFIER,
+                        Identifier.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_DAMAGE_MODIFIER,
                         AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_SPEED_MODIFIER,
+                        Identifier.fromNamespaceAndPath("the_last_sword", "weapon_modifier"), ATTACK_SPEED_MODIFIER,
                         AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }

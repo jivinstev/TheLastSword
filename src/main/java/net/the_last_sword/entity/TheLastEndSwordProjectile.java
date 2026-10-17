@@ -7,7 +7,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -243,7 +243,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         world.addFreshEntity(projectile);
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
         return projectile;
@@ -259,7 +259,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
         applySnapshot(projectile, shooter);
         shooter.level().addFreshEntity(projectile);
         shooter.level().playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse("entity.ender_dragon.shoot")),
+                BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.ender_dragon.shoot")),
                 SoundSource.PLAYERS, 1,
                 1f / (RandomSource.create().nextFloat() * 0.5f + 1));
         return projectile;

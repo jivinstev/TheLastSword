@@ -6,7 +6,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -15,7 +15,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 //同步唤灵GUI魂石数据网络包（服务端→客户端）
 public class SyncSummonGuiPacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncSummonGuiPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "sync_summon_gui_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "sync_summon_gui_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncSummonGuiPacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> SyncSummonGuiPacket.encode(msg, buf), SyncSummonGuiPacket::decode);
 

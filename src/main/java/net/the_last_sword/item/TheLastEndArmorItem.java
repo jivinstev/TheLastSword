@@ -2,7 +2,7 @@ package net.the_last_sword.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -74,14 +74,14 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
 
         //添加合并后的护甲修饰符
         modifiers.add(Attributes.ARMOR, new AttributeModifier(
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_modifier_" + slotName),
+            Identifier.fromNamespaceAndPath("the_last_sword", "armor_modifier_" + slotName),
             finalArmor,
             AttributeModifier.Operation.ADD_VALUE
         ), group);
 
         //添加合并后的韧性修饰符
         modifiers.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-            ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_toughness_" + slotName),
+            Identifier.fromNamespaceAndPath("the_last_sword", "armor_toughness_" + slotName),
             finalToughness,
             AttributeModifier.Operation.ADD_VALUE
         ), group);
@@ -90,7 +90,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
         float knockbackResistance = this.armorMaterial.knockbackResistance();
         if (knockbackResistance > 0) {
             modifiers.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", "armor_knockback_resistance_" + slotName),
+                Identifier.fromNamespaceAndPath("the_last_sword", "armor_knockback_resistance_" + slotName),
                 knockbackResistance,
                 AttributeModifier.Operation.ADD_VALUE
             ), group);
@@ -103,7 +103,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
             double healthIncrease = getHealthLevelIncrease(itemLevel);
             double healthBonus = itemLevel * healthIncrease;
             modifiers.add(Attributes.MAX_HEALTH, new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath("the_last_sword", idName + "_health_" + slotName),
+                Identifier.fromNamespaceAndPath("the_last_sword", idName + "_health_" + slotName),
                 healthBonus,
                 AttributeModifier.Operation.ADD_VALUE
             ), group);
@@ -115,7 +115,7 @@ public abstract class TheLastEndArmorItem extends ArmorItem {
             double justifiedDefence = itemLevel * justifiedDefenceIncrease;
             if (justifiedDefence > 0) {
                 modifiers.add(ModAttributes.MAX_JUSTIFIED_DEFENCE, new AttributeModifier(
-                    ResourceLocation.fromNamespaceAndPath("the_last_sword", idName + "_max_shield_" + slotName),
+                    Identifier.fromNamespaceAndPath("the_last_sword", idName + "_max_shield_" + slotName),
                     justifiedDefence,
                     AttributeModifier.Operation.ADD_VALUE
                 ), group);

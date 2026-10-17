@@ -10,7 +10,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.gui.menu.DragonCrystalSmithingTableMenu;
@@ -26,12 +26,12 @@ import java.util.List;
 @JeiPlugin
 public class TheLastSwordJeiPlugin implements IModPlugin {
 
-    private static final ResourceLocation PLUGIN_UID = ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "jei_plugin");
+    private static final Identifier PLUGIN_UID = Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "jei_plugin");
     private static IJeiRuntime runtime;
     private static List<DragonCrystalSmithingRecipe> displayedRecipes = List.of();
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
         return PLUGIN_UID;
     }
 

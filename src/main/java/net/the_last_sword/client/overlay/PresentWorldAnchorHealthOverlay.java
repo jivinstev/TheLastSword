@@ -3,7 +3,7 @@ package net.the_last_sword.client.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
@@ -15,7 +15,7 @@ import net.the_last_sword.util.health.PresentWorldAnchorManager;
 //把不可恢复的生命区间覆盖到原有生命值槽位，避免增加额外 HUD 行
 public final class PresentWorldAnchorHealthOverlay {
 
-    private static final ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier ICON = Identifier.fromNamespaceAndPath(
             TheLastSwordMod.MOD_ID, "textures/screens/world_anchor_full.png");
     private static final int ICON_SIZE = 9;
     private static final int ICON_SPACING = 8;

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -131,7 +131,7 @@ public class LightningSpearProjectile extends AbstractArrow {
             }
         }
         LightningSpearBurstPacket packet = new LightningSpearBurstPacket(
-                serverLevel.dimension().location(), center, (float) halfSize, random.nextLong());
+                serverLevel.dimension().identifier(), center, (float) halfSize, random.nextLong());
         for (ServerPlayer player : serverLevel.players()) {
             if (player.distanceToSqr(center) <= 128.0D * 128.0D) {
                 NetworkHandler.sendToPlayer(packet, player);

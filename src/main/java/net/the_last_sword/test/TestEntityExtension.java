@@ -7,8 +7,8 @@ import net.eca.util.entity_extension.EntityExtension;
 import net.eca.util.entity_extension.EntityExtensionManager;
 import net.eca.util.entity_extension.EntityLayerExtension;
 import net.eca.util.entity_extension.GlobalSkyboxExtension;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.the_last_sword.TheLastSwordMod;
@@ -18,8 +18,8 @@ import net.the_last_sword.init.ModEntities;
 @RegisterEntityExtension
 public class TestEntityExtension extends EntityExtension {
 
-    private static final ResourceLocation TEST_ENTITY_TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
+    private static final Identifier TEST_ENTITY_TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
 
     static {
         EntityExtensionManager.register(new TestEntityExtension());

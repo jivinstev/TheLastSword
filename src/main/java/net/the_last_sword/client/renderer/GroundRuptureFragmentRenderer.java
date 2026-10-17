@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.the_last_sword.entity.GroundRuptureFragmentEntity;
 

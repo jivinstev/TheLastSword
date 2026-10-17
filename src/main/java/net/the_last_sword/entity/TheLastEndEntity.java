@@ -34,10 +34,10 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
-import software.bernie.geckolib.animatable.processing.AnimationTest;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 // 终焉种基类
@@ -330,7 +330,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     }
 
     private void tickVoidRescue() {
-        String dimension = level().dimension().location().toString();
+        String dimension = level().dimension().identifier().toString();
         if (!dimension.equals(lastSafeDimension)) {
             lastSafePosition = null;
             lastSafeDimension = dimension;

@@ -7,14 +7,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -644,7 +644,7 @@ public class WraithSummonManager {
     //从字符串获取实体类型
     private static EntityType<?> getEntityTypeFromString(String entityTypeStr) {
         try {
-            ResourceLocation rl = ResourceLocation.parse(entityTypeStr);
+            Identifier rl = Identifier.parse(entityTypeStr);
             return BuiltInRegistries.ENTITY_TYPE.getValue(rl);
         } catch (Exception e) {
             return null;
@@ -930,7 +930,7 @@ public class WraithSummonManager {
             WraithFaction.ensureFaction(ownerUUID,
                     wraith.getPersistentData().getStringOr(WRAITH_OWNER_NAME_KEY, ""), level);
         }
-        ResourceLocation typeId = BuiltInRegistries.ENTITY_TYPE.getKey(wraith.getType());
+        Identifier typeId = BuiltInRegistries.ENTITY_TYPE.getKey(wraith.getType());
         if (typeId != null && WraithFaction.bind(ownerUUID, wraith.getUUID(), typeId.toString(), level)) {
             if (owner != null) {
                 stoneData.putBoolean("is_summoned", true);
@@ -1165,7 +1165,7 @@ public class WraithSummonManager {
             return false;
         }
 
-        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType());
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType());
         if (entityId == null) {
             return false;
         }
@@ -1201,10 +1201,10 @@ public class WraithSummonManager {
         return true;
     }
 
-    private static boolean isSoulCaptureBlacklisted(ResourceLocation entityId) {
+    private static boolean isSoulCaptureBlacklisted(Identifier entityId) {
         String entries = TheLastSwordConfiguration.getSwordWraithCaptureBlacklistSafely();
         for (String entry : entries.split(",")) {
-            ResourceLocation configuredId = ResourceLocation.tryParse(entry.trim());
+            Identifier configuredId = Identifier.tryParse(entry.trim());
             if (entityId.equals(configuredId)) {
                 return true;
             }

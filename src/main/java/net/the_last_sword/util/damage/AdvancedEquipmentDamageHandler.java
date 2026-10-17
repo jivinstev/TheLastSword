@@ -1,7 +1,7 @@
 package net.the_last_sword.util.damage;
 
 import net.eca.api.EcaAPI;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -196,7 +196,7 @@ public final class AdvancedEquipmentDamageHandler {
     private static void applyRandomSharedNegativeEffect(Player attacker, LivingEntity target) {
         List<MobEffect> availableEffects = new ArrayList<>();
         for (MobEffect effect : BuiltInRegistries.MOB_EFFECT) {
-            ResourceLocation effectId = BuiltInRegistries.MOB_EFFECT.getKey(effect);
+            Identifier effectId = BuiltInRegistries.MOB_EFFECT.getKey(effect);
             if (effectId == null
                     || !"minecraft".equals(effectId.getNamespace())
                     || effect.getCategory() != MobEffectCategory.HARMFUL

@@ -2,7 +2,7 @@ package net.the_last_sword.init;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.the_last_sword.mv.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.the_last_sword.mv.RegisterShadersEvent;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,7 +24,7 @@ public class ModShaders {
         //注册 The Last End 着色器
         ShaderInstance shader = TheLastEndShaderInstance.create(
             event.getResourceProvider(),
-            ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_end"),
+            Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "the_last_end"),
             DefaultVertexFormat.BLOCK
         );
         event.registerShader(shader, TheLastEndEffect::setShader);
@@ -40,7 +40,7 @@ public class ModShaders {
         private final net.the_last_sword.mv.Uniform glowPhase;
 
         ZeroPointEngineProgram(net.minecraft.server.packs.resources.ResourceProvider provider) throws IOException {
-            super(provider, ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
+            super(provider, Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
                     DefaultVertexFormat.NEW_ENTITY);
             localUvMin = getUniform("LocalUvMin");
             localUvScale = getUniform("LocalUvScale");

@@ -9,14 +9,15 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -39,8 +40,8 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
         public Vec3[] trailPositions = new Vec3[0];
     }
 
-    private static final ResourceLocation END_CRYSTAL_LOCATION = ResourceLocation.parse("textures/entity/end_crystal/end_crystal.png");
-    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(END_CRYSTAL_LOCATION);
+    private static final Identifier END_CRYSTAL_LOCATION = Identifier.parse("textures/entity/end_crystal/end_crystal.png");
+    private static final RenderType RENDER_TYPE = RenderTypes.entityCutout(END_CRYSTAL_LOCATION);
     private static final float SIN_45 = (float) Math.sin(0.7853981633974483);
 
     //拖尾参数
@@ -96,7 +97,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
                 renderCrystal(state, state.partialTicks, pose, consumer, state.lightCoords));
 
         //渲染拖尾
-        collector.submitCustomGeometry(poseStack, RenderType.LIGHTNING, (pose, consumer) ->
+        collector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, consumer) ->
                 renderTrail(state, state.partialTicks, pose, consumer));
 
         super.submit(state, poseStack, collector, camera);
@@ -221,7 +222,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
         }
     }
 
-    public ResourceLocation getTextureLocation(TrailRenderState entity) {
+    public Identifier getTextureLocation(TrailRenderState entity) {
         return END_CRYSTAL_LOCATION;
     }
 }

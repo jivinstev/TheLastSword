@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.RandomSource;
 import org.joml.Matrix4f;
 
@@ -34,7 +34,7 @@ public class DeathRayLayer {
 
         float fade = Math.min(progress > FADE_START ? (progress - FADE_START) / (1.0f - FADE_START) : 0.0f, 1.0f);
         RandomSource random = RandomSource.create(RAY_SEED);
-        VertexConsumer buffer = bufferSource.getBuffer(RenderType.lightning());
+        VertexConsumer buffer = bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.lightning());
 
         poseStack.pushPose();
         poseStack.translate(0.0f, heightOffset, 0.0f);

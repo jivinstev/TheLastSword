@@ -6,15 +6,15 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.test.TestEntity;
 
 //测试实体渲染器
 public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
 
-    private static final ResourceLocation TEXTURE =
-        ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
+    private static final Identifier TEXTURE =
+        Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/entities/test_entity.png");
 
     public TestEntityRenderer(EntityRendererProvider.Context context) {
         super(
@@ -40,7 +40,7 @@ public class TestEntityRenderer extends HumanoidMobRenderer<TestEntity, Humanoid
     }
 
     @Override
-    public ResourceLocation getTextureLocation(HumanoidRenderState state) {
+    public Identifier getTextureLocation(HumanoidRenderState state) {
         return TEXTURE;
     }
 }

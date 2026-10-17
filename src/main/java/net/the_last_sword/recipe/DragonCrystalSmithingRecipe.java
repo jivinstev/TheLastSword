@@ -2,7 +2,7 @@ package net.the_last_sword.recipe;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -21,7 +21,7 @@ import net.the_last_sword.util.TheLastSwordLogger;
 
 public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final Ingredient template;
     private final Integer templateInputLevel;
     private final Ingredient input;
@@ -30,7 +30,7 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     private final ItemStack output;
     private final int outputLevel;
 
-    public DragonCrystalSmithingRecipe(ResourceLocation id, Ingredient template, Integer templateInputLevel,
+    public DragonCrystalSmithingRecipe(Identifier id, Ingredient template, Integer templateInputLevel,
                                        Ingredient input, int inputLevel, Ingredient addition,
                                        ItemStack output, int outputLevel) {
         this.id = id;
@@ -145,12 +145,12 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     }
 
     /** The same recipe under {@code id}: the codecs carry no id (a recipe's id is its file name or the sync key). */
-    public DragonCrystalSmithingRecipe withId(ResourceLocation id) {
+    public DragonCrystalSmithingRecipe withId(Identifier id) {
         return new DragonCrystalSmithingRecipe(id, template, templateInputLevel, input, inputLevel, addition, output,
                 outputLevel);
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return id;
     }
 

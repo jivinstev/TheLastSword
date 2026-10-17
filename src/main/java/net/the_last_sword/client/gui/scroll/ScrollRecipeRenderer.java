@@ -6,14 +6,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
@@ -41,7 +40,7 @@ public final class ScrollRecipeRenderer {
     private ScrollRecipeRenderer() {
     }
 
-    public static int getDisplayHeight(ResourceLocation recipeId) {
+    public static int getDisplayHeight(Identifier recipeId) {
         if (ClientDragonCrystalRecipeCache.getRecipe(recipeId).isPresent()
                 || recipeId.getPath().startsWith("config/")) {
             return SMITHING_DISPLAY_HEIGHT;
@@ -59,29 +58,17 @@ public final class ScrollRecipeRenderer {
         return CRAFTING_DISPLAY_HEIGHT;
     }
 
-    //1.21.4: the client holds no recipe manager. The server sends its crafting and smithing recipes
-    //(OnDatapackSyncEvent.sendRecipes, ServerEventHandler); a dedicated server or LAN host's recipes arrive here
-    private static RecipeMap receivedRecipes = RecipeMap.EMPTY;
-
-    public static synchronized void setReceivedRecipes(RecipeMap recipes) {
-        receivedRecipes = recipes == null ? RecipeMap.EMPTY : recipes;
-    }
-
-    private static synchronized Optional<Recipe<?>> findRecipe(Minecraft minecraft, ResourceLocation recipeId) {
-        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, recipeId);
-        RecipeHolder<?> received = receivedRecipes.byKey(key);
-        if (received != null) {
-            return Optional.of(received.value());
-        }
+    //1.21.4客户端不再持有配方管理器，改从单人游戏的内置服务端查询
+    private static Optional<Recipe<?>> findRecipe(Minecraft minecraft, Identifier recipeId) {
         if (minecraft.getSingleplayerServer() == null) {
             return Optional.empty();
         }
         return minecraft.getSingleplayerServer().getRecipeManager()
-                .byKey(key)
+                .byKey(ResourceKey.create(Registries.RECIPE, recipeId))
                 .<Recipe<?>>map(RecipeHolder::value);
     }
 
-    public static ItemStack render(ResourceLocation recipeId, GuiGraphics graphics, Font font,
+    public static ItemStack render(Identifier recipeId, GuiGraphics graphics, Font font,
                                    int areaX, int areaY, int areaWidth, int mouseX, int mouseY) {
         Minecraft minecraft = Minecraft.getInstance();
 
@@ -287,7 +274,7 @@ public final class ScrollRecipeRenderer {
         }
     }
 
-    private static ItemStack renderMissing(ResourceLocation recipeId, GuiGraphics graphics,
+    private static ItemStack renderMissing(Identifier recipeId, GuiGraphics graphics,
                                            Font font, int areaX, int areaY) {
         graphics.drawString(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_missing", recipeId),

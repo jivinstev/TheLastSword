@@ -6,7 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +20,7 @@ import net.the_last_sword.util.nbt.ItemModeHelper;
 //模式切换网络包
 public class ChangeModePacket implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<ChangeModePacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "change_mode_packet"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("the_last_sword", "change_mode_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ChangeModePacket> STREAM_CODEC =
             StreamCodec.of((buf, msg) -> ChangeModePacket.encode(msg, buf), ChangeModePacket::decode);
 
@@ -81,7 +81,7 @@ public class ChangeModePacket implements CustomPacketPayload {
             );
 
             //播放音效
-            ResourceLocation snd = ResourceLocation.parse("entity.ender_dragon.flap");
+            Identifier snd = Identifier.parse("entity.ender_dragon.flap");
             player.level().playSound(null, player.blockPosition(),
                     BuiltInRegistries.SOUND_EVENT.getValue(snd),
                     SoundSource.PLAYERS, 1f, 1f);
