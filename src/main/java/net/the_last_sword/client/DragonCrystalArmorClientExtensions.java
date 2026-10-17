@@ -14,7 +14,7 @@ import net.the_last_sword.init.ModItems;
 // 1.21.4 only: 1.21.1's DragonCrystalArmorItem.getArmorTexture (layer_1 for helmet/chestplate/boots, layer_2 for
 // leggings) is now the client extension's getArmorTexture. The equipment asset equipment/dragon_crystal_armor.json
 // (the material's asset id) supplies the humanoid and humanoid_leggings layers it is asked for.
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class DragonCrystalArmorClientExtensions {
     private static final ResourceLocation LAYER_1 =
             ResourceLocation.parse("the_last_sword:textures/models/armor/dragon_crystal_armor_layer_1.png");

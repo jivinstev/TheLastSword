@@ -1,6 +1,8 @@
 package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Vector3f;
+import java.util.Set;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 // 1.21.4: a special model renderer (items/lightning_spear.json, type the_last_sword:lightning_spear) replaces 1.21.1's
 // BlockEntityWithoutLevelRenderer handed out by LightningSpearClientExtensions.getCustomRenderer.
-@OnlyIn(Dist.CLIENT)
 public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
     private static final long ANIMATION_START_NANOS = System.nanoTime();
 
@@ -34,11 +35,22 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
         poseStack.popPose();
     }
 
+    @Override
+    public void getExtents(Set<Vector3f> output) {
+        output.add(new Vector3f(0.0F, 0.0F, 0.0F));
+        output.add(new Vector3f(1.0F, 0.0F, 0.0F));
+        output.add(new Vector3f(0.0F, 1.0F, 0.0F));
+        output.add(new Vector3f(0.0F, 0.0F, 1.0F));
+        output.add(new Vector3f(1.0F, 1.0F, 0.0F));
+        output.add(new Vector3f(1.0F, 0.0F, 1.0F));
+        output.add(new Vector3f(0.0F, 1.0F, 1.0F));
+        output.add(new Vector3f(1.0F, 1.0F, 1.0F));
+    }
+
     private static float animationAge() {
         return (System.nanoTime() - ANIMATION_START_NANOS) / 50_000_000.0F;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public record Unbaked() implements SpecialModelRenderer.Unbaked {
         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(new Unbaked());
 
@@ -53,7 +65,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
         }
     }
 
-    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
     public static final class Registration {
         private Registration() {
         }

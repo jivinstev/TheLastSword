@@ -91,7 +91,6 @@ public class DragonCultRaid extends RaidDefinition {
         return RESULT_DISPLAY_TICKS;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public RaidMusicExtension combatMusicExtension(RaidBarState state) {
         return COMBAT_MUSIC;

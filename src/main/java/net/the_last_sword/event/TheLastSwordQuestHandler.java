@@ -46,7 +46,7 @@ import net.minecraft.core.Holder;
 import net.the_last_sword.ModHolders;
 
 //最终之剑任务事件处理器
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public class TheLastSwordQuestHandler {
 
     //播报前缀复用mod译名（创造标签页）翻译键
@@ -151,7 +151,7 @@ public class TheLastSwordQuestHandler {
         }
         ResourceLocation advancementId = event.getAdvancement().id();
         if (WELCOME.equals(advancementId)) {
-            MinecraftServer server = player.server;
+            MinecraftServer server = player.getServer();
             UUID playerId = player.getUUID();
             TheLastSwordMod.queueServerWork(VILLAGE_HINT_DELAY, () -> locateNearestVillage(server, playerId));
         } else if (LIBERATOR.equals(advancementId)) {
@@ -168,7 +168,7 @@ public class TheLastSwordQuestHandler {
         if (player == null) {
             return;
         }
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = (ServerLevel) player.level();
         if (level.dimension() != Level.OVERWORLD) {
             return;
         }
@@ -185,7 +185,7 @@ public class TheLastSwordQuestHandler {
         if (isDone(player, TROUBLED_BLACKSMITH)) {
             return;
         }
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = (ServerLevel) player.level();
         StructureStart village = level.structureManager()
                 .getStructureWithPieceAt(player.blockPosition(), StructureTags.VILLAGE);
         if (!village.isValid()) {
@@ -312,7 +312,7 @@ public class TheLastSwordQuestHandler {
 
     //在玩家所处村庄开启拜龙教袭击，供任务系统与拜龙教号角共用
     public static DragonCultRaidResult tryStartDragonCultRaid(ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = (ServerLevel) player.level();
         var village = level.structureManager().getStructureWithPieceAt(player.blockPosition(), StructureTags.VILLAGE);
         if (!village.isValid()) {
             return DragonCultRaidResult.UNAVAILABLE;
@@ -350,13 +350,13 @@ public class TheLastSwordQuestHandler {
 
     //判断进度是否已完成
     public static boolean isDone(ServerPlayer player, ResourceLocation id) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(id);
+        AdvancementHolder advancement = player.getServer().getAdvancements().get(id);
         return advancement != null && player.getAdvancements().getOrStartProgress(advancement).isDone();
     }
 
     //授予进度（补齐全部条件）
     public static void grant(ServerPlayer player, ResourceLocation id) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(id);
+        AdvancementHolder advancement = player.getServer().getAdvancements().get(id);
         if (advancement == null) {
             return;
         }

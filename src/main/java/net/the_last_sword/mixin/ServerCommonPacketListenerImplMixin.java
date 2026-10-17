@@ -31,9 +31,9 @@ public abstract class ServerCommonPacketListenerImplMixin {
         }
     }
 
-    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V",
+    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;)V",
             at = @At("HEAD"), cancellable = true)
-    private void tls$blockDangerPackets(Packet<?> packet, PacketSendListener listener, CallbackInfo ci) {
+    private void tls$blockDangerPackets(Packet<?> packet, io.netty.channel.ChannelFutureListener listener, CallbackInfo ci) {
         if (packet instanceof ClientboundDisconnectPacket
                 || packet instanceof ClientboundSetHealthPacket
                 || packet instanceof ClientboundPlayerCombatKillPacket) {

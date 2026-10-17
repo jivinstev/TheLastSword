@@ -16,7 +16,6 @@ import org.joml.Matrix4f;
 import java.awt.*;
 
 //龙之剑闪电渲染器 - 深紫色闪电
-@OnlyIn(Dist.CLIENT)
 public class DragonLightingRenderer extends LightningBoltRenderer {
     public DragonLightingRenderer(EntityRendererProvider.Context context) {
         super(context);

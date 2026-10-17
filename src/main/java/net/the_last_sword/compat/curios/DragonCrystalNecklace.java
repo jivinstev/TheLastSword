@@ -72,9 +72,8 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
     }
 
     //基于客户端玩家幸运值显示实时免疫概率与暴击加成
-    @OnlyIn(Dist.CLIENT)
     private static void appendCurrentValueLine(List<Component> tooltip) {
-        Player player = Minecraft.getInstance().player;
+        Player player = ClientPlayer.get();
         if (player == null) {
             return;
         }
@@ -90,5 +89,14 @@ public class DragonCrystalNecklace extends Item implements ICurioItem {
         String critStr = String.format("%.1f", crit * 100);
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.dragon_crystal_necklace.current",
             immunityStr, critStr).withStyle(ChatFormatting.YELLOW));
+    }
+
+    //1.21.6+: @OnlyIn strips nothing (the layer removes it), so this method now loads on a dedicated server too, and
+    //`Player p = Minecraft.getInstance().player` makes the verifier load LocalPlayer there. The client lookup lives in
+    //a nested class, loaded only when a client tooltip calls it.
+    private static final class ClientPlayer {
+        static Player get() {
+            return Minecraft.getInstance().player;
+        }
     }
 }

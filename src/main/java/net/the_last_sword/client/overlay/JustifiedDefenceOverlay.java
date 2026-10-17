@@ -85,21 +85,21 @@ public class JustifiedDefenceOverlay {
         //渲染满格图标（从左到右）
         for (int i = 0; i < fullIcons; i++) {
             int x = leftX + i * step;
-            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //渲染半格图标
         if (halfIcon) {
             int x = leftX + fullIcons * step;
             int halfWidth = ICON_SIZE / 2;
-            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON_FULL, x, startY, 0, 0, halfWidth, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //渲染空格图标
         int offset_icons = fullIcons + (halfIcon ? 1 : 0);
         for (int i = 0; i < emptyIcons; i++) {
             int x = leftX + (offset_icons + i) * step;
-            gui.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_EMPTY, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            gui.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON_EMPTY, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         //超出显示上限的护盾值提示（右侧文字）

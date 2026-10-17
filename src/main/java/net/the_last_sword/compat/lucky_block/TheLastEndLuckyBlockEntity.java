@@ -8,6 +8,8 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.the_last_sword.init.ModBlockEntities;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -64,17 +66,17 @@ public class TheLastEndLuckyBlockEntity extends BlockEntity implements GeoBlockE
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt(TAG_LUCK, luck);
-        if (wellVariant) tag.putBoolean(TAG_WELL_VARIANT, true);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt(TAG_LUCK, luck);
+        if (wellVariant) output.putBoolean(TAG_WELL_VARIANT, true);
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.luck = tag.contains(TAG_LUCK) ? tag.getIntOr(TAG_LUCK, 0) : 0;
-        this.wellVariant = tag.getBooleanOr(TAG_WELL_VARIANT, false);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.luck = input.getIntOr(TAG_LUCK, 0);
+        this.wellVariant = input.getBooleanOr(TAG_WELL_VARIANT, false);
     }
 
     @Override

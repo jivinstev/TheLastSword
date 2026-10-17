@@ -110,9 +110,8 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
     }
 
     //基于客户端玩家当前生命比例显示损伤百分比与额外Buff等级
-    @OnlyIn(Dist.CLIENT)
     private static void appendCurrentValueLine(List<Component> tooltip) {
-        Player player = Minecraft.getInstance().player;
+        Player player = ClientPlayer.get();
         if (player == null) {
             return;
         }
@@ -129,5 +128,14 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         String lostStr = String.format("%.1f", lostRatio * 100);
         tooltip.add(Component.translatable("item_tooltip.the_last_sword.extreme_life_support_device.current",
             lostStr, bonusLevel).withStyle(ChatFormatting.YELLOW));
+    }
+
+    //1.21.6+: @OnlyIn strips nothing (the layer removes it), so this method now loads on a dedicated server too, and
+    //`Player p = Minecraft.getInstance().player` makes the verifier load LocalPlayer there. The client lookup lives in
+    //a nested class, loaded only when a client tooltip calls it.
+    private static final class ClientPlayer {
+        static Player get() {
+            return Minecraft.getInstance().player;
+        }
     }
 }

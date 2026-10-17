@@ -87,7 +87,7 @@ public class NetworkHandler {
 
     //发送到服务端
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {
-        PacketDistributor.sendToServer(message);
+        net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(message);
     }
 
     //发送到特定玩家

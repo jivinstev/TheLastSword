@@ -1,0 +1,58 @@
+[
+ {
+  "file": "src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java",
+  "why": "empties 1 method body",
+  "reviewed": "The emptied body is the private constructor of the new EndPortalPipRegistration holder class (an event-subscriber holder, never instantiated); no authors' method is emptied. renderEndPortalEffect keeps its quad: 1.21.6 records the GUI and draws it later, so the end-portal quad is submitted as a picture-in-picture element (EndPortalPip, drawn by EndPortalPipRenderer with RenderType.endPortal() into the element's texture and blitted at the call's place in the GUI order) instead of an immediate bufferSource draw that would land under the screen's background.",
+  "hooks": []
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
+  "why": "empties 2 method bodies",
+  "reviewed": "(inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/compat/jade/HealBanElement.java",
+  "why": "drops @Override from getSize and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: Jade 19.1 (1.21.8) removed Element.getSize(); an element now declares its size in the protected width/height fields Jade's layout reads, so the constructor sets width = icon (9) + text width and height = 10, the same Vec2 getSize returned, and render draws the same icon and text."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/compat/jade/JustifiedDefenceElement.java",
+  "why": "drops @Override from getSize and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: Jade 19.1 (1.21.8) removed Element.getSize(); an element now declares its size in the protected width/height fields Jade's layout reads, so the constructor sets width = icon (9) + text width and height = 10, the same Vec2 getSize returned, and render draws the same icon and text."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/entity/QueenBlinkBlade.java",
+  "why": "drops @Override from getBoundingBoxForCulling and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: Entity.getBoundingBoxForCulling moved to the renderer in 1.21.2 (CATALOG M19); QueenBlinkBladeRenderer.getBoundingBoxForCulling(entity) returns this method's blade box, which stays a plain method."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java",
+  "why": "removes 1 registration/listener/send call(s)",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: Player.sendSystemMessage is ServerPlayer-only since 1.21.2; displayClientMessage(msg, false) is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java",
+  "why": "removes 3 registration/listener/send call(s); deletes overriding method(s) getBoundingBoxForCulling, hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: hurt is hurtServer with the same isReady()/isNpc() guard; the culling box is ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling (super's box inflated 3,6,3 while summoning); the 3 sends are displayClientMessage(msg,false) = ServerPlayer.sendSystemMessage(msg,false)."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/mixin/PlayerMixin.java",
+  "why": "removes 2 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": "Both handlers still apply with the same effect: since 1.21.5 setItemSlot and drop(ItemStack, boolean, boolean) are declared on LivingEntity (CATALOG M30), so tls$blockSetItemSlot and tls$blockDrop live in the LivingEntityMixin overlay (inherited from 1.21.5 and carried here) behind an instanceof Player check, with the same hasExternalCaller(5) depth."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java",
+  "why": "empties 1 method body",
+  "reviewed": "The emptied body is the @Shadow stub of ScreenEffectRenderer.renderItemActivationAnimation (Mixin binds it to vanilla's); the handler keeps cancelling the block/water/fire overlays for a phasing player and calls that shadow so the totem animation, which 1.21.6 moved into renderScreenEffect, still draws."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/summon/WraithSummonManager.java",
+  "why": "removes 14 registration/listener/send call(s)",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java",
+  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
+ }
+]

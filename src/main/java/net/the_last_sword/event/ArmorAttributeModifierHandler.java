@@ -22,7 +22,7 @@ import java.util.Objects;
  * component (a stack someone gave other modifiers keeps them, as on 1.21.1), the override's modifiers replace the
  * defaults. HIGHEST priority, so other listeners still see and adjust the result.
  */
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class ArmorAttributeModifierHandler {
     private ArmorAttributeModifierHandler() {
     }

@@ -110,7 +110,7 @@ public class DragonSword extends TheLastEndSwordItems implements ISummonableItem
             if (extraDamage > 0) {
                 //所有模式统一使用龙息伤害类型
                 DamageSource damageSource = new DamageSource(
-                    attacker.getCommandSenderWorld().registryAccess()
+                    attacker.level().registryAccess()
                         .lookupOrThrow(Registries.DAMAGE_TYPE)
                         .getOrThrow(DamageTypes.DRAGON_BREATH),
                     attacker,

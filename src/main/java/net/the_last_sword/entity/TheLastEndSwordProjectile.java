@@ -2,7 +2,8 @@ package net.the_last_sword.entity;
 
 import net.eca.api.EcaAPI;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -49,15 +50,15 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("RemainingLifetime", remainingLifetime);
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("RemainingLifetime")) setLifetimeTicks(tag.getIntOr("RemainingLifetime", 0));
+        if (tag.keySet().contains("RemainingLifetime")) setLifetimeTicks(tag.getIntOr("RemainingLifetime", 0));
     }
 
     //拖尾位置历史（客户端）
@@ -73,7 +74,6 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public ItemStack getItem() {
         return PROJECTILE_ITEM;
     }
@@ -161,7 +161,7 @@ public class TheLastEndSwordProjectile extends TheLastEndSwordItemsProjectile {
     protected void applyBaseDamage(Entity target) {
         if (this.getOwner() instanceof LivingEntity owner && snapshotBaseDamage > 0) {
             DamageSource source = new DamageSource(
-                owner.getCommandSenderWorld().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                owner.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
                     .getOrThrow(DamageTypes.GENERIC),
                 this, owner
             );

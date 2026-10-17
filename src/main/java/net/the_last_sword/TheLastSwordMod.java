@@ -142,7 +142,7 @@ public class TheLastSwordMod {
     }
 
     //服务器任务调度处理器
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber(modid = MOD_ID)
     public static class ServerTaskHandler {
         @SubscribeEvent
         public static void onServerTick(ServerTickEvent.Post event) {

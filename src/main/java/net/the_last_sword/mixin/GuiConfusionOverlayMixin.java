@@ -17,7 +17,7 @@ public class GuiConfusionOverlayMixin {
     //防御模式：禁止恶心效果画面扭曲
     @Inject(method = "renderConfusionOverlay", at = @At("HEAD"), cancellable = true)
     private void theLastSword$cancelConfusionOverlay(GuiGraphics guiGraphics, float strength, CallbackInfo ci) {
-        Player player = Minecraft.getInstance().player;
+        Player player = net.the_last_sword.mv.ClientRefs.player();
         if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
             ci.cancel();
         }

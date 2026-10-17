@@ -14,7 +14,7 @@ import net.the_last_sword.compat.CompatCheck;
 // Iron's Spells 'n Spellbooks: no build for this Minecraft, EndSpellScrollItemExtension is not compiled (drops.txt)
 
 //菜单屏幕注册
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ModScreens {
 
     //注册菜单屏幕（MenuScreens.register 为私有，改用 RegisterMenuScreensEvent）

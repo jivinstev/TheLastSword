@@ -123,9 +123,9 @@ public class EndCrystalRift extends Entity {
 
     // 裂隙是短时施法效果，不跨区块卸载保存。
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {}
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput tag) {}
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {}
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput tag) {}
 
 }

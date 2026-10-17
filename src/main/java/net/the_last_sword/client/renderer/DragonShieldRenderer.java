@@ -21,7 +21,6 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-@OnlyIn(Dist.CLIENT)
 public class DragonShieldRenderer {
 
     private static final float SPHERE_RADIUS = 1.8f;

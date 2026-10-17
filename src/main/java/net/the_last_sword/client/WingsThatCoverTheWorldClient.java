@@ -12,7 +12,7 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 // 1.21.4 only: 1.21.1's WingsThatCoverTheWorld.initializeClient handed the curio renderer out of an
 // IClientItemExtensions; NeoForge 21.4 removed initializeClient, and Curios for 1.21.4 finds a curio's renderer only
 // through CuriosRendererRegistry, so the same renderer is registered here.
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class WingsThatCoverTheWorldClient {
     private WingsThatCoverTheWorldClient() {
     }

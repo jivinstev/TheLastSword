@@ -11,7 +11,7 @@ import net.the_last_sword.TheLastSwordMod;
 import org.lwjgl.glfw.GLFW;
 
 //按键映射定义和注册
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ModKeyMappings {
 
     //切换模式按键

@@ -41,7 +41,6 @@ public class DragonCrystalSwordProjectile extends TheLastEndSwordItemsProjectile
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public ItemStack getItem() {
         return PROJECTILE_ITEM;
     }

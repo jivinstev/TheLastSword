@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEve
  * extension, its Blender binding). This parks the entity on every render state. It must be parked from a
  * render-state modifier: NeoForge clears render data after extractRenderState and before the modifiers run.
  */
-@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = "the_last_sword", value = Dist.CLIENT)
 public final class EntityOf {
     public static final ContextKey<Entity> KEY = new ContextKey<>(ResourceLocation.fromNamespaceAndPath("the_last_sword", "entity"));
 

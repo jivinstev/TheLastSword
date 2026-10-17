@@ -15,7 +15,7 @@ import net.the_last_sword.client.shader.ZeroPointEngineShader;
 import java.io.IOException;
 
 //着色器注册
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ModShaders {
 
     //注册着色器

@@ -34,7 +34,6 @@ public class TestEntityExtension extends EntityExtension {
         return true;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public BossBarExtension bossBarExtension() {
         return new BossBarExtension() {
@@ -75,7 +74,6 @@ public class TestEntityExtension extends EntityExtension {
         };
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public EntityLayerExtension entityLayerExtension() {
         return new EntityLayerExtension() {
@@ -101,7 +99,6 @@ public class TestEntityExtension extends EntityExtension {
         };
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public GlobalSkyboxExtension globalSkyboxExtension() {
         return new GlobalSkyboxExtension() {
@@ -127,7 +124,6 @@ public class TestEntityExtension extends EntityExtension {
         };
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     protected String getModId() {
         return TheLastSwordMod.MOD_ID;

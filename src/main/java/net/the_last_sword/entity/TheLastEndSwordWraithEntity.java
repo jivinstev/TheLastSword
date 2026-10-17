@@ -3,6 +3,8 @@ package net.the_last_sword.entity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -392,15 +394,13 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull ValueInput compound) {
         super.readAdditionalSaveData(compound);
-        if (compound.contains("TEXTURE")) {
-            this.setTexture(compound.getString("TEXTURE").orElse(""));
-        }
+        compound.getString("TEXTURE").ifPresent(this::setTexture);
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
+    public void addAdditionalSaveData(@NotNull ValueOutput compound) {
         super.addAdditionalSaveData(compound);
         compound.putString("TEXTURE", this.getTexture());
     }

@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec2;
 import net.the_last_sword.TheLastSwordMod;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
@@ -32,19 +31,22 @@ public class JustifiedDefenceElement extends Element {
     public JustifiedDefenceElement(double current, double max) {
         //前缀两空格对齐 HealthElement 的视觉间距
         this.text = String.format("  %s/%s", FORMAT.format(current), FORMAT.format(max));
-    }
-
-    @Override
-    public Vec2 getSize() {
+        //Jade 19 (1.21.8): getSize() is gone; an element states its size in the width/height fields it lays out by
         Font font = Minecraft.getInstance().font;
-        return new Vec2(ICON_SIZE + font.width(text), LINE_HEIGHT);
+        this.width = ICON_SIZE + font.width(text);
+        this.height = LINE_HEIGHT;
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, float x, float y, float maxX, float maxY) {
+    public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
         //图标 9x9
-        guiGraphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         //文本走 Jade 主题渲染 (自带阴影/主题色一致性)
         IDisplayHelper.get().drawText(guiGraphics, text, x + ICON_SIZE, y, IThemeHelper.get().getNormalColor());
+    }
+
+    @Override
+    public net.minecraft.network.chat.Component getNarration() {
+        return net.minecraft.network.chat.Component.literal(text.trim());
     }
 }

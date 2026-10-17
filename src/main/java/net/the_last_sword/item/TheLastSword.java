@@ -126,7 +126,7 @@ public class TheLastSword extends TheLastEndSwordItems implements ISummonableIte
                 } else if (mode == 1 || mode == 2) {
                     //模式1和2：物理伤害 + 虚空伤害
                     DamageSource voidDamageSource = new DamageSource(
-                            attacker.getCommandSenderWorld().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                            attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
                                     .getOrThrow(DamageTypes.FELL_OUT_OF_WORLD), attacker, attacker);
                     target.hurt(voidDamageSource, extraDamage);
                 }

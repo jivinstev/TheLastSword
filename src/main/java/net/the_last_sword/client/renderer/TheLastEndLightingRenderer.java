@@ -17,7 +17,6 @@ import org.joml.Matrix4f;
 import java.awt.*;
 
 //最终之剑闪电渲染器 - 末地传送门材质
-@OnlyIn(Dist.CLIENT)
 public class TheLastEndLightingRenderer extends LightningBoltRenderer {
     public TheLastEndLightingRenderer(EntityRendererProvider.Context context) {
         super(context);

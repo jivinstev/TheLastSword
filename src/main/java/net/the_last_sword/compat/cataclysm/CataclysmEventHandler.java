@@ -27,7 +27,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 //处理灾变奖牌的特殊效果
-@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = "the_last_sword")
 public class CataclysmEventHandler {
 
     private static final String MEDAL_DROPPED_TAG = "the_last_sword_cataclysm_medal_dropped";

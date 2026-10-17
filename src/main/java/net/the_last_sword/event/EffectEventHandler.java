@@ -21,7 +21,7 @@ import net.the_last_sword.util.health.TrueHealthManager;
 import net.the_last_sword.util.TheLastSwordLogger;
 
 //Effect 事件处理器 - 处理所有 MobEffect 相关的事件逻辑
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public class EffectEventHandler {
 
     //伤害类型被替换后，虚空附伤也不能在同一调用链中重复触发。

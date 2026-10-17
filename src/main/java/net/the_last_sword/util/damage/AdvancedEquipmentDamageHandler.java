@@ -37,7 +37,7 @@ import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 //高级装备必须共用固定顺序，避免绝毁与普通伤害出现不同结果
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class AdvancedEquipmentDamageHandler {
 
     private static final String THE_LAST_SWORD_DEFENCE = "TheLastSwordDefence";

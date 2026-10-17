@@ -27,7 +27,6 @@ import org.joml.Quaternionf;
 import java.util.Deque;
 
 //最终之剑弹射物渲染器 - 末影水晶模型 + 红蓝螺旋拖尾
-@OnlyIn(Dist.CLIENT)
 public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEndSwordProjectile, TheLastEndSwordProjectileRenderer.TrailRenderState> {
 
     //渲染状态：在提取阶段拷贝实体数据，供渲染阶段使用

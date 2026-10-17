@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -57,7 +58,7 @@ public class TheLastEndScroll extends Item {
             CompoundTag tag = ItemNbt.getOrCreateTag(itemStack);
             if (!tag.contains(RUINED_VILLAGE_X_KEY)
                     || !tag.contains(RUINED_VILLAGE_Z_KEY)) {
-                BlockPos ruinedVillage = serverPlayer.serverLevel().findNearestMapStructure(
+                BlockPos ruinedVillage = ((ServerLevel) level).findNearestMapStructure(
                     RUINED_VILLAGE,
                     serverPlayer.blockPosition(),
                     RUINED_VILLAGE_SEARCH_RADIUS,

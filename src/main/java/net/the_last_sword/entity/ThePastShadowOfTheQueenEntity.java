@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -518,7 +520,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         if (!reward.isEmpty()) {
             player.drop(reward, false);
         }
-        ServerLevel serverLevel = player.serverLevel();
+        ServerLevel serverLevel = (ServerLevel) player.level();
         if (serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             dropFromLootTable(serverLevel, damageSources().playerAttack(player), true);
         }
@@ -542,19 +544,19 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        deathRewardGranted = tag.getBoolean(DEATH_REWARD_GRANTED_TAG).orElse(false);
-        activationTalkSent = tag.contains(ACTIVATION_TALK_SENT_TAG)
-                ? tag.getBoolean(ACTIVATION_TALK_SENT_TAG).orElse(false) : isReady();
-        if (tag.getBoolean(NPC_STATE_TAG).orElse(false)) {
+        deathRewardGranted = tag.getBooleanOr(DEATH_REWARD_GRANTED_TAG, false);
+        activationTalkSent = tag.read(ACTIVATION_TALK_SENT_TAG, com.mojang.serialization.Codec.BOOL)
+                .orElseGet(() -> isReady());
+        if (tag.getBooleanOr(NPC_STATE_TAG, false)) {
             setDeathTick(0);
             setAnimationState(STATE_NPC);
         }
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean(DEATH_REWARD_GRANTED_TAG, deathRewardGranted);
         tag.putBoolean(ACTIVATION_TALK_SENT_TAG, activationTalkSent);

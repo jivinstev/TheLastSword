@@ -19,7 +19,7 @@ import net.the_last_sword.util.TheLastSwordLogger;
 import java.util.*;
 
 //旧版剑灵绑定表的一次性迁移 - 绑定关系已由 ECA 阵营接管，此处只负责导入历史存档
-@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = "the_last_sword")
 public class WraithSummonSavedData extends SavedData {
 
     private static final String DATA_NAME = "the_last_sword_wraith_bindings";

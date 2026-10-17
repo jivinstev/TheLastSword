@@ -16,7 +16,7 @@ public class GameRendererMixin {
     //防御模式：禁止受伤摄像机晃动
     @Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
     private void theLastSword$cancelBobHurt(PoseStack poseStack, float partialTick, CallbackInfo ci) {
-        Player player = Minecraft.getInstance().player;
+        Player player = net.the_last_sword.mv.ClientRefs.player();
         if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
             ci.cancel();
         }
@@ -25,7 +25,7 @@ public class GameRendererMixin {
     //防御模式：禁止行走视角摇摆
     @Inject(method = "bobView", at = @At("HEAD"), cancellable = true)
     private void theLastSword$cancelBobView(PoseStack poseStack, float partialTick, CallbackInfo ci) {
-        Player player = Minecraft.getInstance().player;
+        Player player = net.the_last_sword.mv.ClientRefs.player();
         if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
             ci.cancel();
         }

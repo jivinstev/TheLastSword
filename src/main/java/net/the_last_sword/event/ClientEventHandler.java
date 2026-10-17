@@ -103,7 +103,7 @@ public class ClientEventHandler {
             true,
             net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(TheLastEndEffect::getShader))
-                    .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, net.minecraft.util.TriState.FALSE, false))
+                    .setTextureState(new RenderStateShard.TextureStateShard(END_PORTAL_TEXTURE, false))
                     .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
                     .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
                     .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
@@ -173,7 +173,7 @@ public class ClientEventHandler {
         return true;
     }
 
-    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
     public static class ModBusEvents {
         //客户端初始化
         @SubscribeEvent
@@ -323,11 +323,7 @@ public class ClientEventHandler {
 
     //万物终焉球体渲染
     @SubscribeEvent
-    public static void onRenderLevelStage(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
-            return;
-        }
-
+    public static void onRenderLevelStage(RenderLevelStageEvent.AfterTranslucentBlocks event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) {
             return;

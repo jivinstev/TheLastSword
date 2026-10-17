@@ -21,7 +21,7 @@ import net.the_last_sword.item.DragonSword;
 import net.the_last_sword.item.PriestStaffItem;
 import net.the_last_sword.item.TheLastSword;
 
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class IronsSpellsCompat {
 
     private static final ResourceLocation MAX_MANA_ID =

@@ -17,7 +17,10 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
@@ -704,8 +707,9 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
 
     // NBT
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        CompoundTag tag = input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).orElseGet(CompoundTag::new);
         CompoundTag rescue = tag.getCompoundOrEmpty("VoidRescue");
         lastSafeDimension = rescue.getStringOr("Dimension", "");
         lastSafePosition = null;
@@ -737,8 +741,9 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        CompoundTag tag = new CompoundTag();
         CompoundTag rescue = new CompoundTag();
         rescue.putString("Dimension", lastSafeDimension);
         rescue.putBoolean("Active", voidRescueActive);
@@ -752,6 +757,7 @@ public abstract class TheLastEndEntity extends TamableAnimal implements GeoEntit
         tag.putInt("AnimationState", animationState > STATE_IDLE ? STATE_IDLE : animationState);
         tag.putInt("Level", getTheLastEndLevel());
         tag.putBoolean("AllThingsEnd", isAllThingsEnd());
+        output.store(tag);
     }
 
     // 终焉种特性

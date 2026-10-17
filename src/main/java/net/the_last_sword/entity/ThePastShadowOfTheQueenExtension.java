@@ -96,13 +96,11 @@ public class ThePastShadowOfTheQueenExtension extends EntityExtension {
         return TrueHealthManager.getMaxHealth(entity);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     protected String getModId() {
         return TheLastSwordMod.MOD_ID;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public BossBarExtension bossBarExtension() {
         return new BossBarExtension() {
@@ -164,19 +162,16 @@ public class ThePastShadowOfTheQueenExtension extends EntityExtension {
         };
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public EntityLayerExtension entityLayerExtension() {
         return new EntityLayerExtension();
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public CombatMusicExtension combatMusicExtension() {
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public CombatMusicExtension combatMusicExtension(LivingEntity entity) {
         if (entity instanceof ThePastShadowOfTheQueenEntity queen

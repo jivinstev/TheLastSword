@@ -148,7 +148,6 @@ public class UltraTestSwordItem extends Item {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Item.TooltipContext level, TooltipDisplay display, java.util.function.Consumer<Component> tooltipConsumer, TooltipFlag flag) {
         super.appendHoverText(stack, level, display, tooltipConsumer, flag);
         List<Component> tooltip = new java.util.ArrayList<>();
@@ -188,7 +187,6 @@ public class UltraTestSwordItem extends Item {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public boolean isFoil(ItemStack stack) {
         return true;
     }

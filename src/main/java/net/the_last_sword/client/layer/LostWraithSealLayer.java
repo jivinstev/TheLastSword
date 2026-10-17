@@ -36,7 +36,7 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     private static final int SEGMENTS = 12;
     private static final int SIDES = 4;
     private static final Vec3[][] LINK_VERTICES = createLinks();
-    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_COLOR_SNIPPET)
+    private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder()
             .withLocation("pipeline/lost_wraith_seal")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")

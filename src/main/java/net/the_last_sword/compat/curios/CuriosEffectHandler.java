@@ -25,7 +25,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 //处理饰品的效果
-@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = "the_last_sword")
 public class CuriosEffectHandler {
 
     //龙水晶指环伤害加成（×1.5）

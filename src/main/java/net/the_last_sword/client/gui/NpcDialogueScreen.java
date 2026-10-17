@@ -2,7 +2,6 @@ package net.the_last_sword.client.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -126,7 +125,6 @@ public class NpcDialogueScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
         renderNpc(graphics, mouseX, mouseY);
         renderScrollBackground(graphics);
 
@@ -181,7 +179,8 @@ public class NpcDialogueScreen extends Screen {
         int availableHeight = Math.max(70, panelTop - 18);
         int scale = Mth.clamp(availableHeight / 4, 28, 62);
         graphics.enableScissor(8, 8, Math.max(9, width / 2), panelTop + 6);
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
+        // 1.21.8: vanilla's helper crashes on a GeckoLib 5.2 entity (the queen; CATALOG M62); same three methods, shared
+        net.the_last_sword.mv.GeoInventoryEntity.renderEntityInInventoryFollowsMouse(graphics, modelX - scale, modelBottom - scale * 2,
                 modelX + scale, modelBottom, scale, 0.0F,
                 mouseX, mouseY, livingEntity);
         graphics.disableScissor();
@@ -229,7 +228,7 @@ public class NpcDialogueScreen extends Screen {
 
     private void blitSlice(GuiGraphics graphics, int x, int y, int width, int height,
                            int sourceX, int sourceY, int sourceWidth, int sourceHeight) {
-        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, x, y, width, height, sourceX, sourceY,
+        graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, SCROLL_TEXTURE, x, y, width, height, sourceX, sourceY,
                 sourceWidth, sourceHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
     }
 

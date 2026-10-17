@@ -18,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -56,6 +58,11 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     private static class InternalEnergyStorage extends EnergyStorage {
         public InternalEnergyStorage(int capacity, int maxReceive, int maxExtract) {
             super(capacity, maxReceive, maxExtract);
+        }
+
+        //读档时恢复能量值 (夹紧到容量范围内)
+        public void setEnergyStoredInternal(int value) {
+            this.energy = Math.max(0, Math.min(value, getMaxEnergyStored()));
         }
 
         public int generateInternal(int amount) {
@@ -138,25 +145,26 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
         if (!this.tryLoadLootTable(tag)) {
             this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(tag, this.items, registries);
+            ContainerHelper.loadAllItems(tag, this.items);
         }
-        if (tag.contains("Energy")) {
-            energyStorage.deserializeNBT(registries, tag.get("Energy"));
+        int storedEnergy = tag.getIntOr("Energy", -1);
+        if (storedEnergy >= 0) {
+            energyStorage.setEnergyStoredInternal(storedEnergy);
         }
         this.totalPowerTime = tag.getIntOr("TotalPowerTime", 0);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
         if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items, registries);
+            ContainerHelper.saveAllItems(tag, this.items);
         }
-        tag.put("Energy", energyStorage.serializeNBT(registries));
+        tag.putInt("Energy", energyStorage.getEnergyStored());
         tag.putInt("TotalPowerTime", this.totalPowerTime);
     }
 

@@ -16,7 +16,7 @@ import net.the_last_sword.client.renderer.*;
 import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockRenderer;
 
 //实体渲染器注册
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class ModEntityRenderers {
     //注册实体渲染器
     @SubscribeEvent

@@ -63,7 +63,7 @@ public class WraithSummonManager {
     private static ItemStack getSoulStoneFromPlayer(Player player) {
         CompoundTag playerData = player.getPersistentData();
         if (playerData.contains(SOUL_STONE_KEY)) {
-            return ItemStack.parse(player.registryAccess(), playerData.getCompoundOrEmpty(SOUL_STONE_KEY)).orElse(ItemStack.EMPTY);
+            return ItemStack.CODEC.parse(player.registryAccess().createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE), playerData.getCompoundOrEmpty(SOUL_STONE_KEY)).result().orElse(ItemStack.EMPTY);
         }
         return ItemStack.EMPTY;
     }
@@ -74,7 +74,7 @@ public class WraithSummonManager {
         if (soulStone.isEmpty()) {
             playerData.remove(SOUL_STONE_KEY);
         } else {
-            Tag soulStoneTag = soulStone.save(player.registryAccess());
+            Tag soulStoneTag = ItemStack.CODEC.encodeStart(player.registryAccess().createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE), soulStone).getOrThrow();
             playerData.put(SOUL_STONE_KEY, soulStoneTag);
         }
     }
@@ -147,8 +147,9 @@ public class WraithSummonManager {
         }
 
         //6. 保存当前状态NBT到魂石
-        CompoundTag entityNBT = new CompoundTag();
-        wraith.save(entityNBT);
+        net.minecraft.world.level.storage.TagValueOutput entityOut = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, wraith.registryAccess());
+        wraith.save(entityOut);
+        CompoundTag entityNBT = entityOut.buildResult();
         nbt.put("entity_nbt", entityNBT);
         nbt.putFloat("health_bonus", 0);
         nbt.putFloat("attack_bonus", 0);
@@ -322,7 +323,8 @@ public class WraithSummonManager {
             CompoundTag entityNBT = nbt.getCompoundOrEmpty("entity_nbt");
             Entity entity = entityType.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
             if (entity instanceof LivingEntity living) {
-                living.load(entityNBT);  //加载NBT数据
+                net.minecraft.world.level.storage.ValueInput entityIn = net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING, living.registryAccess(), entityNBT);
+                living.load(entityIn);  //加载NBT数据
                 wraith = living;
             } else {
                 player.displayClientMessage(Component.translatable("message.the_last_sword.summon_failed").withStyle(ChatFormatting.RED), false);
@@ -386,8 +388,9 @@ public class WraithSummonManager {
         }
 
         //11. 保存基础NBT到魂石（此时没有加成污染）
-        CompoundTag entityNBT = new CompoundTag();
-        wraith.save(entityNBT);
+        net.minecraft.world.level.storage.TagValueOutput entityOutBase = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, wraith.registryAccess());
+        wraith.save(entityOutBase);
+        CompoundTag entityNBT = entityOutBase.buildResult();
         nbt.putString("wraith_entity_id", entityId);
         nbt.putString("wraith_uuid", wraitheUUID.toString());
         nbt.put("entity_nbt", entityNBT);
@@ -1172,8 +1175,9 @@ public class WraithSummonManager {
         nbt.putString("wraith_entity_id", entityId.toString());
 
         //保存实体的完整NBT数据（包括装备、属性、自定义名称等）
-        CompoundTag entityNBT = new CompoundTag();
-        victim.save(entityNBT);
+        net.minecraft.world.level.storage.TagValueOutput entityOutVictim = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, victim.registryAccess());
+        victim.save(entityOutVictim);
+        CompoundTag entityNBT = entityOutVictim.buildResult();
 
         //修正血量为最大生命值（避免保存清除时的0血）
         entityNBT.putFloat("Health", victim.getMaxHealth());

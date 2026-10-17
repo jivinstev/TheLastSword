@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 
 import net.the_last_sword.init.ModItems;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class VillagerTradeHandler {
 
     //流浪商人交易

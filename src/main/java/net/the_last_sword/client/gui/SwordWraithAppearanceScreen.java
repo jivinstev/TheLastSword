@@ -3,7 +3,6 @@ package net.the_last_sword.client.gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
@@ -72,7 +71,7 @@ public class SwordWraithAppearanceScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        //1.21.6: Screen.renderWithTooltip draws the background before render; a second renderBackground blurs twice and throws
         guiGraphics.drawCenteredString(font, title, width / 2, frameTop - 20, 0xFFFFFF);
         guiGraphics.fill(frameLeft - 2, frameTop - 2, frameLeft + FRAME_WIDTH + 2,
                 frameTop + FRAME_HEIGHT + 2, 0xFF6F5A8A);
@@ -83,7 +82,8 @@ public class SwordWraithAppearanceScreen extends Screen {
             guiGraphics.enableScissor(frameLeft + 1, frameTop + 1,
                     frameLeft + FRAME_WIDTH - 1, frameTop + FRAME_HEIGHT - 1);
             int bottom = frameTop + FRAME_HEIGHT - 8;
-            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,
+            // 1.21.8: vanilla's helper crashes on a GeckoLib 5.2 entity (CATALOG M62); the shared helper is the same three methods
+            net.the_last_sword.mv.GeoInventoryEntity.renderEntityInInventoryFollowsMouse(guiGraphics,
                     width / 2 - 50, bottom - 100, width / 2 + 50, bottom, 48,
                     0.0625F, width / 2.0F - mouseX, frameTop + FRAME_HEIGHT / 2.0F - mouseY, preview);
             guiGraphics.disableScissor();

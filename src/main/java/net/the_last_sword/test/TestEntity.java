@@ -86,7 +86,7 @@ public class TestEntity extends PathfinderMob {
         }
     }
 
-    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static final class EntityRegisterHook {
 
         // NeoForge 把 EntityJoinLevelEvent 发在 addEntity 内部，此时在事件里调用 ECA 的追踪/复活 API

@@ -39,7 +39,7 @@ public class TheLastEndRenderTypes {
             .setShaderState(new ShaderShard(TheLastEndEffect::getShader))
             .setDepthTestState(LegacyRenderType.LEQUAL_DEPTH_TEST)
             .setTransparencyState(LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
-            .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(texture, false))
             .setCullState(cull ? LegacyRenderType.CULL : LegacyRenderType.NO_CULL);
         if (lightmap) {
             sb.setLightmapState(RenderStateShard.LIGHTMAP);
@@ -57,7 +57,7 @@ public class TheLastEndRenderTypes {
     private static RenderType make(String name, RenderPipeline pipeline, ResourceLocation texture,
                                    boolean lightmap, boolean overlay, boolean outline) {
         RenderType.CompositeState.CompositeStateBuilder sb = RenderType.CompositeState.builder()
-            .setTextureState(new RenderStateShard.TextureStateShard(texture, net.minecraft.util.TriState.FALSE, false));
+            .setTextureState(new RenderStateShard.TextureStateShard(texture, false));
         if (lightmap) {
             sb.setLightmapState(RenderStateShard.LIGHTMAP);
         }

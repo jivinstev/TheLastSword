@@ -473,19 +473,18 @@ public class TheLastEndScrollScreen extends Screen {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         //渲染暗色背景
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         //计算GUI位置
         int guiLeft = (this.width - GUI_WIDTH) / 2;
         int guiTop = (this.height - GUI_HEIGHT) / 2;
 
         //渲染卷轴背景纹理
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        net.the_last_sword.mv.LegacyGl.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         net.the_last_sword.mv.LegacyGl.enableBlend();
         net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
 
         // 参数: ResourceLocation, x, y, u, v, width, height, textureWidth, textureHeight
-        graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
+        graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, SCROLL_TEXTURE, guiLeft, guiTop, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
         net.the_last_sword.mv.LegacyGl.disableBlend();
 
@@ -512,7 +511,7 @@ public class TheLastEndScrollScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
 
         if (!hoveredRecipeStack.isEmpty()) {
-            graphics.renderTooltip(this.font, hoveredRecipeStack, mouseX, mouseY);
+            graphics.setTooltipForNextFrame(this.font, hoveredRecipeStack, mouseX, mouseY);
         }
     }
 

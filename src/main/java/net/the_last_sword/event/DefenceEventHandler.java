@@ -79,7 +79,7 @@ public final class DefenceEventHandler {
     private static final UUID JUSTIFIED_DEFENCE_RECOVERY_MODULE_ID =
             UUID.fromString("018b1e95-f8e5-4d23-8385-84065377f9b2");
 
-    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static class ModBusEvents {
         //为所有生物实体附加肃正防御属性
         @SubscribeEvent
@@ -92,7 +92,7 @@ public final class DefenceEventHandler {
         }
     }
 
-    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static class ForgeBusEvents {
         //护盾死亡保护 (兜底非 actuallyHurt 路径: entity.kill()/setHealth(0)/直接 die 等, 代价 -2)
         @SubscribeEvent(priority = EventPriority.HIGHEST)

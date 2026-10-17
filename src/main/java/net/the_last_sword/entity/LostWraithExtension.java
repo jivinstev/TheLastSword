@@ -99,13 +99,11 @@ public class LostWraithExtension extends EntityExtension {
         return entity instanceof LostWraithEntity lw ? TrueHealthManager.getMaxHealth(lw) : null;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     protected String getModId() {
         return "the_last_sword";
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public BossBarExtension bossBarExtension() {
         return new BossBarExtension() {
@@ -131,19 +129,16 @@ public class LostWraithExtension extends EntityExtension {
         };
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public EntityLayerExtension entityLayerExtension() {
         return new EntityLayerExtension();
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public CombatMusicExtension combatMusicExtension() {
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public CombatMusicExtension combatMusicExtension(LivingEntity entity) {
         if (entity instanceof LostWraithEntity wraith && wraith.isAlive()

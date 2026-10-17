@@ -1,6 +1,7 @@
 package net.the_last_sword.entity;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -81,14 +82,14 @@ public class GroundRuptureFragmentEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         entityData.set(BLOCK_STATE_ID, tag.getInt("BlockState").orElse(0));
-        entityData.set(SCALE, tag.getFloat("Scale").orElse(0.0F));
+        entityData.set(SCALE, tag.getFloatOr("Scale", 0.0F));
         entityData.set(VISUAL_SEED, tag.getInt("VisualSeed").orElse(0));
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         tag.putInt("BlockState", entityData.get(BLOCK_STATE_ID));
         tag.putFloat("Scale", entityData.get(SCALE));
         tag.putInt("VisualSeed", entityData.get(VISUAL_SEED));

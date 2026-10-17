@@ -19,7 +19,7 @@ import net.the_last_sword.init.ModSounds;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public class CombatMusicHandler {
     private static boolean isPlaying = false;
     private static SoundInstance currentMusic;

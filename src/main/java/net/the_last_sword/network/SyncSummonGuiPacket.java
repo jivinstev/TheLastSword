@@ -1,6 +1,7 @@
 package net.the_last_sword.network;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -31,7 +32,7 @@ public class SyncSummonGuiPacket implements CustomPacketPayload {
 
     //编码
     public static void encode(SyncSummonGuiPacket msg, RegistryFriendlyByteBuf buf) {
-        Tag tag = msg.soulStone.save(buf.registryAccess());
+        Tag tag = ItemStack.OPTIONAL_CODEC.encodeStart(buf.registryAccess().createSerializationContext(NbtOps.INSTANCE), msg.soulStone).getOrThrow();
         buf.writeNbt(tag);
     }
 
@@ -40,7 +41,7 @@ public class SyncSummonGuiPacket implements CustomPacketPayload {
         CompoundTag tag = buf.readNbt();
         ItemStack soulStone = ItemStack.EMPTY;
         if (tag != null) {
-            soulStone = ItemStack.parse(buf.registryAccess(), tag).orElse(ItemStack.EMPTY);
+            soulStone = ItemStack.OPTIONAL_CODEC.parse(buf.registryAccess().createSerializationContext(NbtOps.INSTANCE), tag).result().orElse(ItemStack.EMPTY);
         }
         return new SyncSummonGuiPacket(soulStone);
     }

@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class NpcDialogueManager {
     private static final double MAX_INTERACTION_DISTANCE_SQR = 64.0;
     private static final String READ_DATA_KEY = "the_last_sword_npc_dialogue_read";

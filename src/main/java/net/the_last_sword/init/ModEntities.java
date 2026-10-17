@@ -37,7 +37,7 @@ import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
 import net.the_last_sword.test.TestEntity;
 
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 
 public class ModEntities {
 

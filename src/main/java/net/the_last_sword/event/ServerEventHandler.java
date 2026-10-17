@@ -62,7 +62,7 @@ import java.util.*;
 import java.util.Optional;
 
 //服务器事件处理器
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public class ServerEventHandler {
 
     //========== 龙魂灯灵魂收集系统 ==========
@@ -348,9 +348,13 @@ public class ServerEventHandler {
                 items = new ListTag();
                 slot = 0;
             }
-            CompoundTag itemTag = new CompoundTag();
-            itemTag.putByte("Slot", (byte) slot);
-            items.add(stack.save(registries, itemTag));
+            net.minecraft.nbt.Tag saved = ItemStack.CODEC
+                    .encodeStart(registries.createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE), stack)
+                    .getOrThrow();
+            if (saved instanceof CompoundTag savedTag) {
+                savedTag.putByte("Slot", (byte) slot);
+            }
+            items.add(saved);
             slot++;
         }
         if (slot > 0) {

@@ -71,7 +71,6 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
 
@@ -124,7 +123,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
 
         for (int i = 0; i < MAX_ICONS; i++) {
             int x = leftX + i * step;
-            graphics.blit(net.minecraft.client.renderer.RenderType::guiTextured, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+            graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON_FULL, x, startY, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         net.the_last_sword.mv.LegacyGl.disableBlend();

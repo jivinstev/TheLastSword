@@ -16,7 +16,7 @@ import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.summon.WraithSummonManager;
 
 //剑灵召唤系统事件处理器
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public class WraithSummonEventHandler {
 
     private static final String SOUL_STONE_KEY = "the_last_sword_soul_stone";

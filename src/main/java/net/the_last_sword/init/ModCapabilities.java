@@ -15,7 +15,7 @@ import net.the_last_sword.item.ZeroPointEngine;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 
 //能力注册（1.20.1 的 initCapabilities / getCapability 在 1.21.1 改为 RegisterCapabilitiesEvent）
-@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
 public final class ModCapabilities {
     private ModCapabilities() {
     }

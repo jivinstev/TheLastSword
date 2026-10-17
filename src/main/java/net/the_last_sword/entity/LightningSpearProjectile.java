@@ -18,6 +18,8 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -149,16 +151,16 @@ public class LightningSpearProjectile extends AbstractArrow {
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        double savedDistance = tag.getDouble("FlightDistance").orElse(0.0D);
+        double savedDistance = tag.getDoubleOr("FlightDistance", 0.0D);
         flightDistance = Double.isFinite(savedDistance) ? Math.max(0.0D, savedDistance) : 0.0D;
         pickup = Pickup.DISALLOWED;
         setNoGravity(true);
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putDouble("FlightDistance", flightDistance);
     }

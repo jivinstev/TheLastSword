@@ -16,7 +16,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = "the_last_sword", bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = "the_last_sword")
 public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implements IDragonSmithingTemplate {
 
     //稀有度与防火通过默认数据组件提供

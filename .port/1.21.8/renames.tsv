@@ -1,0 +1,12 @@
+# 1.21.8: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
+# X2: proposed by a file-loop worker, kept because the error count fell
+net.minecraft.client.renderer.RenderType::guiTextured	net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED
+# X9: proposed by a file-loop worker, kept because the error count fell
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)	@EventBusSubscriber
+# 1.21.6: Entity.getCommandSenderWorld() is gone (Entity no longer a CommandSource); level() is the same Level
+member:getCommandSenderWorld	level
+# 1.21.6 (NeoForge 21.6): RenderLevelStageEvent is one subclass per stage; a listener of AFTER_PARTICLES takes that event
+re:public static void (\w+)\(RenderLevelStageEvent event\) \{\s*if \(event\.getStage\(\) != RenderLevelStageEvent\.Stage\.AFTER_PARTICLES\) return;	public static void \1(RenderLevelStageEvent.AfterParticles event) {
+# 1.21.6: Entity.readAdditionalSaveData / addAdditionalSaveData take a ValueInput / ValueOutput (an entity that saves nothing)
+re:protected void readAdditionalSaveData\(CompoundTag (\w+)\) \{\}	protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput \1) {}
+re:protected void addAdditionalSaveData\(CompoundTag (\w+)\) \{\}	protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput \1) {}

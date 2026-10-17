@@ -57,10 +57,7 @@ public final class LightningSpearBurstRenderer {
     }
 
     @SubscribeEvent
-    public static void render(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
-            return;
-        }
+    public static void render(RenderLevelStageEvent.AfterParticles event) {
         update();
         if (effectLevel == null || BURSTS.isEmpty()) {
             return;

@@ -1,11 +1,14 @@
 package net.the_last_sword.mixin;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModAttributes;
 import net.the_last_sword.util.EntityUtil;
@@ -33,8 +36,10 @@ public class PlayerMixin {
     }
 
     // 持久化现世锚度血量到磁盘
+    //1.21.6: entity save/load goes through ValueOutput/ValueInput. Same keys and values on disk; a key's presence
+    //is an Optional from read(key, codec) (ValueInput has no get/contains), and remove is discard.
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    private void tls$savePresentWorldAnchor(CompoundTag tag, CallbackInfo ci) {
+    private void tls$savePresentWorldAnchor(ValueOutput tag, CallbackInfo ci) {
         Player player = (Player) (Object) this;
         CompoundTag pd = player.getPersistentData();
         if ((pd.get(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
@@ -49,33 +54,30 @@ public class PlayerMixin {
         if (shield != null && shield.getValue() > 0) {
             tag.putDouble("tlsJustifiedDefence", shield.getValue());
         }
-        tag.remove("tlsMaxJustifiedDefence");
+        tag.discard("tlsMaxJustifiedDefence");
     }
 
     // 从磁盘恢复现世锚度血量
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void tls$loadPresentWorldAnchor(CompoundTag tag, CallbackInfo ci) {
+    private void tls$loadPresentWorldAnchor(ValueInput tag, CallbackInfo ci) {
         Player player = (Player) (Object) this;
         CompoundTag pd = player.getPersistentData();
-        if ((tag.get(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR) instanceof net.minecraft.nbt.NumericTag)) {
-            pd.putFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR,
-                    tag.getFloatOr(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, 0.0F));
-        }
+        tag.read(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, Codec.FLOAT)
+                .ifPresent(v -> pd.putFloat(PresentWorldAnchorManager.NBT_ABSOLUTE_DESTRUCTION_PRESENT_WORLD_ANCHOR, v));
         PresentWorldAnchorManager.syncPresentWorldAnchor(player);
-        if (tag.contains("tlsIsProtected")) {
-            pd.putBoolean("tlsIsProtected", tag.getBooleanOr("tlsIsProtected", false));
-        }
+        tag.read("tlsIsProtected", Codec.BOOL).ifPresent(v -> pd.putBoolean("tlsIsProtected", v));
         // 恢复肃正防御值
-        if (tag.contains("tlsJustifiedDefence")) {
+        tag.read("tlsJustifiedDefence", Codec.DOUBLE).ifPresent(v -> {
             AttributeInstance shield = player.getAttribute(ModAttributes.JUSTIFIED_DEFENCE);
             if (shield != null) {
-                shield.setBaseValue(tag.getDoubleOr("tlsJustifiedDefence", 0.0));
+                shield.setBaseValue(v);
             }
-        }
+        });
         AttributeInstance maxShield = player.getAttribute(ModAttributes.MAX_JUSTIFIED_DEFENCE);
         if (maxShield != null) {
             maxShield.setBaseValue(0.0);
         }
-        tag.remove("tlsMaxJustifiedDefence");
+        //1.21.1 also removed tlsMaxJustifiedDefence from the tag it had just read; a ValueInput is read-only, and the
+        //key never reaches disk again because the save handler above discards it
     }
 }

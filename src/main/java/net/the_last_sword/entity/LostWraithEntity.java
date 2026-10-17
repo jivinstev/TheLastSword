@@ -3,6 +3,8 @@ package net.the_last_sword.entity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -452,16 +454,14 @@ public class LostWraithEntity extends TheLastEndEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull ValueInput compound) {
         super.readAdditionalSaveData(compound);
         setTheLastEndLevel(1);
-        if (compound.contains("TalkIndex")) {
-            setTalkIndex(compound.getIntOr("TalkIndex", 0));
-        }
+        compound.getInt("TalkIndex").ifPresent(idx -> setTalkIndex(idx));
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
+    public void addAdditionalSaveData(@NotNull ValueOutput compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("TalkIndex", getTalkIndex());
     }

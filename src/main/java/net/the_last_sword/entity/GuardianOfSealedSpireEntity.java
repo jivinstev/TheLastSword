@@ -244,16 +244,13 @@ public class GuardianOfSealedSpireEntity extends TheLastEndEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("GuardianType")) {
-            int typeId = tag.getIntOr("GuardianType", 0);
-            this.entityData.set(GUARDIAN_TYPE, typeId);
-        }
+        tag.getInt("GuardianType").ifPresent(typeId -> this.entityData.set(GUARDIAN_TYPE, typeId));
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull net.minecraft.world.level.storage.ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("GuardianType", this.entityData.get(GUARDIAN_TYPE));
     }

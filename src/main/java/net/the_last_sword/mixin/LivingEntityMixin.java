@@ -115,8 +115,9 @@ public class LivingEntityMixin {
     }
 
     // 读档后恢复派生状态，让首次追踪的客户端也能获取正确同步值。
+    //1.21.6: readAdditionalSaveData takes a ValueInput (the handler never reads it)
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void the_last_sword$syncPresentWorldAnchorAfterLoad(CompoundTag tag, CallbackInfo ci) {
+    private void the_last_sword$syncPresentWorldAnchorAfterLoad(net.minecraft.world.level.storage.ValueInput tag, CallbackInfo ci) {
         PresentWorldAnchorManager.syncPresentWorldAnchor((LivingEntity) (Object) this);
         PhasingState.sync((LivingEntity) (Object) this);
     }

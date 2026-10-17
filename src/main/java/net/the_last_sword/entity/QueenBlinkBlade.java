@@ -12,6 +12,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.the_last_sword.configuration.QueenBlinkSettings;
@@ -160,7 +162,7 @@ public class QueenBlinkBlade extends Projectile {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("BladeWidth", bladeWidth());
         tag.putFloat("BladeHeight", bladeHeight());
@@ -170,13 +172,13 @@ public class QueenBlinkBlade extends Projectile {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("BladeWidth")) entityData.set(WIDTH, tag.getFloat("BladeWidth").orElse(bladeWidth()));
-        if (tag.contains("BladeHeight")) entityData.set(HEIGHT, tag.getFloat("BladeHeight").orElse(bladeHeight()));
-        if (tag.contains("BladeLength")) entityData.set(LENGTH, tag.getFloat("BladeLength").orElse(bladeLength()));
-        if (tag.contains("Damage")) damage = tag.getDouble("Damage").orElse(damage);
-        travelled = tag.getDouble("Travelled").orElse(0.0);
+        entityData.set(WIDTH, tag.getFloatOr("BladeWidth", bladeWidth()));
+        entityData.set(HEIGHT, tag.getFloatOr("BladeHeight", bladeHeight()));
+        entityData.set(LENGTH, tag.getFloatOr("BladeLength", bladeLength()));
+        damage = tag.getDoubleOr("Damage", damage);
+        travelled = tag.getDoubleOr("Travelled", 0.0);
     }
 
 }

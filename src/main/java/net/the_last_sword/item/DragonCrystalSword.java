@@ -90,7 +90,7 @@ public class DragonCrystalSword extends TheLastEndSwordItems {
                 target.invulnerableTime = 0;
                 target.hurt(
                     new DamageSource(
-                        attacker.getCommandSenderWorld().registryAccess()
+                        attacker.level().registryAccess()
                             .lookupOrThrow(Registries.DAMAGE_TYPE)
                             .getOrThrow(DamageTypes.MAGIC),
                         attacker,
