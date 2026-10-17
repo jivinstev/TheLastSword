@@ -1,0 +1,350 @@
+{
+  "issues": [
+    {
+      "id": "TLS-001",
+      "lowest": "1.21.8",
+      "notes": "Evidence: Literal scan (scratchpad ledger-work/alpha.py): 38 sites in 20 files on 1.21.5/1.21.8/1.21.10/1.21.11 and 34 in 17 on 26.x; 1.21.5 is unaffected (Font.adjustColor made 24-bit colours opaque); 1.21.6+ GuiGraphics skips alpha 0 (review cites 1.21.8 GuiGraphics.java:238-239; 26.x text() has the same guard). fixable_from_1_21_8_up: true (lowest affected version is 1.21.8). Effort: medium (one precise re: row in 1.21.8 renames.tsv plus ARGB.opaque on computed colours in ~8 overlays; unverified partial work on wip/tls-1.21.8-round2 (46685f4)). 1.21.10+ are also blocked by the build failures (TLS-005..009); the fix cascades up once they build. Sources: REVIEW.md neoforge-1.21.8 rows L26 (part 1), L28, L29, L30, L32, L33, L35, L145 (renames: missing row); https://github.com/jivinstev/TheLastSword/issues/26 (Next step F1); https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "review",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "F1: much GUI text invisible from 1.21.6 -- 24-bit colour literals (journal, paper notes, scroll pages, enchanting-table names/level/cost/XP, NPC name, sword-wraith screen, config-screen titles, HUD-position screens, ScrollRecipeRenderer, JustifiedDefenceOverlay and DragonArmorOverlay HUD lines)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java"
+      ],
+      "id": "TLS-002",
+      "lowest": "1.21.8",
+      "notes": "n/a here means NOT ESTABLISHED (was 'unknown') at: 26.3. Evidence: RenderPipeline.builder() with no snippet on 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2; 26.3 uses builder(RenderPipelines.DEBUG_FILLED_SNIPPET) -- not reviewed, and 26.3 does not build. fixable_from_1_21_8_up: true (lowest affected version is 1.21.8). Effort: small (one constructor argument per version). Sources: REVIEW.md neoforge-1.21.8 rows L34 (changed) and L75 (item render-use POSITION_COLOR_SHADER); https://github.com/jivinstev/TheLastSword/issues/26 (Next step F2); https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "n/a"
+      },
+      "title": "F2: LostWraithSealLayer SEAL_PIPELINE built with no uniform blocks (needs MATRICES_PROJECTION_SNIPPET): the Lost Wraith's hand seals are misplaced, black or missing"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java"
+      ],
+      "id": "TLS-003",
+      "lowest": "1.21.8",
+      "notes": "n/a here means NOT ESTABLISHED (was 'unknown') at: 1.21.10, 1.21.11, 26.1.2, 26.2, 26.3. Evidence: 1.21.8 overlay has the PIP (19 PIP/endPortal mentions); 1.21.10+ overlays have 3 and predate 1.21.8's PIP, so the bar may be drawn immediately (deferred-GUI rule: invisible or out of order) -- not reviewed, and they do not build. fixable_from_1_21_8_up: true (lowest affected version is 1.21.8). Effort: small (make the PIP cover the whole GUI with bounds and scissor at the bar (one overlay)). Sources: REVIEW.md neoforge-1.21.8 row L26 (part 2); https://github.com/jivinstev/TheLastSword/issues/26 (Next step F3)",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "n/a",
+        "1.21.11": "n/a",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "open",
+        "26.1.2": "n/a",
+        "26.2": "n/a",
+        "26.3": "n/a"
+      },
+      "title": "F3: DragonCrystalEnchantingTableScreen end-portal energy bar -- the picture-in-picture covers only the bar, so the starfield is ~13x denser, anisotropic and rescales whenever the energy changes"
+    },
+    {
+      "files": [
+        ".port/1.21.8/STUBS.json"
+      ],
+      "id": "TLS-004",
+      "lowest": "1.21.8",
+      "notes": "n/a here means NOT ESTABLISHED (was 'unknown') at: 1.21.10, 1.21.11, 26.1.2, 26.2, 26.3. Evidence: Named in the 1.21.8 next-step list; the STUBS entry is inherited into higher branches' STUBS.json, the AT prune was not checked above 1.21.8. fixable_from_1_21_8_up: true (lowest affected version is 1.21.8). Effort: small. Sources: https://github.com/jivinstev/TheLastSword/issues/26 (Next step 5); https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "invisible",
+        "workaround": false
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "n/a",
+        "1.21.11": "n/a",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "open",
+        "26.1.2": "n/a",
+        "26.2": "n/a",
+        "26.3": "n/a"
+      },
+      "title": "1.21.8 bookkeeping: stale WraithSummonSavedData STUBS.json entry; access-transformer lines naming members 1.21.8 lacks"
+    },
+    {
+      "id": "TLS-005",
+      "lowest": "1.21.10",
+      "notes": "failure: build (the version does not compile, so no jar ships). Recorded as failure=crash because the schema has no build type and the brief grades a non-building version S1. Evidence: Compile errors by cause (this triage's census of layer-ctl logs, same as the branch builds): 46 on 1.21.10, 46 on 1.21.11, 23 on 26.1.2, 0 on 26.2/26.3; files: entity classes, WraithSummonManager, LivingEntityMixin, items, UltraTestSwordItem. fixable_from_1_21_8_up: true (every affected version is 1.21.10 or later). Effort: medium (three-way merge of ~14 overlays from the reviewed lower version (not by hand), then delete redundant copies). Sources: https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775 (1.21.10 and up don't compile); scratchpad tls-branches-results.md; scratchpad layer-ctl-<v>.log (compile errors)",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "gate",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "n/a",
+        "26.1.2": "open",
+        "26.2": "n/a",
+        "26.3": "n/a"
+      },
+      "title": "Build fails 1.21.10-26.1.2: stale overlays call TrueHealthManager.register/setMaxHealth with pre-1.1.2 signatures (overlays never re-merged with the authors' 1.1.2, 268184c)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/init/ModCapabilities.java",
+        "src/main/java/net/the_last_sword/item/ZeroPointEngine.java"
+      ],
+      "id": "TLS-006",
+      "lowest": "1.21.10",
+      "notes": "failure: build (the version does not compile, so no jar ships). Recorded as failure=crash because the schema has no build type and the brief grades a non-building version S1. Evidence: Errors: 18 on 1.21.10, 18 on 1.21.11, 11 on each of 26.1.2, 26.2, 26.3 (ModCapabilities registerItem/registerBlockEntity, ZeroPointEngine getCapability). fixable_from_1_21_8_up: true (every affected version is 1.21.10 or later). Effort: small (rename rows to 1.21.9's transfer capabilities plus a typed lambda; this also carries the #22 fix (TLS-011) to these versions). Sources: https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775; scratchpad layer-ctl-<v>.log",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "gate",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "n/a",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "Build fails 1.21.10-26.3: ModCapabilities and ZeroPointEngine use the pre-1.21.9 capability names (Capabilities.EnergyStorage / ItemHandler); 26.x also infers Object for the sided item-handler lambda"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/BlinkRiftRenderer.java"
+      ],
+      "id": "TLS-007",
+      "lowest": "1.21.10",
+      "notes": "failure: build (the version does not compile, so no jar ships). Recorded as failure=crash because the schema has no build type and the brief grades a non-building version S1. Evidence: Errors: 12 on 1.21.10, 12 on 1.21.11, 6 on 26.1.2, 6 on 26.2, 7 on 26.3. fixable_from_1_21_8_up: true (every affected version is 1.21.10 or later). Effort: medium (two renderers re-ported per API family (1.21.10/11 submit, 26.x stage events)). Sources: https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775 (renderer overrides); scratchpad layer-ctl-<v>.log",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "gate",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "n/a",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "Build fails 1.21.10-26.3: the authors' 1.1.2 rift renderers (EndCrystalRiftRenderer, BlinkRiftRenderer) were never ported to 1.21.9+ rendering (render-state / submit, RenderLevelStageEvent)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/entity/QueenEnhancedBlade.java"
+      ],
+      "id": "TLS-008",
+      "lowest": "1.21.10",
+      "notes": "failure: build (the version does not compile, so no jar ships). Recorded as failure=crash because the schema has no build type and the brief grades a non-building version S1. Evidence: Errors: 6, 6, 3, 3, 3 (1.21.10, 1.21.11, 26.1.2, 26.2, 26.3). fixable_from_1_21_8_up: true (every affected version is 1.21.10 or later). Effort: small (re-merge one overlay from the 1.1.2 source). Sources: https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775; scratchpad layer-ctl-<v>.log",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "gate",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "n/a",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "Build fails 1.21.10-26.3: QueenEnhancedBlade overlay predates 1.1.2's QueenBlinkBlade hierarchy (constructor owner type, forward() access, @Override)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/shader/ZeroPointEngineShader.java",
+        "src/main/java/net/the_last_sword/init/ModShaders.java",
+        "src/main/java/net/the_last_sword/entity/EndCrystalRift.java"
+      ],
+      "id": "TLS-009",
+      "lowest": "1.21.11",
+      "notes": "failure: build (the version does not compile, so no jar ships). Recorded as failure=crash because the schema has no build type and the brief grades a non-building version S1. Evidence: Errors: 0 on 1.21.10, 8 each on 1.21.11, 26.1.2, 26.2, 26.3. fixable_from_1_21_8_up: true (every affected version is 1.21.11 or later). Effort: medium (port a new render type/shader per API family (1.21.11 RenderSetup, 26.x pipelines)). Sources: https://github.com/jivinstev/TheLastSword/issues/26#issuecomment-6228228775; scratchpad layer-ctl-<v>.log",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "gate",
+      "status": {
+        "1.21.1": "n/a",
+        "1.21.10": "n/a",
+        "1.21.11": "open",
+        "1.21.4": "n/a",
+        "1.21.5": "n/a",
+        "1.21.8": "n/a",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "Build fails 1.21.11-26.3: 1.1.2's Zero Point Engine shader, ModShaders and EndCrystalRift use APIs gone on 1.21.11+ (RenderStateShard, DefaultVertexFormat.NEW_ENTITY, displayClientMessage, entity constructor)"
+    },
+    {
+      "id": "TLS-010",
+      "lowest": "1.21.1",
+      "notes": "Evidence: 72310da is an ancestor of neoforge-1.21.1 and 1.21.4; 1.21.4..26.2 have 6 advancement files with \"structures\" and none with \"structure\"; 26.3 has 6 with \"structure\" and 0 with \"structures\", while 26.3's LocationPredicate reads only \"structures\" (26.3 neoform source). fixable_from_1_21_8_up: true (the open version is 26.3). Effort: small (rename one key in six 26.3 JSON files (or regenerate them from src/)). 26.3 does not build yet (TLS-006..009), so nothing ships with it today. Sources: https://github.com/jivinstev/TheLastSword/issues/20; https://github.com/jivinstev/TheLastSword/issues/20#issuecomment-6206445110",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "review",
+      "status": {
+        "1.21.1": "fixed@72310da",
+        "1.21.10": "fixed@72310da",
+        "1.21.11": "fixed@72310da",
+        "1.21.4": "fixed@72310da",
+        "1.21.5": "fixed@72310da",
+        "1.21.8": "fixed@72310da",
+        "26.1.2": "fixed@72310da",
+        "26.2": "fixed@72310da",
+        "26.3": "open"
+      },
+      "title": "'Discover <structure>' advancements granted anywhere: location predicate keyed 'structure' (1.20.1) instead of 'structures' -- fixed everywhere except the 26.3 converted advancement data, which kept the old key"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/init/ModCapabilities.java",
+        "src/main/java/net/the_last_sword/init/ModScreens.java"
+      ],
+      "id": "TLS-011",
+      "lowest": "1.21.1",
+      "notes": "n/a here means NOT ESTABLISHED (was 'unknown') at: 1.21.10, 1.21.11, 26.1.2, 26.2, 26.3. Evidence: e73adc5 (capabilities) and 273c7ed (ModScreens @EventBusSubscriber) are ancestors of 1.21.1 and 1.21.4; RegisterCapabilitiesEvent and the subscriber present on 1.21.4..26.3. 1.21.10+ cannot be confirmed: ModCapabilities does not compile there (TLS-006). fixable_from_1_21_8_up: true (the unconfirmed versions are 1.21.10+; nothing to do at 1.21.5 or lower). Migrated from the #22 fix ledger: 'fixed-unconfirmed' -- no gate opens these menus or reads these capabilities; a person's check. Sources: https://github.com/jivinstev/TheLastSword/issues/22",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "review",
+      "status": {
+        "1.21.1": "fixed@e73adc5",
+        "1.21.10": "n/a",
+        "1.21.11": "n/a",
+        "1.21.4": "fixed@e73adc5",
+        "1.21.5": "fixed@e73adc5",
+        "1.21.8": "fixed@e73adc5",
+        "26.1.2": "n/a",
+        "26.2": "n/a",
+        "26.3": "n/a"
+      },
+      "title": "Port defect (#22): energy item/block capabilities and three menu screens never registered on the 1.21.1 port"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/test/TestEntity.java",
+        "src/main/java/net/the_last_sword/test/UltraTestSwordItem.java"
+      ],
+      "id": "TLS-012",
+      "lowest": "1.21.1",
+      "notes": "Fixed by two commits: 423d3f6 (TEST ENTITY) and dcf61f7 (Ultra Test Sword). Evidence: 423d3f6 and dcf61f7 are ancestors of 1.21.4 (and so of every branch); no setGlobalAllReturn(true) on 1.21.4, 1.21.8, 26.3. fixable_from_1_21_8_up: true (already fixed on every version). Pre-existing authors' behaviour; the trigger is removed in this fork, ECA's AllReturn itself is unchanged (decision on ECA #2). Sources: https://github.com/jivinstev/EpicCoreAPI/issues/2; https://github.com/jivinstev/TheLastSword/issues/21",
+      "override": null,
+      "rubric": {
+        "failure": "kick",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": true
+      },
+      "severity": "S1",
+      "source": "authors",
+      "status": {
+        "1.21.1": "fixed@423d3f6",
+        "1.21.10": "fixed@423d3f6",
+        "1.21.11": "fixed@423d3f6",
+        "1.21.4": "fixed@423d3f6",
+        "1.21.5": "fixed@423d3f6",
+        "1.21.8": "fixed@423d3f6",
+        "26.1.2": "fixed@423d3f6",
+        "26.2": "fixed@423d3f6",
+        "26.3": "fixed@423d3f6"
+      },
+      "title": "TEST ENTITY / Ultra Test Sword switched on ECA's global AllReturn, disabling other content mods and disconnecting the player (ECA #2)"
+    }
+  ],
+  "schema": 1
+}
