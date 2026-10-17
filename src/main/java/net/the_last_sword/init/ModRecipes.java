@@ -24,7 +24,7 @@ public class ModRecipes {
         DeferredRegister.create(Registries.RECIPE_TYPE, TheLastSwordMod.MOD_ID);
 
     public static final Supplier<RecipeSerializer<DragonCrystalSmithingRecipe>> DRAGON_CRYSTAL_SMITHING_SERIALIZER =
-        SERIALIZERS.register("dragon_crystal_smithing", DragonCrystalSmithingSerializer::new);
+        SERIALIZERS.register("dragon_crystal_smithing", () -> new RecipeSerializer<DragonCrystalSmithingRecipe>(DragonCrystalSmithingSerializer.MAP_CODEC, DragonCrystalSmithingSerializer.STREAM_CODEC));
 
     public static final Supplier<RecipeType<DragonCrystalSmithingRecipe>> DRAGON_CRYSTAL_SMITHING_TYPE =
         TYPES.register("dragon_crystal_smithing", () -> new RecipeType<DragonCrystalSmithingRecipe>() {
@@ -37,17 +37,9 @@ public class ModRecipes {
     //终焉幸运方块幸运值合成(动态 CustomRecipe, 复刻 LuckyBlock 原版)
     public static final Supplier<RecipeSerializer<LuckModifierCraftingRecipe>> LUCK_MODIFIER_CRAFTING_SERIALIZER =
         SERIALIZERS.register("luck_modifier_crafting",
-            () -> new RecipeSerializer<LuckModifierCraftingRecipe>() {
-                @Override
-                public MapCodec<LuckModifierCraftingRecipe> codec() {
-                    return MapCodec.unit(() -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC));
-                }
-
-                @Override
-                public StreamCodec<RegistryFriendlyByteBuf, LuckModifierCraftingRecipe> streamCodec() {
-                    return StreamCodec.of((buf, recipe) -> { }, buf -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC));
-                }
-            });
+            () -> new RecipeSerializer<LuckModifierCraftingRecipe>(
+                MapCodec.unit(() -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC)),
+                StreamCodec.of((buf, recipe) -> { }, buf -> new LuckModifierCraftingRecipe(CraftingBookCategory.MISC))));
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

@@ -63,7 +63,21 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     }
 
     public ItemStack assemble(Container container, HolderLookup.Provider registries) {
-        return assemble(toInput(container), registries);
+        return assemble(toInput(container));
+    }
+
+    public ItemStack assemble(RecipeInput container, HolderLookup.Provider registries) {
+        return assemble(container);
+    }
+
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
+    public boolean showNotification() {
+        return true;
     }
 
     @Override
@@ -102,7 +116,7 @@ public class DragonCrystalSmithingRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public ItemStack assemble(RecipeInput container, HolderLookup.Provider registries) {
+    public ItemStack assemble(RecipeInput container) {
         ItemStack outputStack = output.copy();
         ItemStack inputStack = container.getItem(1);
 

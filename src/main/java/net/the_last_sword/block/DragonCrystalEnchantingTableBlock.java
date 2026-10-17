@@ -77,9 +77,9 @@ public class DragonCrystalEnchantingTableBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
-    //1.21.2: getLightBlock lost its BlockGetter/BlockPos parameters
+    //26.1: getLightBlock(BlockState) is getLightDampening(BlockState)
     @Override
-    public int getLightBlock(BlockState state) {
+    public int getLightDampening(BlockState state) {
         return 0;
     }
 

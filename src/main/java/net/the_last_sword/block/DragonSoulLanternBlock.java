@@ -23,7 +23,8 @@ public class DragonSoulLanternBlock extends LanternBlock {
                 .lightLevel(s -> 15)
                 .noOcclusion()
                 .pushReaction(PushReaction.DESTROY)
-                .hasPostProcess((bs, br, bp) -> true)
+                //26.1: hasPostProcess(predicate) is postProcess(state, level, pos -> the position to post-process)
+                .postProcess((bs, br, bp) -> bp)
                 .emissiveRendering((bs, br, bp) -> true)
                 .isRedstoneConductor((bs, br, bp) -> false));
     }
@@ -38,8 +39,9 @@ public class DragonSoulLanternBlock extends LanternBlock {
         return true;
     }
 
+    //26.1: getLightBlock(BlockState) is getLightDampening(BlockState)
     @Override
-    public int getLightBlock(BlockState state) {
+    public int getLightDampening(BlockState state) {
         return 0;
     }
 

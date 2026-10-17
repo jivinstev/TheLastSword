@@ -33,16 +33,16 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.init.ModItems;
 import net.the_last_sword.util.nbt.ItemEnergyStorage;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.state.AnimationTest;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoItem;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.state.AnimationTest;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.renderer.GeoArmorRenderer;
+import com.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -98,7 +98,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     }
     //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void createGeoRenderer(Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+    public void createGeoRenderer(Consumer<com.geckolib.animatable.client.GeoRenderProvider> consumer) {
         consumer.accept(net.the_last_sword.client.DragonCultArmorClientExtensions.create(DragonArmorRenderer::new));
     }
 

@@ -1,28 +1,31 @@
 package net.the_last_sword.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.the_last_sword.entity.GuardianOfSealedSpireEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.cache.model.GeoBone;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
-import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
-import software.bernie.geckolib.util.RenderUtil;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.the_last_sword.mv.GeoItemLayers;
+import com.geckolib.cache.model.GeoBone;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.GeoRenderer;
+import com.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
+import com.geckolib.util.RenderUtil;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 //封印尖塔守卫物品渲染层
+//GeckoLib 5.5: BlockAndItemGeoLayer takes the renderer context, resolves each bone's item during extraction and hands
+//submitItemStackRender the resolved ItemStackRenderState
 public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> extends BlockAndItemGeoLayer<GuardianOfSealedSpireEntity, Void, R> {
 
     //提取阶段记录手持物与类型（渲染状态不再持有实体）
@@ -46,8 +49,8 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
     //盾面朝向：-90度为盾面朝身体外侧、握把贴身，180则正对前方
     private static final float SHIELD_FACE_ROTATION = -90.0F;
 
-    public GuardianItemLayer(GeoRenderer<GuardianOfSealedSpireEntity, Void, R> renderer) {
-        super(renderer);
+    public GuardianItemLayer(EntityRendererProvider.Context context, GeoRenderer<GuardianOfSealedSpireEntity, Void, R> renderer) {
+        super(context, renderer);
     }
 
     @Override
@@ -56,16 +59,22 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
         geoState.addGeckolibData(MAIN_HAND_STACK, entity.getItemBySlot(EquipmentSlot.MAINHAND).copy());
         geoState.addGeckolibData(OFF_HAND_STACK, entity.getItemBySlot(EquipmentSlot.OFFHAND).copy());
         geoState.addGeckolibData(IS_ARCHER, entity.getGuardianType() == GuardianOfSealedSpireEntity.GuardianType.ARCHER);
+        //GeckoLib 5.5: addRenderData is abstract and the base draws only the published bone list
+        GeoItemLayers.publish(geoState, getRelevantBones(entity, relatedObject, renderState, partialTick));
     }
 
-    //GeckoLib 5: the layer names its bones up front; each bone's stack is read from the render state
+    //GeckoLib 5.5: each bone's item is resolved during extraction, with the display context chosen per stack
+    //(a shield is drawn with NONE), and the list is published for addPerBoneRender
     @Override
-    protected List<RenderData<R>> getRelevantBones(R renderState, BakedGeoModel model) {
-        return List.of(
-                new RenderData<>(RIGHT_HAND, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        (bone, state) -> Either.left(stackOrEmpty(getStackForBone(bone, state)))),
-                new RenderData<>(LEFT_HAND, ItemDisplayContext.THIRD_PERSON_LEFT_HAND,
-                        (bone, state) -> Either.left(stackOrEmpty(getStackForBone(bone, state)))));
+    protected List<RenderData> getRelevantBones(GuardianOfSealedSpireEntity entity, Void relatedObject, R renderState,
+                                                float partialTick) {
+        List<RenderData> bones = new ArrayList<>(2);
+        for (String boneName : new String[]{RIGHT_HAND, LEFT_HAND}) {
+            ItemStack stack = stackOrEmpty(getStackForBone(boneName, renderState));
+            bones.add(GeoItemLayers.item(boneName, getTransformTypeForStack(boneName, stack, renderState), stack,
+                    this.itemModelResolver, entity));
+        }
+        return bones;
     }
 
     private static ItemStack stackOrEmpty(@Nullable ItemStack stack) {
@@ -73,47 +82,46 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
     }
 
     @Nullable
-    protected ItemStack getStackForBone(GeoBone bone, R renderState) {
+    protected ItemStack getStackForBone(String boneName, R renderState) {
         //右手骨骼渲染主手物品
-        if (bone.name().equals(RIGHT_HAND)) {
+        if (boneName.equals(RIGHT_HAND)) {
             return renderState.getGeckolibData(MAIN_HAND_STACK);
         }
         //左手骨骼渲染副手物品
-        if (bone.name().equals(LEFT_HAND)) {
+        if (boneName.equals(LEFT_HAND)) {
             return renderState.getGeckolibData(OFF_HAND_STACK);
         }
         return null;
     }
 
-    protected ItemDisplayContext getTransformTypeForStack(GeoBone bone, ItemStack stack, R renderState) {
+    protected ItemDisplayContext getTransformTypeForStack(String boneName, ItemStack stack, R renderState) {
         //盾牌直接以left_hand枢轴为挂点，绕过原版第三人称左手自带的平移
         if (stack.is(Items.SHIELD)) {
             return ItemDisplayContext.NONE;
         }
-        if (bone.name().equals(RIGHT_HAND)) {
+        if (boneName.equals(RIGHT_HAND)) {
             return ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
         }
         return ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
     }
 
-    //GeckoLib 5.3: renderStackForBone is submitItemStackRender, with the render colour as a third int
     @Override
-    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStack stack,
-                                         ItemDisplayContext boneContext, R renderState,
-                                         SubmitNodeCollector renderTasks, CameraRenderState cameraState,
-                                         int packedLight, int packedOverlay, int renderColor) {
-        //GeckoLib 5.3 no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
+    protected void submitItemStackRender(PoseStack poseStack, GeoBone bone, ItemStackRenderState stackRenderState,
+                                         ItemDisplayContext displayContext, R renderState,
+                                         SubmitNodeCollector renderTasks, int packedLight) {
+        ItemStack stack = stackOrEmpty(getStackForBone(bone.name(), renderState));
+        poseStack.pushPose();
+        //GeckoLib 5.3+ no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
         //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
         RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
-        //显示方式取决于物品本身（盾牌），而不仅是骨骼
-        ItemDisplayContext displayContext = getTransformTypeForStack(bone, stack, renderState);
         //新版left_hand枢轴就是盾牌挂点：盾牌模型本身已是竖直的，只需转出盾面朝外、握把贴身的持盾姿态
         if (stack.is(Items.SHIELD)) {
             poseStack.mulPose(Axis.YP.rotationDegrees(SHIELD_FACE_ROTATION));
             //抵消ItemRenderer对方块模型的半格居中平移，让盾牌握把落在枢轴上
             poseStack.translate(0.5, 0.5, 0.5);
-            super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks,
-                    cameraState, packedLight, packedOverlay, renderColor);
+            super.submitItemStackRender(poseStack, bone, stackRenderState, displayContext, renderState, renderTasks,
+                    packedLight);
+            poseStack.popPose();
             return;
         }
 
@@ -129,7 +137,8 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
             poseStack.translate(0, 0, ITEM_OFFSET_Z / 16.0);
         }
 
-        super.submitItemStackRender(poseStack, bone, stack, displayContext, renderState, renderTasks, cameraState,
-                packedLight, packedOverlay, renderColor);
+        super.submitItemStackRender(poseStack, bone, stackRenderState, displayContext, renderState, renderTasks,
+                packedLight);
+        poseStack.popPose();
     }
 }

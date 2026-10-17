@@ -2,8 +2,8 @@ package net.the_last_sword.client.layer;
 
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.RenderPassInfo;
 
 /**
  * GeckoLib 5.4.5 removed GeoRenderer.buildRenderTask (5.3's "draw the model again with this render type, light, overlay

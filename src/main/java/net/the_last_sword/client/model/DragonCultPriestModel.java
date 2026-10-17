@@ -3,8 +3,8 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.Identifier;
 import net.the_last_sword.entity.DragonCultPriestEntity;
 
-import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.model.GeoModel;
+import com.geckolib.renderer.base.GeoRenderState;
 
 
 public class DragonCultPriestModel extends GeoModel<DragonCultPriestEntity> {

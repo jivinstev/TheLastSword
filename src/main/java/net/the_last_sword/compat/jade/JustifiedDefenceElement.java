@@ -2,7 +2,7 @@ package net.the_last_sword.compat.jade;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.the_last_sword.TheLastSwordMod;
 import snownee.jade.api.theme.IThemeHelper;
@@ -38,7 +38,7 @@ public class JustifiedDefenceElement extends Element {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int x, int y, float partialTick) {
         //图标 9x9
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON, (int) x, (int) y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         //文本走 Jade 主题渲染 (自带阴影/主题色一致性)

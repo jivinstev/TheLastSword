@@ -4,7 +4,7 @@ import net.minecraft.core.registries.Registries;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -89,8 +89,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         this.y = container.y;
         this.z = container.z;
         this.entity = container.entity;
-        this.imageWidth = 420;
-        this.imageHeight = 200;
+
     }
 
     @Override
@@ -304,9 +303,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
 
         renderEnchantmentList(guiGraphics, mouseX, mouseY);
         renderCostInfo(guiGraphics);
@@ -331,7 +329,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     // 渲染附魔列表
-    private void renderEnchantmentList(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    private void renderEnchantmentList(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         int listX = this.leftPos + LIST_X;
         int listY = getListY();
 
@@ -368,7 +366,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             } else {
                 nameColor = 0xFFFFFF;
             }
-            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
+            guiGraphics.text(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
 
             // 滑块
             int sliderX = listX + LIST_WIDTH - SLIDER_WIDTH - LEVEL_INPUT_WIDTH - 8;
@@ -384,7 +382,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 String levelText = String.valueOf(opt.level);
                 int textWidth = this.font.width(levelText);
                 int textColor = opt.level != opt.originalLevel ? 0x55FF55 : 0xCCCCCC;
-                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
+                guiGraphics.text(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
             }
         }
 
@@ -401,7 +399,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     // 渲染等级滑块
-    private void renderLevelSlider(GuiGraphics guiGraphics, int x, int y, EnchantmentOption opt, int mouseX, int mouseY) {
+    private void renderLevelSlider(GuiGraphicsExtractor guiGraphics, int x, int y, EnchantmentOption opt, int mouseX, int mouseY) {
         guiGraphics.fill(x, y, x + SLIDER_WIDTH, y + SLIDER_HEIGHT, 0xFF000000);
         guiGraphics.fill(x + 1, y + 1, x + SLIDER_WIDTH - 1, y + SLIDER_HEIGHT - 1, 0xFF404040);
 
@@ -428,7 +426,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     // 渲染消耗信息
-    private void renderCostInfo(GuiGraphics guiGraphics) {
+    private void renderCostInfo(GuiGraphicsExtractor guiGraphics) {
         int textX = this.leftPos + LIST_X + 65;
         int textY = this.topPos + 175;
 
@@ -439,18 +437,18 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (energyCost > 0) {
             String costStr = formatCost(energyCost) + " FE";
             int color = energyCost <= this.menu.getEnergy() ? 0x00FF00 : 0xFF0000;
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
             textY += 10;
         }
 
         // 经验返还
         if (xpReturn > 0) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
         }
     }
 
     // 渲染附魔项悬停提示
-    private void renderEnchantmentTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    private void renderEnchantmentTooltips(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         int listX = this.leftPos + LIST_X;
         int listY = getListY();
 
@@ -497,7 +495,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int gx, int gy, float partialTicks) {
+        super.extractBackground(guiGraphics, gx, gy, partialTicks);
         // shader colour and blend state come from the GUI render pipeline in 1.21.6+
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
@@ -707,10 +706,10 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
     }
 
-    private void renderEndPortalEffect(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2) {
+    private void renderEndPortalEffect(GuiGraphicsExtractor guiGraphics, int x1, int y1, int x2, int y2) {
         // GUI pose is now a 2D Matrix3x2f stack; lift its translation/scale into a Matrix4f
         var guiPose = guiGraphics.pose();
 

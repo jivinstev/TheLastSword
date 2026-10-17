@@ -60,8 +60,9 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
+    //26.1: getLightBlock(BlockState) is getLightDampening(BlockState); without it a full cube dampens light by 1
     @Override
-    public int getLightBlock(BlockState state) {
+    public int getLightDampening(BlockState state) {
         return 0;
     }
 
@@ -122,13 +123,13 @@ public class TheLastEndLuckyBlock extends BaseEntityBlock {
 
         if (world instanceof ServerLevel serverLevel) {
             LuckyEventContext ctx = new LuckyEventContext(
-                serverLevel, pos, player, luck, serverLevel.random, removedByRedstone
+                serverLevel, pos, player, luck, serverLevel.getRandom(), removedByRedstone
             );
             if (wellVariant) {
                 new LuckyWellTriggerEvent().execute(ctx);
                 return;
             }
-            LuckyEvent event = LuckyEventRegistry.pickEvent(luck, serverLevel.random);
+            LuckyEvent event = LuckyEventRegistry.pickEvent(luck, serverLevel.getRandom());
             if (event != null) {
                 event.execute(ctx);
             }

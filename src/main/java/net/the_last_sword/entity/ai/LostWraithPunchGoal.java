@@ -143,7 +143,7 @@ public class LostWraithPunchGoal extends Goal {
             if (isTargetBlocking(target)) {
                 target.level().playSound(null, target.getX(), target.getY(), target.getZ(),
                     SoundEvents.SHIELD_BLOCK, target.getSoundSource(),
-                    1.0F, 0.8F + target.level().random.nextFloat() * 0.4F);
+                    1.0F, 0.8F + target.level().getRandom().nextFloat() * 0.4F);
                 Vec3 knockbackDir = target.position().subtract(wraith.position()).normalize();
                 target.knockback(0.5F, knockbackDir.x, knockbackDir.z);
             } else {

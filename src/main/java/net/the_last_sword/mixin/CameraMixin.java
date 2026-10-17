@@ -15,15 +15,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
+    //26.1: Camera.setup(Level, Entity, boolean, boolean, float) is gone; its body is alignWithEntity(float), run from
+    //Camera.update with the camera's own entity, so the same TAIL injection goes there
+    @Shadow
+    private Entity entity;
+
     @Shadow
     protected abstract void setRotation(float yaw, float pitch);
 
     @Shadow
     protected abstract void move(float forward, float up, float left);
 
-    @Inject(method = "setup", at = @At("TAIL"))
-    private void theLastSword$applyExecutionCamera(net.minecraft.world.level.Level level, Entity entity,
-            boolean detached, boolean mirror, float partialTick, CallbackInfo ci) {
+    @Inject(method = "alignWithEntity", at = @At("TAIL"))
+    private void theLastSword$applyExecutionCamera(float partialTick, CallbackInfo ci) {
+        Entity entity = this.entity;
         if (entity == Minecraft.getInstance().player && QueenExecutionCamera.isActive()) {
             setRotation(QueenExecutionCamera.getYaw(), 0.0F);
             move(0.0F, 0.3F, 0.0F);

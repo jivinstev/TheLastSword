@@ -133,7 +133,7 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         double radiusSqr = SKILL_TALK_RADIUS * SKILL_TALK_RADIUS;
         for (Player player : level().getEntitiesOfClass(Player.class,
                 getBoundingBox().inflate(SKILL_TALK_RADIUS), player -> distanceToSqr(player) <= radiusSqr)) {
-            player.displayClientMessage(message, false);
+            player.sendSystemMessage(message);
         }
     }
 
@@ -167,8 +167,8 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
             if (!recipients.add(player.getUUID())) {
                 continue;
             }
-            player.displayClientMessage(firstLine, false);
-            player.displayClientMessage(secondLine, false);
+            player.sendSystemMessage(firstLine);
+            player.sendSystemMessage(secondLine);
         }
     }
 

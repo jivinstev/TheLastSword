@@ -2,7 +2,7 @@ package net.the_last_sword.client.gui.scroll;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -68,7 +68,7 @@ public final class ScrollRecipeRenderer {
                 .<Recipe<?>>map(RecipeHolder::value);
     }
 
-    public static ItemStack render(Identifier recipeId, GuiGraphics graphics, Font font,
+    public static ItemStack render(Identifier recipeId, GuiGraphicsExtractor graphics, Font font,
                                    int areaX, int areaY, int areaWidth, int mouseX, int mouseY) {
         Minecraft minecraft = Minecraft.getInstance();
 
@@ -91,12 +91,12 @@ public final class ScrollRecipeRenderer {
         Recipe<?> value = recipe.get();
         if (value instanceof ShapedRecipe shapedRecipe) {
             return renderCrafting(shapedRecipe.getIngredients(), shapedRecipe.getWidth(), shapedRecipe.getHeight(),
-                    shapedRecipe.assemble(CraftingInput.EMPTY, minecraft.level.registryAccess()), graphics, font,
+                    shapedRecipe.assemble(CraftingInput.EMPTY), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, false);
         }
         if (value instanceof ShapelessRecipe shapelessRecipe) {
             return renderCrafting(shapelessRecipe.placementInfo().ingredients().stream().map(Optional::of).toList(), GRID_SIZE, GRID_SIZE,
-                    shapelessRecipe.assemble(CraftingInput.EMPTY, minecraft.level.registryAccess()), graphics, font,
+                    shapelessRecipe.assemble(CraftingInput.EMPTY), graphics, font,
                     areaX, areaY, areaWidth, mouseX, mouseY, true);
         }
         if (value instanceof SmithingTransformRecipe smithingRecipe) {
@@ -112,14 +112,14 @@ public final class ScrollRecipeRenderer {
                     areaWidth, mouseX, mouseY);
         }
 
-        graphics.drawString(font,
+        graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_unsupported", recipeId),
                 areaX, areaY + 24, 0x8B3030, false);
         return ItemStack.EMPTY;
     }
 
     private static ItemStack renderCrafting(List<Optional<Ingredient>> ingredients, int recipeWidth, int recipeHeight,
-                                            ItemStack result, GuiGraphics graphics, Font font,
+                                            ItemStack result, GuiGraphicsExtractor graphics, Font font,
                                             int areaX, int areaY, int areaWidth, int mouseX, int mouseY,
                                             boolean shapeless) {
         int gridWidth = GRID_SIZE * RecipeSlotElement.SIZE;
@@ -184,7 +184,7 @@ public final class ScrollRecipeRenderer {
         slots.set(index, new RecipeSlotElement(oldSlot.getX(), oldSlot.getY(), stack));
     }
 
-    private static ItemStack renderDragonSmithing(DragonCrystalSmithingRecipe recipe, GuiGraphics graphics,
+    private static ItemStack renderDragonSmithing(DragonCrystalSmithingRecipe recipe, GuiGraphicsExtractor graphics,
                                                    Font font, int areaX, int areaY, int areaWidth,
                                                    int mouseX, int mouseY) {
         ItemStack result = recipe.getResultItem(null).copy();
@@ -196,7 +196,7 @@ public final class ScrollRecipeRenderer {
     }
 
     private static ItemStack renderSmithing(Ingredient template, Ingredient base, Ingredient addition,
-                                            ItemStack result, GuiGraphics graphics, Font font,
+                                            ItemStack result, GuiGraphicsExtractor graphics, Font font,
                                             int areaX, int areaY, int areaWidth, int mouseX, int mouseY,
                                             boolean hasTemplateInputLevel, int templateInputLevel,
                                             int inputLevel, int outputLevel) {
@@ -248,7 +248,7 @@ public final class ScrollRecipeRenderer {
         return candidates[Math.floorMod(cycle + salt, candidates.length)].copy();
     }
 
-    private static ItemStack renderSlots(List<RecipeSlotElement> slots, GuiGraphics graphics,
+    private static ItemStack renderSlots(List<RecipeSlotElement> slots, GuiGraphicsExtractor graphics,
                                          Font font, int mouseX, int mouseY) {
         ItemStack hoveredStack = ItemStack.EMPTY;
         for (RecipeSlotElement slot : slots) {
@@ -260,7 +260,7 @@ public final class ScrollRecipeRenderer {
         return hoveredStack;
     }
 
-    private static void renderArrow(GuiGraphics graphics, int x, int y) {
+    private static void renderArrow(GuiGraphicsExtractor graphics, int x, int y) {
         int centerY = y + ARROW_SIZE / 2;
 
         //箭杆
@@ -274,9 +274,9 @@ public final class ScrollRecipeRenderer {
         }
     }
 
-    private static ItemStack renderMissing(Identifier recipeId, GuiGraphics graphics,
+    private static ItemStack renderMissing(Identifier recipeId, GuiGraphicsExtractor graphics,
                                            Font font, int areaX, int areaY) {
-        graphics.drawString(font,
+        graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_missing", recipeId),
                 areaX, areaY + 24, 0x8B3030, false);
         return ItemStack.EMPTY;

@@ -1,13 +1,13 @@
 package net.the_last_sword.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DataTickets;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DataTickets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -17,10 +17,10 @@ import net.minecraft.world.phys.AABB;
 import net.the_last_sword.client.layer.ThePastShadowOfTheQueenItemLayer;
 import net.the_last_sword.client.model.ThePastShadowOfTheQueenModel;
 import net.the_last_sword.entity.ThePastShadowOfTheQueenEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 //GeckoLib 5.3: R is a type variable bounded by EntityRenderState & GeoRenderState (see LostWraithRenderer); GeckoLib
 //creates the state itself (createRenderState is final), so the entity is parked on it as a GeckoLib data ticket
@@ -34,7 +34,7 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
 
     public ThePastShadowOfTheQueenRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ThePastShadowOfTheQueenModel());
-        withRenderLayer(renderer -> new ThePastShadowOfTheQueenItemLayer<>(this));
+        withRenderLayer(renderer -> new ThePastShadowOfTheQueenItemLayer<>(renderManager, this));
         this.shadowRadius = 0.5f;
         //GeckoLib 5.4 replaced preRender with a RenderPassInfo hook; the scale is constant, so set it once here
         float scale = 57.5F / 44.5F;

@@ -2,7 +2,7 @@ package net.the_last_sword.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +42,7 @@ public class JustifiedDefenceOverlay {
     }
 
     //渲染肃正防御护盾
-    private static void renderJustifiedDefence(GuiGraphics gui, int screenWidth, int screenHeight, Minecraft mc) {
+    private static void renderJustifiedDefence(GuiGraphicsExtractor gui, int screenWidth, int screenHeight, Minecraft mc) {
         Player player = mc.player;
         if (player == null || !shouldRender(player)) return;
 
@@ -116,7 +116,7 @@ public class JustifiedDefenceOverlay {
 
             int textX = leftX + MAX_ICONS * step + ICON_SIZE - 4;
             int textY = startY + 2;
-            gui.drawString(mc.font, text, textX, textY, 0xFFFFFF, true);
+            gui.text(mc.font, text, textX, textY, 0xFFFFFF, true);
         }
 
 

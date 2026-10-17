@@ -1,12 +1,12 @@
 package net.the_last_sword.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DataTickets;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -15,9 +15,9 @@ import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.layer.DragonCultistItemLayer;
 import net.the_last_sword.client.model.DragonCultistModel;
 import net.the_last_sword.entity.DragonCultistEntity;
-import software.bernie.geckolib.cache.model.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.cache.model.BakedGeoModel;
+import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 //GeckoLib 5.1: R is a type variable bounded by EntityRenderState & GeoRenderState (see LostWraithRenderer)
 public class DragonCultistRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<DragonCultistEntity, R> {
@@ -28,7 +28,7 @@ public class DragonCultistRenderer<R extends EntityRenderState & GeoRenderState>
         float scale = 1.0f;
         this.scaleHeight = scale;
         this.scaleWidth = scale;
-        this.withRenderLayer(renderer -> new DragonCultistItemLayer<>(renderer));
+        this.withRenderLayer(renderer -> new DragonCultistItemLayer<>(renderManager, renderer));
     }
 
     @Override

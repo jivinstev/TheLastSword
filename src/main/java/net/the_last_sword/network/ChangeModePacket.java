@@ -74,10 +74,9 @@ public class ChangeModePacket implements CustomPacketPayload {
             String modeKey = getModeTranslationKey(stack, newMode);
 
             //客户端聊天提示
-            player.displayClientMessage(
+            player.sendOverlayMessage(
                     Component.translatable("item_tooltip.the_last_sword.mode")
-                            .append(Component.translatable(modeKey)),
-                    true
+                            .append(Component.translatable(modeKey))
             );
 
             //播放音效

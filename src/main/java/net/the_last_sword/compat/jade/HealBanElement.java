@@ -2,7 +2,7 @@ package net.the_last_sword.compat.jade;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.Element;
@@ -28,7 +28,7 @@ public class HealBanElement extends Element {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int x, int y, float partialTick) {
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, ICON, x, y, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
         //沿用浮标主题渲染，保持阴影和文字颜色一致
         IDisplayHelper.get().drawText(guiGraphics, text, x + ICON_SIZE, y, IThemeHelper.get().getNormalColor());

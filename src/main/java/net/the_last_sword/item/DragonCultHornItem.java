@@ -31,16 +31,9 @@ public class DragonCultHornItem extends InstrumentItem {
     private static final String RAID_ACTIVE_KEY = "message.the_last_sword.dragon_cult_horn_raid_active";
 
     public DragonCultHornItem() {
-        //1.21.5: InstrumentItem takes no instrument tag; its tooltip line names the INSTRUMENT component, which 1.21.1
-        //filled from the first instrument of DRAGON_CULT_HORNS (the only one: the data file instrument/dragon_cult_horn)
         super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(1)
                 .rarity(Rarity.UNCOMMON)
-                .component(net.minecraft.core.component.DataComponents.INSTRUMENT,
-                        new net.minecraft.world.item.component.InstrumentComponent(net.minecraft.resources.ResourceKey.create(
-                                net.minecraft.core.registries.Registries.INSTRUMENT,
-                                net.minecraft.resources.Identifier.fromNamespaceAndPath(
-                                        net.the_last_sword.TheLastSwordMod.MOD_ID, "dragon_cult_horn"))))
         );
     }
 
@@ -65,9 +58,9 @@ public class DragonCultHornItem extends InstrumentItem {
                     }
                 }
                 case ALREADY_ACTIVE ->
-                    serverPlayer.displayClientMessage(Component.translatable(RAID_ACTIVE_KEY), true);
+                    serverPlayer.sendOverlayMessage(Component.translatable(RAID_ACTIVE_KEY));
                 case UNAVAILABLE ->
-                    serverPlayer.displayClientMessage(Component.translatable(NO_VILLAGE_KEY), true);
+                    serverPlayer.sendOverlayMessage(Component.translatable(NO_VILLAGE_KEY));
             }
         }
 

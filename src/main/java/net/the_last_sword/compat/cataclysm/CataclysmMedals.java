@@ -18,6 +18,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ServerLevelData;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -406,12 +407,12 @@ public class CataclysmMedals {
             if (world instanceof ServerLevel serverLevel) {
                 if (serverLevel.isRaining()) {
                     if (serverLevel.isThundering()) {
-                        serverLevel.setWeatherParameters(6000, 0, false, false);
+                        setWeather(serverLevel, 6000, 0, false, false);
                     } else {
-                        serverLevel.setWeatherParameters(0, 6000, true, true);
+                        setWeather(serverLevel, 0, 6000, true, true);
                     }
                 } else {
-                    serverLevel.setWeatherParameters(0, 6000, true, false);
+                    setWeather(serverLevel, 0, 6000, true, false);
                 }
                 player.getCooldowns().addCooldown(stack, 600);
             }
@@ -440,7 +441,7 @@ public class CataclysmMedals {
                 if (isRaining || isThundering) {
                     double triggerChance = isThundering ? 0.5 : 0.25;
 
-                    if (world.random.nextDouble() < triggerChance) {
+                    if (world.getRandom().nextDouble() < triggerChance) {
                         int moistureLevel = target.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(moistureEffect)).getAmplifier() + 1;
                         float lightningDamage = moistureLevel * 5.0f;
 
@@ -456,6 +457,10 @@ public class CataclysmMedals {
                     }
                 }
             }
+        }
+
+        private static void setWeather(ServerLevel level, int clearTime, int rainTime, boolean raining, boolean thundering) {
+            level.getServer().setWeatherParameters(clearTime, rainTime, raining, thundering);
         }
 
         private MobEffect getMoistureEffect() {

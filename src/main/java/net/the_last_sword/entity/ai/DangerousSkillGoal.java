@@ -184,7 +184,7 @@ public abstract class DangerousSkillGoal<T extends TheLastEndEntity> extends Goa
 
     private void notifyLockedPlayer(LivingEntity target) {
         if (target instanceof ServerPlayer player) {
-            player.displayClientMessage(Component.translatable(LOCATION_LOCKED_MESSAGE), true);
+            player.sendOverlayMessage(Component.translatable(LOCATION_LOCKED_MESSAGE));
         }
     }
 

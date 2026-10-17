@@ -15,7 +15,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import java.util.Optional;
 
-public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonCrystalSmithingRecipe> {
+//26.1: RecipeSerializer is a final record (codec, streamCodec); ModRecipes builds it from MAP_CODEC and STREAM_CODEC,
+//while this class keeps codec()/streamCodec() for the callers that hold an instance
+public class DragonCrystalSmithingSerializer {
 
     // The "template" and "input" objects carry an optional "inputLevel" next to the
     // ingredient fields; Codec.pair decodes both halves from the same JSON object.
@@ -42,7 +44,7 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
     // Recipes written for 1.20.1 (players' own files in config/the_last_sword) name the item "item";
     // the ItemStack codec calls it "id". Read both, write "id".
     private static final Codec<ItemStack> LEGACY_STACK_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("item").forGetter(ItemStack::getItemHolder),
+            BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("item").forGetter(ItemStack::typeHolder),
             Codec.INT.optionalFieldOf("count", 1).forGetter(ItemStack::getCount)
     ).apply(instance, ItemStack::new));
 
@@ -50,7 +52,7 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
             Codec.pair(Codec.withAlternative(ItemStack.CODEC, LEGACY_STACK_CODEC),
                     Codec.INT.optionalFieldOf("outputLevel", 0).codec());
 
-    public static final MapCodec<DragonCrystalSmithingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<DragonCrystalSmithingRecipe> MAP_CODEC =RecordCodecBuilder.mapCodec(instance -> instance.group(
             TEMPLATE_CODEC.fieldOf("template").forGetter(r -> Pair.of(r.getTemplate(),
                     r.hasTemplateInputLevel() ? Optional.of(r.getTemplateInputLevel()) : Optional.<Integer>empty())),
             INPUT_CODEC.fieldOf("input").forGetter(r -> Pair.of(r.getInput(), r.getInputLevel())),
@@ -88,12 +90,10 @@ public class DragonCrystalSmithingSerializer implements RecipeSerializer<DragonC
                         input, inputLevel, addition, output, outputLevel);
             });
 
-    @Override
     public MapCodec<DragonCrystalSmithingRecipe> codec() {
-        return CODEC;
+        return MAP_CODEC;
     }
 
-    @Override
     public StreamCodec<RegistryFriendlyByteBuf, DragonCrystalSmithingRecipe> streamCodec() {
         return STREAM_CODEC;
     }

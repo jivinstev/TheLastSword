@@ -1,7 +1,7 @@
 package net.the_last_sword.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -18,6 +18,8 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     private final Level world;
     private final int x, y, z;
     private final Player entity;
+    private static final int WRAITH_IMAGE_WIDTH = 176;
+    private static final int WRAITH_IMAGE_HEIGHT = 240;
 
     public SummonWraithGuiScreen(SummonWraithGuiMenu container, Inventory inventory, Component text) {
         super(container, inventory, text);
@@ -26,21 +28,19 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
         this.y = container.y;
         this.z = container.z;
         this.entity = container.entity;
-        this.imageWidth = 176;
-        this.imageHeight = 240;
+
     }
 
     private static final Identifier texture = Identifier.parse("the_last_sword:textures/screens/summon_wraith_gui.png");
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
-        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, WRAITH_IMAGE_WIDTH, WRAITH_IMAGE_HEIGHT, WRAITH_IMAGE_WIDTH, WRAITH_IMAGE_HEIGHT);
 
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, Identifier.parse("the_last_sword:textures/screens/summon_wraith_gui_background.png"), this.leftPos + 28, this.topPos + -38, 0, 0, 120, 186, 120, 186);
 
@@ -56,7 +56,7 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -18,6 +17,8 @@ import org.joml.Matrix4f;
 
 public final class QueenBlinkRenderUtil {
     private static final int BLADE_SEGMENTS = 24;
+    // Packed full-bright light value (block 15, sky 15), inlined in place of the removed LightTexture.FULL_BRIGHT.
+    private static final int FULL_BRIGHT_LIGHT = 0xF000F0;
     private static final RenderType GLOW = type("queen_blink_glow", true);
     private static final RenderType DARK = type("queen_blink_rift", false);
     private static final RenderType RIFT = net.minecraft.client.renderer.rendertype.RenderTypes.entityTranslucent(
@@ -81,7 +82,7 @@ public final class QueenBlinkRenderUtil {
     private static void riftVertex(PoseStack pose, VertexConsumer buffer, float x, float y,
                                    float u, float v, float alpha) {
         buffer.addVertex(pose.last().pose(), x, y, 0).setColor(1F, 1F, 1F, alpha).setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(FULL_BRIGHT_LIGHT)
                 .setNormal(pose.last(), 0, 0, 1);
     }
 

@@ -34,8 +34,9 @@ public final class TestUtil {
 
     //环境重置：晴天正午、停音乐、清全局效果
     public static void resetEnvironment(ServerLevel serverLevel) {
-        serverLevel.setWeatherParameters(0, 0, false, false);
-        serverLevel.setDayTime(6000L);
+        net.minecraft.server.MinecraftServer server = serverLevel.getServer();
+        server.clockManager().setTotalTicks(server.registryAccess().getOrThrow(net.minecraft.world.clock.WorldClocks.OVERWORLD), 6000L);
+        server.setWeatherParameters(0, 0, false, false);
         for (ServerPlayer player : serverLevel.getServer().getPlayerList().getPlayers()) {
             player.connection.send(new ClientboundStopSoundPacket(null, SoundSource.MUSIC));
         }

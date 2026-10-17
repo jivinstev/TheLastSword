@@ -1,7 +1,7 @@
 package net.the_last_sword.client.gui.scroll;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 
 //卷轴配方物品框：18x18外框，内部保留原版16x16物品尺寸
@@ -21,12 +21,12 @@ public final class RecipeSlotElement {
         this.stack = stack;
     }
 
-    public void render(GuiGraphics graphics, Font font) {
+    public void render(GuiGraphicsExtractor graphics, Font font) {
         graphics.fill(x, y, x + SIZE, y + SIZE, BORDER_COLOR);
         graphics.fill(x + 1, y + 1, x + SIZE - 1, y + SIZE - 1, BACKGROUND_COLOR);
         if (!stack.isEmpty()) {
-            graphics.renderItem(stack, x + 1, y + 1);
-            graphics.renderItemDecorations(font, stack, x + 1, y + 1);
+            graphics.item(stack, x + 1, y + 1);
+            graphics.itemDecorations(font, stack, x + 1, y + 1);
         }
     }
 

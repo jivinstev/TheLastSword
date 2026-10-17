@@ -26,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.storage.DimensionDataStorage;
+
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -164,7 +164,7 @@ public class EnderDragonEvent {
     // 获取挑战数据（仅限末地）
     private static ChallengeData getChallengeData(ServerLevel level) {
         if (level.dimension() == Level.END) {
-            DimensionDataStorage storage = level.getDataStorage();
+            var storage = level.getDataStorage();
             return net.the_last_sword.mv.SavedDatas.computeIfAbsent(storage, ChallengeData::new, (tag, provider) -> ChallengeData.load(tag), "dragon_challenges");
         }
         return null;

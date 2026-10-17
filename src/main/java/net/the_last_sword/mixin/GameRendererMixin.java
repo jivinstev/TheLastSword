@@ -1,6 +1,7 @@
 package net.the_last_sword.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Player;
@@ -11,12 +12,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
+//26.1: bobHurt/bobView read the extracted camera state: (CameraRenderState, PoseStack) instead of (PoseStack, float)
 public class GameRendererMixin {
 
     //防御模式：禁止受伤摄像机晃动
     @Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
-    private void theLastSword$cancelBobHurt(PoseStack poseStack, float partialTick, CallbackInfo ci) {
-        Player player = net.the_last_sword.mv.ClientRefs.player();
+    private void theLastSword$cancelBobHurt(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
+        Player player = Minecraft.getInstance().player;
         if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
             ci.cancel();
         }
@@ -24,8 +26,8 @@ public class GameRendererMixin {
 
     //防御模式：禁止行走视角摇摆
     @Inject(method = "bobView", at = @At("HEAD"), cancellable = true)
-    private void theLastSword$cancelBobView(PoseStack poseStack, float partialTick, CallbackInfo ci) {
-        Player player = net.the_last_sword.mv.ClientRefs.player();
+    private void theLastSword$cancelBobView(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
+        Player player = Minecraft.getInstance().player;
         if (player != null && UltraTestSwordItem.hasDefenseSword(player)) {
             ci.cancel();
         }

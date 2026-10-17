@@ -154,7 +154,7 @@ public class GuardianSaberEntity extends GuardianOfSealedSpireEntity {
         if (shield.isEmpty()) {
             setItemSlot(usedSlot, ItemStack.EMPTY);
             stopUsingItem();
-            playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
+            playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + level().getRandom().nextFloat() * 0.4F);
             if (getAnimationState() == STATE_BLOCK) {
                 setAnimationState(STATE_IDLE);
             }

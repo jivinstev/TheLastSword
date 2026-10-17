@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import net.minecraft.resources.Identifier;
-import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.GeoItemRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 public class TheLastEndLuckyBlockDisplayItemRenderer extends GeoItemRenderer<TheLastEndLuckyBlockDisplayItem> {
 

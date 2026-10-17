@@ -30,7 +30,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
     }
 
     @Override
-    public void submit(ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector collector,
+    public void submit(PoseStack poseStack, SubmitNodeCollector collector,
                        int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
         poseStack.translate(0.5D, 0.5D, 0.5D);
@@ -54,7 +54,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
         return (System.nanoTime() - ANIMATION_START_NANOS) / 50_000_000.0F;
     }
 
-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
+    public record Unbaked() implements SpecialModelRenderer.Unbaked<Void> {
         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(new Unbaked());
 
         @Override
@@ -63,7 +63,7 @@ public class LightningSpearItemRenderer implements NoDataSpecialModelRenderer {
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
+        public SpecialModelRenderer<Void> bake(SpecialModelRenderer.BakingContext context) {
             return new LightningSpearItemRenderer();
         }
     }

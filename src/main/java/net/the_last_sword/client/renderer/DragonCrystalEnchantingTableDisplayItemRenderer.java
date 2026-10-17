@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.the_last_sword.client.model.DragonCrystalEnchantingTableDisplayModel;
 import net.the_last_sword.item.display.DragonCrystalEnchantingTableDisplayItem;
-import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.GeoItemRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 public class DragonCrystalEnchantingTableDisplayItemRenderer extends GeoItemRenderer<DragonCrystalEnchantingTableDisplayItem> {
 

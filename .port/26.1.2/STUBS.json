@@ -1,0 +1,152 @@
+[
+ {
+  "file": "src/main/java/net/the_last_sword/block/DragonSoulLanternBlock.java",
+  "why": "deletes overriding method(s) getLightBlock: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: 26.1 renamed getLightBlock(BlockState) to getLightDampening(BlockState); the override returns 0 as before (shared 26.1.2 row + CATALOG M64). The 1.21.4 overlay's hasPostProcess((s,l,p)->true), which the loop had dropped, is postProcess((s,l,p)->p) (26.1's PostProcess returns the position to mark)."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
+  "why": "empties 1 method body; deletes overriding method(s) getCustomRenderer: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.4) Ported: getCustomRenderer is gone from 1.21.4 IClientItemExtensions; the class is now a client-only factory whose provider() returns a GeckoLib GeoRenderProvider serving the same DragonCrystalEnchantingTableDisplayItemRenderer (the emptied body is its private constructor), handed to the display item's createGeoRenderer and drawn by the geckolib:geckolib special model in items/dragon_crystal_enchanting_table.json."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
+  "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- constructor takes the renderer's EntityRendererProvider.Context; getStackForBone/getTransformTypeForStack are getRelevantBones(entity, ...) returning RenderData.item(right_hand/left_hand, THIRD_PERSON_RIGHT/LEFT_HAND, main/off-hand stack resolved with the entity), published in addRenderData (mv.GeoItemLayers); renderStackForBone is the @Override submitItemStackRender(PoseStack, GeoBone, ItemStackRenderState, ItemDisplayContext, R, SubmitNodeCollector, int) with the same bone-pivot transform, -90 X rotation and offsets, then super."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
+  "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; drops @Override from getStackForBone, getTransformTypeForStack and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- context constructor; getRelevantBones(entity, ...) resolves each hand bone's stack with the per-stack display context (shield NONE, else third-person right/left), published in addRenderData beside the archer flag; getStackForBone/getTransformTypeForStack now take the bone name (5.5 has no such hooks, the item is resolved at extraction); the @Override submitItemStackRender(PoseStack, GeoBone, ItemStackRenderState, ItemDisplayContext, R, SubmitNodeCollector, int) keeps the pivot transform, shield pose and archer/forward offsets, then super."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/layer/ThePastShadowOfTheQueenItemLayer.java",
+  "why": "drops @Override from submitItemStackRender and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead; deletes overriding method(s) getStackForBone, getTransformTypeForStack, renderStackForBone: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: GeckoLib 5.5 BlockAndItemGeoLayer -- context constructor; getStackForBone is getRelevantBones(entity, ...) (main hand while dying, else the lightning spear when visible) as RenderData.item(right_hand, THIRD_PERSON_RIGHT_HAND, ...) published in addRenderData; getTransformTypeForStack is that context; renderStackForBone is the @Override submitItemStackRender(..., ItemStackRenderState, ...) with the same pivot transform, palm offset and -90 X rotation, then super."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPaladinRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPriestRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/DragonCultistModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultistRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now GuardianOfSealedSpireRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/LostWraithModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now LostWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now TheLastEndSwordWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java",
+  "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now ThePastShadowOfTheQueenRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
+  "why": "empties 2 method bodies",
+  "reviewed": "(inherited from 1.21.4) The emptied bodies are the old BlockEntityWithoutLevelRenderer constructor's super(...) call (a special model renderer has no base to construct) and the record's trivial members; the render body is unchanged and is registered via RegisterSpecialModelRendererEvent and items/lightning_spear.json."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override and the 1.21.1 one was only the abstract requirement: this renderer draws the blade geometry through QueenBlinkRenderUtil and never read the texture."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+  "why": "drops @Override from getTextureLocation and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) 1.21.2's plain EntityRenderer has no getTextureLocation to override; the 1.21.1 one was only the abstract requirement, and renderCrystal binds END_CRYSTAL_LOCATION itself."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/compat/lucky_block/LuckModifierCraftingRecipe.java",
+  "why": "drops @Override from canCraftInDimensions and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: canCraftInDimensions was removed from Recipe in 1.21.2 and nothing replaces it; its condition (grid at least 2x2) holds for every vanilla crafting grid, so the plain method changes nothing."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlock.java",
+  "why": "deletes overriding method(s) getLightBlock: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "Ported: getLightBlock(BlockState) is getLightDampening(BlockState) in 26.1; the override returns 0 as before (without it this full cube would dampen light by 1, not 0 as the loop's comment claimed)."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/entity/GuardianSaberEntity.java",
+  "why": "drops @Override from hurtCurrentlyUsedShield and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 removed LivingEntity.hurtCurrentlyUsedShield; the same durability logic is now a private method called from an applyItemBlocking override with the blocked damage, and vanilla's BlocksAttacks.hurtBlockingItem still damages only a player's shield, so it is not applied twice."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java",
+  "why": "deletes overriding method(s) getBoundingBoxForCulling, hurt: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: hurt is hurtServer with the same isReady()/isNpc() guard; the culling box is ThePastShadowOfTheQueenRenderer.getBoundingBoxForCulling (super's box inflated 3,6,3 while summoning); the 3 sends are displayClientMessage(msg,false) = ServerPlayer.sendSystemMessage(msg,false)."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/event/EnderDragonEvent.java",
+  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "The SavedData shape of CATALOG V29, as WraithSummonSavedData (reviewed from 1.21.5): 1.21.5+ SavedData has no save(CompoundTag, Provider) to override; get() goes through the shared mv.SavedDatas.computeIfAbsent, whose CompoundTag codec calls this public save reflectively and carries the 1.21.x data/dragon_challenges.dat across, so the method still runs on every save."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/item/DragonArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, getHumanoidArmorModel, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) Ported: initializeClient/getHumanoidArmorModel are GeoItem.createGeoRenderer with a GeoRenderProvider returning DragonArmorRenderer, which GeckoLib 5's HumanoidArmorLayer hook renders (the renderer records the wearer's id for the animation predicates, which GeckoLib 5's ENTITY ticket no longer carries); getArmorTexture returned textures/item/dragon_armor.png, the geo model's own texture that GeckoLib draws with."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.paladin() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.priest() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/item/DragonCultistArmorItem.java",
+  "why": "deletes overriding method(s) getArmorTexture, initializeClient: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) As in 1.21.4: initializeClient is GeoItem.createGeoRenderer with DragonCultArmorClientExtensions.cultist() (a GeoRenderProvider returning the same GeoArmorRenderer, now with GeckoLib 5's getGeoArmorRenderer signature); getArmorTexture returned the geo model's own texture, which GeckoLib draws with."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java",
+  "why": "deletes overriding method(s) isBookEnchantable, isEnchantable, isRepairable: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.5) All three returned true, the 1.21.1 defaults; in 1.21.5 enchantability is the ENCHANTABLE component and repair the REPAIRABLE component (set from the tier by compat/gear/SwordItem), and IItemExtension has no isBookEnchantable -- a book on an anvil is checked by supportsEnchantment, as it was after isBookEnchantable's true."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/mixin/GameRendererMixin.java",
+  "why": "removes 1 mixin injection handler(s): check each still applies somewhere, with the same effect",
+  "reviewed": "The removed handler is the authors' GameRenderer.renderConfusionOverlay cancel: since 1.21.4 vanilla draws nausea in Gui (26.1: Gui.extractConfusionOverlay(GuiGraphicsExtractor, float)), and the same HEAD-cancel for the defence sword is GuiConfusionOverlayMixin, added to the client mixins by the inherited mixin_add (1.21.4) and retargeted for 26.1.2; bobHurt/bobView keep their handlers on 26.1's (CameraRenderState, PoseStack)."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java",
+  "why": "drops @Override from canCraftInDimensions, getResultItem and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.4) canCraftInDimensions and getResultItem are no longer on Recipe since 1.21.2: canCraftInDimensions (always true) has nothing to override, and getResultItem stays as a plain method that the serializer, JEI category and scroll renderer still call."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingSerializer.java",
+  "why": "drops @Override from codec, streamCodec and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "26.1 made RecipeSerializer a final record (codec, streamCodec), so nothing can implement it and there is nothing to override (CATALOG M64): ModRecipes registers new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC) built from this class's same codecs, which getSerializer returns; codec()/streamCodec() stay as plain accessors for ConfigRecipeManager and SyncDragonCrystalRecipesPacket, which hold an instance."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java",
+  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
+ },
+ {
+  "file": "src/main/java/net/the_last_sword/test/TestEntity.java",
+  "why": "deletes overriding method(s) canChangeDimensions, moveTo, shouldDespawnInPeaceful: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
+  "reviewed": "(inherited from 1.21.10) As in 1.21.5, canChangeDimensions is canTeleport and moveTo is snapTo, overridden with the same bodies; shouldDespawnInPeaceful is gone in 1.21.10 and its replacement (EntityType.isAllowedInPeaceful) is read only by Mob.checkDespawn, which this entity overrides as a no-op, so it still never despawns in peaceful."
+ }
+]

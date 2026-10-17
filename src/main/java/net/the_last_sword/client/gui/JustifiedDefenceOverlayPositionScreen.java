@@ -1,7 +1,7 @@
 package net.the_last_sword.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -71,11 +71,11 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
 
-        graphics.drawCenteredString(
+        graphics.centeredText(
             this.font,
             Component.translatable("gui.the_last_sword.justified_defence_position.hint"),
             this.width / 2,
@@ -85,7 +85,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
 
         renderJustifiedDefencePreview(graphics);
 
-        graphics.drawString(
+        graphics.text(
             this.font,
             Component.literal("Offset: X=" + offsetX + ", Y=" + offsetY),
             10,
@@ -93,10 +93,10 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
             0xFFFFFF
         );
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
-    private void renderJustifiedDefencePreview(GuiGraphics graphics) {
+    private void renderJustifiedDefencePreview(GuiGraphicsExtractor graphics) {
         int screenWidth = this.width;
         int screenHeight = this.height;
 

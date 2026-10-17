@@ -2,7 +2,7 @@ package net.the_last_sword.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -54,7 +54,7 @@ public class DragonArmorOverlay {
     }
 
     //渲染龙之盔甲叠加层
-    private static void renderOverlay(GuiGraphics gui) {
+    private static void renderOverlay(GuiGraphicsExtractor gui) {
         int screenWidth = gui.guiWidth();
         int screenHeight = gui.guiHeight();
 
@@ -74,7 +74,7 @@ public class DragonArmorOverlay {
         net.the_last_sword.mv.LegacyGl.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private static void renderEnergyStatus(GuiGraphics gui, Minecraft mc) {
+    private static void renderEnergyStatus(GuiGraphicsExtractor gui, Minecraft mc) {
         DefenceConfigData.PerceptionModule perception = DefenceConfig.getPerceptionModule();
         DefenceConfigData.HudOffset offset = DefenceConfig.getHudOffset("dragon_armor_energy_display");
         int y = ENERGY_DISPLAY_BASE_Y + offset.y;
@@ -84,7 +84,7 @@ public class DragonArmorOverlay {
                     DragonArmorEnergyStatus.getEnergyPercentage());
             Component text = Component.translatable(
                     "gui.the_last_sword.perception_hud.current_energy", percentage);
-            gui.drawString(mc.font,
+            gui.text(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
                     y, 0xFFFFFF, true);
@@ -95,7 +95,7 @@ public class DragonArmorOverlay {
             Component text = Component.translatable(
                     "gui.the_last_sword.perception_hud.total_consumption",
                     DragonArmorEnergyStatus.getConsumptionPerTick());
-            gui.drawString(mc.font,
+            gui.text(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
                     y, 0xFFFFFF, true);

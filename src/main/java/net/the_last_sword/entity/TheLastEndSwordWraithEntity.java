@@ -229,7 +229,7 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                                 + dialogueId)
                         .withStyle(ChatFormatting.WHITE));
         for (Player player : level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(32.0))) {
-            player.displayClientMessage(message, false);
+            player.sendSystemMessage(message);
         }
     }
 

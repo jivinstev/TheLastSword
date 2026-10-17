@@ -32,16 +32,16 @@ public class ModEntityRenderers {
         event.registerEntityRenderer(ModEntities.QUEEN_BLINK_BLADE.get(), QueenBlinkBladeRenderer::new);
         event.registerEntityRenderer(ModEntities.QUEEN_ENHANCED_BLADE.get(), context -> new QueenBlinkBladeRenderer(context, true));
         event.registerEntityRenderer(ModEntities.TEST_ENTITY.get(), TestEntityRenderer::new);
-        event.registerEntityRenderer(ModEntities.GUARDIAN_OF_SEALED_SPIRE.get(), GuardianOfSealedSpireRenderer::new);
-        event.registerEntityRenderer(ModEntities.GUARDIAN_SABER.get(), GuardianOfSealedSpireRenderer::new);
-        event.registerEntityRenderer(ModEntities.GUARDIAN_BERSERKER.get(), GuardianOfSealedSpireRenderer::new);
-        event.registerEntityRenderer(ModEntities.GUARDIAN_ARCHER.get(), GuardianOfSealedSpireRenderer::new);
-        event.registerEntityRenderer(ModEntities.LOST_WRAITH.get(), LostWraithRenderer::new);
-        event.registerEntityRenderer(ModEntities.THE_LAST_END_SWORD_WRAITH.get(), TheLastEndSwordWraithRenderer::new);
-        event.registerEntityRenderer(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN.get(), ThePastShadowOfTheQueenRenderer::new);
-        event.registerEntityRenderer(ModEntities.DRAGON_CULTIST.get(), DragonCultistRenderer::new);
-        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PALADIN.get(), DragonCultPaladinRenderer::new);
-        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PRIEST.get(), DragonCultPriestRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUARDIAN_OF_SEALED_SPIRE.get(), context -> new GuardianOfSealedSpireRenderer(context));
+        event.registerEntityRenderer(ModEntities.GUARDIAN_SABER.get(), context -> new GuardianOfSealedSpireRenderer(context));
+        event.registerEntityRenderer(ModEntities.GUARDIAN_BERSERKER.get(), context -> new GuardianOfSealedSpireRenderer(context));
+        event.registerEntityRenderer(ModEntities.GUARDIAN_ARCHER.get(), context -> new GuardianOfSealedSpireRenderer(context));
+        event.registerEntityRenderer(ModEntities.LOST_WRAITH.get(), context -> new LostWraithRenderer(context));
+        event.registerEntityRenderer(ModEntities.THE_LAST_END_SWORD_WRAITH.get(), context -> new TheLastEndSwordWraithRenderer(context));
+        event.registerEntityRenderer(ModEntities.THE_PAST_SHADOW_OF_THE_QUEEN.get(), context -> new ThePastShadowOfTheQueenRenderer(context));
+        event.registerEntityRenderer(ModEntities.DRAGON_CULTIST.get(), context -> new DragonCultistRenderer(context));
+        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PALADIN.get(), context -> new DragonCultPaladinRenderer(context));
+        event.registerEntityRenderer(ModEntities.DRAGON_CULT_PRIEST.get(), context -> new DragonCultPriestRenderer(context));
         event.registerEntityRenderer(ModEntities.GROUND_RUPTURE_FRAGMENT.get(), GroundRuptureFragmentRenderer::new);
     }
 
@@ -55,11 +55,11 @@ public class ModEntityRenderers {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
-                context -> new DragonCrystalEnchantingTableRenderer());
+            BlockEntityRenderers.register(ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
+                context -> new DragonCrystalEnchantingTableRenderer<>(context));
             if (ModBlockEntities.THE_LAST_END_LUCKY_BLOCK != null) {
-                BlockEntityRenderers.register((net.minecraft.world.level.block.entity.BlockEntityType) ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
-                    context -> new TheLastEndLuckyBlockRenderer());
+                BlockEntityRenderers.register(ModBlockEntities.THE_LAST_END_LUCKY_BLOCK.get(),
+                    context -> new TheLastEndLuckyBlockRenderer<>(context));
             }
         });
     }

@@ -56,6 +56,6 @@ public class TrapEvent extends LuckyEvent {
             crystal.setShowBottom(false);
             world.addFreshEntity(crystal);
         }
-        { if (player instanceof net.minecraft.server.level.ServerPlayer mv$serverPlayer) mv$serverPlayer.sendSystemMessage(Component.translatable(MESSAGE_KEY)); }
+        player.sendSystemMessage(Component.translatable(MESSAGE_KEY));
     }
 }

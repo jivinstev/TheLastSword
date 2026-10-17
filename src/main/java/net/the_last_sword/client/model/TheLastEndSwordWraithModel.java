@@ -3,9 +3,9 @@ package net.the_last_sword.client.model;
 import net.minecraft.resources.Identifier;
 import net.the_last_sword.entity.TheLastEndSwordWraithAppearance;
 import net.the_last_sword.entity.TheLastEndSwordWraithEntity;
-import software.bernie.geckolib.constant.dataticket.DataTicket;
-import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.model.GeoModel;
+import com.geckolib.renderer.base.GeoRenderState;
 
 public class TheLastEndSwordWraithModel extends GeoModel<TheLastEndSwordWraithEntity> {
     //GeckoLib 5: the model sees a render state, not the entity, so the renderer parks the appearance on it at extract time

@@ -106,7 +106,7 @@ public class AncientEnergyCore extends Item implements IDragonSmithingTemplate, 
                 String key = !currentState ?
                     "item_tooltip.the_last_sword.ancient_energy_core.charging_enabled" :
                     "item_tooltip.the_last_sword.ancient_energy_core.charging_disabled";
-                player.displayClientMessage(Component.translatable(key), true);
+                player.sendOverlayMessage(Component.translatable(key));
             }
 
             return InteractionResult.SUCCESS;

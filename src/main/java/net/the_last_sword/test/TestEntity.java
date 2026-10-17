@@ -68,7 +68,7 @@ public class TestEntity extends PathfinderMob {
 
     /*────────────────────  BOSS 条  ────────────────────*/
     private final ServerBossEvent bossInfo =
-            new ServerBossEvent(Component.empty(), BossEvent.BossBarColor.PURPLE,
+            new ServerBossEvent(java.util.UUID.randomUUID(), Component.empty(), BossEvent.BossBarColor.PURPLE,
                     BossEvent.BossBarOverlay.NOTCHED_20);
 
     /*────────────── 构造 ─────────────*/

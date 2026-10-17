@@ -68,7 +68,7 @@ public class DragonCrystalSmithingTableBlock extends Block implements EntityBloc
     }
 
     @Override
-    public int getLightBlock(BlockState state) {
+    protected int getLightDampening(BlockState state) {
         return 15;
     }
 

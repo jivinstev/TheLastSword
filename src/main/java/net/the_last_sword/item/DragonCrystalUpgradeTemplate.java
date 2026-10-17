@@ -22,9 +22,9 @@ public class DragonCrystalUpgradeTemplate extends SmithingTemplateItem implement
     //稀有度与防火通过默认数据组件提供
     @SubscribeEvent
     public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
-        event.modifyMatching(item -> item instanceof DragonCrystalUpgradeTemplate, builder -> {
+        event.modifyMatching((item, components) -> item instanceof DragonCrystalUpgradeTemplate, (builder, context, key) -> {
             builder.set(DataComponents.RARITY, Rarity.UNCOMMON);
-            builder.set(DataComponents.DAMAGE_RESISTANT, new net.minecraft.world.item.component.DamageResistant(net.minecraft.tags.DamageTypeTags.IS_FIRE));
+            builder.set(DataComponents.DAMAGE_RESISTANT, new net.minecraft.world.item.component.DamageResistant(context.getOrThrow(net.minecraft.tags.DamageTypeTags.IS_FIRE)));
         });
     }
 

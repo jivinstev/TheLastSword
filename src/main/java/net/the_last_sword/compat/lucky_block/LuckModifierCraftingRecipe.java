@@ -45,7 +45,7 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
         .build();
 
     public LuckModifierCraftingRecipe(CraftingBookCategory category) {
-        super(category);
+        super();
     }
 
     //模组专属材料需运行时引用(DeferredRegister 延迟加载), 不放 static map
@@ -83,7 +83,7 @@ public class LuckModifierCraftingRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack luckyStack = ItemStack.EMPTY;
         int sum = 0;
         for (int i = 0; i < input.size(); i++) {

@@ -9,12 +9,12 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.DragonCrystalEnchantingTableClientExtensions;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoItem;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -29,8 +29,13 @@ public class DragonCrystalEnchantingTableDisplayItem extends BlockItem implement
 
     //1.21.4: initializeClient is gone; the display renderer comes through GeckoLib's GeoRenderProvider
     @Override
-    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
-        consumer.accept(net.the_last_sword.client.DragonCrystalEnchantingTableClientExtensions.provider());
+    public void createGeoRenderer(java.util.function.Consumer<com.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(new com.geckolib.animatable.client.GeoRenderProvider() {
+            @Override
+            public com.geckolib.renderer.GeoItemRenderer<?> getGeoItemRenderer() {
+                return net.the_last_sword.client.DragonCrystalEnchantingTableClientExtensions.provider();
+            }
+        });
     }
 
     @Override

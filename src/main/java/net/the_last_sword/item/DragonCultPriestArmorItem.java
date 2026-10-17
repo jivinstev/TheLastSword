@@ -23,13 +23,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.client.DragonCultArmorClientExtensions;
 import net.the_last_sword.init.ModAttributes;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoItem;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -118,7 +118,7 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
 
     //1.21.4: initializeClient is gone; GeckoLib serves the armor renderer through GeoItem.createGeoRenderer
     @Override
-    public void createGeoRenderer(java.util.function.Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
+    public void createGeoRenderer(java.util.function.Consumer<com.geckolib.animatable.client.GeoRenderProvider> consumer) {
         consumer.accept(DragonCultArmorClientExtensions.priest());
     }
 

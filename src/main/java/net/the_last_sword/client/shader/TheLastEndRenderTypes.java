@@ -1,6 +1,7 @@
 package net.the_last_sword.client.shader;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -14,6 +15,7 @@ import net.the_last_sword.mv.ShaderShard;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 //The Last End 渲染类型工厂
 //为不同的渲染场景（实体、物品、方块、粒子）创建对应的 RenderType
@@ -26,9 +28,10 @@ public class TheLastEndRenderTypes {
                                            boolean cull, boolean writeDepth) {
         return PIPELINES.computeIfAbsent(name, n -> RenderPipeline.builder(base)
             .withLocation("pipeline/" + n)
-            .withBlend(blend)
+            .withColorTargetState(new ColorTargetState(blend))
             .withCull(cull)
-            .withDepthWrite(writeDepth)
+            .withDepthStencilState(new com.mojang.blaze3d.pipeline.DepthStencilState(
+                com.mojang.blaze3d.platform.CompareOp.LESS_THAN_OR_EQUAL, writeDepth))
             .build());
     }
 
@@ -75,7 +78,7 @@ public class TheLastEndRenderTypes {
     //创建实体表面的 The Last End 效果渲染类型
     //适用于: 实体外表渲染（如 TestEntity）
     public static RenderType createEntityEffect(Identifier texture) {
-        return custom("the_last_end_entity_effect", DefaultVertexFormat.NEW_ENTITY, texture,
+        return custom("the_last_end_entity_effect", DefaultVertexFormat.ENTITY, texture,
             true, true, false, true);
     }
 
@@ -83,14 +86,14 @@ public class TheLastEndRenderTypes {
     //适用于: 手持物品、掉落物、GUI 中的物品
     public static RenderType createItemEffectWithAtlas() {
         //只写入颜色，不写入深度（避免透明区域遮挡）
-        return custom("the_last_end_item_effect_atlas", DefaultVertexFormat.NEW_ENTITY, TextureAtlas.LOCATION_BLOCKS,
+        return custom("the_last_end_item_effect_atlas", DefaultVertexFormat.ENTITY, TextureAtlas.LOCATION_BLOCKS,
             false, true, false, false);
     }
 
     //创建物品的 The Last End 效果渲染类型（使用指定纹理）
     //适用于: 特殊物品渲染
     public static RenderType createItemEffect(Identifier texture) {
-        return custom("the_last_end_item_effect", DefaultVertexFormat.NEW_ENTITY, texture,
+        return custom("the_last_end_item_effect", DefaultVertexFormat.ENTITY, texture,
             false, false, false, true);
     }
 

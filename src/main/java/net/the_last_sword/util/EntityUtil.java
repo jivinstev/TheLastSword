@@ -253,7 +253,8 @@ public class EntityUtil {
                     );
                 }
 
-                if (level.getServer().getWorldData().getGameRules().get(GameRules.SHOW_DEATH_MESSAGES)) {
+                if (level instanceof ServerLevel gameRuleLevel
+                        && gameRuleLevel.getGameRules().get(GameRules.SHOW_DEATH_MESSAGES)) {
                     PlayerList playerList = level.getServer().getPlayerList();
                     playerList.broadcastSystemMessage(deathMessage, false);
                 }

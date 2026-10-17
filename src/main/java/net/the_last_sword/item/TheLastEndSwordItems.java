@@ -62,7 +62,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
 
     //支持所有工具的默认动作（可以当作剑、镐、斧、锄、铲使用）
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility toolAction) {
+    public boolean canPerformAction(net.minecraft.world.item.ItemInstance stack, ItemAbility toolAction) {
         return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(toolAction) ||
                ItemAbilities.DEFAULT_HOE_ACTIONS.contains(toolAction) ||
                ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(toolAction) ||

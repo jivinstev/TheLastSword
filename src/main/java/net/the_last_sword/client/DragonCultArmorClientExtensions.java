@@ -5,8 +5,8 @@ import net.minecraft.world.item.ItemStack;
 import net.the_last_sword.client.renderer.DragonCultPaladinArmorRenderer;
 import net.the_last_sword.client.renderer.DragonCultPriestArmorRenderer;
 import net.the_last_sword.client.renderer.DragonCultistArmorRenderer;
-import software.bernie.geckolib.animatable.client.GeoRenderProvider;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import com.geckolib.animatable.client.GeoRenderProvider;
+import com.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.function.Supplier;
 

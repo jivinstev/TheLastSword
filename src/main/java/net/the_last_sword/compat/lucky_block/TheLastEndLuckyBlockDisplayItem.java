@@ -10,12 +10,12 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.the_last_sword.ItemNbt;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoItem;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -88,10 +88,10 @@ public class TheLastEndLuckyBlockDisplayItem extends BlockItem implements GeoIte
     //1.21.4: initializeClient/getCustomRenderer are gone; GeckoLib serves the item renderer through GeoRenderProvider
     //(items/the_last_end_lucky_block.json names the geckolib:geckolib special model)
     @Override
-    public void createGeoRenderer(Consumer<software.bernie.geckolib.animatable.client.GeoRenderProvider> consumer) {
-        consumer.accept(new software.bernie.geckolib.animatable.client.GeoRenderProvider() {
+    public void createGeoRenderer(Consumer<com.geckolib.animatable.client.GeoRenderProvider> consumer) {
+        consumer.accept(new com.geckolib.animatable.client.GeoRenderProvider() {
             @Override
-            public software.bernie.geckolib.renderer.GeoItemRenderer<?> getGeoItemRenderer() {
+            public com.geckolib.renderer.GeoItemRenderer<?> getGeoItemRenderer() {
                 return TheLastEndLuckyBlockDisplayItemClient.getRenderer();
             }
         });

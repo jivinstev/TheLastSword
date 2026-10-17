@@ -1,6 +1,6 @@
 package net.the_last_sword.client.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -120,8 +120,8 @@ public class DragonArmorConfigScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
 
         //在按钮上渲染物品图标
         int buttonSize = 40;
@@ -131,12 +131,12 @@ public class DragonArmorConfigScreen extends Screen {
         int startY = this.height / 2 - 50;
         int iconOffset = (buttonSize - 16) / 2;
 
-        graphics.renderItem(helmetStack, startX + iconOffset, startY + iconOffset);
-        graphics.renderItem(chestplateStack, startX + buttonSize + spacing + iconOffset, startY + iconOffset);
-        graphics.renderItem(leggingsStack, startX + (buttonSize + spacing) * 2 + iconOffset, startY + iconOffset);
-        graphics.renderItem(bootsStack, startX + (buttonSize + spacing) * 3 + iconOffset, startY + iconOffset);
+        graphics.item(helmetStack, startX + iconOffset, startY + iconOffset);
+        graphics.item(chestplateStack, startX + buttonSize + spacing + iconOffset, startY + iconOffset);
+        graphics.item(leggingsStack, startX + (buttonSize + spacing) * 2 + iconOffset, startY + iconOffset);
+        graphics.item(bootsStack, startX + (buttonSize + spacing) * 3 + iconOffset, startY + iconOffset);
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
     @Override

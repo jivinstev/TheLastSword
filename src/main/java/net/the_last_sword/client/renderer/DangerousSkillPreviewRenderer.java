@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
+import com.mojang.blaze3d.pipeline.DepthStencilState;
+import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -30,9 +33,9 @@ public final class DangerousSkillPreviewRenderer {
     //1.21.5: shader, blend, cull and write mask are one RenderPipeline (position_color shaders + translucent blend come from the snippet)
     private static final RenderPipeline FILL_PIPELINE = RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
             .withLocation("pipeline/dangerous_skill_preview_fill")
-            .withBlend(BlendFunction.TRANSLUCENT)
+            .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
             .withCull(false)
-            .withDepthWrite(false)
+            .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
             .build();
     private static final RenderType FILL = RenderType.create("dangerous_skill_preview",
             RenderSetup.builder(FILL_PIPELINE).bufferSize(256).sortOnUpload().createRenderSetup());

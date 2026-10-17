@@ -3,11 +3,13 @@ package net.the_last_sword.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -16,18 +18,19 @@ import net.minecraft.util.Mth;
 import net.the_last_sword.entity.GroundRuptureFragmentEntity;
 
 public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureFragmentEntity, GroundRuptureFragmentRenderer.RenderState> {
-    private final BlockRenderDispatcher blockRenderer;
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+    private final BlockModelResolver blockModelResolver;
 
     public static class RenderState extends EntityRenderState {
         int seed;
         float age;
         float fragmentScale;
-        BlockState blockState;
+        final BlockModelRenderState blockModel = new BlockModelRenderState();
     }
 
     public GroundRuptureFragmentRenderer(EntityRendererProvider.Context context) {
         super(context);
-        blockRenderer = context.getBlockRenderDispatcher();
+        blockModelResolver = context.getBlockModelResolver();
         shadowRadius = 0.0F;
     }
 
@@ -49,7 +52,7 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
         poseStack.mulPose(Axis.ZP.rotationDegrees(component(seed, 20) * 45.0F - age * 6.0F * spinDirection));
         poseStack.scale(scaleX, scaleY, scaleZ);
         poseStack.translate(-0.5D, -0.5D, -0.5D);
-        collector.submitBlock(poseStack, state.blockState, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        state.blockModel.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
 
         super.submit(state, poseStack, collector, camera);
@@ -70,7 +73,7 @@ public class GroundRuptureFragmentRenderer extends EntityRenderer<GroundRuptureF
         state.seed = fragment.getVisualSeed();
         state.age = fragment.tickCount + partialTick;
         state.fragmentScale = fragment.getFragmentScale();
-        state.blockState = fragment.getBlockState();
+        blockModelResolver.update(state.blockModel, fragment.getBlockState(), BLOCK_DISPLAY_CONTEXT);
     }
 
 }

@@ -26,7 +26,7 @@ public final class PhasingBufferSource implements MultiBufferSource {
     @Override
     public VertexConsumer getBuffer(RenderType type) {
         // 名牌、线框与附魔光效使用不同的顶点格式，保留其原有绘制方式。
-        if (type.format() != DefaultVertexFormat.NEW_ENTITY) {
+        if (type.format() != DefaultVertexFormat.ENTITY) {
             return delegate.getBuffer(type);
         }
         return new PhasingVertexConsumer(delegate, translucentType(type));
@@ -43,14 +43,10 @@ public final class PhasingBufferSource implements MultiBufferSource {
         }
         // 仅替换标准不透明材质，保留自定义着色器及其渲染状态。
         if (type == RenderTypes.entitySolid(texture)
+                || type == RenderTypes.entityCutoutCull(texture)
                 || type == RenderTypes.entityCutout(texture)
-                || type == RenderTypes.entityCutoutNoCull(texture, true)
-                || type == RenderTypes.entityCutoutNoCull(texture, false)
-                || type == RenderTypes.entityCutoutNoCullZOffset(texture, true)
-                || type == RenderTypes.entityCutoutNoCullZOffset(texture, false)
-                || type == RenderTypes.armorCutoutNoCull(texture)
-                || type == RenderTypes.entitySmoothCutout(texture)
-                || type == RenderTypes.entityDecal(texture)) {
+                || type == RenderTypes.entityCutoutZOffset(texture)
+                || type == RenderTypes.armorCutoutNoCull(texture)) {
             return RenderTypes.entityTranslucent(texture);
         }
         return type;

@@ -36,10 +36,11 @@ public class WraithSummonSavedData extends SavedData {
         Codec<WraithSummonSavedData> codec = CompoundTag.CODEC.xmap(
                 WraithSummonSavedData::load,
                 (WraithSummonSavedData d) -> d.save(new CompoundTag(), null));
-        SavedDataType<WraithSummonSavedData> type = new SavedDataType<>(
-                DATA_NAME,
+        SavedDataType<WraithSummonSavedData> type = new SavedDataType<WraithSummonSavedData>(
+                Identifier.fromNamespaceAndPath("the_last_sword", DATA_NAME),
                 WraithSummonSavedData::new,
-                codec);
+                codec,
+                null);
         return level.getDataStorage().computeIfAbsent(type);
     }
 

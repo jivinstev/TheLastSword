@@ -2,7 +2,7 @@ package net.the_last_sword.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -63,9 +63,9 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 8, 0xFFFFFF);
-        graphics.drawCenteredString(
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.centeredText(this.font, this.title, this.width / 2, 8, 0xFFFFFF);
+        graphics.centeredText(
             this.font,
             Component.translatable("gui.the_last_sword.energy_display_position.hint"),
             this.width / 2,
@@ -73,17 +73,17 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
             0xAAAAAA
         );
         renderEnergyDisplayPreview(graphics);
-        graphics.drawString(
+        graphics.text(
             this.font,
             Component.literal("Offset: X=" + offsetX + ", Y=" + offsetY),
             10,
             this.height - 45,
             0xFFFFFF
         );
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
-    private void renderEnergyDisplayPreview(GuiGraphics graphics) {
+    private void renderEnergyDisplayPreview(GuiGraphicsExtractor graphics) {
         List<Component> lines = getPreviewLines();
         int width = lines.stream().mapToInt(this.font::width).max().orElse(0);
         int height = lines.size() * this.font.lineHeight + (lines.size() - 1) * 2;
@@ -94,7 +94,7 @@ public class DragonArmorEnergyDisplayPositionScreen extends Screen {
                 dragging ? 0x80FFFF00 : 0x80FFFFFF);
         for (int i = 0; i < lines.size(); i++) {
             Component line = lines.get(i);
-            graphics.drawString(this.font, line,
+            graphics.text(this.font, line,
                     this.width / 2 - this.font.width(line) / 2 + offsetX,
                     y + i * (this.font.lineHeight + 2), 0xFFFFFF, true);
         }

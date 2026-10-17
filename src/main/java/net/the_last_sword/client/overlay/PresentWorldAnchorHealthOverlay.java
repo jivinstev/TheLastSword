@@ -2,7 +2,7 @@ package net.the_last_sword.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -56,7 +56,7 @@ public final class PresentWorldAnchorHealthOverlay {
                 event.getGuiGraphics(), minecraft, player, maxHealthPoints, availableHealthPoints);
     }
 
-    private static void renderLostPresentWorldAnchor(GuiGraphics guiGraphics, Minecraft minecraft, Player player,
+    private static void renderLostPresentWorldAnchor(GuiGraphicsExtractor guiGraphics, Minecraft minecraft, Player player,
                                                int maxHealthPoints, int availableHealthPoints) {
         int absorption = Mth.ceil(player.getAbsorptionAmount());
         int healthRows = Mth.ceil((maxHealthPoints + absorption) / 20.0F);

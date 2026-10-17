@@ -207,7 +207,7 @@ public class TheLastSwordQuestHandler {
         if (pos == null) {
             return false;
         }
-        villager.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
+        villager.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.getRandom().nextFloat() * 360.0F, 0.0F);
         villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.EVENT, null);
 
         villager.setVillagerData(villager.getVillagerData()
@@ -256,10 +256,10 @@ public class TheLastSwordQuestHandler {
         BlockPos farthestPos = null;
 
         for (int attempt = 0; attempt < BLACKSMITH_SPAWN_ATTEMPTS; attempt++) {
-            var piece = village.getPieces().get(level.random.nextInt(village.getPieces().size()));
+            var piece = village.getPieces().get(level.getRandom().nextInt(village.getPieces().size()));
             var box = piece.getBoundingBox();
-            int x = box.minX() + level.random.nextInt(box.getXSpan());
-            int z = box.minZ() + level.random.nextInt(box.getZSpan());
+            int x = box.minX() + level.getRandom().nextInt(box.getXSpan());
+            int z = box.minZ() + level.getRandom().nextInt(box.getZSpan());
             BlockPos pos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     new BlockPos(x, 0, z));
 
