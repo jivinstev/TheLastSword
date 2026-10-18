@@ -406,9 +406,9 @@
    "file": "net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-class:class TheLastEndSwordWraithLayer : GeoRenderLayer",
@@ -1834,9 +1834,9 @@
    "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/lucky_event/ArenaBattleHandler.java#event:@SubscribeEvent LivingDeathEvent",
@@ -3789,14 +3789,10 @@
    "detail": "the target's resources have it"
   }
  ],
- "unaccounted": [
-  "main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull",
-  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull"
- ],
+ "unaccounted": [],
  "counts": {
   "same": 297,
-  "moved": 71,
-  "unaccounted": 2,
+  "moved": 73,
   "changed": 11,
   "dropped": 29
  },
