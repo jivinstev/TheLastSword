@@ -15,7 +15,7 @@
       "source": "review",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
+        "1.21.10": "fixed@9081d16",
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
@@ -128,7 +128,7 @@
       "source": "gate",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
+        "1.21.10": "fixed@34f433b",
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
@@ -158,7 +158,7 @@
       "source": "gate",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
+        "1.21.10": "fixed@81e35c6",
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
@@ -188,7 +188,7 @@
       "source": "gate",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
+        "1.21.10": "fixed@832d5df",
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
@@ -217,7 +217,7 @@
       "source": "gate",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
+        "1.21.10": "fixed@34f433b",
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
@@ -359,7 +359,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.8": "open"
+        "1.21.8": "wontfix:duplicate of TLS-003 (same defect, recorded twice)"
       },
       "title": "DragonCrystalEnchantingTableScreen end-portal picture-in-picture renders only the bar rectangle: starfield density rescales with the energy (1.21.8)"
     },
@@ -377,9 +377,127 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.8": "open"
+        "1.21.8": "wontfix:duplicate of TLS-002 (same defect, recorded twice)"
       },
       "title": "LostWraithSealLayer SEAL_PIPELINE has no uniform blocks (1.21.8); fix with RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java"
+      ],
+      "id": "TLS-015",
+      "lowest": "1.21.8",
+      "notes": "EditBox.renderWidget draws with textColor; GuiGraphics.drawString skips ARGB alpha 0 on 21.8.54 and 21.10.64. Fixed at 1.21.10 with 0xFFFFFFFF (PR #28). 1.21.8 is done and pre-released: an S3 does not reopen it. Source: neoforge-1.21.10 REVIEW.md (PR #28).",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.10": "fixed@63af730",
+        "1.21.11": "open",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "TLS-001 gap: DragonCrystalEnchantingTableScreen search and level EditBoxes use setTextColor(0xFFFFFF) (alpha 0), so typed text is invisible from 1.21.6"
+    },
+    {
+      "files": [
+        "src/main/resources/assets/the_last_sword/geckolib/models/primal_source_armor.geo.json"
+      ],
+      "id": "TLS-016",
+      "lowest": "1.21.10",
+      "notes": "Same layer-overlay class as TLS-005/008. Fixed at 1.21.10 by taking 1.21.8's files (the authors' 1.1.2). The reviewer graded it S3; the rubric gives S4 because the armour is ProjectE content and ProjectE is dropped (no build) on 1.21.10 and up, so it is not in the game there. Source: neoforge-1.21.10 REVIEW.md (PR #28).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "invisible",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.10": "fixed@63af730",
+        "1.21.11": "open",
+        "26.1.2": "open"
+      },
+      "title": "Stale primal_source_armor geo and animation (pre-1.1.2 assets: no hat cubes, no easing) on 1.21.11 and 26.1.2"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java"
+      ],
+      "id": "TLS-017",
+      "lowest": "1.21.10",
+      "notes": "Test entity only. Its render type (cull) was restored at 1.21.10 (PR #28); the submit path remains. 26.2/26.3 do not draw there. Source: neoforge-1.21.10 REVIEW.md (PR #28).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "26.1.2": "open"
+      },
+      "title": "TestEntityTheLastEndLayer.submit draws into the global bufferSource instead of the SubmitNodeCollector (outside the feature dispatcher's ordering)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/DragonArmorRenderer.java"
+      ],
+      "id": "TLS-018",
+      "lowest": "1.21.10",
+      "notes": "No player effect: on the phasing path the wrapper already halves the armour once (bytecode, GeckoLib 5.3-alpha-3). If an unwrapped path ever needs halving it must go through getRenderColor/RENDER_COLOR. 1.21.11 and 26.x carry the same preRender (not checked against their GeckoLib). Source: neoforge-1.21.10 REVIEW.md (PR #28).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "invisible",
+        "workaround": false
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "DragonArmorRenderer's phasing alpha compensation in preRender is dead code (GeckoLib reads RENDER_COLOR before preRender)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/mv/LegacyEnergy.java"
+      ],
+      "id": "TLS-019",
+      "lowest": "1.21.10",
+      "notes": "Only reached if another mod swaps the accessed item to a different item mid-transaction. Source: neoforge-1.21.10 REVIEW.md (PR #28).",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "unusual",
+        "visibility": "invisible",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.10": "open"
+      },
+      "title": "mv.LegacyEnergy item handler applies the storage to whatever item the ItemAccess holds now (no valid-item pin, as ItemAccessEnergyHandler has)"
     }
   ],
   "schema": 1
