@@ -1,0 +1,1 @@
+- 2026-10-18 1.21.10: accepted with --accept-upstream-drift: the authors' upstream/forge-1.20.1 has 1 commit(s) since the freeze that this checkout does not carry (buildout frozen at 71744a38ba83, upstream/forge-1.20.1 now at 0eeecffb7e2d)

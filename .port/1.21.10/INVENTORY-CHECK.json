@@ -2651,6 +2651,15 @@
    "detail": "unchanged"
   },
   {
+   "id": "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Post",
+   "set": "main",
+   "file": "net/the_last_sword/item/TheLastSword.java",
+   "kind": "event",
+   "key": "@SubscribeEvent PlayerTickEvent.Post",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
    "id": "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Pre",
    "set": "main",
    "file": "net/the_last_sword/item/TheLastSword.java",
@@ -2658,16 +2667,6 @@
    "key": "@SubscribeEvent PlayerTickEvent.Pre",
    "status": "same",
    "detail": "unchanged"
-  },
-  {
-   "id": "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Post",
-   "set": "main",
-   "file": "net/the_last_sword/item/TheLastSword.java",
-   "kind": "event",
-   "key": "@SubscribeEvent PlayerTickEvent.Post",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
   },
   {
    "id": "main:net/the_last_sword/item/TheLastSwordYouNeverForgot.java#event:@SubscribeEvent PlayerTickEvent.Pre",
@@ -3155,6 +3154,15 @@
    "detail": "unchanged"
   },
   {
+   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
+   "set": "main",
+   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
+   "kind": "injection",
+   "key": "@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
+   "status": "same",
+   "detail": "unchanged"
+  },
+  {
    "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value=\"HEAD\")",
    "set": "main",
    "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
@@ -3163,17 +3171,6 @@
    "status": "unaccounted",
    "detail": "the target's overlay has a different injection",
    "now": "@Inject method=hurtServer @At(value=\"HEAD\")",
-   "was": "changed"
-  },
-  {
-   "id": "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
-   "set": "main",
-   "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
-   "kind": "injection",
-   "key": "@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different injection",
-   "now": "@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
    "was": "changed"
   },
   {
@@ -3869,21 +3866,19 @@
   "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL",
   "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE",
   "main:net/the_last_sword/init/ModInstruments.java#registry:registry INSTRUMENT",
-  "main:net/the_last_sword/item/TheLastSword.java#event:@SubscribeEvent PlayerTickEvent.Post",
   "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"INVOKE\",target=\"Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I\")",
   "main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=renderConfusionOverlay @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/LevelRendererMixin.java#injection:@ModifyVariable method=setupRender @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value=\"HEAD\")",
-  "main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@ModifyArg method=heal @At(value=\"INVOKE\",target=\"Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V\")",
   "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value=\"HEAD\")",
   "main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value=\"HEAD\")"
  ],
  "counts": {
-  "same": 295,
-  "unaccounted": 85,
+  "same": 297,
+  "unaccounted": 83,
   "changed": 1,
   "dropped": 29
  },
