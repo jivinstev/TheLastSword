@@ -45,7 +45,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
-        return Optional.ofNullable(stack.getCapability(Capabilities.EnergyStorage.ITEM));
+        return Optional.ofNullable(net.the_last_sword.mv.LegacyEnergy.item(stack));
     }
 
     @Override

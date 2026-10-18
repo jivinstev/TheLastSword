@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -55,7 +54,7 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
     // 能量存储系统
     private final InternalEnergyStorage energyStorage;
 
-    //内部能量存储: 扩展 Forge EnergyStorage, 新增不受 maxExtract 限制的内部消耗方法
+    // 内部发电和消耗独立于对外能量接口的传输限速。
     private static class InternalEnergyStorage extends EnergyStorage {
         public InternalEnergyStorage(int capacity, int maxReceive, int maxExtract) {
             super(capacity, maxReceive, maxExtract);
@@ -64,6 +63,12 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         //读档时恢复能量值 (夹紧到容量范围内)
         public void setEnergyStoredInternal(int value) {
             this.energy = Math.max(0, Math.min(value, getMaxEnergyStored()));
+        }
+
+        public int generateInternal(int amount) {
+            int generated = Math.min(Math.max(0, this.capacity - this.energy), Math.max(0, amount));
+            this.energy += generated;
+            return generated;
         }
 
         //内部消耗: 绕过 maxExtract 限制, 用于附魔等一次性能量消耗
@@ -205,6 +210,11 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         return energyStorage;
     }
 
+    //1.21.9+: mv.LegacyEnergy's transfer-API handler puts the energy back with this when a transaction aborts
+    public void setEnergyStored(int value) {
+        energyStorage.setEnergyStoredInternal(value);
+    }
+
     public int getTotalPowerTime() {
         return totalPowerTime;
     }
@@ -228,7 +238,8 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
 
         // 检测并消耗燃料（满电时不消耗）
         ItemStack fuelSlot = blockEntity.getItem(0);
-        if (!isFull && !fuelSlot.isEmpty() && fuelSlot.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL)) {
+        if (!isFull && blockEntity.totalPowerTime <= 0 && !fuelSlot.isEmpty()
+                && fuelSlot.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL)) {
             fuelSlot.shrink(1);
             blockEntity.totalPowerTime += TheLastSwordConfiguration.getEnchantingTableCrystalPowerTimeSafely();
             changed = true;
@@ -239,22 +250,23 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
             blockEntity.totalPowerTime--;
             changed = true;
 
-            blockEntity.energyStorage.receiveEnergy(TheLastSwordConfiguration.getEnchantingTableEnergyPerTickSafely(), false);
+            blockEntity.energyStorage.generateInternal(TheLastSwordConfiguration.getEnchantingTableEnergyPerTickSafely());
         }
 
         // 给充电槽位物品充能（受 Item Charge Rate 配置限制）
         ItemStack chargeSlot = blockEntity.getItem(1);
         if (!chargeSlot.isEmpty() && blockEntity.energyStorage.getEnergyStored() > 0) {
-            var itemHandler = ItemAccess.forStack(chargeSlot).getCapability(Capabilities.Energy.ITEM);
-            IEnergyStorage itemEnergy = itemHandler != null ? IEnergyStorage.of(itemHandler) : null;
-            if (itemEnergy != null) {
+            var itemEnergy = net.the_last_sword.mv.LegacyEnergy.item(chargeSlot);
+            if (itemEnergy != null && itemEnergy.canReceive()) {
                     int rate = TheLastSwordConfiguration.getEnchantingTableItemChargeRateSafely();
                     int canReceive = itemEnergy.getMaxEnergyStored() - itemEnergy.getEnergyStored();
                     int toCharge = Math.min(Math.min(blockEntity.energyStorage.getEnergyStored(), canReceive), rate);
                     if (toCharge > 0) {
-                        itemEnergy.receiveEnergy(toCharge, false);
-                        blockEntity.energyStorage.extractEnergy(toCharge, false);
-                        changed = true;
+                        int received = itemEnergy.receiveEnergy(toCharge, false);
+                        if (received > 0) {
+                            blockEntity.energyStorage.consumeInternal(received);
+                            changed = true;
+                        }
                     }
             }
         }
@@ -262,8 +274,7 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         // 能量传输逻辑
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = pos.relative(direction);
-            var neighborHandler = level.getCapability(Capabilities.Energy.BLOCK, neighborPos, direction.getOpposite());
-            IEnergyStorage neighborEnergy = neighborHandler != null ? IEnergyStorage.of(neighborHandler) : null;
+            IEnergyStorage neighborEnergy = net.the_last_sword.mv.LegacyEnergy.block(level, neighborPos, direction.getOpposite());
             if (neighborEnergy != null) {
                     // 尝试从邻居接收能量
                     if (blockEntity.energyStorage.getEnergyStored() < blockEntity.energyStorage.getMaxEnergyStored()) {

@@ -1,3 +1,7 @@
 # 1.21.10: from<TAB>to (plain type, member:, re:) -- see prepare-sources.py
 # X74: proposed by a file-loop worker, kept because the error count fell
 stack.getCapability(Capabilities.Energy.ITEM)	Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack))
+# TLS-006: 1.21.9 typed the energy capabilities on the transfer API (Capabilities.Energy, EnergyHandler); the reads go
+# through mv.LegacyEnergy, which hands back the IEnergyStorage view NeoForge adapts (CATALOG V50)
+re:\b(\w+)\.getCapability\(Capabilities\.EnergyStorage\.ITEM\)	net.the_last_sword.mv.LegacyEnergy.item(\1)
+re:\b(\w+)\.getCapability\(Capabilities\.EnergyStorage\.BLOCK,	net.the_last_sword.mv.LegacyEnergy.block(\1,

@@ -87,7 +87,7 @@ public class DragonArmorOverlay {
             gui.drawString(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
-                    y, 0xFFFFFF, true);
+                    y, 0xFFFFFFFF, true);
             y += mc.font.lineHeight + 2;
         }
 
@@ -98,7 +98,7 @@ public class DragonArmorOverlay {
             gui.drawString(mc.font,
                     text,
                     gui.guiWidth() / 2 - mc.font.width(text) / 2 + offset.x,
-                    y, 0xFFFFFF, true);
+                    y, 0xFFFFFFFF, true);
         }
     }
 }

@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.the_last_sword.client.renderer.DragonArmorRenderer;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -69,7 +68,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             134217727,
             // 防御值：靴子8, 护腿12, 胸甲12, 头盔8
             Map.of(ArmorType.BOOTS, 8, ArmorType.LEGGINGS, 12, ArmorType.CHESTPLATE, 12, ArmorType.HELMET, 8),
-            200,
+            32,
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             10f,
             5f,
@@ -139,8 +138,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        var energyHandler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
-        IEnergyStorage energy = energyHandler == null ? null : IEnergyStorage.of(energyHandler);
+        IEnergyStorage energy = net.the_last_sword.mv.LegacyEnergy.item(stack);
         if (energy == null) return 0;
         int maxEnergy = energy.getMaxEnergyStored();
         int currentEnergy = energy.getEnergyStored();
@@ -150,8 +148,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
 
     @Override
     public int getBarColor(ItemStack stack) {
-        var energyHandler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
-        IEnergyStorage energy = energyHandler == null ? null : IEnergyStorage.of(energyHandler);
+        IEnergyStorage energy = net.the_last_sword.mv.LegacyEnergy.item(stack);
         if (energy == null) return 0x8B00FF;
         int maxEnergy = energy.getMaxEnergyStored();
         int currentEnergy = energy.getEnergyStored();
@@ -173,8 +170,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
     @Override
     protected void appendSpecificTooltip(ItemStack itemstack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
         // 显示能量信息
-        var energyHandler = Capabilities.Energy.ITEM.getCapability(itemstack, ItemAccess.forStack(itemstack));
-        IEnergyStorage energy = energyHandler == null ? null : IEnergyStorage.of(energyHandler);
+        IEnergyStorage energy = net.the_last_sword.mv.LegacyEnergy.item(itemstack);
         if (energy != null) {
             list.add(Component.translatable("item_tooltip.the_last_sword.energy")
                     .append(": §a" + energy.getEnergyStored() + " §r/ " + energy.getMaxEnergyStored() + " FE"));
@@ -349,8 +345,7 @@ public abstract class DragonArmorItem extends TheLastEndArmorItem implements Geo
             if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
             ItemStack stack = player.getItemBySlot(slot);
             if (!(stack.getItem() instanceof DragonArmorItem)) return false;
-            var energyHandler = Capabilities.Energy.ITEM.getCapability(stack, ItemAccess.forStack(stack));
-            IEnergyStorage energy = energyHandler == null ? null : IEnergyStorage.of(energyHandler);
+            IEnergyStorage energy = net.the_last_sword.mv.LegacyEnergy.item(stack);
             boolean hasEnergy = energy != null && energy.getEnergyStored() > 0;
             if (!hasEnergy) return false;
         }
