@@ -18,6 +18,7 @@ import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.Nullable;
 
@@ -185,10 +186,17 @@ public final class LegacyEnergy {
             return extracted > 0 && writeBack(c, transaction) ? extracted : 0;
         }
 
-        /** Every item of the access becomes the changed copy (1.21.1 kept the energy on the whole stack). */
+        /** Every item of the access becomes the changed copy (1.21.1 kept the energy on the whole stack), or none does:
+         *  the exchange runs in a nested transaction that commits only when it moved all of them. */
         private boolean writeBack(Copy c, TransactionContext transaction) {
             int count = access.getAmount();
-            return access.exchange(ItemResource.of(c.stack()), count, transaction) == count;
+            try (Transaction nested = Transaction.open(transaction)) {
+                if (access.exchange(ItemResource.of(c.stack()), count, nested) != count) {
+                    return false;
+                }
+                nested.commit();
+                return true;
+            }
         }
 
         private record Copy(ItemStack stack, IEnergyStorage storage) {

@@ -220,8 +220,8 @@ public final class DefenceEventHandler {
 
     //物品能量存储（无能量能力时为空）
     private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
-        var handler = stack.getCapability(Capabilities.Energy.ITEM, null);
-        return Optional.ofNullable(handler).map(IEnergyStorage::of);
+        //1.21.9+: the item energy capability needs the ItemAccess the changes are written back through
+        return Optional.ofNullable(net.the_last_sword.mv.LegacyEnergy.item(stack));
     }
 
     //护盾保护触发：取消事件，设置满血，按 cost 扣除护盾
