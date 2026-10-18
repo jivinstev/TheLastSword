@@ -25,25 +25,25 @@ public final class ModCapabilities {
     @SubscribeEvent
     public static void register(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.Energy.ITEM,
-            (stack, context) -> LegacyEnergy.handler(ZeroPointEngine.createEnergyStorage(stack)), ModItems.ZERO_POINT_ENGINE.get());
+            LegacyEnergy.itemProvider(ZeroPointEngine::createEnergyStorage), ModItems.ZERO_POINT_ENGINE.get());
         event.registerItem(Capabilities.Energy.ITEM,
-            (stack, context) -> LegacyEnergy.handler(AncientEnergyCore.createEnergyStorage(stack)), ModItems.ANCIENT_ENERGY_CORE.get());
+            LegacyEnergy.itemProvider(AncientEnergyCore::createEnergyStorage), ModItems.ANCIENT_ENERGY_CORE.get());
         //一次性电池：新物品默认满电（同 1.20.1）
         event.registerItem(Capabilities.Energy.ITEM,
-            (stack, context) -> LegacyEnergy.handler(new ItemEnergyStorage(stack, DisposableEnergyBattery::getMaxEnergy, true)),
+            LegacyEnergy.itemProvider(stack -> new ItemEnergyStorage(stack, DisposableEnergyBattery::getMaxEnergy, true)),
             ModItems.DISPOSABLE_ENERGY_BATTERY.get());
         event.registerItem(Capabilities.Energy.ITEM,
-            (stack, context) -> LegacyEnergy.handler(DragonArmorItem.createEnergyStorage(stack)),
+            LegacyEnergy.itemProvider(DragonArmorItem::createEnergyStorage),
             ModItems.DRAGON_ARMOR_HELMET.get(), ModItems.DRAGON_ARMOR_CHESTPLATE.get(),
             ModItems.DRAGON_ARMOR_LEGGINGS.get(), ModItems.DRAGON_ARMOR_BOOTS.get());
         event.registerItem(Capabilities.Energy.ITEM,
-            (stack, context) -> LegacyEnergy.handler(new ItemEnergyStorage(stack, TheLastSwordConfiguration::getCuriosExtremeLifeSupportMaxEnergySafely)),
+            LegacyEnergy.itemProvider(stack -> new ItemEnergyStorage(stack, TheLastSwordConfiguration::getCuriosExtremeLifeSupportMaxEnergySafely)),
             ModItems.EXTREME_LIFE_SUPPORT_DEVICE.get());
 
         //附魔台：能量与分面物品栏（1.20.1 仅在有朝向时提供物品栏）
-        //1.21.9+: transfer-API capabilities; the sided view of the WorldlyContainer is what getItemHandler's SidedInvWrapper was
+        //1.21.9+: transfer-API capabilities (items: writes go back through the ItemAccess); the sided view of the WorldlyContainer is what getItemHandler's SidedInvWrapper was
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
-            (blockEntity, side) -> LegacyEnergy.handler(blockEntity.getEnergyStorage()));
+            (blockEntity, side) -> LegacyEnergy.handler(blockEntity.getEnergyStorage(), blockEntity::setEnergyStored));
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
             (blockEntity, side) -> side == null ? null : new WorldlyContainerWrapper(blockEntity, side));
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(),

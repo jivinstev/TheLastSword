@@ -210,6 +210,11 @@ public class DragonCrystalEnchantingTableBlockEntity extends RandomizableContain
         return energyStorage;
     }
 
+    //1.21.9+: mv.LegacyEnergy's transfer-API handler puts the energy back with this when a transaction aborts
+    public void setEnergyStored(int value) {
+        energyStorage.setEnergyStoredInternal(value);
+    }
+
     public int getTotalPowerTime() {
         return totalPowerTime;
     }
