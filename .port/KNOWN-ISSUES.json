@@ -19,7 +19,7 @@
         "1.21.11": "open",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
-        "1.21.8": "open",
+        "1.21.8": "fixed@b8ad6da",
         "26.1.2": "open",
         "26.2": "open",
         "26.3": "open"
@@ -344,6 +344,42 @@
         "26.3": "fixed@423d3f6"
       },
       "title": "TEST ENTITY / Ultra Test Sword switched on ECA's global AllReturn, disabling other content mods and disconnecting the player (ECA #2)"
+    },
+    {
+      "id": "TLS-013",
+      "lowest": "1.21.8",
+      "notes": "Found by the 2026-10-18 round's reviewer of neoforge-1.21.8; pre-existing, outside TLS-001.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.8": "open"
+      },
+      "title": "DragonCrystalEnchantingTableScreen end-portal picture-in-picture renders only the bar rectangle: starfield density rescales with the energy (1.21.8)"
+    },
+    {
+      "id": "TLS-014",
+      "lowest": "1.21.8",
+      "notes": "Found by the 2026-10-18 round's reviewer of neoforge-1.21.8; pre-existing. Small.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.8": "open"
+      },
+      "title": "LostWraithSealLayer SEAL_PIPELINE has no uniform blocks (1.21.8); fix with RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)"
     }
   ],
   "schema": 1
