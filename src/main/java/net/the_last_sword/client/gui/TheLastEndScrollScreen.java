@@ -505,7 +505,7 @@ public class TheLastEndScrollScreen extends Screen {
         String pageNumber = (currentPage + 1) + " / " + totalPages;
         int pageNumberX = guiLeft + (GUI_WIDTH / 2) - (this.font.width(pageNumber) / 2);
         int pageNumberY = guiTop + GUI_HEIGHT - 25;
-        graphics.drawString(this.font, pageNumber, pageNumberX, pageNumberY, 0x3F2A1D, false);
+        graphics.drawString(this.font, pageNumber, pageNumberX, pageNumberY, 0xFF3F2A1D, false);
 
         //渲染按钮等其他组件
         super.render(graphics, mouseX, mouseY, partialTick);
@@ -566,13 +566,13 @@ public class TheLastEndScrollScreen extends Screen {
                 graphics.renderItem(currentChapter.icon, textX, textY);
                 //标题从物品图标右侧开始
                 Component title = Component.translatable(currentChapter.titleKey);
-                graphics.drawString(this.font, title, textX + 20, textY + 4, 0x3F2A1D, false);
+                graphics.drawString(this.font, title, textX + 20, textY + 4, 0xFF3F2A1D, false);
                 //正文从下一行开始
                 textY += 25;
             } else {
                 //只有标题没有图标
                 Component title = Component.translatable(currentChapter.titleKey);
-                graphics.drawString(this.font, title, textX, textY, 0x3F2A1D, false);
+                graphics.drawString(this.font, title, textX, textY, 0xFF3F2A1D, false);
                 textY += 15;
             }
         }
@@ -596,7 +596,7 @@ public class TheLastEndScrollScreen extends Screen {
         int lineCount = 0;
         for (int i = startLineIndex; i < currentChapter.allLines.size() && lineCount < linesToShow; i++) {
             String line = currentChapter.allLines.get(i);
-            graphics.drawString(this.font, Component.literal(line), textX, textY + (lineCount * LINE_HEIGHT), 0x3F2A1D, false);
+            graphics.drawString(this.font, Component.literal(line), textX, textY + (lineCount * LINE_HEIGHT), 0xFF3F2A1D, false);
             lineCount++;
         }
 
@@ -613,7 +613,7 @@ public class TheLastEndScrollScreen extends Screen {
             Component hintText = Component.translatable("gui.the_last_sword.scroll_book.chapter6.compat_hint");
             //在文本下方留一些间距后渲染
             int hintY = textY + (lineCount * LINE_HEIGHT) + 10;
-            graphics.drawString(this.font, hintText, textX, hintY, 0x3F2A1D, false);
+            graphics.drawString(this.font, hintText, textX, hintY, 0xFF3F2A1D, false);
         }
     }
 

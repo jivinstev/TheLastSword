@@ -126,7 +126,7 @@ public class PaperNoteScreen extends Screen {
 
         //标题
         graphics.drawString(this.font, Component.translatable(nameKey),
-            guiLeft + CONTENT_START_X, guiTop + TITLE_Y, 0x3F2A1D, false);
+            guiLeft + CONTENT_START_X, guiTop + TITLE_Y, 0xFF3F2A1D, false);
 
         //正文（当前页行范围）
         int startLine = currentPage * LINES_PER_PAGE;
@@ -135,14 +135,14 @@ public class PaperNoteScreen extends Screen {
         for (int i = startLine; i < endLine; i++) {
             graphics.drawString(this.font, Component.literal(allLines.get(i)),
                 guiLeft + CONTENT_START_X, guiTop + CONTENT_START_Y + lineCount * LINE_HEIGHT,
-                0x3F2A1D, false);
+                0xFF3F2A1D, false);
             lineCount++;
         }
 
         //页码
         String pageNumber = (currentPage + 1) + " / " + totalPages;
         int pageNumberX = guiLeft + (GUI_WIDTH - this.font.width(pageNumber)) / 2;
-        graphics.drawString(this.font, pageNumber, pageNumberX, guiTop + GUI_HEIGHT - 25, 0x3F2A1D, false);
+        graphics.drawString(this.font, pageNumber, pageNumberX, guiTop + GUI_HEIGHT - 25, 0xFF3F2A1D, false);
 
         super.render(graphics, mouseX, mouseY, partialTick);
     }

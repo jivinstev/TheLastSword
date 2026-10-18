@@ -72,7 +72,7 @@ public class SwordWraithAppearanceScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         //1.21.6: Screen.renderWithTooltip draws the background before render; a second renderBackground blurs twice and throws
-        guiGraphics.drawCenteredString(font, title, width / 2, frameTop - 20, 0xFFFFFF);
+        guiGraphics.drawCenteredString(font, title, width / 2, frameTop - 20, 0xFFFFFFFF);
         guiGraphics.fill(frameLeft - 2, frameTop - 2, frameLeft + FRAME_WIDTH + 2,
                 frameTop + FRAME_HEIGHT + 2, 0xFF6F5A8A);
         guiGraphics.fill(frameLeft, frameTop, frameLeft + FRAME_WIDTH,
@@ -90,7 +90,7 @@ public class SwordWraithAppearanceScreen extends Screen {
         }
 
         guiGraphics.drawCenteredString(font, Component.translatable(appearance.getNameKey()),
-                width / 2, frameTop + FRAME_HEIGHT + 10, 0xFFFFFF);
+                width / 2, frameTop + FRAME_HEIGHT + 10, 0xFFFFFFFF);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
 
