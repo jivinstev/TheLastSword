@@ -35,8 +35,11 @@ public class DragonArmorRenderer<R extends HumanoidRenderState & GeoRenderState>
     @Override
     public void preRender(R renderState, PoseStack poseStack, BakedGeoModel model, SubmitNodeCollector collector,
                           CameraRenderState cameraState, int packedLight, int packedOverlay, int renderColor) {
-        // 护甲不经过相位透明度包装，这里补偿半透明度。
-        if (renderState.getGeckolibData(DragonArmorItem.WEARER) instanceof LivingEntity entity
+        // 护甲会重新获取全局缓冲，需要补偿被绕过的透明度包装，且不能重复减半。
+        //1.21.9+: GeckoLib's armor layer submits through the layer's collector, which EntityRenderDispatcherMixin may
+        //already have wrapped in PhasingSubmitNodeCollector (it halves every vertex): compensate only when it has not
+        if (!(collector instanceof PhasingSubmitNodeCollector)
+                && renderState.getGeckolibData(DragonArmorItem.WEARER) instanceof LivingEntity entity
                 && PhasingState.isPhasing(entity)) {
             int alpha = (renderColor >>> 24) & 0xFF;
             alpha = Math.round(alpha * 0.5F);

@@ -1,5 +1,7 @@
 package net.the_last_sword.event;
 
+import net.minecraft.world.item.crafting.RecipeMap;
+import net.the_last_sword.client.gui.scroll.ScrollRecipeRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import com.mojang.blaze3d.vertex.*;
@@ -27,6 +29,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -222,6 +225,14 @@ public class ClientEventHandler {
         DangerousSkillPreviewRenderer.clear();
         LostWraithEndStrikeEffectRenderer.clear();
         ClientDragonCrystalRecipeCache.clear();
+        ScrollRecipeRenderer.setReceivedRecipes(RecipeMap.EMPTY);
+    }
+
+    //1.21.4: the client holds no recipe manager; the server sends its crafting and smithing recipes
+    //(ServerEventHandler.onDatapackSync), and the scroll book draws its recipe pages from them
+    @SubscribeEvent
+    public static void onRecipesReceived(RecipesReceivedEvent event) {
+        ScrollRecipeRenderer.setReceivedRecipes(event.getRecipeMap());
     }
 
     //按键输入事件

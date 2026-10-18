@@ -40,7 +40,7 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
+            VertexConsumer vertexConsumer = bufferSource.getBuffer(net.neoforged.neoforge.client.NeoForgeRenderTypes.getItemLayeredTranslucent(TEXTURE));
             this.getParentModel().renderToBuffer(
                 poseStack,
                 vertexConsumer,

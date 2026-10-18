@@ -111,14 +111,17 @@ public class TheLastSwordMod {
     //注册内置资源包
     private void addPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            var resourcePath = ModList.get().getModFileById(MOD_ID).getFile()
-                    .getFilePath().resolve("resourcepacks").resolve("The Last Sword Classical Texture Pack");
+            //1.21.10 (FML 10): IModFile has no findResource and getFilePath() is the jar itself; read the pack from the
+            //mod's JarContents under its folder, as AddPackFindersEvent.addPackFinders does for a resources/ pack
+            var contents = ModList.get().getModFileById(MOD_ID).getFile().getContents();
             event.addRepositorySource(consumer -> {
                 var pack = Pack.readMetaAndCreate(
                         new PackLocationInfo(MOD_ID + ":classical_texture",
                                 Component.literal("The Last Sword Classical Texture Pack"),
                                 PackSource.BUILT_IN, Optional.empty()),
-                        new PathPackResources.PathResourcesSupplier(resourcePath),
+                        net.minecraft.server.packs.repository.BuiltInPackSource.fromName(info ->
+                                new net.neoforged.neoforge.resource.JarContentsPackResources(info, contents,
+                                        "resourcepacks/The Last Sword Classical Texture Pack")),
                         PackType.CLIENT_RESOURCES,
                         new PackSelectionConfig(false, Pack.Position.TOP, false)
                 );

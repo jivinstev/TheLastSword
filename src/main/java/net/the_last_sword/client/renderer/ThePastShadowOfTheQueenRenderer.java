@@ -1,5 +1,6 @@
 package net.the_last_sword.client.renderer;
 
+import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -88,7 +89,11 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
     //受伤变红效果
     @Override
     public int getPackedOverlay(ThePastShadowOfTheQueenEntity entity, Void relatedObject, float u, float partialTick) {
-        return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
+        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
+        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
+        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
+        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
+                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
 
     @Override
