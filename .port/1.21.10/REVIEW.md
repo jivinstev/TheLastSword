@@ -13,9 +13,9 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent c677f97b-2409-540b-949e-67a8789e9101 (re-check of the energy fix at 13ce6ec, ModCapabilities/LegacyEnergy/DefenceEventHandler rows; other re-check rows at 6aaeb7d; other rows: fresh agent TLS 1.21.10 review at fbb613f), not the fixer
+- reviewer: fresh agent tls-1.21.10-repin-reviewer-r2 (re-review at e9d204a of the ECA r2 re-pin, 13ce6ec..e9d204a: branch.properties port_jar URL and sha256 bf15e534... match the downloaded eca-1.1.9-mc1.21.10-r2 epic-core-api-1.1.9_mr.jar, the workflow _cf variant sha256 c6a1e76b... matches that release's _cf jar, substitute net.eca:eca:1.1.9-mc1.21.10 matches the workflow mavenLocal path net/eca/eca/1.1.9-mc1.21.10/eca-1.1.9-mc1.21.10.jar, no src/resources/build file changed, every net.eca class TLS imports is in r2 and r2 has the same class list as the old jar, GATES.md all PASS at 145b9fd and 145b9fd..e9d204a is records only; earlier: fresh agent c677f97b-2409-540b-949e-67a8789e9101 re-check of the energy fix at 13ce6ec, ModCapabilities/LegacyEnergy/DefenceEventHandler rows; other re-check rows at 6aaeb7d; other rows: fresh agent TLS 1.21.10 review at fbb613f), not the fixer
 - date: 2026-10-18
-- commit: 13ce6ec
+- commit: e9d204a
 
 | kind | file | verdict | note |
 |---|---|---|---|
