@@ -1,6 +1,7 @@
 package net.the_last_sword.client.gui;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.util.ARGB;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -368,7 +369,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             } else {
                 nameColor = 0xFFFFFF;
             }
-            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
+            guiGraphics.drawString(this.font, enchName, listX + 4, rowY + 7, ARGB.opaque(nameColor), false);
 
             // 滑块
             int sliderX = listX + LIST_WIDTH - SLIDER_WIDTH - LEVEL_INPUT_WIDTH - 8;
@@ -384,7 +385,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 String levelText = String.valueOf(opt.level);
                 int textWidth = this.font.width(levelText);
                 int textColor = opt.level != opt.originalLevel ? 0x55FF55 : 0xCCCCCC;
-                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
+                guiGraphics.drawString(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, ARGB.opaque(textColor), false);
             }
         }
 
@@ -439,13 +440,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (energyCost > 0) {
             String costStr = formatCost(energyCost) + " FE";
             int color = energyCost <= this.menu.getEnergy() ? 0x00FF00 : 0xFF0000;
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
+            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, ARGB.opaque(color), false);
             textY += 10;
         }
 
         // 经验返还
         if (xpReturn > 0) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
+            guiGraphics.drawString(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0xFF80FF80, false);
         }
     }
 

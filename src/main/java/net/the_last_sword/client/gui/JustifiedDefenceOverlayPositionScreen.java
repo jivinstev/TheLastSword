@@ -73,14 +73,14 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFFFF);
 
         graphics.drawCenteredString(
             this.font,
             Component.translatable("gui.the_last_sword.justified_defence_position.hint"),
             this.width / 2,
             40,
-            0xAAAAAA
+            0xFFAAAAAA
         );
 
         renderJustifiedDefencePreview(graphics);
@@ -90,7 +90,7 @@ public class JustifiedDefenceOverlayPositionScreen extends Screen {
             Component.literal("Offset: X=" + offsetX + ", Y=" + offsetY),
             10,
             10,
-            0xFFFFFF
+            0xFFFFFFFF
         );
 
         super.render(graphics, mouseX, mouseY, partialTick);
