@@ -45,7 +45,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
     }
 
     private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
-        return Optional.ofNullable(stack.getCapability(Capabilities.EnergyStorage.ITEM));
+        return Optional.ofNullable(net.the_last_sword.mv.LegacyEnergy.item(stack));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
         if (!level.isClientSide()) {
             boolean enable = !isChargingEnabled(stack);
             ItemNbt.update(stack, tag -> tag.putBoolean(CHARGING_ENABLED_TAG, enable));
-            player.displayClientMessage(chargingStatus(stack), true);
+            player.sendOverlayMessage(chargingStatus(stack));
         }
         return InteractionResult.SUCCESS;
     }

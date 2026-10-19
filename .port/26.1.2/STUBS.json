@@ -27,37 +27,37 @@
  {
   "file": "src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPaladinRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now DragonCultPaladinRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultPriestRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now DragonCultPriestRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/DragonCultistModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now DragonCultistRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now DragonCultistRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now GuardianOfSealedSpireRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now GuardianOfSealedSpireRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/LostWraithModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now LostWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now LostWraithRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now TheLastEndSwordWraithRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now TheLastEndSwordWraithRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java",
   "why": "deletes overriding method(s) setCustomAnimations: whatever they did is gone -- port each to the new API, or say why vanilla no longer needs it",
-  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation from the render state's ENTITY_PITCH/ENTITY_YAW, in degrees) is now ThePastShadowOfTheQueenRenderer.adjustModelBonesForRender, which sets the same rotations on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
+  "reviewed": "(inherited from 1.21.11) Ported: GeckoLib 5.4.5 removed GeoModel.setCustomAnimations; its only job (the head bone's X/Y rotation set to minus the render state's ENTITY_PITCH/ENTITY_YAW, in degrees, as GeckoLib's own DefaultAnimations head rotation does, 5.5.2 too) is now ThePastShadowOfTheQueenRenderer.adjustModelBonesForRender, which sets those same negated rotations (setRotX(-pitch), setRotY(-yaw)) on the frame's 'head' bone snapshot after the animation, as setCustomAnimations ran after it."
  },
  {
   "file": "src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java",
