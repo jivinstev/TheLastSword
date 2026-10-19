@@ -37,8 +37,7 @@ public class DisposableEnergyBattery extends Item {
     }
 
     private static IEnergyStorage energyOf(ItemStack stack) {
-        var handler = net.neoforged.neoforge.transfer.access.ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
-        return handler == null ? null : IEnergyStorage.of(handler);
+        return net.the_last_sword.mv.LegacyEnergy.item(stack);
     }
 
     private static boolean receiveInto(ItemStack target, int amount) {

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
-import net.the_last_sword.util.EntityUtil;
+import net.the_last_sword.util.health.TrueHealthManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -16,11 +16,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Gui.class)
 public class MinecraftMixin {
 
-    //受保护玩家直接将死亡界面替换为null
+    // 仅阻止仍有真实血量的玩家被强制打开死亡界面。
     @ModifyVariable(method = "setScreen", at = @At("HEAD"), argsOnly = true)
     private Screen theLastSword$preventDeathScreen(Screen screen) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (screen instanceof DeathScreen && player != null && EntityUtil.hasProtection(player)) {
+        if (screen instanceof DeathScreen && TrueHealthManager.hasLivingProtection(player)) {
             return null;
         }
         return screen;

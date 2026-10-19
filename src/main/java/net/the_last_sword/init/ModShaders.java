@@ -41,7 +41,7 @@ public class ModShaders {
 
         ZeroPointEngineProgram(net.minecraft.server.packs.resources.ResourceProvider provider) throws IOException {
             super(provider, Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
-                    DefaultVertexFormat.NEW_ENTITY);
+                    DefaultVertexFormat.ENTITY);
             localUvMin = getUniform("LocalUvMin");
             localUvScale = getUniform("LocalUvScale");
             glowPhase = getUniform("GlowPhase");

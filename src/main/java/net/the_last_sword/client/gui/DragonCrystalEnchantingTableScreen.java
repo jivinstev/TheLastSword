@@ -1,6 +1,7 @@
 package net.the_last_sword.client.gui;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.util.ARGB;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -83,7 +84,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     private ItemStack lastSlotItem = ItemStack.EMPTY;
 
     public DragonCrystalEnchantingTableScreen(DragonCrystalEnchantingTableMenu container, Inventory inventory, Component text) {
-        super(container, inventory, text);
+        //26.1: imageWidth/imageHeight are final; the lower versions' 420 x 200 goes to the sized constructor
+        super(container, inventory, text, 420, 200);
         this.world = container.world;
         this.x = container.x;
         this.y = container.y;
@@ -101,7 +103,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.search"));
         searchBox.setMaxLength(50);
         searchBox.setBordered(true);
-        searchBox.setTextColor(0xFFFFFF);
+        searchBox.setTextColor(0xFFFFFFFF);
         searchBox.setResponder(text -> {
             scrollOffset = 0;
             updateFilteredList();
@@ -112,7 +114,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         levelEditBox = new EditBox(this.font, 0, 0, LEVEL_INPUT_WIDTH, LEVEL_INPUT_HEIGHT, Component.empty());
         levelEditBox.setMaxLength(3);
         levelEditBox.setBordered(false);
-        levelEditBox.setTextColor(0xFFFFFF);
+        levelEditBox.setTextColor(0xFFFFFFFF);
         levelEditBox.setVisible(false);
         String[] lastValidLevel = {""};
         levelEditBox.setResponder(s -> {
@@ -373,7 +375,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             } else {
                 nameColor = 0xFFFFFF;
             }
-            guiGraphics.text(this.font, enchName, listX + 4, rowY + 7, nameColor, false);
+            guiGraphics.text(this.font, enchName, listX + 4, rowY + 7, ARGB.opaque(nameColor), false);
 
             // 滑块
             int sliderX = listX + LIST_WIDTH - SLIDER_WIDTH - LEVEL_INPUT_WIDTH - 8;
@@ -389,7 +391,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 String levelText = String.valueOf(opt.level);
                 int textWidth = this.font.width(levelText);
                 int textColor = opt.level != opt.originalLevel ? 0x55FF55 : 0xCCCCCC;
-                guiGraphics.text(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, textColor, false);
+                guiGraphics.text(this.font, levelText, inputX + (LEVEL_INPUT_WIDTH - textWidth) / 2, inputY + 2, ARGB.opaque(textColor), false);
             }
         }
 
@@ -444,13 +446,13 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         if (energyCost > 0) {
             String costStr = formatCost(energyCost) + " FE";
             int color = energyCost <= this.menu.getEnergy() ? 0x00FF00 : 0xFF0000;
-            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, color, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.cost", costStr), textX, textY, ARGB.opaque(color), false);
             textY += 10;
         }
 
         // 经验返还
         if (xpReturn > 0) {
-            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0x80FF80, false);
+            guiGraphics.text(this.font, Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.xp_return", xpReturn), textX, textY, 0xFF80FF80, false);
         }
     }
 
@@ -717,25 +719,74 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     private void renderEndPortalEffect(GuiGraphicsExtractor guiGraphics, int x1, int y1, int x2, int y2) {
-        // GUI pose is now a 2D Matrix3x2f stack; lift its translation/scale into a Matrix4f
-        var guiPose = guiGraphics.pose();
+        // 1.21.6: the GUI is recorded during render and drawn later by GuiRenderer, so drawing RenderType.endPortal()
+        // here at once (1.21.1's immediate bufferSource draw) would land under this screen's background blit, which
+        // is drawn afterwards. The quad is submitted as a picture-in-picture element instead: EndPortalPipRenderer
+        // draws it into a texture of the rectangle when the frame is prepared, and the texture is blitted at this
+        // call's place in the GUI order (above the energy bar, below the slots), with this call's pose and scissor.
+        if (x2 <= x1 || y2 <= y1) {
+            return;
+        }
+        org.joml.Matrix3x2f pose = new org.joml.Matrix3x2f(guiGraphics.pose());
+        net.minecraft.client.gui.navigation.ScreenRectangle scissor = guiGraphics.peekScissorStack();
+        net.minecraft.client.gui.navigation.ScreenRectangle area =
+                new net.minecraft.client.gui.navigation.ScreenRectangle(x1, y1, x2 - x1, y2 - y1).transformMaxBounds(pose);
+        guiGraphics.submitPictureInPictureRenderState(new EndPortalPip(x1, y1, x2, y2, pose, scissor,
+                scissor != null ? scissor.intersection(area) : area));
+    }
 
-        MultiBufferSource.BufferSource bufferSource = MultiBufferSource.main();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.endPortal());
-        Matrix4f matrix = new Matrix4f();
-        matrix.m00(guiPose.m00);
-        matrix.m01(guiPose.m01);
-        matrix.m10(guiPose.m10);
-        matrix.m11(guiPose.m11);
-        matrix.m30(guiPose.m20);
-        matrix.m31(guiPose.m21);
+    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+; 26.1: the state is in
+     *  renderer.state.gui.pip; 26.2: the renderer is made by a Supplier). */
+    public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
+                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
+                               @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
+            implements net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState {
+        @Override
+        public float scale() {
+            return 1.0F;
+        }
+    }
 
-        vertexConsumer.addVertex(matrix, x1, y2, 0);
-        vertexConsumer.addVertex(matrix, x2, y2, 0);
-        vertexConsumer.addVertex(matrix, x2, y1, 0);
-        vertexConsumer.addVertex(matrix, x1, y1, 0);
+    /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture. 26.2: the renderer has no buffer
+     *  source; the base class sets the orthographic projection over the texture (pixels, y down) and the quad is
+     *  submitted as custom geometry, from a pose that maps the rectangle's GUI units onto it (scale by the GUI scale,
+     *  moved by (-x0, -y0)) instead of the base pose (centred at the bottom edge, for models). */
+    public static final class EndPortalPipRenderer
+            extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
+        @Override
+        public Class<EndPortalPip> getRenderStateClass() {
+            return EndPortalPip.class;
+        }
 
-        bufferSource.endBatch();
+        @Override
+        protected void renderToTexture(EndPortalPip state, PoseStack unused,
+                                       net.minecraft.client.renderer.SubmitNodeCollector collector) {
+            int guiScale = net.minecraft.client.Minecraft.getInstance().gameRenderer.gameRenderState().windowRenderState.guiScale;
+            PoseStack pose = new PoseStack();
+            pose.scale(guiScale, guiScale, 1.0F);
+            pose.translate(-state.x0(), -state.y0(), 0.0F);
+            collector.submitCustomGeometry(pose, net.minecraft.client.renderer.rendertype.RenderTypes.endPortal(), (last, vertexConsumer) -> {
+                vertexConsumer.addVertex(last, state.x0(), state.y1(), 0);
+                vertexConsumer.addVertex(last, state.x1(), state.y1(), 0);
+                vertexConsumer.addVertex(last, state.x1(), state.y0(), 0);
+                vertexConsumer.addVertex(last, state.x0(), state.y0(), 0);
+            });
+        }
+
+        @Override
+        protected String getTextureLabel() {
+            return "the_last_sword_end_portal_pip";
+        }
+    }
+
+    @net.neoforged.fml.common.EventBusSubscriber(modid = "the_last_sword", value = net.neoforged.api.distmarker.Dist.CLIENT)
+    public static final class EndPortalPipRegistration {
+        @net.neoforged.bus.api.SubscribeEvent
+        public static void register(net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent event) {
+            event.register(EndPortalPip.class, EndPortalPipRenderer::new);
+        }
+
+        private EndPortalPipRegistration() {}
     }
 
     // 附魔选项数据类
