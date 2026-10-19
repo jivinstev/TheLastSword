@@ -772,6 +772,32 @@
         "26.3": "open"
       },
       "title": "26.1.2+: Dragon Cult horn tooltip does not name its instrument (the 1.21.5 INSTRUMENT component missing from the stale 26.1.2 copy)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/ThePastShadowOfTheQueenItemLayer.java"
+      ],
+      "id": "TLS-031",
+      "lowest": "1.21.11",
+      "notes": "Found by the re-check of 1.21.11's review fixes (weekly round, plan EpicCoreAPI#61); d67c02f removed the doubled pivot offset and the second rotation with it. Suggested fix (reviewer): bone.translateAwayFromPivotPoint(poseStack); RenderUtil.translateAndRotateMatrixForBone(poseStack, bone) at the start of submitItemStackRender. Not fixed this round: found after the one re-check (the stopping rule).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: held items of the Guardian of the Sealed Spire, Dragon Cultist and Past Shadow of the Queen rotate by the hand bone once instead of twice (as the authors and 1.21.10): the Queen's lightning spear is tilted ~35 deg; follows the TLS-023 pivot fix"
     }
   ],
   "schema": 1
