@@ -1,4 +1,4 @@
-Gates for `the_last_sword` at `577a93e` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
+Gates for `the_last_sword` at `aea2f67` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
 
 | check | result | detail |
 |---|---|---|
@@ -10,7 +10,7 @@ Gates for `the_last_sword` at `577a93e` for Minecraft 1.21.11 (full environment)
 | Gate B -- headless server loads the mod, GameTests | PASS | 6 required test(s) passed |
 | Gate C -- real client, `launch` | PASS | PASS — reached title screen, client loaded without crashing |
 | Gate C -- real client, `spawn` | PASS | PASS — created world, spawned the_last_sword creatures, world ticked 200 ticks with no crash; 11 entity types spawned; warning: 2 logged exception(s) in other mods' code, e.g. java.lang.NullPointerException thrown in jeresources.collection.TradeList.addMerchantRecipe |
-| Gate C -- real client, `battle` | PASS | PASS — battle royale ran 600 ticks with no crash (survivors: team A 41, team B 40); warning: 1 logged exception(s) in other mods' code, e.g. java.lang.NullPointerException thrown in jeresources.collection.TradeList.addMerchantRecipe |
+| Gate C -- real client, `battle` | PASS | PASS — battle royale ran 600 ticks with no crash (survivors: team A 41, team B 40); warning: 2 logged exception(s) in other mods' code, e.g. java.lang.NullPointerException thrown in jeresources.collection.TradeList.addMerchantRecipe |
 | Gate C -- real client, `gauntlet` | PASS | PASS — gauntlet ran 10 item/block/use/effect steps with no crash; warning: 2 logged exception(s) in other mods' code, e.g. java.lang.NullPointerException thrown in jeresources.collection.TradeList.addMerchantRecipe |
 
 Not covered by any automated gate: gameplay by a person.

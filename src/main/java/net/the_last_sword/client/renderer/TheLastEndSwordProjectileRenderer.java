@@ -41,7 +41,7 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
     }
 
     private static final Identifier END_CRYSTAL_LOCATION = Identifier.parse("textures/entity/end_crystal/end_crystal.png");
-    private static final RenderType RENDER_TYPE = RenderTypes.entityCutout(END_CRYSTAL_LOCATION);
+    private static final RenderType RENDER_TYPE = RenderTypes.entityCutoutNoCull(END_CRYSTAL_LOCATION);
     private static final float SIN_45 = (float) Math.sin(0.7853981633974483);
 
     //拖尾参数

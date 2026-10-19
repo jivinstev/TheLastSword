@@ -54,7 +54,7 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
             renderState.ageInTicks, yRotation, xRotation);
 
-        VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderTypes.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderTypes.entityCutoutNoCull(TEXTURE));
         this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, -1);
 
         poseStack.popPose();
