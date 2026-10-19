@@ -23,7 +23,7 @@
           "entity": "this",
           "predicate": {
             "location": {
-              "structure": "the_last_sword:end_lost_altar"
+              "structures": "the_last_sword:end_lost_altar"
             }
           }
         }
