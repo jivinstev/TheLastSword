@@ -498,6 +498,280 @@
         "1.21.10": "open"
       },
       "title": "mv.LegacyEnergy item handler applies the storage to whatever item the ItemAccess holds now (no valid-item pin, as ItemAccessEnergyHandler has)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+        "src/main/java/net/the_last_sword/event/ClientEventHandler.java"
+      ],
+      "id": "TLS-020",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61). 1.21.10's lines format has no LineWidth, so it is unaffected. Fixed on neoforge-1.21.11 in 62cac0c (Window.getAppropriateLineWidth per vertex); 26.x carry the same code.",
+      "override": null,
+      "rubric": {
+        "failure": "crash",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: RenderTypes.lines() vertices without setLineWidth crash the client (POSITION_COLOR_NORMAL_LINE_WIDTH): mining/arena/lantern previews (ClientEventHandler.addLine) and the boss dangerous-skill preview (DangerousSkillPreviewRenderer)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java"
+      ],
+      "id": "TLS-021",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Fixed on neoforge-1.21.11 in b79d904; 26.x still call super (likely the same EMPTY default).",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: Dragon Cult Priest armour gives 0 armour and 0 toughness: getDefaultAttributeModifiers builds on super (ItemAttributeModifiers.EMPTY on NeoForge 21.11) instead of the item's ATTRIBUTE_MODIFIERS component"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/LostWraithRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java"
+      ],
+      "id": "TLS-022",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Fixed on neoforge-1.21.11 in 3250541.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: GeckoLib 5.4 head look inverted on 7 mobs (adjustModelBonesForRender sets +pitch/+yaw where the authors' GeckoLib 4 code negated them); STUBS text claimed the same rotations"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/ThePastShadowOfTheQueenItemLayer.java"
+      ],
+      "id": "TLS-023",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Fixed on neoforge-1.21.11 in d67c02f. 26.x carry the same lines; whether their GeckoLib builds (8327201, 8891706, 8945638) also end transformToBone at the pivot is to be checked at each.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: GeckoLib 5.4.5 bone pivot applied twice: Guardian/Cultist/Past Shadow held items float off the hands, Lost Wraith seal chains off the wrists (5.3 compensation kept after transformToBone now ends at the pivot)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java",
+        "src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java"
+      ],
+      "id": "TLS-024",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Fixed on neoforge-1.21.11 in ac165cd. On 26.2+ entityCutout/entityCutoutNoCull swap (shared-renames), so only the lucky-block part may apply there; check per version.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: culling wrong: end-sword projectile crystal and Wings curio use entityCutout (culls on 1.21.11) for the authors' entityCutoutNoCull; lucky-block display item uses entityTranslucent (no cull) for entityTranslucentCull"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/item/DragonCrystalUpgradeTemplate.java"
+      ],
+      "id": "TLS-025",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Fixed on neoforge-1.21.11 in 6462940.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: Dragon Crystal upgrade template's smithing-slot tooltips swapped (item title passed as baseSlotDescription)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/mixin/CameraMixin.java"
+      ],
+      "id": "TLS-026",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Not fixed this round (S4).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: CameraMixin bases the Queen triple-slash shake on the entity's rotation, not the camera's: in third-person front view the camera flips away during the shake; other mods' camera-angle edits are dropped"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java",
+        "src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java"
+      ],
+      "id": "TLS-027",
+      "lowest": "1.21.11",
+      "notes": "Found by the fresh review of 1.21.11 (weekly round, plan EpicCoreAPI#61); 1.21.10 is correct. Not fixed this round (S4).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.11": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.11+: Sword Wraith eye-glow and All-Things-End layers gated on willRender(): not drawn on an invisible Sword Wraith (1.21.10 and the authors drew them, as vanilla's eyes layer does)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/TheLastSwordMod.java"
+      ],
+      "id": "TLS-028",
+      "lowest": "26.1.2",
+      "notes": "Found by the 26.1.2 fixer (weekly round, plan EpicCoreAPI#61): 26.1.2's layer copy was stale. Fixed on neoforge-26.1.2 in a40ff4f (JarContentsPackResources over the mod's own jar contents). 26.2/26.3 to be checked when they take the cascade.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "gate",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: the built-in classical texture pack does not load (TheLastSwordMod looks for the pack folder inside the jar path; 26.1 has no BuiltInPackSource.fromName)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java"
+      ],
+      "id": "TLS-029",
+      "lowest": "26.1.2",
+      "notes": "Found by the 26.1.2 fixer (weekly round, plan EpicCoreAPI#61): 26.1.2's layer copy was stale. Fixed on neoforge-26.1.2 in f208eeb/a40ff4f.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "gate",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: Dragon Crystal enchanting table's end-portal energy bar drawn immediately during GUI extraction (hidden under the screen background) instead of 1.21.10's picture-in-picture"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/item/DragonCultHornItem.java"
+      ],
+      "id": "TLS-030",
+      "lowest": "26.1.2",
+      "notes": "Found by the 26.1.2 fixer (weekly round, plan EpicCoreAPI#61): 26.1.2's layer copy was stale. Fixed on neoforge-26.1.2 in 55bacfe.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "gate",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: Dragon Cult horn tooltip does not name its instrument (the 1.21.5 INSTRUMENT component missing from the stale 26.1.2 copy)"
     }
   ],
   "schema": 1
