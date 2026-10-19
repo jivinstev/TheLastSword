@@ -104,7 +104,7 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
         queen.addGeckolibData(BODY_YAW, Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot));
     }
 
-    //GeckoLib 5.4: the head look the model's setCustomAnimations applied (pitch/yaw from the render state, in degrees)
+    //GeckoLib 5.4: the head look the model's setCustomAnimations applied (minus the render state's pitch/yaw, in degrees)
     //is a bone-snapshot adjustment on the renderer, made for every frame after the animation
     @Override
     public void adjustModelBonesForRender(RenderPassInfo<R> renderPassInfo, BoneSnapshots snapshots) {
@@ -114,6 +114,6 @@ public class ThePastShadowOfTheQueenRenderer<R extends EntityRenderState & GeoRe
         if (pitch == null || yaw == null) {
             return;
         }
-        snapshots.ifPresent("head", head -> head.setRotX(pitch * Mth.DEG_TO_RAD).setRotY(yaw * Mth.DEG_TO_RAD));
+        snapshots.ifPresent("head", head -> head.setRotX(-pitch * Mth.DEG_TO_RAD).setRotY(-yaw * Mth.DEG_TO_RAD));
     }
 }
