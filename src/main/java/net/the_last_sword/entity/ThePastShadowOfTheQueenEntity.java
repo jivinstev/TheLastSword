@@ -15,7 +15,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Containers;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -519,7 +518,8 @@ public class ThePastShadowOfTheQueenEntity extends TheLastEndEntity implements N
         ItemStack reward = new ItemStack(ModItems.THE_GIVERS_PAIN.get());
         player.getInventory().add(reward);
         if (!reward.isEmpty()) {
-            Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), reward);
+            //26.3: drop's third parameter (swing on the client) is a net.minecraft.util.Prediction; the server drops it
+            player.drop(reward, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
         ServerLevel serverLevel = (ServerLevel) player.level();
         if (serverLevel.getGameRules().get(GameRules.MOB_DROPS)) {
