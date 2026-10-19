@@ -93,7 +93,7 @@ public final class BlinkRiftRenderer {
         if (effectLevel == null || RIFTS.isEmpty()) return;
         PoseStack pose = event.getPoseStack();
         //1.21.9+: the stage event carries no camera or partial tick (as LightningSpearBurstRenderer)
-        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().position();
+        Vec3 camera = Minecraft.getInstance().gameRenderer.mainCamera().position();
         MultiBufferSource.BufferSource buffers = net.the_last_sword.mv.MultiBufferSource.main();
         for (Rift rift : RIFTS) {
             float age = effectLevel.getGameTime() - rift.start() + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
