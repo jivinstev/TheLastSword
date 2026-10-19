@@ -43,7 +43,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
             };
 
     public static final RenderType ITEM = net.the_last_sword.mv.LegacyRenderType.create(
-            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
+            "zero_point_engine_glow", DefaultVertexFormat.ENTITY, VertexFormat.Mode.QUADS,
             256, false, false, net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
                     .setTextureState(net.the_last_sword.mv.LegacyRenderType.BLOCK_SHEET_MIPPED)
@@ -56,7 +56,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
 
     public ZeroPointEngineShader(ResourceProvider provider) throws IOException {
         super(provider, Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
-                DefaultVertexFormat.NEW_ENTITY);
+                DefaultVertexFormat.ENTITY);
         localUvMin = getUniform("LocalUvMin");
         localUvScale = getUniform("LocalUvScale");
         glowPhase = getUniform("GlowPhase");

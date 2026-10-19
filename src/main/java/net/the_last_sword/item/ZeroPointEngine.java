@@ -96,7 +96,7 @@ public class ZeroPointEngine extends Item implements ICurioItem {
         if (!level.isClientSide()) {
             boolean enable = !isChargingEnabled(stack);
             ItemNbt.update(stack, tag -> tag.putBoolean(CHARGING_ENABLED_TAG, enable));
-            player.displayClientMessage(chargingStatus(stack), true);
+            player.sendOverlayMessage(chargingStatus(stack));
         }
         return InteractionResult.SUCCESS;
     }

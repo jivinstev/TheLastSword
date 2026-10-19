@@ -11,3 +11,5 @@ renderBg	extractBg
 member:submitNameTag	submitNameDisplay
 # 26.1: RenderLevelStageEvent.AfterParticles is AfterTranslucentParticles (TLS-007, BlinkRiftRenderer; as LightningSpearBurstRenderer)
 re:\bRenderLevelStageEvent\.AfterParticles\b	RenderLevelStageEvent.AfterTranslucentParticles
+# 26.1: DefaultVertexFormat.NEW_ENTITY is ENTITY (same elements) (TLS-009, ZeroPointEngineShader / ModShaders)
+re:\bDefaultVertexFormat\.NEW_ENTITY\b	DefaultVertexFormat.ENTITY
