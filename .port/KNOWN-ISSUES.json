@@ -865,6 +865,76 @@
         "26.3": "open"
       },
       "title": "26.2+: TestEntityTheLastEndLayer submitCustomGeometry lambdas render with the outer poseStack instead of the callback's pose (test entity only)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java"
+      ],
+      "id": "TLS-035",
+      "lowest": "26.1.2",
+      "notes": "Found by the fresh review of 26.1.2 (weekly round, plan EpicCoreAPI#61); 1.21.11 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "review",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: Dragon Crystal enchanting table GUI loses its 420x200 size (AbstractContainerScreen imageWidth/imageHeight final on 26.1; 3-arg super = 176x166): texture squeezed, widgets off the background, clicks outside 176x166 throw the carried item"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java",
+        "src/main/java/net/the_last_sword/client/gui/SummonWraithGuiScreen.java"
+      ],
+      "id": "TLS-036",
+      "lowest": "26.1.2",
+      "notes": "Found by the fresh review of 26.1.2 (weekly round, plan EpicCoreAPI#61); 1.21.11 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: Dragon Crystal smithing table (256x160) and Summon Wraith (176x240) GUIs keep the 176x166 container size: drawn off-centre, clicks in part of the window throw the carried item; Summon Wraith also lacks the world backdrop"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java"
+      ],
+      "id": "TLS-037",
+      "lowest": "26.1.2",
+      "notes": "Found by the fresh review of 26.1.2 (weekly round, plan EpicCoreAPI#61); 1.21.11 is correct. Reviewer graded S4 (only worlds with Migrated=false); not fixed this round.",
+      "override": null,
+      "rubric": {
+        "failure": "data",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "review",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.1.2+: WraithSummonSavedData's id moved to data/the_last_sword/the_last_sword_wraith_bindings.dat without mv.SavedDatas' old-file carry-over: an upgraded world whose bindings were never migrated to ECA factions loses wraith ownership"
     }
   ],
   "schema": 1
