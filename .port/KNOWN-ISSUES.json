@@ -956,6 +956,72 @@
         "26.1.2": "open"
       },
       "title": "26.1.2: STUBS.json text of WraithSummonSavedData still describes the pre-TLS-037 SavedDataType codec (record only)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/mixin/MinecraftMixin.java"
+      ],
+      "id": "TLS-039",
+      "lowest": "26.2",
+      "notes": "Found by the fresh review of 26.2 (weekly round, plan EpicCoreAPI#61); 26.1.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: MinecraftMixin death-screen guard tests the authors' 1.1.0 EntityUtil.hasProtection instead of 1.1.2's TrueHealthManager.hasLivingProtection (stale 26.2 copy): a protected player's death screen is suppressed/shown wrongly"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/entity/ai/DragonCultPaladinHeavyAttackGoal.java"
+      ],
+      "id": "TLS-040",
+      "lowest": "26.2",
+      "notes": "Found by the fresh review of 26.2 (weekly round, plan EpicCoreAPI#61); 26.1.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: Dragon Cult Paladin heavy attack applies its knockback even when the hit did not land (i-frames, shield, cancelled damage) and bypasses LivingKnockBackEvent"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/overlay/JustifiedDefenceOverlay.java"
+      ],
+      "id": "TLS-041",
+      "lowest": "26.2",
+      "notes": "Found by the fresh review of 26.2 (weekly round, plan EpicCoreAPI#61); 26.1.2 is correct. Not fixed this round (S4).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: JustifiedDefenceOverlay reads Gui.rightHeight by reflection, but 26.2 moved it to Hud: always 39, so the bar can overlap another mod's right-side HUD layer"
     }
   ],
   "schema": 1
