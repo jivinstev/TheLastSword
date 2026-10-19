@@ -31,9 +31,18 @@ public class DragonCultHornItem extends InstrumentItem {
     private static final String RAID_ACTIVE_KEY = "message.the_last_sword.dragon_cult_horn_raid_active";
 
     public DragonCultHornItem() {
+        //1.21.5: InstrumentItem takes no instrument tag; its tooltip line names the INSTRUMENT component, which 1.21.1
+        //filled from the first instrument of DRAGON_CULT_HORNS (the only one: the data file instrument/dragon_cult_horn)
+        //26.1: the component holds a Holder<Instrument>, resolved from the registries as vanilla's goat horn does
         super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties())
                 .stacksTo(1)
                 .rarity(Rarity.UNCOMMON)
+                .delayedComponent(net.minecraft.core.component.DataComponents.INSTRUMENT,
+                        context -> new net.minecraft.world.item.component.InstrumentComponent(context.getOrThrow(
+                                net.minecraft.resources.ResourceKey.create(
+                                        net.minecraft.core.registries.Registries.INSTRUMENT,
+                                        net.minecraft.resources.Identifier.fromNamespaceAndPath(
+                                                net.the_last_sword.TheLastSwordMod.MOD_ID, "dragon_cult_horn")))))
         );
     }
 
