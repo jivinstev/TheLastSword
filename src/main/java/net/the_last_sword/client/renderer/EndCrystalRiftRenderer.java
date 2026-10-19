@@ -1,7 +1,8 @@
 package net.the_last_sword.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -38,9 +39,17 @@ public class EndCrystalRiftRenderer extends EntityRenderer<EndCrystalRift, EndCr
         return entity.getBoundingBoxForCulling();
     }
 
+    //1.21.9+: render(...) is submit(...); the rift is queued as custom geometry on QueenBlinkRenderUtil's rift type (all
+    //summonRift draws), from the entity's pose, before super -- as 1.21.1 drew it before super.render
     @Override
-    public void render(RiftRenderState state, PoseStack pose, MultiBufferSource buffers, int light) {
-        QueenBlinkRenderUtil.summonRift(pose, buffers, state.animationAge, state.yRot);
-        super.render(state, pose, buffers, light);
+    public void submit(RiftRenderState state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
+        float age = state.animationAge;
+        float yRot = state.yRot;
+        collector.submitCustomGeometry(pose, QueenBlinkRenderUtil.riftRenderType(), (last, vertices) -> {
+            PoseStack rift = new PoseStack();
+            rift.last().set(last);
+            QueenBlinkRenderUtil.summonRift(rift, renderType -> vertices, age, yRot);
+        });
+        super.submit(state, pose, collector, camera);
     }
 }

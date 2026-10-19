@@ -2,10 +2,8 @@ package net.the_last_sword.test;
 
 import net.eca.api.EcaAPI;
 import net.minecraft.ChatFormatting;
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import org.lwjgl.glfw.GLFW;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
@@ -40,11 +38,11 @@ import net.the_last_sword.ItemNbt;
 import net.the_last_sword.damagesource.AbsoluteDestructionDamageSource;
 import net.the_last_sword.init.ModKeyMappings;
 import net.the_last_sword.util.EntityUtil;
-import net.the_last_sword.util.health.TrueHealthManager;
 import net.the_last_sword.event.ServerEventHandler;
 import net.the_last_sword.util.nbt.ItemModeHelper;
 
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @EventBusSubscriber(modid = "the_last_sword")
@@ -116,6 +114,16 @@ public class UltraTestSwordItem extends Item {
                     TestUtil.clear(targets);
                 } else {
                     List<Entity> targets = TestUtil.selectTargets(serverPlayer);
+                    Set<EntityType<?>> targetTypes = new HashSet<>();
+                    for (Entity target : targets) {
+                        targetTypes.add(target.getType());
+                    }
+                    // 先封锁再清除，且不缩短已有的更长禁生成时间。
+                    for (EntityType<?> type : targetTypes) {
+                        if (EcaAPI.getSpawnBanTime(serverLevel, type) < 5) {
+                            EcaAPI.banSpawn(serverLevel, type, 5);
+                        }
+                    }
                     for (Entity target : targets) {
                         EntityUtil.theLastEndRemove(target, Entity.RemovalReason.KILLED);
                     }
@@ -157,8 +165,7 @@ public class UltraTestSwordItem extends Item {
                         .append(Component.translatable(modeKey))
         );
 
-        boolean shiftDown = Minecraft.getInstance().hasShiftDown();
-        if (!shiftDown) {
+        if (!Minecraft.getInstance().hasShiftDown()) {
             tooltip.add(Component.translatable("item_tooltip.the_last_sword.shift"));
         } else {
             String descrKey = (mode == 0)
@@ -212,8 +219,8 @@ public class UltraTestSwordItem extends Item {
     public static boolean hasUltraTestSword(Player player) {
         if (player == null || player.getInventory() == null) return false;
 
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof UltraTestSwordItem) {
                 return true;
             }
@@ -226,8 +233,8 @@ public class UltraTestSwordItem extends Item {
         if (!(entity instanceof Player player)) return false;
         if (player.getInventory() == null) return false;
 
-        for (int j = 0; j < player.getInventory().getContainerSize(); j++) {
-            ItemStack st = player.getInventory().getItem(j);
+        //1.21.5: Inventory.items is private; getNonEquipmentItems() is the same 36 main slots (getContainerSize() adds armour and offhand)
+        for (ItemStack st : player.getInventory().getNonEquipmentItems()) {
             if (st.getItem() instanceof UltraTestSwordItem) {
                 ItemModeHelper.initializeMode(st, 0, MAX_MODES);
                 if (ItemModeHelper.getMode(st) == 1) return true;
@@ -251,17 +258,6 @@ public class UltraTestSwordItem extends Item {
         boolean isCreativeOrSpec = sp.isCreative() || sp.isSpectator();
         boolean isOp = sp.permissions().hasPermission(net.minecraft.server.permissions.Permissions.COMMANDS_GAMEMASTER);
         if (!(isCreativeOrSpec && isOp)) return;
-
-        //TLS防御逻辑：持有究极测试剑时始终注册
-        if (hasUltraTestSword(sp)) {
-            TrueHealthManager.register(sp, sp.getMaxHealth());
-            sp.getPersistentData().putBoolean("UltraTestSwordTLSDefence", true);
-        } else {
-            if (sp.getPersistentData().getBoolean("UltraTestSwordTLSDefence").orElse(false)) {
-                TrueHealthManager.clear(sp);
-                sp.getPersistentData().remove("UltraTestSwordTLSDefence");
-            }
-        }
 
         //ECA无敌+位置锁定：仅防御模式
         if (hasDefenseSword(sp)) {

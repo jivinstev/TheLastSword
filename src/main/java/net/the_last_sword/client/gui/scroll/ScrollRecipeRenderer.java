@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
@@ -58,13 +59,25 @@ public final class ScrollRecipeRenderer {
         return CRAFTING_DISPLAY_HEIGHT;
     }
 
-    //1.21.4客户端不再持有配方管理器，改从单人游戏的内置服务端查询
-    private static Optional<Recipe<?>> findRecipe(Minecraft minecraft, Identifier recipeId) {
+    //1.21.4: the client holds no recipe manager. The server sends its crafting and smithing recipes
+    //(OnDatapackSyncEvent.sendRecipes, ServerEventHandler); a dedicated server or LAN host's recipes arrive here
+    private static RecipeMap receivedRecipes = RecipeMap.EMPTY;
+
+    public static synchronized void setReceivedRecipes(RecipeMap recipes) {
+        receivedRecipes = recipes == null ? RecipeMap.EMPTY : recipes;
+    }
+
+    private static synchronized Optional<Recipe<?>> findRecipe(Minecraft minecraft, Identifier recipeId) {
+        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, recipeId);
+        RecipeHolder<?> received = receivedRecipes.byKey(key);
+        if (received != null) {
+            return Optional.of(received.value());
+        }
         if (minecraft.getSingleplayerServer() == null) {
             return Optional.empty();
         }
         return minecraft.getSingleplayerServer().getRecipeManager()
-                .byKey(ResourceKey.create(Registries.RECIPE, recipeId))
+                .byKey(key)
                 .<Recipe<?>>map(RecipeHolder::value);
     }
 
@@ -114,7 +127,7 @@ public final class ScrollRecipeRenderer {
 
         graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_unsupported", recipeId),
-                areaX, areaY + 24, 0x8B3030, false);
+                areaX, areaY + 24, 0xFF8B3030, false);
         return ItemStack.EMPTY;
     }
 
@@ -278,7 +291,7 @@ public final class ScrollRecipeRenderer {
                                            Font font, int areaX, int areaY) {
         graphics.text(font,
                 Component.translatable("gui.the_last_sword.scroll_book.recipe_missing", recipeId),
-                areaX, areaY + 24, 0x8B3030, false);
+                areaX, areaY + 24, 0xFF8B3030, false);
         return ItemStack.EMPTY;
     }
 

@@ -1,7 +1,7 @@
 package net.the_last_sword.entity.ai;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.PowerParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -168,9 +168,7 @@ public class DragonCultPriestBreathGoal extends Goal {
 
         for (LivingEntity target : priest.level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> EntityUtil.canAttack(priest, entity))) {
-            float healthBefore = target.getHealth();
-            target.hurt(damageSource, damage);
-            if (target.getHealth() < healthBefore) {
+            if (net.the_last_sword.mv.Hurt.server(target,damageSource, damage)) {
                 priest.onSuccessfulAttack(target);
             }
         }
