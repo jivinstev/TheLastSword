@@ -29,7 +29,7 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
                 public void setupRenderState() {
                     org.joml.Matrix4fStack modelView = com.mojang.blaze3d.systems.RenderSystem.getModelViewStack();
                     modelView.pushMatrix();
-                    java.util.function.Consumer<org.joml.Matrix4fStack> modifier =
+                    java.util.function.Consumer<org.joml.Matrix4f> modifier =
                             net.minecraft.client.renderer.rendertype.LayeringTransform.VIEW_OFFSET_Z_LAYERING.getModifier();
                     if (modifier != null) {
                         modifier.accept(modelView);
