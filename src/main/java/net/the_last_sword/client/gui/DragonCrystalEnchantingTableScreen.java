@@ -84,7 +84,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     private ItemStack lastSlotItem = ItemStack.EMPTY;
 
     public DragonCrystalEnchantingTableScreen(DragonCrystalEnchantingTableMenu container, Inventory inventory, Component text) {
-        super(container, inventory, text);
+        //26.1: imageWidth/imageHeight are final; the lower versions' 420 x 200 goes to the sized constructor
+        super(container, inventory, text, 420, 200);
         this.world = container.world;
         this.x = container.x;
         this.y = container.y;
