@@ -112,11 +112,16 @@ public final class DangerousSkillPreviewRenderer {
     private static void line(VertexConsumer buffer, PoseStack.Pose pose, Vec3 start, Vec3 end, float alpha) {
         Matrix4f matrix = pose.pose();
         Vec3 normal = end.subtract(start).normalize();
+        //1.21.11: RenderTypes.lines() is POSITION_COLOR_NORMAL_LINE_WIDTH, every vertex needs its width; 1.21.1's
+        //lines() drew at RenderSystem's default width, which is Window.getAppropriateLineWidth() (as the block outline)
+        float lineWidth = Minecraft.getInstance().getWindow().getAppropriateLineWidth();
         buffer.addVertex(matrix, (float) start.x, (float) start.y, (float) start.z)
                 .setColor(1.0F, 0.1F, 0.1F, alpha)
-                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
+                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z)
+                .setLineWidth(lineWidth);
         buffer.addVertex(matrix, (float) end.x, (float) end.y, (float) end.z)
                 .setColor(1.0F, 0.1F, 0.1F, alpha)
-                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
+                .setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z)
+                .setLineWidth(lineWidth);
     }
 }

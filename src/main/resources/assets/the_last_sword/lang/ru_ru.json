@@ -522,6 +522,7 @@
   "jei.tooltip.error.recipe.transfer.missing.addition": "Нет дополнительного предмета",
   "jei.tooltip.error.recipe.transfer.missing.input.level": "Нет входного предмета уровня%s",
   "jei.tooltip.error.recipe.transfer.missing.template": "Нет кузнечного шаблона драконьего кристалла",
+  "key.category.the_last_sword.the_last_sword": "Последний меч",
   "key.categories.the_last_sword": "Последний меч",
   "key.the_last_sword.change_sword_mode": "Сменить режим Последнего меча",
   "key.the_last_sword.open_defence_config": "Открыть настройки защиты",

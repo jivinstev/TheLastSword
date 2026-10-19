@@ -79,7 +79,7 @@ public class JustifiedDefenceConfigScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFFFF);
         super.render(graphics, mouseX, mouseY, partialTick);
     }
 

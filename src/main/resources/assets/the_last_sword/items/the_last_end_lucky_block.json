@@ -1,6 +1,9 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "the_last_sword:item/the_last_end_lucky_block"
+    "type": "minecraft:special",
+    "base": "the_last_sword:item/the_last_end_lucky_block",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
   }
 }

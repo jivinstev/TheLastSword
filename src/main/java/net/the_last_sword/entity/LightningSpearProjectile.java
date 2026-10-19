@@ -118,9 +118,7 @@ public class LightningSpearProjectile extends AbstractArrow {
                             .getOrThrow(DamageTypes.LIGHTNING_BOLT), this, owner);
             for (LivingEntity target : serverLevel.getEntitiesOfClass(LivingEntity.class, area,
                     entity -> entity.isAlive() && entity != owner && EntityUtil.canAttack(owner, entity))) {
-                float healthBefore = target.getHealth();
-                target.hurt(source, (float) settings.damage());
-                boolean damaged = target.getHealth() < healthBefore;
+                boolean damaged = net.the_last_sword.mv.Hurt.server(target,source, (float) settings.damage());
                 if (settings.slowTicks() > 0) {
                     target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,
                             settings.slowTicks(), settings.slowLevel() - 1), owner);
