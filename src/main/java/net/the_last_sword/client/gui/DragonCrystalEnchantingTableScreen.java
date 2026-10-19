@@ -727,11 +727,12 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 scissor != null ? scissor.intersection(area) : area));
     }
 
-    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+). */
+    /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+; 26.1: the state is in
+     *  renderer.state.gui.pip, PerspectiveProjectionMatrixBuffer is ProjectionMatrixBuffer). */
     public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
-            implements net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState {
+            implements net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState {
         @Override
         public float scale() {
             return 1.0F;
@@ -742,8 +743,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
      *  rectangle in GUI units (z -10000..10000, as the 1.21.1 GUI) and the model-view moved by (-x0, -y0). */
     public static final class EndPortalPipRenderer
             extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
-        private final net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer projection =
-                new net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer("the_last_sword_end_portal_pip");
+        private final net.minecraft.client.renderer.ProjectionMatrixBuffer projection =
+                new net.minecraft.client.renderer.ProjectionMatrixBuffer("the_last_sword_end_portal_pip");
 
         public EndPortalPipRenderer(MultiBufferSource.BufferSource bufferSource) {
             super(bufferSource);

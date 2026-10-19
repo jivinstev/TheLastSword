@@ -119,9 +119,9 @@ public class TheLastSwordMod {
                         new PackLocationInfo(MOD_ID + ":classical_texture",
                                 Component.literal("The Last Sword Classical Texture Pack"),
                                 PackSource.BUILT_IN, Optional.empty()),
-                        net.minecraft.server.packs.repository.BuiltInPackSource.fromName(info ->
-                                new net.neoforged.neoforge.resource.JarContentsPackResources(info, contents,
-                                        "resourcepacks/The Last Sword Classical Texture Pack")),
+                        //26.1: BuiltInPackSource.fromName is gone; NeoForge's own supplier over the same JarContents and folder
+                        new net.neoforged.neoforge.resource.JarContentsPackResources.JarContentsResourcesSupplier(contents,
+                                "resourcepacks/The Last Sword Classical Texture Pack"),
                         PackType.CLIENT_RESOURCES,
                         new PackSelectionConfig(false, Pack.Position.TOP, false)
                 );

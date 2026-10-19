@@ -13,3 +13,5 @@ member:submitNameTag	submitNameDisplay
 re:\bRenderLevelStageEvent\.AfterParticles\b	RenderLevelStageEvent.AfterTranslucentParticles
 # 26.1: DefaultVertexFormat.NEW_ENTITY is ENTITY (same elements) (TLS-009, ZeroPointEngineShader / ModShaders)
 re:\bDefaultVertexFormat\.NEW_ENTITY\b	DefaultVertexFormat.ENTITY
+# 26.1: PerspectiveProjectionMatrixBuffer is ProjectionMatrixBuffer (same getBuffer(Matrix4f)) (DragonCrystalEnchantingTableScreen end-portal PIP)
+net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer	net.minecraft.client.renderer.ProjectionMatrixBuffer
