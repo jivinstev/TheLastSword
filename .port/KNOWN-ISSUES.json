@@ -16,13 +16,13 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "fixed@9081d16",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "fixed@b8ad6da",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "F1: much GUI text invisible from 1.21.6 -- 24-bit colour literals (journal, paper notes, scroll pages, enchanting-table names/level/cost/XP, NPC name, sword-wraith screen, config-screen titles, HUD-position screens, ScrollRecipeRenderer, JustifiedDefenceOverlay and DragonArmorOverlay HUD lines)"
     },
@@ -129,11 +129,11 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "fixed@34f433b",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "n/a",
-        "26.1.2": "open",
+        "26.1.2": "fixed@9dea61b",
         "26.2": "n/a",
         "26.3": "n/a"
       },
@@ -159,13 +159,13 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "fixed@81e35c6",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "n/a",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "Build fails 1.21.10-26.3: ModCapabilities and ZeroPointEngine use the pre-1.21.9 capability names (Capabilities.EnergyStorage / ItemHandler); 26.x also infers Object for the sided item-handler lambda"
     },
@@ -189,13 +189,13 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "fixed@832d5df",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "n/a",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "Build fails 1.21.10-26.3: the authors' 1.1.2 rift renderers (EndCrystalRiftRenderer, BlinkRiftRenderer) were never ported to 1.21.9+ rendering (render-state / submit, RenderLevelStageEvent)"
     },
@@ -218,13 +218,13 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "fixed@34f433b",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "n/a",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "Build fails 1.21.10-26.3: QueenEnhancedBlade overlay predates 1.1.2's QueenBlinkBlade hierarchy (constructor owner type, forward() access, @Override)"
     },
@@ -249,13 +249,13 @@
       "status": {
         "1.21.1": "n/a",
         "1.21.10": "n/a",
-        "1.21.11": "open",
+        "1.21.11": "fixed@f135156",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
         "1.21.8": "n/a",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "Build fails 1.21.11-26.3: 1.1.2's Zero Point Engine shader, ModShaders and EndCrystalRift use APIs gone on 1.21.11+ (RenderStateShard, DefaultVertexFormat.NEW_ENTITY, displayClientMessage, entity constructor)"
     },
@@ -281,7 +281,7 @@
         "1.21.8": "fixed@72310da",
         "26.1.2": "fixed@72310da",
         "26.2": "fixed@72310da",
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "'Discover <structure>' advancements granted anywhere: location predicate keyed 'structure' (1.20.1) instead of 'structures' -- fixed everywhere except the 26.3 converted advancement data, which kept the old key"
     },
@@ -517,10 +517,10 @@
       "severity": "S1",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: RenderTypes.lines() vertices without setLineWidth crash the client (POSITION_COLOR_NORMAL_LINE_WIDTH): mining/arena/lantern previews (ClientEventHandler.addLine) and the boss dangerous-skill preview (DangerousSkillPreviewRenderer)"
     },
@@ -541,10 +541,10 @@
       "severity": "S2",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: Dragon Cult Priest armour gives 0 armour and 0 toughness: getDefaultAttributeModifiers builds on super (ItemAttributeModifiers.EMPTY on NeoForge 21.11) instead of the item's ATTRIBUTE_MODIFIERS component"
     },
@@ -571,10 +571,10 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: GeckoLib 5.4 head look inverted on 7 mobs (adjustModelBonesForRender sets +pitch/+yaw where the authors' GeckoLib 4 code negated them); STUBS text claimed the same rotations"
     },
@@ -598,10 +598,10 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: GeckoLib 5.4.5 bone pivot applied twice: Guardian/Cultist/Past Shadow held items float off the hands, Lost Wraith seal chains off the wrists (5.3 compensation kept after transformToBone now ends at the pivot)"
     },
@@ -624,10 +624,10 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: culling wrong: end-sword projectile crystal and Wings curio use entityCutout (culls on 1.21.11) for the authors' entityCutoutNoCull; lucky-block display item uses entityTranslucent (no cull) for entityTranslucentCull"
     },
@@ -648,10 +648,10 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@f135156",
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "1.21.11+: Dragon Crystal upgrade template's smithing-slot tooltips swapped (item title passed as baseSlotDescription)"
     },
@@ -721,9 +721,9 @@
       "severity": "S3",
       "source": "gate",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: the built-in classical texture pack does not load (TheLastSwordMod looks for the pack folder inside the jar path; 26.1 has no BuiltInPackSource.fromName)"
     },
@@ -744,9 +744,9 @@
       "severity": "S3",
       "source": "gate",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: Dragon Crystal enchanting table's end-portal energy bar drawn immediately during GUI extraction (hidden under the screen background) instead of 1.21.10's picture-in-picture"
     },
@@ -767,9 +767,9 @@
       "severity": "S3",
       "source": "gate",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: Dragon Cult horn tooltip does not name its instrument (the 1.21.5 INSTRUMENT component missing from the stale 26.1.2 copy)"
     },
@@ -817,8 +817,8 @@
       "severity": "S3",
       "source": "gate",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.2+: reversed depth (26.2 depth test GREATER_THAN_OR_EQUAL): the boss danger-zone fill and TheLastEndRenderTypes effect types still test LESS_THAN_OR_EQUAL, so they draw only where something hides them"
     },
@@ -839,8 +839,8 @@
       "severity": "S3",
       "source": "gate",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.2+: Dragon shield placed from the camera entity's eye position instead of the main camera's position: wrong in third person"
     },
@@ -883,9 +883,9 @@
       "severity": "S2",
       "source": "review",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: Dragon Crystal enchanting table GUI loses its 420x200 size (AbstractContainerScreen imageWidth/imageHeight final on 26.1; 3-arg super = 176x166): texture squeezed, widgets off the background, clicks outside 176x166 throw the carried item"
     },
@@ -907,9 +907,9 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: Dragon Crystal smithing table (256x160) and Summon Wraith (176x240) GUIs keep the 176x166 container size: drawn off-centre, clicks in part of the window throw the carried item; Summon Wraith also lacks the world backdrop"
     },
@@ -930,9 +930,9 @@
       "severity": "S1",
       "source": "review",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "26.1.2": "fixed@9dea61b",
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.1.2+: WraithSummonSavedData's id moved to data/the_last_sword/the_last_sword_wraith_bindings.dat without mv.SavedDatas' old-file carry-over: an upgraded world whose bindings were never migrated to ECA factions loses wraith ownership"
     },
@@ -974,8 +974,8 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.2+: MinecraftMixin death-screen guard tests the authors' 1.1.0 EntityUtil.hasProtection instead of 1.1.2's TrueHealthManager.hasLivingProtection (stale 26.2 copy): a protected player's death screen is suppressed/shown wrongly"
     },
@@ -996,8 +996,8 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "fixed@c378180",
+        "26.3": "fixed@828167b"
       },
       "title": "26.2+: Dragon Cult Paladin heavy attack applies its knockback even when the hit did not land (i-frames, shield, cancelled damage) and bypasses LivingKnockBackEvent"
     },
@@ -1040,7 +1040,7 @@
       "severity": "S1",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: Dragon Crystal enchanting table menu's two slots are the player's hotbar slots 1-2 (Slot(inv, 0/1)), not the table's own handler: shift-clicking duplicates the stack"
     },
@@ -1061,7 +1061,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: InventoryMixin guards use ECA's EntityUtil.hasExternalCaller(5) instead of 1.1.2's InventoryProtectionPolicy.hasBlockedExternalCaller(): the inventory-protection package whitelist is ignored"
     },
@@ -1082,7 +1082,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: Ruined Village street pieces placed rigid instead of terrain_matching (float over dips, cut into slopes)"
     },
@@ -1103,7 +1103,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: unarmed Guardian of the Sealed Spire no longer picks up the mod's own swords (SwordItem clause dropped in GuardianPickupWeaponGoal)"
     },
@@ -1124,7 +1124,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: the mod's swords lost shovel_douse (no longer put out a campfire): hand-written ItemAbilities list omits it"
     },
@@ -1145,7 +1145,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: Sword Wraith canBeAffected compares the effect's value, so it now takes Void Enchanting (the authors' and 26.2's code let it take no effect)"
     },
@@ -1166,7 +1166,7 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@828167b"
       },
       "title": "26.3: The Giver's Pain overflow reward scattered with Containers.dropItemStack instead of player.drop (no thrower, no pickup delay, no ItemTossEvent)"
     },
