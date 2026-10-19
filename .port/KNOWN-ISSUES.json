@@ -935,6 +935,27 @@
         "26.3": "open"
       },
       "title": "26.1.2+: WraithSummonSavedData's id moved to data/the_last_sword/the_last_sword_wraith_bindings.dat without mv.SavedDatas' old-file carry-over: an upgraded world whose bindings were never migrated to ECA factions loses wraith ownership"
+    },
+    {
+      "files": [
+        ".port/26.1.2/STUBS.json"
+      ],
+      "id": "TLS-038",
+      "lowest": "26.1.2",
+      "notes": "Found by the re-check of 26.1.2 (plan EpicCoreAPI#61); no in-game effect.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "invisible",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "26.1.2": "open"
+      },
+      "title": "26.1.2: STUBS.json text of WraithSummonSavedData still describes the pre-TLS-037 SavedDataType codec (record only)"
     }
   ],
   "schema": 1
