@@ -716,10 +716,10 @@
    "file": "net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
    "kind": "render-use",
    "key": "RenderType.lines",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
    "now": "RenderTypes.lines",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-class:class DragonArmorRenderer : GeoArmorRenderer",
@@ -1462,10 +1462,10 @@
    "file": "net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java",
    "kind": "render-use",
    "key": "RenderType.entityCutoutNoCull",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
    "now": "RenderTypes.entityCutoutNoCull",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/shader/TheLastEndEffect.java#render-use:ShaderInstance",
@@ -1869,9 +1869,9 @@
    "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",
@@ -2213,10 +2213,10 @@
    "file": "net/the_last_sword/event/ClientEventHandler.java",
    "kind": "render-use",
    "key": "RenderType.lines",
-   "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
+   "status": "changed",
+   "detail": "the target's overlay has a different render-use; an ok row of REVIEW.md names it",
    "now": "RenderTypes.lines",
-   "was": "changed"
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/event/DefenceEventHandler.java#event:@SubscribeEvent EntityAttributeModificationEvent",
@@ -3864,17 +3864,11 @@
    "detail": "the target's resources have it"
   }
  ],
- "unaccounted": [
-  "main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.lines",
-  "main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-use:RenderType.entityCutoutNoCull",
-  "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull",
-  "main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.lines"
- ],
+ "unaccounted": [],
  "counts": {
   "same": 257,
-  "moved": 78,
-  "changed": 42,
-  "unaccounted": 4,
+  "moved": 79,
+  "changed": 45,
   "dropped": 29
  },
  "notes": []
