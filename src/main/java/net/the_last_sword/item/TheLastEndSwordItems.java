@@ -71,6 +71,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
                toolAction == ItemAbility.get("hoe_till") ||
                toolAction == ItemAbility.get("shovel_dig") ||
                toolAction == ItemAbility.get("shovel_flatten") ||
+               toolAction == ItemAbilities.SHOVEL_DOUSE ||
                toolAction == ItemAbility.get("pickaxe_dig") ||
                toolAction == ItemAbility.get("sword_dig") ||
                toolAction == ItemAbilities.SWORD_SWEEP;
