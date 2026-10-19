@@ -35,7 +35,8 @@ public final class DangerousSkillPreviewRenderer {
             .withLocation("pipeline/dangerous_skill_preview_fill")
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
             .withCull(false)
-            .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
+            //26.2 is reverse-Z: 1.21's LEQUAL is GREATER_THAN_OR_EQUAL, as vanilla's DEBUG_FILLED_SNIPPET (no depth write)
+            .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
             .build();
     private static final RenderType FILL = RenderType.create("dangerous_skill_preview",
             RenderSetup.builder(FILL_PIPELINE).sortOnUpload().createRenderSetup());
