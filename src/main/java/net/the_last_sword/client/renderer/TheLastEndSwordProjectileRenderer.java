@@ -41,6 +41,8 @@ public class TheLastEndSwordProjectileRenderer extends EntityRenderer<TheLastEnd
     }
 
     private static final Identifier END_CRYSTAL_LOCATION = Identifier.parse("textures/entity/end_crystal/end_crystal.png");
+    //26.1.2: entityCutout is the no-cull type (pipeline ENTITY_CUTOUT withCull(false); the culling one is entityCutoutCull),
+    //so 1.21.11's entityCutoutNoCull (1.21.1's culling-off state) is entityCutout here
     private static final RenderType RENDER_TYPE = RenderTypes.entityCutout(END_CRYSTAL_LOCATION);
     private static final float SIN_45 = (float) Math.sin(0.7853981633974483);
 

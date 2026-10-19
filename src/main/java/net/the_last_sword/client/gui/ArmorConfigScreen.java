@@ -66,7 +66,7 @@ public class ArmorConfigScreen extends Screen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFFFF);
 
         //在按钮左侧渲染头盔图标
         int buttonWidth = 200;

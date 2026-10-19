@@ -4,7 +4,6 @@ import net.eca.mv.Uniform;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.eca.client.render.shader.EcaShaderInstance;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.the_last_sword.mv.ShaderInstance;
 import net.minecraft.resources.Identifier;
@@ -21,21 +20,43 @@ public final class ZeroPointEngineShader extends EcaShaderInstance {
     private final Uniform localUvScale;
     private final Uniform glowPhase;
 
+    // 1.21.11: RenderStateShard is gone; 1.21.1's VIEW_OFFSET_Z_LAYERING shard (push the model-view, nudge it towards the
+    // camera, pop after the draw) is vanilla's LayeringTransform.VIEW_OFFSET_Z_LAYERING modifier, applied around the draw
+    // as RenderType.draw does, since LegacyGl draws with RenderSystem's model-view matrix
+    private static final net.the_last_sword.mv.LegacyRenderType.Shard VIEW_OFFSET_Z_LAYERING =
+            new net.the_last_sword.mv.LegacyRenderType.Shard() {
+                @Override
+                public void setupRenderState() {
+                    org.joml.Matrix4fStack modelView = com.mojang.blaze3d.systems.RenderSystem.getModelViewStack();
+                    modelView.pushMatrix();
+                    java.util.function.Consumer<org.joml.Matrix4fStack> modifier =
+                            net.minecraft.client.renderer.rendertype.LayeringTransform.VIEW_OFFSET_Z_LAYERING.getModifier();
+                    if (modifier != null) {
+                        modifier.accept(modelView);
+                    }
+                }
+
+                @Override
+                public void clearRenderState() {
+                    com.mojang.blaze3d.systems.RenderSystem.getModelViewStack().popMatrix();
+                }
+            };
+
     public static final RenderType ITEM = net.the_last_sword.mv.LegacyRenderType.create(
-            "zero_point_engine_glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
+            "zero_point_engine_glow", DefaultVertexFormat.ENTITY, VertexFormat.Mode.QUADS,
             256, false, false, net.the_last_sword.mv.LegacyRenderType.state()
                     .setShaderState(new net.the_last_sword.mv.ShaderShard(() -> shader))
-                    .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
+                    .setTextureState(net.the_last_sword.mv.LegacyRenderType.BLOCK_SHEET_MIPPED)
                     .setTransparencyState(net.the_last_sword.mv.LegacyRenderType.TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(net.the_last_sword.mv.LegacyRenderType.LEQUAL_DEPTH_TEST)
                     .setCullState(net.the_last_sword.mv.LegacyRenderType.NO_CULL)
                     .setWriteMaskState(net.the_last_sword.mv.LegacyRenderType.COLOR_WRITE)
-                    .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .createCompositeState(false));
 
     public ZeroPointEngineShader(ResourceProvider provider) throws IOException {
         super(provider, Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "zero_point_engine"),
-                DefaultVertexFormat.NEW_ENTITY);
+                DefaultVertexFormat.ENTITY);
         localUvMin = getUniform("LocalUvMin");
         localUvScale = getUniform("LocalUvScale");
         glowPhase = getUniform("GlowPhase");
