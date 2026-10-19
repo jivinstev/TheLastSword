@@ -9,3 +9,5 @@ re:^software\.bernie\.geckolib\b	com.geckolib
 renderBg	extractBg
 # X92: proposed by a file-loop worker, kept because the error count fell
 member:submitNameTag	submitNameDisplay
+# 26.1: RenderLevelStageEvent.AfterParticles is AfterTranslucentParticles (TLS-007, BlinkRiftRenderer; as LightningSpearBurstRenderer)
+re:\bRenderLevelStageEvent\.AfterParticles\b	RenderLevelStageEvent.AfterTranslucentParticles

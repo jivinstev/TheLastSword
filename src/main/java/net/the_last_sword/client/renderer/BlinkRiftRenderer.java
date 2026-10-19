@@ -88,7 +88,7 @@ public final class BlinkRiftRenderer {
     }
 
     @SubscribeEvent
-    public static void render(RenderLevelStageEvent.AfterParticles event) {
+    public static void render(RenderLevelStageEvent.AfterTranslucentParticles event) {
         update();
         if (effectLevel == null || RIFTS.isEmpty()) return;
         PoseStack pose = event.getPoseStack();
