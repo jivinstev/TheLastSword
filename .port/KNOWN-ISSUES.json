@@ -1022,6 +1022,205 @@
         "26.3": "open"
       },
       "title": "26.2+: JustifiedDefenceOverlay reads Gui.rightHeight by reflection, but 26.2 moved it to Hud: always 39, so the bar can overlap another mod's right-side HUD layer"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/menu/DragonCrystalEnchantingTableMenu.java"
+      ],
+      "id": "TLS-042",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "data",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: Dragon Crystal enchanting table menu's two slots are the player's hotbar slots 1-2 (Slot(inv, 0/1)), not the table's own handler: shift-clicking duplicates the stack"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/mixin/InventoryMixin.java"
+      ],
+      "id": "TLS-043",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "rare",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: InventoryMixin guards use ECA's EntityUtil.hasExternalCaller(5) instead of 1.1.2's InventoryProtectionPolicy.hasBlockedExternalCaller(): the inventory-protection package whitelist is ignored"
+    },
+    {
+      "files": [
+        "src/main/resources/data/the_last_sword/worldgen/template_pool/ruined_village/streets.json"
+      ],
+      "id": "TLS-044",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: Ruined Village street pieces placed rigid instead of terrain_matching (float over dips, cut into slopes)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/entity/ai/GuardianPickupWeaponGoal.java"
+      ],
+      "id": "TLS-045",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: unarmed Guardian of the Sealed Spire no longer picks up the mod's own swords (SwordItem clause dropped in GuardianPickupWeaponGoal)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java"
+      ],
+      "id": "TLS-046",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "normal",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: the mod's swords lost shovel_douse (no longer put out a campfire): hand-written ItemAbilities list omits it"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java"
+      ],
+      "id": "TLS-047",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: Sword Wraith canBeAffected compares the effect's value, so it now takes Void Enchanting (the authors' and 26.2's code let it take no effect)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java"
+      ],
+      "id": "TLS-048",
+      "lowest": "26.3",
+      "notes": "Found by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); 26.2 is correct.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: The Giver's Pain overflow reward scattered with Containers.dropItemStack instead of player.drop (no thrower, no pickup delay, no ItemTossEvent)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/gui/menu/DragonCrystalEnchantingTableMenu.java"
+      ],
+      "id": "TLS-049",
+      "lowest": "1.21.1",
+      "notes": "Noticed by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); pre-existing, not from this round's changes; not fixed this round. On Forge 1.20.1 the block gave its whole inventory for a null side. Lowest affected to be confirmed per version (the reviewer saw it on 26.2 and every earlier NeoForge version).",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.1": "open",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "open",
+        "1.21.5": "open",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "Dragon Crystal enchanting table menu never bound to its block on NeoForge (the block's item capability returns null for a null side): items put in the slots are lost on close and EnchantmentApplyPacket reads the block's empty slot"
+    },
+    {
+      "files": [
+        "src/main/resources/data/the_last_sword/advancement/the_last_sword_welcome.json"
+      ],
+      "id": "TLS-050",
+      "lowest": "26.1.2",
+      "notes": "Noticed by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); pre-existing, not from this round's changes; not fixed this round.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.x: root advancement the_last_sword_welcome's background minecraft:textures/block/end_stone.png resolves to a missing texture behind the tab (should be minecraft:block/end_stone)"
     }
   ],
   "schema": 1
