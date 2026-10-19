@@ -317,7 +317,9 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
 
     @Override
     public boolean canBeAffected(@NotNull MobEffectInstance effect) {
-        return effect.getEffect().value() == ModEffects.VOID_ENCHANTING.get();
+        //as 26.2 and the authors: the Holder is compared with the MobEffect (never equal), so the Sword Wraith takes no
+        //effect; 26.3's javac rejects Holder<MobEffect> == MobEffect as incomparable, so the Holder is viewed as an Object
+        return (Object) effect.getEffect() == ModEffects.VOID_ENCHANTING.get();
     }
 
     @Override
