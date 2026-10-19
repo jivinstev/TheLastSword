@@ -3,3 +3,5 @@
 readResourceLocation()	readIdentifier()
 # 1.21.11: Camera.getPosition() is position() (TLS-007, BlinkRiftRenderer)
 re:\.getMainCamera\(\)\.getPosition\(\)	.getMainCamera().position()
+# 1.21.11: RenderStateShard is gone; the block atlas texture shard is the layer helper's (TLS-009)
+re:\bRenderStateShard\.BLOCK_SHEET_MIPPED\b	net.the_last_sword.mv.LegacyRenderType.BLOCK_SHEET_MIPPED
