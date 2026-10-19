@@ -735,7 +735,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
     }
 
     /** The end-portal rectangle of the energy bar, as a picture-in-picture GUI element (1.21.6+; 26.1: the state is in
-     *  renderer.state.gui.pip, PerspectiveProjectionMatrixBuffer is ProjectionMatrixBuffer). */
+     *  renderer.state.gui.pip; 26.2: the renderer is made by a Supplier). */
     public record EndPortalPip(int x0, int y0, int x1, int y1, org.joml.Matrix3x2f pose,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle scissorArea,
                                @javax.annotation.Nullable net.minecraft.client.gui.navigation.ScreenRectangle bounds)
@@ -746,54 +746,35 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         }
     }
 
-    /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture: an orthographic projection over the
-     *  rectangle in GUI units (z -10000..10000, as the 1.21.1 GUI) and the model-view moved by (-x0, -y0). */
+    /** Draws 1.21.1's quad with RenderType.endPortal() into the element's texture. 26.2: the renderer has no buffer
+     *  source; the base class sets the orthographic projection over the texture (pixels, y down) and the quad is
+     *  submitted as custom geometry, from a pose that maps the rectangle's GUI units onto it (scale by the GUI scale,
+     *  moved by (-x0, -y0)) instead of the base pose (centred at the bottom edge, for models). */
     public static final class EndPortalPipRenderer
             extends net.minecraft.client.gui.render.pip.PictureInPictureRenderer<EndPortalPip> {
-        private final net.minecraft.client.renderer.ProjectionMatrixBuffer projection =
-                new net.minecraft.client.renderer.ProjectionMatrixBuffer("the_last_sword_end_portal_pip");
-
-        public EndPortalPipRenderer(MultiBufferSource.BufferSource bufferSource) {
-            super(bufferSource);
-        }
-
         @Override
         public Class<EndPortalPip> getRenderStateClass() {
             return EndPortalPip.class;
         }
 
         @Override
-        protected void renderToTexture(EndPortalPip state, PoseStack unused) {
-            int width = state.x1() - state.x0();
-            int height = state.y1() - state.y0();
-            RenderSystem.setProjectionMatrix(
-                    projection.getBuffer(new Matrix4f().setOrtho(0.0F, width, height, 0.0F, -10000.0F, 10000.0F)),
-                    com.mojang.blaze3d.ProjectionType.ORTHOGRAPHIC);
-            org.joml.Matrix4fStack modelView = RenderSystem.getModelViewStack();
-            modelView.pushMatrix();
-            try {
-                modelView.identity().translate(-state.x0(), -state.y0(), 0.0F);
-                VertexConsumer vertexConsumer = this.bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.endPortal());
-                Matrix4f matrix = new Matrix4f();
-                vertexConsumer.addVertex(matrix, state.x0(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y1(), 0);
-                vertexConsumer.addVertex(matrix, state.x1(), state.y0(), 0);
-                vertexConsumer.addVertex(matrix, state.x0(), state.y0(), 0);
-                this.bufferSource.endBatch();
-            } finally {
-                modelView.popMatrix();
-            }
+        protected void renderToTexture(EndPortalPip state, PoseStack unused,
+                                       net.minecraft.client.renderer.SubmitNodeCollector collector) {
+            int guiScale = net.minecraft.client.Minecraft.getInstance().gameRenderer.gameRenderState().windowRenderState.guiScale;
+            PoseStack pose = new PoseStack();
+            pose.scale(guiScale, guiScale, 1.0F);
+            pose.translate(-state.x0(), -state.y0(), 0.0F);
+            collector.submitCustomGeometry(pose, net.minecraft.client.renderer.rendertype.RenderTypes.endPortal(), (last, vertexConsumer) -> {
+                vertexConsumer.addVertex(last, state.x0(), state.y1(), 0);
+                vertexConsumer.addVertex(last, state.x1(), state.y1(), 0);
+                vertexConsumer.addVertex(last, state.x1(), state.y0(), 0);
+                vertexConsumer.addVertex(last, state.x0(), state.y0(), 0);
+            });
         }
 
         @Override
         protected String getTextureLabel() {
             return "the_last_sword_end_portal_pip";
-        }
-
-        @Override
-        public void close() {
-            super.close();
-            projection.close();
         }
     }
 
