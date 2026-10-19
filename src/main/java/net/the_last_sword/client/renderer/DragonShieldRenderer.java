@@ -9,7 +9,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.the_last_sword.mv.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -87,8 +86,8 @@ public class DragonShieldRenderer {
         double y = Mth.lerp(partialTicks, player.yo, player.getY()) + player.getBbHeight() / 2;
         double z = Mth.lerp(partialTicks, player.zo, player.getZ());
 
-        Entity camEntity = mc.getCameraEntity() != null ? mc.getCameraEntity() : player;
-        Vec3 cam = camEntity.getEyePosition(partialTicks);
+        //the camera's own position, as 1.21.1 (the camera entity's eye is not the camera in third person)
+        Vec3 cam = mc.gameRenderer.mainCamera().position();
         poseStack.pushPose();
         poseStack.translate(x - cam.x, y - cam.y, z - cam.z);
 

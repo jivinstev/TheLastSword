@@ -1,8 +1,6 @@
 package net.the_last_sword.summon;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.Identifier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -10,7 +8,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.saveddata.SavedDataType;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -33,15 +30,11 @@ public class WraithSummonSavedData extends SavedData {
 
     //获取实例
     public static WraithSummonSavedData get(ServerLevel level) {
-        Codec<WraithSummonSavedData> codec = CompoundTag.CODEC.xmap(
-                WraithSummonSavedData::load,
-                (WraithSummonSavedData d) -> d.save(new CompoundTag(), null));
-        SavedDataType<WraithSummonSavedData> type = new SavedDataType<WraithSummonSavedData>(
-                Identifier.fromNamespaceAndPath("the_last_sword", DATA_NAME),
-                WraithSummonSavedData::new,
-                codec,
-                null);
-        return level.getDataStorage().computeIfAbsent(type);
+        //26.1: a SavedDataType id is an Identifier, so the file is data/the_last_sword/<name>.dat where 1.21.x wrote
+        //data/<name>.dat; mv.SavedDatas (as EnderDragonEvent's store) reads the 1.21.x file of the dimension when the
+        //26.x one is absent, so an upgraded world keeps its bindings for the one-time faction migration
+        return net.the_last_sword.mv.SavedDatas.computeIfAbsent(level.getDataStorage(), WraithSummonSavedData::new,
+                (tag, provider) -> load(tag), DATA_NAME);
     }
 
     //从NBT加载

@@ -167,7 +167,6 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
             attackAttr.setBaseValue(newAttack);
         }
 
-        TrueHealthManager.setMaxHealth(this, (float) newMaxHealth);
         TrueHealthManager.setHealth(this, (float) newMaxHealth);
     }
 
@@ -318,7 +317,9 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
 
     @Override
     public boolean canBeAffected(@NotNull MobEffectInstance effect) {
-        return effect.getEffect().value() == ModEffects.VOID_ENCHANTING.get();
+        //as 26.2 and the authors: the Holder is compared with the MobEffect (never equal), so the Sword Wraith takes no
+        //effect; 26.3's javac rejects Holder<MobEffect> == MobEffect as incomparable, so the Holder is viewed as an Object
+        return (Object) effect.getEffect() == ModEffects.VOID_ENCHANTING.get();
     }
 
     @Override
@@ -350,9 +351,8 @@ public class TheLastEndSwordWraithEntity extends TheLastEndEntity {
                 setTheLastEndLevel(1);
             }
 
-            float maxHealth = (float) getAttributeValue(Attributes.MAX_HEALTH);
             if (!EntityUtil.hasProtection(this)) {
-                TrueHealthManager.register(this, maxHealth);
+                TrueHealthManager.register(this);
             }
 
             setAnimationState(STATE_SPAWNING);

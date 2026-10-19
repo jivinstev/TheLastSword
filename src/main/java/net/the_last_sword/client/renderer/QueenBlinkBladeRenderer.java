@@ -58,6 +58,7 @@ public class QueenBlinkBladeRenderer extends EntityRenderer<QueenBlinkBlade, Que
         pose.rotate(Axis.YP.rotationDegrees(-entity.getYRot()));
         if (entity instanceof QueenEnhancedBlade blade) {
             pose.translate(0, entity.bladeHeight() * 0.5, 0);
+            pose.rotate(Axis.XP.rotationDegrees(entity.getXRot()));
             pose.rotate(Axis.ZP.rotationDegrees(blade.bladeRoll()));
             pose.translate(0, -entity.bladeHeight() * 0.5, 0);
         }

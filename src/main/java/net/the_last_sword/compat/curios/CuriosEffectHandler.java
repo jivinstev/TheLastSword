@@ -9,12 +9,11 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.the_last_sword.mv.IEnergyStorage;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -141,15 +140,11 @@ public class CuriosEffectHandler {
 
         //扣电；电量不足则不施加主动buff（盔甲韧性走属性系统不受此影响）
         int energyCost = TheLastSwordConfiguration.getCuriosExtremeLifeSupportEnergyCostSafely();
-        var energyHandler = ItemAccess.forStack(device).getCapability(Capabilities.Energy.ITEM);
+        IEnergyStorage energy = net.the_last_sword.mv.LegacyEnergy.item(device);
         boolean powered = false;
-        if (energyHandler != null) {
-            try (Transaction tx = Transaction.openRoot()) {
-                if (energyHandler.extract(energyCost, tx) >= energyCost) {
-                    tx.commit();
-                    powered = true;
-                }
-            }
+        if (energy != null && energy.extractEnergy(energyCost, true) >= energyCost) {
+            energy.extractEnergy(energyCost, false);
+            powered = true;
         }
         if (!powered) {
             return;

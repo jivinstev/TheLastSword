@@ -92,7 +92,8 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
         }
 
         poseStack.pushPose();
-        bone.translateToPivotPoint(poseStack);
+        //GeckoLib 5.4.5 and 26.1.2's 5.5.2: the per-bone task runs after RenderUtil.transformToBone, which already ends
+        //at the bone's pivot (5.3's ended away from it, so 1.21.10 translated to the pivot here)
         // 模型两侧前臂的枢轴不对称，分别对齐护腕中心，避免链环穿入手臂。
         poseStack.translate(left ? -1.0 / 16.0 : 2.8 / 16.0, -6.0 / 16.0,
                 left ? -2.5 / 16.0 : 0.0);

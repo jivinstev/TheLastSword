@@ -55,6 +55,8 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
             renderState.ageInTicks, yRotation, xRotation);
 
+        //26.1.2: entityCutout is the no-cull type (pipeline ENTITY_CUTOUT withCull(false); the culling one is entityCutoutCull),
+        //so 1.21.11's entityCutoutNoCull (1.21.1's culling-off state) is entityCutout here
         @SuppressWarnings("unchecked")
         EntityModel<S> submitted = (EntityModel<S>) (Object) this.model;
         renderTypeBuffer.submitModel(submitted, renderState, poseStack, RenderTypes.entityCutout(TEXTURE), light,

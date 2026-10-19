@@ -98,7 +98,9 @@ public abstract class DragonCultPriestArmorItem extends ArmorItem implements Geo
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        for (ItemAttributeModifiers.Entry entry : super.getDefaultAttributeModifiers(stack).modifiers()) {
+        //IItemExtension.getDefaultAttributeModifiers(stack) is EMPTY on NeoForge 21.x: the material's armour, toughness
+        //and knockback resistance are the item's ATTRIBUTE_MODIFIERS component (as 1.21.10)
+        for (ItemAttributeModifiers.Entry entry : this.components().getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY).modifiers()) {
             builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.armorType.getSlot());

@@ -30,8 +30,10 @@ public class TheLastEndRenderTypes {
             .withLocation("pipeline/" + n)
             .withColorTargetState(new ColorTargetState(blend))
             .withCull(cull)
+            //26.2 is reverse-Z: 1.21's LEQUAL is GREATER_THAN_OR_EQUAL, as vanilla's DepthStencilState.DEFAULT and
+            //ENTITY_TRANSLUCENT_EMISSIVE (GREATER_THAN_OR_EQUAL without depth write)
             .withDepthStencilState(new com.mojang.renderpearl.api.pipeline.DepthStencilState(
-                com.mojang.renderpearl.api.pipeline.CompareOp.LESS_THAN_OR_EQUAL, writeDepth, 0.0F, 0.0F, null))
+                com.mojang.renderpearl.api.pipeline.CompareOp.GREATER_THAN_OR_EQUAL, writeDepth, 0.0F, 0.0F, null))
             .build());
     }
 

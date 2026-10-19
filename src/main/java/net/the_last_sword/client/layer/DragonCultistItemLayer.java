@@ -14,7 +14,6 @@ import com.geckolib.cache.model.GeoBone;
 import com.geckolib.renderer.base.GeoRenderState;
 import com.geckolib.renderer.base.GeoRenderer;
 import com.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
-import com.geckolib.util.RenderUtil;
 
 import java.util.List;
 
@@ -55,9 +54,9 @@ public class DragonCultistItemLayer<R extends EntityRenderState & GeoRenderState
                                          ItemDisplayContext displayContext, R renderState,
                                          SubmitNodeCollector renderTasks, int packedLight) {
         poseStack.pushPose();
-        //GeckoLib 5.3+ no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
-        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
-        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
+        //GeckoLib 5.5.2 (as 5.4.5): the per-bone task runs after RenderUtil.transformToBone, which already ends at the
+        //bone's pivot with its rotation applied (5.3's did not, which the lower versions compensated for here), so the
+        //offsets below keep their meaning without moving the pose again
         //向外旋转90度
         poseStack.rotate(Axis.XP.rotationDegrees(-90));
         poseStack.translate(ITEM_OFFSET_X / 16.0, 0, ITEM_OFFSET_Z / 16.0);
