@@ -120,8 +120,8 @@ jobs:
           echo "c6a1e76bb94e04409b2e81a58040f484ad704c61519bfac8e474bdbd3c77577b  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.10/eca-1.1.9-mc1.21.10.jar" | sha256sum -c -
       - name: Build and gates
         run: |
-          git fetch --no-tags origin "main"
-          python3 .port-tools/tools/ci-gates.py --repo . --modid "the_last_sword" --base "origin/main" \
+          git fetch --no-tags origin "forge-1.20.1"
+          python3 .port-tools/tools/ci-gates.py --repo . --modid "the_last_sword" --base "origin/forge-1.20.1" \
             --gatec "launch,spawn,battle,gauntlet" --env "${{ matrix.env }}" --work-dir "$RUNNER_TEMP/port-ci" --summary "$RUNNER_TEMP/gates.md"
       - name: Gate summary
         if: always()
