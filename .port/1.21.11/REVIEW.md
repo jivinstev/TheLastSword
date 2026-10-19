@@ -13,216 +13,216 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: ?
-- date: ?
-- commit: ?
+- reviewer: fresh agent tls-1.21.11-reviewer (round 2026-10-18), not the fixer
+- date: 2026-10-19
+- commit: b8bf312
 
 | kind | file | verdict | note |
 |---|---|---|---|
-| changed | src/main/java/net/the_last_sword/block/entity/DragonCrystalEnchantingTableBlockEntity.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/gui/TheLastEndScrollScreen.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/DragonCultistModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/LostWraithModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonArmorRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonLightingRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/DragonShieldRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/LightningSpearRenderUtil.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/LostWraithRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/PhasingBufferSource.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/shader/TheLastEndRenderTypes.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/client/shader/ZeroPointEngineShader.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/jei/DragonCrystalSmithingCategory.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockEntity.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/LuckyWellEvent.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/entity/TheLastEndEntity.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/event/ClientEventHandler.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/event/DefenceEventHandler.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/item/DragonArmorItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/item/DragonCrystalUpgradeTemplate.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/item/display/DragonCrystalEnchantingTableDisplayItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/mixin/CameraMixin.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/mixin/LevelRendererMixin.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ? | ? |
-| changed | src/main/java/net/the_last_sword/util/EntityUtil.java | ? | ? |
-| renames | .port/1.21.11/renames.tsv @a3ed5545182c | ? | ? |
-| resources | src/main/resources/META-INF/accesstransformer.cfg @a58c46ff61c0 | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/DragonCultistModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/LostWraithModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/LostWraithRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/ArenaEvent.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/LuckyWellEvent.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/init/ModInstruments.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/DragonArmorItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/DragonCrystalArmorItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/DragonCultistArmorItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/item/LightningSpearItem.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/test/TestEntity.java | ? | ? |
-| stub | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ? | ? |
-| item | main:net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java#render-class:class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions | ? | ? |
-| item | main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderType.endPortal | ? | ? |
-| item | main:net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull | ? | ? |
-| item | main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-use:RenderType.eyes | ? | ? |
-| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:GameRenderer.getPositionTexShader | ? | ? |
-| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShader | ? | ? |
-| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor | ? | ? |
-| item | main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderLevelStageEvent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.ShaderStateShard | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.lines | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-use:RenderType.entityTranslucent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java#render-use:RenderType.entityTranslucent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonLightingRenderer.java#render-use:RenderType.lightning | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.create | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java#event:@SubscribeEvent RenderLevelStageEvent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.create | ? | ? |
-| item | main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.CompositeRenderType | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.armorCutoutNoCull | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutout | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCull | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCullZOffset | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityDecal | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySmoothCutout | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySolid | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucentEmissive | ? | ? |
-| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.eyes | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.create | ? | ? |
-| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.entityTranslucent | ? | ? |
-| item | main:net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java#render-use:RenderType.endPortal | ? | ? |
-| item | main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-use:RenderType.entityCutoutNoCull | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LIGHTMAP | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.OVERLAY | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ShaderStateShard | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TextureStateShard | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING | ? | ? |
-| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.create | ? | ? |
-| item | main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull | ? | ? |
-| item | main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderLevelStageEvent | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TextureStateShard | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.create | ? | ? |
-| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.lines | ? | ? |
-| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="INVOKE",target="Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I") | ? | ? |
-| item | main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=renderConfusionOverlay @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/LevelRendererMixin.java#injection:@ModifyVariable method=setupRender @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value="HEAD") | ? | ? |
-| item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value="HEAD") | ? | ? |
+| changed | src/main/java/net/the_last_sword/block/entity/DragonCrystalEnchantingTableBlockEntity.java | ok | vs 1.21.10: GeckoLib 5.4 imports; handler returns PlayState.CONTINUE instead of null (authors returned null = not STOP = keep playing in GeckoLib 4); same rotation loop. |
+| changed | src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java | ok | hand-resolved: vs 1.21.10 only Identifier/Util/rendertype rows + RenderTypes.endPortal() in the picture-in-picture end-portal (same 1.21.10 code); TLS-001: all name/level/cost/XP colours ARGB.opaque or 0xFF.. literals. Items render-use:RenderType.endPortal (RenderTypes.endPortal) and RenderSystem.setShaderColor (blit with GUI_TEXTURED, white, as 1.21.10) accounted. |
+| changed | src/main/java/net/the_last_sword/client/gui/TheLastEndScrollScreen.java | ok | vs 1.21.10: ResourceLocation->Identifier only; TLS-001 colours unchanged from 1.21.10 (opaque). Item render-use:RenderSystem.setShaderColor -> LegacyGl.setShaderColor(1,1,1,1)+GUI_TEXTURED blit, as 1.21.10. |
+| changed | src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java | not-ok | vs 1.21.10: only GeckoLib 5.4 renames (bone.name(), cache.model, layer.builtin), but L107 RenderUtil.translateAndRotateMatrixForBone(poseStack,bone) was a 5.3 compensation (5.3 GeoBone.transformToBone ended translated AWAY from the pivot). GeckoLib 5.4.5 submitPerBoneRenderTasks calls RenderUtil.transformToBone, which already ends with bone.translateToPivotPoint, so the pivot offset is applied twice: held weapons/shields of the Guardian of the Sealed Spire are drawn displaced by the rotated hand pivot (6,12,0.5)px ~0.85 block from the hands. Same unchanged line in DragonCultistItemLayer L70 and ThePastShadowOfTheQueenItemLayer L60 (files made by rows alone, no row of their own) -> same defect. Severity S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java | not-ok | vs 1.21.10: GeckoLib 5.4 addPerBoneRender(RenderPassInfo) + willRender gate (=5.3 didRenderModel) and frameSnapshot.isHidden fine; RenderSetup(SEAL_PIPELINE, 32768, sortOnUpload) = 1.21.10 RenderType.create(...,32768,false,true,...) (items COLOR_DEPTH_WRITE/LEQUAL_DEPTH_TEST/NO_CULL/POSITION_COLOR_SHADER/TRANSLUCENT_TRANSPARENCY/CompositeState are the pipeline fields, same). BUT L89 bone.translateToPivotPoint(poseStack): 5.3 transformToBone ended away from the pivot, 5.4.5 RenderUtil.transformToBone already ends AT the pivot, so the pivot is added twice: the seal chains are drawn ~2 blocks off the Lost Wraith wrists (pivots ~(11.5,31,2)px). S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java | ok | hand-resolved: vs 1.21.10 only rendertype/Identifier imports; keeps 1.21.10 NeoForgeRenderTypes.getItemLayeredTranslucent (ENTITY_TRANSLUCENT_CULL, authors entityTranslucentCull) -> item render-use:RenderType.entityTranslucentCull accounted. |
+| changed | src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java | not-ok | vs 1.21.10: GeckoLib 5.4 submitRenderTask(RenderPassInfo) + GeoModelPass.submit(eyes(LAYER), packedLight, NO_OVERLAY, -1) = 5.3 buildRenderTask, ok; item render-use:RenderType.eyes -> RenderTypes.eyes. But L30 adds `if (!renderPassInfo.willRender()) return;` which 1.21.10 (and the authors' GeckoLib 4 layer) did not have: willRender is false when the wraith is invisible to the player (getRenderType null), so the glowing eye/light layer no longer shows on an invisible Sword Wraith (1.21.10/authors drew it, like vanilla EyesLayer). Minor: S4; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java | not-ok | vs 1.21.10: same port as TheLastEndSwordWraithLayer (GeoModelPass.submit with createEntityEffect type, packedLight, NO_OVERLAY) fine, but the new willRender() gate (L39) drops the All-Things-End shader layer on an invisible wraith, which 1.21.10/authors drew. S4; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java | ok | vs 1.21.10: setCustomAnimations removed (gone in GeckoLib 5.4.5), moved to DragonCultPaladinRenderer.adjustModelBonesForRender -- the move is right; its sign error is on the renderer row. |
+| changed | src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java | ok | vs 1.21.10: setCustomAnimations moved to DragonCultPriestRenderer (see that row for the sign error); Identifier rows. |
+| changed | src/main/java/net/the_last_sword/client/model/DragonCultistModel.java | ok | vs 1.21.10: setCustomAnimations moved to DragonCultistRenderer (see that row); Identifier rows. |
+| changed | src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java | ok | vs 1.21.10: setCustomAnimations moved to GuardianOfSealedSpireRenderer (see that row); Identifier rows. |
+| changed | src/main/java/net/the_last_sword/client/model/LostWraithModel.java | ok | vs 1.21.10: setCustomAnimations moved to LostWraithRenderer (see that row); Identifier rows. |
+| changed | src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java | ok | vs 1.21.10: setCustomAnimations moved to TheLastEndSwordWraithRenderer (see that row); appearance resources unchanged. |
+| changed | src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java | ok | vs 1.21.10: setCustomAnimations moved to ThePastShadowOfTheQueenRenderer (see that row); Identifier rows. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java | not-ok | vs 1.21.10: FILL RenderSetup(FILL_PIPELINE,256,sortOnUpload) = 1.21.10 create(...,256,false,true) (items ShaderStateShard/getPositionColorShader/TRANSLUCENT_TRANSPARENCY/NO_CULL/COLOR_WRITE/CompositeState = DEBUG_FILLED pipeline, same), camera.position() fine. BUT RenderTypes.lines() (item render-use:RenderType.lines, L98) on 1.21.11 uses DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH and line() (L112-121) never calls setLineWidth: BufferBuilder.endLastVertex throws IllegalStateException "Missing elements in vertex: LineWidth" -> the client crashes the first time a boss shows a dangerous-skill preview. S1; lowest 1.21.11 (1.21.10 lines are POSITION_COLOR_NORMAL). |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonArmorRenderer.java | ok | hand-resolved: vs 1.21.10 halve-alpha-when-phasing-and-collector-not-PhasingSubmitNodeCollector kept, on 5.4 preRenderPass: writes RENDER_COLOR (what RenderPassInfo.renderColor()/submitRenderTasks read) and restores it in postRenderPass; per-slot render state from GeoArmorRenderer. This actually takes effect (5.3 preRender's renderColor parameter was a dead local), matching the authors' actuallyRender intent. Item render-use:RenderType.entityTranslucent -> RenderTypes.entityTranslucent. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java | ok | vs 1.21.10: RenderTypes.entityTranslucent (item render-use:RenderType.entityTranslucent), Identifier. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java | not-ok | hand-resolved; L60: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java | not-ok | hand-resolved; L105: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. Death-ray lightning type -> RenderTypes.lightning fine. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java | not-ok | hand-resolved; L64: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonLightingRenderer.java | ok | vs 1.21.10: RenderTypes.lightning() (item render-use:RenderType.lightning). |
+| changed | src/main/java/net/the_last_sword/client/renderer/DragonShieldRenderer.java | ok | vs 1.21.10: import + Camera.position() only; SHIELD type is LegacyRenderType POSITION_COLOR/TRANSLUCENT/LEQUAL/COLOR_WRITE/NO_CULL exactly as 1.21.10 (items RenderType.create/CompositeState/POSITION_COLOR_SHADER/TRANSLUCENT_TRANSPARENCY/LEQUAL_DEPTH_TEST/COLOR_WRITE/NO_CULL). |
+| changed | src/main/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java | not-ok | L67: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java | ok | vs 1.21.10: getExtents(Consumer<Vector3fc>) 1.21.11 signature, same 8 corners; Identifier. |
+| changed | src/main/java/net/the_last_sword/client/renderer/LightningSpearRenderUtil.java | ok | vs 1.21.10: import only; ARC type LegacyRenderType POSITION_COLOR/LIGHTNING/LEQUAL/COLOR_WRITE/NO_CULL same (items RenderType.create/CompositeState/POSITION_COLOR_SHADER/LIGHTNING_TRANSPARENCY/LEQUAL_DEPTH_TEST/COLOR_WRITE/NO_CULL). |
+| changed | src/main/java/net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java | ok | vs 1.21.10: RenderTypes.lightning() (POSITION_COLOR quads, no line width), dimension().identifier(), camera.position(); item render-use:RenderType.lightning. |
+| changed | src/main/java/net/the_last_sword/client/renderer/LostWraithRenderer.java | not-ok | hand-resolved; L69: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/PhasingBufferSource.java | ok | vs 1.21.10: texture read by reflection from RenderType.state(RenderSetup).textures (Mojang names at runtime; LegacyRenderType has none -> type kept, as before); same RenderTypes identity comparisons -> entityTranslucent / entityTranslucentEmissive; new setColor(int) halves alpha like the other setters, setLineWidth forwarded. Items RenderType.CompositeRenderType/armorCutoutNoCull/entityCutout/entityCutoutNoCull/entityCutoutNoCullZOffset/entityDecal/entitySmoothCutout/entitySolid/entityTranslucent/entityTranslucentEmissive/eyes accounted. |
+| changed | src/main/java/net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java | ok | vs 1.21.10: imports + RenderTypes.entityTranslucent(queen_rift); GLOW/DARK LegacyRenderType state unchanged (items RenderType.create/CompositeState/POSITION_COLOR_SHADER/LIGHTNING_TRANSPARENCY/TRANSLUCENT_TRANSPARENCY/LEQUAL_DEPTH_TEST/COLOR_WRITE/NO_CULL/entityTranslucent). |
+| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java | ok | vs 1.21.10: RenderTypes.endPortal() (item render-use:RenderType.endPortal). |
+| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java | not-ok | L44: 1.21.10 and the authors use entityCutoutNoCull(END_CRYSTAL_LOCATION); 1.21.11 uses RenderTypes.entityCutout, which on 1.21.11 still CULLS (pipeline ENTITY_CUTOUT, no withCull(false), no PER_FACE_LIGHTING; the swap is 26.2 -- shared-renames.tsv says so): the projectile's end-crystal glass cubes lose their inner/back faces and look unlike the vanilla crystal. Trail RenderTypes.lightning() fine. S3 cosmetic; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java | not-ok | L107: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. Scale 0.55 moved to the constructor fine. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java | not-ok | hand-resolved; L117: vs 1.21.10: the 1.21.10 head look was setRotX(-pitch)/setRotY(-yaw) (GeckoLib 4's negated EntityModelData, the authors' intent; GeckoLib 5.4.5's own DefaultAnimations.hardcodedHeadRotation also negates); adjustModelBonesForRender here sets setRotX(pitch*DEG_TO_RAD).setRotY(yaw*DEG_TO_RAD) without the minus, and BoneSnapshot rotation has the same sign convention (RenderUtil.translateAndRotateMatrixForBone adds it to baseRot, Axis.XP/YP.rotation): the mob's head turns/pitches the opposite way from where it looks (looks away from the player). Rest (preRender scale moved to constructor, getRenderType entityTranslucent, Justified Defence flash overlay, RenderTypes rows) same as 1.21.10. Scale 57.5/44.5 in the constructor and rift submit fine. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java | not-ok | L57: authors and 1.21.10 use entityCutoutNoCull(TEXTURE); 1.21.11 uses RenderTypes.entityCutout, which culls on 1.21.11 (26.2 is where they swap): the Wings curio's 1px wing boxes lose back faces seen through cut-out texels and use non-per-face lighting. Item render-use:RenderType.entityCutoutNoCull is therefore NOT kept. S3 cosmetic; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/client/shader/TheLastEndRenderTypes.java | ok | vs 1.21.10: LegacyRenderType.TextureStateShard/LIGHTMAP/OVERLAY for the removed RenderStateShard ones (same slots 0/1/2), make() -> RenderSetup(pipeline, Sampler0, 1536, lightmap/overlay, outline=affectsCrumbling+AFFECTS_OUTLINE, no sort) = 1.21.10 create(name,1536,outline,false,...). Items: ShaderStateShard/LEQUAL_DEPTH_TEST/TRANSLUCENT_TRANSPARENCY/NO_CULL/COLOR_WRITE/TextureStateShard/LIGHTMAP/OVERLAY/BLOCK_SHEET_MIPPED (LOCATION_BLOCKS)/CompositeState in custom(); getParticleShader/ADDITIVE_TRANSPARENCY/BLOCK_SHEET = PARTICLE_SNIPPET ADDITIVE pipeline; RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER/VIEW_OFFSET_Z_LAYERING = ENTITY_TRANSLUCENT pipeline, as on 1.21.10 (inherited, not this version's change). |
+| changed | src/main/java/net/the_last_sword/client/shader/ZeroPointEngineShader.java | ok | TLS-009, vs 1.21.10 and authors (1.21.1): same composite state -- zero_point_engine ShaderShard, block atlas (LegacyRenderType.BLOCK_SHEET_MIPPED binds LOCATION_BLOCKS to Sampler0, atlas sampler), TRANSLUCENT blend, LEQUAL depth, NO_CULL, COLOR_WRITE (no depth write), NEW_ENTITY QUADS 256; VIEW_OFFSET_Z_LAYERING re-made as a Shard pushing RenderSystem modelViewStack + LayeringTransform.VIEW_OFFSET_Z_LAYERING modifier (= applyLayeringTransform(stack,1.0F), identical to 1.21.10 RenderStateShard) and popping in clearRenderState; LegacyGl.draw writes RenderSystem.getModelViewMatrix() (= that stack) into DynamicTransforms, so layering takes effect. Items RenderType.create/CompositeState/ShaderStateShard/BLOCK_SHEET_MIPPED/TRANSLUCENT_TRANSPARENCY/LEQUAL_DEPTH_TEST/NO_CULL/COLOR_WRITE/VIEW_OFFSET_Z_LAYERING accounted. ModShaders/EndCrystalRift/EndCrystalRiftRenderer are 1.21.10's through rows only; ModEntities END_CRYSTAL_RIFT (0.5x0.5, range 64, interval 20, noSave/noSummon/fireImmune) present. |
+| changed | src/main/java/net/the_last_sword/compat/jei/DragonCrystalSmithingCategory.java | ok | vs 1.21.10: getBackground (removed) -> getWidth/getHeight of the same blank 132x44 drawable (nothing to draw), arrow still drawn; Identifier. |
+| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItem.java | ok | vs 1.21.10: GeckoLib 5.4 import moves only. |
+| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java | not-ok | L20: 1.21.10 used NeoForgeRenderTypes.getItemLayeredTranslucent (ENTITY_TRANSLUCENT_CULL, = authors' entityTranslucentCull, whose comment says culling is needed to avoid z-fighting of coincident faces); 1.21.11 (layer copy, not carried by the merge) returns RenderTypes.entityTranslucent, which does not cull: the lucky block item in hand/inventory shows back faces/z-fighting. getItemLayeredTranslucent exists on NeoForge 21.11. Item render-use:RenderType.entityTranslucentCull NOT kept. S3 cosmetic; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockEntity.java | ok | vs 1.21.10: GeckoLib 5.4 import moves only. |
+| changed | src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java | ok | hand-resolved: vs 1.21.10 keeps getItemLayeredTranslucent (ENTITY_TRANSLUCENT_CULL = authors' entityTranslucentCull) with Identifier signature; item render-use:RenderType.entityTranslucentCull accounted. |
+| changed | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/LuckyWellEvent.java | ok | vs 1.21.10: ServerPlayer.sendSystemMessage -> player.displayClientMessage(msg,false) (= ServerPlayer.sendSystemMessage(msg,false) on the server), Identifier. |
+| changed | src/main/java/net/the_last_sword/entity/TheLastEndEntity.java | ok | vs 1.21.10: GeckoLib 5.4 imports, dimension().identifier(). |
+| changed | src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java | ok | vs 1.21.10: forceAnimationReset -> reset() (5.4.5 reset clears the animation; predicate restarts it next frame, same intent on appearance change); Identifier. |
+| changed | src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java | ok | vs 1.21.10: gamerules package; getBoolean(RULE_DOMOBLOOT) -> get(GameRules.MOB_DROPS). |
+| changed | src/main/java/net/the_last_sword/event/ClientEventHandler.java | not-ok | vs 1.21.10: sphere LegacyRenderType (TextureStateShard END_PORTAL, TRANSLUCENT, NO_CULL, COLOR_WRITE: items RenderType.create/CompositeState/ShaderStateShard/TextureStateShard/TRANSLUCENT_TRANSPARENCY/NO_CULL/COLOR_WRITE) and RenderLevelStageEvent.AfterTranslucentBlocks (item event:@SubscribeEvent RenderLevelStageEvent) same; recipe sync kept. BUT the mining preview (L456), arena preview (L520) and L613 preview draw into RenderTypes.lines() with addLine (L507-508) = addVertex/setColor/setNormal and no setLineWidth; 1.21.11 lines format is POSITION_COLOR_NORMAL_LINE_WIDTH, so BufferBuilder throws "Missing elements in vertex: LineWidth": client crash as soon as a mining/arena/lantern preview is drawn (item render-use:RenderType.lines broken). S1; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/event/DefenceEventHandler.java | ok | vs 1.21.10: villager package, Identifier; entity.hasImpulse (renamed needsSync on 1.21.11) -> hurtMarked: ServerEntity sends the motion packet to all trackers (incl. a repelled player) at once instead of forcing a tracker update; the shield repel still reaches clients. |
+| changed | src/main/java/net/the_last_sword/item/DragonArmorItem.java | ok | vs 1.21.10: getCurrentAnimation().name()=="fly" -> getCurrentRawAnimation().equals(FLY_ANIMATION) (always set from that constant); State.STOPPED -> isStopped(PlayState.STOP//hasAnimationFinished), forceAnimationReset -> reset(); the procedure branch is dead (animationprocedure never set to anything but "empty"), so no visible change. |
+| changed | src/main/java/net/the_last_sword/item/DragonCrystalUpgradeTemplate.java | not-ok | L52-58: SmithingTemplateItem(appliesTo, ingredients, baseSlotDescription, additionsSlotDescription, icons, icons, props) on 1.21.11 (same as 1.21.10). 1.21.10 passed BASE_SLOT_DESCRIPTION, ADDITIONS_SLOT_DESCRIPTION; 1.21.11 passes DRAGON_CRYSTAL_UPGRADE (the item title, 1.21.1's removed upgradeDescription) and BASE_SLOT_DESCRIPTION: in the vanilla smithing table (recipes use smithing_transform with this template) the empty base slot tooltip shows the template name and the addition slot shows the base-slot hint. S3; lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java | ok | vs 1.21.10: GeckoLib 5.4 imports, Identifier. |
+| changed | src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java | not-ok | L99-101: 1.21.10 built getDefaultAttributeModifiers from this.components() ATTRIBUTE_MODIFIERS (the material's armour/toughness/knockback) because super returns EMPTY; 1.21.11 uses super.getDefaultAttributeModifiers(stack), which is IItemExtension's ItemAttributeModifiers.EMPTY on 21.11. ArmorAttributeModifierHandler then clearModifiers() and adds only these: Dragon Cult Priest armour gives 0 armour and 0 toughness, only the two Justified Defence bonuses. S2 (functional, normal play, no workaround); lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/item/display/DragonCrystalEnchantingTableDisplayItem.java | ok | vs 1.21.10: GeckoLib 5.4 import moves only. |
+| changed | src/main/java/net/the_last_sword/mixin/CameraMixin.java | not-ok | L33-35: 1.21.10 and the authors base the Queen triple-slash shake on camera.getYRot()/getXRot() (Camera.yRot()/xRot() on 1.21.11); 1.21.11 uses entity.getYRot()/getXRot(). Camera rotation after setup includes the third-person-front mirror (yaw+180, -pitch) and ViewportEvent.ComputeCameraAngles edits; with the entity's rotation the camera flips to face away from the player in F5 front view during the shake and other camera mods' angles are dropped. Setup(Level,...) signature fine. Teammate's point confirmed. S4 (unusual view); lowest 1.21.11. |
+| changed | src/main/java/net/the_last_sword/mixin/LevelRendererMixin.java | ok | vs 1.21.10: camera.getEntity() -> Minecraft.getCameraEntity() (the entity Camera.setup is given); cullTerrain target as 1.21.10 (item injection:@ModifyVariable method=setupRender, now cullTerrain since 1.21.9). |
+| changed | src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java | ok | vs 1.21.10: gamerules package, get(KEEP_INVENTORY). |
+| changed | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | vs 1.21.10: hasPermissions(2) -> permissions().hasPermission(COMMANDS_GAMEMASTER) (level 2). |
+| changed | src/main/java/net/the_last_sword/util/EntityUtil.java | ok | vs 1.21.10: gamerules/arrow packages; server.getGameRules() -> getWorldData().getGameRules().get(SHOW_DEATH_MESSAGES). |
+| renames | .port/1.21.11/renames.tsv @a3ed5545182c | ok | Two rows: readResourceLocation()->readIdentifier() (FriendlyByteBuf, 1.21.11 name) and RenderStateShard.BLOCK_SHEET_MIPPED -> LegacyRenderType.BLOCK_SHEET_MIPPED (TLS-009, same texture: LOCATION_BLOCKS in Sampler0); the duplicate camera row was dropped (shared-renames.tsv has it). |
+| resources | src/main/resources/META-INF/accesstransformer.cfg @a58c46ff61c0 | ok | vs 1.21.10: RenderType AT lines moved to the rendertype package (CompositeRenderType/CompositeState lines now name classes that no longer exist -- inert; PhasingBufferSource reflects instead) and the new public RenderType(String,RenderSetup) ctor the shared LegacyRenderType needs. |
+| stub | src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java | ok | Faithful: getRelevantBones RenderData per hand + submitItemStackRender with the shield NONE context, as said (the pivot defect is on the changed row). |
+| stub | src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java | not-ok | Not faithful and the text is untrue: it says DragonCultPaladinRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java | not-ok | Not faithful and the text is untrue: it says DragonCultPriestRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/DragonCultistModel.java | not-ok | Not faithful and the text is untrue: it says DragonCultistRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/GuardianOfSealedSpireModel.java | not-ok | Not faithful and the text is untrue: it says GuardianOfSealedSpireRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/LostWraithModel.java | not-ok | Not faithful and the text is untrue: it says LostWraithRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/TheLastEndSwordWraithModel.java | not-ok | Not faithful and the text is untrue: it says TheLastEndSwordWraithRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/ThePastShadowOfTheQueenModel.java | not-ok | Not faithful and the text is untrue: it says ThePastShadowOfTheQueenRenderer.adjustModelBonesForRender "sets the same rotations"; it sets +pitch/+yaw where setCustomAnimations (1.21.10, authors via GeckoLib 4 EntityModelData) set -pitch/-yaw, so the head looks the opposite way. S3; lowest 1.21.11. |
+| stub | src/main/java/net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java | ok | Text true: EntityModel(root) whose child is the wings; setupAnim empty and called by the renderer. |
+| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultPaladinRenderer.java | ok | True: the authors' preRender only called super; nothing lost. |
+| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java | ok | True: constant scale 1.0 set in the constructor; nothing else writes scaleWidth/Height. |
+| stub | src/main/java/net/the_last_sword/client/renderer/DragonCultistRenderer.java | ok | True: constant scale 1.0 in the constructor. |
+| stub | src/main/java/net/the_last_sword/client/renderer/GuardianOfSealedSpireRenderer.java | ok | Stand-in faithful (scale 1.0 set in the constructor + withScale(1.0)); the "(inherited from 1.21.5) preRender is back" text is stale for 1.21.11 (no preRender), harmless. |
+| stub | src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java | ok | True: special model renderer registered via RegisterSpecialModelRendererEvent; render body unchanged. |
+| stub | src/main/java/net/the_last_sword/client/renderer/LostWraithRenderer.java | ok | True: constant scale 1.0 in the constructor. |
+| stub | src/main/java/net/the_last_sword/client/renderer/QueenBlinkBladeRenderer.java | ok | True: plain EntityRenderer, geometry via QueenBlinkRenderUtil, texture never read. |
+| stub | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java | ok | getTextureLocation text true (renderCrystal binds END_CRYSTAL_LOCATION); the cull change is on the changed row. |
+| stub | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordWraithRenderer.java | ok | True: constant scale 0.55 in the constructor. |
+| stub | src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java | ok | True: constant scale 57.5/44.5 in the constructor. |
+| stub | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/ArenaEvent.java | ok | True: private sendMessage -> ServerPlayer.sendSystemMessage. |
+| stub | src/main/java/net/the_last_sword/compat/lucky_block/lucky_event/events/LuckyWellEvent.java | ok | True: displayClientMessage(msg,false) on the server = sendSystemMessage. |
+| stub | src/main/java/net/the_last_sword/entity/TheLastEndSwordWraithEntity.java | ok | True: displayClientMessage(msg,false). |
+| stub | src/main/java/net/the_last_sword/entity/ThePastShadowOfTheQueenEntity.java | ok | True: hurtServer with the same guard; culling box on the renderer; sends via displayClientMessage. |
+| stub | src/main/java/net/the_last_sword/init/ModInstruments.java | ok | True: datapack instrument data/<modid>/instrument/dragon_cult_horn.json. |
+| stub | src/main/java/net/the_last_sword/item/DragonArmorItem.java | ok | True: GeoItem.createGeoRenderer -> DragonArmorRenderer; WEARER ticket; geo texture. |
+| stub | src/main/java/net/the_last_sword/item/DragonCrystalArmorItem.java | ok | True: client extensions getArmorTexture + equipment json layers. |
+| stub | src/main/java/net/the_last_sword/item/DragonCultPaladinArmorItem.java | ok | True: createGeoRenderer with DragonCultArmorClientExtensions.paladin(). |
+| stub | src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java | ok | initializeClient/getArmorTexture stand-in true (priest() provider); the attribute defect is on the changed row. |
+| stub | src/main/java/net/the_last_sword/item/DragonCultistArmorItem.java | ok | True: cultist() provider. |
+| stub | src/main/java/net/the_last_sword/item/LightningSpearItem.java | ok | True: special model renderer + items/lightning_spear.json. |
+| stub | src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java | ok | True: plain getResultItem still used by serializer/JEI/scroll. |
+| stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | True: 14 displayClientMessage(msg,false). |
+| stub | src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java | ok | True: SavedDataType codec calls save. |
+| stub | src/main/java/net/the_last_sword/test/TestEntity.java | ok | True: canTeleport/snapTo overrides; checkDespawn no-op. |
+| stub | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | True: durability 0, enchantable 1024, no repair. |
+| item | main:net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java#render-class:class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions | ok | File as 1.21.10: no IClientItemExtensions on 1.21.4+; GeckoLib GeoRenderProvider serves DragonCrystalEnchantingTableDisplayItemRenderer. |
+| item | main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderSystem.setShaderColor | ok | GUI_TEXTURED blit (white), as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java#render-use:RenderType.endPortal | ok | RenderTypes.endPortal() in the end-portal PiP; see the changed row. |
+| item | main:net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java#render-use:RenderSystem.setShaderColor | ok | LegacyGl.setShaderColor(1,1,1,1)+blend around the GUI_TEXTURED blit, same as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-use:RenderSystem.setShaderColor | ok | White GUI_TEXTURED blit, same as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-use:RenderSystem.setShaderColor | ok | White GUI_TEXTURED blit, same as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-use:RenderSystem.setShaderColor | ok | White GUI_TEXTURED blits, same as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-use:RenderSystem.setShaderColor | ok | See the changed row (LegacyGl.setShaderColor(1,1,1,1)). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.NO_CULL | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderType.CompositeState | ok | SEAL_PIPELINE fields (position_color, TRANSLUCENT, LEQUAL, depth write, no cull) in RenderSetup, same as 1.21.10; see the changed row (pivot defect). |
+| item | main:net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java#render-use:RenderType.entityTranslucentCull | ok | getItemLayeredTranslucent (ENTITY_TRANSLUCENT_CULL); see the changed row. |
+| item | main:net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java#render-use:RenderType.eyes | ok | RenderTypes.eyes; see the changed row. |
+| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:GameRenderer.getPositionTexShader | ok | LegacyGl.setShader(Vanilla.POSITION_TEX)/setShaderColor/blend/depth as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShader | ok | LegacyGl.setShader(Vanilla.POSITION_TEX)/setShaderColor/blend/depth as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor | ok | LegacyGl.setShader(Vanilla.POSITION_TEX)/setShaderColor/blend/depth as 1.21.10 (rows only). |
+| item | main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent RenderLevelStageEvent | ok | TLS-007: RenderLevelStageEvent.AfterParticles (1.21.10 port), only Camera.position()/dimension().identifier() rows on 1.21.11; camera from gameRenderer.getMainCamera(). |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:GameRenderer.getPositionColorShader | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.COLOR_WRITE | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.NO_CULL | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.ShaderStateShard | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.CompositeState | ok | DEBUG_FILLED FILL pipeline (translucent, no cull, no depth write) in RenderSetup; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java#render-use:RenderType.lines | not-ok | not kept: RenderTypes.lines() without setLineWidth crashes on 1.21.11; see the changed row (S1). |
+| item | main:net/the_last_sword/client/renderer/DragonArmorRenderer.java#render-use:RenderType.entityTranslucent | ok | RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonCrystalEnchantingTableDisplayItemRenderer.java#render-use:RenderType.entityTranslucent | ok | RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonLightingRenderer.java#render-use:RenderType.lightning | ok | RenderTypes.lightning(); see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.create | ok | LegacyRenderType state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearBurstRenderer.java#event:@SubscribeEvent RenderLevelStageEvent | ok | RenderLevelStageEvent.AfterParticles as 1.21.10; rows only (Camera.position, identifier). |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.create | ok | LegacyRenderType ARC state as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning | ok | RenderTypes.lightning(); see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.CompositeRenderType | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.armorCutoutNoCull | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutout | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCull | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityCutoutNoCullZOffset | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityDecal | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySmoothCutout | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entitySolid | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucent | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.entityTranslucentEmissive | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/PhasingBufferSource.java#render-use:RenderType.eyes | ok | Same RenderTypes comparison; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.NO_CULL | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.CompositeState | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.create | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/QueenBlinkRenderUtil.java#render-use:RenderType.entityTranslucent | ok | LegacyRenderType GLOW/DARK + RenderTypes.entityTranslucent; see the changed row. |
+| item | main:net/the_last_sword/client/renderer/TheLastEndLightingRenderer.java#render-use:RenderType.endPortal | ok | RenderTypes.endPortal(); see the changed row. |
+| item | main:net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java#render-use:RenderType.entityCutoutNoCull | not-ok | not kept: entityCutout culls on 1.21.11; see the changed row. |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:GameRenderer.getParticleShader | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ADDITIVE_TRANSPARENCY | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.COLOR_WRITE | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.LIGHTMAP | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.NO_CULL | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.OVERLAY | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.ShaderStateShard | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.TextureStateShard | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/TheLastEndRenderTypes.java#render-use:RenderType.CompositeState | ok | See the changed row (LegacyRenderType shards / RenderSetup / pipelines, as 1.21.10). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.BLOCK_SHEET_MIPPED | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.VIEW_OFFSET_Z_LAYERING | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.create | ok | TLS-009; see the changed row (state identical to 1.21.10/authors). |
+| item | main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java#render-use:RenderType.entityTranslucentCull | not-ok | not kept: entityTranslucent (no cull); see the changed row. |
+| item | main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockRenderer.java#render-use:RenderType.entityTranslucentCull | ok | getItemLayeredTranslucent (cull); see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#event:@SubscribeEvent RenderLevelStageEvent | ok | RenderLevelStageEvent.AfterTranslucentBlocks as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.COLOR_WRITE | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.NO_CULL | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.ShaderStateShard | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderStateShard.TextureStateShard | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.CompositeState | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.create | ok | Sphere LegacyRenderType as 1.21.10; see the changed row. |
+| item | main:net/the_last_sword/event/ClientEventHandler.java#render-use:RenderType.lines | not-ok | not kept: RenderTypes.lines() without setLineWidth crashes; see the changed row (S1). |
+| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ok | File identical to 1.21.10: submit(EnderDragonRenderState,...) HEAD capture + @ModifyArg OverlayTexture.pack(FZ)I, both present in 1.21.11 EnderDragonRenderer.submit. |
+| item | main:net/the_last_sword/mixin/EnderDragonRendererMixin.java#injection:@ModifyArg method=render(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="INVOKE",target="Lnet/minecraft/client/renderer/texture/OverlayTexture;pack(FZ)I") | ok | File identical to 1.21.10: submit(EnderDragonRenderState,...) HEAD capture + @ModifyArg OverlayTexture.pack(FZ)I, both present in 1.21.11 EnderDragonRenderer.submit. |
+| item | main:net/the_last_sword/mixin/EntityRenderDispatcherMixin.java#injection:@ModifyVariable method=render @At(value="HEAD") | ok | Identical to 1.21.10: @ModifyVariable submit HEAD on the SubmitNodeCollector; 1.21.11 EntityRenderDispatcher.submit unchanged shape. |
+| item | main:net/the_last_sword/mixin/GameRendererMixin.java#injection:@Inject method=renderConfusionOverlay @At(value="HEAD") | ok | Identical to 1.21.10: renderConfusionOverlay is GuiConfusionOverlayMixin (@Inject Gui.renderConfusionOverlay HEAD); bobHurt/bobView still exist. |
+| item | main:net/the_last_sword/mixin/LevelRendererMixin.java#injection:@ModifyVariable method=setupRender @At(value="HEAD") | ok | cullTerrain(Camera,Frustum,boolean) exists in 1.21.11; see the changed row. |
+| item | main:net/the_last_sword/mixin/LivingEntityMixin.java#injection:@Inject method=hurt @At(value="HEAD") | ok | Identical to 1.21.10: @Inject hurtServer HEAD (LivingEntity.hurtServer exists on 1.21.11). |
+| item | main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ok | Identical to 1.21.10: submit(LivingEntityRenderState,...) HEAD + getOverlayCoords, both on 1.21.11. |
+| item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value="HEAD") | ok | Identical to 1.21.10: moved to LivingEntityMixin drop(ItemStack,ZZ) HEAD (exists on LivingEntity 1.21.11). |
+| item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value="HEAD") | ok | Identical to 1.21.10: moved to LivingEntityMixin setItemSlot HEAD (LivingEntity, same two overloads as 1.21.10). |
