@@ -504,8 +504,11 @@ public class ClientEventHandler {
     private static void addLine(VertexConsumer buffer, Matrix4f matrix,
                                 float x1, float y1, float z1, float x2, float y2, float z2,
                                 float red, float green, float blue, float alpha) {
-        buffer.addVertex(matrix, x1, y1, z1).setColor(red, green, blue, alpha).setNormal(1, 0, 0);
-        buffer.addVertex(matrix, x2, y2, z2).setColor(red, green, blue, alpha).setNormal(1, 0, 0);
+        //1.21.11: RenderTypes.lines() is POSITION_COLOR_NORMAL_LINE_WIDTH, every vertex needs its width; 1.21.1's
+        //lines() drew at RenderSystem's default width, which is Window.getAppropriateLineWidth() (as the block outline)
+        float lineWidth = Minecraft.getInstance().getWindow().getAppropriateLineWidth();
+        buffer.addVertex(matrix, x1, y1, z1).setColor(red, green, blue, alpha).setNormal(1, 0, 0).setLineWidth(lineWidth);
+        buffer.addVertex(matrix, x2, y2, z2).setColor(red, green, blue, alpha).setNormal(1, 0, 0).setLineWidth(lineWidth);
     }
 
     //========== 竞技场预览渲染方法 ==========
