@@ -798,6 +798,73 @@
         "26.3": "open"
       },
       "title": "1.21.11+: held items of the Guardian of the Sealed Spire, Dragon Cultist and Past Shadow of the Queen rotate by the hand bone once instead of twice (as the authors and 1.21.10): the Queen's lightning spear is tilted ~35 deg; follows the TLS-023 pivot fix"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java",
+        "src/main/java/net/the_last_sword/client/renderer/TheLastEndRenderTypes.java"
+      ],
+      "id": "TLS-032",
+      "lowest": "26.2",
+      "notes": "Found by the 26.2 fixer (weekly round, plan EpicCoreAPI#61).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "gate",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: reversed depth (26.2 depth test GREATER_THAN_OR_EQUAL): the boss danger-zone fill and TheLastEndRenderTypes effect types still test LESS_THAN_OR_EQUAL, so they draw only where something hides them"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/renderer/DragonShieldRenderer.java"
+      ],
+      "id": "TLS-033",
+      "lowest": "26.2",
+      "notes": "Found by the 26.2 fixer (weekly round, plan EpicCoreAPI#61).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "gate",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: Dragon shield placed from the camera entity's eye position instead of the main camera's position: wrong in third person"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java"
+      ],
+      "id": "TLS-034",
+      "lowest": "26.2",
+      "notes": "Found by the 26.2 fixer (weekly round, plan EpicCoreAPI#61). Same area as TLS-017. Not fixed this round (S4).",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "unusual",
+        "visibility": "rare",
+        "workaround": true
+      },
+      "severity": "S4",
+      "source": "gate",
+      "status": {
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "26.2+: TestEntityTheLastEndLayer submitCustomGeometry lambdas render with the outer poseStack instead of the callback's pose (test entity only)"
     }
   ],
   "schema": 1
