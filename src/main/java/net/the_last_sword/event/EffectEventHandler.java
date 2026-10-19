@@ -1,7 +1,7 @@
 package net.the_last_sword.event;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.PowerParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -113,9 +113,7 @@ public class EffectEventHandler {
         APPLYING_VOID_DAMAGE.set(true);
         try {
             victim.invulnerableTime = 0;
-            float healthBefore = victim.getHealth();
-            victim.hurt(voidDamageSource, damage);
-            boolean damaged = victim.getHealth() < healthBefore;
+            boolean damaged = net.the_last_sword.mv.Hurt.server(victim,voidDamageSource, damage);
             if (damaged) {
                 spawnVoidEnchantingEffects(victim, serverLevel);
             }
@@ -148,7 +146,7 @@ public class EffectEventHandler {
             double velY = (y - centerY) * 0.15;
             double velZ = (z - centerZ) * 0.15;
 
-            serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 0.0f),
+            serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F),
                 x, y, z,
                 1, velX, velY, velZ, 0.0);
         }

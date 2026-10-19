@@ -134,6 +134,8 @@ public class ServerEventHandler {
     //登录时同步给单个玩家；/reload后重载config配方并同步给所有在线玩家
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
+        //1.21.4: the client no longer receives recipes; the scroll book's recipe pages need the crafting and smithing ones
+        event.sendRecipes(net.minecraft.world.item.crafting.RecipeType.CRAFTING, net.minecraft.world.item.crafting.RecipeType.SMITHING);
         ServerPlayer player = event.getPlayer();
         if (player != null) {
             syncDragonCrystalRecipes(player);

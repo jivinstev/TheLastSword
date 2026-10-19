@@ -4,6 +4,7 @@ import software.bernie.geckolib.renderer.base.RenderPassInfo;
 import software.bernie.geckolib.renderer.base.BoneSnapshots;
 import software.bernie.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
+import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -24,6 +25,7 @@ import software.bernie.geckolib.renderer.base.GeoRenderState;
 public class DragonCultPaladinRenderer<R extends EntityRenderState & GeoRenderState> extends GeoEntityRenderer<DragonCultPaladinEntity, R> {
     public DragonCultPaladinRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new DragonCultPaladinModel());
+        this.shadowRadius = 0.6f;
     }
 
     @Override
@@ -38,7 +40,11 @@ public class DragonCultPaladinRenderer<R extends EntityRenderState & GeoRenderSt
 
     @Override
     public int getPackedOverlay(DragonCultPaladinEntity entity, Void relatedObject, float u, float partialTick) {
-        return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
+        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
+        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
+        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
+        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
+                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
 
     //GeckoLib 5.4: the head look the model's setCustomAnimations applied (pitch/yaw from the render state, in degrees)

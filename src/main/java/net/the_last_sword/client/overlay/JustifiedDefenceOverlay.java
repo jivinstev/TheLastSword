@@ -116,7 +116,7 @@ public class JustifiedDefenceOverlay {
 
             int textX = leftX + MAX_ICONS * step + ICON_SIZE - 4;
             int textY = startY + 2;
-            gui.drawString(mc.font, text, textX, textY, 0xFFFFFF, true);
+            gui.drawString(mc.font, text, textX, textY, 0xFFFFFFFF, true);
         }
 
 

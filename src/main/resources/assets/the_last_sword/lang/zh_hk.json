@@ -522,6 +522,7 @@
   "jei.tooltip.error.recipe.transfer.missing.addition": "缺少龍水晶附加物品",
   "jei.tooltip.error.recipe.transfer.missing.input.level": "缺少等級%s的輸入物品",
   "jei.tooltip.error.recipe.transfer.missing.template": "缺少龍水晶升級模板",
+  "key.category.the_last_sword.the_last_sword": "最終之劍",
   "key.categories.the_last_sword": "最終之劍",
   "key.the_last_sword.change_sword_mode": "更改最終之劍模式",
   "key.the_last_sword.open_defence_config": "打開防御配置",

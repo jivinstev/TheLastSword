@@ -73,7 +73,8 @@ public final class BlinkRiftRenderer {
     }
 
     @SubscribeEvent
-    public static void player(RenderPlayerEvent.Pre event) {
+    //1.21.9+: RenderPlayerEvent is typed on the avatar; its render state (AvatarRenderState) carries the entity id
+    public static void player(RenderPlayerEvent.Pre<?> event) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) return;
         net.minecraft.world.entity.Entity entity = level.getEntity(event.getRenderState().id);
@@ -91,10 +92,11 @@ public final class BlinkRiftRenderer {
         update();
         if (effectLevel == null || RIFTS.isEmpty()) return;
         PoseStack pose = event.getPoseStack();
-        Vec3 camera = event.getCamera().getPosition();
+        //1.21.9+: the stage event carries no camera or partial tick (as LightningSpearBurstRenderer)
+        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         for (Rift rift : RIFTS) {
-            float age = effectLevel.getGameTime() - rift.start() + event.getPartialTick().getGameTimeDeltaPartialTick(false);
+            float age = effectLevel.getGameTime() - rift.start() + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
             Vec3 offset = rift.packet().position().subtract(camera);
             pose.pushPose();
             pose.translate(offset.x, offset.y, offset.z);
