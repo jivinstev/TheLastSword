@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import net.the_last_sword.init.ModMenus;
 import net.the_last_sword.init.ModTags;
 
@@ -53,7 +54,9 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
             boundBlockEntity = this.world.getBlockEntity(pos);
             if (boundBlockEntity != null) {
                 var newHandler = this.world.getCapability(Capabilities.Item.BLOCK, pos, null);
-                ItemStacksResourceHandler handler = newHandler == null ? null : (ItemStacksResourceHandler) newHandler;
+                //26.3: a handler is bound only when it is a stacks handler the slots can set directly (the table's
+                //capability answers no null side, so this stays the menu's own 2-slot handler, as 26.2)
+                ItemStacksResourceHandler handler = newHandler instanceof ItemStacksResourceHandler h ? h : null;
                 if (handler != null) {
                     this.internal = handler;
                     this.bound = true;
@@ -62,13 +65,13 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         }
 
         // 添加2个输入槽位：slot 0 为红色燃料槽，仅接受燃料标签内物品
-        this.customSlots.put(0, this.addSlot(new Slot(inv, 0, 21, 43) {
+        this.customSlots.put(0, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 0, 21, 43) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return super.mayPlace(stack) && stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
             }
         }));
-        this.customSlots.put(1, this.addSlot(new Slot(inv, 1, 201, 43) {
+        this.customSlots.put(1, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 1, 201, 43) {
         }));
 
         // 添加玩家背包槽位
