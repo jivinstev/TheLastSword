@@ -54,7 +54,9 @@ public class WingsThatCoverTheWorldRenderer implements ICurioRenderer {
         this.model.setupAnim(slotContext.entity(), renderState.walkAnimationPos, renderState.walkAnimationSpeed,
             renderState.ageInTicks, yRotation, xRotation);
 
-        VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderTypes.entityCutoutNoCull(TEXTURE));
+        //26.1.2: entityCutout is the no-cull type (pipeline ENTITY_CUTOUT withCull(false); the culling one is entityCutoutCull),
+        //so 1.21.11's entityCutoutNoCull (1.21.1's culling-off state) is entityCutout here
+        VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderTypes.entityCutout(TEXTURE));
         this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, -1);
 
         poseStack.popPose();
