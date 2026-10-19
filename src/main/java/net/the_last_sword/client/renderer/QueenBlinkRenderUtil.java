@@ -25,6 +25,10 @@ public final class QueenBlinkRenderUtil {
 
     private QueenBlinkRenderUtil() {}
 
+    public static void finishRiftBatch(MultiBufferSource.BufferSource buffers) {
+        buffers.endBatch(RIFT);
+    }
+
     private static RenderType type(String name, boolean glow) {
         return net.the_last_sword.mv.LegacyRenderType.create(name, DefaultVertexFormat.POSITION_COLOR, com.mojang.renderpearl.api.pipeline.PrimitiveTopology.QUADS,
                 4096, false, true, net.the_last_sword.mv.LegacyRenderType.state()

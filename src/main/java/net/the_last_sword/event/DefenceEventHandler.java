@@ -42,9 +42,7 @@ import net.the_last_sword.network.NetworkHandler;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.health.TrueHealthManager;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.the_last_sword.mv.IEnergyStorage;
 import net.neoforged.bus.api.ICancellableEvent;
 import java.util.Optional;
 import net.the_last_sword.init.ModEffects;
@@ -200,7 +198,7 @@ public final class DefenceEventHandler {
 
             //检查能量
             boolean hasEnergy = energyOf(chestplate)
-                    .map(energy -> energy.getAmountAsInt() > 0)
+                    .map(energy -> energy.getEnergyStored() > 0)
                     .orElse(false);
 
             //有电时应用配置速度，无电时恢复默认
@@ -221,20 +219,9 @@ public final class DefenceEventHandler {
     }
 
     //物品能量存储（无能量能力时为空）
-    private static Optional<EnergyHandler> energyOf(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM));
-    }
-
-    //提取能量并立即提交
-    private static int extractEnergy(EnergyHandler energy, int amount) {
-        try (Transaction tx = Transaction.openRoot()) {
-            int extracted = energy.extract(amount, tx);
-            tx.commit();
-            return extracted;
-        }
+    private static Optional<IEnergyStorage> energyOf(ItemStack stack) {
+        //1.21.9+: the item energy capability needs the ItemAccess the changes are written back through
+        return Optional.ofNullable(net.the_last_sword.mv.LegacyEnergy.item(stack));
     }
 
     //护盾保护触发：取消事件，设置满血，按 cost 扣除护盾
@@ -384,14 +371,14 @@ public final class DefenceEventHandler {
             boolean enhanced = false;
             if (enhancedBuff) {
                 boolean hasEnergy = energyOf(stack)
-                        .map(energy -> energy.getAmountAsInt() > 0)
+                        .map(energy -> energy.getEnergyStored() > 0)
                         .orElse(false);
                 if (hasEnergy) {
                     enhanced = true;
                     //增强Buff消耗该件装备的能量
                     energyOf(stack).ifPresent(energy -> {
                         recordArmorEnergyConsumption(player,
-                                extractEnergy(energy, enhanceCost));
+                                energy.extractEnergy(enhanceCost, false));
                     });
                 }
             }
@@ -449,7 +436,7 @@ public final class DefenceEventHandler {
             ItemStack stack = player.getItemBySlot(slot);
             if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             boolean hasEnergy = energyOf(stack)
-                    .map(energy -> energy.getAmountAsInt() > 0)
+                    .map(energy -> energy.getEnergyStored() > 0)
                     .orElse(false);
             if (!hasEnergy) {
                 allHaveEnergy = false;
@@ -590,7 +577,7 @@ public final class DefenceEventHandler {
             if (stack.isEmpty() || !((Object) stack.getItem() instanceof DragonArmorItem)) continue;
             energyOf(stack).ifPresent(energy -> {
                 recordArmorEnergyConsumption(player,
-                        extractEnergy(energy, costPerPiece));
+                        energy.extractEnergy(costPerPiece, false));
             });
         }
     }
@@ -619,7 +606,7 @@ public final class DefenceEventHandler {
             if (!((Object) stack.getItem() instanceof DragonArmorItem)) continue;
 
             int[] values = energyOf(stack)
-                    .map(energy -> new int[]{energy.getAmountAsInt(), energy.getCapacityAsInt()})
+                    .map(energy -> new int[]{energy.getEnergyStored(), energy.getMaxEnergyStored()})
                     .orElse(new int[]{0, 0});
             currentEnergy += values[0];
             maxEnergy += values[1];

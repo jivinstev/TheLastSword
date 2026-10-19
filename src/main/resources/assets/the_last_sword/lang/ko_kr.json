@@ -522,6 +522,7 @@
   "jei.tooltip.error.recipe.transfer.missing.addition": "추가 재료가 없습니다",
   "jei.tooltip.error.recipe.transfer.missing.input.level": "%s레벨 입력 아이템이 없습니다",
   "jei.tooltip.error.recipe.transfer.missing.template": "용수정 강화 형판이 없습니다",
+  "key.category.the_last_sword.the_last_sword": "최후의 검",
   "key.categories.the_last_sword": "최후의 검",
   "key.the_last_sword.change_sword_mode": "최후의 검 모드 변경",
   "key.the_last_sword.open_defence_config": "방어 설정 열기",

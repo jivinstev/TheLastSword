@@ -29,6 +29,7 @@ import net.the_last_sword.entity.LightningSpearProjectile;
 import net.the_last_sword.entity.QueenBlinkBlade;
 import net.the_last_sword.entity.QueenEnhancedBlade;
 import net.the_last_sword.entity.QueenSummonedProjectile;
+import net.the_last_sword.entity.EndCrystalRift;
 import net.the_last_sword.entity.TheLastEndLightingEntity;
 import net.the_last_sword.entity.TheLastEndSwordProjectile;
 import net.the_last_sword.entity.TheLastSwordYouNeverForgotProjectile;
@@ -54,6 +55,12 @@ public class ModEntities {
                     () -> EntityType.Builder.<QueenEnhancedBlade>of(QueenEnhancedBlade::new, MobCategory.MISC)
                             .sized(1F, 8F).clientTrackingRange(64).updateInterval(1).fireImmune()
                             .build(key("queen_enhanced_blade")));
+
+    public static final Supplier<EntityType<EndCrystalRift>> END_CRYSTAL_RIFT =
+        ENTITY_TYPES.register("end_crystal_rift",
+            () -> EntityType.Builder.<EndCrystalRift>of(EndCrystalRift::new, MobCategory.MISC)
+                .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(20)
+                .noSave().noSummon().fireImmune().build(key("end_crystal_rift")));
 
     //龙水晶剑弹射物
     public static final Supplier<EntityType<DragonCrystalSwordProjectile>> DRAGON_CRYSTAL_SWORD_PROJECTILE =

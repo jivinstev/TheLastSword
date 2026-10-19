@@ -4,6 +4,7 @@ import com.geckolib.renderer.base.RenderPassInfo;
 import com.geckolib.renderer.base.BoneSnapshots;
 import com.geckolib.constant.DataTickets;
 import net.minecraft.util.Mth;
+import net.the_last_sword.client.JustifiedDefenceFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -84,11 +85,14 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
 
     @Override
     public int getPackedOverlay(DragonCultPriestEntity entity, Void relatedObject, float u, float partialTick) {
-        //等同原版 LivingEntityRenderer.getOverlayCoords(entity, 0)
-        return OverlayTexture.pack(0.0F, entity.hurtTime > 0 || entity.deathTime > 0);
+        //1.21.4: a GeckoLib renderer never reaches LivingEntityRenderer.getOverlayCoords, where the Justified
+        //Defence white flash is mixed in (LivingEntityRendererMixin); apply it here, as GuardianOfSealedSpireRenderer does
+        float flash = JustifiedDefenceFlash.getWhiteOverlayProgress(entity);
+        return OverlayTexture.pack(OverlayTexture.u(Math.max(flash, 0.0F)),
+                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0));
     }
 
-    //GeckoLib 5.4: the head look the model's setCustomAnimations applied (pitch/yaw from the render state, in degrees)
+    //GeckoLib 5.4: the head look the model's setCustomAnimations applied (minus the render state's pitch/yaw, in degrees)
     //is a bone-snapshot adjustment on the renderer, made for every frame after the animation
     @Override
     public void adjustModelBonesForRender(RenderPassInfo<R> renderPassInfo, BoneSnapshots snapshots) {
@@ -98,6 +102,6 @@ public class DragonCultPriestRenderer<R extends EntityRenderState & GeoRenderSta
         if (pitch == null || yaw == null) {
             return;
         }
-        snapshots.ifPresent("head", head -> head.setRotX(pitch * Mth.DEG_TO_RAD).setRotY(yaw * Mth.DEG_TO_RAD));
+        snapshots.ifPresent("head", head -> head.setRotX(-pitch * Mth.DEG_TO_RAD).setRotY(-yaw * Mth.DEG_TO_RAD));
     }
 }

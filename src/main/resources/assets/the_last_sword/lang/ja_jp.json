@@ -522,6 +522,7 @@
   "jei.tooltip.error.recipe.transfer.missing.addition": "追加素材が不足しています",
   "jei.tooltip.error.recipe.transfer.missing.input.level": "レベル%sの入力アイテムが不足しています",
   "jei.tooltip.error.recipe.transfer.missing.template": "ドラゴンクリスタル強化用鍛冶型が不足しています",
+  "key.category.the_last_sword.the_last_sword": "最後の剣",
   "key.categories.the_last_sword": "最後の剣",
   "key.the_last_sword.change_sword_mode": "最後の剣のモードを変更",
   "key.the_last_sword.open_defence_config": "防御設定を開く",

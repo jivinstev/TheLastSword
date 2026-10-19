@@ -5,7 +5,11 @@ net.minecraft.client.gui.GuiGraphics	net.minecraft.client.gui.GuiGraphicsExtract
 drawCenteredString	centeredText
 # X83: proposed by a file-loop worker, kept because the error count fell
 re:^software\.bernie\.geckolib\b	com.geckolib
-# X89: proposed by a file-loop worker, kept because the error count fell
-renderBg	extractBg
 # X92: proposed by a file-loop worker, kept because the error count fell
 member:submitNameTag	submitNameDisplay
+# 26.1: RenderLevelStageEvent.AfterParticles is AfterTranslucentParticles (TLS-007, BlinkRiftRenderer; as LightningSpearBurstRenderer)
+re:\bRenderLevelStageEvent\.AfterParticles\b	RenderLevelStageEvent.AfterTranslucentParticles
+# 26.1: DefaultVertexFormat.NEW_ENTITY is ENTITY (same elements) (TLS-009, ZeroPointEngineShader / ModShaders)
+re:\bDefaultVertexFormat\.NEW_ENTITY\b	DefaultVertexFormat.ENTITY
+# 26.1: PerspectiveProjectionMatrixBuffer is ProjectionMatrixBuffer (same getBuffer(Matrix4f)) (DragonCrystalEnchantingTableScreen end-portal PIP)
+net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer	net.minecraft.client.renderer.ProjectionMatrixBuffer

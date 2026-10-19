@@ -17,7 +17,6 @@ import com.geckolib.constant.dataticket.DataTicket;
 import com.geckolib.renderer.base.GeoRenderState;
 import com.geckolib.renderer.base.GeoRenderer;
 import com.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
-import com.geckolib.util.RenderUtil;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -111,9 +110,9 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
                                          SubmitNodeCollector renderTasks, int packedLight) {
         ItemStack stack = stackOrEmpty(getStackForBone(bone.name(), renderState));
         poseStack.pushPose();
-        //GeckoLib 5.3+ no longer moves the pose to the bone's pivot before this hook (5.1/5.2 called
-        //RenderUtil.translateAndRotateMatrixForBone first); do it here so the offsets below keep their meaning
-        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
+        //GeckoLib 5.5.2 (as 5.4.5): the per-bone task runs after RenderUtil.transformToBone, which already ends at the
+        //bone's pivot with its rotation applied (5.3's did not, which the lower versions compensated for here), so the
+        //offsets below keep their meaning without moving the pose again
         //新版left_hand枢轴就是盾牌挂点：盾牌模型本身已是竖直的，只需转出盾面朝外、握把贴身的持盾姿态
         if (stack.is(Items.SHIELD)) {
             poseStack.rotate(Axis.YP.rotationDegrees(SHIELD_FACE_ROTATION));

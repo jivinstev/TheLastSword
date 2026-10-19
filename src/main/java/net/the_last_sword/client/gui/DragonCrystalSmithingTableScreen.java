@@ -11,17 +11,13 @@ import net.the_last_sword.client.gui.menu.DragonCrystalSmithingTableMenu;
 
 public class DragonCrystalSmithingTableScreen extends AbstractContainerScreen<DragonCrystalSmithingTableMenu> {
 
-    private final int bgWidth;
-    private final int bgHeight;
-
     private static final Identifier TEXTURE =
         Identifier.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, "textures/screens/dragon_crystal_smithing_table_gui.png");
 
     public DragonCrystalSmithingTableScreen(DragonCrystalSmithingTableMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
-        this.bgWidth = 256;
-        this.bgHeight = 160;
-        this.inventoryLabelY = this.bgHeight - 89;
+        //26.1: imageWidth/imageHeight are final; the lower versions' 256 x 160 goes to the sized constructor
+        super(menu, playerInventory, title, 256, 160);
+        this.inventoryLabelY = this.imageHeight - 89;
     }
 
     @Override
@@ -41,7 +37,7 @@ public class DragonCrystalSmithingTableScreen extends AbstractContainerScreen<Dr
         net.the_last_sword.mv.LegacyGl.enableBlend();
         net.the_last_sword.mv.LegacyGl.defaultBlendFunc();
 
-        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos, this.topPos, 0, 0, this.bgWidth, this.bgHeight, this.bgWidth, this.bgHeight);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         net.the_last_sword.mv.LegacyGl.disableBlend();
     }

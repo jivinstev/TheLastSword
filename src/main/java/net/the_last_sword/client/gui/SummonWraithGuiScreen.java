@@ -19,11 +19,10 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
     private final Level world;
     private final int x, y, z;
     private final Player entity;
-    private static final int WRAITH_IMAGE_WIDTH = 176;
-    private static final int WRAITH_IMAGE_HEIGHT = 240;
 
     public SummonWraithGuiScreen(SummonWraithGuiMenu container, Inventory inventory, Component text) {
-        super(container, inventory, text);
+        //26.1: imageWidth/imageHeight are final; the lower versions' 176 x 240 goes to the sized constructor
+        super(container, inventory, text, 176, 240);
         this.world = container.world;
         this.x = container.x;
         this.y = container.y;
@@ -41,7 +40,10 @@ public class SummonWraithGuiScreen extends AbstractContainerScreen<SummonWraithG
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, WRAITH_IMAGE_WIDTH, WRAITH_IMAGE_HEIGHT, WRAITH_IMAGE_WIDTH, WRAITH_IMAGE_HEIGHT);
+        //the dimmed world backdrop 1.21.11's render() drew (Screen.renderBackground) is Screen.extractBackground on 26.1,
+        //which vanilla container screens call first (AbstractFurnaceScreen)
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTicks);
+        guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         guiGraphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, Identifier.parse("the_last_sword:textures/screens/summon_wraith_gui_background.png"), this.leftPos + 28, this.topPos + -38, 0, 0, 120, 186, 120, 186);
 
