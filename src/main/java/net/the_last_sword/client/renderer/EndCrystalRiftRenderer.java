@@ -35,7 +35,7 @@ public class EndCrystalRiftRenderer extends EntityRenderer<EndCrystalRift, EndCr
     }
 
     @Override
-    protected AABB getBoundingBoxForCulling(EndCrystalRift entity) {
+    protected AABB getBoundingBoxForCulling(EndCrystalRift entity, float partialTick) {
         return entity.getBoundingBoxForCulling();
     }
 
