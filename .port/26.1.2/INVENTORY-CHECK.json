@@ -1868,9 +1868,8 @@
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
    "status": "unaccounted",
-   "detail": "the target's overlay has a different render-use",
-   "now": "RenderTypes.entityTranslucent",
-   "was": "changed"
+   "detail": "not in the target's file",
+   "was": "missing"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",

@@ -293,3 +293,5 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 | item | main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V @At(value="HEAD") | ? | ? |
 | item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity; @At(value="HEAD") | ? | ? |
 | item | main:net/the_last_sword/mixin/PlayerMixin.java#injection:@Inject method=setItemSlot @At(value="HEAD") | ? | ? |
+| changed | src/main/java/net/the_last_sword/client/renderer/TheLastEndSwordProjectileRenderer.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java | ? | ? |
