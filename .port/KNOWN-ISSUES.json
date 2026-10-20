@@ -1221,6 +1221,42 @@
         "26.3": "open"
       },
       "title": "26.x: root advancement the_last_sword_welcome's background minecraft:textures/block/end_stone.png resolves to a missing texture behind the tab (should be minecraft:block/end_stone)"
+    },
+    {
+      "id": "TLS-051",
+      "lowest": "1.21.11",
+      "notes": "Suspected, not verified in a client: 1.21.11 has vanilla's items atlas and the 'Multiple atlases' check, and the branch still ships atlases/blocks.json; 26.1.2 fixed the same shape in the round (armour item models on the item-model format). Found by the MMVU lesson harvest, 2026-10-20.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.11": "open"
+      },
+      "title": "Armour item models may resolve on the wrong atlas at 1.21.11 (the 26.1.2 fix not carried down)"
+    },
+    {
+      "id": "TLS-052",
+      "lowest": "26.3",
+      "notes": "Suspected from 26.3's ItemAbilities: strip/till/flatten moved to the BlockTransformer registry and the ItemAbility.get(\"axe_strip\")-style checks are no longer asked for those actions. Not verified in a client. Found by the MMVU lesson harvest, 2026-10-20.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: the mod's swords may no longer strip, till or flatten (axe/hoe/shovel ItemAbility strings no longer queried)"
     }
   ],
   "schema": 1
