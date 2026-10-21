@@ -43,9 +43,8 @@
    "file": "net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java",
    "kind": "render-class",
    "key": "class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/LightningSpearClientExtensions.java#render-class:class LightningSpearClientExtensions : IClientItemExtensions",
@@ -189,9 +188,8 @@
    "file": "net/the_last_sword/client/gui/DragonCrystalSmithingTableScreen.java",
    "kind": "render-use",
    "key": "RenderSystem.setShaderColor",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/gui/JourneyLogsScreen.java#render-class:class JourneyLogsScreen : Screen",
@@ -254,9 +252,8 @@
    "file": "net/the_last_sword/client/gui/PaperNoteScreen.java",
    "kind": "render-use",
    "key": "RenderSystem.setShaderColor",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-class:class SummonWraithGuiScreen : AbstractContainerScreen",
@@ -560,10 +557,9 @@
    "file": "net/the_last_sword/client/model/WingsThatCoverTheWorldModel.java",
    "kind": "render-class",
    "key": "class WingsThatCoverTheWorldModel : AgeableListModel",
-   "status": "changed",
-   "detail": "the target's overlay has a different render-class; an ok row of REVIEW.md names it",
-   "now": "class WingsThatCoverTheWorldModel : EntityModel",
-   "accounted": true
+   "status": "same",
+   "detail": "through the rename tables",
+   "now": "class WingsThatCoverTheWorldModel : EntityModel"
   },
   {
    "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShader",
@@ -571,9 +567,8 @@
    "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
    "kind": "render-use",
    "key": "RenderSystem.setShader",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:GameRenderer.getPositionTexShader",
@@ -581,9 +576,8 @@
    "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
    "kind": "render-use",
    "key": "GameRenderer.getPositionTexShader",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/overlay/DragonArmorOverlay.java#render-use:RenderSystem.setShaderColor",
@@ -591,9 +585,8 @@
    "file": "net/the_last_sword/client/overlay/DragonArmorOverlay.java",
    "kind": "render-use",
    "key": "RenderSystem.setShaderColor",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/BlinkRiftRenderer.java#event:@SubscribeEvent ClientTickEvent.Post",
@@ -860,9 +853,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderType.CompositeState",
@@ -870,9 +862,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
@@ -880,9 +871,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -890,9 +880,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -900,9 +889,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -910,9 +898,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/DragonShieldRenderer.java#render-use:RenderStateShard.NO_CULL",
@@ -920,9 +907,8 @@
    "file": "net/the_last_sword/client/renderer/DragonShieldRenderer.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/EndCrystalRiftRenderer.java#render-class:class EndCrystalRiftRenderer : EntityRenderer",
@@ -1006,9 +992,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderType.CompositeState",
@@ -1016,9 +1001,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.POSITION_COLOR_SHADER",
@@ -1026,9 +1010,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LIGHTNING_TRANSPARENCY",
@@ -1036,9 +1019,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LIGHTNING_TRANSPARENCY",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -1046,9 +1028,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -1056,9 +1037,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LightningSpearRenderUtil.java#render-use:RenderStateShard.NO_CULL",
@@ -1066,9 +1046,8 @@
    "file": "net/the_last_sword/client/renderer/LightningSpearRenderUtil.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/renderer/LostWraithEndStrikeEffectRenderer.java#render-use:RenderType.lightning",
@@ -1610,9 +1589,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderType.create",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderType.CompositeState",
@@ -1620,9 +1598,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderType.CompositeState",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.ShaderStateShard",
@@ -1630,9 +1607,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderStateShard.ShaderStateShard",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -1640,9 +1616,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderStateShard.TRANSLUCENT_TRANSPARENCY",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST",
@@ -1650,9 +1625,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderStateShard.LEQUAL_DEPTH_TEST",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.NO_CULL",
@@ -1660,9 +1634,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderStateShard.NO_CULL",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/client/shader/ZeroPointEngineShader.java#render-use:RenderStateShard.COLOR_WRITE",
@@ -1670,9 +1643,8 @@
    "file": "net/the_last_sword/client/shader/ZeroPointEngineShader.java",
    "kind": "render-use",
    "key": "RenderStateShard.COLOR_WRITE",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/compat/apotheosis/ApotheosisCompat.java#event:@SubscribeEvent InterModEnqueueEvent",
@@ -1797,9 +1769,8 @@
    "file": "net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItemRenderer.java",
    "kind": "render-use",
    "key": "RenderType.entityTranslucentCull",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayModel.java#render-class:class TheLastEndLuckyBlockDisplayModel : GeoModel",
@@ -2545,9 +2516,8 @@
    "file": "net/the_last_sword/init/ModInstruments.java",
    "kind": "registry",
    "key": "registry INSTRUMENT",
-   "status": "moved",
-   "detail": "not in the target's file; an ok row of REVIEW.md names it",
-   "accounted": true
+   "status": "same",
+   "detail": "rewritten by the rename tables (no counterpart key)"
   },
   {
    "id": "main:net/the_last_sword/init/ModItems.java#registry:registry ITEM",
@@ -3166,10 +3136,9 @@
    "file": "net/the_last_sword/mixin/LivingEntityMixin.java",
    "kind": "injection",
    "key": "@Inject method=hurt @At(value=\"HEAD\")",
-   "status": "changed",
-   "detail": "the target's overlay has a different injection; an ok row of REVIEW.md names it",
-   "now": "@Inject method=hurtServer @At(value=\"HEAD\")",
-   "accounted": true
+   "status": "same",
+   "detail": "through the rename tables",
+   "now": "@Inject method=hurtServer @At(value=\"HEAD\")"
   },
   {
    "id": "main:net/the_last_sword/mixin/LivingEntityRendererMixin.java#injection:@Inject method=getOverlayCoords @At(value=\"HEAD\")",
@@ -3791,9 +3760,9 @@
  ],
  "unaccounted": [],
  "counts": {
-  "same": 297,
-  "moved": 73,
-  "changed": 11,
+  "same": 328,
+  "moved": 44,
+  "changed": 9,
   "dropped": 29
  },
  "notes": [
