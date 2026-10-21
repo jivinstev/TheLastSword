@@ -1,21 +1,3 @@
 {
- "conflicts": [
-  {
-   "overlay": "src/main/java/net/the_last_sword/item/PriestStaffFactory.java",
-   "reason": "the authors' change is not in 1.21.5's file (no merge brought it, or a merge kept 1.21.5's)",
-   "since": "336009b5edc4..6c410c5b816f",
-   "from": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
-   "to": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
-   "diff": "diff --git a/src/main/java/net/the_last_sword/item/PriestStaffFactory.java b/src/main/java/net/the_last_sword/item/PriestStaffFactory.java\nnew file mode 100644\nindex 0000000..9c0d860\n--- /dev/null\n+++ b/src/main/java/net/the_last_sword/item/PriestStaffFactory.java\n@@ -0,0 +1,21 @@\n+package net.the_last_sword.item;\n+\n+import net.minecraft.world.item.Item;\n+import net.the_last_sword.compat.CompatCheck;\n+import net.the_last_sword.compat.irons_spellbooks.CastingPriestStaffItem;\n+\n+public final class PriestStaffFactory {\n+    private PriestStaffFactory() {\n+    }\n+\n+    public static Item create() {\n+        return CompatCheck.isSpellcastingLoaded() ? Casting.create() : new PriestStaffItem();\n+    }\n+\n+    // 隔离可选父类的加载，未安装施法系统时只创建普通物品。\n+    private static final class Casting {\n+        private static Item create() {\n+            return new CastingPriestStaffItem();\n+        }\n+    }\n+}\n",
-   "id": "52c9cf0f594b",
-   "class": "escalate",
-   "escalate": true,
-   "default": "",
-   "choice": "keep",
-   "reasoning": "the authors' change uses CastingPriestStaffItem, which 1.21.5 drops (drops.txt): their intent cannot be kept here as is",
-   "source": "authors",
-   "inherited_from": "1.21.5",
-   "digest": "519e57a9255a92bc1552840d1336687c1a3275587e2d8a762f25c7bce7cdf72a"
-  }
- ]
+ "conflicts": []
 }

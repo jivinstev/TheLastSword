@@ -58,7 +58,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/network/SyncSummonGuiPacket.java`
-- changed: `src/main/java/net/the_last_sword/raid/DragonCultRaid.java`
 - changed: `src/main/java/net/the_last_sword/summon/WraithSummonManager.java`
 - stub: `src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java` (client)
@@ -86,7 +85,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - behaviour: `main:net/the_last_sword/client/gui/PaperNoteScreen.java#render-use:RenderSystem.setShaderColor` (moved: not in the target's file; an ok row of REVIEW.md names it)
 - behaviour: `main:net/the_last_sword/client/gui/SummonWraithGuiScreen.java#render-use:RenderSystem.setShaderColor` (moved: not in the target's file; an ok row of REVIEW.md names it)
 - behaviour: `main:net/the_last_sword/client/gui/TheLastEndScrollScreen.java#render-use:RenderSystem.setShaderColor` (moved: not in the target's file; an ok row of REVIEW.md names it)
-- behaviour: `main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER` (unaccounted: not in the target's file)
+- behaviour: `main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER` (moved: not in the target's file; an ok row of REVIEW.md names it)
 - behaviour: `main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY` (moved: not in the target's file; an ok row of REVIEW.md names it)
 - behaviour: `main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.LEQUAL_DEPTH_TEST` (moved: not in the target's file; an ok row of REVIEW.md names it)
 - behaviour: `main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE` (moved: not in the target's file; an ok row of REVIEW.md names it)
