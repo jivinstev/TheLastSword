@@ -41,7 +41,7 @@ neoForge {
 }
 
 dependencies {
-    implementation("net.eca:eca:1.1.9") { transitive = false }
+    implementation("net.eca:eca:1.1.9-fix") { transitive = false }
     //implementation files("lib/epic-core-api-1.1.9_dev.jar")
     implementation "curse.maven:geckolib-388172:8893490"
     implementation "curse.maven:curios-309927:6529130"

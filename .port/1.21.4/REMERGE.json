@@ -1,0 +1,52 @@
+{
+ "conflicts": [
+  {
+   "overlay": "src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java",
+   "digest": "9308ee215c59b5ceb62d847b4a45723a1e4874843a6b393ef4d2284b030d73b8",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a default decision",
+   "since": "336009b5edc4..6c410c5b816f",
+   "from": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
+   "to": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java b/src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java\nindex e0e0d49..9cb6b4e 100644\n--- a/src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java\n+++ b/src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java\n@@ -16,7 +16,6 @@ import net.the_last_sword.item.DragonCultPriestArmorItem;\n import net.the_last_sword.item.DragonCrystalArmorItem;\n import net.the_last_sword.item.DragonCrystalSword;\n import net.the_last_sword.item.DragonSword;\n-import net.the_last_sword.item.PriestStaffItem;\n import net.the_last_sword.compat.projecte.PrimalSourceArmorItem;\n import net.the_last_sword.init.ModItems;\n import net.the_last_sword.item.TheLastSword;\n@@ -67,7 +66,7 @@ public final class IronsSpellsCompat {\n             return;\n         }\n \n-        if (event.getItemStack().getItem() instanceof PriestStaffItem) {\n+        if (event.getItemStack().is(ModItems.PRIEST_STAFF.get())) {\n             addStaffModifiers(event, EquipmentSlotGroup.MAINHAND);\n             return;\n         }\n",
+   "id": "4c329f18ad6e",
+   "class": "optional-integration",
+   "escalate": false,
+   "default": "keep the integration, apply the authors' change around it",
+   "choice": "patch",
+   "reasoning": "an optional integration: kept, with the authors' design",
+   "source": "authors"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/item/PriestStaffItem.java",
+   "digest": "4d5f789fe545eb06df49acfb463bee4ee642b78b06783efe34348b391346268a",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a default decision",
+   "since": "336009b5edc4..6c410c5b816f",
+   "from": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
+   "to": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/item/PriestStaffItem.java b/src/main/java/net/the_last_sword/item/PriestStaffItem.java\nindex 14f0acc..3c2b9c4 100644\n--- a/src/main/java/net/the_last_sword/item/PriestStaffItem.java\n+++ b/src/main/java/net/the_last_sword/item/PriestStaffItem.java\n@@ -26,7 +26,7 @@ public class PriestStaffItem extends Item {\n     private final ItemAttributeModifiers defaultModifiers;\n \n     public PriestStaffItem() {\n-        super(new Item.Properties().durability(200).rarity(Rarity.UNCOMMON));\n+        super(createProperties());\n \n         this.defaultModifiers = ItemAttributeModifiers.builder()\n             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(\n@@ -42,6 +42,15 @@ public class PriestStaffItem extends Item {\n             .build();\n     }\n \n+    public static Item.Properties createProperties() {\n+        return new Item.Properties().durability(200).rarity(Rarity.UNCOMMON);\n+    }\n+\n+    @Override\n+    public int getEnchantmentValue() {\n+        return 32;\n+    }\n+\n     @Override\n     public ItemAttributeModifiers getDefaultAttributeModifiers() {\n         return defaultModifiers;\n@@ -54,44 +63,58 @@ public class PriestStaffItem extends Item {\n \n     @Override\n     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {\n+        if (player.isShiftKeyDown()) {\n+            return useGuard(level, player, hand);\n+        }\n         ItemStack stack = player.getItemInHand(hand);\n         if (player.getCooldowns().isOnCooldown(this)) {\n             return InteractionResultHolder.fail(stack);\n         }\n \n         if (!level.isClientSide) {\n-            if (player.isShiftKeyDown()) {\n-                PriestGuardEffect.apply(\n-                    player,\n-                    TheLastSwordConfiguration.getPriestStaffGuardRadiusSafely(),\n-                    TheLastSwordConfiguration.getPriestStaffGuardShieldGainSafely()\n-                );\n-                consumeDurability(stack, player, hand, 2);\n-                player.getCooldowns().addCooldown(\n-                    this,\n-                    TheLastSwordConfiguration.getPriestStaffGuardCooldownSafely()\n-                );\n-            } else {\n-                float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE)\n-                    * TheLastSwordConfiguration.getPriestStaffProjectileDamageMultiplierSafely());\n-                DragonSwordProjectile.shoot(\n-                    level, player, player.getRandom(), player.getUUID(), damage, stack\n-                );\n-                consumeDurability(stack, player, hand, 1);\n-            }\n+            float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE)\n+                * TheLastSwordConfiguration.getPriestStaffProjectileDamageMultiplierSafely());\n+            DragonSwordProjectile.shoot(\n+                level, player, player.getRandom(), player.getUUID(), damage, stack\n+            );\n+            consumeDurability(stack, player, hand, 1);\n         }\n \n         return InteractionResultHolder.success(stack);\n     }\n \n+    public static InteractionResultHolder<ItemStack> useGuard(Level level, Player player, InteractionHand hand) {\n+        ItemStack stack = player.getItemInHand(hand);\n+        Item item = stack.getItem();\n+        if (player.getCooldowns().isOnCooldown(item)) {\n+            return InteractionResultHolder.fail(stack);\n+        }\n+        if (!level.isClientSide) {\n+            PriestGuardEffect.apply(player,\n+                TheLastSwordConfiguration.getPriestStaffGuardRadiusSafely(),\n+                TheLastSwordConfiguration.getPriestStaffGuardShieldGainSafely());\n+            consumeDurability(stack, player, hand, 2);\n+            player.getCooldowns().addCooldown(item,\n+                TheLastSwordConfiguration.getPriestStaffGuardCooldownSafely());\n+        }\n+        return InteractionResultHolder.success(stack);\n+    }\n+\n     @Override\n     public void appendHoverText(ItemStack stack, net.minecraft.world.item.Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {\n         super.appendHoverText(stack, level, tooltip, flag);\n+        appendStaffTooltip(tooltip, false);\n+    }\n \n-        tooltip.add(Component.translatable(\n-            \"item_tooltip.the_last_sword.priest_staff.projectile\",\n-            formatValue(TheLastSwordConfiguration.getPriestStaffProjectileDamageMultiplierSafely())\n-        ));\n+    public static void appendStaffTooltip(List<Component> tooltip, boolean casting) {\n+        if (casting) {\n+            tooltip.add(Component.translatable(\"item_tooltip.the_last_sword.priest_staff.casting\"));\n+        } else {\n+            tooltip.add(Component.translatable(\n+                \"item_tooltip.the_last_sword.priest_staff.projectile\",\n+                formatValue(TheLastSwordConfiguration.getPriestStaffProjectileDamageMultiplierSafely())\n+            ));\n+        }\n         tooltip.add(Component.translatable(\n             \"item_tooltip.the_last_sword.priest_staff.guard\",\n             formatValue(TheLastSwordConfiguration.getPriestStaffGuardRadiusSafely()),\n",
+   "id": "e8267802c360",
+   "class": "authors-fix",
+   "escalate": false,
+   "default": "take the authors' change through the rows, our change re-applied around it",
+   "choice": "patch",
+   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
+   "source": "authors"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/summon/WraithSummonManager.java",
+   "digest": "62942dd9ddebcc807f9cdb86dcd75f5f5b7536466c9b0771e637d269c04fb0a7",
+   "reason": "the authors' change is not in 1.21.4's file (no merge brought it, or a merge kept 1.21.4's)",
+   "since": "336009b5edc4..6c410c5b816f",
+   "from": "336009b5edc4302448251f81fcfc12ab1a3e9b23",
+   "to": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/summon/WraithSummonManager.java b/src/main/java/net/the_last_sword/summon/WraithSummonManager.java\nindex 2a96e0d..0d1ae7d 100644\n--- a/src/main/java/net/the_last_sword/summon/WraithSummonManager.java\n+++ b/src/main/java/net/the_last_sword/summon/WraithSummonManager.java\n@@ -57,6 +57,9 @@ public class WraithSummonManager {\n     //跟随距离阈值\n     private static final double FOLLOW_DISTANCE = 4.5;\n \n+    private static final int SUMMON_INPUT_GUARD_TICKS = 4;\n+    private static final Map<Player, Long> LAST_SUMMON_INPUT_TICKS = new WeakHashMap<>();\n+\n     // ============ 玩家数据存取方法 ============\n \n     //从玩家持久化数据读取魂石\n@@ -250,6 +253,15 @@ public class WraithSummonManager {\n      * 召唤API（统一入口）\n      */\n     public static boolean summonWraith(Player player, ItemStack weaponStack, Level level) {\n+        if (!(level instanceof ServerLevel serverLevel) || player == null || weaponStack.isEmpty()) return false;\n+        if (player.getCooldowns().isOnCooldown(weaponStack.getItem())) return false;\n+\n+        // 在切换状态前拦截紧邻请求；双手和不同召唤物品共用窗口，创造模式同样生效。\n+        long now = serverLevel.getServer().overworld().getGameTime();\n+        Long previous = LAST_SUMMON_INPUT_TICKS.get(player);\n+        if (previous != null && now >= previous && now - previous < SUMMON_INPUT_GUARD_TICKS) return false;\n+        LAST_SUMMON_INPUT_TICKS.put(player, now);\n+\n         //从玩家持久化数据读取魂石\n         ItemStack soulStone = getSoulStoneFromPlayer(player);\n         if (soulStone.isEmpty()) {\n",
+   "id": "c089b104cadf",
+   "class": "port-change",
+   "escalate": false,
+   "default": "keep our deliberate change (STUBS.json), apply the authors' change around it",
+   "choice": "patch",
+   "reasoning": "a deliberate port change of ours (a stand-in, an API rewrite) is kept; the authors' change goes around it",
+   "source": "authors"
+  }
+ ]
+}
