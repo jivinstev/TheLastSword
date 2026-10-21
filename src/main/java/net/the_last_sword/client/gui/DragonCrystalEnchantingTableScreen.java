@@ -100,7 +100,8 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
                 Component.translatable("gui.the_last_sword.dragon_crystal_enchanting_table.search"));
         searchBox.setMaxLength(50);
         searchBox.setBordered(true);
-        searchBox.setTextColor(0xFFFFFF);
+        //1.21.6+: EditBox draws its text with textColor through GuiGraphics.drawString, which skips ARGB alpha 0 -- opaque white
+        searchBox.setTextColor(0xFFFFFFFF);
         searchBox.setResponder(text -> {
             scrollOffset = 0;
             updateFilteredList();
@@ -111,7 +112,7 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
         levelEditBox = new EditBox(this.font, 0, 0, LEVEL_INPUT_WIDTH, LEVEL_INPUT_HEIGHT, Component.empty());
         levelEditBox.setMaxLength(3);
         levelEditBox.setBordered(false);
-        levelEditBox.setTextColor(0xFFFFFF);
+        levelEditBox.setTextColor(0xFFFFFFFF);
         levelEditBox.setVisible(false);
         levelEditBox.setFilter(s -> s.isEmpty() || s.matches("\\d{0,3}"));
         this.addRenderableWidget(levelEditBox);
