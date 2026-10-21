@@ -2,6 +2,7 @@ package net.the_last_sword.client.gui.menu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,6 +29,7 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
     public int x, y, z;
     private ContainerLevelAccess access = ContainerLevelAccess.NULL;
     private ItemStacksResourceHandler internal;
+    private Container boundContainer = null;
     private final Map<Integer, Slot> customSlots = new HashMap<>();
     private boolean bound = false;
     private BlockEntity boundBlockEntity = null;
@@ -54,10 +56,13 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
             boundBlockEntity = this.world.getBlockEntity(pos);
             if (boundBlockEntity != null) {
                 var newHandler = this.world.getCapability(Capabilities.Item.BLOCK, pos, null);
-                //26.3: a handler is bound only when it is a stacks handler the slots can set directly (the table's
-                //capability answers no null side, so this stays the menu's own 2-slot handler, as 26.2)
-                ItemStacksResourceHandler handler = newHandler instanceof ItemStacksResourceHandler h ? h : null;
-                if (handler != null) {
+                //26.3 (TLS-049): the table's unsided capability is a VanillaContainerWrapper over the block entity, not a
+                //stacks handler the slots could set; the menu binds to that inventory through the block entity's Container
+                //itself (as 1.20.1's unsided handler was the whole inventory), so items stay in the table
+                if (newHandler != null && boundBlockEntity instanceof Container container) {
+                    this.boundContainer = container;
+                    this.bound = true;
+                } else if (newHandler instanceof ItemStacksResourceHandler handler) {
                     this.internal = handler;
                     this.bound = true;
                 }
@@ -65,14 +70,29 @@ public class DragonCrystalEnchantingTableMenu extends AbstractContainerMenu impl
         }
 
         // 添加2个输入槽位：slot 0 为红色燃料槽，仅接受燃料标签内物品
-        this.customSlots.put(0, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 0, 21, 43) {
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return super.mayPlace(stack) && stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
-            }
-        }));
-        this.customSlots.put(1, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 1, 201, 43) {
-        }));
+        if (boundContainer != null) {
+            this.customSlots.put(0, this.addSlot(new Slot(boundContainer, 0, 21, 43) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return super.mayPlace(stack) && stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
+                }
+            }));
+            this.customSlots.put(1, this.addSlot(new Slot(boundContainer, 1, 201, 43) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return super.mayPlace(stack) && boundContainer.canPlaceItem(1, stack);
+                }
+            }));
+        } else {
+            this.customSlots.put(0, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 0, 21, 43) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return super.mayPlace(stack) && stack.is(ModTags.DRAGON_CRYSTAL_ENCHANTING_TABLE_FUEL);
+                }
+            }));
+            this.customSlots.put(1, this.addSlot(new ResourceHandlerSlot(internal, internal::set, 1, 201, 43) {
+            }));
+        }
 
         // 添加玩家背包槽位
         for (int si = 0; si < 3; ++si)
