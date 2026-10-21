@@ -92,10 +92,12 @@ public class DragonCultRaid extends RaidDefinition {
         return RESULT_DISPLAY_TICKS;
     }
 
+    @Override
     public boolean shouldTeleportRaidersOnBell(RaidContext context, ServerPlayer player, BlockPos bellPos) {
         return true;
     }
 
+    @Override
     public boolean shouldGlowRaidersOnBell(RaidContext context, ServerPlayer player, BlockPos bellPos) {
         return true;
     }

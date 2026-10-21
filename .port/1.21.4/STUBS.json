@@ -130,7 +130,7 @@
  {
   "file": "src/main/java/net/the_last_sword/raid/DragonCultRaid.java",
   "why": "drops @Override from shouldGlowRaidersOnBell, shouldTeleportRaidersOnBell and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "Library gap, not a lost feature: the authors' bell hooks shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell override EpicCoreAPI's RaidDefinition methods added upstream after 1.1.9; the pinned eca-1.1.9-mc1.21.4 release has neither, so the methods stay (no @Override) and come alive again once this version re-pins to an EpicCoreAPI release carrying them (the pin is not moved this round). Until then the bell neither teleports nor highlights Dragon Cult raiders here, as before the authors' change.",
+  "reviewed": "Resolved: the signal came from the earlier pin (eca-1.1.9-mc1.21.4 lacked the bell hooks). Re-pinned to eca-1.1.9-fix-mc1.21.4, whose RaidDefinition has shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell(RaidContext, ServerPlayer, BlockPos); the authors' @Override is restored on both and compiles, so the bell teleports and highlights Dragon Cult raiders as on the head.",
   "hooks": []
  },
  {
