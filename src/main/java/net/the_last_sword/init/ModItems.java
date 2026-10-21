@@ -155,7 +155,7 @@ public class ModItems {
     );
 
     public static final Supplier<Item> PRIEST_STAFF = ITEMS.register("priest_staff",
-        () -> net.the_last_sword.mv.RegIds.enter("priest_staff") ? null : new PriestStaffItem()
+        () -> net.the_last_sword.mv.RegIds.enter("priest_staff") ? null : PriestStaffFactory.create()
     );
 
     public static final Supplier<Item> DRAGON_SWORD = ITEMS.register("dragon_sword",
