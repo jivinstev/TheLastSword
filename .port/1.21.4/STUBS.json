@@ -128,6 +128,12 @@
   "reviewed": "Moved, not lost: bobHurt and bobView keep their handlers here (1.21.4 GameRenderer still has private bobHurt/bobView(PoseStack, float), called from renderItemInHand and renderLevel). The removed handler cancelled 1.21.1's GameRenderer.renderConfusionOverlay(GuiGraphics, float); 1.21.4 moved that method unchanged to Gui.renderConfusionOverlay(GuiGraphics, float) (called from Gui.renderCameraOverlays under CONFUSION), and GuiConfusionOverlayMixin, added via mixin_add in target.properties (client list of the_last_sword.mixins.json), injects at its HEAD with the same hasDefenseSword cancel."
  },
  {
+  "file": "src/main/java/net/the_last_sword/raid/DragonCultRaid.java",
+  "why": "drops @Override from shouldGlowRaidersOnBell, shouldTeleportRaidersOnBell and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
+  "reviewed": "Resolved: the signal came from the earlier pin (eca-1.1.9-mc1.21.4 lacked the bell hooks). Re-pinned to eca-1.1.9-fix-mc1.21.4, whose RaidDefinition has shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell(RaidContext, ServerPlayer, BlockPos); the authors' @Override is restored on both and compiles, so the bell teleports and highlights Dragon Cult raiders as on the head.",
+  "hooks": []
+ },
+ {
   "file": "src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java",
   "why": "drops @Override from canCraftInDimensions, getResultItem and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
   "reviewed": "canCraftInDimensions and getResultItem are no longer on Recipe since 1.21.2: canCraftInDimensions (always true) has nothing to override, and getResultItem stays as a plain method that the serializer, JEI category and scroll renderer still call."
