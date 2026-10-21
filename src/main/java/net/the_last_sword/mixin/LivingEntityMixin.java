@@ -94,9 +94,7 @@ public class LivingEntityMixin implements HealBanTickState {
     @Inject(method = "onSyncedDataUpdated", at = @At("HEAD"))
     private void the_last_sword$onHealBanTimeChanged(EntityDataAccessor<?> accessor, CallbackInfo ci) {
         if (accessor.equals(PresentWorldAnchorManager.HEAL_BAN_TIME)) {
-            // 1.20.5+: getEntityData() is still null inside defineSynchedData (the builder is built afterwards),
-        // so the authors' refreshHealBanTickState(entity) would read nothing here; the value just defined is 0.
-        the_last_sword$healBanTimeKnownZero = true;
+            PresentWorldAnchorManager.refreshHealBanTickState((LivingEntity) (Object) this);
         }
     }
 
