@@ -4,6 +4,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
 import net.the_last_sword.compat.projecte.ProjectECapabilities;
@@ -38,11 +39,14 @@ public final class ModCapabilities {
             (stack, context) -> new ItemEnergyStorage(stack, TheLastSwordConfiguration::getCuriosExtremeLifeSupportMaxEnergySafely),
             ModItems.EXTREME_LIFE_SUPPORT_DEVICE.get());
 
-        //附魔台：能量与分面物品栏（1.20.1 仅在有朝向时提供物品栏）
+        //附魔台：能量与分面物品栏
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
             (blockEntity, side) -> blockEntity.getEnergyStorage());
+        // TLS-049: on Forge 1.20.1 a null side fell through to BaseContainerBlockEntity's unsided handler (the whole
+        // inventory), and the table's menu binds through exactly that query; returning null left the menu on a
+        // detached 2-slot handler, so items put in were lost on close and EnchantmentApplyPacket read an empty slot.
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
-            (blockEntity, side) -> side == null ? null : blockEntity.getItemHandler(side));
+            (blockEntity, side) -> side == null ? new InvWrapper(blockEntity) : blockEntity.getItemHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(),
             (blockEntity, side) -> side == null ? null : blockEntity.getItemHandler(side));
         //可选联动：ProjectE 的充能能力仅在其加载时注册
