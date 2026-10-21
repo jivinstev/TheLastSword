@@ -628,7 +628,7 @@ public class ClientEventHandler {
         int minX = playerPos.getX() - range;
         int maxX = playerPos.getX() + range;
         int minY = Math.max(playerPos.getY() - range, level.getMinY());
-        int maxY = Math.min(playerPos.getY() + range, level.getMaxY() - 1);
+        int maxY = Math.min(playerPos.getY() + range, level.getMaxY());
         int minZ = playerPos.getZ() - range;
         int maxZ = playerPos.getZ() + range;
         if (minY > maxY) return lanterns;

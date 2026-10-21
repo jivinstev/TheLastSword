@@ -75,7 +75,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/mixin/LivingEntityRendererMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/network/ChangeModePacket.java`
 - changed: `src/main/java/net/the_last_sword/network/EnchantmentApplyPacket.java`
-- changed: `src/main/java/net/the_last_sword/raid/DragonCultRaid.java`
 - changed: `src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingRecipe.java`
 - changed: `src/main/java/net/the_last_sword/recipe/DragonCrystalSmithingSerializer.java`
 - changed: `src/main/java/net/the_last_sword/summon/WraithSummonManager.java`
