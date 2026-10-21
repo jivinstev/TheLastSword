@@ -24,7 +24,7 @@ public class EntityMixin {
     // 等派生类读档结束后迁移，覆盖运行中重新加载实体数据的入口。
     @Inject(method = "load", at = @At("RETURN"))
     private void theLastSword$afterLoad(net.minecraft.world.level.storage.ValueInput input, CallbackInfo ci) {
-        if ((Object) this instanceof LivingEntity living && !living.level().isClientSide) {
+        if ((Object) this instanceof LivingEntity living && !living.level().isClientSide()) {
             TrueHealthManager.migrateLegacyProtection(living);
             PresentWorldAnchorManager.refreshHealBanTickState(living);
         }

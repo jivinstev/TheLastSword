@@ -106,7 +106,7 @@ public class ServerEventHandler {
     //当实体加入世界时检测TheLastEndSwordItems和TheLastEndArmorItem掉落物并添加发光效果和保护
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide && event.getEntity() instanceof LivingEntity living) {
+        if (!event.getLevel().isClientSide() && event.getEntity() instanceof LivingEntity living) {
             TrueHealthManager.migrateLegacyProtection(living);
             PresentWorldAnchorManager.refreshHealBanTickState(living);
         }

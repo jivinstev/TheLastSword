@@ -54,7 +54,7 @@ public final class SummonInputHandler {
     @SubscribeEvent
     public static void onKey(InputEvent.Key event) {
         if (event.getAction() == GLFW.GLFW_RELEASE
-                && Minecraft.getInstance().options.keyUse.matches(event.getKey(), event.getScanCode())) {
+                && Minecraft.getInstance().options.keyUse.matches(event.getKeyEvent())) {
             summonUsedWhileHeld = false;
         }
     }
@@ -62,7 +62,7 @@ public final class SummonInputHandler {
     @SubscribeEvent(receiveCanceled = true)
     public static void onMouse(InputEvent.MouseButton.Pre event) {
         if (event.getAction() == GLFW.GLFW_RELEASE
-                && Minecraft.getInstance().options.keyUse.matchesMouse(event.getButton())) {
+                && Minecraft.getInstance().options.keyUse.matchesMouse(new net.minecraft.client.input.MouseButtonEvent(0.0, 0.0, event.getMouseButtonInfo()))) {
             summonUsedWhileHeld = false;
         }
     }
