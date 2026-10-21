@@ -167,3 +167,5 @@ Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-b
 | stub | src/main/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java | ok | The emptied body is the @Shadow stub of renderItemActivationAnimation (bound to vanilla's); see the overlay row. |
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | All 14 removed sends are displayClientMessage(msg,false): no message lost. |
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java | ok | 1.21.8 has no own copy now (deleted as identical); the inherited 1.21.5 file builds a SavedDataType with CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null)); save never reads registries (prepared :75). Same data as 1.21.1. |
+| changed | src/main/java/net/the_last_sword/mixin/EntityMixin.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ? | ? |

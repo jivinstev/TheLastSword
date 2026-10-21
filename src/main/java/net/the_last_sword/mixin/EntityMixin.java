@@ -1,6 +1,5 @@
 package net.the_last_sword.mixin;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.entity.EntityInLevelCallback;
@@ -24,7 +23,7 @@ public class EntityMixin {
 
     // 等派生类读档结束后迁移，覆盖运行中重新加载实体数据的入口。
     @Inject(method = "load", at = @At("RETURN"))
-    private void theLastSword$afterLoad(CompoundTag tag, CallbackInfo ci) {
+    private void theLastSword$afterLoad(net.minecraft.world.level.storage.ValueInput input, CallbackInfo ci) {
         if ((Object) this instanceof LivingEntity living && !living.level().isClientSide) {
             TrueHealthManager.migrateLegacyProtection(living);
             PresentWorldAnchorManager.refreshHealBanTickState(living);
