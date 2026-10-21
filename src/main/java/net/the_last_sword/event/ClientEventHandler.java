@@ -626,8 +626,8 @@ public class ClientEventHandler {
         double rangeSquared = LANTERN_SEARCH_RANGE * LANTERN_SEARCH_RANGE;
         int minX = playerPos.getX() - range;
         int maxX = playerPos.getX() + range;
-        int minY = Math.max(playerPos.getY() - range, level.getMinBuildHeight());
-        int maxY = Math.min(playerPos.getY() + range, level.getMaxBuildHeight() - 1);
+        int minY = Math.max(playerPos.getY() - range, level.getMinY());
+        int maxY = Math.min(playerPos.getY() + range, level.getMaxY() - 1);
         int minZ = playerPos.getZ() - range;
         int maxZ = playerPos.getZ() + range;
         if (minY > maxY) return lanterns;

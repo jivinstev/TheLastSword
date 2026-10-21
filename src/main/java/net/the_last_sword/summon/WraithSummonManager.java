@@ -254,7 +254,7 @@ public class WraithSummonManager {
      */
     public static boolean summonWraith(Player player, ItemStack weaponStack, Level level) {
         if (!(level instanceof ServerLevel serverLevel) || player == null || weaponStack.isEmpty()) return false;
-        if (player.getCooldowns().isOnCooldown(weaponStack.getItem())) return false;
+        if (player.getCooldowns().isOnCooldown(weaponStack)) return false;
 
         // 在切换状态前拦截紧邻请求；双手和不同召唤物品共用窗口，创造模式同样生效。
         long now = serverLevel.getServer().overworld().getGameTime();
