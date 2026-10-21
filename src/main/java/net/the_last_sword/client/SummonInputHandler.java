@@ -17,7 +17,7 @@ import net.the_last_sword.item.DragonSoulLanternItem;
 import net.the_last_sword.item.DragonSword;
 import net.the_last_sword.item.TheLastSword;
 import net.the_last_sword.util.nbt.ItemModeHelper;
-import org.lwjgl.glfw.GLFW;
+import net.the_last_sword.mv.GLFW;
 
 @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, value = Dist.CLIENT)
 public final class SummonInputHandler {
