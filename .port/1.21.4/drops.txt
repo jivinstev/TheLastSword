@@ -2,6 +2,7 @@
 # extra). Every file that compiles against either is left out of every target (this list is inherited);
 # their mixins leave the mixin config through the resource overlay of the_last_sword.mixins.json.
 net/the_last_sword/compat/irons_spellbooks/BlinkSpell.java
+net/the_last_sword/compat/irons_spellbooks/CastingPriestStaffItem.java
 net/the_last_sword/compat/irons_spellbooks/CastingTransmutationStaffItem.java
 net/the_last_sword/compat/irons_spellbooks/DoubleStrikeSpell.java
 net/the_last_sword/compat/irons_spellbooks/EndSpellScrollItemExtension.java

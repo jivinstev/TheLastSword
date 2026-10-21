@@ -212,3 +212,7 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 | shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | As LegacyGl: F1's setup/clear override is gone, but draw() still runs the shader shard's setup and clear (uniform push) around LegacyGl.draw, which is the only path this mod uses. pipeline() is implemented for 1.21.9's abstract method. |
 | changed | src/main/java/net/the_last_sword/block/entity/DragonCrystalEnchantingTableBlockEntity.java | ok | Re-check at 6aaeb7d: against neoforge-1.21.8: adds setEnergyStored (setEnergyStoredInternal, clamped) for LegacyEnergy's abort; LegacyEnergy.item/block for the charge slot and neighbours; isClientSide(). Neither 1.21.8's external capability path nor this one marks dirty; the tick does as before. |
 | resources | src/main/resources/assets/the_last_sword/lang @347d8d0026e3 | ok | Re-check at 6aaeb7d: against neoforge-1.21.8: each of the 11 lang files only adds key.category.the_last_sword.the_last_sword with the value of key.categories.the_last_sword; all parse as JSON. |
+| changed | src/main/java/net/the_last_sword/client/SummonInputHandler.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/item/DragonSoulLanternItem.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/item/PriestStaffItem.java | ? | ? |
+| resources | src/main/resources/assets/the_last_sword/lang @a50c080ec25f | ? | ? |

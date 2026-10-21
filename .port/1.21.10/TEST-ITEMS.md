@@ -9,6 +9,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/client/ClientScreenHelper.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/ClientTooltipHelper.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/DragonCultArmorClientExtensions.java` (client)
+- changed: `src/main/java/net/the_last_sword/client/SummonInputHandler.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/DragonArmorEnergyDisplayPositionScreen.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/JourneyLogsScreen.java` (client)
@@ -66,6 +67,8 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/init/ModCapabilities.java`
 - changed: `src/main/java/net/the_last_sword/init/ModItems.java`
 - changed: `src/main/java/net/the_last_sword/init/ModKeyMappings.java` (client)
+- changed: `src/main/java/net/the_last_sword/item/DragonSoulLanternItem.java`
+- changed: `src/main/java/net/the_last_sword/item/PriestStaffItem.java`
 - changed: `src/main/java/net/the_last_sword/item/TheLastSword.java` (client)
 - changed: `src/main/java/net/the_last_sword/mixin/EndCrystalMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/mixin/EnderDragonRendererMixin.java` (mixin, client)
@@ -81,7 +84,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/util/ParticleUtil.java`
 - changed: `src/main/java/net/the_last_sword/worldgen/TravelersHoldStructure.java`
 - deleted: `src/main/java/net/the_last_sword/mv/GeoInventoryEntity.java`
-- resources: `src/main/resources/assets/the_last_sword/lang @347d8d0026e3`
+- resources: `src/main/resources/assets/the_last_sword/lang @a50c080ec25f`
 - stub: `src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java` (client)

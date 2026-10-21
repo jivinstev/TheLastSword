@@ -4,6 +4,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.CompatCheck;
@@ -44,8 +45,11 @@ public final class ModCapabilities {
         //1.21.9+: transfer-API capabilities (items: writes go back through the ItemAccess); the sided view of the WorldlyContainer is what getItemHandler's SidedInvWrapper was
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
             (blockEntity, side) -> LegacyEnergy.handler(blockEntity.getEnergyStorage(), blockEntity::setEnergyStored));
+        // TLS-049: on Forge 1.20.1 a null side fell through to BaseContainerBlockEntity's unsided handler (the whole
+        // inventory), and the table's menu binds through exactly that query; returning null left the menu on a
+        // detached 2-slot handler, so items put in were lost on close and EnchantmentApplyPacket read an empty slot.
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_ENCHANTING_TABLE.get(),
-            (blockEntity, side) -> side == null ? null : new WorldlyContainerWrapper(blockEntity, side));
+            (blockEntity, side) -> side == null ? VanillaContainerWrapper.of(blockEntity) : new WorldlyContainerWrapper(blockEntity, side));
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.DRAGON_CRYSTAL_SMITHING_TABLE.get(),
             (blockEntity, side) -> side == null ? null : new WorldlyContainerWrapper(blockEntity, side));
         //可选联动：ProjectE 的充能能力仅在其加载时注册

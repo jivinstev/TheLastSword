@@ -140,3 +140,6 @@ Migrated from the layer's .multiversion/targets/1.21.4/REVIEW.md by tools/fork-b
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: all 14 sends are displayClientMessage(msg,false). |
 | stub | src/main/java/net/the_last_sword/test/TestEntity.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: stale signal; the overlay is the authors' 1.1.2 body with 1.21.4 signatures. |
 | stub | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | STUBS.json entry re-checked against the overlay and the authors' file: holds: durability(0).enchantable(1024), no repair. |
+| changed | src/main/java/net/the_last_sword/item/PriestStaffFactory.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ? | ? |
+| stub | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ? | ? |
