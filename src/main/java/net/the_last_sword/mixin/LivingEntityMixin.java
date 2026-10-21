@@ -4,6 +4,7 @@ import net.the_last_sword.init.ModEffects;
 
 import net.eca.api.EcaAPI;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,6 +41,7 @@ import net.the_last_sword.util.PhasingState;
 import net.the_last_sword.util.damage.AdvancedEquipmentDamageHandler;
 import net.the_last_sword.util.damage.AdvancedEquipmentDamageHandler.DamageResult;
 import net.the_last_sword.util.health.TrueHealthManager;
+import net.the_last_sword.util.health.HealBanTickState;
 import net.the_last_sword.util.health.PresentWorldAnchorManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -55,7 +57,7 @@ import java.util.Collection;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 @Mixin(value = LivingEntity.class, priority = 1024)
-public class LivingEntityMixin {
+public class LivingEntityMixin implements HealBanTickState {
 
     //1.21.5: lastHurtByPlayer is an EntityReference<Player> and lastHurtByPlayerTime is lastHurtByPlayerMemoryTime;
     //both are written through LivingEntity.setLastHurtByPlayer(Player, int) instead of shadowed
@@ -72,6 +74,26 @@ public class LivingEntityMixin {
 
     @Unique
     private double the_last_sword$justifiedDefenceRecoveryProgress;
+
+    @Unique
+    private boolean the_last_sword$healBanTimeKnownZero;
+
+    @Override
+    public boolean the_last_sword$isHealBanTimeKnownZero() {
+        return the_last_sword$healBanTimeKnownZero;
+    }
+
+    @Override
+    public void the_last_sword$setHealBanTimeKnownZero(boolean knownZero) {
+        the_last_sword$healBanTimeKnownZero = knownZero;
+    }
+
+    @Inject(method = "onSyncedDataUpdated", at = @At("HEAD"))
+    private void the_last_sword$onHealBanTimeChanged(EntityDataAccessor<?> accessor, CallbackInfo ci) {
+        if (accessor.equals(PresentWorldAnchorManager.HEAL_BAN_TIME)) {
+            PresentWorldAnchorManager.refreshHealBanTickState((LivingEntity) (Object) this);
+        }
+    }
 
     //静态初始化注入：在原版 defineId 调用后紧接着定义我们的 EntityDataAccessor
     //防止外部代码替换受保护玩家的装备槽（受强力背包保护开关控制）
@@ -112,6 +134,9 @@ public class LivingEntityMixin {
         builder.define(PresentWorldAnchorManager.HEAL_BAN_TIME, 0);
         builder.define(EntityUtil.IS_PROTECTED, false);
         builder.define(PhasingState.PHASING, false);
+        // 1.20.5+: getEntityData() is still null inside defineSynchedData (the builder is built afterwards),
+        // so the authors' refreshHealBanTickState(entity) would read nothing here; the value just defined is 0.
+        the_last_sword$healBanTimeKnownZero = true;
     }
 
     // 读档后恢复派生状态，让首次追踪的客户端也能获取正确同步值。
