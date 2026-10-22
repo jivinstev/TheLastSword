@@ -1282,6 +1282,31 @@
         "1.21.5": "open"
       },
       "title": "EntityUtil.applyBowEnchantments adds Power on a fixed 2.0 base instead of the arrow's base damage, so Power-enchanted shootArrow arrows lose difficulty scaling (from 1.21.5)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/mv/MultiBufferSource.java"
+      ],
+      "id": "TLS-054",
+      "lowest": "26.3",
+      "notes": "Lines 233-238 on neoforge-26.3: only endBatch(pass)/drawingInto(pass) reach this path and nothing in the mod calls them today, so no player can hit it. Fix: take EpicCoreAPI's version of this branch (uploads into its own vertex buffer). Found in the weekly round (plan EpicCoreAPI#63).",
+      "override": {
+        "by": "keep-current-round",
+        "reason": "latent: no caller reaches endBatch(pass)/drawingInto(pass) today, so the crash cannot occur in play (weekly round, plan EpicCoreAPI#63)",
+        "severity": "S4"
+      },
+      "rubric": {
+        "failure": "crash",
+        "reach": "unusual",
+        "visibility": "invisible",
+        "workaround": false
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: mv/MultiBufferSource hands a transient buffer to vanilla drawFromBuffer for a vanilla render type drawn into an open pass (would throw 'Cannot slice transient buffer'); unreachable today"
     }
   ],
   "schema": 1
