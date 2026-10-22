@@ -44,14 +44,14 @@
       "source": "review",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
-        "1.21.11": "open",
+        "1.21.10": "fixed@3d8599a",
+        "1.21.11": "fixed@3d8599a",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "n/a"
+        "1.21.8": "fixed@3d8599a",
+        "26.1.2": "fixed@3d8599a",
+        "26.2": "fixed@3d8599a",
+        "26.3": "fixed@3d8599a"
       },
       "title": "F2: LostWraithSealLayer SEAL_PIPELINE built with no uniform blocks (needs MATRICES_PROJECTION_SNIPPET): the Lost Wraith's hand seals are misplaced, black or missing"
     },
