@@ -1187,15 +1187,15 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.1": "open",
-        "1.21.10": "open",
-        "1.21.11": "open",
-        "1.21.4": "open",
-        "1.21.5": "open",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.1": "fixed@d07c1cd",
+        "1.21.10": "fixed@d07c1cd",
+        "1.21.11": "fixed@d07c1cd",
+        "1.21.4": "fixed@d07c1cd",
+        "1.21.5": "fixed@d07c1cd",
+        "1.21.8": "fixed@d07c1cd",
+        "26.1.2": "fixed@d07c1cd",
+        "26.2": "fixed@d07c1cd",
+        "26.3": "fixed@fd20460"
       },
       "title": "Dragon Crystal enchanting table menu never bound to its block on NeoForge (the block's item capability returns null for a null side): items put in the slots are lost on close and EnchantmentApplyPacket reads the block's empty slot"
     },
