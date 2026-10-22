@@ -401,15 +401,18 @@ public final class LegacyGl {
     }
 
     /** What a mesh is drawn from: its vertices (and indices: its own, or the sequential ones for its topology), uploaded.
-     *  {@code baseVertex} / {@code firstIndex} place the mesh in the buffers (0 except for a transient upload). */
-    record Uploaded(GpuBuffer vertices, GpuBuffer indices, IndexType indexType, int indexCount, int baseVertex, int firstIndex) {
+     *  {@code baseVertex} / {@code firstIndex} place the mesh in the buffers (0 except for a transient upload).
+     *  {@code vertexSlice} is the mesh's own vertices (vertex 0 = the mesh's first): 26.3's transient buffers refuse a
+     *  whole-buffer {@code slice()} ("Cannot slice transient buffer"), so a draw of ours binds this slice, base vertex 0. */
+    record Uploaded(GpuBuffer vertices, GpuBufferSlice vertexSlice, GpuBuffer indices, IndexType indexType, int indexCount,
+                    int baseVertex, int firstIndex) {
         static Uploaded of(MeshData m) {
             GpuBuffer vertices = uploadVertices(m.vertexBuffer());
             if (m.indexBuffer() == null) {
                 RenderSystem.AutoStorageIndexBuffer seq = RenderSystem.getSequentialBuffer(m.drawState().primitiveTopology());
-                return new Uploaded(vertices, seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), 0, 0);
+                return new Uploaded(vertices, vertices.slice(), seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), 0, 0);
             }
-            return new Uploaded(vertices, uploadIndices(m.indexBuffer()), m.drawState().indexType(), m.drawState().indexCount(), 0, 0);
+            return new Uploaded(vertices, vertices.slice(), uploadIndices(m.indexBuffer()), m.drawState().indexType(), m.drawState().indexCount(), 0, 0);
         }
 
         /**
@@ -425,11 +428,11 @@ public final class LegacyGl {
             if (m.indexBuffer() == null) {
                 RenderSystem.AutoStorageIndexBuffer seq = RenderSystem.getSequentialBuffer(m.drawState().primitiveTopology());
                 // grows with device.createBuffer(initial data), which an open pass allows
-                return new Uploaded(v.buffer(), seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), baseVertex, 0);
+                return new Uploaded(v.buffer(), v, seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), baseVertex, 0);
             }
             IndexType type = m.drawState().indexType();
             GpuBufferSlice i = transient_(m.indexBuffer(), Math.max(4, type.bytes), GpuBuffer.USAGE_INDEX);
-            return new Uploaded(v.buffer(), i.buffer(), type, m.drawState().indexCount(), baseVertex,
+            return new Uploaded(v.buffer(), v, i.buffer(), type, m.drawState().indexCount(), baseVertex,
                     RenderPasses.firstElement(i.offset(), type.bytes));
         }
 
@@ -516,7 +519,7 @@ public final class LegacyGl {
                     if (globals != null) pass.setUniform("Globals", globals);
                     replacedDefaults = projection != null || globals != null;
                 }
-                pass.setVertexBuffer(0, up.vertices().slice());   // the whole buffer: baseVertex places the mesh
+                pass.setVertexBuffer(0, up.vertexSlice());   // the mesh's own slice (26.3: a transient buffer cannot be sliced whole)
                 var scissor = RenderSystem.getScissorStateForRenderTypeDraws();
                 if (scissor.enabled()) pass.enableScissor(scissor.x(), scissor.y(), scissor.width(), scissor.height());
                 for (int i = 0; i < 12; i++) {
@@ -528,7 +531,7 @@ public final class LegacyGl {
                             ? g.program().getProgramId() : -1, temps);
                 }
                 pass.setIndexBuffer(up.indices(), up.indexType());
-                pass.drawIndexed(up.indexCount(), 1, up.firstIndex(), up.baseVertex(), 0);
+                pass.drawIndexed(up.indexCount(), 1, up.firstIndex(), 0, 0);   // the bound slice starts at the mesh
             } finally {
                 try {
                     if (into == null) {
