@@ -1261,6 +1261,27 @@
         "26.3": "open"
       },
       "title": "26.3: the mod's swords may no longer strip, till or flatten (axe/hoe/shovel ItemAbility strings no longer queried)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/util/EntityUtil.java"
+      ],
+      "id": "TLS-053",
+      "lowest": "1.21.5",
+      "notes": "AbstractArrow.getBaseDamage() was removed in 1.21.5; the port replaced it with the constant 2.0, so the Power bonus no longer builds on the arrow's (difficulty-scaled) base damage. Found in the weekly round (plan EpicCoreAPI#63).",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "invisible",
+        "workaround": false
+      },
+      "severity": "S4",
+      "source": "review",
+      "status": {
+        "1.21.5": "open"
+      },
+      "title": "EntityUtil.applyBowEnchantments adds Power on a fixed 2.0 base instead of the arrow's base damage, so Power-enchanted shootArrow arrows lose difficulty scaling (from 1.21.5)"
     }
   ],
   "schema": 1
