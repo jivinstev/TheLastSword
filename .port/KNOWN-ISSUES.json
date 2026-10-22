@@ -73,14 +73,14 @@
       "source": "review",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "n/a",
-        "1.21.11": "n/a",
+        "1.21.10": "fixed@600df66",
+        "1.21.11": "fixed@600df66",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
-        "1.21.8": "open",
-        "26.1.2": "n/a",
-        "26.2": "n/a",
-        "26.3": "n/a"
+        "1.21.8": "fixed@600df66",
+        "26.1.2": "fixed@600df66",
+        "26.2": "fixed@600df66",
+        "26.3": "fixed@600df66"
       },
       "title": "F3: DragonCrystalEnchantingTableScreen end-portal energy bar -- the picture-in-picture covers only the bar, so the starfield is ~13x denser, anisotropic and rescales whenever the energy changes"
     },
