@@ -107,17 +107,17 @@ jobs:
           java-version: "25"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.9-mc26.3 from the eca-1.1.9-mc26.3-r3 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.9-mc26.3 from the eca-1.1.9-fix-mc26.3 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-mc26.3-r3/epic-core-api-1.1.9_mr.jar"
-          echo "d427a22090cdb0b78e2b084c427d0509232e6125378de02b70d68e3ef98b4949  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc26.3/epic-core-api-1.1.9-fix_mr.jar"
+          echo "fd4adf8129b22366b5190b3591765acf153fd1d48f14ae41587dfcc46a034c82  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.9-mc26.3</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.pom"
-      - name: eca 1.1.9-mc26.3 -- the epic-core-api-1.1.9_cf.jar variant from the eca-1.1.9-mc26.3-r3 release instead (pinned by sha256)
+      - name: eca 1.1.9-mc26.3 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc26.3 release instead (pinned by sha256)
         if: matrix.variant == 'cf'
         run: |
-          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-mc26.3-r3/epic-core-api-1.1.9_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar"
-          echo "7496db119739df0b9bdcf3825796641d0d0ef389fd5032329bfec99ebb41cb80  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" | sha256sum -c -
+          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc26.3/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar"
+          echo "00699d3417ae98c28a90ee450261ce959fac7e8065b9d3113f5cf53c2d13633b  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.3/eca-1.1.9-mc26.3.jar" | sha256sum -c -
       - name: Build and gates
         run: |
           git fetch --no-tags origin "forge-1.20.1"
