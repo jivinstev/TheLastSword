@@ -67,8 +67,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/init/ModCapabilities.java`
 - changed: `src/main/java/net/the_last_sword/init/ModItems.java`
 - changed: `src/main/java/net/the_last_sword/init/ModKeyMappings.java` (client)
-- changed: `src/main/java/net/the_last_sword/item/DragonSoulLanternItem.java`
-- changed: `src/main/java/net/the_last_sword/item/PriestStaffItem.java`
 - changed: `src/main/java/net/the_last_sword/item/TheLastSword.java` (client)
 - changed: `src/main/java/net/the_last_sword/mixin/EndCrystalMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/mixin/EnderDragonRendererMixin.java` (mixin, client)
