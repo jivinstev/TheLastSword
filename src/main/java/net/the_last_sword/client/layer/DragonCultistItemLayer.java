@@ -17,6 +17,7 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;
 
@@ -65,8 +66,11 @@ public class DragonCultistItemLayer<R extends EntityRenderState & GeoRenderState
                                          SubmitNodeCollector renderTasks, CameraRenderState cameraState,
                                          int packedLight, int packedOverlay, int renderColor) {
         //GeckoLib 5.4.5: the per-bone task runs after RenderUtil.transformToBone, which already ends at the bone's pivot
-        //with its rotation applied (5.3's ended away from the pivot, which 1.21.10 compensated for here), so the
-        //offsets below keep their meaning without moving the pose again
+        //with its rotation applied once. GeckoLib 4 (the authors') and 5.3 (1.21.10) applied the bone's rotation a second
+        //time here (prepMatrixForBone, then translateAndRotateMatrixForBone); the offsets below were tuned for that,
+        //so step back off the pivot and apply it again, ending at the pivot as before
+        bone.translateAwayFromPivotPoint(poseStack);
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //向外旋转90度
         poseStack.mulPose(Axis.XP.rotationDegrees(-90));
         poseStack.translate(ITEM_OFFSET_X / 16.0, 0, ITEM_OFFSET_Z / 16.0);

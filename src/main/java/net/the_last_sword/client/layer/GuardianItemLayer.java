@@ -14,6 +14,7 @@ import software.bernie.geckolib.constant.dataticket.DataTicket;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.base.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.builtin.BlockAndItemGeoLayer;
+import software.bernie.geckolib.util.RenderUtil;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -102,8 +103,11 @@ public class GuardianItemLayer<R extends EntityRenderState & GeoRenderState> ext
                                          SubmitNodeCollector renderTasks, CameraRenderState cameraState,
                                          int packedLight, int packedOverlay, int renderColor) {
         //GeckoLib 5.4.5: the per-bone task runs after RenderUtil.transformToBone, which already ends at the bone's pivot
-        //with its rotation applied (5.3's ended away from the pivot, which 1.21.10 compensated for here), so the
-        //offsets below keep their meaning without moving the pose again
+        //with its rotation applied once. GeckoLib 4 (the authors') and 5.3 (1.21.10) applied the bone's rotation a second
+        //time here (prepMatrixForBone, then translateAndRotateMatrixForBone); the offsets below were tuned for that,
+        //so step back off the pivot and apply it again, ending at the pivot as before
+        bone.translateAwayFromPivotPoint(poseStack);
+        RenderUtil.translateAndRotateMatrixForBone(poseStack, bone);
         //显示方式取决于物品本身（盾牌），而不仅是骨骼
         ItemDisplayContext displayContext = getTransformTypeForStack(bone, stack, renderState);
         //新版left_hand枢轴就是盾牌挂点：盾牌模型本身已是竖直的，只需转出盾面朝外、握把贴身的持盾姿态
