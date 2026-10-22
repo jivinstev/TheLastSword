@@ -42,7 +42,11 @@ public final class LostWraithSealLayer<R extends EntityRenderState & GeoRenderSt
     private static final Vec3[][] LINK_VERTICES = createLinks();
     //26.x is reverse-Z (CATALOG V99, V108), so 1.21's LEQUAL_DEPTH_TEST is GREATER_THAN_OR_EQUAL, with depth writes as
     //1.21 had them
+    //TLS-002 (1.21.6+): core/position_color reads the DynamicTransforms and Projection uniform blocks, and only the blocks
+    //a pipeline declares are bound -- 26.2 has no MATRICES_PROJECTION_SNIPPET; the pipeline declares the same blocks as
+    //the BindGroupLayouts.MATRICES_PROJECTION layout, as vanilla 26.2's position_color pipelines do
     private static final RenderPipeline SEAL_PIPELINE = RenderPipeline.builder()
+            .withBindGroupLayout(net.minecraft.client.renderer.BindGroupLayouts.MATRICES_PROJECTION)
             .withLocation("pipeline/lost_wraith_seal")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
