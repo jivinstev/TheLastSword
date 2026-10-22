@@ -142,7 +142,7 @@
  {
   "file": "src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java",
   "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
+  "reviewed": "The SavedData shape of CATALOG V29, as EnderDragonEvent (re-judged at 965926d): 26.1.2 SavedData has no save(CompoundTag, Provider) to override; get() goes through the shared mv.SavedDatas.computeIfAbsent(level.getDataStorage(), WraithSummonSavedData::new, (tag, provider) -> load(tag), \"the_last_sword_wraith_bindings\"), whose CompoundTag codec calls this public save reflectively (it never reads its registries argument), so the method still runs on every save; when the 26.x file data/the_last_sword/<name>.dat is absent, SavedDatas loads the dimension's 1.21.x data/<name>.dat once and marks it dirty."
  },
  {
   "file": "src/main/java/net/the_last_sword/test/TestEntity.java",
