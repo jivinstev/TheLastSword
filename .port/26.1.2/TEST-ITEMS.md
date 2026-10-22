@@ -127,6 +127,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - deleted: `src/main/resources/assets/minecraft/atlases/blocks.json`
 - resources: `src/main/resources/assets/minecraft/atlases @6e0de28b83e0`
 - resources: `src/main/resources/data/minecraft/tags @9aa135e4c1d0`
+- resources: `src/main/resources/data/the_last_sword/advancement @c99e15086cd3`
 - resources: `src/main/resources/data/the_last_sword/villager_trade @d6dc22ec8df7`
 - stub: `src/main/java/net/the_last_sword/block/DragonSoulLanternBlock.java`
 - stub: `src/main/java/net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java` (client)

@@ -347,9 +347,9 @@
    "file": "net/the_last_sword/client/layer/LostWraithSealLayer.java",
    "kind": "render-use",
    "key": "RenderStateShard.POSITION_COLOR_SHADER",
-   "status": "unaccounted",
-   "detail": "not in the target's file",
-   "was": "missing"
+   "status": "moved",
+   "detail": "not in the target's file; an ok row of REVIEW.md names it",
+   "accounted": true
   },
   {
    "id": "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.TRANSLUCENT_TRANSPARENCY",
@@ -3788,15 +3788,14 @@
    "detail": "the target's resources have it"
   }
  ],
- "unaccounted": [
-  "main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.POSITION_COLOR_SHADER"
- ],
+ "unaccounted": [],
  "counts": {
   "same": 298,
-  "moved": 71,
-  "unaccounted": 1,
+  "moved": 72,
   "changed": 11,
   "dropped": 29
  },
- "notes": []
+ "notes": [
+  "the authors' src/ changed since INVENTORY.json was built: re-run tools/layer-inventory.py build"
+ ]
 }
