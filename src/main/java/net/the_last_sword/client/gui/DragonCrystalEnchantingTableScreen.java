@@ -791,7 +791,9 @@ public class DragonCrystalEnchantingTableScreen extends AbstractContainerScreen<
             PoseStack pose = new PoseStack();
             pose.scale(guiScale, guiScale, 1.0F);
             org.joml.Matrix3x2f p = state.quadPose();
-            pose.rotate(new Matrix4f(
+            //26.3 renames PoseStack.mulPose(Quaternionfc) to rotate(Quaternionfc) but keeps mulPose(Matrix4fc) (javap): this is the
+            //matrix form, so it stays mulPose
+            pose.mulPose(new Matrix4f(
                     p.m00(), p.m01(), 0.0F, 0.0F,
                     p.m10(), p.m11(), 0.0F, 0.0F,
                     0.0F, 0.0F, 1.0F, 0.0F,
