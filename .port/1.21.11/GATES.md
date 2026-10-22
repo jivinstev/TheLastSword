@@ -1,11 +1,11 @@
-Gates for `the_last_sword` at `aea2f67` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
+Gates for `the_last_sword` at `97485f8` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
 
 | check | result | detail |
 |---|---|---|
-| author's own build (`build`) | PASS | the_last_sword-1.21.11-neoforge-1.1.2.jar |
+| author's own build (`build`) | PASS | the_last_sword-1.21.11-neoforge-1.1.2-fix-fix.jar |
 | Gate A -- mixin-config integrity | PASS | 2 test(s) |
 | Data -- nothing NeoForge would silently ignore | PASS | 1.21-clean |
-| Payloads -- every StreamCodec.unit payload has equal instances | PASS | audit-unit-codecs: checked 430 file(s), 0 finding(s) |
+| Payloads -- every StreamCodec.unit payload has equal instances | PASS | audit-unit-codecs: checked 434 file(s), 0 finding(s) |
 | Data loads -- the server rejected none of the mod's data files | PASS | no rejection logged |
 | Gate B -- headless server loads the mod, GameTests | PASS | 6 required test(s) passed |
 | Gate C -- real client, `launch` | PASS | PASS — reached title screen, client loaded without crashing |

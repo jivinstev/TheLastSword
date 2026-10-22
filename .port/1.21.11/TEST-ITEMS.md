@@ -60,7 +60,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/mixin/CameraMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/mixin/LevelRendererMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java` (mixin)
-- changed: `src/main/java/net/the_last_sword/raid/DragonCultRaid.java`
 - changed: `src/main/java/net/the_last_sword/test/UltraTestSwordItem.java` (client)
 - changed: `src/main/java/net/the_last_sword/util/EntityUtil.java`
 - resources: `src/main/resources/META-INF/accesstransformer.cfg @a58c46ff61c0`
