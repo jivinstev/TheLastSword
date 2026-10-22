@@ -1204,7 +1204,7 @@
         "src/main/resources/data/the_last_sword/advancement/the_last_sword_welcome.json"
       ],
       "id": "TLS-050",
-      "lowest": "26.1.2",
+      "lowest": "1.21.5",
       "notes": "Noticed by the fresh review of 26.3 (weekly round, plan EpicCoreAPI#61); pre-existing, not from this round's changes; not fixed this round.",
       "override": null,
       "rubric": {
@@ -1216,9 +1216,13 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.5": "open",
+        "1.21.8": "open",
+        "26.1.2": "fixed@c977081",
+        "26.2": "fixed@c977081",
+        "26.3": "fixed@c977081"
       },
       "title": "26.x: root advancement the_last_sword_welcome's background minecraft:textures/block/end_stone.png resolves to a missing texture behind the tab (should be minecraft:block/end_stone)"
     },
