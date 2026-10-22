@@ -398,12 +398,12 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.10": "fixed@63af730",
-        "1.21.11": "open",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.10": "fixed@d5f01f5",
+        "1.21.11": "fixed@d5f01f5",
+        "1.21.8": "fixed@d5f01f5",
+        "26.1.2": "fixed@d5f01f5",
+        "26.2": "fixed@d5f01f5",
+        "26.3": "fixed@d5f01f5"
       },
       "title": "TLS-001 gap: DragonCrystalEnchantingTableScreen search and level EditBoxes use setTextColor(0xFFFFFF) (alpha 0), so typed text is invisible from 1.21.6"
     },
