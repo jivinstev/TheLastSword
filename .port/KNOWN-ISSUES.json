@@ -792,10 +792,10 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@5273945",
+        "26.1.2": "fixed@5273945",
+        "26.2": "fixed@5273945",
+        "26.3": "fixed@5273945"
       },
       "title": "1.21.11+: held items of the Guardian of the Sealed Spire, Dragon Cultist and Past Shadow of the Queen rotate by the hand bone once instead of twice (as the authors and 1.21.10): the Queen's lightning spear is tilted ~35 deg; follows the TLS-023 pivot fix"
     },
