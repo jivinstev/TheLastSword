@@ -1291,9 +1291,9 @@
       "lowest": "26.3",
       "notes": "Lines 233-238 on neoforge-26.3: only endBatch(pass)/drawingInto(pass) reach this path and nothing in the mod calls them today, so no player can hit it. Fix: take EpicCoreAPI's version of this branch (uploads into its own vertex buffer). Found in the weekly round (plan EpicCoreAPI#63).",
       "override": {
-        "by": "keep-current-round",
-        "reason": "latent: no caller reaches endBatch(pass)/drawingInto(pass) today, so the crash cannot occur in play (weekly round, plan EpicCoreAPI#63)",
-        "severity": "S4"
+        "by": "jivinstev",
+        "reason": "latent crash: no caller reaches endBatch(pass)/drawingInto(pass) today, but it crashes the moment anything does; the fix is a straightforward port of EpicCoreAPI's branch (owner, 2026-10-25)",
+        "severity": "S2"
       },
       "rubric": {
         "failure": "crash",
@@ -1301,7 +1301,7 @@
         "visibility": "invisible",
         "workaround": false
       },
-      "severity": "S4",
+      "severity": "S2",
       "source": "review",
       "status": {
         "26.3": "open"
