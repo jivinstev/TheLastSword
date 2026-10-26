@@ -1,0 +1,59 @@
+@intent The Last Sword's ruined village, the stage a superflat world cannot hold: a player finds it, and takes the dragon crystal from its wizard tower's item frame -- each stage gated on the advancement the mod grants for it
+@continue-on-fail
+# Only the normal overworld's worldgen places the ruined village (a /place'd copy registers no structure, so its
+# "discover" stage would never fire). A fixed seed keeps it the same village every run: one whose centre is the wizard
+# tower (a ruined village's centre is the tower or a fountain), which holds the crystal and the mage's last note.
+@world normal seed=1
+
+@step arena
+gamemode creative
+gamemode survival
+difficulty hard
+difficulty normal
+time set day
+weather clear
+gamerule doDaylightCycle false
+effect give @s minecraft:resistance 99999 4 true
+effect give @s minecraft:regeneration 99999 1 true
+effect give @s minecraft:saturation 99999 0 true
+
+@step S5 the ruined village is discovered
+# its item frames carry the authors' world coordinates (TileX/Y/Z), so generation logs one ERROR each; the frames
+# survive and work (S6 takes the crystal from one) -- noise, not a defect (PLAN.md)
+@allow error Block-attached entity at invalid position
+@goto structure the_last_sword:ruined_village
+# the mod's stage is vanilla's "inside the structure" check, every tick: poll for it, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:ruined_village_discover=true}]
+@wait 10t
+@end-repeat
+@assert execute if entity @s[advancements={the_last_sword:ruined_village_discover=true}]
+@shot ruined-village
+
+@step S6 the dragon crystal, from the wizard tower's item frame
+# the crystal sits in a (plain) item frame in the tower; a survival punch drops it (a creative one does not). The stage
+# takes a slot that changes to exactly 1 crystal, so the inventory holds none before
+@assert execute if entity @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:dragon_crystal"}}]
+execute as @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:dragon_crystal"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
+@wait 5t
+@aim entity @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:dragon_crystal"}},limit=1,sort=nearest]
+@key key.attack
+@wait 10t
+execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_crystal"}},limit=1,sort=nearest] run tp @s ~ ~ ~
+@repeat 20 until execute if entity @s[advancements={the_last_sword:dragon_crystal_obtain=true}]
+@wait 10t
+@end-repeat
+@assert execute if items entity @s container.* the_last_sword:dragon_crystal
+@assert execute if entity @s[advancements={the_last_sword:dragon_crystal_obtain=true}]
+@shot dragon-crystal
+
+@step the mage's last note, beside it
+# the fourth mage's note hangs in a glow item frame next to the crystal
+execute as @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:mage_note_4"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
+@wait 5t
+@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:mage_note_4"}},limit=1,sort=nearest]
+@key key.attack
+@wait 10t
+execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:mage_note_4"}},limit=1,sort=nearest] run tp @s ~ ~ ~
+@wait 1s
+@assert execute if items entity @s container.* the_last_sword:mage_note_4
+@shot mage-note
