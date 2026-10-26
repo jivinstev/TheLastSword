@@ -5,7 +5,8 @@
 # and the End generate normally, the mod's structures included. Travel is @goto (vanilla /locate); every stage's
 # mechanic is the player's own doing. One stage is not reached here: the ruined village is placed only by the normal
 # overworld's worldgen (and /place registers no structure, so its "discover" check would never fire).
-# Stages run in order; a stage the one before it could not reach gets only the setup it needs, marked as such.
+# Stages run in order. Loops (@repeat each ... until) strike each mob until it falls, always within a bound; each run
+# puts the sword back in hand (after it kills one of the mod's mobs the sword leaves the hand -- the mod's design).
 
 @step S1 welcome, and the village hint
 gamemode survival
@@ -27,7 +28,14 @@ effect give @s minecraft:saturation 99999 0 true
 # entering any village piece for the first time spawns him (a level-5 weaponsmith) and grants the stage
 @goto structure #minecraft:village
 @expect chat message.the_last_sword.troubled_blacksmith_intro within 10s
-@wait 1s
+# @goto puts the player inside the village's start piece, which is its well: step out onto open ground nearby
+# (still in the village) so the trade and the raid are not fought from inside the well's walls
+spreadplayers ~ ~ 0 10 false @s
+@wait 2s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:troubled_blacksmith=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:troubled_blacksmith=true}]
 @assert execute if entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}}]
 @shot blacksmith
@@ -51,7 +59,10 @@ execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:w
 @click slot 31
 @wait 5t
 @key key.keyboard.escape
-@wait 1s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:the_last_end_scroll_obtain=true}]
+@wait 10t
+@end-repeat
 @assert execute if items entity @s container.* the_last_sword:the_last_end_scroll
 @assert execute if entity @s[advancements={the_last_sword:the_last_end_scroll_obtain=true}]
 @assert execute if entity @s[advancements={the_last_sword:mage_village_destination=true}]
@@ -64,7 +75,10 @@ execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:w
 @step S6 a dragon crystal
 # the stage takes a slot that changes to exactly 1 crystal; the ruined village's item frame is the story's source
 give @s the_last_sword:dragon_crystal 1
-@wait 1s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:dragon_crystal_obtain=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:dragon_crystal_obtain=true}]
 
 @step S7 the dragon cult attacks the village
@@ -73,20 +87,113 @@ give @s the_last_sword:dragon_crystal 1
 @assert execute if entity @s[advancements={the_last_sword:dragon_cult_raid=true}]
 @shot raid
 
-@step S8 the raid is won (not run here)
-# Not run yet: winning the raid takes striking every raider of three waves, and the script does not yet reach each
-# one reliably (a raider is left standing within its budget; raid raiders do die to the sword -- checked). Tracked in
-# the TheLastSword issue "playtests: re-enable the story's raid and ruined-village stages". The raid itself STARTS
-# (S7); the stages after S9 do not depend on its victory.
-@wait 1t
+@step S8 the raid is won
+# three waves: 2 cultists; 1 paladin and 3 cultists; 1 priest, 2 paladins and 3 cultists, 15 s apart. Each raider is held
+# still once it arrives (its fight is the raid's) and struck with the mod's sword until it falls; the paladins and the
+# priest take many capped hits by design, so their bounds are high
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+# wave 1: let its raiders arrive, then strike each one until it falls
+@wait 4s
+@repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+# the next wave comes 15 s after the last raider falls
+@wait 16s
+# wave 2: let its raiders arrive, then strike each one until it falls
+@wait 4s
+@repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+# the next wave comes 15 s after the last raider falls
+@wait 16s
+# wave 3: let its raiders arrive, then strike each one until it falls
+@wait 4s
+@repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
+@wait 5t
+@aim entity {it}
+@key key.attack
+@wait 10t
+@end-repeat
+@expect chat message.the_last_sword.dragon_cult_raid_victory_reward within 30s
+@assert execute if entity @s[advancements={the_last_sword:dragon_cult_raid_victory=true}]
+@shot raid-won
 
 @step S9 the dragon cult's secret letter
-# SETUP, because S8 is not run: the stage is granted when the raid is won AND the letter is carried, so the raid's
-# victory is granted and the letter (the raid priest's drop) given. What is tested is the mod's own check
-# (TheLastSwordQuestHandler: victory done + the letter in the inventory -> the stage), within its 40-tick period
-advancement grant @s only the_last_sword:dragon_cult_raid_victory
-give @s the_last_sword:dragon_cult_secret_letter
-@wait 3s
+# the raid's priest always drops it; picking it up (with the raid won) grants the stage
+execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secret_letter"}},limit=1,sort=nearest] run tp @s ~ ~ ~
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:nether_traveler_outpost=true}]
+@wait 10t
+@end-repeat
 @assert execute if items entity @s container.* the_last_sword:dragon_cult_secret_letter
 @assert execute if entity @s[advancements={the_last_sword:nether_traveler_outpost=true}]
 
@@ -95,7 +202,10 @@ give @s the_last_sword:dragon_cult_secret_letter
 # the frames survive and work (S11 takes the message from one) -- noise, not a defect
 @allow error Block-attached entity at invalid position
 @goto structure the_last_sword:travelers_hold in minecraft:the_nether
-@wait 3s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:travelers_hold_discover=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:travelers_hold_discover=true}]
 @shot travelers-hold
 
@@ -119,19 +229,28 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:traveler_message
 execute in minecraft:the_end run tp @s 1500 120 0
 effect give @s minecraft:slow_falling 30 0 true
 @goto structure the_last_sword:end_reset in minecraft:the_end
-@wait 3s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:end_reset_discover=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:end_reset_discover=true}]
 @shot end-reset
 
 @step S13 the lost altar
 @goto structure the_last_sword:end_lost_altar in minecraft:the_end
-@wait 3s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:end_lost_altar_discover=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:end_lost_altar_discover=true}]
 @shot lost-altar
 
 @step S17 the Wound of Time
 @goto structure the_last_sword:wound_of_time in minecraft:the_end
-@wait 3s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:beyond_time=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:beyond_time=true}]
 @shot wound-of-time
 
@@ -147,7 +266,10 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 @key key.attack
 @expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
 # her reward comes at death tick 100 and grants the last stage
-@wait 7s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:proof_of_sovereignty=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:proof_of_sovereignty=true}]
 @assert execute if items entity @s container.* the_last_sword:the_givers_pain
 @shot proof-of-sovereignty
@@ -155,7 +277,10 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 # known S1). Everything else in the story runs before it; once TLS-056 is fixed they run like any other stage.
 @step S14 the sealed spire
 @goto structure the_last_sword:sealed_spire in minecraft:the_end
-@wait 3s
+# the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
+@repeat 20 until execute if entity @s[advancements={the_last_sword:sealed_spire_discover=true}]
+@wait 10t
+@end-repeat
 @assert execute if entity @s[advancements={the_last_sword:sealed_spire_discover=true}]
 @shot sealed-spire
 
@@ -171,357 +296,16 @@ execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp
 @expect chat bossshow.the_last_sword.lost_wraith.subtitle_1 within 10s
 @wait 8s
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
-execute as @e[type=the_last_sword:lost_wraith] run data merge entity @s {NoAI:1b}
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
+# 400 health, each hit capped at 10: a bound of 80 strikes leaves room
+@repeat each @e[type=the_last_sword:lost_wraith,distance=..96] max 80 until execute unless entity {it}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute as {it} run data merge entity @s {NoAI:1b}
+execute at @s rotated as @s run tp {it} ^ ^ ^2
 @wait 5t
-@aim entity the_last_sword:lost_wraith if-present
+@aim entity {it}
 @key key.attack
 @wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:lost_wraith if-present
-@key key.attack
-@wait 10t
+@end-repeat
 @wait 4s
 @expect chat message.the_last_sword.liberator_tower_hint within 10s
 @assert execute if entity @s[advancements={the_last_sword:liberator=true}]
