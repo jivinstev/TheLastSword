@@ -1352,10 +1352,10 @@
       "severity": "S1",
       "source": "player",
       "status": {
-        "1.21.1": "open",
+        "1.21.1": "fixed@cda5046",
         "1.21.10": "open",
         "1.21.11": "open",
-        "1.21.4": "open",
+        "1.21.4": "fixed@cda5046",
         "1.21.5": "open",
         "1.21.8": "open",
         "26.1.2": "open",
