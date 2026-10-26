@@ -19,7 +19,7 @@ summon the_last_sword:guardian_of_sealed_spire ~ ~ ~5
 @shot boss
 
 @step the sword kills it
-execute at @s rotated as @s run tp @e[type=the_last_sword:guardian_of_sealed_spire,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:guardian_of_sealed_spire,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:guardian_of_sealed_spire
 @key key.attack

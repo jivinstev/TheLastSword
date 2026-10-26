@@ -26,17 +26,17 @@ summon the_last_sword:dragon_cult_priest ~ ~ ~6
 @step the cultist dies to the sword
 # hold it still: its fight is proven above
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
-execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
-execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
-execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack

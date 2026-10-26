@@ -9,7 +9,7 @@ execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
 
 @step it talks while asleep
 summon the_last_sword:lost_wraith ~ ~ ~3
-execute at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:lost_wraith
 @key key.use
@@ -17,7 +17,7 @@ execute at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,so
 
 @step a dragon egg wakes it
 give @s minecraft:dragon_egg
-execute at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:lost_wraith
 @key key.use
