@@ -1,0 +1,42 @@
+@intent Defeating the Past Shadow of the Queen runs her whole death sequence -- both death lines, The Giver's Pain in the player's inventory -- and leaves her as an NPC who no longer takes damage
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+difficulty hard
+difficulty normal
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+effect give @s minecraft:resistance 600 4 true
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+
+@step wake her
+summon the_last_sword:the_past_shadow_of_the_queen ~ ~ ~3
+@expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_2 within 30s
+
+@step defeat her: both death lines, then the reward
+execute at @s rotated as @s run tp @e[type=the_last_sword:the_past_shadow_of_the_queen,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:the_past_shadow_of_the_queen
+@key key.attack
+@expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
+@expect chat dialogue.the_last_sword.queen.combat.death_2 within 10s
+@wait 4s
+# version-proof slot test (1.21.5 changed the player NBT). The sword itself may be gone after the kill: that is the mod's
+# design (seen in play), so nothing here asserts it stays
+@assert execute if items entity @s container.* the_last_sword:the_givers_pain
+@shot reward
+
+@step she stays, as an NPC who talks
+# her death animation runs 160 ticks (the reward lands at tick 100): until it ends she is dying, not an NPC
+@wait 6s
+# after her death sequence she is revived as an NPC (finishDeathWithoutRemoval(STATE_NPC)); right-clicking an NPC
+# opens her dialogue (mobInteract -> NpcDialogueManager.open). @e selectors skip entities that are not isAlive(), so
+# aim by type id (the client's view) rather than assert by selector
+@aim entity the_last_sword:the_past_shadow_of_the_queen
+@key key.use
+@expect screen /./ within 5s
+@shot npc-dialogue

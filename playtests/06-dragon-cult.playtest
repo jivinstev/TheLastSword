@@ -1,0 +1,46 @@
+@intent The dragon cult -- cultist, paladin, priest -- attacks a survival player (the priest's dragon breath among it), and the cultist dies to The Last Sword You Never Forgot (the paladin and the priest are built to outlast many hits -- TLS caps each hit and the paladin blocks -- so their deaths are not this script's to prove)
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+difficulty hard
+difficulty normal
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+# Resistance V: the cult's attacks land (their sounds and messages) but cannot kill the player mid-step
+effect give @s minecraft:resistance 600 4 true
+# measured: a diamond sword with Strength IX left a 40-health cultist standing after three full hits; the mod's own
+# sword is the weapon this proves (whether ordinary weapons should work is the owner's question, noted in PLAN.md)
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+
+@step they attack
+summon the_last_sword:dragon_cultist ~3 ~ ~3
+summon the_last_sword:dragon_cult_paladin ~-3 ~ ~3
+summon the_last_sword:dragon_cult_priest ~ ~ ~6
+@wait 5s
+@shot the-cult
+
+@step the cultist dies to the sword
+# hold it still: its fight is proven above
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.attack
+@wait 10t
+@wait 1s
+@assert execute unless entity @e[type=the_last_sword:dragon_cultist,distance=..32]
+@shot cultist-down
