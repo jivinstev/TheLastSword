@@ -63,3 +63,10 @@ script was right. Every change below was made after the script, not the mod, was
   each hit on its own mobs (`getDamageLimit`), and for mobs above level 5 a hit over the cap is ignored outright. The
   Dragon Cult paladin also blocks: inside its shield window `hurt` returns false. The wraith, the queen, the
   guardians and the cultist die in one hit; the paladin and the priest take many.
+
+## Observed, by design
+
+- **Defeating the queen with The Last Sword You Never Forgot removes the sword** from the player's inventory (1.21.1,
+  1.21.4). The maintainer has seen it in play, so it is treated as the mod's design. No script asserts the sword
+  stays after her; a step that needs it puts it in hand again.
+- **TLS's mobs shrug off `/kill`.** The scripts kill them the way a player does, with the sword.

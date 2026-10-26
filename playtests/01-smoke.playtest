@@ -29,7 +29,7 @@ summon the_last_sword:the_last_end_sword_wraith ~ ~ ~6
 
 @step get the sword
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
-@assert execute if entity @s[nbt={SelectedItem:{id:"the_last_sword:the_last_sword_you_never_forgot"}}]
+@assert execute if items entity @s weapon.mainhand the_last_sword:the_last_sword_you_never_forgot
 
 @step one hit kills the wraith, and the music stops
 # the sword's hurtEnemy deals 8e18 absolute-destruction damage: one hit is enough, a second covers a block stance.
@@ -51,8 +51,8 @@ give @s the_last_sword:dragon_crystal_sword
 give @s the_last_sword:lightning_spear
 give @s the_last_sword:dragon_crystal 8
 give @s the_last_sword:dragon_crystal_crown
-@assert execute if entity @s[nbt={Inventory:[{id:"the_last_sword:dragon_crystal_sword"}]}]
-@assert execute if entity @s[nbt={Inventory:[{id:"the_last_sword:dragon_crystal_crown"}]}]
+@assert execute if items entity @s container.* the_last_sword:dragon_crystal_sword
+@assert execute if items entity @s container.* the_last_sword:dragon_crystal_crown
 @shot items
 
 @step the guardians kill a survival player
@@ -87,7 +87,27 @@ execute at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,lim
 @shot guardian-dead
 
 @step clear the field
+# /kill removes drops and vanilla mobs; TLS mobs shrug it off by design (their health is kept apart from vanilla's), so
+# finish the guardians the way a player does: with the sword, one by one
 execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute if entity @e[type=the_last_sword:guardian_berserker] at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:guardian_berserker if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:guardian_saber] at @s rotated as @s run tp @e[type=the_last_sword:guardian_saber,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:guardian_saber if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:guardian_archer] at @s rotated as @s run tp @e[type=the_last_sword:guardian_archer,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:guardian_archer if-present
+@key key.attack
+@wait 10t
+@assert execute unless entity @e[type=the_last_sword:guardian_archer]
+@assert execute unless entity @e[type=the_last_sword:guardian_saber]
 @wait 1s
 
 @step the queen's narration

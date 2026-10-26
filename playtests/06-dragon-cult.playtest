@@ -116,7 +116,182 @@ execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.attack
+@wait 10t
 # the priest: 200 health, capped the same way
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
+execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.attack
+@wait 10t
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present

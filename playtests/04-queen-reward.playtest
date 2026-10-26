@@ -25,7 +25,9 @@ execute at @s rotated as @s run tp @e[type=the_last_sword:the_past_shadow_of_the
 @expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
 @expect chat dialogue.the_last_sword.queen.combat.death_2 within 10s
 @wait 4s
-@assert execute if entity @s[nbt={Inventory:[{id:"the_last_sword:the_givers_pain"}]}]
+# version-proof slot test (1.21.5 changed the player NBT). The sword itself may be gone after the kill: that is the mod's
+# design (seen in play), so nothing here asserts it stays
+@assert execute if items entity @s container.* the_last_sword:the_givers_pain
 @shot reward
 
 @step she stays, as an NPC who talks
