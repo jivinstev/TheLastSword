@@ -66,7 +66,8 @@ script was right. Every change below was made after the script, not the mod, was
 
 ## Observed, by design
 
-- **Defeating the queen with The Last Sword You Never Forgot removes the sword** from the player's inventory (1.21.1,
+- **After The Last Sword You Never Forgot kills one of the mod's mobs (the queen, a raid cultist), the sword leaves
+  the hand.** Defeating the queen with it removes it entirely from the player's inventory (1.21.1,
   1.21.4). The maintainer has seen it in play, so it is treated as the mod's design. No script asserts the sword
   stays after her; a step that needs it puts it in hand again.
 - **TLS's mobs shrug off `/kill`.** The scripts kill them the way a player does, with the sword.
@@ -80,15 +81,18 @@ script was right. Every change below was made after the script, not the mod, was
 
 ## The story playtest (`11-story.playtest`)
 
-It plays the quest line stage by stage in a superflat world with structures. Its status on 1.21.1:
+It plays the quest line stage by stage in a superflat world with structures. It's written with the playtest
+language's bounded loops: each mob is struck until it falls, and each quest stage is polled for, never waited out.
 
-- **Passes:** the welcome and village hint; the troubled blacksmith; buying his scroll through the trade screen;
-  the dragon crystal; the cult's raid starting; the traveler's hold and its message; the End's reset ruins and lost
-  altar; the Wound of Time; the queen's trial.
-- **Not reached here:** the ruined village. Only the normal overworld's worldgen places it.
+- **1.21.1, 2026-10-26: every stage passes** up to the known sealed-spire crash. That covers:
+  - the welcome and village hint;
+  - the troubled blacksmith, and buying his scroll through the trade screen;
+  - the dragon crystal;
+  - the cult's raid, all three waves won, and the priest's letter;
+  - the traveler's hold and its message;
+  - the End's reset ruins and lost altar;
+  - the Wound of Time;
+  - the queen's trial.
+- **Not reached here:** the ruined village. Only the normal overworld's worldgen places it (TheLastSword#46).
 - **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
   last.
-- **Not run yet: winning the raid (S8).** The script doesn't yet strike every raider reliably. Raid cultists do die to
-  the sword, as a focused check showed. S9 (the priest's letter) runs with the raid's victory granted as setup, so it
-  still tests the mod's own check.
-- **1.21.1, 2026-10-26: every enabled stage passes**, then the known sealed-spire crash.
