@@ -34,7 +34,7 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 @step one hit kills the wraith, and the music stops
 # the sword's hurtEnemy deals 8e18 absolute-destruction damage: one hit is enough, a second covers a block stance.
 # A melee hit needs reach (3 blocks): bring the wraith to 2 blocks in front of the player first
-execute at @s rotated as @s run tp @e[type=the_last_sword:the_last_end_sword_wraith,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:the_last_end_sword_wraith,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:the_last_end_sword_wraith
 @key key.attack
@@ -78,7 +78,7 @@ effect give @s minecraft:resistance 120 4 true
 @wait 3s
 @assert execute if entity @s[gamemode=survival]
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
-execute at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:guardian_berserker,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:guardian_berserker
 @key key.attack

@@ -1,6 +1,8 @@
 @intent The Last Sword's story, played stage by stage as a player would: the troubled blacksmith in a village and his scroll, the dragon cult's raid on that village and its victory, the secret letter that points to the Nether, the traveler's hold and its message, the End's ruins and sealed spire, freeing the Lost Wraith, the note that leads to the Wound of Time, and the queen's trial -- each stage gated on the advancement the mod grants for it
 @continue-on-fail
 @world flat structures
+# the audio device complains when many sounds stop at once on arriving somewhere: not the mod's
+@allow error OpenAlUtil
 # The world is vanilla's superflat: the overworld has villages (enough for the blacksmith and the raid), and the Nether
 # and the End generate normally, the mod's structures included. Travel is @goto (vanilla /locate); every stage's
 # mechanic is the player's own doing. One stage is not reached here: the ruined village is placed only by the normal
@@ -43,7 +45,8 @@ spreadplayers ~ ~ 0 10 false @s
 @step S3-S4 buy The Last End Scroll from him
 # his first offer: 1 emerald for the scroll. Slots of the trade screen: 0-1 payment, 2 result, 30 the first hotbar slot
 give @s minecraft:emerald 1
-execute at @s rotated as @s run tp @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] ^ ^ ^2
+# go to him: he stands where he spawned, in the open (pulling him in front of the player can put a wall between)
+execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^1.8 facing entity @s
 execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}}] run data merge entity @s {NoAI:1b}
 @wait 15t
 @aim entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest]
@@ -73,6 +76,10 @@ execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:w
 @wait 1t
 
 @step S6 a dragon crystal
+# the raid (next stage) starts only while the player is inside a village piece: back to the village's centre (its
+# well) before the crystal, rather than wherever stepping out of the well landed (measured: at the village's edge,
+# outside every piece, the raid never started)
+@goto structure #minecraft:village
 # the stage takes a slot that changes to exactly 1 crystal; the ruined village's item frame is the story's source
 give @s the_last_sword:dragon_crystal 1
 # the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
@@ -91,31 +98,45 @@ give @s the_last_sword:dragon_crystal 1
 # three waves: 2 cultists; 1 paladin and 3 cultists; 1 priest, 2 paladins and 3 cultists, 15 s apart. Each raider is held
 # still once it arrives (its fight is the raid's) and struck with the mod's sword until it falls; the paladins and the
 # priest take many capped hits by design, so their bounds are high
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+# the fight happens on open ground built for it, 12 blocks above the village: a clear line of sight to every raider
+# (measured: in the village, raiders teleported in front of the player landed in walls, a bell, the ground). The
+# raid's centre stays in the village, which is all its rules check; raiders are brought up to the platform to be struck
+fill ~-5 ~12 ~-5 ~5 ~12 ~5 minecraft:smooth_stone
+tp @s ~ ~13 ~
+@wait 1s
+# each raider is struck from 2.8 blocks: inside melee reach (3), outside the pickup radius, so its drops stay on the
+# ground (S9 collects the letter) instead of flooding the hotbar into the sword's slot. The sword lives in the last hotbar slot: after a kill it leaves the hand (the mod's design), drops are picked up into
+# the first empty slots, and re-arming writes only its own slot (re-arming the main hand would overwrite a picked-up
+# drop -- measured: the priest's letter, lost that way)
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 # wave 1: let its raiders arrive, then strike each one until it falls
 @wait 4s
 @repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
@@ -126,27 +147,30 @@ execute at @s rotated as @s run tp {it} ^ ^ ^2
 # wave 2: let its raiders arrive, then strike each one until it falls
 @wait 4s
 @repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
@@ -157,27 +181,30 @@ execute at @s rotated as @s run tp {it} ^ ^ ^2
 # wave 3: let its raiders arrive, then strike each one until it falls
 @wait 4s
 @repeat each @e[type=the_last_sword:dragon_cultist,distance=..64] max 6 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_paladin,distance=..64] max 40 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
 @wait 10t
 @end-repeat
 @repeat each @e[type=the_last_sword:dragon_cult_priest,distance=..64] max 60 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2.8
 @wait 5t
 @aim entity {it}
 @key key.attack
@@ -188,7 +215,11 @@ execute at @s rotated as @s run tp {it} ^ ^ ^2
 @shot raid-won
 
 @step S9 the dragon cult's secret letter
-# the raid's priest always drops it; picking it up (with the raid won) grants the stage
+# the raid's priest always drops it, at the END of its death animation (the mod's mobs drop then): wait for the letter
+# to be on the ground, then pick it up; with the raid won, that grants the stage
+@repeat 40 until execute if entity @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secret_letter"}}]
+@wait 10t
+@end-repeat
 execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secret_letter"}},limit=1,sort=nearest] run tp @s ~ ~ ~
 # the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
 @repeat 20 until execute if entity @s[advancements={the_last_sword:nether_traveler_outpost=true}]
@@ -210,10 +241,11 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secr
 @shot travelers-hold
 
 @step S11 the traveler's message
-# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not)
+# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not). The frame
+# may already have popped off (its stale coordinates, PLAN.md) and left the item on the floor: either way, pick it up
 execute as @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
 @wait 5t
-@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest]
+@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] if-present
 @key key.attack
 @wait 10t
 execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] run tp @s ~ ~ ~
@@ -223,8 +255,6 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:traveler_message
 @assert execute if entity @s[advancements={the_last_sword:journey_to_end=true}]
 
 @step S12 the End's reset ruins
-# the audio device complains when many sounds stop at once on arrival: not the mod's
-@allow error OpenAlUtil
 # the mod's End structures stand in the outer End (beyond about 1000 blocks from the centre)
 execute in minecraft:the_end run tp @s 1500 120 0
 effect give @s minecraft:slow_falling 30 0 true
@@ -289,7 +319,7 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 # health, each hit capped at 10. The spire's own wraith is used; one is summoned only if this spot has none
 execute unless entity @e[type=the_last_sword:lost_wraith,distance=..96] run summon the_last_sword:lost_wraith ~ ~ ~4
 item replace entity @s weapon.mainhand with minecraft:dragon_egg
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
+execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:lost_wraith
 @key key.use
@@ -298,9 +328,10 @@ execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
 # 400 health, each hit capped at 10: a bound of 80 strikes leaves room
 @repeat each @e[type=the_last_sword:lost_wraith,distance=..96] max 80 until execute unless entity {it}
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
+@key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
-execute at @s rotated as @s run tp {it} ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp {it} ^ ^ ^2
 @wait 5t
 @aim entity {it}
 @key key.attack
@@ -312,10 +343,11 @@ execute at @s rotated as @s run tp {it} ^ ^ ^2
 @shot wraith-freed
 
 @step S16 the note: where is she?
-# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not)
+# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not). The frame
+# may already have popped off (its stale coordinates, PLAN.md) and left the item on the floor: either way, pick it up
 execute as @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
 @wait 5t
-@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest]
+@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] if-present
 @key key.attack
 @wait 10t
 execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] run tp @s ~ ~ ~

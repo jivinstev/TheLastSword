@@ -75,16 +75,19 @@ script was right. Every change below was made after the script, not the mod, was
   run to run. Scenario 6 proves they fight; it does not chase them to death.
 - **The structures' item frames carry the authors' world coordinates.** Each frame in the traveler's hold, the
   sealed spire and the ruined village's wizard tower stores `TileX/Y/Z` from the world the structure was built in.
-  Generation logs `Block-attached entity at invalid position` once per frame. The frames survive, and the quest item
-  in them can be taken (the story playtest takes the traveler's message from one), so this is log noise.
-  Re-saving the three templates would silence it.
+  Generation logs `Block-attached entity at invalid position` once per frame. Usually the frames survive and the
+  quest item in them can be taken (the story playtest takes the traveler's message from one). But once, on 1.21.1, the
+  hold's frame had popped off by the time the player arrived, leaving the message on the floor; it could still be
+  picked up. Re-saving the three templates (fresh `TileX/Y/Z`) would fix both the log line and the popping. The
+  scripts take the item either way.
 
 ## The story playtest (`11-story.playtest`)
 
 It plays the quest line stage by stage in a superflat world with structures. It's written with the playtest
 language's bounded loops: each mob is struck until it falls, and each quest stage is polled for, never waited out.
 
-- **1.21.1, 2026-10-26: every stage passes** up to the known sealed-spire crash. That covers:
+- **2026-10-26, every stage passes up to the known sealed-spire crash** on Modrinth 1.21.1 and CurseForge 1.21.1 and
+  1.21.4 (ECA's `_cf` jar, which leaves out its Java agent and AllReturn transformer, behaves the same). That covers:
   - the welcome and village hint;
   - the troubled blacksmith, and buying his scroll through the trade screen;
   - the dragon crystal;
@@ -99,3 +102,9 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   granted, and the fourth mage's note.
 - **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
   last.
+
+## CurseForge builds (ECA's `_cf` jar), 2026-10-26
+
+All twelve scripts were run on CurseForge-variant instances of 1.21.1 and 1.21.4. Every one passes there as on the
+Modrinth builds; the story ends at the same known sealed-spire crash. ECA's `_cf` jar leaves out its Java agent and its
+AllReturn transformer, and no script found a difference.

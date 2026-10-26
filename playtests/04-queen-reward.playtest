@@ -18,7 +18,7 @@ summon the_last_sword:the_past_shadow_of_the_queen ~ ~ ~3
 @expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_2 within 30s
 
 @step defeat her: both death lines, then the reward
-execute at @s rotated as @s run tp @e[type=the_last_sword:the_past_shadow_of_the_queen,limit=1,sort=nearest] ^ ^ ^2
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:the_past_shadow_of_the_queen,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:the_past_shadow_of_the_queen
 @key key.attack
