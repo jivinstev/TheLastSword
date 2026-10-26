@@ -15,15 +15,25 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (independent version reviewer, a subagent of session_01QvBGDeyD8NzMJ6LK1WpkrG started for this review only), not the fixer
-- date: 2026-10-21
-- commit: 34284f6
+- reviewer: fresh agent (round 2026-10-26 reviewer subagent, https://claude.ai/code/session_01VJgb4LVyGz8nnExPrEfzbZ, started for this review only), not the fixer
+- date: 2026-10-26
+- commit: 5f797c4764e15478f9c5fd5bbddc3220f7a30a46
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
 336009b5e..6c410c5b8, fixer 954a8b6's mv/Owners.java for the getOwnerUUID row), 1.21.4 carried in (1abc0bb), the library
 re-pin to eca-1.1.9-fix-mc1.21.5 (1ca1acc, 270bbff) and decision 52c9cf0f594b (34284f6). Rows whose note predates this
 round keep it where it still holds at 34284f6.
+
+Re-reviewed 2026-10-26 at 5f797c4 (keep-current round 2026-10-26: merge of neoforge-1.21.4 e6ea4f4, measure 7150606, ECA
+re-pin 2b76e3b, CI 03bf19c, records 5f797c4). git diff 34284f6..5f797c4 -- src changes only the two shared-library helpers
+mv/LegacyGl.java and mv/LegacyRenderType.java (as installed, = templates/fork-layer/shared/1.21.5; rows added below); every
+other row's file, renames.tsv, STUBS.json, REMERGE.json and the resource groups are byte-identical, so their verdicts were
+re-read and stand. Other jar-relevant changes: branch.properties re-pins net.eca:eca to eca-1.1.9-fix-mc1.21.5-r2 (sha256
+bd934b7c..., = ~/.m2 jar; r2 over r1 changes only ECA's own copies of the same LegacyGl/LegacyRenderType fix, an additive
+ItemStacks.get and BossShowHistory getString -> getStringOr(i, ""), none of which changes an API this mod calls);
+shared-renames.tsv gains rows (factory-reference entering supplier, getMaxBuildHeight/getMinBuildHeight) that match no
+committed source here. EntityUtil stays not-ok (unfixed at 5f797c4).
 
 | kind | file | verdict | note |
 |---|---|---|---|
@@ -151,7 +161,7 @@ round keep it where it still holds at 34284f6.
 | changed | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | 34284f6: setOwner(owner) = setOwnerUUID(owner.getUUID()) through 1.21.5's EntityReference; UUID helpers write/read the same int[4] as 1.21.1 putUUID/getUUID; getXxxOr defaults = 1.21.4's zero/empty values (UUID.fromString("") throws as before); ItemStack.parse(..).orElse(EMPTY) = parseOptional; soul-stone scan covers the 36 main slots; sends are displayClientMessage on server players. |
 | changed | src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java | ok | SavedDataType with a CompoundTag codec around the same load/save; on disk still the 'data' compound 1.21.1 wrote; list reads tolerate other tag types as before. |
 | changed | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): hasUltraTestSword/hasDefenseSword iterate getNonEquipmentItems() (main 36), as 1.21.1's inventory.items; rest as reviewed. |
-| changed | src/main/java/net/the_last_sword/util/EntityUtil.java | not-ok | 34284f6: applyBowEnchantments sets arrow.setBaseDamage(2.0 + power*0.5 + 0.5) where 1.21.4 (and 1.21.1) add to arrow.getBaseDamage(); AbstractArrow.getBaseDamage() is gone in 1.21.5 (only the private baseDamage field), so the base set by ProjectileUtil.getMobArrow -> setBaseDamageFromMob (velocity*2 + triangle(difficulty*0.11, 0.57425)) and any BowItem.customArrow adjustment is discarded: shootArrow's Power arrows lose the difficulty scaling and spread. Read the field instead (an accessor mixin or an AT line for AbstractArrow.baseDamage). Rest ok: getBoolean(..).orElse(false), 36 main slots + 4 armour + offhand = 1.21.1's items/armor/offhand, snapTo, 'position.y + bbHeight > getMaxY() + 1' (= 1.21.1 getMaxBuildHeight()). Suggested S4 (balance only, not visible), lowest 1.21.5. |
+| changed | src/main/java/net/the_last_sword/util/EntityUtil.java | not-ok | Re-checked at 5f797c4: unchanged, line 626 still arrow.setBaseDamage(2.0 + powerLevel*0.5 + 0.5); 21.5.98 AbstractArrow has only the private baseDamage (no getter, no AT line here). 34284f6: applyBowEnchantments sets arrow.setBaseDamage(2.0 + power*0.5 + 0.5) where 1.21.4 (and 1.21.1) add to arrow.getBaseDamage(); AbstractArrow.getBaseDamage() is gone in 1.21.5 (only the private baseDamage field), so the base set by ProjectileUtil.getMobArrow -> setBaseDamageFromMob (velocity*2 + triangle(difficulty*0.11, 0.57425)) and any BowItem.customArrow adjustment is discarded: shootArrow's Power arrows lose the difficulty scaling and spread. Read the field instead (an accessor mixin or an AT line for AbstractArrow.baseDamage). Rest ok: getBoolean(..).orElse(false), 36 main slots + 4 armour + offhand = 1.21.1's items/armor/offhand, snapTo, 'position.y + bbHeight > getMaxY() + 1' (= 1.21.1 getMaxBuildHeight()). Suggested S4 (balance only, not visible), lowest 1.21.5. |
 | changed | src/main/java/net/the_last_sword/util/damage/AdvancedEquipmentDamageHandler.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): 'applied = mv.Hurt.server(player, fellOutOfWorld, amount)', the hit result as 1.21.1's player.hurt. |
 | item | main:net/the_last_sword/client/DragonCrystalEnchantingTableClientExtensions.java#render-class:class DragonCrystalEnchantingTableClientExtensions : IClientItemExtensions | ok | where: client/DragonCrystalEnchantingTableClientExtensions.provider() is a GeckoLib 5 GeoRenderProvider (getGeoItemRenderer) handed to createGeoRenderer by the display item; items/dragon_crystal_enchanting_table.json names geckolib:geckolib. |
 | item | main:net/the_last_sword/client/layer/LostWraithSealLayer.java#render-use:RenderStateShard.COLOR_DEPTH_WRITE | ok | where: LostWraithSealLayer SEAL_PIPELINE (core/position_color, TRANSLUCENT, LEQUAL, depth write on, cull off) -- the same state as a native 1.21.5 pipeline. |
@@ -253,3 +263,5 @@ round keep it where it still holds at 34284f6.
 | stub | src/main/java/net/the_last_sword/test/TestEntity.java | ok | Stale signal: no 1.21.5 overlay; the inherited 1.21.4 overlay carries 1.1.2 TestEntity; the empty bodies are the authors' own. moveTo override becomes snapTo through this target's renames.tsv row (1.21.5's renamed Entity.snapTo(DDDFF)). |
 | stub | src/main/java/net/the_last_sword/test/UltraTestSwordItem.java | ok | Tier values a bare TieredItem used (durability 0, enchantability 1024, no repair) are set as properties; nothing reads its tier (the inventory-scan regression is the overlay row). |
 | shared | src/main/java/net/the_last_sword/mv/Owners.java | ok | 34284f6 (cascade fixer 954a8b6): Owners.uuid(e) = getOwnerReference() == null ? null : ref.getUUID(), what 1.21.4 getOwnerUUID() returned; the shared-renames row only matches a no-arg .getOwnerUUID() call, so WraithSummonManager.getOwnerUUID(UUID) is untouched; its one use (TheLastEndFollowOwnerGoal) compares the owner UUID as before. |
+| shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | 5f797c4 (shared library b0fcbbd): one owner-keyed save stack; restore(owner) pops back to that type's newest load (non-nested A/B set-up/clear ends with nothing loaded; a type with nothing loaded changes nothing) and now puts back the replaced shader; load sets the shader only for a ShaderInstance/Vanilla. Bias and target are set only by load, so resetting them once the stack is empty restores their pre-load values. Every mod use goes through LegacyRenderType.draw (setup, draw, clear) or the buffer source, never a draw after clear, so restoring the shader changes nothing the mod draws; render thread only. |
+| shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | 5f797c4 (shared library b0fcbbd): per-instance Deque replaced by LegacyGl's owner stack (load(this, ...)/restore(this)); a throwing shader-shard setup restores what it loaded and rethrows, so draw() (setup before its try) leaks no state; unused ArrayDeque/Deque imports removed. Same draw path otherwise. |
