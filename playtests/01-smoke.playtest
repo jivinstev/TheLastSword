@@ -1,0 +1,111 @@
+@intent A survival player on Normal hears the Last End Sword Wraith's music once it is up, kills it with The Last Sword You Never Forgot (music stops), dies to the guardians, respawns, re-arms and kills again, and the Past Shadow of the Queen speaks her narration -- the debug test entity is never summoned
+@continue-on-fail
+
+@step start in creative
+# a clean, quiet arena: no weather, no night spawns, no other mobs
+gamemode creative
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+@assert execute if entity @s[gamemode=creative]
+@shot creative
+
+@step switch to survival on normal
+gamemode survival
+# /difficulty fails when nothing changes: go through hard so it changes whatever the world started on
+difficulty hard
+difficulty normal
+@assert execute if entity @s[gamemode=survival]
+
+@step the wraith appears and its music starts
+# the wraith plays a 110-tick spawn animation and refuses damage until it is ready; its battle music is client-side
+# and starts within 20 ticks of it becoming ready (CombatMusicHandler checks once a second)
+summon the_last_sword:the_last_end_sword_wraith ~ ~ ~6
+@assert execute if entity @e[type=the_last_sword:the_last_end_sword_wraith,distance=..16]
+@expect sound the_last_sword:the_last_end_sword_wraith within 15s
+@shot wraith-and-music
+
+@step get the sword
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+@assert execute if entity @s[nbt={SelectedItem:{id:"the_last_sword:the_last_sword_you_never_forgot"}}]
+
+@step one hit kills the wraith, and the music stops
+# the sword's hurtEnemy deals 8e18 absolute-destruction damage: one hit is enough, a second covers a block stance.
+# A melee hit needs reach (3 blocks): bring the wraith to 2 blocks in front of the player first
+execute at @s rotated as @s run tp @e[type=the_last_sword:the_last_end_sword_wraith,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:the_last_end_sword_wraith
+@key key.attack
+@wait 10t
+@aim entity the_last_sword:the_last_end_sword_wraith
+@key key.attack
+@wait 5s
+@assert execute unless entity @e[type=the_last_sword:the_last_end_sword_wraith,distance=..32]
+@expect sound the_last_sword:the_last_end_sword_wraith gone within 10s
+@shot wraith-dead
+
+@step a few more items
+give @s the_last_sword:dragon_crystal_sword
+give @s the_last_sword:lightning_spear
+give @s the_last_sword:dragon_crystal 8
+give @s the_last_sword:dragon_crystal_crown
+@assert execute if entity @s[nbt={Inventory:[{id:"the_last_sword:dragon_crystal_sword"}]}]
+@assert execute if entity @s[nbt={Inventory:[{id:"the_last_sword:dragon_crystal_crown"}]}]
+@shot items
+
+@step the guardians kill a survival player
+# no armour, no sword: three guardians on Normal must kill the player. While the player carries the sword (or the
+# mod's armour) TLS blocks /clear by design (InventoryMixin), so empty the slots one by one
+item replace entity @s hotbar.0 with minecraft:air
+item replace entity @s hotbar.1 with minecraft:air
+item replace entity @s hotbar.2 with minecraft:air
+item replace entity @s hotbar.3 with minecraft:air
+item replace entity @s hotbar.4 with minecraft:air
+@assert execute unless items entity @s container.* the_last_sword:the_last_sword_you_never_forgot
+summon the_last_sword:guardian_berserker ~3 ~ ~3
+summon the_last_sword:guardian_saber ~-3 ~ ~3
+summon the_last_sword:guardian_archer ~ ~ ~8
+# immediate respawn skips the death screen: the death message is the sign
+@expect chat death.attack within 90s
+@shot dead
+
+@step respawn, re-arm and kill a guardian
+# the carrier respawns the player; the guardians are still there, so protect the player first (Resistance V blocks
+# all damage), then put the sword IN HAND: /give fills the first free slot, which need not be the selected one
+effect give @s minecraft:resistance 120 4 true
+@wait 3s
+@assert execute if entity @s[gamemode=survival]
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:guardian_berserker
+@key key.attack
+@wait 2s
+@assert execute unless entity @e[type=the_last_sword:guardian_berserker,distance=..48]
+@shot guardian-dead
+
+@step clear the field
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+@wait 1s
+
+@step the queen's narration
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+# her boss show starts when a player comes within 4 blocks; at its end she activates and sends her two lines as chat
+summon the_last_sword:the_past_shadow_of_the_queen ~ ~ ~3
+@expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_1 within 30s
+@expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_2 within 10s
+@shot queen-narration
+
+@step strike the queen down: her death narration (she stays, as an NPC)
+# let her boss show's cinematic end before the strike: while it runs it holds the camera and the attack does nothing.
+# (On 1.21.8 the cinematic freezes on its first frame and never ends: a finding, see PLAN.md.)
+@wait 10s
+# a lethal hit starts her death sequence (death_1 at once, death_2 60 ticks later); she then becomes an NPC rather
+# than being removed -- so her still being there is the design, not a failure
+@aim entity the_last_sword:the_past_shadow_of_the_queen
+@key key.attack
+@expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
+@expect chat dialogue.the_last_sword.queen.combat.death_2 within 10s
+@shot queen-defeated

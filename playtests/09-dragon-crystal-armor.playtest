@@ -1,0 +1,19 @@
+@intent A full dragon crystal armour set equips in survival and gives the player the mod's justified-defence attribute, with no errors
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+time set day
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+
+@step equip the set
+item replace entity @s armor.head with the_last_sword:dragon_crystal_armor_helmet
+item replace entity @s armor.chest with the_last_sword:dragon_crystal_armor_chestplate
+item replace entity @s armor.legs with the_last_sword:dragon_crystal_armor_leggings
+item replace entity @s armor.feet with the_last_sword:dragon_crystal_armor_boots
+@wait 2s
+@assert execute if entity @s[nbt={Inventory:[{Slot:103b,id:"the_last_sword:dragon_crystal_armor_helmet"}]}]
+@shot armoured
+
+@step the set grants justified defence
+@assert attribute @s the_last_sword:max_justified_defence get
