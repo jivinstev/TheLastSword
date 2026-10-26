@@ -67,9 +67,9 @@ execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:w
 @assert execute if entity @s[advancements={the_last_sword:the_last_end_scroll_obtain=true}]
 @assert execute if entity @s[advancements={the_last_sword:mage_village_destination=true}]
 
-@step S5 the ruined village (not reached here)
-# placed only by the normal overworld's worldgen: a superflat world never has one, and /place would register nothing.
-# The stage is checked where it can be: in a normal world (a separate run with @world normal)
+@step S5 the ruined village (its own script)
+# placed only by the normal overworld's worldgen: a superflat world never has one. 12-ruined-village.playtest plays
+# it in a normal world (the discovery, and the crystal from the wizard tower's frame)
 @wait 1t
 
 @step S6 a dragon crystal

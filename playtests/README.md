@@ -5,6 +5,8 @@ Nothing here is part of the build: Gradle never reads this folder, and the port'
 
 - [`PLAN.md`](PLAN.md) lists the ten scenarios, what each proves, what the build loop changed, and the findings.
 - `NN-*.playtest` are the scripts, one per scenario. `01-smoke.playtest` is the maintainer's smoke list.
+- `11-story.playtest` plays the quest line stage by stage. `12-ruined-village.playtest` plays its one stage that needs a
+  normal world.
 
 A script is Minecraft commands plus `@` directives (`@step`, `@assert`, `@aim`, `@key`, `@expect`, `@shot`, ...).
 The engine and the tools live in the migrator repository (`mc-mod-version-upgrade`). Its README's "Playtests"

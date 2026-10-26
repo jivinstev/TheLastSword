@@ -93,6 +93,9 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   - the End's reset ruins and lost altar;
   - the Wound of Time;
   - the queen's trial.
-- **Not reached here:** the ruined village. Only the normal overworld's worldgen places it (TheLastSword#46).
+- **The ruined village has its own script, `12-ruined-village.playtest`.** Only the normal overworld's worldgen places it,
+  so it runs in a normal world with a fixed seed (seed 1, whose nearest ruined village has the wizard tower at its
+  centre). On 1.21.1 it passes: the discovery, the dragon crystal taken from the tower's item frame with "Familiar Gem"
+  granted, and the fourth mage's note.
 - **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
   last.
