@@ -552,8 +552,8 @@ the_last_sword_custom/
 
 | Minecraft | Branch | Newest build | Done |
 |---|---|---|---|
-| 1.21.1 | [`neoforge-1.21.1`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.1) | [`the_last_sword-1.1.2-fix-fix-mc1.21.1`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.1) (pre-release) | head |
-| 1.21.4 | [`neoforge-1.21.4`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.4) | [`the_last_sword-1.1.2-fix-fix-mc1.21.4`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.4) (pre-release) | not done |
+| 1.21.1 | [`neoforge-1.21.1`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.1) | [`the_last_sword-1.1.2-fix-fix-mc1.21.1-r2`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.1-r2) (pre-release) | head |
+| 1.21.4 | [`neoforge-1.21.4`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.4) | [`the_last_sword-1.1.2-fix-fix-mc1.21.4-r2`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.4-r2) (pre-release) | not done |
 | 1.21.5 | [`neoforge-1.21.5`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.5) | [`the_last_sword-1.1.2-fix-fix-mc1.21.5`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.5) (pre-release) | not done |
 | 1.21.8 | [`neoforge-1.21.8`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.8) | [`the_last_sword-1.1.2-fix-fix-mc1.21.8`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.8) (pre-release) | not done |
 | 1.21.10 | [`neoforge-1.21.10`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.10) | [`the_last_sword-1.1.2-fix-fix-mc1.21.10`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.10) (pre-release) | not done |
