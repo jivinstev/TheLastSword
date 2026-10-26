@@ -88,5 +88,7 @@ It plays the quest line stage by stage in a superflat world with structures. Its
 - **Not reached here:** the ruined village. Only the normal overworld's worldgen places it.
 - **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
   last.
-- **Still script work:** winning the raid, and the priest's letter that follows. A raider is struck but not killed
-  within the script's budget. Raid cultists do die to the sword, as a focused check showed.
+- **Not run yet: winning the raid (S8).** The script doesn't yet strike every raider reliably. Raid cultists do die to
+  the sword, as a focused check showed. S9 (the priest's letter) runs with the raid's victory granted as setup, so it
+  still tests the mod's own check.
+- **1.21.1, 2026-10-26: every enabled stage passes**, then the known sealed-spire crash.
