@@ -37,7 +37,9 @@ effect give @s minecraft:saturation 99999 0 true
 give @s minecraft:emerald 1
 execute at @s rotated as @s run tp @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] ^ ^ ^2
 execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}}] run data merge entity @s {NoAI:1b}
-@wait 5t
+@wait 15t
+@aim entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest]
+@wait 2t
 @aim entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest]
 @key key.use
 @expect screen Merchant within 3s
@@ -105,6 +107,25 @@ execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+# finish any raider left with the sword's ranged shot (right click: one-shot, no reach needed)
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
 @wait 17s
 # wave 2
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
@@ -326,6 +347,25 @@ execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+# finish any raider left with the sword's ranged shot (right click: one-shot, no reach needed)
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
 @wait 17s
 # wave 3
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
@@ -997,6 +1037,25 @@ execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+# finish any raider left with the sword's ranged shot (right click: one-shot, no reach needed)
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cultist if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_paladin if-present
+@key key.use
+@wait 15t
+@aim entity the_last_sword:dragon_cult_priest if-present
+@key key.use
+@wait 15t
 @wait 17s
 @expect chat message.the_last_sword.dragon_cult_raid_victory_reward within 30s
 @assert execute if entity @s[advancements={the_last_sword:dragon_cult_raid_victory=true}]
@@ -1010,16 +1069,19 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secr
 @assert execute if entity @s[advancements={the_last_sword:nether_traveler_outpost=true}]
 
 @step S10 the traveler's hold, in the Nether
+# its two glow item frames carry the authors' world coordinates (TileX/Y/Z), so generation logs one ERROR each;
+# the frames survive and work (S11 takes the message from one) -- noise, not a defect
+@allow error Block-attached entity at invalid position
 @goto structure the_last_sword:travelers_hold in minecraft:the_nether
 @wait 3s
 @assert execute if entity @s[advancements={the_last_sword:travelers_hold_discover=true}]
 @shot travelers-hold
 
 @step S11 the traveler's message
-# the item sits in an item frame in the structure: a survival punch drops it (a creative one does not)
-execute as @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
+# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not)
+execute as @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
 @wait 5t
-@aim entity @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest]
+@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest]
 @key key.attack
 @wait 10t
 execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:traveler_message"}},limit=1,sort=nearest] run tp @s ~ ~ ~
@@ -1029,6 +1091,8 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:traveler_message
 @assert execute if entity @s[advancements={the_last_sword:journey_to_end=true}]
 
 @step S12 the End's reset ruins
+# the audio device complains when many sounds stop at once on arrival: not the mod's
+@allow error OpenAlUtil
 # the mod's End structures stand in the outer End (beyond about 1000 blocks from the centre)
 execute in minecraft:the_end run tp @s 1500 120 0
 effect give @s minecraft:slow_falling 30 0 true
@@ -1442,10 +1506,10 @@ execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s run tp
 @shot wraith-freed
 
 @step S16 the note: where is she?
-# the item sits in an item frame in the structure: a survival punch drops it (a creative one does not)
-execute as @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
+# the item sits in a glow item frame in the structure: a survival punch drops it (a creative one does not)
+execute as @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^1.5 facing entity @s
 @wait 5t
-@aim entity @e[type=minecraft:item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest]
+@aim entity @e[type=minecraft:glow_item_frame,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest]
 @key key.attack
 @wait 10t
 execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:where_is_it_note"}},limit=1,sort=nearest] run tp @s ~ ~ ~

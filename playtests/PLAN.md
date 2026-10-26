@@ -72,3 +72,21 @@ script was right. Every change below was made after the script, not the mod, was
 - **TLS's mobs shrug off `/kill`.** The scripts kill them the way a player does, with the sword.
 - **The Dragon Cult paladin and priest outlast many hits** (each hit capped, the paladin blocking), and how many varies
   run to run. Scenario 6 proves they fight; it does not chase them to death.
+- **The structures' item frames carry the authors' world coordinates.** Each frame in the traveler's hold, the
+  sealed spire and the ruined village's wizard tower stores `TileX/Y/Z` from the world the structure was built in.
+  Generation logs `Block-attached entity at invalid position` once per frame. The frames survive, and the quest item
+  in them can be taken (the story playtest takes the traveler's message from one), so this is log noise.
+  Re-saving the three templates would silence it.
+
+## The story playtest (`11-story.playtest`)
+
+It plays the quest line stage by stage in a superflat world with structures. Its status on 1.21.1:
+
+- **Passes:** the welcome and village hint; the troubled blacksmith; buying his scroll through the trade screen;
+  the dragon crystal; the cult's raid starting; the traveler's hold and its message; the End's reset ruins and lost
+  altar; the Wound of Time; the queen's trial.
+- **Not reached here:** the ruined village. Only the normal overworld's worldgen places it.
+- **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
+  last.
+- **Still script work:** winning the raid, and the priest's letter that follows. A raider is struck but not killed
+  within the script's budget. Raid cultists do die to the sword, as a focused check showed.
