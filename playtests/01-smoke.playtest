@@ -87,28 +87,11 @@ execute at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,lim
 @shot guardian-dead
 
 @step clear the field
-# /kill removes drops and vanilla mobs; TLS mobs shrug it off by design (their health is kept apart from vanilla's), so
-# finish the guardians the way a player does: with the sword, one by one
+# TLS mobs shrug off /kill by design, and the guardian archer keeps its distance: rather than chase them, the queen's
+# steps happen out of their range
 execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
-execute if entity @e[type=the_last_sword:guardian_berserker] at @s rotated as @s run tp @e[type=the_last_sword:guardian_berserker,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:guardian_berserker if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:guardian_saber] at @s rotated as @s run tp @e[type=the_last_sword:guardian_saber,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:guardian_saber if-present
-@key key.attack
-@wait 10t
-execute if entity @e[type=the_last_sword:guardian_archer] at @s rotated as @s run tp @e[type=the_last_sword:guardian_archer,limit=1,sort=nearest] ^ ^ ^2
-@wait 5t
-@aim entity the_last_sword:guardian_archer if-present
-@key key.attack
-@wait 10t
-@assert execute unless entity @e[type=the_last_sword:guardian_archer]
-@assert execute unless entity @e[type=the_last_sword:guardian_saber]
-@wait 1s
+tp @s ~ ~ ~120
+@wait 2s
 
 @step the queen's narration
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot

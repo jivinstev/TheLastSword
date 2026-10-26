@@ -70,3 +70,5 @@ script was right. Every change below was made after the script, not the mod, was
   1.21.4). The maintainer has seen it in play, so it is treated as the mod's design. No script asserts the sword
   stays after her; a step that needs it puts it in hand again.
 - **TLS's mobs shrug off `/kill`.** The scripts kill them the way a player does, with the sword.
+- **The Dragon Cult paladin and priest outlast many hits** (each hit capped, the paladin blocking), and how many varies
+  run to run. Scenario 6 proves they fight; it does not chase them to death.
