@@ -81,21 +81,25 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
@@ -106,181 +110,217 @@ execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
@@ -291,556 +331,667 @@ execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @
 execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cultist] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cultist] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cultist,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cultist if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_paladin] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_paladin] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_paladin,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_paladin if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
 @key key.attack
 @wait 10t
+execute as @e[type=the_last_sword:dragon_cult_priest] run data merge entity @s {NoAI:1b}
 execute if entity @e[type=the_last_sword:dragon_cult_priest] at @s rotated as @s run tp @e[type=the_last_sword:dragon_cult_priest,limit=1,sort=nearest] ^ ^ ^2
 @wait 5t
 @aim entity the_last_sword:dragon_cult_priest if-present
@@ -892,6 +1043,30 @@ effect give @s minecraft:slow_falling 30 0 true
 @assert execute if entity @s[advancements={the_last_sword:end_lost_altar_discover=true}]
 @shot lost-altar
 
+@step S17 the Wound of Time
+@goto structure the_last_sword:wound_of_time in minecraft:the_end
+@wait 3s
+@assert execute if entity @s[advancements={the_last_sword:beyond_time=true}]
+@shot wound-of-time
+
+@step S18 the queen's trial
+# she waits in the Wound of Time; coming within 4 blocks starts her boss show, at its end she is ready. One is summoned
+# only if this spot has none
+execute unless entity @e[type=the_last_sword:the_past_shadow_of_the_queen,distance=..96] run summon the_last_sword:the_past_shadow_of_the_queen ~ ~ ~3
+execute as @e[type=the_last_sword:the_past_shadow_of_the_queen,limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^2.5 facing entity @s
+@expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_2 within 30s
+@wait 10s
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+@aim entity the_last_sword:the_past_shadow_of_the_queen
+@key key.attack
+@expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
+# her reward comes at death tick 100 and grants the last stage
+@wait 7s
+@assert execute if entity @s[advancements={the_last_sword:proof_of_sovereignty=true}]
+@assert execute if items entity @s container.* the_last_sword:the_givers_pain
+@shot proof-of-sovereignty
+# The sealed spire's stages come last: on these builds its chunk crashes the game as it generates (TLS-056, a
+# known S1). Everything else in the story runs before it; once TLS-056 is fixed they run like any other stage.
 @step S14 the sealed spire
 @goto structure the_last_sword:sealed_spire in minecraft:the_end
 @wait 3s
@@ -1279,25 +1454,3 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:where_is_it_note
 @assert execute if items entity @s container.* the_last_sword:where_is_it_note
 @assert execute if entity @s[advancements={the_last_sword:queens_whereabouts=true}]
 
-@step S17 the Wound of Time
-@goto structure the_last_sword:wound_of_time in minecraft:the_end
-@wait 3s
-@assert execute if entity @s[advancements={the_last_sword:beyond_time=true}]
-@shot wound-of-time
-
-@step S18 the queen's trial
-# she waits in the Wound of Time; coming within 4 blocks starts her boss show, at its end she is ready. One is summoned
-# only if this spot has none
-execute unless entity @e[type=the_last_sword:the_past_shadow_of_the_queen,distance=..96] run summon the_last_sword:the_past_shadow_of_the_queen ~ ~ ~3
-execute as @e[type=the_last_sword:the_past_shadow_of_the_queen,limit=1,sort=nearest] at @s rotated as @s run tp @p ^ ^ ^2.5 facing entity @s
-@expect chat bossshow.the_last_sword.the_past_shadow_of_the_queen.subtitle_2 within 30s
-@wait 10s
-item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
-@aim entity the_last_sword:the_past_shadow_of_the_queen
-@key key.attack
-@expect chat dialogue.the_last_sword.queen.combat.death_1 within 10s
-# her reward comes at death tick 100 and grants the last stage
-@wait 7s
-@assert execute if entity @s[advancements={the_last_sword:proof_of_sovereignty=true}]
-@assert execute if items entity @s container.* the_last_sword:the_givers_pain
-@shot proof-of-sovereignty
