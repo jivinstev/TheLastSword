@@ -1,6 +1,4 @@
 // OVERLAY-ONLY: shared fork-layer helper from mc-mod-version-upgrade templates/fork-layer/shared (not the authors' code).
-// MV-STAND-IN: shared/26.3's LegacyGl, unchanged. Only so the inherited targets/1.21.5/java/net/the_last_sword/mv/LegacyGl.java (the F1/F2 fix ahead of the
-// MV-STAND-IN: template, see that file) does not shadow this target's own shared copy. Delete when that 1.21.5 overlay is gone.
 package net.the_last_sword.mv;
 
 import com.mojang.renderpearl.api.pipeline.IndexType;
@@ -146,6 +144,9 @@ public final class LegacyGl {
     private static boolean cull = true;
     private static Object shader;
     private static boolean warnedEquation;
+    // what a set-up LegacyRenderType adds (see load): its depth bias and its output target (null: the main target)
+    private static float biasScale, biasConstant;
+    private static RenderTarget target;
     private static float[] shaderColor = {1f, 1f, 1f, 1f};
 
     private LegacyGl() {}
@@ -230,16 +231,19 @@ public final class LegacyGl {
     /** 1.21.4's {@code RenderType.setupRenderState()}: the type's texture / lightmap / overlay shards and its shader. */
     public static void setupRenderState(RenderType type) {
         if (type instanceof LegacyRenderType legacy) legacy.setupRenderState();
+        else LegacyRenderType.Copies.setupRenderState(type);   // another mod's relocated copy (CATALOG V117)
     }
 
     /** 1.21.4's {@code RenderType.clearRenderState()}. */
     public static void clearRenderState(RenderType type) {
         if (type instanceof LegacyRenderType legacy) legacy.clearRenderState();
+        else LegacyRenderType.Copies.clearRenderState(type);   // another mod's relocated copy (CATALOG V117)
     }
 
-    /** BufferUploader.drawWithShader: the current shader and the state set above, into the main render target. */
+    /** BufferUploader.drawWithShader: the current shader and the state set above, into the main render target -- or,
+     *  while a {@link LegacyRenderType} is set up, with its shader and state into its output target (see {@link #load}). */
     public static void drawWithShader(MeshData mesh) {
-        draw(mesh, shader, current(), Minecraft.getInstance().gameRenderer.mainRenderTarget());
+        draw(mesh, shader, current(), target != null ? target : Minecraft.getInstance().gameRenderer.mainRenderTarget());
     }
 
     /**
@@ -313,7 +317,72 @@ public final class LegacyGl {
 
     static Key current() {
         return new Key(blend ? blendFunction : null, depthTest ? depthFunction : null,
-                depthWrite, writeColor, writeAlpha, cull, 0, 0);
+                depthWrite, writeColor, writeAlpha, cull, biasScale, biasConstant);
+    }
+
+    /** The state {@link #load} replaced, put back by {@link #restore}; {@code owner} is the type that loaded it. */
+    record Saved(Object owner, boolean blend, BlendFunction blendFunction, boolean depthTest, CompareOp depthFunction,
+                 boolean depthWrite, boolean writeColor, boolean writeAlpha, boolean cull, float biasScale,
+                 float biasConstant, RenderTarget target, Object shader) {}
+
+    /** Every set-up type's entry, oldest first. ONE stack for every type (not one per type), so set-ups and clears that
+     *  do not nest -- A set up, B set up, A cleared, B cleared -- still end with nothing of either loaded. */
+    private static final java.util.ArrayList<Saved> LOADED = new java.util.ArrayList<>();
+
+    /**
+     * 1.21.4's RenderType.setupRenderState() ran every shard of its CompositeState: the ShaderStateShard set the shader,
+     * and the transparency / depth-test / write-mask / cull / layering shards set GL state. 1.21.1-1.21.4 code that sets
+     * a type up and then draws with BufferUploader.drawWithShader (a mod's own render queue) drew with all of it.
+     * {@link LegacyRenderType#setupRenderState} loads the type's shader and state here so {@link #drawWithShader} does
+     * too, into the type's output target; {@link LegacyRenderType#clearRenderState} restores the state and the shader it
+     * replaced. Only a shader object this layer draws with (a {@link ShaderInstance} or a {@link Vanilla}) is loaded: a type
+     * with no shader state of its own keeps the one {@code setShader} set, as 1.21.4's did. As the shared 1.21.5-1.21.10 copies do.
+     */
+    static Saved load(Object owner, Key key, Object shaderObj, RenderTarget into) {
+        Saved s = new Saved(owner, blend, blendFunction, depthTest, depthFunction, depthWrite, writeColor, writeAlpha, cull,
+                biasScale, biasConstant, target, shader);
+        LOADED.add(s);
+        blend = key.blend() != null;
+        if (blend) blendFunction = key.blend();
+        depthTest = key.depth() != null;
+        if (depthTest) depthFunction = key.depth();
+        depthWrite = key.depthWrite();
+        writeColor = key.writeColor();
+        writeAlpha = key.writeAlpha();
+        cull = key.cull();
+        biasScale = key.biasScale();
+        biasConstant = key.biasConstant();
+        if (shaderObj instanceof ShaderInstance || shaderObj instanceof Vanilla) shader = shaderObj;
+        target = into;
+        return s;
+    }
+
+    /** Puts back what {@code owner}'s newest {@link #load} replaced, and drops that entry and every one loaded after it;
+     *  an owner with nothing loaded changes nothing. Once nothing is loaded, what only a set-up type adds (its depth bias,
+     *  its output target) is back at the default. */
+    static void restore(Object owner) {
+        int i = LOADED.size() - 1;
+        while (i >= 0 && LOADED.get(i).owner() != owner) i--;
+        if (i < 0) return;
+        Saved s = LOADED.get(i);
+        LOADED.subList(i, LOADED.size()).clear();
+        blend = s.blend();
+        blendFunction = s.blendFunction();
+        depthTest = s.depthTest();
+        depthFunction = s.depthFunction();
+        depthWrite = s.depthWrite();
+        writeColor = s.writeColor();
+        writeAlpha = s.writeAlpha();
+        cull = s.cull();
+        biasScale = s.biasScale();
+        biasConstant = s.biasConstant();
+        target = s.target();
+        shader = s.shader();
+        if (LOADED.isEmpty()) {
+            biasScale = 0;
+            biasConstant = 0;
+            target = null;
+        }
     }
 
     // ---- drawing ----------------------------------------------------------------------------------------------
@@ -401,39 +470,54 @@ public final class LegacyGl {
     }
 
     /** What a mesh is drawn from: its vertices (and indices: its own, or the sequential ones for its topology), uploaded.
-     *  {@code baseVertex} / {@code firstIndex} place the mesh in the buffers (0 except for a transient upload).
-     *  {@code vertexSlice} is the mesh's own vertices (vertex 0 = the mesh's first): 26.3's transient buffers refuse a
-     *  whole-buffer {@code slice()} ("Cannot slice transient buffer"), so a draw of ours binds this slice, base vertex 0. */
-    record Uploaded(GpuBuffer vertices, GpuBufferSlice vertexSlice, GpuBuffer indices, IndexType indexType, int indexCount,
-                    int baseVertex, int firstIndex) {
+     *  {@code vertices} is the slice the mesh's vertices start at (bound as it is: the backend applies its offset), and
+     *  {@code firstIndex} places the mesh in the index buffer (0 except for a transient upload). */
+    record Uploaded(GpuBufferSlice vertices, GpuBuffer indices, IndexType indexType, int indexCount, int firstIndex) {
         static Uploaded of(MeshData m) {
-            GpuBuffer vertices = uploadVertices(m.vertexBuffer());
+            GpuBufferSlice vertices = uploadVertices(m.vertexBuffer()).slice();
             if (m.indexBuffer() == null) {
                 RenderSystem.AutoStorageIndexBuffer seq = RenderSystem.getSequentialBuffer(m.drawState().primitiveTopology());
-                return new Uploaded(vertices, vertices.slice(), seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), 0, 0);
+                return new Uploaded(vertices, seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), 0);
             }
-            return new Uploaded(vertices, vertices.slice(), uploadIndices(m.indexBuffer()), m.drawState().indexType(), m.drawState().indexCount(), 0, 0);
+            return new Uploaded(vertices, uploadIndices(m.indexBuffer()), m.drawState().indexType(), m.drawState().indexCount(), 0);
         }
 
         /**
          * For a draw into a pass that is already open, where the encoder refuses {@code writeToBuffer}: the geometry goes
          * into the encoder's transient memory through a MAPPED allocation (a CPU write, no encoder command; valid for the
-         * frame). An index buffer binds without an offset, so the allocation's offset becomes the first index (and the
-         * vertex one the base vertex, for vanilla's {@code drawFromBuffer}, which binds the whole buffer).
+         * frame). 26.3's transient buffer refuses {@code slice()} ("Cannot slice transient buffer"), so the vertices are
+         * the allocation's own slice, bound as it is (as {@code GlRenderPass}'s push constants are); an index buffer binds
+         * without an offset, so the index allocation's offset becomes the first index.
          */
         static Uploaded inPass(MeshData m) {
-            int vertexSize = m.drawState().format().getVertexSize();
-            GpuBufferSlice v = transient_(m.vertexBuffer(), vertexSize, GpuBuffer.USAGE_VERTEX);
-            int baseVertex = RenderPasses.firstElement(v.offset(), vertexSize);
+            return inPass(m, transient_(m.vertexBuffer(), m.drawState().format().getVertexSize(), GpuBuffer.USAGE_VERTEX));
+        }
+
+        /**
+         * As {@link #inPass(MeshData)}, for vanilla's {@code PreparedRenderType.drawFromBuffer}, which takes a whole
+         * vertex BUFFER and slices it (a transient one refuses that): the vertices go into a buffer of their own, created
+         * with its data ({@code device.createBuffer(data)}, which an open pass allows, as the sequential index buffer
+         * grows). The caller closes {@code vertices().buffer()} after the draw.
+         */
+        static Uploaded inPassOwnVertices(MeshData m) {
+            GpuBuffer own = RenderSystem.getDevice().createBuffer(() -> "mv in-pass vertices", GpuBuffer.USAGE_VERTEX, m.vertexBuffer());
+            try {
+                return inPass(m, own.slice());
+            } catch (RuntimeException e) {
+                own.close();
+                throw e;
+            }
+        }
+
+        private static Uploaded inPass(MeshData m, GpuBufferSlice v) {
             if (m.indexBuffer() == null) {
                 RenderSystem.AutoStorageIndexBuffer seq = RenderSystem.getSequentialBuffer(m.drawState().primitiveTopology());
                 // grows with device.createBuffer(initial data), which an open pass allows
-                return new Uploaded(v.buffer(), v, seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), baseVertex, 0);
+                return new Uploaded(v, seq.getBuffer(m.drawState().indexCount()), seq.type(), m.drawState().indexCount(), 0);
             }
             IndexType type = m.drawState().indexType();
             GpuBufferSlice i = transient_(m.indexBuffer(), Math.max(4, type.bytes), GpuBuffer.USAGE_INDEX);
-            return new Uploaded(v.buffer(), v, i.buffer(), type, m.drawState().indexCount(), baseVertex,
-                    RenderPasses.firstElement(i.offset(), type.bytes));
+            return new Uploaded(v, i.buffer(), type, m.drawState().indexCount(), RenderPasses.firstElement(i.offset(), type.bytes));
         }
 
         private static GpuBufferSlice transient_(ByteBuffer data, int alignment, int usage) {
@@ -519,7 +603,7 @@ public final class LegacyGl {
                     if (globals != null) pass.setUniform("Globals", globals);
                     replacedDefaults = projection != null || globals != null;
                 }
-                pass.setVertexBuffer(0, up.vertexSlice());   // the mesh's own slice (26.3: a transient buffer cannot be sliced whole)
+                pass.setVertexBuffer(0, up.vertices());   // never vertices().buffer().slice(): a transient buffer refuses it
                 var scissor = RenderSystem.getScissorStateForRenderTypeDraws();
                 if (scissor.enabled()) pass.enableScissor(scissor.x(), scissor.y(), scissor.width(), scissor.height());
                 for (int i = 0; i < 12; i++) {
@@ -531,7 +615,7 @@ public final class LegacyGl {
                             ? g.program().getProgramId() : -1, temps);
                 }
                 pass.setIndexBuffer(up.indices(), up.indexType());
-                pass.drawIndexed(up.indexCount(), 1, up.firstIndex(), 0, 0);   // the bound slice starts at the mesh
+                pass.drawIndexed(up.indexCount(), 1, up.firstIndex(), 0, 0);
             } finally {
                 try {
                     if (into == null) {

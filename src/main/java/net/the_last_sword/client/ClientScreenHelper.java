@@ -1,19 +1,18 @@
 package net.the_last_sword.client;
 
-import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.Minecraft;
 
 //client-only helper; must only be touched behind a client dist check
+//1.21.9+: Screen.hasShiftDown/hasControlDown are gone; Minecraft's own calls keep their behaviour (Cmd on macOS)
 public final class ClientScreenHelper {
     private ClientScreenHelper() {
     }
 
     public static boolean hasShiftDown() {
-        return InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)
-                || InputConstants.isKeyDown(InputConstants.KEY_RSHIFT);
+        return Minecraft.getInstance().hasShiftDown();
     }
 
     public static boolean hasControlDown() {
-        return InputConstants.isKeyDown(InputConstants.KEY_LCONTROL)
-                || InputConstants.isKeyDown(InputConstants.KEY_RCONTROL);
+        return Minecraft.getInstance().hasControlDown();
     }
 }

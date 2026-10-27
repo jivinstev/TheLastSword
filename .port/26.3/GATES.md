@@ -1,10 +1,11 @@
-Gates for `the_last_sword` at `b67146a` for Minecraft 26.3 (full environment) -- run by CI with no model and no fixes applied:
+Gates for `the_last_sword` at `3b430d0` for Minecraft 26.3 (full environment) -- run by CI with no model and no fixes applied:
 
 | check | result | detail |
 |---|---|---|
 | author's own build (`build`) | PASS | the_last_sword-26.3-neoforge-1.1.2-fix-fix.jar |
 | Gate A -- mixin-config integrity | PASS | 2 test(s) |
 | Data -- nothing NeoForge would silently ignore | PASS | 1.21-clean |
+| Wiring -- subscribers and capabilities against `origin/neoforge-26.2` (report) | REPORT | 1 to read: null side answered with null: src/main/java/net/the_last_sword/init/ModCapabilities.java:53 -- a menu that binds through getCapability(..., pos, null) is detached from the block (CATALOG 12e augment) |
 | Payloads -- every StreamCodec.unit payload has equal instances | PASS | audit-unit-codecs: checked 441 file(s), 0 finding(s) |
 | Data loads -- the server rejected none of the mod's data files | PASS | no rejection logged |
 | Gate B -- headless server loads the mod, GameTests | PASS | 6 required test(s) passed |
