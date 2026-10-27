@@ -1,7 +1,10 @@
 # shared-library helpers as installed (path blob): tools/fork-branches.py
 src/main/java/net/the_last_sword/mv/EntityOf.java 8347f8605106989e4f1b6652082dead3c33f8195
 src/main/java/net/the_last_sword/mv/Hurt.java 3ae57f8c4b8ce2195bb1bc6f1a47d84b38e4856a
+src/main/java/net/the_last_sword/mv/LegacyGl.java a4003791f39754b780dcc3564fa63923c0e75f95
+src/main/java/net/the_last_sword/mv/LegacyRenderType.java 1802a8b7394b348599739467733aa8cd1f03c770
 src/main/java/net/the_last_sword/mv/Nbt.java 723472a7930eb1d7215c405d53845075f7ae4410
+src/main/java/net/the_last_sword/mv/Owners.java 32bb77cdb512a39057fadc066aa387195197b58f
 src/main/java/net/the_last_sword/mv/RawGlTexture.java 9066cbcf4b141d1322e6f80a433dde9931c49cad
 src/main/java/net/the_last_sword/mv/RegIds.java 167541f677ec7391a32d888183946370cc3f477b
 src/main/java/net/the_last_sword/mv/RegisterShadersEvent.java a8d40b494d9d135856f1745f94e149431b63efe3
