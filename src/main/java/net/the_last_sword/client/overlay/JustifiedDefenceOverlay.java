@@ -6,7 +6,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.client.gui.Gui;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.the_last_sword.TheLastSwordMod;
@@ -130,12 +129,6 @@ public class JustifiedDefenceOverlay {
 
     //获取右侧HUD的高度偏移
     private static int getRightHeightOffset(Minecraft mc) {
-        try {
-            java.lang.reflect.Field f = Gui.class.getDeclaredField("rightHeight");
-            f.setAccessible(true);
-            return f.getInt((Gui) mc.gui);
-        } catch (ReflectiveOperationException | RuntimeException e) {
-            return 39; // vanilla default right-side HUD height
-        }
+        return mc.gui.hud.rightHeight;
     }
 }
