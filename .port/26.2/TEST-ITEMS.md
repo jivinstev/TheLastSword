@@ -8,7 +8,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/SwordWraithAppearanceScreen.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java` (client)
-- changed: `src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/overlay/JustifiedDefenceOverlay.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/overlay/PresentWorldAnchorHealthOverlay.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/renderer/DangerousSkillPreviewRenderer.java` (client)
