@@ -15,9 +15,18 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent 1.21.8 reviewer (round 2026-10-21, a subagent of session_01QvBGDeyD8NzMJ6LK1WpkrG), not the fixer
-- date: 2026-10-21
-- commit: dd2a73d
+- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-26, step 4; a subagent of session_01VJgb4LVyGz8nnExPrEfzbZ), not the fixer; earlier rows by the 2026-10-21 reviewer
+- date: 2026-10-27
+- commit: 9409649
+
+Re-review at 9409649 of the 6 review-relevant files changed since dd2a73d (the merge-up from 1.21.5 at 336620b, the
+shared library at b0fcbbd, the ECA r2 re-pin at 50d3045): branch.properties (only library./port_jar. of net.eca:eca
+move to eca-1.1.9-fix-mc1.21.8-r2 = EpicCoreAPI 87a3525, whose RaidDefinition still declares both bell hooks),
+shared-renames.tsv (new shared rows: opaque 6-digit text colours, getMaxBuildHeight -> getMaxY()+1, factory-reference
+registrations; the tree has no match left for any of them), mv/LegacyGl.java and mv/LegacyRenderType.java (`shared`
+rows below), util/EntityUtil.java and META-INF/accesstransformer.cfg (equal to the parent's files -- the TLS-053 fix
+reviewed on 1.21.5 -- so no row of their own: arrow.baseDamage is `public double baseDamage` in the AT-applied
+21.8.54 merged jar, javap). No existing verdict changes; 0 not-ok.
 
 | kind | file | verdict | note |
 |---|---|---|---|
@@ -168,4 +177,6 @@ Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-b
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | All 14 removed sends are displayClientMessage(msg,false): no message lost. |
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java | ok | 1.21.8 has no own copy now (deleted as identical); the inherited 1.21.5 file builds a SavedDataType with CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null)); save never reads registries (prepared :75). Same data as 1.21.1. |
 | changed | src/main/java/net/the_last_sword/mixin/EntityMixin.java | ok | Equal to the parent's file (the authors' new theLastSword$afterLoad: TrueHealthManager.migrateLegacyProtection + PresentWorldAnchorManager.refreshHealBanTickState on the server after load) but the handler takes net.minecraft.world.level.storage.ValueInput (1ac24b3) and the unused CompoundTag import is gone: 1.21.8's Entity has exactly one load, load(ValueInput) (Entity.java:1963), so @Inject(method="load", at=RETURN) binds it unambiguously and runs at the same point as 1.21.5's load(CompoundTag); the handler never reads the input. The new hook is not in the base inventory (INVENTORY.json predates it); the other EntityMixin injections are unchanged from the reviewed delta. |
-| changed | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ok | Re-checked at dd2a73d: equal to the parent's file but @OnlyIn(Dist.CLIENT) stripped from combatMusicExtension (strip_onlyin from 1.21.6, mechanical). The authors' shouldTeleportRaidersOnBell / shouldGlowRaidersOnBell now carry @Override (merged from 1.21.5): the re-pinned eca-1.1.9-fix-mc1.21.8 RaidDefinition declares both (the fix jar's RaidDefinition has shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell; Gate A compiles the @Override), so the bell teleports and glows the raiders as on the authors' code. |
+| changed | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ok | Re-checked at dd2a73d: equal to the parent's file but @OnlyIn(Dist.CLIENT) stripped from combatMusicExtension (strip_onlyin from 1.21.6, mechanical). The authors' shouldTeleportRaidersOnBell / shouldGlowRaidersOnBell now carry @Override (merged from 1.21.5): the re-pinned eca-1.1.9-fix-mc1.21.8 RaidDefinition declares both (the fix jar's RaidDefinition has shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell; Gate A compiles the @Override), so the bell teleports and glows the raiders as on the authors' code. Re-checked at 9409649: the r2 re-pin (eca-1.1.9-fix-mc1.21.8-r2, EpicCoreAPI 87a3525) keeps RaidDefinition.shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell (RaidDefinition.java:154,:165), so both @Override still bind. |
+| shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Re-checked at 9409649 (shared library b0fcbbd): the per-type Deque of saved states is replaced by LegacyGl.load(this, ...)/restore(this) on LegacyGl's one stack, and a throwing shader-shard setup restores before rethrowing; the unused ArrayDeque/Deque imports went with it. Same set-up/clear points as 1.21.4's setupRenderState/clearRenderState; no mod code calls them directly. |
+| shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Re-checked at 9409649 (shared library b0fcbbd): Saved carries its owner and the shader; one LOADED stack for every type, restore(owner) puts back the owner's newest entry and drops it and every later one (A,B set up, A cleared, B cleared ends with neither loaded; a nested same-type set-up pops one level), and once empty the bias/target only load sets go back to their defaults (0/null, nothing else writes them). load() takes the shader only when it is a ShaderInstance or Vanilla, so a type with no own shader keeps the setShader one, as 1.21.4's no-shader shard did; clear now also restores the shader that set-up replaced (1.21.4's ShaderStateShard left it set) -- harmless here: LegacyRenderType.draw passes its own shader (:145) and no mod class calls LegacyGl.drawWithShader, so nothing draws with the shader left after a clear. |
