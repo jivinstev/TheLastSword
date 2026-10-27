@@ -100,8 +100,11 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   so it runs in a normal world with a fixed seed (seed 1, whose nearest ruined village has the wizard tower at its
   centre). On 1.21.1 it passes: the discovery, the dragon crystal taken from the tower's item frame with "Familiar Gem"
   granted, and the fourth mage's note.
-- **Ends at the sealed spire:** its chunk crashes the game as it generates (TLS-056, S1), so its three stages run
-  last.
+- **The sealed spire's three stages run last.** Before TLS-056 was fixed its chunk crashed the game as it generated.
+- **2026-10-27, the whole story passes, 17/17 steps,** on `the_last_sword-1.1.2-fix-fix-mc1.21.1-r2` (built from
+  `af3a79d`, with the TLS-056 fix) and `eca-1.1.9-fix-mc1.21.1`, on both the Modrinth and the CurseForge builds:
+  the sealed spire generates and is discovered, the Lost Wraith is woken with a dragon egg and freed, and the
+  "where is she?" note is taken. Scripts 01-10 and 12 pass on both too. 1.21.4 does not have the fix yet.
 
 ## CurseForge builds (ECA's `_cf` jar), 2026-10-26
 

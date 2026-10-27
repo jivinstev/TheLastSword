@@ -3,6 +3,9 @@
 @world flat structures
 # the audio device complains when many sounds stop at once on arriving somewhere: not the mod's
 @allow error OpenAlUtil
+# the item frames in the traveler's hold and the sealed spire carry the authors' world coordinates (TileX/Y/Z), so
+# generation logs one ERROR each (PLAN.md): known, not what this script tests
+@allow error Block-attached entity at invalid position
 # The world is vanilla's superflat: the overworld has villages (enough for the blacksmith and the raid), and the Nether
 # and the End generate normally, the mod's structures included. Travel is @goto (vanilla /locate); every stage's
 # mechanic is the player's own doing. One stage is not reached here: the ruined village is placed only by the normal
@@ -46,9 +49,11 @@ spreadplayers ~ ~ 0 10 false @s
 # his first offer: 1 emerald for the scroll. Slots of the trade screen: 0-1 payment, 2 result, 30 the first hotbar slot
 give @s minecraft:emerald 1
 # go to him: he stands where he spawned, in the open (pulling him in front of the player can put a wall between)
-execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^1.8 facing entity @s
+# freeze him first, then step up to him: the player arrives last, so neither has moved when the crosshair is set
 execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}}] run data merge entity @s {NoAI:1b}
 @wait 15t
+execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^1.8 facing entity @s
+@wait 5t
 @aim entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest]
 @wait 2t
 @aim entity @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest]
@@ -229,9 +234,6 @@ execute at @e[type=minecraft:item,nbt={Item:{id:"the_last_sword:dragon_cult_secr
 @assert execute if entity @s[advancements={the_last_sword:nether_traveler_outpost=true}]
 
 @step S10 the traveler's hold, in the Nether
-# its two glow item frames carry the authors' world coordinates (TileX/Y/Z), so generation logs one ERROR each;
-# the frames survive and work (S11 takes the message from one) -- noise, not a defect
-@allow error Block-attached entity at invalid position
 @goto structure the_last_sword:travelers_hold in minecraft:the_nether
 # the mod checks its stages periodically (every 40 ticks): poll for this one, bounded
 @repeat 20 until execute if entity @s[advancements={the_last_sword:travelers_hold_discover=true}]
@@ -319,15 +321,16 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 # health, each hit capped at 10. The spire's own wraith is used; one is summoned only if this spot has none
 execute unless entity @e[type=the_last_sword:lost_wraith,distance=..96] run summon the_last_sword:lost_wraith ~ ~ ~4
 item replace entity @s weapon.mainhand with minecraft:dragon_egg
-execute if entity @e[type=the_last_sword:lost_wraith] at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] ^ ^ ^2
+# the spire can hold more than one wraith: every line names the nearest one, and the player steps up to it
+execute as @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^2 facing entity @s
 @wait 5t
-@aim entity the_last_sword:lost_wraith
+@aim entity @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest]
 @key key.use
 @expect chat bossshow.the_last_sword.lost_wraith.subtitle_1 within 10s
 @wait 8s
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
 # 400 health, each hit capped at 10: a bound of 80 strikes leaves room
-@repeat each @e[type=the_last_sword:lost_wraith,distance=..96] max 80 until execute unless entity {it}
+@repeat each @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] max 80 until execute unless entity {it}
 item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
 @key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
