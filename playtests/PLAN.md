@@ -106,6 +106,24 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   the sealed spire generates and is discovered, the Lost Wraith is woken with a dragon egg and freed, and the
   "where is she?" note is taken. Scripts 01-10 and 12 pass on both too. 1.21.4 does not have the fix yet.
 
+## The ladder, 2026-10-27 (CurseForge builds, the r2 pre-releases of every version)
+
+Every script on 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3:
+
+- Scripts 01-10 and 12 pass on every version. So the boss shows load on 1.21.10 and later, the queen can be fought
+  on 1.21.5 and later, and 1.21.8's opening scene no longer freezes.
+- The story passes 17/17 on 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3. It reaches the sealed spire on 1.21.4 and
+  1.21.5, which crash there (TLS-056). The fix is in none of these builds, and on 1.21.8 and later the spire happened
+  to generate without crashing in this run: the crash depends on which thread equips the guardians.
+- The structures' mobs carry a Forge 1.20.1 attribute id, `forge:step_height_addition`, in their saved data (the
+  sealed spire's, the traveler's hold's and the wizard tower's). Loading each one logs an ERROR on every version. The
+  mobs set their step height in code, so nothing in play changes. Re-saving the templates fixes this along with the
+  stale frame coordinates.
+- Script fixes from this pass:
+  - The blacksmith is met on a platform above the village: on 1.21.11 a block stood between the player and him.
+  - The ruined village's poll is 20 s.
+  - The carrier's `@goto` found no start piece on 26.3 (MMVU #192). With that fix the story passes there.
+
 ## CurseForge builds (ECA's `_cf` jar), 2026-10-26
 
 All twelve scripts were run on CurseForge-variant instances of 1.21.1 and 1.21.4. Every one passes there as on the

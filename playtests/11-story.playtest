@@ -6,6 +6,9 @@
 # the item frames in the traveler's hold and the sealed spire carry the authors' world coordinates (TileX/Y/Z), so
 # generation logs one ERROR each (PLAN.md): known, not what this script tests
 @allow error Block-attached entity at invalid position
+# their entities also carry a Forge 1.20.1 attribute id (forge:step_height_addition) that 1.21 no longer has: one
+# ERROR per entity as they load (PLAN.md)
+@allow error forge:step_height_addition
 # The world is vanilla's superflat: the overworld has villages (enough for the blacksmith and the raid), and the Nether
 # and the End generate normally, the mod's structures included. Travel is @goto (vanilla /locate); every stage's
 # mechanic is the player's own doing. One stage is not reached here: the ruined village is placed only by the normal
@@ -48,9 +51,11 @@ spreadplayers ~ ~ 0 10 false @s
 @step S3-S4 buy The Last End Scroll from him
 # his first offer: 1 emerald for the scroll. Slots of the trade screen: 0-1 payment, 2 result, 30 the first hotbar slot
 give @s minecraft:emerald 1
-# go to him: he stands where he spawned, in the open (pulling him in front of the player can put a wall between)
-# freeze him first, then step up to him: the player arrives last, so neither has moved when the crosshair is set
+# meet him on a platform above the village: on the ground a wall or a counter can stand between the two (the crosshair
+# then lands on a block). Freeze him first, then step up to him: the player arrives last, so neither has moved
 execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}}] run data merge entity @s {NoAI:1b}
+execute at @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] run fill ~-3 ~12 ~-3 ~3 ~12 ~3 minecraft:smooth_stone
+execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] at @s run tp @s ~ ~13 ~
 @wait 15t
 execute as @e[type=minecraft:villager,nbt={VillagerData:{profession:"minecraft:weaponsmith",level:5}},limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^1.8 facing entity @s
 @wait 5t
