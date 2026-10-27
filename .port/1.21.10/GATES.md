@@ -1,10 +1,11 @@
-Gates for `the_last_sword` at `bd461c6` for Minecraft 1.21.10 (full environment) -- run by CI with no model and no fixes applied:
+Gates for `the_last_sword` at `42590aa` for Minecraft 1.21.10 (full environment) -- run by CI with no model and no fixes applied:
 
 | check | result | detail |
 |---|---|---|
 | author's own build (`build`) | PASS | the_last_sword-1.21.10-neoforge-1.1.2-fix-fix.jar |
 | Gate A -- mixin-config integrity | PASS | 2 test(s) |
 | Data -- nothing NeoForge would silently ignore | PASS | 1.21-clean |
+| Wiring -- subscribers and capabilities against `origin/neoforge-1.21.8` (report) | REPORT | 9 to read: capability registration gone: register*(Capabilities.EnergyStorage.ITEM, (stack, context) -> ZeroPointEngine.createEnergyStorage(stack), ModItems.ZERO_POINT_ENG) is not in the tree any more (CATALOG 12e); capability registration gone: register*(Capabilities.EnergyStorage.ITEM, (stack, context) -> AncientEnergyCore.createEnergyStorage(stack), ModItems.ANCIENT_ENER) is not in the tree any more (CATALOG 12e); capability registration gone: register*(Capabilities.EnergyStorage.ITEM, (stack, context) -> new ItemEnergyStorage(stack, DisposableEnergyBattery::getMaxEnergy,) is not in the tree any more  |
 | Payloads -- every StreamCodec.unit payload has equal instances | PASS | audit-unit-codecs: checked 433 file(s), 0 finding(s) |
 | Data loads -- the server rejected none of the mod's data files | PASS | no rejection logged |
 | Gate B -- headless server loads the mod, GameTests | PASS | 6 required test(s) passed |

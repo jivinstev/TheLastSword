@@ -129,7 +129,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/test/UltraTestSwordItem.java` (client)
 - changed: `src/main/java/net/the_last_sword/util/EntityUtil.java`
 - changed: `src/main/java/net/the_last_sword/util/damage/AdvancedEquipmentDamageHandler.java`
-- resources: `src/main/resources/META-INF/accesstransformer.cfg @da1532e0fcc2`
+- resources: `src/main/resources/META-INF/accesstransformer.cfg @cf0bf795c98a`
 - resources: `src/main/resources/assets/the_last_sword/geckolib @5483cc454fde`
 - resources: `src/main/resources/assets/the_last_sword/models @cabccc755d37`
 - resources: `src/main/resources/assets/the_last_sword/textures @69325450eeb5`
