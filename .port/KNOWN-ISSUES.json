@@ -447,9 +447,9 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.10": "open",
-        "1.21.11": "open",
-        "26.1.2": "open"
+        "1.21.10": "fixed@aebb9e8",
+        "1.21.11": "fixed@aebb9e8",
+        "26.1.2": "fixed@aebb9e8"
       },
       "title": "TestEntityTheLastEndLayer.submit draws into the global bufferSource instead of the SubmitNodeCollector (outside the feature dispatcher's ordering)"
     },
@@ -672,10 +672,10 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@60b9fa0",
+        "26.1.2": "fixed@60b9fa0",
+        "26.2": "fixed@60b9fa0",
+        "26.3": "fixed@60b9fa0"
       },
       "title": "1.21.11+: CameraMixin bases the Queen triple-slash shake on the entity's rotation, not the camera's: in third-person front view the camera flips away during the shake; other mods' camera-angle edits are dropped"
     },
@@ -697,10 +697,10 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.11": "fixed@196ba64",
+        "26.1.2": "fixed@196ba64",
+        "26.2": "fixed@196ba64",
+        "26.3": "fixed@196ba64"
       },
       "title": "1.21.11+: Sword Wraith eye-glow and All-Things-End layers gated on willRender(): not drawn on an invisible Sword Wraith (1.21.10 and the authors drew them, as vanilla's eyes layer does)"
     },
@@ -1018,8 +1018,8 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "fixed@6195b50",
+        "26.3": "fixed@6195b50"
       },
       "title": "26.2+: JustifiedDefenceOverlay reads Gui.rightHeight by reflection, but 26.2 moved it to Hud: always 39, so the bar can overlap another mod's right-side HUD layer"
     },
@@ -1279,7 +1279,7 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.5": "open"
+        "1.21.5": "fixed@4be6d89"
       },
       "title": "EntityUtil.applyBowEnchantments adds Power on a fixed 2.0 base instead of the arrow's base damage, so Power-enchanted shootArrow arrows lose difficulty scaling (from 1.21.5)"
     },
@@ -1304,7 +1304,7 @@
       "severity": "S2",
       "source": "review",
       "status": {
-        "26.3": "open"
+        "26.3": "fixed@6997326"
       },
       "title": "26.3: mv/MultiBufferSource hands a transient buffer to vanilla drawFromBuffer for a vanilla render type drawn into an open pass (would throw 'Cannot slice transient buffer'); unreachable today"
     },
@@ -1323,14 +1323,14 @@
       "source": "player",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "open",
-        "1.21.11": "open",
+        "1.21.10": "fixed@2b76e3b",
+        "1.21.11": "fixed@2b76e3b",
         "1.21.4": "n/a",
-        "1.21.5": "open",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.5": "fixed@2b76e3b",
+        "1.21.8": "fixed@2b76e3b",
+        "26.1.2": "fixed@2b76e3b",
+        "26.2": "fixed@2b76e3b",
+        "26.3": "fixed@2b76e3b"
       },
       "title": "The Past Shadow of the Queen cannot be fought on 1.21.5 (intermittently), 1.21.8 and later: her boss show never starts (1.21.10+) or does not end (1.21.5, 1.21.8)"
     },
@@ -1355,7 +1355,7 @@
         "1.21.1": "fixed@cda5046",
         "1.21.10": "open",
         "1.21.11": "open",
-        "1.21.4": "fixed@cda5046",
+        "1.21.4": "open",
         "1.21.5": "open",
         "1.21.8": "open",
         "26.1.2": "open",
