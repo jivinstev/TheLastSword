@@ -9,7 +9,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/block/entity/DragonCrystalEnchantingTableBlockEntity.java`
 - changed: `src/main/java/net/the_last_sword/block/entity/DragonCrystalSmithingTableBlockEntity.java`
 - changed: `src/main/java/net/the_last_sword/client/ClientPacketHandler.java` (client)
-- changed: `src/main/java/net/the_last_sword/client/ClientScreenHelper.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/ClientTooltipHelper.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/DragonArmorEnergyDisplayPositionScreen.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java` (client)
