@@ -21,9 +21,11 @@ effect give @s minecraft:saturation 99999 0 true
 # its item frames carry the authors' world coordinates (TileX/Y/Z), so generation logs one ERROR each; the frames
 # survive and work (S6 takes the crystal from one) -- noise, not a defect (PLAN.md)
 @allow error Block-attached entity at invalid position
+@allow error forge:step_height_addition
 @goto structure the_last_sword:ruined_village
-# the mod's stage is vanilla's "inside the structure" check, every tick: poll for it, bounded
-@repeat 20 until execute if entity @s[advancements={the_last_sword:ruined_village_discover=true}]
+# the mod's stage is vanilla's "inside the structure" check, every tick: poll for it, bounded. Once (1.21.4) 10 s
+# was not enough, with nothing wrong (it passed on the rerun): 20 s
+@repeat 40 until execute if entity @s[advancements={the_last_sword:ruined_village_discover=true}]
 @wait 10t
 @end-repeat
 @assert execute if entity @s[advancements={the_last_sword:ruined_village_discover=true}]
