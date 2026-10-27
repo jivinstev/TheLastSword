@@ -1,6 +1,4 @@
 // OVERLAY-ONLY: shared fork-layer helper from mc-mod-version-upgrade templates/fork-layer/shared (not the authors' code).
-// MV-STAND-IN: shared/1.21.11's LegacyRenderType, unchanged. Only so the inherited targets/1.21.5/java/net/the_last_sword/mv/LegacyRenderType.java (the F1/F2 fix ahead of the
-// MV-STAND-IN: template, see that file) does not shadow this target's own shared copy. Delete when that 1.21.5 overlay is gone.
 // MV-REQUIRES: LegacyGl
 // MV-REQUIRES: ShaderInstance
 // MV-REQUIRES: ShaderShard
@@ -169,15 +167,24 @@ public class LegacyRenderType extends RenderType {
         this.state = state;
     }
 
-    /** 1.21.4's RenderType.setupRenderState: the texture / lightmap / overlay shards, then the shader's (the mod's override
-     *  pushes its uniforms there, as in 1.21.4). */
+    /** 1.21.4's RenderType.setupRenderState: the texture / lightmap / overlay shards, then the shader and the
+     *  transparency / depth / write-mask / cull / layering state it folded into the pipeline, loaded into {@link LegacyGl}
+     *  so a following {@code LegacyGl.drawWithShader} draws with them (see {@link LegacyGl#load}), then the shader shard's
+     *  own setup (the mod's override pushes its uniforms there, as in 1.21.4). */
     public void setupRenderState() {
         state.real.forEach(Shard::setupRenderState);
-        state.shader.setupRenderState();
+        LegacyGl.load(this, state.key, state.shader.shader(), getRenderTarget());
+        try {
+            state.shader.setupRenderState();
+        } catch (RuntimeException | Error e) {   // the mod's shard override threw: nothing of this type stays loaded
+            LegacyGl.restore(this);
+            throw e;
+        }
     }
 
     public void clearRenderState() {
         state.shader.clearRenderState();
+        LegacyGl.restore(this);
         state.real.forEach(Shard::clearRenderState);
     }
 
