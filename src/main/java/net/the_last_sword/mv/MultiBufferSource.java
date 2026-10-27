@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.renderpearl.api.buffers.GpuBuffer;
 import com.mojang.renderpearl.api.commands.RenderPass;
 import com.mojang.renderpearl.api.textures.GpuTextureView;
 import net.minecraft.client.Minecraft;
@@ -218,7 +219,8 @@ public interface MultiBufferSource {
             if (mesh == null) {
                 return;
             }
-            if (into == null ? LegacyGl.inRenderPass() : type instanceof LegacyRenderType l && !l.drawsIntoMainTarget()) {
+            if (into == null ? LegacyGl.inRenderPass() : type instanceof LegacyRenderType l ? !l.drawsIntoMainTarget()
+                    : LegacyRenderType.Copies.ownTarget(type)) {   // another mod's copy: its own target (CATALOG V117)
                 Deferred.add(type, mesh);
                 return;
             }
@@ -230,11 +232,17 @@ public interface MultiBufferSource {
                 }
                 return;
             }
+            if (LegacyRenderType.Copies.draw(type, mesh, into)) {
+                return;   // another mod's relocated LegacyRenderType (CATALOG V117): its own draw, which closes the mesh
+            }
             if (into != null) {
                 try (MeshData m = mesh) {
-                    LegacyGl.Uploaded up = LegacyGl.Uploaded.inPass(m);
-                    type.prepare().drawFromBuffer(new StagedVertexBuffer.ExecuteInfo(up.vertices(), up.indices(),
-                            up.indexType(), up.baseVertex(), up.firstIndex(), up.indexCount(), m.drawState().primitiveTopology()), into);
+                    // drawFromBuffer slices the vertex buffer it is given, which a transient one refuses: a buffer of its own
+                    LegacyGl.Uploaded up = LegacyGl.Uploaded.inPassOwnVertices(m);
+                    try (GpuBuffer vertices = up.vertices().buffer()) {
+                        type.prepare().drawFromBuffer(new StagedVertexBuffer.ExecuteInfo(vertices, up.indices(),
+                                up.indexType(), 0, up.firstIndex(), up.indexCount(), m.drawState().primitiveTopology()), into);
+                    }
                 }
                 return;
             }
@@ -246,7 +254,7 @@ public interface MultiBufferSource {
                 }
                 GpuTextureView depthView = target.getDepthTextureView();   // null: the target has no depth
                 LegacyGl.Uploaded up = LegacyGl.Uploaded.of(m);
-                StagedVertexBuffer.ExecuteInfo info = new StagedVertexBuffer.ExecuteInfo(up.vertices(), up.indices(),
+                StagedVertexBuffer.ExecuteInfo info = new StagedVertexBuffer.ExecuteInfo(up.vertices().buffer(), up.indices(),
                         up.indexType(), 0, 0, up.indexCount(), m.drawState().primitiveTopology());
                 try (RenderPass pass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
                         () -> "mv buffer source " + type, colorView, Optional.empty(), depthView, OptionalDouble.empty())) {
