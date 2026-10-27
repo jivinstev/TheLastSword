@@ -26,9 +26,6 @@ public class TheLastEndSwordWraithLayer<R extends EntityRenderState & GeoRenderS
     //GeckoLib 5.4: the layer hook takes the pass's RenderPassInfo; buildRenderTask is gone (GeoModelPass)
     @Override
     public void submitRenderTask(RenderPassInfo<R> renderPassInfo, SubmitNodeCollector renderTasks) {
-        if (!renderPassInfo.willRender()) {
-            return;
-        }
         R renderState = renderPassInfo.renderState();
         //外观在提取阶段记录（渲染状态不再持有实体）
         if (renderState.getGeckolibData(TheLastEndSwordWraithModel.APPEARANCE) != TheLastEndSwordWraithAppearance.DEFAULT) {
