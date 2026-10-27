@@ -623,7 +623,7 @@ public class EntityUtil {
         //力量附魔：增加箭矢伤害
         int powerLevel = bow.getEnchantmentLevel(ModHolders.enchantment(Enchantments.POWER));
         if (powerLevel > 0) {
-            arrow.setBaseDamage(2.0 + (double)powerLevel * 0.5 + 0.5);
+            arrow.setBaseDamage(arrow.baseDamage + (double)powerLevel * 0.5 + 0.5);
         }
 
         //冲击附魔：增加击退

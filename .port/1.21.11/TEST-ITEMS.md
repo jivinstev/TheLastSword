@@ -9,7 +9,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/LostWraithSealLayer.java` (client)
-- changed: `src/main/java/net/the_last_sword/client/layer/TestEntityTheLastEndLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/TheLastEndSwordWraithTheLastEndLayer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/layer/ThePastShadowOfTheQueenItemLayer.java` (client)
@@ -62,7 +61,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/test/UltraTestSwordItem.java` (client)
 - changed: `src/main/java/net/the_last_sword/util/EntityUtil.java`
-- resources: `src/main/resources/META-INF/accesstransformer.cfg @a58c46ff61c0`
+- resources: `src/main/resources/META-INF/accesstransformer.cfg @c8dfd02b0ce0`
 - stub: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/model/DragonCultPriestModel.java` (client)
