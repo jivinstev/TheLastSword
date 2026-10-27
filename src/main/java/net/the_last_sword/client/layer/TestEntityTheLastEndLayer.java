@@ -1,9 +1,7 @@
 package net.the_last_sword.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
-
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -14,7 +12,6 @@ import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.client.shader.TheLastEndEffect;
 import net.the_last_sword.client.shader.TheLastEndRenderTypes;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 
 //测试实体的 The Last End 星空剑刃特效渲染层
@@ -37,18 +34,22 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
         float yRot,
         float xRot
     ) {
+        //1.21.9+: queue the model on the SubmitNodeCollector so the feature dispatcher orders it with the entity
+        //26.3: submitModel has no trailing crumbling argument; NeoForgeRenderTypes.getItemLayeredTranslucent is gone (entityTranslucentCull)
         //检查着色器是否可用
         if (!TheLastEndEffect.isAvailable()) {
             //降级：使用半透明渲染
-            collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucentCull(TEXTURE), (pose, vertexConsumer) -> {
-                this.getParentModel().renderToBuffer(
-                    poseStack,
-                    vertexConsumer,
-                    15728880,  // 最大亮度
-                    LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-                    0xCCFFFFFF  // ARGB (80%透明度)
-                );
-            });
+            collector.submitModel(
+                this.getParentModel(),
+                entity,
+                poseStack,
+                RenderTypes.entityTranslucentCull(TEXTURE),
+                15728880,  // 最大亮度
+                LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
+                0xCCFFFFFF,  // ARGB (80%透明度)
+                null,
+                entity.outlineColor
+            );
             return;
         }
 
@@ -59,14 +60,16 @@ public class TestEntityTheLastEndLayer extends RenderLayer<HumanoidRenderState, 
         RenderType renderType = TheLastEndRenderTypes.createEntityEffect(TEXTURE);
 
         //渲染实体模型
-        collector.submitCustomGeometry(poseStack, renderType, (pose, vertexConsumer) -> {
-            this.getParentModel().renderToBuffer(
-                poseStack,
-                vertexConsumer,
-                packedLight,  // 使用原始光照
-                LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
-                0xFFFFFFFF  // ARGB (完全不透明)
-            );
-        });
+        collector.submitModel(
+            this.getParentModel(),
+            entity,
+            poseStack,
+            renderType,
+            packedLight,  // 使用原始光照
+            LivingEntityRenderer.getOverlayCoords(entity, 0.0f),
+            0xFFFFFFFF,  // ARGB (完全不透明)
+            null,
+            entity.outlineColor
+        );
     }
 }
