@@ -36,9 +36,6 @@ public class TheLastEndSwordWraithTheLastEndLayer<R extends EntityRenderState & 
     //GeckoLib 5.4: the layer hook takes the pass's RenderPassInfo; buildRenderTask is gone (GeoModelPass)
     @Override
     public void submitRenderTask(RenderPassInfo<R> renderPassInfo, SubmitNodeCollector renderTasks) {
-        if (!renderPassInfo.willRender()) {
-            return;
-        }
         R renderState = renderPassInfo.renderState();
 
         //只在万物终焉状态下渲染

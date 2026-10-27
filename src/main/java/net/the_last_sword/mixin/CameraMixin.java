@@ -35,8 +35,8 @@ public abstract class CameraMixin {
         }
         if (entity == Minecraft.getInstance().player && QueenTripleSlashScreenShake.isActive()) {
             Camera camera = (Camera) (Object) this;
-            float yaw = entity.getYRot() + QueenTripleSlashScreenShake.getYawOffset(partialTick);
-            float pitch = Mth.clamp(entity.getXRot()
+            float yaw = camera.yRot() + QueenTripleSlashScreenShake.getYawOffset(partialTick);
+            float pitch = Mth.clamp(camera.xRot()
                     + QueenTripleSlashScreenShake.getPitchOffset(partialTick), -90.0F, 90.0F);
             setRotation(yaw, pitch);
         }
