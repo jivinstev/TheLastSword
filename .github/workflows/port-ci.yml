@@ -101,17 +101,17 @@ jobs:
           java-version: "21"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.9-mc1.21.8 from the eca-1.1.9-fix-mc1.21.8-r2 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.9-mc1.21.8 from the eca-1.1.9-fix-mc1.21.8-r3 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r2/epic-core-api-1.1.9-fix_mr.jar"
-          echo "2e3e50bd7d39594ca505f339548fd79a096152602ea7f69d990d63efd8434aa1  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r3/epic-core-api-1.1.9-fix_mr.jar"
+          echo "ee887beb3c74e23b825119e6e0bf45afe8b5057efdb7388e1a28c78c1227479f  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.9-mc1.21.8</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.pom"
-      - name: eca 1.1.9-mc1.21.8 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc1.21.8-r2 release instead (pinned by sha256)
+      - name: eca 1.1.9-mc1.21.8 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc1.21.8-r3 release instead (pinned by sha256)
         if: matrix.variant == 'cf'
         run: |
-          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r2/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar"
-          echo "60f08cdeb6dec48b8be6c38acc132ab5961e5cdd1eebfe05d0dd5e9ffb1b5a77  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
+          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r3/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar"
+          echo "771dc30f8f5d045a7e57d0424cd2c9aab823279d3c3e369d9c2d1b242e4a19a7  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
       - name: Build and gates
         run: |
           git fetch --no-tags origin "forge-1.20.1"
