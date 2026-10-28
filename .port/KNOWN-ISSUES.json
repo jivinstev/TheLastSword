@@ -1353,14 +1353,14 @@
       "source": "player",
       "status": {
         "1.21.1": "fixed@cda5046",
-        "1.21.10": "open",
-        "1.21.11": "open",
-        "1.21.4": "open",
-        "1.21.5": "open",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.10": "fixed@e989cd3",
+        "1.21.11": "fixed@e989cd3",
+        "1.21.4": "fixed@e989cd3",
+        "1.21.5": "fixed@e989cd3",
+        "1.21.8": "fixed@e989cd3",
+        "26.1.2": "fixed@e989cd3",
+        "26.2": "fixed@e989cd3",
+        "26.3": "fixed@e989cd3"
       },
       "title": "Singleplayer crash when the sealed spire generates: its guardians get the CLIENT's enchantment holders (ModHolders, a port helper), and the chunk save fails"
     }
