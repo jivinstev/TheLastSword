@@ -89,11 +89,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0          # the author's branch is needed: mixins they left unlisted stay exempt
-      - name: Port CI kit v57 (pinned by sha256)
+      - name: Port CI kit v58 (pinned by sha256)
         run: |
           curl -fsSL -o "$RUNNER_TEMP/kit.tar.gz" \
-            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v57/port-ci-kit-v57.tar.gz"
-          echo "ef2fa09b0bd98ac418c90c79c5327d696a0d2e793318d53294c181f765fda0d6  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
+            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v58/port-ci-kit-v58.tar.gz"
+          echo "70d50ddda1c07fe74b050f358ac179d1cdeef5f01aa834dff3c686d0f3f37fb7  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
           mkdir -p .port-tools && tar -xzf "$RUNNER_TEMP/kit.tar.gz" -C .port-tools
       - uses: actions/setup-java@v4
         with:
@@ -101,17 +101,17 @@ jobs:
           java-version: "21"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.9-mc1.21.8 from the eca-1.1.9-fix-mc1.21.8-r2 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.9-mc1.21.8 from the eca-1.1.9-fix-mc1.21.8-r3 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r2/epic-core-api-1.1.9-fix_mr.jar"
-          echo "2e3e50bd7d39594ca505f339548fd79a096152602ea7f69d990d63efd8434aa1  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r3/epic-core-api-1.1.9-fix_mr.jar"
+          echo "ee887beb3c74e23b825119e6e0bf45afe8b5057efdb7388e1a28c78c1227479f  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.9-mc1.21.8</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.pom"
-      - name: eca 1.1.9-mc1.21.8 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc1.21.8-r2 release instead (pinned by sha256)
+      - name: eca 1.1.9-mc1.21.8 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc1.21.8-r3 release instead (pinned by sha256)
         if: matrix.variant == 'cf'
         run: |
-          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r2/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar"
-          echo "60f08cdeb6dec48b8be6c38acc132ab5961e5cdd1eebfe05d0dd5e9ffb1b5a77  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
+          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc1.21.8-r3/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar"
+          echo "771dc30f8f5d045a7e57d0424cd2c9aab823279d3c3e369d9c2d1b242e4a19a7  $HOME/.m2/repository/net/eca/eca/1.1.9-mc1.21.8/eca-1.1.9-mc1.21.8.jar" | sha256sum -c -
       - name: Build and gates
         run: |
           git fetch --no-tags origin "forge-1.20.1"
@@ -245,12 +245,12 @@ jobs:
       # branch only, and only where the branch has a manifest. The commit sits on top of the
       # tag, so publish (needs: promote) still finds the tag in the branch's history. A failure here is reported and
       # never stops publish.
-      - name: Port CI kit v57 (pinned by sha256)
+      - name: Port CI kit v58 (pinned by sha256)
         if: ${{ github.ref_name == 'neoforge-1.21.8' && hashFiles('.github/port-install.json') != '' }}
         run: |
           curl -fsSL -o "$RUNNER_TEMP/kit.tar.gz" \
-            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v57/port-ci-kit-v57.tar.gz"
-          echo "ef2fa09b0bd98ac418c90c79c5327d696a0d2e793318d53294c181f765fda0d6  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
+            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v58/port-ci-kit-v58.tar.gz"
+          echo "70d50ddda1c07fe74b050f358ac179d1cdeef5f01aa834dff3c686d0f3f37fb7  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
           mkdir -p .port-tools && tar -xzf "$RUNNER_TEMP/kit.tar.gz" -C .port-tools
       - name: Refresh the install manifest
         if: ${{ github.ref_name == 'neoforge-1.21.8' && hashFiles('.github/port-install.json') != '' }}
@@ -262,7 +262,7 @@ jobs:
           set -euo pipefail
           if ! printf '%s' "$TAG" | grep -Eq '^[A-Za-z0-9._+-]+$'; then echo "::error::not a release tag: $TAG"; exit 1; fi
           if [ ! -f .port-tools/tools/port-manifest.py ]; then
-            echo "::warning::Port CI kit v57 has no port-manifest.py: regenerate this workflow with a newer kit"; exit 0
+            echo "::warning::Port CI kit v58 has no port-manifest.py: regenerate this workflow with a newer kit"; exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -291,11 +291,11 @@ jobs:
         with:
           ref: "neoforge-1.21.8"
           fetch-depth: 0          # tags and history, to prove the tag was built from this branch
-      - name: Port CI kit v57 (pinned by sha256)
+      - name: Port CI kit v58 (pinned by sha256)
         run: |
           curl -fsSL -o "$RUNNER_TEMP/kit.tar.gz" \
-            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v57/port-ci-kit-v57.tar.gz"
-          echo "ef2fa09b0bd98ac418c90c79c5327d696a0d2e793318d53294c181f765fda0d6  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
+            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v58/port-ci-kit-v58.tar.gz"
+          echo "70d50ddda1c07fe74b050f358ac179d1cdeef5f01aa834dff3c686d0f3f37fb7  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
           mkdir -p .port-tools && tar -xzf "$RUNNER_TEMP/kit.tar.gz" -C .port-tools
       - name: Publish to Modrinth and CurseForge
         env:
@@ -316,11 +316,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: "neoforge-1.21.8"
-      - name: Port CI kit v57 (pinned by sha256)
+      - name: Port CI kit v58 (pinned by sha256)
         run: |
           curl -fsSL -o "$RUNNER_TEMP/kit.tar.gz" \
-            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v57/port-ci-kit-v57.tar.gz"
-          echo "ef2fa09b0bd98ac418c90c79c5327d696a0d2e793318d53294c181f765fda0d6  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
+            "https://github.com/jivinstev/mc-mod-version-upgrade/releases/download/port-ci-kit-v58/port-ci-kit-v58.tar.gz"
+          echo "70d50ddda1c07fe74b050f358ac179d1cdeef5f01aa834dff3c686d0f3f37fb7  $RUNNER_TEMP/kit.tar.gz" | sha256sum -c -
           mkdir -p .port-tools && tar -xzf "$RUNNER_TEMP/kit.tar.gz" -C .port-tools
       - name: Create the Modrinth draft project
         env:
