@@ -15,9 +15,9 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-10-26 reviewer subagent, https://claude.ai/code/session_01VJgb4LVyGz8nnExPrEfzbZ, started for this review only), not the fixer
-- date: 2026-10-26
-- commit: 75e6a273f9318804552207488e7339e09ad0acb2
+- reviewer: fresh agent (round 2026-10-27 reviewer subagent, https://claude.ai/code/session_01Cvm3m6SAgwsKPw2mAYeD4t, started for this review only), not the fixer
+- date: 2026-10-27
+- commit: 33c07e5
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
@@ -36,6 +36,22 @@ shared-renames.tsv gains rows (factory-reference entering supplier, getMaxBuildH
 committed source here. EntityUtil stays not-ok (unfixed at 5f797c4).
 
 Re-checked 2026-10-26 at 75e6a27 by a fresh re-checker (round 2026-10-26 recheck subagent, neither the reviewer nor the fixer): only the rows check-done reported stale since 5f797c4 -- git diff 5f797c4..75e6a27 -- src is the fixer's 4be6d89 (EntityUtil.java, accesstransformer.cfg); 75e6a27 is records only. Both rows ok; not-ok rows left: 0.
+
+Fresh review 2026-10-27 at 33c07e5 (keep-current round 2026-10-27: merge of neoforge-1.21.4 648b3c2, ECA re-pin f6dda56,
+CI 33c07e5). check-done added no `?` row; it reported the record stale for 2 files since 75e6a27. (1) ModHolders.java
+(TLS-056, e989cd3 on 1.21.4, reviewed there at 25a9121): byte-identical to neoforge-1.21.4 at the merge-base b06e041, so
+not part of this version's diff and no row; read anyway at 33c07e5: client registries only on the client thread
+(Minecraft.isSameThread, present in 1.21.5: the 648b3c2 jar's ModHolders$Client calls it), the server's on every other
+thread incl. worldgen workers, the client's as the multiplayer fallback -- right for 1.21.5. (2) branch.properties: only
+library.jivinstev/EpicCoreAPI and port_jar / port_jar_prerelease of net.eca:eca change, r2 -> eca-1.1.9-fix-mc1.21.5-r3
+(sha256 8295696f..., = ~/.m2 net/eca/eca/1.1.9-mc1.21.5 jar); r2..r3 changes in src only ECA's AgentLoader (ECA-042,
+putBoolean for ALLOW_ATTACH_SELF), no API this mod calls (no net.eca.agent use here). git diff 75e6a27..33c07e5 touches
+no other src file, renames.tsv, STUBS.json, REMERGE.json, moves/shared-renames/shared-helpers or resource group, so every
+row's verdict was re-read against the tree and stands; spot-checked the EntityUtil, accesstransformer, sword hurtEnemy and
+block onRemove rows against git diff b06e041..33c07e5. Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (310 same,
+63 moved, 8 changed, 29 dropped: dropped are the ProjectE / Iron's Spells compat with no NeoForge build, decision-recorded;
+moved/changed are covered by item rows or STUBS.json). Local A/B gates at 648b3c2 (same src as 33c07e5 bar the ECA jar)
+PASS; GATES.md still names 697bad9 (the driver's re-run). not-ok rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
