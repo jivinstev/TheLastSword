@@ -6,9 +6,9 @@
 # the item frames in the traveler's hold and the sealed spire carry the authors' world coordinates (TileX/Y/Z), so
 # generation logs one ERROR each (PLAN.md): known, not what this script tests
 @allow error Block-attached entity at invalid position
-# their entities also carry a Forge 1.20.1 attribute id (forge:step_height_addition) that 1.21 no longer has: one
-# ERROR per entity as they load (PLAN.md)
-@allow error forge:step_height_addition
+# their entities also carry Forge 1.20.1 attribute ids (forge:step_height_addition, forge:entity_gravity) that 1.21 no
+# longer has: one ERROR per attribute as they load (PLAN.md; entity_gravity seen once, 1.21.5 r3, in the hold)
+@allow error forge:(step_height_addition|entity_gravity)
 # The world is vanilla's superflat: the overworld has villages (enough for the blacksmith and the raid), and the Nether
 # and the End generate normally, the mod's structures included. Travel is @goto (vanilla /locate); every stage's
 # mechanic is the player's own doing. One stage is not reached here: the ruined village is placed only by the normal
