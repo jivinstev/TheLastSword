@@ -106,6 +106,22 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   the sealed spire generates and is discovered, the Lost Wraith is woken with a dragon egg and freed, and the
   "where is she?" note is taken. Scripts 01-10 and 12 pass on both too. 1.21.4 does not have the fix yet.
 
+## The ladder, 2026-10-28 (CurseForge builds, the r3 pre-releases of every version, carrier v5)
+
+Every script on 1.21.1, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3: 108 of 108 pass, the story
+17/17 on every version. The r3 builds carry the TLS-056 fix (`ModHolders$Client.onClientThread`), and the sealed spire
+no longer crashes anywhere, 1.21.4 and 1.21.5 included.
+
+- No new defect in the mod. The same structures also carry a second stale Forge attribute id,
+  `forge:entity_gravity`; it logged once (1.21.5, the traveler's hold). Same cause and fix as `step_height_addition`.
+- Not the mod's:
+  - Seven runs failed to open the game window: the display had slept. They pass on the rerun.
+  - The ruined village went undiscovered on 1.21.10 and 26.2. The carrier's `@goto` took the first structure start in
+    the chunk, a mineshaft's underground there, not the village's; fixed in the carrier (MMVU). With it, all three
+    versions rerun reach the tower and are granted the stage at once. Standing in the tower grants it within 3 s, even
+    after it is revoked.
+- Script fix: both scripts allow `forge:(step_height_addition|entity_gravity)`.
+
 ## The ladder, 2026-10-27 (CurseForge builds, the r2 pre-releases of every version)
 
 Every script on 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3:
