@@ -1,4 +1,4 @@
-Gates for `the_last_sword` at `c1b490c` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
+Gates for `the_last_sword` at `5a17792` for Minecraft 1.21.11 (full environment) -- run by CI with no model and no fixes applied:
 
 | check | result | detail |
 |---|---|---|
