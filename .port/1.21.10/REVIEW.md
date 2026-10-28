@@ -13,9 +13,26 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent session_01VJgb4LVyGz8nnExPrEfzbZ (keep-current weekly round, step 4: one full review of every row against the fixed rubric at 54b6803, merge-base cd7a09f with neoforge-1.21.8; notes prefixed "Full review at 54b6803"), not the fixer; re-checked by a fresh re-checker agent of the same round (neither the reviewer nor the fixer) at 66e0e64: only the rows check-done reported stale since the review (notes prefixed "Re-check at 66e0e64")
-- date: 2026-10-27
-- commit: 66e0e64
+- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-28, step 4; a subagent of session_01Cvm3m6SAgwsKPw2mAYeD4t, started for this review only), not the fixer; earlier rows by the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
+- date: 2026-10-28
+- commit: 17dad80
+
+Fresh review 2026-10-28 at 17dad80 (keep-current round: merge of neoforge-1.21.8 32af598, ECA r3 re-pin 4577335, drift
+record 073f9fd, CI 17dad80; merge-base 68faa1b with neoforge-1.21.8). check-done added no `?` row; it reported the
+record stale for 2 files since 66e0e64.
+(1) ModHolders.java (TLS-056, e989cd3 on 1.21.4, reviewed on 1.21.4/1.21.5/1.21.8): against neoforge-1.21.8 at the
+merge-base it differs only by FMLEnvironment.dist -> FMLEnvironment.getDist() (shared-renames.tsv), a rename-only file,
+so no row; read anyway: the client's registries only on the client's own thread (Minecraft.isSameThread), the server's
+on every other thread incl. worldgen workers, the client's as the multiplayer fallback; the built jar's ModHolders calls
+FMLEnvironment.getDist() and ModHolders$Client calls Minecraft.isSameThread (javap) -- right for 1.21.10.
+(2) branch.properties: only library.jivinstev/EpicCoreAPI and port_jar / port_jar_prerelease of net.eca:eca change, r2 ->
+eca-1.1.9-fix-mc1.21.10-r3 (sha256 690cd9fa..., = ~/.m2 net/eca/eca/1.1.9-mc1.21.10 jar); r2..r3 changes in src only ECA's
+agent/AgentLoader.java (2 lines), no API this mod calls (no net.eca.agent use here). git diff 66e0e64..17dad80 touches no
+other src file, renames.tsv, STUBS.json, REMERGE.json, moves/shared-renames/shared-helpers or resource group, so every
+row's verdict was re-read against the tree and stands (200 rows, all ok). GATES.md's Wiring REPORT (9 to read) is the
+record at 42590aa, rows already accounted (the energy capability moves are the renames/ModCapabilities rows).
+Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []. Open outside this record: GATES.md names 42590aa
+(the driver's re-run), and the ECA 1.21.10 library is a pre-release, not done. not-ok rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
