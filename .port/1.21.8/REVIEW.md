@@ -15,9 +15,29 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-26, step 4; a subagent of session_01VJgb4LVyGz8nnExPrEfzbZ), not the fixer; earlier rows by the 2026-10-21 reviewer
-- date: 2026-10-27
-- commit: 9409649
+- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-28, step 4; a subagent of session_01Cvm3m6SAgwsKPw2mAYeD4t, started for this review only), not the fixer; earlier rows by the 2026-10-26 and 2026-10-21 reviewers
+- date: 2026-10-28
+- commit: 6c5fd39
+
+Fresh review 2026-10-28 at 6c5fd39 (keep-current round: merge of neoforge-1.21.5 b48ca11, ECA r3 re-pin 7f7385b, drift
+record 4b7903d, CI 6c5fd39). check-done added no `?` row; it reported the record stale for 2 files since 9409649.
+(1) ModHolders.java (TLS-056, e989cd3 on 1.21.4, reviewed there at 25a9121 and on 1.21.5 at 150afe5): byte-identical to
+neoforge-1.21.5 at the merge-base df188b7, so not part of this version's diff and no row; read anyway: the client's
+registries only on the client's own thread (Minecraft.isSameThread, present in the 21.8.54 merged jar, javap), the
+server's on every other thread incl. worldgen workers, the client's as the multiplayer fallback; FMLEnvironment.dist is
+still a field on 21.8; the built jar's ModHolders$Client calls Minecraft.isSameThread -- right for 1.21.8.
+(2) branch.properties: only library.jivinstev/EpicCoreAPI and port_jar / port_jar_prerelease of net.eca:eca change, r2 ->
+eca-1.1.9-fix-mc1.21.8-r3 (sha256 ee887beb..., = ~/.m2 net/eca/eca/1.1.9-mc1.21.8 jar); r2..r3 changes in src only ECA's
+agent/AgentLoader.java (ECA-042), no API this mod calls (no net.eca.agent use here). git diff 9409649..6c5fd39 touches no
+other src file, renames.tsv, STUBS.json, REMERGE.json, moves/shared-renames/shared-helpers or resource group, so every row's
+verdict was re-read against the tree and stands; spot-checked the JourneyLogsScreen, LostWraithSealLayer,
+DragonCrystalEnchantingTableScreen (setTextColor), LightningSpearBurstRenderer and ModCapabilities rows in the HEAD tree.
+GATES.md's Wiring REPORT (ModCapabilities.java:50, the smithing table's null side answered with null) is inherited
+unchanged from the parent and harmless: only DragonCrystalEnchantingTableMenu binds through getCapability(..., pos, null),
+and the enchanting table's null side returns InvWrapper (TLS-049). Behaviour inventory: INVENTORY-CHECK.json unaccounted []
+(298 same, 72 moved, 11 changed, 29 dropped: dropped are the ProjectE / Iron's Spells compat with no NeoForge build,
+decision-recorded; moved/changed are covered by item rows or STUBS.json). Open outside this record: GATES.md names 5f308d1
+(the driver's re-run), and the ECA 1.21.8 library is a pre-release, not done. not-ok rows left: 0.
 
 Re-review at 9409649 of the 6 review-relevant files changed since dd2a73d (the merge-up from 1.21.5 at 336620b, the
 shared library at b0fcbbd, the ECA r2 re-pin at 50d3045): branch.properties (only library./port_jar. of net.eca:eca
