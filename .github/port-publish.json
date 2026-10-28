@@ -22,7 +22,7 @@
     "jivinstev/EpicCoreAPI#2"
   ],
   "differences": [
-    "The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global \"AllReturn\" in this version. That's an experimental feature that didn't play well with some other mods on 1.21.1."
+    "The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global \"AllReturn\" in this port. That's an experimental feature that didn't play well with some other mods."
   ],
   "original_name": "The Last Sword You Never Forgot",
   "dependencies": [
@@ -42,13 +42,14 @@
     }
   ],
   "modrinth": {
-    "slug": "the-last-sword-you-never-forgot-neoforge",
+    "slug": "",
     "asset": ""
   },
   "curseforge": {
     "project_id": 1743242,
     "slug": "the-last-sword-you-never-forgot-community-port-neoforge",
-    "asset": ""
+    "asset": "",
+    "manual_release": true
   },
   "environment": "client_and_server",
   "disclosures": [
