@@ -2,9 +2,9 @@
 
 **The original:** The Last Sword You Never Forgot by CJiangqiu -- [Modrinth](https://modrinth.com/mod/the-last-sword-you-never-forgot) · [CurseForge](https://www.curseforge.com/minecraft/mc-mods/the-last-sword-you-never-forgot) · [source](https://github.com/CJiangqiu/TheLastSword)
 
-**Unofficial.** A community-maintained port of **The Last Sword You Never Forgot** by **CJiangqiu** to NeoForge 1.21.1. It is not made or supported by CJiangqiu: please report problems with this port [on its own issue tracker](https://github.com/jivinstev/TheLastSword/issues), not to the original author.
+**Unofficial.** A community-maintained port of **The Last Sword You Never Forgot** by **CJiangqiu** to newer versions of NeoForge. It is not made or supported by CJiangqiu: please report problems with this port [on its own issue tracker](https://github.com/jivinstev/TheLastSword/issues), not to the original author.
 
-**Scope:** NeoForge, Minecraft 1.21.1 and newer. Builds are published for Minecraft 1.21.1.
+**Scope:** NeoForge, Minecraft 1.21.1 and newer. Builds are published for Minecraft 1.21.1, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3: pick the file for your version.
 
 Published with the original author's permission (https://github.com/CJiangqiu/EpicCoreAPI/issues/9), under the original MIT licence with its copyright notice kept.
 
@@ -15,14 +15,14 @@ Published with the original author's permission (https://github.com/CJiangqiu/Ep
 
 ## How it differs from the original
 
-- Runs on **NeoForge 1.21.1**.
-- The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global "AllReturn" in this version. That's an experimental feature that didn't play well with some other mods on 1.21.1.
+- Runs on **NeoForge**, one build per Minecraft version from 1.21.1 to 26.3.
+- The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global "AllReturn" in this port. That's an experimental feature that didn't play well with some other mods.
 
 ## Requirements
 
-- Required: the community port of https://github.com/jivinstev/EpicCoreAPI (the same NeoForge 1.21.1 port, published alongside this one)
-- Required: [geckolib](https://modrinth.com/mod/geckolib)
-- Required: [curios](https://modrinth.com/mod/curios)
+- Required: [Epic Core API - Community Port](https://www.curseforge.com/minecraft/mc-mods/epic-core-api-community-port-neoforge), the file for the same Minecraft version
+- Required: [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib)
+- Required: [Curios API](https://www.curseforge.com/minecraft/mc-mods/curios)
 
 ## How releases are made
 
