@@ -1421,6 +1421,32 @@
         "26.2": "open"
       },
       "title": "26.2: the perceptionGlowing Entity mixin reads the entity id before it is assigned: a monster spawner's display mob fails to load (IllegalStateException, logged), so the End structures' spawners show no mob"
+    },
+    {
+      "id": "TLS-059",
+      "lowest": "1.21.1",
+      "notes": "Carried from the fix-ledger issue #1 (trim-icon, S3) when fix-ledger issues were retired, 2026-10-29: fixed by ours e1d6bdb on 1.1.1, then by the authors' ef6e300 (1.1.2), which every version branch carries.",
+      "override": null,
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "feature",
+        "visibility": "rare",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "authors",
+      "status": {
+        "1.21.1": "fixed@ef6e300",
+        "1.21.10": "fixed@ef6e300",
+        "1.21.11": "fixed@ef6e300",
+        "1.21.4": "fixed@ef6e300",
+        "1.21.5": "fixed@ef6e300",
+        "1.21.8": "fixed@ef6e300",
+        "26.1.2": "fixed@ef6e300",
+        "26.2": "fixed@ef6e300",
+        "26.3": "fixed@ef6e300"
+      },
+      "title": "Dragon-crystal-trimmed dragon crystal armour showed the missing texture as its inventory icon (trims/items/*_trim_dragon_crystal missing)"
     }
   ],
   "schema": 1
