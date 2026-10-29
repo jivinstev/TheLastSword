@@ -17,10 +17,7 @@
     "magic",
     "technology"
   ],
-  "ledger_issues": [
-    "jivinstev/TheLastSword#1",
-    "jivinstev/EpicCoreAPI#2"
-  ],
+  "ledger_issues": [],
   "differences": [
     "The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global \"AllReturn\" in this port. That's an experimental feature that didn't play well with some other mods."
   ],
