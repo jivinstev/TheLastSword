@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
-  "loader": "forge:separate_transforms",
+  "loader": "neoforge:separate_transforms",
   "textures": {
     "particle": "the_last_sword:item/dragon_crystal_grimoire_3d"
   },
