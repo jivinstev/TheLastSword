@@ -40,9 +40,9 @@ public final class SpellIntegration {
     public static Item createDragonCrystalGrimoire() {
         return new SpellBook(12, new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.UNCOMMON))
             .withSpellbookAttributes(
-                new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.5, AttributeModifier.Operation.MULTIPLY_BASE),
-                new AttributeContainer(AttributeRegistry.CAST_TIME_REDUCTION, 0.5, AttributeModifier.Operation.MULTIPLY_BASE),
-                new AttributeContainer(AttributeRegistry.COOLDOWN_REDUCTION, 0.5, AttributeModifier.Operation.MULTIPLY_BASE)
+                new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                new AttributeContainer(AttributeRegistry.CAST_TIME_REDUCTION, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                new AttributeContainer(AttributeRegistry.COOLDOWN_REDUCTION, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             );
     }
 
