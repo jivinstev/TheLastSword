@@ -1382,6 +1382,7 @@
         "reason": "blocked functionality in a mod integration: the crown does nothing and five more accessories lose their stat bonus on 8 of 9 versions, no workaround",
         "severity": "S2"
       },
+      "player": "Curios accessories' stat bonuses don't apply yet: the Dragon Crystal crown has no effect, and the ring, necklace, Extreme Life Support Device, Dimension Explorer and The Giver's Pain keep their other effects without their health, attack, armour, speed or justified-defence bonuses; Wings That Cover the World work fully. Being worked on",
       "rubric": {
         "failure": "functional",
         "reach": "feature",
