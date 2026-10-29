@@ -1363,6 +1363,63 @@
         "26.3": "fixed@e989cd3"
       },
       "title": "Singleplayer crash when the sealed spire generates: its guardians get the CLIENT's enchantment holders (ModHolders, a port helper), and the chunk save fails"
+    },
+    {
+      "files": [
+        "build.gradle",
+        "src/main/java/net/the_last_sword/compat/curios/DimensionExplorer.java",
+        "src/main/java/net/the_last_sword/compat/curios/DragonCrystalCrown.java",
+        "src/main/java/net/the_last_sword/compat/curios/DragonCrystalNecklace.java",
+        "src/main/java/net/the_last_sword/compat/curios/DragonCrystalRing.java",
+        "src/main/java/net/the_last_sword/compat/curios/ExtremeLifeSupportDevice.java",
+        "src/main/java/net/the_last_sword/compat/curios/TheGiversPain.java"
+      ],
+      "id": "TLS-057",
+      "lowest": "1.21.4",
+      "notes": "Playtest 2026-10-28 on CurseForge installs: on 26.1.2, 26.2 and 26.3 the dragon crystal ring worn in its ring slot leaves max_justified_defence at 0.0 (wings in the back slot do give survival flight: curioTick runs). Curios 10.0.1 (1.21.4) through 17.0.0-beta.3 (26.3): CuriosApi.getAttributeModifiers -> ICurioItem.forEachModifier(stack, ...) -> ICurioItem.getAttributeModifiers(ItemStack) (the CurioAttributeModifiers data component) only; Curios 9.5.1 (1.21.1) called ICurio.getAttributeModifiers(SlotContext, id). Affected: ring (+6 max justified defence), necklace (-10 max health, +0.5 recovery speed), crown (+200 health, +20 attack/armour/toughness), life support device (toughness), dimension explorer (+50% speed), the giver's pain (+attack damage/speed). Fix direction: give each item its curios:attribute_modifiers component (Item.Properties.component(CuriosDataComponents.ATTRIBUTE_MODIFIERS, ...)) or add them in CurioAttributeModifierEvent, and build each branch against its own Curios version. 1.21.4..1.21.11 are confirmed from Curios's code only: their /curios replace refuses every slot (CurioArgumentType.slotIds is filled at ServerAboutToStart, before the slots load -- a Curios bug), so a playtest equips through the Curios screen there.",
+      "override": {
+        "by": "jivinstev",
+        "reason": "blocked functionality in a mod integration: the crown does nothing and five more accessories lose their stat bonus on 8 of 9 versions, no workaround",
+        "severity": "S2"
+      },
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "always",
+        "workaround": false
+      },
+      "severity": "S2",
+      "source": "player",
+      "status": {
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "open",
+        "1.21.5": "open",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "1.21.4+: the Curios accessories' stat bonuses never apply -- Curios 10+ reads a curio's modifiers only from its curios:attribute_modifiers item data, and the per-item getAttributeModifiers override the port kept (built against Curios 9.5.1 on every branch) is never called"
+    },
+    {
+      "id": "TLS-058",
+      "lowest": "26.2",
+      "notes": "Playtest 2026-10-28 (11-story S13 the lost altar, S17 the Wound of Time, CurseForge install, 26.2.0.90): 24 x 'Exception loading entity ... Caused by: IllegalStateException: Tried to access entity ID before ID assignment at Entity.handler$...$the_last_sword$theLastSword$perceptionGlowing', from BaseSpawner.getOrCreateDisplayEntity via SpawnerRenderer.extractRenderState. Not seen on any other version in the same run (each visited the same structures). No crash. Intermittent: the same story on the same install logged none in the next run (2026-10-28); it shows when a spawner is drawn at those spots.",
+      "override": null,
+      "pattern": "perceptionGlowing",
+      "rubric": {
+        "failure": "cosmetic",
+        "reach": "normal",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S3",
+      "source": "player",
+      "status": {
+        "26.2": "open"
+      },
+      "title": "26.2: the perceptionGlowing Entity mixin reads the entity id before it is assigned: a monster spawner's display mob fails to load (IllegalStateException, logged), so the End structures' spawners show no mob"
     }
   ],
   "schema": 1
