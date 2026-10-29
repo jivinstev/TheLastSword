@@ -106,6 +106,33 @@ language's bounded loops: each mob is struck until it falls, and each quest stag
   the sealed spire generates and is discovered, the Lost Wraith is woken with a dragon egg and freed, and the
   "where is she?" note is taken. Scripts 01-10 and 12 pass on both too. 1.21.4 does not have the fix yet.
 
+## From CurseForge, 2026-10-28 (the published files, carrier v6 and its structure-tag fix)
+
+Every version installed the way a player gets it: the port's CurseForge file and its three required relations (the
+Epic Core API port, GeckoLib, Curios), each the newest file CurseForge serves for that version -- every one the same
+sha256 as the r3 ladder's. Scripts 01-10 and 12 pass on all nine versions; the story 17/17 on all nine.
+
+- New defects in the mod:
+  - TLS-057 (S3): on 1.21.4 and later, the Curios accessories' stat bonuses never apply. Curios 10+ reads a curio's
+    modifiers only from its `curios:attribute_modifiers` item data, and the port kept the per-item
+    `getAttributeModifiers` override, built against Curios 9.5.1 on every branch, which nothing calls. Per-tick
+    effects (the wings' flight) still work. Played on 26.1.2, 26.2 and 26.3; 1.21.4 to 1.21.11 from Curios's code.
+  - TLS-058 (S3): on 26.2, the `perceptionGlowing` Entity mixin reads the entity id before it is assigned, so a
+    monster spawner's display mob fails to load (the lost altar, the Wound of Time). Seen in one of two runs.
+- New script: `13-curios-accessories` wears the ring, necklace, crown and wings in their Curios slots and checks
+  each bonus comes and goes. 1.21.1: 5/5. 26.x: the wings pass, the three stat bonuses fail (TLS-057). 1.21.4 to
+  1.21.11: every equip fails at `/curios replace` -- Curios 10 to 14 fill the command's slot list before the slots
+  load, so it refuses every slot (Curios's bug; the Curios screen equips fine). It uses only ids every version
+  shares: vanilla attribute ids changed at 1.21.2 and a script cannot branch on the version.
+- Not the mod's:
+  - The story's village stages failed on 1.21.4, 1.21.5 and 1.21.10 with carrier v6: its `@goto` matched a
+    structure tag (`#minecraft:village`) against no structure and left the player outside the village. Fixed in the
+    carrier (MMVU #201); with it every version passes them.
+  - 26.1.2 crashed once in vanilla's light engine (a NullPointerException, no mod frame) during 12-ruined-village,
+    while carriers were being built alongside. It passes on the rerun.
+- Script fix: S15 woke the spire's own Lost Wraith, which hangs in chains inside a cage of blocks; on 1.21.1 the
+  crosshair hit the cage and the egg never reached it. The step now summons a tagged wraith into a pocket of open air.
+
 ## The ladder, 2026-10-28 (CurseForge builds, the r3 pre-releases of every version, carrier v5)
 
 Every script on 1.21.1, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3: 108 of 108 pass, the story

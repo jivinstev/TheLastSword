@@ -323,19 +323,23 @@ item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_ne
 
 @step S15 free the Lost Wraith
 # a dragon egg on the sleeping wraith wakes it (its boss show plays, a 110-tick wake), then it must be beaten: 400
-# health, each hit capped at 10. The spire's own wraith is used; one is summoned only if this spot has none
-execute unless entity @e[type=the_last_sword:lost_wraith,distance=..96] run summon the_last_sword:lost_wraith ~ ~ ~4
+# health, each hit capped at 10. The spire's own wraith hangs in chains inside a cage of blocks that the crosshair hits
+# first (measured on 1.21.1: "crosshair on miss", the egg never reached it), so a wraith is summoned into a pocket of
+# open air in front of the player and tagged, and every line names that one
+# the glass block makes the fill change something wherever the pocket is already open (a command that changes nothing fails)
+setblock ~ ~1 ~2 minecraft:glass
+fill ~-2 ~ ~1 ~2 ~3 ~5 minecraft:air
+summon the_last_sword:lost_wraith ~ ~ ~3 {Tags:["pt_wraith"]}
 item replace entity @s weapon.mainhand with minecraft:dragon_egg
-# the spire can hold more than one wraith: every line names the nearest one, and the player steps up to it
-execute as @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^2 facing entity @s
+execute as @e[tag=pt_wraith,limit=1] at @s rotated as @s rotated ~ 0 run tp @p ^ ^ ^2 facing entity @s
 @wait 5t
-@aim entity @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest]
+@aim entity @e[tag=pt_wraith,limit=1]
 @key key.use
 @expect chat bossshow.the_last_sword.lost_wraith.subtitle_1 within 10s
 @wait 8s
 item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
 # 400 health, each hit capped at 10: a bound of 80 strikes leaves room
-@repeat each @e[type=the_last_sword:lost_wraith,limit=1,sort=nearest] max 80 until execute unless entity {it}
+@repeat each @e[tag=pt_wraith,limit=1] max 80 until execute unless entity {it}
 item replace entity @s hotbar.8 with the_last_sword:the_last_sword_you_never_forgot
 @key key.hotbar.9
 execute as {it} run data merge entity @s {NoAI:1b}
