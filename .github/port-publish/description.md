@@ -1,4 +1,4 @@
-# The Last Sword You Never Forgot - Community Port (1.21.1+)
+# The Last Sword You Never Forgot - Community Port (NeoForge)
 
 **The original:** The Last Sword You Never Forgot by CJiangqiu -- [Modrinth](https://modrinth.com/mod/the-last-sword-you-never-forgot) · [CurseForge](https://www.curseforge.com/minecraft/mc-mods/the-last-sword-you-never-forgot) · [source](https://github.com/CJiangqiu/TheLastSword)
 
@@ -23,6 +23,12 @@ Published with the original author's permission (https://github.com/CJiangqiu/Ep
 - Required: [Epic Core API - Community Port](https://www.curseforge.com/minecraft/mc-mods/epic-core-api-community-port-neoforge), the file for the same Minecraft version
 - Required: [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib)
 - Required: [Curios API](https://www.curseforge.com/minecraft/mc-mods/curios)
+
+## Known issues
+
+- **Minecraft 1.21.4 to 26.3:** Curios accessories' stat bonuses don't apply yet: the Dragon Crystal crown has no effect, and the ring, necklace, Extreme Life Support Device, Dimension Explorer and The Giver's Pain keep their other effects without their health, attack, armour, speed or justified-defence bonuses; Wings That Cover the World work fully. Being worked on.
+
+Smaller known issues, and more detail on these: [Known issues](https://github.com/jivinstev/TheLastSword/issues/84).
 
 ## How releases are made
 
