@@ -113,7 +113,7 @@ Epic Core API port, GeckoLib, Curios), each the newest file CurseForge serves fo
 sha256 as the r3 ladder's. Scripts 01-10 and 12 pass on all nine versions; the story 17/17 on all nine.
 
 - New defects in the mod:
-  - TLS-057 (S3): on 1.21.4 and later, the Curios accessories' stat bonuses never apply. Curios 10+ reads a curio's
+  - TLS-057 (S2, the owner's grade): on 1.21.4 and later, the Curios accessories' stat bonuses never apply. Curios 10+ reads a curio's
     modifiers only from its `curios:attribute_modifiers` item data, and the port kept the per-item
     `getAttributeModifiers` override, built against Curios 9.5.1 on every branch, which nothing calls. Per-tick
     effects (the wings' flight) still work. Played on 26.1.2, 26.2 and 26.3; 1.21.4 to 1.21.11 from Curios's code.

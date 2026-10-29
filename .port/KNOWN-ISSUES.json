@@ -1377,14 +1377,18 @@
       "id": "TLS-057",
       "lowest": "1.21.4",
       "notes": "Playtest 2026-10-28 on CurseForge installs: on 26.1.2, 26.2 and 26.3 the dragon crystal ring worn in its ring slot leaves max_justified_defence at 0.0 (wings in the back slot do give survival flight: curioTick runs). Curios 10.0.1 (1.21.4) through 17.0.0-beta.3 (26.3): CuriosApi.getAttributeModifiers -> ICurioItem.forEachModifier(stack, ...) -> ICurioItem.getAttributeModifiers(ItemStack) (the CurioAttributeModifiers data component) only; Curios 9.5.1 (1.21.1) called ICurio.getAttributeModifiers(SlotContext, id). Affected: ring (+6 max justified defence), necklace (-10 max health, +0.5 recovery speed), crown (+200 health, +20 attack/armour/toughness), life support device (toughness), dimension explorer (+50% speed), the giver's pain (+attack damage/speed). Fix direction: give each item its curios:attribute_modifiers component (Item.Properties.component(CuriosDataComponents.ATTRIBUTE_MODIFIERS, ...)) or add them in CurioAttributeModifierEvent, and build each branch against its own Curios version. 1.21.4..1.21.11 are confirmed from Curios's code only: their /curios replace refuses every slot (CurioArgumentType.slotIds is filled at ServerAboutToStart, before the slots load -- a Curios bug), so a playtest equips through the Curios screen there.",
-      "override": null,
+      "override": {
+        "by": "jivinstev",
+        "reason": "blocked functionality in a mod integration: the crown does nothing and five more accessories lose their stat bonus on 8 of 9 versions, no workaround",
+        "severity": "S2"
+      },
       "rubric": {
         "failure": "functional",
         "reach": "feature",
         "visibility": "always",
         "workaround": false
       },
-      "severity": "S3",
+      "severity": "S2",
       "source": "player",
       "status": {
         "1.21.10": "open",
