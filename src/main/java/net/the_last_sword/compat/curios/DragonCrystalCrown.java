@@ -31,6 +31,12 @@ public class DragonCrystalCrown extends Item implements ICurioItem {
         super(net.the_last_sword.mv.RegIds.stamp(new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).fireResistant());
     }
 
+    // Port, TLS-057: Curios 10+ reads only these (CurioModifierDefaults); the authors' per-slot override below has no slot use.
+    @Override
+    public top.theillusivec4.curios.api.CurioAttributeModifiers getDefaultCurioAttributeModifiers(ItemStack stack) {
+        return CurioModifierDefaults.of(getAttributeModifiers(null, null, stack));
+    }
+
     @Override
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();

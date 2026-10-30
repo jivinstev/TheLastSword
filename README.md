@@ -13,6 +13,7 @@ Visit the mod's [official wiki](https://github.com/CJiangqiu/TheLastSword/wiki) 
 
 Parts of this mod draw inspiration from *The Elder Scrolls V: Skyrim*, *Elden Ring*, *Fate/Grand Order*, and other works.
 
+Community Edition (If you want to play on newer Minecraft versions):https://www.curseforge.com/minecraft/mc-mods/the-last-sword-you-never-forgot-community-port-neoforge
 ***
 
 # Embark on a Journey to Reforge The Last Sword
@@ -552,15 +553,15 @@ the_last_sword_custom/
 
 | Minecraft | Branch | Newest build | Done |
 |---|---|---|---|
-| 1.21.1 | [`neoforge-1.21.1`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.1) | [`the_last_sword-1.1.2-mc1.21.1`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.1) (release) | head |
-| 1.21.4 | [`neoforge-1.21.4`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.4) | [`the_last_sword-1.1.2-mc1.21.4`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.4) (pre-release) | not done |
-| 1.21.5 | [`neoforge-1.21.5`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.5) | [`the_last_sword-1.1.2-mc1.21.5`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.5) (pre-release) | not done |
-| 1.21.8 | [`neoforge-1.21.8`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.8) | [`the_last_sword-1.1.2-mc1.21.8`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.8) (pre-release) | not done |
-| 1.21.10 | [`neoforge-1.21.10`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.10) | [`the_last_sword-1.1.2-mc1.21.10-r2`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.10-r2) (pre-release) | not done |
-| 1.21.11 | [`neoforge-1.21.11`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.11) | [`the_last_sword-1.1.2-mc1.21.11`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc1.21.11) (pre-release) | not done |
-| 26.1.2 | [`neoforge-26.1.2`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.1.2) | [`the_last_sword-1.1.2-mc26.1.2`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc26.1.2) (pre-release) | not done |
-| 26.2 | [`neoforge-26.2`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.2) | [`the_last_sword-1.1.2-mc26.2`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc26.2) (pre-release) | not done |
-| 26.3 | [`neoforge-26.3`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.3) | [`the_last_sword-1.1.2-mc26.3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-mc26.3) (pre-release) | not done |
+| 1.21.1 | [`neoforge-1.21.1`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.1) | [`the_last_sword-1.1.2-fix-fix-mc1.21.1-r4`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.1-r4) (pre-release) | head |
+| 1.21.4 | [`neoforge-1.21.4`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.4) | [`the_last_sword-1.1.2-fix-fix-mc1.21.4-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.4-r3) (release) | not done |
+| 1.21.5 | [`neoforge-1.21.5`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.5) | [`the_last_sword-1.1.2-fix-fix-mc1.21.5-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.5-r3) (release) | not done |
+| 1.21.8 | [`neoforge-1.21.8`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.8) | [`the_last_sword-1.1.2-fix-fix-mc1.21.8-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.8-r3) (release) | not done |
+| 1.21.10 | [`neoforge-1.21.10`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.10) | [`the_last_sword-1.1.2-fix-fix-mc1.21.10-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.10-r3) (release) | not done |
+| 1.21.11 | [`neoforge-1.21.11`](https://github.com/jivinstev/TheLastSword/tree/neoforge-1.21.11) | [`the_last_sword-1.1.2-fix-fix-mc1.21.11-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc1.21.11-r3) (release) | not done |
+| 26.1.2 | [`neoforge-26.1.2`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.1.2) | [`the_last_sword-1.1.2-fix-fix-mc26.1.2-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc26.1.2-r3) (release) | not done |
+| 26.2 | [`neoforge-26.2`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.2) | [`the_last_sword-1.1.2-fix-fix-mc26.2-r3`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc26.2-r3) (release) | not done |
+| 26.3 | [`neoforge-26.3`](https://github.com/jivinstev/TheLastSword/tree/neoforge-26.3) | [`the_last_sword-1.1.2-fix-fix-mc26.3-r4`](https://github.com/jivinstev/TheLastSword/releases/tag/the_last_sword-1.1.2-fix-fix-mc26.3-r4) (pre-release) | not done |
 
 Known issues: [`.port/KNOWN-ISSUES.json` on `neoforge-1.21.1`](https://github.com/jivinstev/TheLastSword/blob/neoforge-1.21.1/.port/KNOWN-ISSUES.json)
 <!-- ports:end -->
