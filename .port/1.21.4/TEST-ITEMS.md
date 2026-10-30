@@ -29,6 +29,12 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/client/renderer/ThePastShadowOfTheQueenRenderer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/renderer/WingsThatCoverTheWorldRenderer.java` (client)
 - changed: `src/main/java/net/the_last_sword/client/shader/TheLastEndRenderTypes.java` (client)
+- changed: `src/main/java/net/the_last_sword/compat/curios/DimensionExplorer.java`
+- changed: `src/main/java/net/the_last_sword/compat/curios/DragonCrystalCrown.java`
+- changed: `src/main/java/net/the_last_sword/compat/curios/DragonCrystalNecklace.java` (client)
+- changed: `src/main/java/net/the_last_sword/compat/curios/DragonCrystalRing.java`
+- changed: `src/main/java/net/the_last_sword/compat/curios/ExtremeLifeSupportDevice.java` (client)
+- changed: `src/main/java/net/the_last_sword/compat/curios/TheGiversPain.java`
 - changed: `src/main/java/net/the_last_sword/compat/curios/WingsThatCoverTheWorld.java`
 - changed: `src/main/java/net/the_last_sword/compat/irons_spellbooks/IronsSpellsCompat.java`
 - changed: `src/main/java/net/the_last_sword/compat/lucky_block/TheLastEndLuckyBlockDisplayItem.java`

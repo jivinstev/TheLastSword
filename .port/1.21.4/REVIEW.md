@@ -150,3 +150,9 @@ Migrated from the layer's .multiversion/targets/1.21.4/REVIEW.md by tools/fork-b
 | changed | src/main/java/net/the_last_sword/init/ModCreativeTabs.java | ? | ? |
 | changed | src/main/java/net/the_last_sword/mixin/VillagerHostilesSensorMixin.java | ? | ? |
 | resources | src/main/resources/assets/the_last_sword/items @e41a78101e83 | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/DimensionExplorer.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/DragonCrystalCrown.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/DragonCrystalNecklace.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/DragonCrystalRing.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/ExtremeLifeSupportDevice.java | ? | ? |
+| changed | src/main/java/net/the_last_sword/compat/curios/TheGiversPain.java | ? | ? |
