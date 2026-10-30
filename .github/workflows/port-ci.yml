@@ -127,17 +127,17 @@ jobs:
           java-version: "25"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.9-mc26.1.2 from the eca-1.1.9-fix-mc26.1.2-r3 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.9-mc26.1.2 from the eca-1.1.9-fix-fix-mc26.1.2 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc26.1.2-r3/epic-core-api-1.1.9-fix_mr.jar"
-          echo "45e7fa510aa34d6e89bdfe6f93087353b038df645fdf5e9f682834e050a60829  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc26.1.2/epic-core-api-1.1.9-fix-fix_mr.jar"
+          echo "59b4048cfa856a909d773c09c645cbc856e252ae9d8faeca9d881a3e3d1d84c6  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.9-mc26.1.2</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.pom"
-      - name: eca 1.1.9-mc26.1.2 -- the epic-core-api-1.1.9-fix_cf.jar variant from the eca-1.1.9-fix-mc26.1.2-r3 release instead (pinned by sha256)
+      - name: eca 1.1.9-mc26.1.2 -- the epic-core-api-1.1.9-fix-fix_cf.jar variant from the eca-1.1.9-fix-fix-mc26.1.2 release instead (pinned by sha256)
         if: matrix.variant == 'cf'
         run: |
-          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-mc26.1.2-r3/epic-core-api-1.1.9-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar"
-          echo "6ff3c7d0e45e14745b592fda58fac02e5c93623f2d67bfab1cdca5f924b5f5b3  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" | sha256sum -c -
+          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc26.1.2/epic-core-api-1.1.9-fix-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar"
+          echo "36072c25db65dcc3d148bae3989856d5d259777fdcdfa15fbb7be4d66310ab7b  $HOME/.m2/repository/net/eca/eca/1.1.9-mc26.1.2/eca-1.1.9-mc26.1.2.jar" | sha256sum -c -
       - name: Dependent gate -- candidate dependency jars instead of the pinned ones (dep_override)
         if: ${{ inputs.dep_override }}
         env:
