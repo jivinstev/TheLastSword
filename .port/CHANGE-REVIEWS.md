@@ -126,3 +126,7 @@ commit_current). Written by the keep-current round driver; a union record.
 | `.port/26.1.2/branch.properties` | 44e0d908dc97d585898c789bdd88d7b8737dacee | 08c89c7050a997f6e5e25a23bf832948255cb765 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | a01939c9531ad9ea2cb5e9fc037cbe09090a249c | 81819a59e5a7bee610da50051dcd5d76de3ee01d | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/util/EntityUtil.java` | 4321e4a41313d2c0c0049170181e90cf23d5c06f | 824f23438cf010dee22790388e799ae4a28fe7a0 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `.port/26.2/REMERGE.json` | c6a8c4f1c863c7aed676e1b76e72aca511256747 | 6cff921b65c4c361cbfed4a3a260985b7f1617ca | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
+| `.port/26.2/branch.properties` | 41a03093b6cdb0ce740063a346d1f45dbfd91665 | 68f261462fc26bc291995155c519dc5431bf2876 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java` | 282b3c579de4dd60c20b09f07432c4a691631f89 | 1c5f7e22bda1658366ffc925d9ce75bab11da499 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | 57827950cd0fb33dab023d0fa4d0b98d17a9d7ef | e715be983e0d9dadfd1d27d8aa731a21bd026039 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
