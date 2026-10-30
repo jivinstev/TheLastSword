@@ -10,6 +10,7 @@ net/the_last_sword/compat/irons_spellbooks/GroupProtectionSpell.java
 net/the_last_sword/compat/irons_spellbooks/JudgmentThunderSpell.java
 net/the_last_sword/compat/irons_spellbooks/PhasingSpell.java
 net/the_last_sword/compat/irons_spellbooks/SpellIntegration.java
+net/the_last_sword/compat/irons_spellbooks/SpellcastingClientIntegration.java
 net/the_last_sword/compat/irons_spellbooks/TheLastEndCrystalSpell.java
 net/the_last_sword/compat/irons_spellbooks/TransmutationStaffCasting.java
 net/the_last_sword/compat/irons_spellbooks/TransmutationStaffMana.java

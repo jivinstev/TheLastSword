@@ -15,9 +15,40 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-28, step 4; a subagent of session_01Cvm3m6SAgwsKPw2mAYeD4t, started for this review only), not the fixer; earlier rows by the 2026-10-26 and 2026-10-21 reviewers
-- date: 2026-10-28
-- commit: 6c5fd39
+- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-30, step 4; a subagent of session_01Cvm3m5qHxFwKkCQPUvKFUW, started for this review only), not the fixer; earlier rows by the 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
+- date: 2026-10-30
+- commit: 8c0684a
+
+Fresh review 2026-10-30 at 8c0684a (keep-current round: the authors' d20ec4c merge cascaded 1.21.1 -> 1.21.4 -> 1.21.5
+-> 1.21.8 -- f6f13dc, f718ce5, 98cc974, 8c0684a -- with TLS-057 (66583c4), the ECA fix-fix re-pin 2e99252 and CI 2180937).
+check-done added no `?` row; it reported the record stale for 58 files since 6c5fd39. The version's own diff over the
+parent (merge-base e7e0283) has the same file list as at 6c5fd39 (over df188b7), and for every file in it the added and
+removed lines are identical to those reviewed then; so every row's verdict was re-read against the new parent content and
+stands. Read in the HEAD tree: (1) the 7 own-diff files the cascade touched -- DragonCrystalNecklace / ExtremeLifeSupport
+Device (same ClientPlayer holder; the authors' TLS-057 getDefaultCurioAttributeModifiers via CurioModifierDefaults is
+equal to the parent and is on Curios 12.0.0+1.21.8 file 7642207: ICurioItem.getDefaultCurioAttributeModifiers(ItemStack)
+and CurioAttributeModifiers.builder() present, javap), DragonCultist/PaladinEntity (ValueInput/ValueOutput pass-throughs),
+LivingEntityMixin (same readAdditionalSaveData ValueInput handler; the authors' new onSyncedDataUpdated HEAD handler is
+inherited unchanged), WraithSummonManager (the codec/TagValueOutput overlay composes with the authors' +89-line summon
+changes; no new save/load call), the_last_sword.mixins.json (SpecialModelWrapperMixin as before; the authors' new
+IronGolemMixin / VillagerHostilesSensorMixin entries inherited). (2) The four REMERGE entries check-done lists as not
+merged (DragonCultTargetGoals, IronGolemDragonCultTargetGoal, VillagerHostilesSensorMixin, ModCreativeTabs) all carry the
+authors' change, adapted exactly as 1.21.5 adapted it and equal to 1.21.5's file: NearestAttackableTargetGoal's
+TargetingConditions.Selector is (target, level) and isMatchingEntity is (ServerLevel, LivingEntity, LivingEntity) in the
+21.8.54 merged jar (javap); ModCreativeTabs' grimoire/scroll block is the Iron's Spells drop (DEPS.md, drops.txt). They
+fail only the verbatim added-lines test; the entries are bookkeeping for the driver (clear with cascade
+--apply-decisions), not a behaviour loss. (3) Gates at 8c0684a (build/mc1.21.8/fork-port/ci-gates-summary.md): build,
+Gate A, Data, Payloads, Data loads, Gate B (6 GameTests) PASS; Wiring REPORT is the inherited ModCapabilities.java:50
+note judged harmless at 6c5fd39. Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (298 same, 72 moved, 11 changed,
+29 dropped), but .port/INVENTORY.json predates the authors' d20ec4c merge (layer-inventory check: "the authors' src/
+changed since INVENTORY.json was built"). Checked against a rebuild in scratch (427 items, 23 new, 6 gone -- not
+committed): unaccounted [], 309 same, 72 moved, 11 changed, 35 dropped; the new hooks (IronGolemMixin registerGoals TAIL,
+VillagerHostilesSensorMixin isMatchingEntity HEAD, LivingEntityMixin onSyncedDataUpdated HEAD, EntityMixin load RETURN,
+SummonInputHandler's 5 events) are `same`; the new Iron's Spells / ProjectE @Inject forms are dropped with their
+compat (drops.txt). Nits, not verdicts: 13 files keep an unused OnlyIn import after the 1.21.6 strip_onlyin rule
+(e.g. DragonCrystalNecklace.java:20), as at 6c5fd39. Open outside this record: GATES.md names 9265fb5 (no Gate C at
+8c0684a yet), .port/INVENTORY.json needs `layer-inventory.py build` committed, the four REMERGE entries need clearing,
+and the ECA 1.21.8 library is a pre-release, not done. not-ok rows left: 0.
 
 Fresh review 2026-10-28 at 6c5fd39 (keep-current round: merge of neoforge-1.21.5 b48ca11, ECA r3 re-pin 7f7385b, drift
 record 4b7903d, CI 6c5fd39). check-done added no `?` row; it reported the record stale for 2 files since 9409649.
