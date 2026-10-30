@@ -127,17 +127,17 @@ jobs:
           java-version: "21"
       - name: Software OpenGL for the client gate
         run: sudo apt-get update && sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
-      - name: eca 1.1.9-fix from the eca-1.1.9-fix-fix-mc1.21.1 release into mavenLocal (pinned by sha256)
+      - name: eca 1.1.9-fix from the eca-1.1.9-fix-fix-mc1.21.1-r2 release into mavenLocal (pinned by sha256)
         run: |
           mkdir -p "$HOME/.m2/repository/net/eca/eca/1.1.9-fix"
-          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc1.21.1/epic-core-api-1.1.9-fix-fix_mr.jar"
-          echo "1c6f844ce5ed759799ee528fe6209092f6bba5c174151a76ffeb7daaa882fa46  $HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" | sha256sum -c -
+          curl -fsSL -o "$HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc1.21.1-r2/epic-core-api-1.1.9-fix-fix_mr.jar"
+          echo "a86608f554695fc190a67fc4402dd31eacaf3867548a5612235cf421d58a5af7  $HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" | sha256sum -c -
           echo '<project><modelVersion>4.0.0</modelVersion><groupId>net.eca</groupId><artifactId>eca</artifactId><version>1.1.9-fix</version><packaging>jar</packaging></project>' > "$HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.pom"
-      - name: eca 1.1.9-fix -- the epic-core-api-1.1.9-fix-fix_cf.jar variant from the eca-1.1.9-fix-fix-mc1.21.1 release instead (pinned by sha256)
+      - name: eca 1.1.9-fix -- the epic-core-api-1.1.9-fix-fix_cf.jar variant from the eca-1.1.9-fix-fix-mc1.21.1-r2 release instead (pinned by sha256)
         if: matrix.variant == 'cf'
         run: |
-          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc1.21.1/epic-core-api-1.1.9-fix-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar"
-          echo "824f447e9f8ee6d3e04811e62ba1da484cff36e3e0ca5b7ad8dd6676409b5aa0  $HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" | sha256sum -c -
+          curl -fsSL "https://github.com/jivinstev/EpicCoreAPI/releases/download/eca-1.1.9-fix-fix-mc1.21.1-r2/epic-core-api-1.1.9-fix-fix_cf.jar" -o "$HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar"
+          echo "f87f31748a441649d650cf5a47e44509417901ddee5653a24c75c7bc08406c0c  $HOME/.m2/repository/net/eca/eca/1.1.9-fix/eca-1.1.9-fix.jar" | sha256sum -c -
       - name: Dependent gate -- candidate dependency jars instead of the pinned ones (dep_override)
         if: ${{ inputs.dep_override }}
         env:
