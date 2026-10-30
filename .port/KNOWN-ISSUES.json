@@ -1392,14 +1392,14 @@
       "severity": "S2",
       "source": "player",
       "status": {
-        "1.21.10": "open",
-        "1.21.11": "open",
+        "1.21.10": "fixed@66583c4",
+        "1.21.11": "fixed@66583c4",
         "1.21.4": "fixed@66583c4",
         "1.21.5": "fixed@66583c4",
-        "1.21.8": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.8": "fixed@66583c4",
+        "26.1.2": "fixed@66583c4",
+        "26.2": "fixed@66583c4",
+        "26.3": "fixed@66583c4"
       },
       "title": "1.21.4+: the Curios accessories' stat bonuses never apply -- Curios 10+ reads a curio's modifiers only from its curios:attribute_modifiers item data, and the per-item getAttributeModifiers override the port kept (built against Curios 9.5.1 on every branch) is never called"
     },
