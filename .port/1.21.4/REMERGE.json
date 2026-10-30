@@ -1,3 +1,68 @@
 {
- "conflicts": []
+ "conflicts": [
+  {
+   "overlay": ".github/port-publish/description.md",
+   "digest": "cedd027046f6c392d558e70e481eb25824ffb5b07f66785dfdbb1495831eef5b",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a default decision",
+   "since": "6c410c5b816f..e9246886ca6c",
+   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
+   "diff": "diff --git a/.github/port-publish/description.md b/.github/port-publish/description.md\nindex 1f3f12d..0f52352 100644\n--- a/.github/port-publish/description.md\n+++ b/.github/port-publish/description.md\n@@ -1,10 +1,10 @@\n-# The Last Sword You Never Forgot - Community Port (1.21.1+)\n+# The Last Sword You Never Forgot - Community Port (NeoForge)\n \n **The original:** The Last Sword You Never Forgot by CJiangqiu -- [Modrinth](https://modrinth.com/mod/the-last-sword-you-never-forgot) · [CurseForge](https://www.curseforge.com/minecraft/mc-mods/the-last-sword-you-never-forgot) · [source](https://github.com/CJiangqiu/TheLastSword)\n \n-**Unofficial.** A community-maintained port of **The Last Sword You Never Forgot** by **CJiangqiu** to NeoForge 1.21.1. It is not made or supported by CJiangqiu: please report problems with this port [on its own issue tracker](https://github.com/jivinstev/TheLastSword/issues), not to the original author.\n+**Unofficial.** A community-maintained port of **The Last Sword You Never Forgot** by **CJiangqiu** to newer versions of NeoForge. It is not made or supported by CJiangqiu: please report problems with this port [on its own issue tracker](https://github.com/jivinstev/TheLastSword/issues), not to the original author.\n \n-**Scope:** NeoForge, Minecraft 1.21.1 and newer. Builds are published for Minecraft 1.21.1.\n+**Scope:** NeoForge, Minecraft 1.21.1 and newer. Builds are published for Minecraft 1.21.1, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1.2, 26.2 and 26.3: pick the file for your version.\n \n Published with the original author's permission (https://github.com/CJiangqiu/EpicCoreAPI/issues/9), under the original MIT licence with its copyright notice kept.\n \n@@ -15,14 +15,20 @@ Published with the original author's permission (https://github.com/CJiangqiu/Ep\n \n ## How it differs from the original\n \n-- Runs on **NeoForge 1.21.1**.\n-- The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global \"AllReturn\" in this version. That's an experimental feature that didn't play well with some other mods on 1.21.1.\n+- Runs on **NeoForge**, one build per Minecraft version from 1.21.1 to 26.3.\n+- The Ultra Test Sword's lockdown mode and the Test Entity don't turn on Epic Core API's global \"AllReturn\" in this port. That's an experimental feature that didn't play well with some other mods.\n \n ## Requirements\n \n-- Required: the community port of https://github.com/jivinstev/EpicCoreAPI (the same NeoForge 1.21.1 port, published alongside this one)\n-- Required: [geckolib](https://modrinth.com/mod/geckolib)\n-- Required: [curios](https://modrinth.com/mod/curios)\n+- Required: [Epic Core API - Community Port](https://www.curseforge.com/minecraft/mc-mods/epic-core-api-community-port-neoforge), the file for the same Minecraft version\n+- Required: [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib)\n+- Required: [Curios API](https://www.curseforge.com/minecraft/mc-mods/curios)\n+\n+## Known issues\n+\n+- **Minecraft 1.21.4 to 26.3:** Curios accessories' stat bonuses don't apply yet: the Dragon Crystal crown has no effect, and the ring, necklace, Extreme Life Support Device, Dimension Explorer and The Giver's Pain keep their other effects without their health, attack, armour, speed or justified-defence bonuses; Wings That Cover the World work fully. Being worked on.\n+\n+Smaller known issues, and more detail on these: [Known issues](https://github.com/jivinstev/TheLastSword/issues/84).\n \n ## How releases are made\n \n",
+   "id": "fe6757bdda15",
+   "class": "authors-fix",
+   "escalate": false,
+   "default": "take the authors' change through the rows, our change re-applied around it",
+   "choice": "patch",
+   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
+   "source": "authors"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java",
+   "digest": "736bba473c76d2644964894bbbd79b88a8c74a628a84f8bdbd922b05690b4a2a",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a default decision",
+   "since": "6c410c5b816f..e9246886ca6c",
+   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java b/src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java\nindex c2c884d..b128fce 100644\n--- a/src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java\n+++ b/src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java\n@@ -35,11 +35,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;\n import net.minecraft.world.entity.ai.control.FlyingMoveControl;\n import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;\n import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;\n-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;\n-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;\n import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;\n import net.minecraft.world.entity.ai.navigation.PathNavigation;\n-import net.minecraft.world.entity.animal.IronGolem;\n import net.minecraft.world.entity.animal.horse.AbstractHorse;\n import net.minecraft.world.entity.npc.AbstractVillager;\n import net.minecraft.world.entity.player.Player;\n@@ -54,11 +51,11 @@ import net.the_last_sword.entity.ai.DragonCultPriestBreathGoal;\n import net.the_last_sword.entity.ai.DragonCultPriestGuardGoal;\n import net.the_last_sword.entity.ai.DragonCultPriestKeepDistanceGoal;\n import net.the_last_sword.entity.ai.DragonCultPriestLightningGoal;\n+import net.the_last_sword.entity.ai.DragonCultTargetGoals;\n import net.the_last_sword.entity.variant.NamedPriestVariant;\n import net.the_last_sword.faction.DragonCultFaction;\n import net.the_last_sword.init.ModItems;\n import net.the_last_sword.init.ModEntities;\n-import net.the_last_sword.util.DragonCultDisguise;\n import net.the_last_sword.util.EntityUtil;\n import net.the_last_sword.util.health.TrueHealthManager;\n import org.jetbrains.annotations.NotNull;\n@@ -150,12 +147,8 @@ public class DragonCultPriestEntity extends TheLastEndEntity {\n         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));\n         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));\n \n-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this)\n-                .setAlertOthers(DragonCultistEntity.class, DragonCultPaladinEntity.class, DragonCultPriestEntity.class));\n-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,\n-                DragonCultDisguise.NOT_DISGUISED_PLAYER));\n-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));\n-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));\n+        DragonCultTargetGoals.register(this,\n+                DragonCultistEntity.class, DragonCultPaladinEntity.class, DragonCultPriestEntity.class);\n     }\n \n     @Override\n",
+   "id": "306dd8a75e73",
+   "class": "authors-fix",
+   "escalate": false,
+   "default": "take the authors' change through the rows, our change re-applied around it",
+   "choice": "patch",
+   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
+   "source": "authors"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/event/ClientEventHandler.java",
+   "digest": "c9dfd39896962374227d56d4cf102c5cea980c4a5cc01caf411114ffcfa21a22",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a default decision",
+   "since": "6c410c5b816f..e9246886ca6c",
+   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/event/ClientEventHandler.java b/src/main/java/net/the_last_sword/event/ClientEventHandler.java\nindex d14a77a..da56f1a 100644\n--- a/src/main/java/net/the_last_sword/event/ClientEventHandler.java\n+++ b/src/main/java/net/the_last_sword/event/ClientEventHandler.java\n@@ -43,6 +43,8 @@ import net.the_last_sword.client.renderer.DangerousSkillPreviewRenderer;\n import net.the_last_sword.client.renderer.LostWraithEndStrikeEffectRenderer;\n import net.the_last_sword.client.shader.TheLastEndEffect;\n import net.the_last_sword.configuration.DefenceConfig;\n+import net.the_last_sword.compat.CompatCheck;\n+import net.the_last_sword.compat.irons_spellbooks.SpellcastingClientIntegration;\n import net.the_last_sword.network.DefenceConfigPacket;\n import net.the_last_sword.init.ModKeyMappings;\n import net.the_last_sword.init.ModBlocks;\n@@ -176,6 +178,9 @@ public class ClientEventHandler {\n                 ItemProperties.register(ModItems.DRAGON_CRYSTAL_SOUL_STONE.get(),\n                         ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, \"dragon_crystal_soul_stone_full\"),\n                         (stack, level, entity, seed) -> DragonCrystalSoulStone.hasStoredEntity(stack) ? 1.0F : 0.0F);\n+                if (CompatCheck.isSpellcastingLoaded()) {\n+                    SpellcastingClientIntegration.registerRenderers();\n+                }\n             });\n         }\n     }\n",
+   "id": "f33e8e0dc70a",
+   "class": "authors-fix",
+   "escalate": false,
+   "default": "take the authors' change through the rows, our change re-applied around it",
+   "choice": "patch",
+   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
+   "source": "authors"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/init/ModItems.java",
+   "digest": "ac55704c9a4fc740322dadfa5e82c6107c71f445eda0c63bec44aab48b2660df",
+   "reason": "a conflict with 1.21.4's own change: kept as 1.21.4 had it, a decision for the owner",
+   "since": "6c410c5b816f..e9246886ca6c",
+   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/init/ModItems.java b/src/main/java/net/the_last_sword/init/ModItems.java\nindex 1eefbd7..ae9a267 100644\n--- a/src/main/java/net/the_last_sword/init/ModItems.java\n+++ b/src/main/java/net/the_last_sword/init/ModItems.java\n@@ -11,6 +11,7 @@ import net.the_last_sword.TheLastSwordMod;\n import net.the_last_sword.compat.CompatCheck;\n import net.the_last_sword.compat.cataclysm.CataclysmItemsRegistry;\n import net.the_last_sword.compat.curios.CuriosItemsRegistry;\n+import net.the_last_sword.compat.irons_spellbooks.SpellIntegration;\n import net.the_last_sword.compat.projecte.TransmutationStaffFactory;\n import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockDisplayItem;\n import net.the_last_sword.item.*;\n@@ -364,6 +365,7 @@ public class ModItems {\n     public static Supplier<Item> THE_HARBINGER_MEDAL;\n     public static Supplier<Item> THE_LEVIATHAN_MEDAL;\n     public static Supplier<Item> SCYLLA_MEDAL;\n+    public static Supplier<Item> DRAGON_CRYSTAL_GRIMOIRE;\n \n     public static void register(IEventBus eventBus) {\n         //注册条件物品\n@@ -374,6 +376,10 @@ public class ModItems {\n \n     //注册联动物品（直接调用，Java懒加载保证不会在未加载时执行）\n     private static void registerConditionalItems() {\n+        if (CompatCheck.isSpellcastingLoaded()) {\n+            DRAGON_CRYSTAL_GRIMOIRE = ITEMS.register(\"dragon_crystal_grimoire\",\n+                SpellIntegration::createDragonCrystalGrimoire);\n+        }\n         if (CompatCheck.isTransmutationLoaded()) {\n             STAFF_OF_UNIVERSAL_TRANSMUTATION = ITEMS.register(\"staff_of_universal_transmutation\",\n                 TransmutationStaffFactory::create);\n",
+   "id": "2c0c5f0f4fed",
+   "class": "escalate",
+   "escalate": true,
+   "default": "",
+   "choice": "keep",
+   "reasoning": "the authors' change uses SpellIntegration, which 1.21.4 drops (drops.txt): their intent cannot be kept here as is",
+   "source": "authors"
+  }
+ ]
 }
