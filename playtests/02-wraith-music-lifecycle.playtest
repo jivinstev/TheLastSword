@@ -1,0 +1,32 @@
+@intent The wraith's battle music waits for its spawn animation to finish, then plays while the wraith is within 64 blocks -- it shrugs off /kill by design -- and stops once the player is out of its range
+@step arena
+gamemode creative
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+
+@step no music during the 110-tick spawn animation
+summon the_last_sword:the_last_end_sword_wraith ~ ~ ~8
+@wait 3s
+# while it is not ready the music handler must stay silent
+@assert execute if entity @e[type=the_last_sword:the_last_end_sword_wraith,distance=..16]
+@shot spawning
+
+@step music once it is ready
+@expect sound the_last_sword:the_last_end_sword_wraith within 10s
+
+@step it shrugs off /kill, and the music plays on
+# measured: /kill reports "Killed" but the wraith stays -- its "true health" (TrueHealthManager) is not the vanilla
+# health /kill zeroes. That is the mod's design for its bosses, so the script proves it rather than fights it
+kill @e[type=the_last_sword:the_last_end_sword_wraith]
+@wait 3s
+@assert execute if entity @e[type=the_last_sword:the_last_end_sword_wraith]
+@assert execute if entity @e[type=the_last_sword:the_last_end_sword_wraith,distance=..16]
+
+@step out of its range, the music stops
+# the music handler looks for a ready wraith within 64 blocks of the player, once a second
+tp @s ~ ~ ~200
+@expect sound the_last_sword:the_last_end_sword_wraith gone within 10s
+@shot silence

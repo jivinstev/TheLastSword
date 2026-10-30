@@ -1,0 +1,25 @@
+@intent The mod's three key bindings work in game: the defence configuration screen opens, the summon GUI request is answered, and the sword mode changes
+@step arena
+gamemode creative
+time set day
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword
+
+@step defence configuration opens
+@key key.the_last_sword.open_defence_config
+@expect screen DefenceConfigScreen within 3s
+@shot defence-config
+@key key.keyboard.escape
+
+@step summon GUI
+@wait 1s
+@key key.the_last_sword.open_summon_gui
+@expect screen Summon within 3s
+@shot summon-gui
+@key key.keyboard.escape
+
+@step sword mode changes
+@wait 1s
+@key key.the_last_sword.change_sword_mode
+@expect actionbar the_last_sword within 3s
+@shot mode-changed
