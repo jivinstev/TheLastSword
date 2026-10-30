@@ -1,0 +1,66 @@
+# Changes reviewed once
+
+A change to one file a fresh review passed: a version branch whose reviewed inputs changed only by these
+exact changes (the same file before, the same file after) keeps its REVIEW.md (tools/fork-branches.py
+commit_current). Written by the keep-current round driver; a union record.
+
+| file | before | after | verdict | reviewed at |
+|---|---|---|---|---|
+| `.port/1.21.4/REMERGE.json` | c6a8c4f1c863c7aed676e1b76e72aca511256747 | 9cb92042a41c8ba18f7d5e995ba5c205ccb308c1 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `.port/1.21.4/drops.txt` | c1427e7726ea79c0195bd03a3d876d6706f6a8c1 | 2ffff56bf8335f745d28a74b8bed56481440c968 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/01-smoke.playtest` | - | 951b9945855d077db0d250bf4bf1dd4c9dbcbfa1 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/02-wraith-music-lifecycle.playtest` | - | a34e1798354136125dc2c530bf8e82e0bdcb90df | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/03-sword-projectile.playtest` | - | 844b3aedfd5253f24409529b3910399ac2b120f2 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/04-queen-reward.playtest` | - | 3c109e35bf0868322dbac700592fc6501f0c377b | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/05-lost-wraith-dragon-egg.playtest` | - | 15ad27f429b0eedceaa541d1a064b4bf663ea17b | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/06-dragon-cult.playtest` | - | 5773ffab52031363abaa860ade181889e1066ebb | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/07-keybinds.playtest` | - | 4121b46ef04e2902bb8beca4cd6b9da4d6c2c99a | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/08-guardian-of-sealed-spire.playtest` | - | 6eb1ba1814bf85f4e59e3f4cdb0a70b6cf0f7538 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/09-dragon-crystal-armor.playtest` | - | e3043f9ba33bdb244f50c4355a257909a4004bc5 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/10-dragon-cult-horn.playtest` | - | 176cb4b49ce00708dbb4270e0c0961a3db48301b | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/11-story.playtest` | - | 5612ffccf5d4db6a745667200aa01075e5ca499b | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/12-ruined-village.playtest` | - | d6028b23233b8b1d3460c6df522238372e64b803 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `playtests/13-curios-accessories.playtest` | - | 6151f54bb239ea1fac81f88ab7ed8642b36a6ddc | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/CurioModifierDefaults.java` | - | 29bdc0ad96ca49aad2499cc4df570f51d253ad39 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/DimensionExplorer.java` | 7eb1746e8023f540a696034b8456f23f87b23bba | 688c94b76bf1b5b82f7ba08494d91c472eed3f0c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/DragonCrystalCrown.java` | 62d1759739cdfdb389d0eb20064cf3eade6239d6 | 6c19d5d8626ab487b645c26240f89b69aaf6f1f5 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/DragonCrystalNecklace.java` | ad51731da8ceb2fff5f4fb39fa15760debda4249 | cc355543ab1a85c9d06683acea21429a5cdf1a1d | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/DragonCrystalRing.java` | 57ec50d182d6013f7b003c6605f1c72b7b366ffa | dc42580e9e35ed25dd6c0f7c6007ff69b2ad3eb8 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/ExtremeLifeSupportDevice.java` | 3f74a2d0522bdd6d3cca875bc7ae3a6c9272c5fd | c8f53497e38791b0c69fd5e535628fd52a0602cb | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/compat/curios/TheGiversPain.java` | 9dd60edde5f8cbc6560d45687547db580034243e | 8018e1f1b461c3a551af1d001446ae907120702d | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java` | ebfa82c7a010afb943923b6b60889c41055de33b | 1cc60a84c4db32598ea2c28b221abe304d704ca1 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java` | 86f1da197362e16d36455584127a6886a7af6ea7 | a2f34c53624ec82e3d2729a83175c50b1c6f793c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/DragonCultistEntity.java` | 84dd542a5d7a252b71c83ef570676ff02837c269 | 3336033d5a175238d6bd7266590364ed023f9cc4 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/ai/DragonCultTargetGoals.java` | - | 025ec9186e38bf980ec446218e40c32c56827508 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/entity/ai/IronGolemDragonCultTargetGoal.java` | - | 305f4ea8aa83a922d635d15b3df2c0bef52344b5 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/faction/DragonCultFaction.java` | fb33491606cca48e4b84607c7d8bed6b184ad571 | 9ee4c3a89423337ccf94df3760c79c735dc4b9fc | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/mixin/IronGolemMixin.java` | - | 2428ae1f75de45e3697f7de44b0e0d0d059b0fb4 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/mixin/LivingEntityMixin.java` | 2a11bec94c29f36bc68254823501624399dc8107 | 9e44c98d37e6bb37169ad2c6d203d3735683bd24 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/mixin/VillagerHostilesSensorMixin.java` | - | 553f738571627be5f68289eb6dc2d76570d946fe | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | ef77e734a6964e9dae8a0dfea361ec62c0b04bdb | a0384dfeb66fcbf54b686cacfe5cdffc002f87ab | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/util/EntityUtil.java` | 01daaacb298d5e73ad67ec56332b87bfd80cef7e | e2dc5ccadb3288773dde0bc91daa2f8a23be36be | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/items/dragon_crystal_grimoire.json` | - | 91019451e0a1887db741bc547a731e58e20cb855 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/items/dragon_crystal_grimoire_3d.json` | - | 5c884108c3bdd6e6f5d88c80cc8a81928aeb9486 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/en_au.json` | 441dc8357de51e272076d0f963ed04c8f3bf7b91 | e48cde02b69e1d3833a9a68cd148cd0e71267886 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/en_ca.json` | 95a43a258d486cb291e53c49d5724358deb49fb9 | a667627771ba116b35e01366570fd17588f55509 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/en_gb.json` | 441dc8357de51e272076d0f963ed04c8f3bf7b91 | e48cde02b69e1d3833a9a68cd148cd0e71267886 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/en_nz.json` | 441dc8357de51e272076d0f963ed04c8f3bf7b91 | e48cde02b69e1d3833a9a68cd148cd0e71267886 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/en_us.json` | 3acc0e2384bd792697b4fff12911390c485ea7aa | bbddabe00708e9405311166b0314fc21d3fc6532 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/ja_jp.json` | 30133b25960511906eb778678ccc56eaa12738c5 | c751f2ed3dbe6fb42b41eb71ce2bf91cbcd7b659 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/ko_kr.json` | 4b5b61304b14ec9d483ed54a720cb255375f8d27 | 5436042980e38c976b661e7d0f9ffd252d7fa79d | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/ru_ru.json` | 7f8a95544a268dcc21c6ac09a5a634c802eea8ae | 65d460fadd3b1f501e69231e1c572aed29899aab | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/zh_cn.json` | 9b913ce6c7ab3ccecd368426f6d97560c6112d2f | 5c8efbb39e37b2de206782e3a4dd3dc7befa743e | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/zh_hk.json` | 966ba9e2ddd73a83cac976a63e4d171b9fec9d8d | fedabb126f881a7f6bc37e72f117346014e24b9b | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/lang/zh_tw.json` | af0acbded29cb0c35f6fd72b01ef283e52b09739 | 3c14098107a99ccf82d309b20dc5c9a900b19d93 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/models/item/dragon_crystal_grimoire.json` | - | f8dbc96fa256da39a359c24324a994acc372ce8f | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/models/item/dragon_crystal_grimoire_3d.json` | - | 72517ef8be995478f0e4c1eb38208daed9f4bbd2 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/textures/item/dragon_crystal_grimoire.png` | - | 56dab4c02f1456d6c29a879f9d515e86b84fa0da | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/assets/the_last_sword/textures/item/dragon_crystal_grimoire_3d.png` | - | d752d001e513dc3c9ea44adf27458aa26831d3ce | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/curios/tags/item/spellbook.json` | - | ababa46580c5548f35b69ef4c4859e635c8cc17c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/minecraft/tags/block/mineable/axe.json` | - | a80133a2cbed653a8b6b4720b5cd341b6dccacf9 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/minecraft/tags/block/mineable/hoe.json` | - | a80133a2cbed653a8b6b4720b5cd341b6dccacf9 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/minecraft/tags/block/mineable/pickaxe.json` | 3b4deffa906c59cb1d6b77f0deb3f67982a6a2b2 | 38bbfc55d24d22bf19fe0ef50c4dfc6076891cef | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/minecraft/tags/block/mineable/shovel.json` | - | a80133a2cbed653a8b6b4720b5cd341b6dccacf9 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/minecraft/tags/block/needs_diamond_tool.json` | - | a80133a2cbed653a8b6b4720b5cd341b6dccacf9 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/data/the_last_sword/dragon_crystal_smithing_recipes/dragon_crystal_grimoire.json` | - | 8264a4a5ca20dc0179161cca5dad0452577b8d2c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/resources/the_last_sword.mixins.json` | aa1049ab6fa2f70785ed3f66caf5f911555f3f51 | 409a67fa40b37a22de9032377e87f9066a954f35 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
