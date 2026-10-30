@@ -24,6 +24,7 @@
     "EnderDragonMixin",
     "EntityMixin",
     "InventoryMixin",
+    "IronGolemMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "PlayerAdvancementsMixin",
@@ -32,7 +33,7 @@
     "PersistentEntitySectionManagerMixin$CallbackMixin",
     "ServerCommonPacketListenerImplMixin",
     "ServerGamePacketListenerImplMixin",
-    "ServerCommonPacketListenerImplMixin"
+    "VillagerHostilesSensorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
