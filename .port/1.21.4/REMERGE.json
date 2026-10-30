@@ -1,3 +1,21 @@
 {
- "conflicts": []
+ "conflicts": [
+  {
+   "overlay": "src/main/java/net/the_last_sword/event/ClientEventHandler.java",
+   "digest": "c9dfd39896962374227d56d4cf102c5cea980c4a5cc01caf411114ffcfa21a22",
+   "reason": "deferred: curse.maven:irons-spells-n-spellbooks-855414 is dropped at 1.21.4 (DEPS.md); ours kept, the authors' change waits for it (an answer)",
+   "since": "6c410c5b816f..e9246886ca6c",
+   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
+   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/event/ClientEventHandler.java b/src/main/java/net/the_last_sword/event/ClientEventHandler.java\nindex d14a77a..da56f1a 100644\n--- a/src/main/java/net/the_last_sword/event/ClientEventHandler.java\n+++ b/src/main/java/net/the_last_sword/event/ClientEventHandler.java\n@@ -43,6 +43,8 @@ import net.the_last_sword.client.renderer.DangerousSkillPreviewRenderer;\n import net.the_last_sword.client.renderer.LostWraithEndStrikeEffectRenderer;\n import net.the_last_sword.client.shader.TheLastEndEffect;\n import net.the_last_sword.configuration.DefenceConfig;\n+import net.the_last_sword.compat.CompatCheck;\n+import net.the_last_sword.compat.irons_spellbooks.SpellcastingClientIntegration;\n import net.the_last_sword.network.DefenceConfigPacket;\n import net.the_last_sword.init.ModKeyMappings;\n import net.the_last_sword.init.ModBlocks;\n@@ -176,6 +178,9 @@ public class ClientEventHandler {\n                 ItemProperties.register(ModItems.DRAGON_CRYSTAL_SOUL_STONE.get(),\n                         ResourceLocation.fromNamespaceAndPath(TheLastSwordMod.MOD_ID, \"dragon_crystal_soul_stone_full\"),\n                         (stack, level, entity, seed) -> DragonCrystalSoulStone.hasStoredEntity(stack) ? 1.0F : 0.0F);\n+                if (CompatCheck.isSpellcastingLoaded()) {\n+                    SpellcastingClientIntegration.registerRenderers();\n+                }\n             });\n         }\n     }\n",
+   "id": "f33e8e0dc70a",
+   "class": "authors-fix",
+   "escalate": false,
+   "default": "take the authors' change through the rows, our change re-applied around it",
+   "choice": "take",
+   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
+   "source": "authors",
+   "deferred": "curse.maven:irons-spells-n-spellbooks-855414"
+  }
+ ]
 }

@@ -82,7 +82,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/util/ParticleUtil.java`
 - changed: `src/main/java/net/the_last_sword/worldgen/TravelersHoldStructure.java`
 - deleted: `src/main/java/net/the_last_sword/mv/GeoInventoryEntity.java`
-- resources: `src/main/resources/assets/the_last_sword/lang @a50c080ec25f`
+- resources: `src/main/resources/assets/the_last_sword/lang @560e26455b09`
 - stub: `src/main/java/net/the_last_sword/client/layer/DragonCultistItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/renderer/DragonCultPriestRenderer.java` (client)
