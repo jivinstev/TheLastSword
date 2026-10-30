@@ -1,24 +1,8 @@
 {
  "conflicts": [
   {
-   "overlay": "src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java",
-   "digest": "77fef095fbb48429a0e2968a2d1f729a1f01165f84cbd40ac37d65c2f2f1740b",
-   "reason": "a conflict with 1.21.5's own change: kept as 1.21.5 had it, a default decision",
-   "since": "6c410c5b816f..e9246886ca6c",
-   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
-   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
-   "diff": "diff --git a/src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java b/src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java\nindex 07f5e02..a62d8dd 100644\n--- a/src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java\n+++ b/src/main/java/net/the_last_sword/entity/DragonCultPaladinEntity.java\n@@ -19,10 +19,6 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;\n import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;\n import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;\n import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;\n-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;\n-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;\n-import net.minecraft.world.entity.animal.IronGolem;\n-import net.minecraft.world.entity.npc.AbstractVillager;\n import net.minecraft.world.entity.player.Player;\n import net.minecraft.world.item.ItemStack;\n import net.minecraft.world.level.Level;\n@@ -31,9 +27,9 @@ import net.the_last_sword.configuration.TheLastSwordConfiguration;\n import net.the_last_sword.entity.ai.DragonCultPaladinAttackGoal;\n import net.the_last_sword.entity.ai.DragonCultPaladinBlockGoal;\n import net.the_last_sword.entity.ai.DragonCultPaladinHeavyAttackGoal;\n+import net.the_last_sword.entity.ai.DragonCultTargetGoals;\n import net.the_last_sword.faction.DragonCultFaction;\n import net.the_last_sword.init.ModItems;\n-import net.the_last_sword.util.DragonCultDisguise;\n import net.the_last_sword.util.EntityUtil;\n import net.the_last_sword.util.health.TrueHealthManager;\n import org.jetbrains.annotations.NotNull;\n@@ -70,12 +66,7 @@ public class DragonCultPaladinEntity extends TheLastEndEntity {\n         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));\n         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));\n \n-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this)\n-                .setAlertOthers(DragonCultPaladinEntity.class, DragonCultistEntity.class));\n-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,\n-                DragonCultDisguise.NOT_DISGUISED_PLAYER));\n-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));\n-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));\n+        DragonCultTargetGoals.register(this, DragonCultPaladinEntity.class, DragonCultistEntity.class);\n     }\n \n     @Override\n",
-   "id": "47d018d14cfd",
-   "class": "authors-fix",
-   "escalate": false,
-   "default": "take the authors' change through the rows, our change re-applied around it",
-   "choice": "patch",
-   "reasoning": "their fix, adapted through the rows (the authors' design intent)",
-   "source": "authors"
-  },
-  {
    "overlay": "src/main/java/net/the_last_sword/event/ClientEventHandler.java",
-   "reason": "deferred: curse.maven:irons-spells-n-spellbooks-855414 is dropped at 1.21.4 (DEPS.md); ours kept, the authors' change waits for it (an answer)",
+   "reason": "deferred: curse.maven:irons-spells-n-spellbooks-855414 is dropped at 1.21.5 (DEPS.md); ours kept, the authors' change waits for it (an answer)",
    "since": "6c410c5b816f..e9246886ca6c",
    "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
    "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
@@ -80,22 +64,6 @@
    "default": "take the authors' change through the rows, our change re-applied around it",
    "choice": "patch",
    "reasoning": "their fix, adapted through the rows (the authors' design intent)",
-   "source": "authors"
-  },
-  {
-   "overlay": "src/main/java/net/the_last_sword/init/ModItems.java",
-   "digest": "ac55704c9a4fc740322dadfa5e82c6107c71f445eda0c63bec44aab48b2660df",
-   "reason": "the authors' change is not in 1.21.5's file (no merge brought it, or a merge kept 1.21.5's)",
-   "since": "6c410c5b816f..e9246886ca6c",
-   "from": "6c410c5b816ff7e53f4fb4446cd7ea8ffdb55949",
-   "to": "e9246886ca6cfae4b2af042f61079764d9b4ec87",
-   "diff": "diff --git a/src/main/java/net/the_last_sword/init/ModItems.java b/src/main/java/net/the_last_sword/init/ModItems.java\nindex 1eefbd7..ae9a267 100644\n--- a/src/main/java/net/the_last_sword/init/ModItems.java\n+++ b/src/main/java/net/the_last_sword/init/ModItems.java\n@@ -11,6 +11,7 @@ import net.the_last_sword.TheLastSwordMod;\n import net.the_last_sword.compat.CompatCheck;\n import net.the_last_sword.compat.cataclysm.CataclysmItemsRegistry;\n import net.the_last_sword.compat.curios.CuriosItemsRegistry;\n+import net.the_last_sword.compat.irons_spellbooks.SpellIntegration;\n import net.the_last_sword.compat.projecte.TransmutationStaffFactory;\n import net.the_last_sword.compat.lucky_block.TheLastEndLuckyBlockDisplayItem;\n import net.the_last_sword.item.*;\n@@ -364,6 +365,7 @@ public class ModItems {\n     public static Supplier<Item> THE_HARBINGER_MEDAL;\n     public static Supplier<Item> THE_LEVIATHAN_MEDAL;\n     public static Supplier<Item> SCYLLA_MEDAL;\n+    public static Supplier<Item> DRAGON_CRYSTAL_GRIMOIRE;\n \n     public static void register(IEventBus eventBus) {\n         //注册条件物品\n@@ -374,6 +376,10 @@ public class ModItems {\n \n     //注册联动物品（直接调用，Java懒加载保证不会在未加载时执行）\n     private static void registerConditionalItems() {\n+        if (CompatCheck.isSpellcastingLoaded()) {\n+            DRAGON_CRYSTAL_GRIMOIRE = ITEMS.register(\"dragon_crystal_grimoire\",\n+                SpellIntegration::createDragonCrystalGrimoire);\n+        }\n         if (CompatCheck.isTransmutationLoaded()) {\n             STAFF_OF_UNIVERSAL_TRANSMUTATION = ITEMS.register(\"staff_of_universal_transmutation\",\n                 TransmutationStaffFactory::create);\n",
-   "id": "2c0c5f0f4fed",
-   "class": "escalate",
-   "escalate": true,
-   "default": "",
-   "choice": "keep",
-   "reasoning": "the authors' change uses SpellIntegration, which 1.21.5 drops (drops.txt): their intent cannot be kept here as is",
    "source": "authors"
   },
   {
