@@ -1,0 +1,58 @@
+@intent The mod's Curios accessories, worn in their Curios slots by a survival player, give what their code promises -- the ring and necklace their justified-defence bonuses, the crown its extra health, the wings survival flight -- and taking each off takes it away again, with no errors from the mod or Curios (TLS-057: from Curios 10, 1.21.4+, the stat bonuses never apply)
+@continue-on-fail
+# Only ids every version shares: the mod's own attributes, the abilities NBT and health. Vanilla attribute ids
+# changed at 1.21.2 (generic.max_health -> max_health), and a script cannot branch on the version.
+# /curios replace refuses every slot on Curios 10-14 (1.21.4..1.21.11: its slot list is filled before the slots load),
+# so there those steps fail at the command, not at the check.
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+time set day
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+# an attribute value is read into a score (x100, x10000 for the 0.01-scale recovery speed, so fractional modifiers count): before, worn, and after
+scoreboard objectives add pt_base dummy
+scoreboard objectives add pt_now dummy
+scoreboard objectives add pt_hp health
+
+@step ring: the dragon crystal ring adds 6 max justified defence while worn
+execute store result score @s pt_base run attribute @s the_last_sword:max_justified_defence get 100
+curios replace ring 0 @s with the_last_sword:dragon_crystal_ring
+@wait 1s
+execute store result score @s pt_now run attribute @s the_last_sword:max_justified_defence get 100
+@assert execute if score @s pt_now > @s pt_base
+curios clear @s ring
+@wait 1s
+execute store result score @s pt_now run attribute @s the_last_sword:max_justified_defence get 100
+@assert execute if score @s pt_now = @s pt_base
+
+@step necklace: the dragon crystal necklace raises justified defence recovery speed while worn
+execute store result score @s pt_base run attribute @s the_last_sword:justified_defence_recovery_speed get 10000
+curios replace necklace 0 @s with the_last_sword:dragon_crystal_necklace
+@wait 1s
+execute store result score @s pt_now run attribute @s the_last_sword:justified_defence_recovery_speed get 10000
+@assert execute if score @s pt_now > @s pt_base
+curios clear @s necklace
+@wait 1s
+execute store result score @s pt_now run attribute @s the_last_sword:justified_defence_recovery_speed get 10000
+@assert execute if score @s pt_now = @s pt_base
+
+@step crown: the dragon crystal crown's +200 max health lets the player heal above 20
+curios replace head 0 @s with the_last_sword:dragon_crystal_crown
+@wait 1s
+effect give @s minecraft:instant_health 1 20 true
+@wait 1s
+@assert execute if score @s pt_hp matches 40..
+@shot crowned
+curios clear @s head
+@wait 1s
+@assert execute if score @s pt_hp matches ..20
+
+@step wings: Wings That Cover the World let a survival player fly while worn, and not after
+curios replace back 0 @s with the_last_sword:wings_that_cover_the_world
+# curioTick grants mayfly on the next tick it runs
+@wait 2s
+@assert execute if entity @s[nbt={abilities:{mayfly:1b}}]
+curios clear @s back
+@wait 2s
+@assert execute if entity @s[nbt={abilities:{mayfly:0b}}]

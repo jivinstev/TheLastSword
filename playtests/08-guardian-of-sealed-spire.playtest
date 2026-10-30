@@ -1,0 +1,29 @@
+@intent The Guardian of the Sealed Spire can be summoned, fights, and dies to The Last Sword You Never Forgot (it has no boss bar: none in its source)
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+difficulty hard
+difficulty normal
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+effect give @s minecraft:resistance 600 4 true
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+
+@step it arrives
+summon the_last_sword:guardian_of_sealed_spire ~ ~ ~5
+@assert execute if entity @e[type=the_last_sword:guardian_of_sealed_spire,distance=..16]
+@shot boss
+
+@step the sword kills it
+execute at @s rotated as @s rotated ~ 0 run tp @e[type=the_last_sword:guardian_of_sealed_spire,limit=1,sort=nearest] ^ ^ ^2
+@wait 5t
+@aim entity the_last_sword:guardian_of_sealed_spire
+@key key.attack
+# one hit: a second tp would find nothing (the sword kills it outright)
+@wait 5s
+@assert execute unless entity @e[type=the_last_sword:guardian_of_sealed_spire,distance=..32]
+@shot dead
