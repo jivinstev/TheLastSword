@@ -13,9 +13,34 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-28, step 4; a subagent of session_01Cvm3m6SAgwsKPw2mAYeD4t, started for this review only), not the fixer; earlier rows by the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
-- date: 2026-10-28
-- commit: 17dad80
+- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-30, step 4; a subagent of session_01Cvm3m5qHxFwKkCQPUvKFUW, started for this review only), not the fixer; earlier rows by the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
+- date: 2026-10-30
+- commit: be414c7
+
+Fresh review 2026-10-30 at be414c7 (keep-current round: the authors' d20ec4c merge cascaded 1.21.1 -> 1.21.4 -> 1.21.5
+-> 1.21.8 -> 1.21.10 -- c94fe25, 75ded13, 4027252, be414c7 -- with TLS-057, the ECA fix-fix re-pin 408e8c0 and CI 930da40;
+merge-base 09ded1d with neoforge-1.21.8). check-done added one `?` row (lang @560e26455b09) and reported the record stale
+for 58 files since 17dad80. The version's own src/ diff over the parent (09ded1d..be414c7) has the same 159-entry file
+list as at 17dad80 (over 68faa1b), and for every file the added and removed lines are identical to those reviewed then;
+so every row's verdict was re-read against the new parent content and stands. (1) lang @560e26455b09: the parent's lang
+files took the authors' item.the_last_sword.dragon_crystal_grimoire key; this version still adds only
+key.category.the_last_sword.the_last_sword, equal to key.categories.the_last_sword in all 11 files (row below). (2) The
+four REMERGE entries check-done lists as not merged (DragonCultTargetGoals, IronGolemDragonCultTargetGoal,
+VillagerHostilesSensorMixin, ModCreativeTabs) are byte-identical to neoforge-1.21.8's files, which carry the authors'
+change adapted as 1.21.5/1.21.8 adapted it; the APIs hold in neoforge-21.10.64 (javap: TargetingConditions.Selector
+test(LivingEntity, ServerLevel), NearestAttackableTargetGoal(Mob, Class, int, boolean, boolean, Selector),
+VillagerHostilesSensor.isMatchingEntity(ServerLevel, LivingEntity, LivingEntity)); ModCreativeTabs' grimoire/scroll block
+is the Iron's Spells drop. They fail only the verbatim added-lines test: bookkeeping for the driver (cascade
+--apply-decisions), not a behaviour loss. ClientEventHandler's entry is the deferred Iron's Spells one. (3) Gates at
+be414c7 (build/mc1.21.10/fork-port/ci-gates-summary.md): build, Gate A, Data, Payloads, Data loads, Gate B (6 GameTests)
+PASS; Wiring REPORT (9 to read) is the energy-capability move already accounted (renames/ModCapabilities rows). Behaviour
+inventory: INVENTORY-CHECK.json (410 items) unaccounted [], but .port/INVENTORY.json predates the authors' d20ec4c merge.
+Checked against a rebuild in scratch (427 items, not committed): unaccounted [], 308 same, 73 moved, 11 changed, 35
+dropped; the new hooks (IronGolemMixin registerGoals TAIL, VillagerHostilesSensorMixin isMatchingEntity HEAD,
+LivingEntityMixin onSyncedDataUpdated HEAD, EntityMixin load RETURN, SummonInputHandler's 5 events) are `same`; the new
+Iron's Spells / ProjectE @Inject forms are dropped with their compat (drops.txt). Open outside this record: GATES.md names
+1f912de (no Gate C at be414c7 yet), .port/INVENTORY.json needs `layer-inventory.py build` committed, the four REMERGE
+entries need clearing, and the ECA 1.21.10 library is a pre-release, not done. not-ok rows left: 0.
 
 Fresh review 2026-10-28 at 17dad80 (keep-current round: merge of neoforge-1.21.8 32af598, ECA r3 re-pin 4577335, drift
 record 073f9fd, CI 17dad80; merge-base 68faa1b with neoforge-1.21.8). check-done added no `?` row; it reported the
@@ -236,4 +261,4 @@ Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []. Open outsid
 | changed | src/main/java/net/the_last_sword/mixin/SpecialModelWrapperMixin.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the file now equals neoforge-1.21.8 through this version's rows (mechanical). update(..., ItemOwner, int) matches 21.10.64's SpecialModelWrapper.update. The TAIL inject that sets LightningSpearItemRenderer animated is unchanged and coexists with GeckoLib 5.3's WrapOperation. |
 | changed | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the file is the shared helper as installed (shared-helpers.txt blob a400379). See the shared row. |
 | changed | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the shared helper as installed (blob 1802a8b). See the shared row. |
-| resources | src/main/resources/assets/the_last_sword/lang @560e26455b09 | ? | ? |
+| resources | src/main/resources/assets/the_last_sword/lang @560e26455b09 | ok | Fresh review at be414c7 (merge-base 09ded1d with neoforge-1.21.8): supersedes the lang @a50c080ec25f row; the parent's lang files took the authors' dragon_crystal_grimoire item name, and against neoforge-1.21.8 each of the 11 files still only adds key.category.the_last_sword.the_last_sword (the 1.21.9 KeyMapping.Category key ModKeyMappings registers), with the text of key.categories.the_last_sword (checked per file). |
