@@ -126,10 +126,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.BOOTS_OF_THE_DEEP_ABYSS.get());
                 }
 
-                if (CompatCheck.isSpellcastingLoaded()) {
-                    output.accept(ModItems.DRAGON_CRYSTAL_GRIMOIRE.get());
-                    SpellIntegration.addScrolls(output);
-                }
+                { /* Iron's Spells 'n Spellbooks: no build for this Minecraft (drops.txt) */ }
 
             })
             .build()

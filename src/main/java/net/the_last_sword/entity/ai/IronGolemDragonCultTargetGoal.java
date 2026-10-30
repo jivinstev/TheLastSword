@@ -11,7 +11,7 @@ public final class IronGolemDragonCultTargetGoal extends NearestAttackableTarget
 
     public IronGolemDragonCultTargetGoal(IronGolem golem) {
         super(golem, Mob.class, 5, false, false,
-                target -> DragonCultFaction.isWildMember(target) && FactionUtil.canTarget(golem, target));
+                (target, level) -> DragonCultFaction.isWildMember(target) && FactionUtil.canTarget(golem, target));
     }
 
     @Override

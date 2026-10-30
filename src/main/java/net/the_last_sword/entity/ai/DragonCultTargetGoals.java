@@ -31,7 +31,7 @@ public final class DragonCultTargetGoals {
 
         private WildTargetGoal(TheLastEndEntity cultist, Class<T> targetType, Predicate<LivingEntity> filter) {
             super(cultist, targetType, 10, true, false,
-                    target -> EntityUtil.canAttack(cultist, target) && filter.test(target));
+                    (target, level) -> EntityUtil.canAttack(cultist, target) && filter.test(target));
             this.cultist = cultist;
         }
 

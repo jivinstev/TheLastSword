@@ -1,6 +1,7 @@
 package net.the_last_sword.mixin;
 
 import net.eca.util.faction.FactionUtil;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import net.the_last_sword.faction.DragonCultFaction;
@@ -17,7 +18,7 @@ public abstract class VillagerHostilesSensorMixin {
     private static final double the_last_sword$THREAT_DISTANCE_SQUARED = 12.0D * 12.0D;
 
     @Inject(method = "isMatchingEntity", at = @At("HEAD"), cancellable = true)
-    private void the_last_sword$recognizeDragonCult(LivingEntity villager, LivingEntity candidate,
+    private void the_last_sword$recognizeDragonCult(ServerLevel level, LivingEntity villager, LivingEntity candidate,
                                                    CallbackInfoReturnable<Boolean> cir) {
         if (DragonCultFaction.isWildMember(candidate)) {
             // 保留原版的可见实体筛选和恐慌记忆，只补充缺少的威胁类型。
