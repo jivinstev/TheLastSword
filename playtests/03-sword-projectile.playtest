@@ -1,0 +1,21 @@
+@intent Right-clicking The Last Sword You Never Forgot fires its projectile, which kills a guardian at range without a melee hit
+@step arena
+gamemode creative
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+tp @s ~ ~ ~ 0 0
+
+@step a guardian out of melee reach
+summon the_last_sword:guardian_berserker ~ ~ ~12 {NoAI:1b}
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+@assert execute if entity @e[type=the_last_sword:guardian_berserker,distance=..16]
+
+@step the projectile kills it
+@aim entity the_last_sword:guardian_berserker
+@key key.use
+@wait 3s
+@assert execute unless entity @e[type=the_last_sword:guardian_berserker,distance=..32]
+@shot after-the-shot
