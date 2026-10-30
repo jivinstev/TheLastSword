@@ -122,3 +122,7 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/java/net/the_last_sword/mixin/IronGolemMixin.java` | - | f59ac938b16e6de09bdd2cd32e0ab141525fd117 | ok | jivinstev/TheLastSword 1.21.11, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | 99eda8d4ad87daf01b95af526add83582ec1f84b | ff800d80dd174c4903d86afd375627e8173409f4 | ok | jivinstev/TheLastSword 1.21.11, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/util/EntityUtil.java` | 298321831f047e3f66c6ccdf029ec378136edb20 | f3cd1c7cbfe4ad37b70d9b213b0ab22fb4a27771 | ok | jivinstev/TheLastSword 1.21.11, round 2026-10-30 |
+| `.port/26.1.2/REMERGE.json` | c6a8c4f1c863c7aed676e1b76e72aca511256747 | 6e5b62485855e4cbdec0f4659fa42828f8a8c3ef | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `.port/26.1.2/branch.properties` | 44e0d908dc97d585898c789bdd88d7b8737dacee | 08c89c7050a997f6e5e25a23bf832948255cb765 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | a01939c9531ad9ea2cb5e9fc037cbe09090a249c | 81819a59e5a7bee610da50051dcd5d76de3ee01d | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/util/EntityUtil.java` | 4321e4a41313d2c0c0049170181e90cf23d5c06f | 824f23438cf010dee22790388e799ae4a28fe7a0 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
