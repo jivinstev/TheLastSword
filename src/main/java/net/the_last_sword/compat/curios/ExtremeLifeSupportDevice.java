@@ -80,6 +80,12 @@ public class ExtremeLifeSupportDevice extends Item implements ICurioItem {
         }
     }
 
+    // Port, TLS-057: Curios 10+ reads only these (CurioModifierDefaults); the authors' per-slot override below has no slot use.
+    @Override
+    public top.theillusivec4.curios.api.CurioAttributeModifiers getDefaultCurioAttributeModifiers(ItemStack stack) {
+        return CurioModifierDefaults.of(getAttributeModifiers(null, null, stack));
+    }
+
     @Override
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, Identifier uuid, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifiers = LinkedHashMultimap.create();
