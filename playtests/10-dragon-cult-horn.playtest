@@ -1,0 +1,15 @@
+@intent Blowing the Dragon Cult horn far from any village sounds the horn and answers, on the action bar, that no raid can start
+@step arena
+gamemode creative
+gamemode survival
+time set day
+weather clear
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+
+@step blow the horn
+item replace entity @s weapon.mainhand with the_last_sword:dragon_cult_horn
+@key key.use hold 1s
+@expect sound minecraft:event.raid.horn within 3s
+# displayClientMessage(..., true): the action bar, not chat
+@expect actionbar message.the_last_sword.dragon_cult_horn_no_village within 10s
+@shot horn
