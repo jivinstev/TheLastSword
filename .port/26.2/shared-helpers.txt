@@ -2,7 +2,7 @@
 src/main/java/net/the_last_sword/mv/EntityOf.java 61742d3cab633a9da327f48aa44513d99ec0c3bb
 src/main/java/net/the_last_sword/mv/GeoItemLayers.java 3bc5e1672f7243657d03da390f8bf50b91b3021d
 src/main/java/net/the_last_sword/mv/Hurt.java 3ae57f8c4b8ce2195bb1bc6f1a47d84b38e4856a
-src/main/java/net/the_last_sword/mv/LegacyGl.java 31e280faf15be4ba9d66da458edf013174f1e649
+src/main/java/net/the_last_sword/mv/LegacyGl.java 4c936cc9ad84a0ec170ba23b80bb820b1c8dbe3e
 src/main/java/net/the_last_sword/mv/LegacyRenderType.java 57e9093e2d54df4ee9c45e903218236baac24f4a
 src/main/java/net/the_last_sword/mv/LegacyTargets.java 1a7c7cff9d2d9def6ab8a570a99e06ebea9942f9
 src/main/java/net/the_last_sword/mv/MultiBufferSource.java e23cb50e4a183edc25295d3941215132d6d49205
