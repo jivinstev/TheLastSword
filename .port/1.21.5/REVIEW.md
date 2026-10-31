@@ -15,9 +15,9 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-10-31 reviewer subagent, https://claude.ai/code/session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer
+- reviewer: fresh agent (round 2026-10-31 review job TheLastSword@1.21.5_review, session https://claude.ai/code/session_01Cvm3m4ouLWCzHF4MoqC8sN, fresh context), not the fixer (TLS-060 fix 72486ae/260c0f9 and the cascades 5e6387e/26f36db were other workers)
 - date: 2026-10-31
-- commit: 13950d1
+- commit: 26f36db
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
@@ -79,6 +79,18 @@ only the three advancement background lines (row below). REMERGE.json: 5b29653 c
 8043e30a38c4 on Iron's Spells with a `deferred` marker, as asked there. No other src file, renames.tsv, STUBS.json,
 moves/shared-renames/shared-helpers changed, so every other row's verdict was re-read and stands. Behaviour inventory:
 INVENTORY-CHECK.json unaccounted [] (410 items). not-ok rows left: 0.
+
+Re-review 2026-10-31 at 26f36db (keep-current round 2026-10-31, second pass: TLS-060 carried up from neoforge-1.21.1
+cd8560e through neoforge-1.21.4 (1f63412, 33dd69d, decision 6f04b0f6e2a6 cleared 33334e6/e2d52ae) and cascaded here
+(5e6387e, 26f36db)). check-done added no `?` row and reported the record stale for 1 file since 13950d1.
+git diff 13950d1..26f36db -- src is only TheLastEndSwordItems.java (+22: the ZeroUseTierDurability subscriber; row
+re-judged below); the file now differs from neoforge-1.21.4 only by the 1.21.5 rows already reviewed (TooltipDisplay
+appendHoverText, void hurtEnemy, interned abilities, isBookEnchantable). renames.tsv, STUBS.json, REMERGE.json, the
+resource groups and the shared files are unchanged since 13950d1, so every other row's verdict was re-read and stands.
+Built jar (16:12, after the last src change 5e6387e 16:04) contains TheLastEndSwordItems$ZeroUseTierDurability; GATES.md
+A and B record PASS but predate this src change (check-done: gate record stale, the driver's re-gate). Behaviour
+inventory: INVENTORY-CHECK.json unaccounted [] (410 items; its note asks for an INVENTORY.json rebuild, a bookkeeping
+item, not an unaccounted hook). not-ok rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
@@ -191,7 +203,7 @@ INVENTORY-CHECK.json unaccounted [] (410 items). not-ok rows left: 0.
 | changed | src/main/java/net/the_last_sword/item/SwordSoulStone.java | ok | Optional compound/string reads with the same fallbacks; tooltip forwarded. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndArmorItem.java | ok | Level-based armour/toughness/KB built from scratch in getDefaultAttributeModifiers(stack), applied by ArmorAttributeModifierHandler; material kept for KB; tooltip collected/forwarded. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndScroll.java | ok | contains(key) for the two int coordinates (only ever written as ints by this item); Consumer tooltip. |
-| changed | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Its own hurtEnemy keeps the friendly check and invulnerableTime reset (but see the subclasses' rows); canPerformAction set equals 1.21.1's DEFAULT_*_ACTIONS (pickaxe_dig, sword_dig, sword_sweep are interned ItemAbility instances); List-based appendHoverText kept for subclasses; enchant/repair per stub. |
+| changed | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Its own hurtEnemy keeps the friendly check and invulnerableTime reset (but see the subclasses' rows); canPerformAction set equals 1.21.1's DEFAULT_*_ACTIONS (pickaxe_dig, sword_dig, sword_sweep are interned ItemAbility instances); List-based appendHoverText kept for subclasses; enchant/repair per stub. Re-reviewed 2026-10-31 at 26f36db: TLS-060's ZeroUseTierDurability (MOD-bus ModifyDefaultComponentsEvent.modifyMatching, present in 21.5.98) is byte-identical to 1.21.4's: removes MAX_DAMAGE and DAMAGE from the mod's 0-use items -- TheLastSword and TheLastSwordYouNeverForgot (compat SwordItem tier getUses() 0; no other tier in src returns <=0) and UltraTestSwordItem (a plain Item with durability(0) here too), namespace-checked -- so they are not damageable and never break, as at 1.21.1; port comment one Chinese line in the file's voice. Faithful. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndSwordWraithLevel13SpawnEgg.java | ok | Spawn reason label only (no finalizeSpawn); same 1.1.2 TrueHealthManager init. |
 | changed | src/main/java/net/the_last_sword/item/TheLastSword.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): starts with 'if (!EntityUtil.canAttack(attacker, target)) return;', the guard 1.21.1 got from super.hurtEnemy's false; no extra damage on allies; rest unchanged. Inventory scans use getNonEquipmentItems() (36 main slots), as 1.21.1's inventory.items; offhand no longer counts. 1.1.2 merge as reviewed. |
 | changed | src/main/java/net/the_last_sword/item/TheLastSwordYouNeverForgot.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): starts with 'if (!EntityUtil.canAttack(attacker, target)) return;', the guard 1.21.1 got from super.hurtEnemy's false; no extra damage on allies; rest unchanged. |
@@ -300,7 +312,7 @@ INVENTORY-CHECK.json unaccounted [] (410 items). not-ok rows left: 0.
 | stub | src/main/java/net/the_last_sword/item/DragonCultPriestArmorItem.java | ok | As stated for the renderer and texture (the armour-attribute regression is the overlay row). |
 | stub | src/main/java/net/the_last_sword/item/DragonCultistArmorItem.java | ok | GeoRenderProvider via DragonCultArmorClientExtensions.cultist(). |
 | stub | src/main/java/net/the_last_sword/item/LightningSpearItem.java | ok | LightningSpearItemRenderer.Registration registers the_last_sword:lightning_spear (RegisterSpecialModelRendererEvent), named by items/lightning_spear.json. |
-| stub | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Enchantability is the ENCHANTABLE component and repair REPAIRABLE (compat SwordItem); the three overrides returned the defaults. |
+| stub | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Enchantability is the ENCHANTABLE component and repair REPAIRABLE (compat SwordItem); the three overrides returned the defaults. Still holds at 26f36db: the TLS-060 subscriber only removes durability from 0-use items (not damageable, so no repair needed); ENCHANTABLE untouched. |
 | stub | src/main/java/net/the_last_sword/mixin/LivingEntityMixin.java | ok | Handlers checked by name; targets exist on 1.21.5 (setItemSlot, drop(ItemStack,ZZ) on LivingEntity). |
 | stub | src/main/java/net/the_last_sword/mixin/PlayerMixin.java | ok | Verified: Player declares neither setItemSlot nor drop(ItemStack,ZZ) on 1.21.5; ServerPlayer.drop calls super (ServerPlayer.java:1972-1973), same frame depth for hasExternalCaller(5) and hasBlockedExternalCaller's skip(2).limit(5). |
 | stub | src/main/java/net/the_last_sword/summon/WraithSummonManager.java | ok | 34284f6: all sends are displayClientMessage(msg,false) on server players; owner via setOwner (Owners helper not needed here). |
