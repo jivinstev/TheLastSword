@@ -136,3 +136,6 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/java/net/the_last_sword/compat/curios/ExtremeLifeSupportDevice.java` | 2e13ca391a1ca48232e2e101b98ac894eaba06c5 | fb7cfeec6403e3f806c286942e9549db271b5015 | ok | jivinstev/TheLastSword 26.3, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/mixin/LivingEntityMixin.java` | 780239a332a81d210be765122bff2d98c493dabd | f0d2c3eb2ed66a3a8cb0a99940981cd037d51ca3 | ok | jivinstev/TheLastSword 26.3, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/util/EntityUtil.java` | d10a3045d3ea0a83678de958f0dc3518ae774183 | 88c3dcad18aa8b25a4ad82bcd9c837ff47cfc5e0 | ok | jivinstev/TheLastSword 26.3, round 2026-10-30 |
+| `.port/26.1.2/REMERGE.json` | 6e5b62485855e4cbdec0f4659fa42828f8a8c3ef | 0ea5fd03c439e52184d00a8843d6d6b0136f27f3 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `.port/26.1.2/shared-helpers.txt` | e93a032c38ec70a887a9603d3e027368a87429c8 | 2a0bb114468f62133323a15a5bb882eae583cd1e | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/mv/LegacyGl.java` | 7158b889eb3f0d44a52182e1cd30028c1f476783 | 3d6dfcc4d83e1a4f761614893c834cc8a38823f8 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
