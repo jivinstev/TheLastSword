@@ -16,6 +16,15 @@
    "reasoning": "their fix, adapted through the rows (the authors' design intent)",
    "source": "authors",
    "deferred": "curse.maven:irons-spells-n-spellbooks-855414"
+  },
+  {
+   "overlay": "src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java",
+   "digest": "c3867f5fe0fce65a15a70613563851103e701a26d7b43fcd1df06a5521768217",
+   "reason": "the authors' change is not in 1.21.4's file (no merge brought it, or a merge kept 1.21.4's)",
+   "since": "8726cbd2df90..cd8560e6f445",
+   "from": "8726cbd2df9060efd217927380a0ffffecb4ede6",
+   "to": "cd8560e6f445b9d4b60ed3930d3214b3d0230230",
+   "diff": "diff --git a/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java b/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\nindex 046e887..a405e78 100644\n--- a/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\n+++ b/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\n@@ -1,6 +1,8 @@\n package net.the_last_sword.item;\n \n import net.minecraft.core.Holder;\n+import net.minecraft.core.component.DataComponents;\n+import net.minecraft.core.registries.BuiltInRegistries;\n import net.minecraft.network.chat.Component;\n import net.minecraft.network.chat.TextColor;\n import net.minecraft.tags.BlockTags;\n@@ -10,8 +12,12 @@ import net.minecraft.world.item.*;\n import net.minecraft.world.item.Item;\n import net.minecraft.world.item.enchantment.Enchantment;\n import net.minecraft.world.level.block.state.BlockState;\n+import net.neoforged.bus.api.SubscribeEvent;\n+import net.neoforged.fml.common.EventBusSubscriber;\n import net.neoforged.neoforge.common.ItemAbilities;\n import net.neoforged.neoforge.common.ItemAbility;\n+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;\n+import net.the_last_sword.TheLastSwordMod;\n import net.the_last_sword.configuration.TheLastSwordConfiguration;\n import net.the_last_sword.util.EntityUtil;\n import net.the_last_sword.util.nbt.ItemLevelHelper;\n@@ -33,6 +39,21 @@ public abstract class TheLastEndSwordItems extends SwordItem {\n         this.toolLevel = toolLevel;\n     }\n \n+    // 1.21.1：0 耐久的等级原为无限耐久；durability(0) 会使其首次受损即消失，故移除耐久组件。\n+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)\n+    public static final class ZeroUseTierDurability {\n+        private ZeroUseTierDurability() {\n+        }\n+\n+        @SubscribeEvent\n+        public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {\n+            event.modifyMatching(\n+                item -> item instanceof TieredItem tiered && tiered.getTier().getUses() <= 0\n+                    && TheLastSwordMod.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace()),\n+                builder -> builder.remove(DataComponents.MAX_DAMAGE).remove(DataComponents.DAMAGE));\n+        }\n+    }\n+\n     //检查是否是正确的工具来挖掘方块\n     @Override\n     public boolean isCorrectToolForDrops(ItemStack stack, BlockState blockstate) {\n"
   }
  ]
 }
