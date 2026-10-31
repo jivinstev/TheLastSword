@@ -1,14 +1,21 @@
 package net.the_last_sword.item;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.BlockTransformer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.BlockTransformers;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -63,18 +70,34 @@ public abstract class TheLastEndSwordItems extends SwordItem {
     //支持所有工具的默认动作（可以当作剑、镐、斧、锄、铲使用）
     @Override
     public boolean canPerformAction(net.minecraft.world.item.ItemInstance stack, ItemAbility toolAction) {
+        //26.3: axe_strip/axe_scrape/axe_wax_off, hoe_till and shovel_flatten no longer exist (NeoForge 26.3.0.76);
+        //those right-click actions are the BLOCK_TRANSFORMER registry's now, run by useOn below
         return toolAction == ItemAbility.get("axe_dig") ||
-               toolAction == ItemAbility.get("axe_strip") ||
-               toolAction == ItemAbility.get("axe_scrape") ||
-               toolAction == ItemAbility.get("axe_wax_off") ||
                toolAction == ItemAbility.get("hoe_dig") ||
-               toolAction == ItemAbility.get("hoe_till") ||
                toolAction == ItemAbility.get("shovel_dig") ||
-               toolAction == ItemAbility.get("shovel_flatten") ||
                toolAction == ItemAbilities.SHOVEL_DOUSE ||
                toolAction == ItemAbility.get("pickaxe_dig") ||
                toolAction == ItemAbility.get("sword_dig") ||
                toolAction == ItemAbilities.SWORD_SWEEP;
+    }
+
+    //26.3: stripping/scraping/wax-off, flattening and tilling run from an item's BLOCK_TRANSFORMER component, not from
+    //canPerformAction. As a multitool, try the axe, shovel and hoe transformers in turn (NeoForge's datamap
+    //additions included); a block none of them changes falls through to use() as before.
+    private static final List<ResourceKey<BlockTransformer>> TOOL_TRANSFORMERS =
+            List.of(BlockTransformers.AXE, BlockTransformers.SHOVEL, BlockTransformers.HOE);
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        HolderLookup.RegistryLookup<BlockTransformer> transformers =
+                context.getLevel().registryAccess().lookupOrThrow(Registries.BLOCK_TRANSFORMER);
+        for (ResourceKey<BlockTransformer> key : TOOL_TRANSFORMERS) {
+            Holder.Reference<BlockTransformer> transformer = transformers.get(key).orElse(null);
+            if (transformer == null) continue;
+            InteractionResult result = transformer.value().transformBlock(context, transformer);
+            if (result != InteractionResult.PASS) return result;
+        }
+        return super.useOn(context);
     }
 
     //计算基础物理伤害：Tier的攻击伤害 + 4（公共方法，供tooltip和弹射物使用）
