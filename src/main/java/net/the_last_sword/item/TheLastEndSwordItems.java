@@ -45,6 +45,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
     }
 
     // 1.21.1：0 耐久的等级原为无限耐久；durability(0) 会使其首次受损即消失，故移除耐久组件。
+    // 26.1.2: the builder is DataComponentMap.Builder (no remove); set(type, null) removes the component.
     @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID)
     public static final class ZeroUseTierDurability {
         private ZeroUseTierDurability() {
@@ -53,10 +54,10 @@ public abstract class TheLastEndSwordItems extends SwordItem {
         @SubscribeEvent
         public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
             event.modifyMatching(
-                item -> (item instanceof SwordItem tiered && tiered.getTier().getUses() <= 0
+                (item, components) -> (item instanceof SwordItem tiered && tiered.getTier().getUses() <= 0
                     || item instanceof net.the_last_sword.test.UltraTestSwordItem)
                     && TheLastSwordMod.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace()),
-                builder -> builder.remove(DataComponents.MAX_DAMAGE).remove(DataComponents.DAMAGE));
+                (builder, context, key) -> builder.set(DataComponents.MAX_DAMAGE, null).set(DataComponents.DAMAGE, null));
         }
     }
 
