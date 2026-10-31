@@ -15,9 +15,29 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-31, step 4; a subagent of session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer; earlier rows by the 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
+- reviewer: fresh agent (round 2026-10-31 review job TheLastSword@1.21.8_review, session https://claude.ai/code/session_01Cvm3m4ouLWCzHF4MoqC8sN, fresh context), not the fixer (TLS-060 fix 72486ae/260c0f9 and the cascades 8924d39/f391e87 were other workers); earlier rows by the 2026-10-31 (759a4dc), 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
 - date: 2026-10-31
-- commit: 759a4dc
+- commit: f391e87
+
+Re-review 2026-10-31 at f391e87 (keep-current round 2026-10-31, second pass: TLS-060 carried up from neoforge-1.21.1
+cd8560e through 1.21.4/1.21.5 and cascaded here by 8924d39 and f391e87; decision 6f04b0f6e2a6 cleared 6771d4d).
+check-done added no `?` row and reported the record stale for 1 file since 759a4dc. git diff 759a4dc..f391e87 -- src is
+only TheLastEndSwordItems.java (+22: the ZeroUseTierDurability subscriber that removes MAX_DAMAGE/DAMAGE from the mod's
+0-use-tier swords and UltraTestSwordItem, so they are unbreakable as on 1.21.1). Against the parent (merge-base f391e87^2 =
+1758f50 = neoforge-1.21.5) the file differs only by `bus = EventBusSubscriber.Bus.MOD` dropped -- a shared-renames.tsv row
+(FML 9: the bus follows from the event class), so it needs no row of its own; read anyway: in 21.8.54
+ModifyDefaultComponentsEvent implements IModBusEvent (still delivered on the mod bus) and has modifyMatching(Predicate,
+Consumer<DataComponentPatch.Builder>) (javap, universal jar); TheLastSword and TheLastSwordYouNeverForgot extend
+TheLastEndSwordItems -> compat SwordItem with getUses() 0 (matched), UltraTestSwordItem (durability(0)) is matched by
+name; the namespace check keeps it to this mod. The three Durability REPORT lines of the gate run at f391e87
+(TheLastSword.java:58, TheLastSwordYouNeverForgot.java:50, UltraTestSwordItem.java:54) are exactly these items, all
+covered by the subscriber. Built jar (16:24, after the last src change 8924d39 16:17) contains
+TheLastEndSwordItems$ZeroUseTierDurability; build/mc1.21.8/fork-port/ci-gates-summary.md at f391e87: build, Gate A, Data,
+Payloads, Data loads, Gate B (6 GameTests) PASS, Wiring and Durability REPORT (read above). renames.tsv, STUBS.json,
+REMERGE.json, the resource groups and the shared files are unchanged since 759a4dc, so every other row's verdict stands.
+Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (410 items); the subscriber is a port fix (TLS-060), not an
+inventory hook. Open outside this record: GATES.md still names 9265fb5 (the driver's re-gate/commit of the f391e87 run),
+and the ECA 1.21.8 library is a pre-release, not done. not-ok rows left: 0.
 
 Fresh review 2026-10-31 at 759a4dc (keep-current round: neoforge-1.21.5 957d182 cascaded in by 759a4dc -- the TLS-050
 advancement fix b1b2eaa from 1.21.5, the 1.21.8 ECA re-pin 11ce3ca, the 1.21.5/1.21.8 stale REMERGE clears 44ed7a1).
