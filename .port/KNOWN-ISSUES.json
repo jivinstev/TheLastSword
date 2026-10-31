@@ -1482,6 +1482,24 @@
         "26.3": "fixed@72486ae"
       },
       "title": "The Last Sword and The Last Sword You Never Forgot are destroyed by their first durability hit (a 0-use tier became durability(0): damageable with max damage 0)"
+    },
+    {
+      "id": "TLS-061",
+      "lowest": "1.21.1",
+      "notes": "Found by a fresh reviewer (filing live test, 2026-10-31), confirmed by source: TheLastEndSwordItems overrides only supportsEnchantment (sword/pickaxe/bow supported items); NeoForge 21.1 IItemExtension.isPrimaryItemFor = supportsEnchantment && (primaryItems empty || stack.is(primaryItems)), and EnchantmentHelper's table selection filters on isPrimaryItemFor; sharpness/smite/bane_of_arthropods/fire_aspect have primary_items #enchantable/sword, and data/minecraft/tags/item/swords.json lists only knight_greatsword. The authors' 1.20.1 canApplyAtEnchantingTable accepted them via the NETHERITE_SWORD check. Workaround: an anvil with an enchanted book (AnvilMenu uses supportsEnchantment). Fix: override isPrimaryItemFor on the swords (as the port's PrimalSource armour already does), or tag them #enchantable/sword. Check each higher version's API before carrying.",
+      "override": null,
+      "rubric": {
+        "failure": "functional",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": true
+      },
+      "severity": "S3",
+      "source": "review",
+      "status": {
+        "1.21.1": "open"
+      },
+      "title": "1.21.1+: the mod's swords (Dragon Crystal Sword, Dragon Sword, The Last Sword, You Never Forgot) are never offered Sharpness, Smite, Bane of Arthropods or Fire Aspect at the enchanting table"
     }
   ],
   "schema": 1
