@@ -39,6 +39,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/event/EnderDragonEvent.java`
 - changed: `src/main/java/net/the_last_sword/event/ServerEventHandler.java`
 - changed: `src/main/java/net/the_last_sword/event/TheLastSwordQuestHandler.java`
+- changed: `src/main/java/net/the_last_sword/mixin/EntityMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/mixin/LevelRendererMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/mixin/MinecraftMixin.java` (mixin, client)
 - changed: `src/main/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java` (mixin, client)

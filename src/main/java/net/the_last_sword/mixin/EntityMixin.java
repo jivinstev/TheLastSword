@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 public class EntityMixin {
 
     @Shadow @Nullable private Entity.RemovalReason removalReason;
+    @Shadow private int id;
 
     // 等派生类读档结束后迁移，覆盖运行中重新加载实体数据的入口。
     @Inject(method = "load", at = @At("RETURN"))
@@ -113,7 +114,8 @@ public class EntityMixin {
     @Inject(method = "isCurrentlyGlowing", at = @At("HEAD"), cancellable = true)
     private void theLastSword$perceptionGlowing(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide() && PerceptionScanData.isScanned(self.getId())) {
+        // 26.2: getId() throws before ID assignment (e.g. a spawner's display mob being loaded); unassigned entities are never scanned.
+        if (this.id != Entity.INVALID_ENTITY_ID && self.level().isClientSide() && PerceptionScanData.isScanned(this.id)) {
             cir.setReturnValue(true);
         }
     }
@@ -122,8 +124,8 @@ public class EntityMixin {
     @Inject(method = "getTeamColor", at = @At("HEAD"), cancellable = true)
     private void theLastSword$perceptionTeamColor(CallbackInfoReturnable<Integer> cir) {
         Entity self = (Entity) (Object) this;
-        if (self.level().isClientSide() && PerceptionScanData.isScanned(self.getId())) {
-            cir.setReturnValue(PerceptionScanData.getColor(self.getId()));
+        if (this.id != Entity.INVALID_ENTITY_ID && self.level().isClientSide() && PerceptionScanData.isScanned(this.id)) {
+            cir.setReturnValue(PerceptionScanData.getColor(this.id));
         }
     }
 }
