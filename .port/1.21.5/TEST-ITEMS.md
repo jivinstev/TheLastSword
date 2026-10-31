@@ -133,6 +133,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - resources: `src/main/resources/assets/the_last_sword/geckolib @5483cc454fde`
 - resources: `src/main/resources/assets/the_last_sword/models @cabccc755d37`
 - resources: `src/main/resources/assets/the_last_sword/textures @69325450eeb5`
+- resources: `src/main/resources/data/the_last_sword/advancement @c99e15086cd3`
 - resources: `src/main/resources/data/the_last_sword/trim_material @4fdbeb46ab1e`
 - stub: `src/main/java/net/the_last_sword/block/DragonCrystalEnchantingTableBlock.java`
 - stub: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
