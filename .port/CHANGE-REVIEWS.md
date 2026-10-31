@@ -130,3 +130,6 @@ commit_current). Written by the keep-current round driver; a union record.
 | `.port/26.2/branch.properties` | 41a03093b6cdb0ce740063a346d1f45dbfd91665 | 68f261462fc26bc291995155c519dc5431bf2876 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/entity/DragonCultPriestEntity.java` | 282b3c579de4dd60c20b09f07432c4a691631f89 | 1c5f7e22bda1658366ffc925d9ce75bab11da499 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/summon/WraithSummonManager.java` | 57827950cd0fb33dab023d0fa4d0b98d17a9d7ef | e715be983e0d9dadfd1d27d8aa731a21bd026039 | ok | jivinstev/TheLastSword 26.2, round 2026-10-30 |
+| `.port/26.1.2/REMERGE.json` | 6e5b62485855e4cbdec0f4659fa42828f8a8c3ef | 0ea5fd03c439e52184d00a8843d6d6b0136f27f3 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `.port/26.1.2/shared-helpers.txt` | e93a032c38ec70a887a9603d3e027368a87429c8 | 2a0bb114468f62133323a15a5bb882eae583cd1e | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/mv/LegacyGl.java` | 7158b889eb3f0d44a52182e1cd30028c1f476783 | 3d6dfcc4d83e1a4f761614893c834cc8a38823f8 | ok | jivinstev/TheLastSword 26.1.2, round 2026-10-30 |
