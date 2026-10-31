@@ -1261,7 +1261,7 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "26.3": "fixed@a84b88d"
+        "26.3": "wontfix:not a defect -- the swords never transformed blocks on any version (owner, 2026-10-31)"
       },
       "title": "26.3: the mod's swords may no longer strip, till or flatten (axe/hoe/shovel ItemAbility strings no longer queried)"
     },
@@ -1479,7 +1479,7 @@
         "1.21.8": "open",
         "26.1.2": "open",
         "26.2": "open",
-        "26.3": "open"
+        "26.3": "fixed@ce18ccc"
       },
       "title": "The Last Sword and The Last Sword You Never Forgot are destroyed by their first durability hit (a 0-use tier became durability(0): damageable with max damage 0)"
     }
