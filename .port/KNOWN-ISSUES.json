@@ -1216,12 +1216,12 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.10": "open",
-        "1.21.11": "open",
-        "1.21.5": "open",
-        "1.21.8": "open",
-        "26.1.2": "fixed@c977081",
-        "26.2": "fixed@c977081",
+        "1.21.10": "fixed@b1b2eaa",
+        "1.21.11": "fixed@b1b2eaa",
+        "1.21.5": "fixed@b1b2eaa",
+        "1.21.8": "fixed@b1b2eaa",
+        "26.1.2": "fixed@b1b2eaa",
+        "26.2": "fixed@b1b2eaa",
         "26.3": "fixed@c977081"
       },
       "title": "26.x: root advancement the_last_sword_welcome's background minecraft:textures/block/end_stone.png resolves to a missing texture behind the tab (should be minecraft:block/end_stone)"
@@ -1240,7 +1240,9 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.11": "open"
+        "1.21.11": "fixed@b6951fe",
+        "26.1.2": "fixed@b6951fe",
+        "26.2": "fixed@b6951fe"
       },
       "title": "Armour item models may resolve on the wrong atlas at 1.21.11 (the 26.1.2 fix not carried down)"
     },
@@ -1418,7 +1420,7 @@
       "severity": "S3",
       "source": "player",
       "status": {
-        "26.2": "open"
+        "26.2": "fixed@62aa9f2"
       },
       "title": "26.2: the perceptionGlowing Entity mixin reads the entity id before it is assigned: a monster spawner's display mob fails to load (IllegalStateException, logged), so the End structures' spawners show no mob"
     },
