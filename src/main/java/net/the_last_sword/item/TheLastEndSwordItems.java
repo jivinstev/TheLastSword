@@ -1,6 +1,8 @@
 package net.the_last_sword.item;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.BlockTags;
@@ -10,8 +12,12 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
 import net.the_last_sword.util.EntityUtil;
 import net.the_last_sword.util.nbt.ItemLevelHelper;
@@ -31,6 +37,24 @@ public abstract class TheLastEndSwordItems extends SwordItem {
         super(tier, properties.attributes(SwordItem.createAttributes(tier, attackDamageModifier, attackSpeedModifier)));
         this.destroySpeed = destroySpeed;
         this.toolLevel = toolLevel;
+    }
+
+    // A tier with 0 uses is the authors' "infinite durability" (1.20.1: a max damage of 0 is not damageable).
+    // From 1.20.5 TieredItem's durability(0) makes the stack damageable with a max damage of 0, so the first hit,
+    // mined block or tool use destroyed it (The Last Sword, The Last Sword You Never Forgot): such an item keeps no
+    // durability components at all (its stack size stays 1).
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    public static final class ZeroUseTierDurability {
+        private ZeroUseTierDurability() {
+        }
+
+        @SubscribeEvent
+        public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
+            event.modifyMatching(
+                item -> item instanceof TieredItem tiered && tiered.getTier().getUses() <= 0
+                    && TheLastSwordMod.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace()),
+                builder -> builder.remove(DataComponents.MAX_DAMAGE).remove(DataComponents.DAMAGE));
+        }
     }
 
     //检查是否是正确的工具来挖掘方块
