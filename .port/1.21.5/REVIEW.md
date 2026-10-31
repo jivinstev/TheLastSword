@@ -15,9 +15,9 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-10-30 reviewer subagent, https://claude.ai/code/session_01Cvm3m5qHxFwKkCQPUvKFUW, started for this review only), not the fixer
-- date: 2026-10-30
-- commit: b5e5918
+- reviewer: fresh agent (round 2026-10-31 reviewer subagent, https://claude.ai/code/session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer
+- date: 2026-10-31
+- commit: 13950d1
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
@@ -70,6 +70,15 @@ Rows re-judged for this diff: the six Curios accessories, DragonCultPaladin/Prie
 EntityUtil (notes below); every other row's file is unchanged since 33c07e5 and stands. Built jar (05:30, after the last src
 change 32b1fad) contains CurioModifierDefaults; Curios 6538253's ICurioItem declares getDefaultCurioAttributeModifiers.
 Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (410 items). not-ok rows left: 0.
+
+Fresh review 2026-10-31 at 13950d1 (keep-current round 2026-10-31: cascade of neoforge-1.21.4 37d194b (merge ea32956),
+measure 5b29653, ECA re-pin 4c99979, TLS-050 fix b1b2eaa, A/B bookkeeping 13950d1). check-done added one `?` row (the
+advancement resource group) and reported the record stale for 4 files since b5e5918. git diff 37d194b..13950d1 -- src is
+only the three advancement background lines (row below). REMERGE.json: 5b29653 clears f22aa3df1cc9, beceb90a4d6d and
+8f4c60a8696b (the stale records the 2026-10-30 review named; files re-read, the authors' e9246886 content is in) and defers
+8043e30a38c4 on Iron's Spells with a `deferred` marker, as asked there. No other src file, renames.tsv, STUBS.json,
+moves/shared-renames/shared-helpers changed, so every other row's verdict was re-read and stands. Behaviour inventory:
+INVENTORY-CHECK.json unaccounted [] (410 items). not-ok rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
@@ -301,4 +310,4 @@ Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (410 items). not-ok row
 | shared | src/main/java/net/the_last_sword/mv/Owners.java | ok | 34284f6 (cascade fixer 954a8b6): Owners.uuid(e) = getOwnerReference() == null ? null : ref.getUUID(), what 1.21.4 getOwnerUUID() returned; the shared-renames row only matches a no-arg .getOwnerUUID() call, so WraithSummonManager.getOwnerUUID(UUID) is untouched; its one use (TheLastEndFollowOwnerGoal) compares the owner UUID as before. |
 | shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | 5f797c4 (shared library b0fcbbd): one owner-keyed save stack; restore(owner) pops back to that type's newest load (non-nested A/B set-up/clear ends with nothing loaded; a type with nothing loaded changes nothing) and now puts back the replaced shader; load sets the shader only for a ShaderInstance/Vanilla. Bias and target are set only by load, so resetting them once the stack is empty restores their pre-load values. Every mod use goes through LegacyRenderType.draw (setup, draw, clear) or the buffer source, never a draw after clear, so restoring the shader changes nothing the mod draws; render thread only. |
 | shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | 5f797c4 (shared library b0fcbbd): per-instance Deque replaced by LegacyGl's owner stack (load(this, ...)/restore(this)); a throwing shader-shard setup restores what it loaded and rethrows, so draw() (setup before its try) leaks no state; unused ArrayDeque/Deque imports removed. Same draw path otherwise. |
-| resources | src/main/resources/data/the_last_sword/advancement @c99e15086cd3 | ? | ? |
+| resources | src/main/resources/data/the_last_sword/advancement @c99e15086cd3 | ok | 13950d1 (TLS-050 fix b1b2eaa): the three backgrounds (the_last_end_scroll_obtain, the_last_sword_welcome, troubled_blacksmith) become minecraft:block/end_stone. On 1.21.5 DisplayInfo.background is a ClientAsset (CODEC = ResourceLocation id; texturePath = textures/<id>.png, read by AdvancementTab), so this resolves to minecraft:textures/block/end_stone.png, present in the 21.5.98 client resources; the parent's path form would double the prefix/suffix. Only these lines differ from neoforge-1.21.4; no other data json carries a textures/ path. |
