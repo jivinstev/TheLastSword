@@ -15,9 +15,32 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-30, step 4; a subagent of session_01Cvm3m5qHxFwKkCQPUvKFUW, started for this review only), not the fixer; earlier rows by the 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
-- date: 2026-10-30
-- commit: 8c0684a
+- reviewer: fresh agent 1.21.8 reviewer (keep-current round 2026-10-31, step 4; a subagent of session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer; earlier rows by the 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
+- date: 2026-10-31
+- commit: 759a4dc
+
+Fresh review 2026-10-31 at 759a4dc (keep-current round: neoforge-1.21.5 957d182 cascaded in by 759a4dc -- the TLS-050
+advancement fix b1b2eaa from 1.21.5, the 1.21.8 ECA re-pin 11ce3ca, the 1.21.5/1.21.8 stale REMERGE clears 44ed7a1).
+check-done added no `?` row; it reported the record stale for 4 files since 8c0684a. git diff 8c0684a..759a4dc -- src is
+only the three advancement background lines (the_last_end_scroll_obtain, the_last_sword_welcome, troubled_blacksmith:
+minecraft:textures/block/end_stone.png -> minecraft:block/end_stone). They come from the parent and are now equal to it, so
+they are not in this version's own diff (merge-base 957d182 = neoforge-1.21.5) and need no row; read anyway: on 1.21.8
+DisplayInfo.background is still Optional<ClientAsset> (21.8.54 merged jar, javap; ClientAsset(id) -> textures/<id>.png)
+and assets/minecraft/textures/block/end_stone.png is in the 1.21.8 client jar, so the id form is right here as on 1.21.5
+(1.21.5 REVIEW row, 13950d1). The own diff over the parent has the same file list as at 8c0684a (over e7e0283) and its
+added/removed lines are identical, so every row's verdict stands. branch.properties: ECA eca-1.1.9-fix-mc1.21.8-r3 ->
+eca-1.1.9-fix-fix-mc1.21.8 (the library's own 1.21.8 port of the authors' 1.1.9-fix-fix: render/coremod internals only,
+none of the net.eca API this mod calls changes; the build compiles against it) and port_taken -> 8726cbd (no src change
+since e9246886). REMERGE.json: DragonCultTargetGoals, IronGolemDragonCultTargetGoal and VillagerHostilesSensorMixin cleared
+as stale (the authors' change is in the file, differing only by the 1.21.2+ Selector/ServerLevel signatures -- as this
+record found at 8c0684a); ModCreativeTabs is now `deferred` on Iron's Spells (dropped, DEPS.md) -- right, the grimoire
+item is not built here. Gates at 759a4dc (build/mc1.21.8/fork-port/ci-gates-summary.md): build, Gate A, Data, Payloads,
+Data loads, Gate B (6 GameTests) PASS; Wiring REPORT is the inherited ModCapabilities.java:50 note judged harmless at
+6c5fd39. Behaviour inventory: check on this checkout unaccounted [] (298 same, 72 moved, 11 changed, 29 dropped); the
+committed .port/INVENTORY.json still predates the authors' d20ec4c merge, so re-checked against a rebuild in a scratch
+clone (427 items, not committed): unaccounted [], 309 same, 72 moved, 11 changed, 35 dropped -- as at 8c0684a. Open outside
+this record: GATES.md names 9265fb5 (no Gate C at 759a4dc), .port/INVENTORY.json needs `layer-inventory.py build`
+committed, and the ECA 1.21.8 library is a pre-release, not done. not-ok rows left: 0.
 
 Fresh review 2026-10-30 at 8c0684a (keep-current round: the authors' d20ec4c merge cascaded 1.21.1 -> 1.21.4 -> 1.21.5
 -> 1.21.8 -- f6f13dc, f718ce5, 98cc974, 8c0684a -- with TLS-057 (66583c4), the ECA fix-fix re-pin 2e99252 and CI 2180937).
