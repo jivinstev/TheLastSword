@@ -39,10 +39,7 @@ public abstract class TheLastEndSwordItems extends SwordItem {
         this.toolLevel = toolLevel;
     }
 
-    // A tier with 0 uses is the authors' "infinite durability" (1.20.1: a max damage of 0 is not damageable).
-    // From 1.20.5 TieredItem's durability(0) makes the stack damageable with a max damage of 0, so the first hit,
-    // mined block or tool use destroyed it (The Last Sword, The Last Sword You Never Forgot): such an item keeps no
-    // durability components at all (its stack size stays 1).
+    // 1.21.1：0 耐久的等级原为无限耐久；durability(0) 会使其首次受损即消失，故移除耐久组件。
     @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
     public static final class ZeroUseTierDurability {
         private ZeroUseTierDurability() {
