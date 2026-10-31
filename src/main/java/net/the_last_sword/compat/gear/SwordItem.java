@@ -49,8 +49,10 @@ public class SwordItem extends Item {
 
     private static Item.Properties applyTier(Tier tier, Item.Properties properties) {
         HolderGetter<Block> blocks = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
-        properties = properties
-            .durability(tier.getUses())
+        // A tier with 0 uses is the authors' "infinite durability" (1.20.1: a max damage of 0 is not damageable).
+        // From 1.20.5 durability(0) still makes the stack damageable with a max damage of 0, so the first hit, mined
+        // block or tool use destroyed it: give such a tier no durability components at all.
+        properties = (tier.getUses() > 0 ? properties.durability(tier.getUses()) : properties.stacksTo(1))
             .enchantable(tier.getEnchantmentValue())
             .component(
                 DataComponents.TOOL,
