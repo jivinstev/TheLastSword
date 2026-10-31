@@ -13,9 +13,35 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-30, step 4; a subagent of session_01Cvm3m5qHxFwKkCQPUvKFUW, started for this review only), not the fixer; earlier rows by the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
-- date: 2026-10-30
-- commit: be414c7
+- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-31, step 4; a subagent of session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer; earlier rows by the 2026-10-30 reviewer (session_01Cvm3m5qHxFwKkCQPUvKFUW, at be414c7), the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
+- date: 2026-10-31
+- commit: e2b6935
+
+Fresh review 2026-10-31 at e2b6935 (keep-current round: the 1.21.1 head re-pin 8726cbd cascaded 1.21.4 -> 1.21.5 ->
+1.21.8 -> 1.21.10 -- 37d194b, 5b29653, 44ed7a1, f3225ba -- with the shared library at a1a6df3 86b00cc, re-measure eaca603
+and dependency re-pin e2b6935; merge-base 44ed7a1 with neoforge-1.21.8). check-done added no `?` row; it reported the
+record stale for 3 files since be414c7. git diff be414c7..e2b6935 touches in src/ only mv/LegacyGl.java, and of the
+reviewed inputs .port/1.21.10/REMERGE.json, shared-helpers.txt and branch.properties; no renames.tsv, STUBS.json, moves,
+shared-renames or resource group, so every other row's verdict was re-read against the tree and stands.
+(1) mv/LegacyGl.java (shared helper, blob a400379 -> fde483f, 86b00cc): draw() now runs the mod ShaderInstance's apply()
+with COLOR_MODULATOR saved before and restored after (or its touched flag dropped when nothing was written before), so a
+COLOR_MODULATOR written inside apply() is not kept -- as on 1.21.1, where apply() uploaded first and the next draw's
+setDefaultUniforms overwrote it. This is 1.21.8's rule: the file now differs from neoforge-1.21.8's only by the header
+note and the model offset (zero Vector3f, 1.21.9 dropped RenderSystem.getModelOffset()). The mod's two apply() overrides
+(ModShaders, ZeroPointEngineShader) write only LocalUvMin/LocalUvScale/GlowPhase before super.apply(), and no mod code
+outside mv/ writes COLOR_MODULATOR (grep), so the change is neutral here and closes the gap the earlier shared row noted.
+(2) REMERGE.json: f22aa3df1cc9, beceb90a4d6d, 8f4c60a8696b removed (DECISIONS.md 2026-10-31, `content`): the three
+files are byte-identical to neoforge-1.21.8's (git diff), which carry the authors' e9246886 change adapted to the 1.21.2+
+signatures -- as this record's 2026-10-30 paragraph found. 8043e30a38c4 (ModCreativeTabs) is now deferred on
+curse.maven:irons-spells-n-spellbooks-855414, dropped at 1.21.10 (DEPS.md), like ClientEventHandler's f33e8e0dc70a:
+right, the grimoire item is not registered without Iron's Spells. (3) branch.properties: port_taken e9246886 -> 8726cbd
+(the head re-pin) and library.jivinstev/EpicCoreAPI r3 -> eca-1.1.9-fix-fix-mc1.21.10, settings fork-branches.py
+derives. Gates at eaca603 (same src/ as e2b6935, which adds only COST/DRIFT; build/mc1.21.10/fork-port/ci-gates-summary.md):
+build, Gate A, Data, Payloads, Data loads, Gate B (6 GameTests) PASS; Wiring REPORT (9) is the accounted energy move.
+Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []; no hook-bearing file changed since be414c7 (only
+LegacyGl, a helper with no inventory items), so the 2026-10-30 scratch-rebuild account (427 items, unaccounted []) stands.
+Open outside this record: GATES.md names 1f912de (Gate C not re-run since), .port/INVENTORY.json still predates the
+authors' d20ec4c merge, and the ECA 1.21.10 library is a pre-release, not done. not-ok rows left: 0.
 
 Fresh review 2026-10-30 at be414c7 (keep-current round: the authors' d20ec4c merge cascaded 1.21.1 -> 1.21.4 -> 1.21.5
 -> 1.21.8 -> 1.21.10 -- c94fe25, 75ded13, 4027252, be414c7 -- with TLS-057, the ECA fix-fix re-pin 408e8c0 and CI 930da40;
@@ -250,7 +276,7 @@ Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []. Open outsid
 | missing | src/main/java/net/the_last_sword/mixin/SpecialModelWrapperMixin.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): present and listed in the mixin config, with no mixin_remove key for it; see its changed row. |
 | shared | src/main/java/net/the_last_sword/mv/LegacyEnergy.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): unchanged since the 13ce6ec re-check: transfer-API adapters for the legacy IEnergyStorage. Block handler with a setter rollback; item handler writes back through ItemAccess.exchange in a nested transaction committed only on a full move. item(stack) returns null for an empty stack. Open S4 TLS-019 (no valid-item pin, only if another mod swaps the accessed item mid-transaction) is on the ledger. |
 | shared | src/main/java/net/the_last_sword/client/renderer/PhasingSubmitNodeCollector.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): unchanged: wraps submitModel/submitModelPart/submitCustomGeometry with PhasingBufferSource.translucentType and half alpha, keeps order(n) wrapped, and passes name tags, text, shadows and items through. With DragonArmorRenderer, the armour halves once (TLS-018 is the dead compensation code). |
-| shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): shared library b0fcbbd. Against 1.21.8 it now has the F1 load/restore (LegacyRenderType.setupRenderState/clearRenderState load the type's shader, state, depth bias and target for drawWithShader, on one stack). Nothing in the mod calls setupRenderState or drawWithShader outside mv (grep), so this only touches LegacyRenderType.draw, which is equivalent. It still lacks 1.21.5's opacity rule (a COLOR_MODULATOR written in apply() is discarded), but no mod apply() (ModShaders, ZeroPointEngineShader) writes COLOR_MODULATOR. The model offset is a zero vector, as vanilla 1.21.9+ passes. |
+| shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Re-review at e2b6935: shared library a1a6df3 (86b00cc, blob fde483f) adds 1.21.8's opacity rule to draw(): COLOR_MODULATOR saved around the mod's apply() and restored, so a write inside apply() is not kept, as on 1.21.1 (apply() uploaded first, the next setDefaultUniforms overwrote it). The file now equals neoforge-1.21.8's but for the header note and the zero model offset vanilla 1.21.9+ passes. No mod apply() (ModShaders, ZeroPointEngineShader) nor other mod code writes COLOR_MODULATOR, so it is neutral here. Earlier: Full review at 54b6803 (F1 load/restore; LegacyRenderType.draw equivalent). |
 | shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): shared library b0fcbbd: setupRenderState runs super, LegacyGl.load and the shader shard's setup (restored if the shard throws); clearRenderState undoes them in reverse. draw() is setup -> LegacyGl.draw(key, target) -> clear, which is the old order. pipeline() implements 1.21.9's abstract method from getRenderPipeline(). |
 | changed | src/main/java/net/the_last_sword/block/entity/DragonCrystalEnchantingTableBlockEntity.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): neighbour and charge-slot energy reads go through LegacyEnergy.block/item (Capabilities.EnergyStorage is gone in 1.21.9); the new public setEnergyStored is the rollback hook LegacyEnergy.handler needs, with a why-comment. Tick logic unchanged. |
 | resources | src/main/resources/assets/the_last_sword/lang @347d8d0026e3 | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): superseded by the lang @a50c080ec25f row (the parent's lang files took the authors' new keys); same single added key. |
@@ -259,6 +285,6 @@ Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []. Open outsid
 | changed | src/main/java/net/the_last_sword/item/PriestStaffItem.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the file now equals neoforge-1.21.8 through this version's rows (mechanical). Read the diff: only rename-row API substitutions (isClientSide(), item energy through LegacyEnergy.item, and the like), no logic change. |
 | resources | src/main/resources/assets/the_last_sword/lang @a50c080ec25f | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): against neoforge-1.21.8 each of the 11 lang files only adds key.category.the_last_sword.the_last_sword (the 1.21.9 KeyMapping.Category key ModKeyMappings registers), with the text of key.categories.the_last_sword. |
 | changed | src/main/java/net/the_last_sword/mixin/SpecialModelWrapperMixin.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the file now equals neoforge-1.21.8 through this version's rows (mechanical). update(..., ItemOwner, int) matches 21.10.64's SpecialModelWrapper.update. The TAIL inject that sets LightningSpearItemRenderer animated is unchanged and coexists with GeckoLib 5.3's WrapOperation. |
-| changed | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the file is the shared helper as installed (shared-helpers.txt blob a400379). See the shared row. |
+| changed | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Re-review at e2b6935: no required row: the file is the shared helper as installed (shared-helpers.txt blob fde483f, was a400379). See the shared row. |
 | changed | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the shared helper as installed (blob 1802a8b). See the shared row. |
 | resources | src/main/resources/assets/the_last_sword/lang @560e26455b09 | ok | Fresh review at be414c7 (merge-base 09ded1d with neoforge-1.21.8): supersedes the lang @a50c080ec25f row; the parent's lang files took the authors' dragon_crystal_grimoire item name, and against neoforge-1.21.8 each of the 11 files still only adds key.category.the_last_sword.the_last_sword (the 1.21.9 KeyMapping.Category key ModKeyMappings registers), with the text of key.categories.the_last_sword (checked per file). |
