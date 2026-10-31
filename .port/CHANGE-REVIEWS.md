@@ -64,3 +64,4 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/resources/data/minecraft/tags/block/needs_diamond_tool.json` | - | a80133a2cbed653a8b6b4720b5cd341b6dccacf9 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
 | `src/main/resources/data/the_last_sword/dragon_crystal_smithing_recipes/dragon_crystal_grimoire.json` | - | 8264a4a5ca20dc0179161cca5dad0452577b8d2c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
 | `src/main/resources/the_last_sword.mixins.json` | aa1049ab6fa2f70785ed3f66caf5f911555f3f51 | 409a67fa40b37a22de9032377e87f9066a954f35 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 8ce7d6005e8eb3baf450114d327c63cc9fd966ca | a3784918b8e92210b1e49f11f2b284c09929f1a8 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-31 |
