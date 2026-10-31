@@ -63,14 +63,11 @@ public abstract class TheLastEndSwordItems extends SwordItem {
     //支持所有工具的默认动作（可以当作剑、镐、斧、锄、铲使用）
     @Override
     public boolean canPerformAction(net.minecraft.world.item.ItemInstance stack, ItemAbility toolAction) {
+        //26.3: axe_strip/axe_scrape/axe_wax_off, hoe_till and shovel_flatten no longer exist (NeoForge 26.3.0.76);
+        //they never made the swords transform blocks (only AxeItem/ShovelItem/HoeItem.useOn did), so they are dropped
         return toolAction == ItemAbility.get("axe_dig") ||
-               toolAction == ItemAbility.get("axe_strip") ||
-               toolAction == ItemAbility.get("axe_scrape") ||
-               toolAction == ItemAbility.get("axe_wax_off") ||
                toolAction == ItemAbility.get("hoe_dig") ||
-               toolAction == ItemAbility.get("hoe_till") ||
                toolAction == ItemAbility.get("shovel_dig") ||
-               toolAction == ItemAbility.get("shovel_flatten") ||
                toolAction == ItemAbilities.SHOVEL_DOUSE ||
                toolAction == ItemAbility.get("pickaxe_dig") ||
                toolAction == ItemAbility.get("sword_dig") ||

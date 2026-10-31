@@ -217,3 +217,23 @@
 - size: 421 Java files, 26 mixin classes; target Minecraft 1.21.4
 - attribution: each request is charged to one target at most, by the paths and target its own tool calls name (a request naming none keeps the label of the one before it in the same transcript; a subagent or loop worker starts from its prompt). Not in the total above: this checkout's shared/orchestration requests 9 (≈ $0.27), other targets' 0, outside this checkout 67. Records of concurrent targets add up.
 - window: requests from 2026-10-30T05:11:17.314Z to 2026-10-30T05:26:33.087Z (requests before it are not in this record)
+
+## fork-port.py run since 2026-10-30T23:28:28+00:00
+
+## Cost (recorded by tools/port-cost.py -- do not edit by hand)
+- **≈ $0.29** (estimated from tokens at list prices as of 2026-09-25) over 1 session(s): 0.01 h active, 0.01 h wall (2026-10-30T23:32Z to 2026-10-30T23:33Z)
+- price tier: top (14 req); effort: medium 14
+- tokens: output 3,413 (thinking 1,055), input 28, cache read 476,939, cache write 25,671 (5m 25,671 / 1h 0)
+- size: 421 Java files, 26 mixin classes; target Minecraft 1.21.4
+- attribution: each request is charged to one target at most, by the paths and target its own tool calls name (a request naming none keeps the label of the one before it in the same transcript; a subagent or loop worker starts from its prompt). Not in the total above: this checkout's shared/orchestration requests 0 (unpriced), other targets' 0, outside this checkout 75. Records of concurrent targets add up.
+- window: requests from 2026-10-30T05:26:33.088Z to 2026-10-30T23:33:43.661Z (requests before it are not in this record)
+
+## fork-port.py run since 2026-10-30T23:28:28+00:00
+
+## Cost (recorded by tools/port-cost.py -- do not edit by hand)
+- **≈ $0.24** (estimated from tokens at list prices as of 2026-09-25) over 1 session(s): 0.0 h active, 0.0 h wall (2026-10-30T23:39Z to 2026-10-30T23:39Z)
+- price tier: top (4 req); effort: medium 4
+- tokens: output 1,516 (thinking 95), input 10, cache read 155,713, cache write 36,580 (5m 36,580 / 1h 0)
+- size: 421 Java files, 26 mixin classes; target Minecraft 1.21.4
+- attribution: each request is charged to one target at most, by the paths and target its own tool calls name (a request naming none keeps the label of the one before it in the same transcript; a subagent or loop worker starts from its prompt). Not in the total above: this checkout's shared/orchestration requests 0 (unpriced), other targets' 0, outside this checkout 31. Records of concurrent targets add up.
+- window: requests from 2026-10-30T23:33:43.662Z to 2026-10-30T23:39:24.049Z (requests before it are not in this record)
