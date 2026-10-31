@@ -91,3 +91,5 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/resources/data/the_last_sword/advancement/the_last_sword_welcome.json` | c33cbd53fcf7f40f60731a043c5c62ea9a670c14 | 9658a959aa3424a00cad18e40c2080097c08ada0 | ok | jivinstev/TheLastSword 1.21.5, round 2026-10-30 |
 | `src/main/resources/data/the_last_sword/advancement/troubled_blacksmith.json` | b5ae020f53af81cd6024b60ba7e68c78f92296f2 | f4055b58b97ad06c5f065222fac17fc7106fba47 | ok | jivinstev/TheLastSword 1.21.5, round 2026-10-30 |
 | `.port/1.21.8/REMERGE.json` | 9330dd979545c952de34694a57b725b718487047 | f00b1d6af0f9e4505d85ae17545f835b71ec7a9e | ok | jivinstev/TheLastSword 1.21.8, round 2026-10-30 |
+| `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 8ce7d6005e8eb3baf450114d327c63cc9fd966ca | a3784918b8e92210b1e49f11f2b284c09929f1a8 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-31 |
+| `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 13055463279c20b4e7b40bc4552546cb1a8e8c34 | f0840cfa284c87b0fa17bd8cb805e444b6563d37 | ok | jivinstev/TheLastSword 1.21.5, round 2026-10-31 |
