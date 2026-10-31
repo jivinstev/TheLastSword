@@ -1,6 +1,8 @@
 package net.the_last_sword.item;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.BlockTags;
@@ -10,8 +12,12 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+import net.the_last_sword.TheLastSwordMod;
 import net.the_last_sword.compat.gear.SwordItem;
 import net.the_last_sword.compat.gear.Tier;
 import net.the_last_sword.configuration.TheLastSwordConfiguration;
@@ -33,6 +39,22 @@ public abstract class TheLastEndSwordItems extends SwordItem {
         super(tier, properties, SwordItem.createAttributes(tier, attackDamageModifier, attackSpeedModifier));
         this.destroySpeed = destroySpeed;
         this.toolLevel = toolLevel;
+    }
+
+    // 1.21.1：0 耐久的等级原为无限耐久；durability(0) 会使其首次受损即消失，故移除耐久组件。
+    @EventBusSubscriber(modid = TheLastSwordMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    public static final class ZeroUseTierDurability {
+        private ZeroUseTierDurability() {
+        }
+
+        @SubscribeEvent
+        public static void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
+            event.modifyMatching(
+                item -> (item instanceof SwordItem tiered && tiered.getTier().getUses() <= 0
+                    || item instanceof net.the_last_sword.test.UltraTestSwordItem)
+                    && TheLastSwordMod.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace()),
+                builder -> builder.remove(DataComponents.MAX_DAMAGE).remove(DataComponents.DAMAGE));
+        }
     }
 
     //检查是否是正确的工具来挖掘方块
