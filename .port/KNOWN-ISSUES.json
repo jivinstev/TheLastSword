@@ -1449,6 +1449,37 @@
         "26.3": "fixed@ef6e300"
       },
       "title": "Dragon-crystal-trimmed dragon crystal armour showed the missing texture as its inventory icon (trims/items/*_trim_dragon_crystal missing)"
+    },
+    {
+      "files": [
+        "src/main/java/net/the_last_sword/compat/gear/SwordItem.java",
+        "src/main/java/net/the_last_sword/item/TheLastSword.java",
+        "src/main/java/net/the_last_sword/item/TheLastSwordYouNeverForgot.java"
+      ],
+      "id": "TLS-060",
+      "lowest": "1.21.1",
+      "notes": "found by the round at 26.3 (backlog)",
+      "override": null,
+      "rubric": {
+        "failure": "data",
+        "reach": "feature",
+        "visibility": "common",
+        "workaround": false
+      },
+      "severity": "S1",
+      "source": "review",
+      "status": {
+        "1.21.1": "open",
+        "1.21.10": "open",
+        "1.21.11": "open",
+        "1.21.4": "open",
+        "1.21.5": "open",
+        "1.21.8": "open",
+        "26.1.2": "open",
+        "26.2": "open",
+        "26.3": "open"
+      },
+      "title": "The Last Sword and The Last Sword You Never Forgot are destroyed by their first durability hit (a 0-use tier became durability(0): damageable with max damage 0)"
     }
   ],
   "schema": 1
