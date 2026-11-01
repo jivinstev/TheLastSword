@@ -1,0 +1,44 @@
+@intent A survival player's The Last Sword and The Last Sword You Never Forgot survive being used -- melee hits and the projectile -- and are still in hand afterwards (TLS-060: a 0-use tier became durability(0), and the first durability hit destroyed the sword)
+@continue-on-fail
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+time set day
+weather clear
+gamerule doDaylightCycle false
+gamerule doMobSpawning false
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+effect give @s minecraft:resistance 600 4 true
+tp @s ~ ~ ~ 0 0
+
+@step The Last Sword survives a melee hit from a survival player
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword
+execute at @s rotated as @s rotated ~ 0 run summon minecraft:zombie ^ ^ ^2 {NoAI:1b}
+@wait 5t
+@aim entity minecraft:zombie
+@key key.attack
+@wait 1s
+# the hit kills it or hurts it: either way the sword took its durability hit
+@assert execute unless entity @e[type=minecraft:zombie,nbt={Health:20.0f}]
+@assert execute if items entity @s weapon.mainhand the_last_sword:the_last_sword
+@shot last-sword-after-hits
+
+@step The Last Sword You Never Forgot survives melee hits
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+item replace entity @s weapon.mainhand with the_last_sword:the_last_sword_you_never_forgot
+execute at @s rotated as @s rotated ~ 0 run summon minecraft:zombie ^ ^ ^2 {NoAI:1b}
+@wait 5t
+@aim entity minecraft:zombie
+@key key.attack
+@wait 1s
+@assert execute unless entity @e[type=minecraft:zombie,nbt={Health:20.0f}]
+@assert execute if items entity @s weapon.mainhand the_last_sword:the_last_sword_you_never_forgot
+
+@step The Last Sword You Never Forgot survives firing its projectile
+summon the_last_sword:guardian_berserker ~ ~ ~12 {NoAI:1b}
+@aim entity the_last_sword:guardian_berserker
+@key key.use
+@wait 3s
+@assert execute if items entity @s weapon.mainhand the_last_sword:the_last_sword_you_never_forgot
+@shot never-forgot-after-use
