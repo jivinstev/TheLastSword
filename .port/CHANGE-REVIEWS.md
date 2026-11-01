@@ -87,3 +87,4 @@ commit_current). Written by the keep-current round driver; a union record.
 | `playtests/13b-curios-by-screen.playtest` | - | 6176d417428701df87352b7ff61f48f31a06476b | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
 | `playtests/14-zero-use-swords.playtest` | - | 674641c8100d4a29102e33b110093f19cd8d55bf | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | a3784918b8e92210b1e49f11f2b284c09929f1a8 | 09837c08a8acefbd84f4c1b3bcbcc8e42c41bf82 | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
+| `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | f0840cfa284c87b0fa17bd8cb805e444b6563d37 | cc855f3685e174c6bf06ef22ef1b6824fda42513 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-01 |
