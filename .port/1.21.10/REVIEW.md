@@ -13,9 +13,32 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-10-31, step 4; a subagent of session_01Cvm3m46AMaEb178kx8kgfg, started for this review only), not the fixer; earlier rows by the 2026-10-30 reviewer (session_01Cvm3m5qHxFwKkCQPUvKFUW, at be414c7), the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
-- date: 2026-10-31
-- commit: e2b6935
+- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-11-01, step 4; a subagent of session_01Cvm3m4arGt8omz6e5VgPwC, started for this review only), not the fixer; earlier rows by the 2026-10-31 reviewer (session_01Cvm3m46AMaEb178kx8kgfg, at e2b6935), the 2026-10-30 reviewer (session_01Cvm3m5qHxFwKkCQPUvKFUW, at be414c7), the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
+- date: 2026-11-01
+- commit: 7e2a06c
+
+Fresh review 2026-11-01 at 7e2a06c (keep-current round: the authors' TLS-061 change, 1.21.1 e1d74cb / 72c6120, cascaded
+1.21.4 -> 1.21.5 -> 1.21.8 -> 1.21.10 -- f07ead5, d437717, 7e2a06c -- with the ECA re-pin 541bc36 and CI e02cebf;
+merge-base 1d23d59 with neoforge-1.21.8). check-done added no `?` row; it reported the record stale for 8 files since
+e2b6935. git diff e2b6935..7e2a06c touches in src/ only item/TheLastEndSwordItems.java and three data advancements, all
+now byte-identical to neoforge-1.21.8's (git diff 1d23d59..HEAD is empty for them), so no row is required; of the
+reviewed inputs only branch.properties; no renames.tsv, STUBS.json, REMERGE.json, shared helper or moves change, so
+every other row's verdict was re-read against the tree and stands. (1) TheLastEndSwordItems.java: ZeroUseTierDurability
+(TLS-060) removes MAX_DAMAGE/DAMAGE from the mod's 0-use-tier swords and UltraTestSwordItem through
+ModifyDefaultComponentsEvent (21.10.64: an IModBusEvent, so @EventBusSubscriber without bus is right; modifyMatching
+takes DataComponentPatch.Builder, which has remove); isPrimaryItemFor (TLS-061) returns true for the netherite sword,
+netherite pickaxe and bow primary enchantments, as the authors' 1.20.1 canApplyAtEnchantingTable did -- 21.10.64's
+IItemExtension.isPrimaryItemFor(ItemStack, Holder<Enchantment>) and Enchantment.isPrimaryItem(ItemStack) are the
+signatures used; the single-type compat.gear.SwordItem import wins over net.minecraft.world.item.*. Both port comments
+are short and in the file's Chinese. (2) advancement background "minecraft:textures/block/end_stone.png" ->
+"minecraft:block/end_stone": 1.21.10's DisplayInfo reads a ClientAsset.ResourceTexture (textures/<id>.png), so the old
+string pointed at a missing texture; right. (3) branch.properties: port_taken 8726cbd -> 72c6120, upstream_commit ->
+d20ec4c and the ECA pin -> eca-1.1.9-fix-fix-mc1.21.10-r2 (DEPS.md), settings the tools derive. Behaviour inventory:
+INVENTORY-CHECK.json 410 items, unaccounted 0; a fresh layer-inventory check (--no-write) agrees (changed 11, dropped 29,
+moved 73, same 297). Open outside this record: GATES.md names 1f912de (gates not re-run at 7e2a06c: the new hook and
+isPrimaryItemFor are compiled and gated only at 1.21.8), .port/INVENTORY.json still predates the authors' later
+changes (TLS-060's subscriber is not an inventory item), and the ECA 1.21.10 library is a pre-release, not done.
+not-ok rows left: 0.
 
 Fresh review 2026-10-31 at e2b6935 (keep-current round: the 1.21.1 head re-pin 8726cbd cascaded 1.21.4 -> 1.21.5 ->
 1.21.8 -> 1.21.10 -- 37d194b, 5b29653, 44ed7a1, f3225ba -- with the shared library at a1a6df3 86b00cc, re-measure eaca603
@@ -288,3 +311,4 @@ Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted []. Open outsid
 | changed | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Re-review at e2b6935: no required row: the file is the shared helper as installed (shared-helpers.txt blob fde483f, was a400379). See the shared row. |
 | changed | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Full review at 54b6803 (merge-base cd7a09f with neoforge-1.21.8): no longer a required row: the shared helper as installed (blob 1802a8b). See the shared row. |
 | resources | src/main/resources/assets/the_last_sword/lang @560e26455b09 | ok | Fresh review at be414c7 (merge-base 09ded1d with neoforge-1.21.8): supersedes the lang @a50c080ec25f row; the parent's lang files took the authors' dragon_crystal_grimoire item name, and against neoforge-1.21.8 each of the 11 files still only adds key.category.the_last_sword.the_last_sword (the 1.21.9 KeyMapping.Category key ModKeyMappings registers), with the text of key.categories.the_last_sword (checked per file). |
+| changed | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Fresh review at 7e2a06c: no required row: the file equals neoforge-1.21.8's (merge 7e2a06c). ZeroUseTierDurability (TLS-060, ModifyDefaultComponentsEvent, mod bus inferred) and isPrimaryItemFor (TLS-061, netherite sword/pickaxe/bow primary enchantments, as the authors' 1.20.1 canApplyAtEnchantingTable) use 21.10.64's own signatures; port comments short, in the file's Chinese. |
