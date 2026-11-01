@@ -15,9 +15,29 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-10-31 review job TheLastSword@1.21.8_review, session https://claude.ai/code/session_01Cvm3m4ouLWCzHF4MoqC8sN, fresh context), not the fixer (TLS-060 fix 72486ae/260c0f9 and the cascades 8924d39/f391e87 were other workers); earlier rows by the 2026-10-31 (759a4dc), 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
-- date: 2026-10-31
-- commit: f391e87
+- reviewer: fresh agent (round 2026-11-01 review job TheLastSword@1.21.8_review, session https://claude.ai/code/session_01Cvm3m4arGt8omz6e5VgPwC, fresh context), not the fixer (TLS-061 fix e1d74cb, the carries d7816ed/96ce614 and the cascades 719384f/184078d/285b43f were other workers); earlier rows by the 2026-10-31 (f391e87, 759a4dc), 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
+- date: 2026-11-01
+- commit: 285b43f
+
+Re-review 2026-11-01 at 285b43f (keep-current round 2026-11-01: TLS-061 carried from neoforge-1.21.1 e1d74cb through
+1.21.4/1.21.5 and cascaded here by 719384f and 285b43f; decision 792837aa5919 cleared the REMERGE entry in 184078d, so
+REMERGE.json is back to its f391e87 content). check-done added no `?` row and reported the record stale for 4 files since
+f391e87. git diff f391e87..285b43f -- src is only TheLastEndSwordItems.java (+11: the isPrimaryItemFor override); against the
+parent (merge-base 285b43f^2 = 05fa8e6 = neoforge-1.21.5) the file still differs only by the shared-renames.tsv
+`bus = EventBusSubscriber.Bus.MOD` row, so it needs no row of its own; read anyway: the override is byte-identical to 1.21.5's
+and the 1.21.1 fix; in 21.8.54 IItemExtension.isPrimaryItemFor(ItemStack, Holder<Enchantment>) exists (default: book or the
+definition's primary_items) and EnchantmentHelper.getAvailableEnchantmentResults filters by it (sources jar :627), so the
+table offers Sharpness, Smite, Bane of Arthropods and Fire Aspect again as the authors' 1.20.1 canApplyAtEnchantingTable did;
+Enchantment.isPrimaryItem(ItemStack) is Neo-deprecated but correct on a plain reference stack; anvil path (supportsEnchantment)
+unchanged; no other class in src overrides it; Holder/Enchantment/Items imports already present; two-line Chinese port
+comment in the file's voice. Faithful. The other files are not row items: branch.properties (port_taken cd8560e -> 72c6120,
+bookkeeping), COST.md/DECISIONS.md/CHANGE-REVIEWS.md and the 1.21.4/1.21.5 records, the CI workflow, README, and playtests
+(13 comment line, new 13b-curios-by-screen and 14-zero-use-swords: scripts, not jar content). renames.tsv, STUBS.json,
+REMERGE.json, the resource groups and the shared files are unchanged since f391e87, so every other row's verdict was re-read
+and stands. Built jar (21:43, after the last src change 719384f 21:38) has TheLastEndSwordItems.isPrimaryItemFor (javap).
+Behaviour inventory: INVENTORY-CHECK.json unaccounted [] (410 items; its note asks for an INVENTORY.json rebuild, bookkeeping);
+the override is a port fix (TLS-061), not an inventory hook. Open outside this record: GATES.md (and the r4 release record)
+predate this src change (the driver's re-gate), and DEPS.md's ECA 1.21.8 library pre-release is not done. not-ok rows left: 0.
 
 Re-review 2026-10-31 at f391e87 (keep-current round 2026-10-31, second pass: TLS-060 carried up from neoforge-1.21.1
 cd8560e through 1.21.4/1.21.5 and cascaded here by 8924d39 and f391e87; decision 6f04b0f6e2a6 cleared 6771d4d).
