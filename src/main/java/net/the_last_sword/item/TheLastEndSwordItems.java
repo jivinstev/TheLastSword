@@ -145,6 +145,16 @@ public abstract class TheLastEndSwordItems extends SwordItem {
                super.supportsEnchantment(stack, enchantment);
     }
 
+    // 1.21.1：附魔台只提供 isPrimaryItemFor 为真的附魔（锋利、亡灵杀手、节肢杀手、火焰附加的 primary_items 是
+    // #enchantable/sword，本模组的剑不在其中）。按作者 1.20.1 的 canApplyAtEnchantingTable，以剑、镐、弓为准。
+    @Override
+    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
+        return enchantment.value().isPrimaryItem(new ItemStack(Items.NETHERITE_SWORD)) ||
+               enchantment.value().isPrimaryItem(new ItemStack(Items.NETHERITE_PICKAXE)) ||
+               enchantment.value().isPrimaryItem(new ItemStack(Items.BOW)) ||
+               super.isPrimaryItemFor(stack, enchantment);
+    }
+
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return true;
