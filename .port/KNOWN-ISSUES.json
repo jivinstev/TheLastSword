@@ -1497,7 +1497,15 @@
       "severity": "S3",
       "source": "review",
       "status": {
-        "1.21.1": "open"
+        "1.21.1": "fixed@e1d74cb",
+        "1.21.10": "fixed@e1d74cb",
+        "1.21.11": "fixed@e1d74cb",
+        "1.21.4": "fixed@e1d74cb",
+        "1.21.5": "fixed@e1d74cb",
+        "1.21.8": "fixed@e1d74cb",
+        "26.1.2": "fixed@e1d74cb",
+        "26.2": "fixed@e1d74cb",
+        "26.3": "fixed@e1d74cb"
       },
       "title": "1.21.1+: the mod's swords (Dragon Crystal Sword, Dragon Sword, The Last Sword, You Never Forgot) are never offered Sharpness, Smite, Bane of Arthropods or Fire Aspect at the enchanting table"
     }
