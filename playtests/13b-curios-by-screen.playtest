@@ -1,0 +1,82 @@
+@intent The mod's Curios accessories, put on by a survival player in the Curios screen, give what their code promises -- the ring and necklace their justified-defence bonuses, the crown its extra health, the wings survival flight -- and taking each off takes it away again (TLS-057). For Curios 10-14 (1.21.4..1.21.11), whose /curios replace refuses every slot: 13-curios-accessories does the same through that command elsewhere.
+@continue-on-fail
+# The Curios screen's menu: 0-45 the vanilla inventory (hotbar 36-44), then the curio slots; the first curio slot (46)
+# takes any of these accessories, so each is put on there, swapping out the one before (back into its hotbar slot).
+@step arena
+# a command that changes nothing fails: go through creative so survival is a change
+gamemode creative
+gamemode survival
+time set day
+execute if entity @e[type=!minecraft:player] run kill @e[type=!minecraft:player]
+scoreboard objectives add pt_def dummy
+scoreboard objectives add pt_rec dummy
+scoreboard objectives add pt_now dummy
+scoreboard objectives add pt_hp health
+execute store result score @s pt_def run attribute @s the_last_sword:max_justified_defence get 100
+execute store result score @s pt_rec run attribute @s the_last_sword:justified_defence_recovery_speed get 10000
+item replace entity @s hotbar.0 with the_last_sword:dragon_crystal_ring
+item replace entity @s hotbar.1 with the_last_sword:dragon_crystal_necklace
+item replace entity @s hotbar.2 with the_last_sword:dragon_crystal_crown
+item replace entity @s hotbar.3 with the_last_sword:wings_that_cover_the_world
+
+@step ring: the dragon crystal ring adds max justified defence while worn
+@key key.curios.open.desc
+@wait 1s
+@expect screen curios within 3s
+@click slot 36
+@click slot 46
+@key key.keyboard.escape
+@wait 1s
+@assert execute unless items entity @s hotbar.0 the_last_sword:dragon_crystal_ring
+execute store result score @s pt_now run attribute @s the_last_sword:max_justified_defence get 100
+@assert execute if score @s pt_now > @s pt_def
+
+@step necklace: the necklace raises justified defence recovery speed, and the ring's bonus goes with the ring
+@key key.curios.open.desc
+@wait 1s
+@click slot 37
+@click slot 46
+@click slot 37
+@key key.keyboard.escape
+@wait 1s
+@assert execute if items entity @s hotbar.1 the_last_sword:dragon_crystal_ring
+execute store result score @s pt_now run attribute @s the_last_sword:justified_defence_recovery_speed get 10000
+@assert execute if score @s pt_now > @s pt_rec
+execute store result score @s pt_now run attribute @s the_last_sword:max_justified_defence get 100
+@assert execute if score @s pt_now = @s pt_def
+
+@step crown: the dragon crystal crown's +200 max health lets the player heal above 20
+@key key.curios.open.desc
+@wait 1s
+@click slot 38
+@click slot 46
+@click slot 38
+@key key.keyboard.escape
+@wait 1s
+@assert execute if items entity @s hotbar.2 the_last_sword:dragon_crystal_necklace
+effect give @s minecraft:instant_health 1 20 true
+@wait 1s
+@assert execute if score @s pt_hp matches 40..
+@shot crowned
+
+@step wings: Wings That Cover the World let a survival player fly while worn, and the crown's health goes with it
+@key key.curios.open.desc
+@wait 1s
+@click slot 39
+@click slot 46
+@click slot 39
+@key key.keyboard.escape
+@wait 2s
+@assert execute if items entity @s hotbar.3 the_last_sword:dragon_crystal_crown
+@assert execute if entity @s[nbt={abilities:{mayfly:1b}}]
+@assert execute if score @s pt_hp matches ..20
+
+@step off: taking the wings off takes flight away
+@key key.curios.open.desc
+@wait 1s
+@click slot 46
+@click slot 44
+@key key.keyboard.escape
+@wait 2s
+@assert execute if items entity @s hotbar.8 the_last_sword:wings_that_cover_the_world
+@assert execute if entity @s[nbt={abilities:{mayfly:0b}}]
