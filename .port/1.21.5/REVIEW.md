@@ -15,9 +15,9 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-10-31 review job TheLastSword@1.21.5_review, session https://claude.ai/code/session_01Cvm3m4ouLWCzHF4MoqC8sN, fresh context), not the fixer (TLS-060 fix 72486ae/260c0f9 and the cascades 5e6387e/26f36db were other workers)
-- date: 2026-10-31
-- commit: 26f36db
+- reviewer: fresh agent (round 2026-11-01 review job TheLastSword@1.21.5_review, session https://claude.ai/code/session_01Cvm3m4arGt8omz6e5VgPwC, fresh context), not the fixer (TLS-061 fix e1d74cb, the carries d7816ed/96ce614 and the cascades 5b243c5/f1cf9b3 were other workers)
+- date: 2026-11-01
+- commit: f1cf9b3
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
@@ -91,6 +91,19 @@ Built jar (16:12, after the last src change 5e6387e 16:04) contains TheLastEndSw
 A and B record PASS but predate this src change (check-done: gate record stale, the driver's re-gate). Behaviour
 inventory: INVENTORY-CHECK.json unaccounted [] (410 items; its note asks for an INVENTORY.json rebuild, a bookkeeping
 item, not an unaccounted hook). not-ok rows left: 0.
+
+Re-review 2026-11-01 at f1cf9b3 (keep-current round 2026-11-01: TLS-061 carried from neoforge-1.21.1 e1d74cb through
+neoforge-1.21.4 (d7816ed, 96ce614, decision 1875c3ce464f cleared 23e30bc) and cascaded here (5b243c5, decision
+e44648a96bb1 cleared 1d13b29, f1cf9b3)). check-done added no `?` row and reported the record stale for 4 files since 26f36db.
+git diff 26f36db..f1cf9b3 -- src is only TheLastEndSwordItems.java (+11: the isPrimaryItemFor override; row re-judged
+below); the file still differs from neoforge-1.21.4 only by the 1.21.5 rows already reviewed. The other files are not
+row items: branch.properties (port_taken cd8560e -> 72c6120, bookkeeping), DRIFT.md/DECISIONS.md/COST.md records, the CI
+workflow, README, and playtests (13 comment line, new 13b-curios-by-screen and 14-zero-use-swords; scripts, not jar
+content). renames.tsv, STUBS.json, REMERGE.json, the resource groups and the shared files are unchanged since 26f36db, so
+every other row's verdict was re-read and stands. Built jar (21:33, after the last src change 5b243c5 21:26) has
+TheLastEndSwordItems.isPrimaryItemFor (javap). GATES.md predates this src change (check-done: gate record stale; the
+driver's re-gate) and DEPS.md's library pre-release item is the driver's. Behaviour inventory: INVENTORY-CHECK.json
+unaccounted [] (410 items). not-ok rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
@@ -203,7 +216,7 @@ item, not an unaccounted hook). not-ok rows left: 0.
 | changed | src/main/java/net/the_last_sword/item/SwordSoulStone.java | ok | Optional compound/string reads with the same fallbacks; tooltip forwarded. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndArmorItem.java | ok | Level-based armour/toughness/KB built from scratch in getDefaultAttributeModifiers(stack), applied by ArmorAttributeModifierHandler; material kept for KB; tooltip collected/forwarded. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndScroll.java | ok | contains(key) for the two int coordinates (only ever written as ints by this item); Consumer tooltip. |
-| changed | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Its own hurtEnemy keeps the friendly check and invulnerableTime reset (but see the subclasses' rows); canPerformAction set equals 1.21.1's DEFAULT_*_ACTIONS (pickaxe_dig, sword_dig, sword_sweep are interned ItemAbility instances); List-based appendHoverText kept for subclasses; enchant/repair per stub. Re-reviewed 2026-10-31 at 26f36db: TLS-060's ZeroUseTierDurability (MOD-bus ModifyDefaultComponentsEvent.modifyMatching, present in 21.5.98) is byte-identical to 1.21.4's: removes MAX_DAMAGE and DAMAGE from the mod's 0-use items -- TheLastSword and TheLastSwordYouNeverForgot (compat SwordItem tier getUses() 0; no other tier in src returns <=0) and UltraTestSwordItem (a plain Item with durability(0) here too), namespace-checked -- so they are not damageable and never break, as at 1.21.1; port comment one Chinese line in the file's voice. Faithful. |
+| changed | src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java | ok | Its own hurtEnemy keeps the friendly check and invulnerableTime reset (but see the subclasses' rows); canPerformAction set equals 1.21.1's DEFAULT_*_ACTIONS (pickaxe_dig, sword_dig, sword_sweep are interned ItemAbility instances); List-based appendHoverText kept for subclasses; enchant/repair per stub. Re-reviewed 2026-10-31 at 26f36db: TLS-060's ZeroUseTierDurability (MOD-bus ModifyDefaultComponentsEvent.modifyMatching, present in 21.5.98) is byte-identical to 1.21.4's: removes MAX_DAMAGE and DAMAGE from the mod's 0-use items -- TheLastSword and TheLastSwordYouNeverForgot (compat SwordItem tier getUses() 0; no other tier in src returns <=0) and UltraTestSwordItem (a plain Item with durability(0) here too), namespace-checked -- so they are not damageable and never break, as at 1.21.1; port comment one Chinese line in the file's voice. Faithful. Re-reviewed 2026-11-01 at f1cf9b3: TLS-061's isPrimaryItemFor override (IItemExtension.isPrimaryItemFor(ItemStack, Holder<Enchantment>) in 21.5.98; EnchantmentHelper.getAvailableEnchantmentResults filters by it) is byte-identical to 1.21.4's and the 1.21.1 fix: true when the enchantment is primary for a netherite sword, netherite pickaxe or bow, else super -- so the table offers Sharpness, Smite, Bane of Arthropods and Fire Aspect again, matching the authors' 1.20.1 canApplyAtEnchantingTable; anvil path (supportsEnchantment) unchanged; no subclass overrides it; vanilla Enchantment.isPrimaryItem is Neo-deprecated but correct on a plain reference stack; two-line Chinese port comment in the file's voice. Faithful. |
 | changed | src/main/java/net/the_last_sword/item/TheLastEndSwordWraithLevel13SpawnEgg.java | ok | Spawn reason label only (no finalizeSpawn); same 1.1.2 TrueHealthManager init. |
 | changed | src/main/java/net/the_last_sword/item/TheLastSword.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): starts with 'if (!EntityUtil.canAttack(attacker, target)) return;', the guard 1.21.1 got from super.hurtEnemy's false; no extra damage on allies; rest unchanged. Inventory scans use getNonEquipmentItems() (36 main slots), as 1.21.1's inventory.items; offhand no longer counts. 1.1.2 merge as reviewed. |
 | changed | src/main/java/net/the_last_sword/item/TheLastSwordYouNeverForgot.java | ok | Re-reviewed at 99399de (round 2, f085075/cff9cb6): starts with 'if (!EntityUtil.canAttack(attacker, target)) return;', the guard 1.21.1 got from super.hurtEnemy's false; no extra damage on allies; rest unchanged. |
