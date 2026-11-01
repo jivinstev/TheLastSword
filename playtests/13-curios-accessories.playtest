@@ -3,7 +3,7 @@
 # Only ids every version shares: the mod's own attributes, the abilities NBT and health. Vanilla attribute ids
 # changed at 1.21.2 (generic.max_health -> max_health), and a script cannot branch on the version.
 # /curios replace refuses every slot on Curios 10-14 (1.21.4..1.21.11: its slot list is filled before the slots load),
-# so there those steps fail at the command, not at the check.
+# so there those steps fail at the command, not at the check: 13b-curios-by-screen covers those versions through the Curios screen.
 @step arena
 # a command that changes nothing fails: go through creative so survival is a change
 gamemode creative
