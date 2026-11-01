@@ -35,15 +35,6 @@
    "inherited_from": "26.1.2",
    "digest": "62c795cb676e348665853dad5db3955f2de591f69dcdedf2159b7d6e709a9381",
    "deferred": "curse.maven:irons-spells-n-spellbooks-855414"
-  },
-  {
-   "overlay": "src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java",
-   "digest": "d9020c977c325dfd857df8ce0e27c713766ace58d25497055184895c60425dcb",
-   "reason": "the authors' change is not in 26.2's file (no merge brought it, or a merge kept 26.2's)",
-   "since": "cd8560e6f445..72c6120531cc",
-   "from": "cd8560e6f445b9d4b60ed3930d3214b3d0230230",
-   "to": "72c6120531ccd99564b8c3feae76199c15d50889",
-   "diff": "diff --git a/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java b/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\nindex a405e78..8f0b0c6 100644\n--- a/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\n+++ b/src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java\n@@ -145,6 +145,16 @@ public abstract class TheLastEndSwordItems extends SwordItem {\n                super.supportsEnchantment(stack, enchantment);\n     }\n \n+    // 1.21.1：附魔台只提供 isPrimaryItemFor 为真的附魔（锋利、亡灵杀手、节肢杀手、火焰附加的 primary_items 是\n+    // #enchantable/sword，本模组的剑不在其中）。按作者 1.20.1 的 canApplyAtEnchantingTable，以剑、镐、弓为准。\n+    @Override\n+    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {\n+        return enchantment.value().isPrimaryItem(new ItemStack(Items.NETHERITE_SWORD)) ||\n+               enchantment.value().isPrimaryItem(new ItemStack(Items.NETHERITE_PICKAXE)) ||\n+               enchantment.value().isPrimaryItem(new ItemStack(Items.BOW)) ||\n+               super.isPrimaryItemFor(stack, enchantment);\n+    }\n+\n     @Override\n     public boolean isEnchantable(ItemStack stack) {\n         return true;\n"
   }
  ]
 }
