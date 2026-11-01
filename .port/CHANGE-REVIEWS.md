@@ -65,3 +65,7 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/resources/data/the_last_sword/dragon_crystal_smithing_recipes/dragon_crystal_grimoire.json` | - | 8264a4a5ca20dc0179161cca5dad0452577b8d2c | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
 | `src/main/resources/the_last_sword.mixins.json` | aa1049ab6fa2f70785ed3f66caf5f911555f3f51 | 409a67fa40b37a22de9032377e87f9066a954f35 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-30 |
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 8ce7d6005e8eb3baf450114d327c63cc9fd966ca | a3784918b8e92210b1e49f11f2b284c09929f1a8 | ok | jivinstev/TheLastSword 1.21.4, round 2026-10-31 |
+| `playtests/13-curios-accessories.playtest` | 6151f54bb239ea1fac81f88ab7ed8642b36a6ddc | ff6381070ef0c32b166929bdc384f7342a245e4f | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
+| `playtests/13b-curios-by-screen.playtest` | - | 6176d417428701df87352b7ff61f48f31a06476b | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
+| `playtests/14-zero-use-swords.playtest` | - | 674641c8100d4a29102e33b110093f19cd8d55bf | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
+| `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | a3784918b8e92210b1e49f11f2b284c09929f1a8 | 09837c08a8acefbd84f4c1b3bcbcc8e42c41bf82 | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-01 |
