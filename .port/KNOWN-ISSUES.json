@@ -425,8 +425,8 @@
       "source": "review",
       "status": {
         "1.21.10": "fixed@63af730",
-        "1.21.11": "open",
-        "26.1.2": "open"
+        "1.21.11": "wontfix:owner 2026-11-17: ProjectE content; ProjectE has no build at these versions, so not in the game",
+        "26.1.2": "wontfix:owner 2026-11-17: ProjectE content; ProjectE has no build at these versions, so not in the game"
       },
       "title": "Stale primal_source_armor geo and animation (pre-1.1.2 assets: no hat cubes, no easing) on 1.21.11 and 26.1.2"
     },
@@ -470,11 +470,11 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.10": "open",
-        "1.21.11": "open",
-        "26.1.2": "open",
-        "26.2": "open",
-        "26.3": "open"
+        "1.21.10": "wontfix:owner 2026-11-17: dead code, no effect",
+        "1.21.11": "wontfix:owner 2026-11-17: dead code, no effect",
+        "26.1.2": "wontfix:owner 2026-11-17: dead code, no effect",
+        "26.2": "wontfix:owner 2026-11-17: dead code, no effect",
+        "26.3": "wontfix:owner 2026-11-17: dead code, no effect"
       },
       "title": "DragonArmorRenderer's phasing alpha compensation in preRender is dead code (GeckoLib reads RENDER_COLOR before preRender)"
     },
@@ -495,7 +495,7 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "1.21.10": "open"
+        "1.21.10": "wontfix:owner 2026-11-17: only if another mod swaps the item mid-transaction; no report"
       },
       "title": "mv.LegacyEnergy item handler applies the storage to whatever item the ItemAccess holds now (no valid-item pin, as ItemAccessEnergyHandler has)"
     },
@@ -861,8 +861,8 @@
       "severity": "S4",
       "source": "gate",
       "status": {
-        "26.2": "open",
-        "26.3": "open"
+        "26.2": "wontfix:owner 2026-11-17: test entity only",
+        "26.3": "wontfix:owner 2026-11-17: test entity only"
       },
       "title": "26.2+: TestEntityTheLastEndLayer submitCustomGeometry lambdas render with the outer poseStack instead of the callback's pose (test entity only)"
     },
