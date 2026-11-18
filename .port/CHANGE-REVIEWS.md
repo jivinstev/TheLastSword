@@ -124,3 +124,5 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | f0840cfa284c87b0fa17bd8cb805e444b6563d37 | cc855f3685e174c6bf06ef22ef1b6824fda42513 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-01 |
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 3298f2147f145a46cf25e4311e71d6f9f817ede8 | 091c8496489d770114db1945f90d0b96954bef53 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-01 |
 | `.port/1.21.10/branch.properties` | d54c1a6f18323a1fcd59284c4274743aaa41aed1 | 8093ede8a3067913dd1eac7314149a0945505434 | ok | jivinstev/TheLastSword 1.21.10, round 2026-11-01 |
+| `.port/1.21.5/branch.properties` | 1baae557e490f721dc1dd5b4952b291836ca3374 | 89f0c08cc4aa0acbb72a5c62abe90d520cec2ac1 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
+| `.port/1.21.5/shared-renames.tsv` | e25666d89a53f2a124b75941e36ddf8e7b2dea51 | 32e00374a88b44fca49b6020d85c6c5953d0613c | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
