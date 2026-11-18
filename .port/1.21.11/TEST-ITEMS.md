@@ -62,7 +62,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/test/UltraTestSwordItem.java` (client)
 - changed: `src/main/java/net/the_last_sword/util/EntityUtil.java`
 - deleted: `src/main/resources/assets/minecraft/atlases/blocks.json`
-- resources: `src/main/resources/META-INF/accesstransformer.cfg @c8dfd02b0ce0`
+- resources: `src/main/resources/META-INF/accesstransformer.cfg @84adcf0ac903`
 - resources: `src/main/resources/assets/minecraft/atlases @6e0de28b83e0`
 - stub: `src/main/java/net/the_last_sword/client/layer/GuardianItemLayer.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/model/DragonCultPaladinModel.java` (client)
