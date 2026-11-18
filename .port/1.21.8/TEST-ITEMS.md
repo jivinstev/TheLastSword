@@ -46,6 +46,7 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - changed: `src/main/java/net/the_last_sword/mixin/ServerPlayerMixin.java` (mixin)
 - changed: `src/main/java/net/the_last_sword/network/SyncSummonGuiPacket.java`
 - changed: `src/main/java/net/the_last_sword/summon/WraithSummonManager.java`
+- resources: `src/main/resources/META-INF/accesstransformer.cfg @84190d4f10c7`
 - stub: `src/main/java/net/the_last_sword/client/gui/DragonCrystalEnchantingTableScreen.java` (client)
 - stub: `src/main/java/net/the_last_sword/client/renderer/LightningSpearItemRenderer.java` (client)
 - stub: `src/main/java/net/the_last_sword/compat/jade/HealBanElement.java` (client)
@@ -56,7 +57,6 @@ version because no gate judges it. The fork-versions skill's step 11 turns them 
 - stub: `src/main/java/net/the_last_sword/mixin/PlayerMixin.java` (mixin)
 - stub: `src/main/java/net/the_last_sword/mixin/ScreenEffectRendererMixin.java` (mixin, client)
 - stub: `src/main/java/net/the_last_sword/summon/WraithSummonManager.java`
-- stub: `src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java`
 - dropped-dep: | `curse.maven:lendercataclysm-551586` | extra | `8931182` | dropped: no 1.21.8 build (extra) | CurseForge |
 - dropped-dep: | `curse.maven:lionfish-api-1001614` | extra | `8345326` | dropped: no 1.21.8 build (extra) | CurseForge |
 - dropped-dep: | `curse.maven:playeranimator-658587` | extra | `7389814` | dropped: no 1.21.8 build (extra) | CurseForge |
