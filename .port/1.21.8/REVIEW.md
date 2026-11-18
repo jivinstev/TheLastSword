@@ -15,9 +15,25 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.8/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-11-01 review job TheLastSword@1.21.8_review, session https://claude.ai/code/session_01Cvm3m4arGt8omz6e5VgPwC, fresh context), not the fixer (TLS-061 fix e1d74cb, the carries d7816ed/96ce614 and the cascades 719384f/184078d/285b43f were other workers); earlier rows by the 2026-10-31 (f391e87, 759a4dc), 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
-- date: 2026-11-01
-- commit: 285b43f
+- reviewer: fresh agent (round 2026-11-18 review job TheLastSword@1.21.8_review, session https://claude.ai/code/session_01Cvm3m4Nmji2EaLNPQqLH1X, fresh context), not the fixer (the TLS-004 commit dbde2ab and the records 8c5c674 were the round's fixer); earlier rows by the 2026-11-01 (285b43f), 2026-10-31 (f391e87, 759a4dc), 2026-10-30, 2026-10-28, 2026-10-26 and 2026-10-21 reviewers
+- date: 2026-11-18
+- commit: 8c5c674
+
+Re-review 2026-11-18 at 8c5c674 (keep-current round 2026-11-18). check-done reported the record stale for 4 files since
+285b43f and added one `?` row (the accesstransformer.cfg resource group, filled below). git diff 285b43f..8c5c674 -- src is
+only META-INF/accesstransformer.cfg (dbde2ab, TLS-004: 13 lines removed); against the parent (merge-base a797daf with
+neoforge-1.21.5) those 13 deletions are the whole difference of that file. Each removed target was checked absent in the
+21.8.54 sources jar: LivingEntity actuallyHurt/dropAllDeathLoot take ServerLevel first (LivingEntity.java:1899, :1537), so
+do the Player/Animal/Armadillo/Camel/Wolf overrides, LocalPlayer has no actuallyHurt; Entity has inBlockState, no
+feetBlockState; MobEffect has no initClient; ClientLevel has no partEntities; EntitySelector holds contextFreePredicates,
+no predicate field; CompiledShaderProgram is not in the jar. They matched nothing, so the transformed jar is unchanged;
+the mod's own actuallyHurt users (LivingEntityMixin:480 by name, the two entity overrides with the ServerLevel signature)
+compiled before and after (A/B gates green at 8c5c674's records). STUBS.json lost the WraithSummonSavedData entry (an
+inherited 1.21.5 entry, reviewed in .port/1.21.5): its stub row below stays as history, its verdict unchanged. The other
+changes are records/CI/README (not row items). renames.tsv, REMERGE.json, every other resource group and src file are
+unchanged since 285b43f, so every other verdict stands. Behaviour inventory (item 7): INVENTORY-CHECK.json 410 items,
+unaccounted 0, and check-done reports no inventory reason. Open outside this record: GATES.md predates the AT change (the
+driver's re-gate) and the ECA 1.21.8 library pre-release is not done (DEPS.md). not-ok rows left: 0.
 
 Re-review 2026-11-01 at 285b43f (keep-current round 2026-11-01: TLS-061 carried from neoforge-1.21.1 e1d74cb through
 1.21.4/1.21.5 and cascaded here by 719384f and 285b43f; decision 792837aa5919 cleared the REMERGE entry in 184078d, so
@@ -294,4 +310,4 @@ reviewed on 1.21.5 -- so no row of their own: arrow.baseDamage is `public double
 | changed | src/main/java/net/the_last_sword/raid/DragonCultRaid.java | ok | Re-checked at dd2a73d: equal to the parent's file but @OnlyIn(Dist.CLIENT) stripped from combatMusicExtension (strip_onlyin from 1.21.6, mechanical). The authors' shouldTeleportRaidersOnBell / shouldGlowRaidersOnBell now carry @Override (merged from 1.21.5): the re-pinned eca-1.1.9-fix-mc1.21.8 RaidDefinition declares both (the fix jar's RaidDefinition has shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell; Gate A compiles the @Override), so the bell teleports and glows the raiders as on the authors' code. Re-checked at 9409649: the r2 re-pin (eca-1.1.9-fix-mc1.21.8-r2, EpicCoreAPI 87a3525) keeps RaidDefinition.shouldTeleportRaidersOnBell/shouldGlowRaidersOnBell (RaidDefinition.java:154,:165), so both @Override still bind. |
 | shared | src/main/java/net/the_last_sword/mv/LegacyRenderType.java | ok | Re-checked at 9409649 (shared library b0fcbbd): the per-type Deque of saved states is replaced by LegacyGl.load(this, ...)/restore(this) on LegacyGl's one stack, and a throwing shader-shard setup restores before rethrowing; the unused ArrayDeque/Deque imports went with it. Same set-up/clear points as 1.21.4's setupRenderState/clearRenderState; no mod code calls them directly. |
 | shared | src/main/java/net/the_last_sword/mv/LegacyGl.java | ok | Re-checked at 9409649 (shared library b0fcbbd): Saved carries its owner and the shader; one LOADED stack for every type, restore(owner) puts back the owner's newest entry and drops it and every later one (A,B set up, A cleared, B cleared ends with neither loaded; a nested same-type set-up pops one level), and once empty the bias/target only load sets go back to their defaults (0/null, nothing else writes them). load() takes the shader only when it is a ShaderInstance or Vanilla, so a type with no own shader keeps the setShader one, as 1.21.4's no-shader shard did; clear now also restores the shader that set-up replaced (1.21.4's ShaderStateShard left it set) -- harmless here: LegacyRenderType.draw passes its own shader (:145) and no mod class calls LegacyGl.drawWithShader, so nothing draws with the shader left after a clear. |
-| resources | src/main/resources/META-INF/accesstransformer.cfg @84190d4f10c7 | ? | ? |
+| resources | src/main/resources/META-INF/accesstransformer.cfg @84190d4f10c7 | ok | Against the parent (1.21.5) only 13 lines removed (TLS-004, dbde2ab): the old actuallyHurt(DamageSource,F)/dropAllDeathLoot(DamageSource) widenings on LivingEntity, Player, Animal, Armadillo, Camel, Wolf and LocalPlayer, Entity.feetBlockState, MobEffect.initClient, ClientLevel.partEntities, EntitySelector.predicate and CompiledShaderProgram.<init>(I); none of these members exists in 21.8.54 (sources jar: ServerLevel-first signatures, inBlockState, contextFreePredicates, no CompiledShaderProgram), so no access changes and no behaviour is lost; the remaining lines, the Chinese comments and the TLS-053 baseDamage line are untouched. |
