@@ -49,10 +49,5 @@
   "file": "src/main/java/net/the_last_sword/summon/WraithSummonManager.java",
   "why": "removes 14 registration/listener/send call(s)",
   "reviewed": "(inherited from 1.21.5) As in 1.21.4, no call is lost: all 14 are Player.sendSystemMessage, ServerPlayer-only since 1.21.2, rewritten as displayClientMessage(msg, false), which is ServerPlayer.sendSystemMessage(msg, false) on the server and the chat line on a LocalPlayer."
- },
- {
-  "file": "src/main/java/net/the_last_sword/summon/WraithSummonSavedData.java",
-  "why": "drops @Override from save and keeps the method: it then overrides nothing and never runs -- port it to the new signature, or delete it and say what vanilla now does instead",
-  "reviewed": "(inherited from 1.21.5) Ported: 1.21.5 SavedData has no save override; get() builds a SavedDataType whose codec (CompoundTag.CODEC.xmap(load, d -> d.save(new CompoundTag(), null))) calls this save, which never reads its registries argument."
  }
 ]
