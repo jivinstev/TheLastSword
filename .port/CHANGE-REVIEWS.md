@@ -102,3 +102,7 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | 3298f2147f145a46cf25e4311e71d6f9f817ede8 | 091c8496489d770114db1945f90d0b96954bef53 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-01 |
 | `.port/1.21.5/branch.properties` | 1baae557e490f721dc1dd5b4952b291836ca3374 | 89f0c08cc4aa0acbb72a5c62abe90d520cec2ac1 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
 | `.port/1.21.5/shared-renames.tsv` | e25666d89a53f2a124b75941e36ddf8e7b2dea51 | 32e00374a88b44fca49b6020d85c6c5953d0613c | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
+| `.port/1.21.8/STUBS.json` | 564eb40625d9fc02a86750e92123b1d36ffa0c89 | 0f5c5dcab8264656aab0b368d1c78714d0f235b7 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
+| `.port/1.21.8/branch.properties` | 400d2899db25e4d1d865a9e17e8e1547057aef65 | 0ebc592fb05e9e3b48bd2333ae683d4ac8abd347 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
+| `.port/1.21.8/shared-renames.tsv` | b707866ca07eedb9833b27ac31db1f87078d8662 | b4cefc5bebeb23169913d1511838cdc5c9b191fa | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
+| `src/main/resources/META-INF/accesstransformer.cfg` | 67292e867ebdf10f06decef130918d36e36644f8 | 877d2be21d3574c05bb6648466d034138c0b6790 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
