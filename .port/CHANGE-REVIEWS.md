@@ -90,3 +90,4 @@ commit_current). Written by the keep-current round driver; a union record.
 | `src/main/java/net/the_last_sword/item/TheLastEndSwordItems.java` | f0840cfa284c87b0fa17bd8cb805e444b6563d37 | cc855f3685e174c6bf06ef22ef1b6824fda42513 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-01 |
 | `.port/1.21.5/branch.properties` | 1baae557e490f721dc1dd5b4952b291836ca3374 | 89f0c08cc4aa0acbb72a5c62abe90d520cec2ac1 | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
 | `.port/1.21.5/shared-renames.tsv` | e25666d89a53f2a124b75941e36ddf8e7b2dea51 | 32e00374a88b44fca49b6020d85c6c5953d0613c | ok | jivinstev/TheLastSword 1.21.5, round 2026-11-18 |
+| `.port/1.21.4/branch.properties` | f938e58a9f4bbc12e9106dae00539c2b5b4f6a9f | de1106b8a698f35eed5a1a1347e7d7e13de829c1 | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-18 |
