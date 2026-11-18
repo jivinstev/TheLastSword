@@ -15,9 +15,9 @@ tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never c
 
 Migrated from the layer's .multiversion/targets/1.21.5/REVIEW.md by tools/fork-branches.py: the commit is a layer commit, mapped in MIGRATED.json.
 
-- reviewer: fresh agent (round 2026-11-01 review job TheLastSword@1.21.5_review, session https://claude.ai/code/session_01Cvm3m4arGt8omz6e5VgPwC, fresh context), not the fixer (TLS-061 fix e1d74cb, the carries d7816ed/96ce614 and the cascades 5b243c5/f1cf9b3 were other workers)
-- date: 2026-11-01
-- commit: f1cf9b3
+- reviewer: fresh agent (round 2026-11-18 review job TheLastSword@1.21.5_review, session https://claude.ai/code/session_01Cvm3m4Nmji2EaLNPQqLH1X, fresh context), not the fixer (the cascade 32d817c9, the ECA re-pin 5f0e67cb and CI 64563ae3 were other workers)
+- date: 2026-11-18
+- commit: 64563ae3
 
 Whole fresh review at 34284f6 (keep-current 2026-10-21): every row below re-judged against the current tree and the parent
 neoforge-1.21.4 at the merge-base 9e453e1 (git diff 9e453e1..34284f6), including this round's head cascade (port_taken
@@ -104,6 +104,21 @@ every other row's verdict was re-read and stands. Built jar (21:33, after the la
 TheLastEndSwordItems.isPrimaryItemFor (javap). GATES.md predates this src change (check-done: gate record stale; the
 driver's re-gate) and DEPS.md's library pre-release item is the driver's. Behaviour inventory: INVENTORY-CHECK.json
 unaccounted [] (410 items). not-ok rows left: 0.
+
+Re-review 2026-11-18 at 64563ae3 (keep-current round 2026-11-18: cascade of neoforge-1.21.4 26f6160 (32d817c9, carrying
+neoforge-1.21.1 c9652aa: port_taken 72c6120 -> c9652aa), shared library at 53b77ff (7a7ba857), ECA re-pin 5f0e67cb, CI
+64563ae3). check-done added no `?` row and reported the record stale for 2 files since f1cf9b3. git diff f1cf9b3..64563ae3
+-- src is empty, and renames.tsv, STUBS.json, REMERGE.json, moves/shared-helpers and every resource group are unchanged, so
+every row's verdict was re-read and stands. The changed files are not row items: branch.properties (port_taken; net.eca:eca
+port_jar eca-1.1.9-fix-fix-mc1.21.5 -> -r2, sha256 16ecc2b2..., = the ~/.m2 net/eca/eca/1.1.9-mc1.21.5 jar), DEPS.md (same
+re-pin), shared-renames.tsv (header comment only), COST.md, the CI workflow, README, the 1.21.4 records. ECA e0833c7..0286a86
+changes in src only EcaBossBarRenderer (a vanilla/entity-format RenderType's boss bar quads drawn with their own pipeline and
+UV1 filled), GameRendererPostLevelMixin (a non-ECA skybox RenderType drawn through RenderType.draw) and an ItemStacks javadoc;
+no API this mod calls changes, and its boss bars (TheLastEndRenderTypes/DreamSakuraRenderTypes.BOSS_BAR) and skybox
+(eca:the_last_end preset) are ECA's own types. GATES.md predates these commits (check-done: gate record stale; the driver's
+re-gate) and DEPS.md's library pre-release item is the driver's. Behaviour inventory: INVENTORY-CHECK.json unaccounted []
+(410 items: 310 same, 63 moved, 8 changed, 29 dropped; its note asks for an INVENTORY.json rebuild, bookkeeping). not-ok
+rows left: 0.
 
 | kind | file | verdict | note |
 |---|---|---|---|
