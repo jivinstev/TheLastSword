@@ -13,9 +13,26 @@ reviewer may add `missing` (a file that should exist) and `shared` (a shared hel
 the reviewing agent, distinct from the fixer; `commit` is the commit reviewed (`git rev-parse --short HEAD`).
 tools/fork-port.py adds a `?` row for every item it finds unreviewed; it never changes a verdict.
 
-- reviewer: fresh agent 1.21.10 reviewer (keep-current round 2026-11-01, step 4; a subagent of session_01Cvm3m4arGt8omz6e5VgPwC, started for this review only), not the fixer; earlier rows by the 2026-10-31 reviewer (session_01Cvm3m46AMaEb178kx8kgfg, at e2b6935), the 2026-10-30 reviewer (session_01Cvm3m5qHxFwKkCQPUvKFUW, at be414c7), the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
-- date: 2026-11-01
-- commit: 7e2a06c
+- reviewer: fresh agent (round 2026-11-18 review job TheLastSword@1.21.10_review, session https://claude.ai/code/session_01Cvm3m4Nmji2EaLNPQqLH1X, fresh context), not the fixer (the shared library 281ae1bd, the cascade 2a5a6c2d, the ECA re-pin 5beff15a and CI 6d57d038 were other workers); earlier rows by the 2026-11-01 reviewer (session_01Cvm3m4arGt8omz6e5VgPwC, at 7e2a06c), the 2026-10-31 reviewer (session_01Cvm3m46AMaEb178kx8kgfg, at e2b6935), the 2026-10-30 reviewer (session_01Cvm3m5qHxFwKkCQPUvKFUW, at be414c7), the 2026-10-28 reviewer (session_01Cvm3m6SAgwsKPw2mAYeD4t), the 2026-10-27 reviewer (session_01VJgb4LVyGz8nnExPrEfzbZ, full review at 54b6803) and its re-checker (at 66e0e64)
+- date: 2026-11-18
+- commit: 6d57d038
+
+Re-review 2026-11-18 at 6d57d038 (keep-current round 2026-11-18: shared library at 53b77ff (281ae1bd), cascade of
+neoforge-1.21.8 91f467b (2a5a6c2d, carrying neoforge-1.21.1 c9652aa: port_taken 72c6120 -> c9652aa), ECA re-pin 5beff15a, CI
+6d57d038; merge-base 91f467b with neoforge-1.21.8). check-done added no `?` row and reported the record stale for 2 files
+since 7e2a06c. git diff 7e2a06c..6d57d038 -- src is empty, and renames.tsv, STUBS.json, REMERGE.json, moves.generated.tsv,
+shared-helpers.txt and every resource group are unchanged, so every row's verdict was re-read and stands. The changed files
+are not row items: branch.properties (port_taken; net.eca:eca port_jar eca-1.1.9-fix-fix-mc1.21.10-r2 -> -r3, sha256
+0b1b1fd7..., = the ~/.m2 net/eca/eca/1.1.9-mc1.21.10 jar; library pin line r2), DEPS.md (same re-pin), shared-renames.tsv
+(header comment only), the CI workflow (kit v64 -> v67, ECA r3 jars and sha256), README, the 1.21.4/1.21.5/1.21.8 records.
+ECA r2..r3 changes in src only EcaBossBarRenderer (a dependent's own LegacyRenderType copy -- this mod's
+TheLastEndRenderTypes BOSS_BAR, used by TestEntityExtension -- now drawn through the copy's own draw instead of ECA's
+LegacyGl; vanilla types with their pipeline and a zero model offset at 1.21.9+), GameRendererPostLevelMixin (a non-ECA
+skybox type drawn through RenderType.draw), an ItemStacks javadoc and four AT lines for it (ECA-035); no API this mod calls
+changes, and the boss bar change is the ECA-035 fix for exactly this mod's case. GATES.md predates these commits
+(check-done: gate record stale, so the r3 boss bar path is not gated here; the driver's re-gate) and DEPS.md's library
+pre-release item is the driver's. Behaviour inventory: INVENTORY-CHECK.json 410 items, unaccounted [] -- every hook item
+accounted for. not-ok rows left: 0.
 
 Fresh review 2026-11-01 at 7e2a06c (keep-current round: the authors' TLS-061 change, 1.21.1 e1d74cb / 72c6120, cascaded
 1.21.4 -> 1.21.5 -> 1.21.8 -> 1.21.10 -- f07ead5, d437717, 7e2a06c -- with the ECA re-pin 541bc36 and CI e02cebf;
