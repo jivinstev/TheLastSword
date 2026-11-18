@@ -1509,6 +1509,28 @@
         "26.3": "fixed@e1d74cb"
       },
       "title": "1.21.1+: the mod's swords (Dragon Crystal Sword, Dragon Sword, The Last Sword, You Never Forgot) are never offered Sharpness, Smite, Bane of Arthropods or Fire Aspect at the enchanting table"
+    },
+    {
+      "files": [
+        ".port/26.3/branch.properties",
+        "gradle.properties"
+      ],
+      "id": "TLS-062",
+      "lowest": "26.3",
+      "notes": "found by the round at 26.3 (review)",
+      "override": null,
+      "rubric": {
+        "failure": "build",
+        "reach": "normal",
+        "visibility": "always",
+        "workaround": true
+      },
+      "severity": "S1",
+      "source": "review",
+      "status": {
+        "26.3": "open"
+      },
+      "title": "26.3: the Curios bump D10 (curios-neoforge-17.0.1+26.3) requires NeoForge 26.3.0.97+, but the branch builds and runs 26.3.0.76, so FML refuses to start and Gate B fails"
     }
   ],
   "schema": 1
