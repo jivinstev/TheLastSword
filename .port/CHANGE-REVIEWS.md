@@ -106,3 +106,4 @@ commit_current). Written by the keep-current round driver; a union record.
 | `.port/1.21.8/branch.properties` | 400d2899db25e4d1d865a9e17e8e1547057aef65 | 0ebc592fb05e9e3b48bd2333ae683d4ac8abd347 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
 | `.port/1.21.8/shared-renames.tsv` | b707866ca07eedb9833b27ac31db1f87078d8662 | b4cefc5bebeb23169913d1511838cdc5c9b191fa | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
 | `src/main/resources/META-INF/accesstransformer.cfg` | 67292e867ebdf10f06decef130918d36e36644f8 | 877d2be21d3574c05bb6648466d034138c0b6790 | ok | jivinstev/TheLastSword 1.21.8, round 2026-11-18 |
+| `.port/1.21.4/branch.properties` | f938e58a9f4bbc12e9106dae00539c2b5b4f6a9f | de1106b8a698f35eed5a1a1347e7d7e13de829c1 | ok | jivinstev/TheLastSword 1.21.4, round 2026-11-18 |
