@@ -102,13 +102,13 @@
       "source": "review",
       "status": {
         "1.21.1": "n/a",
-        "1.21.10": "n/a",
-        "1.21.11": "n/a",
+        "1.21.10": "fixed@dbde2ab4",
+        "1.21.11": "fixed@dbde2ab4",
         "1.21.4": "n/a",
         "1.21.5": "n/a",
-        "1.21.8": "open",
-        "26.1.2": "n/a",
-        "26.2": "n/a",
+        "1.21.8": "fixed@dbde2ab4",
+        "26.1.2": "fixed@dbde2ab4",
+        "26.2": "fixed@dbde2ab4",
         "26.3": "n/a"
       },
       "title": "1.21.8 bookkeeping: stale WraithSummonSavedData STUBS.json entry; access-transformer lines naming members 1.21.8 lacks"
@@ -953,7 +953,8 @@
       "severity": "S4",
       "source": "review",
       "status": {
-        "26.1.2": "open"
+        "26.1.2": "fixed@e643358",
+        "26.2": "fixed@e643358"
       },
       "title": "26.1.2: STUBS.json text of WraithSummonSavedData still describes the pre-TLS-037 SavedDataType codec (record only)"
     },
